@@ -13,7 +13,7 @@ ports:
 
 
 tasks:
-  - init: 'export PIP_USER=false && pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && python manage.py migrate'
+  - init: 'psql -c "CREATE DATABASE server" && export PIP_USER=false && pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && python manage.py migrate'
     command: 'redis-server'
   - command: 'cd server && python manage.py runserver'
   - command: 'MailHog'
