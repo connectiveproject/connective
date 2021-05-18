@@ -11,5 +11,5 @@ ports:
 
 
 tasks:
-  - init: 'pip install -r requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres'
+  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres'
     command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
