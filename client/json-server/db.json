@@ -1,0 +1,505 @@
+{
+  "login": {
+    "key": "json-server-token"
+  },
+  "api-users": [
+    {
+      "id": "me",
+      "slug": "user",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "user@example.com",
+      "url": "http://8000-example.io/api/users/user/",
+      "groups": ["principals"]
+    }
+  ],
+  "api-profiles": [
+    {
+      "id": "me",
+      "user": "http://8000-example.io/api/users/user/",
+      "phone_number": "0521234567",
+      "profile_picture": null,
+      "job_description": null
+    }
+  ],
+  "api-connective_profile": [
+    {
+      "user": "http://8000-blush-mole-qh16wydh.ws-eu03.gitpod.io/api/users/user1/",
+      "school": "http://8000-blush-mole-qh16wydh.ws-eu03.gitpod.io/api/schools/5DDB44D16FD041D6AA9A/"
+    }
+  ],
+  "api-schools": [
+    {
+      "id": "me",
+      "slug": "E738371DA2",
+      "name": "Rimonim",
+      "address": "David Eshkol 18",
+      "address_city": "Kiryat Ono",
+      "zip_city": "10406",
+      "school_code": "05640",
+      "description": "בי\"ס רימונים ע\"ש אילן רמון",
+      "contact_phone": "0527457479",
+      "website": "https://rimonim.com",
+      "profile_picture": null,
+      "grade_levels": [1, 2, 3, 4],
+      "contacts": ["http://8000-exmaple.io/api/users/user/"]
+    }
+  ],
+  "api-students": [
+    {
+      "slug": "dasdw",
+      "id_number": "",
+      "first_name": "לירי",
+      "last_name": "מאור",
+      "city": "",
+      "email": "moarl@ere.com",
+      "profile": {
+        "phone_number": "0521324564"
+      },
+      "id": "dasdw"
+    },
+    {
+      "slug": "TDLM35a",
+      "id_number": "",
+      "first_name": "אלון",
+      "last_name": "יעקוב",
+      "city": "",
+      "email": "aloni@ran.com",
+      "profile": {
+        "phone_number": "0523124546"
+      },
+      "id": "TDLM35a"
+    },
+    {
+      "id_number": "",
+      "first_name": "dd",
+      "last_name": "dd",
+      "city": "",
+      "email": "dddd@gmail.com",
+      "profile": {
+        "phone_number": "0527457479"
+      },
+      "id": "xlBOQsP"
+    }
+  ],
+  "api-programs": [
+    {
+      "id": "2AA41E1DA2",
+      "slug": "2AA41E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=1",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AAA4521DA2",
+      "slug": "AAA4521DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=2",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AAA414DA2",
+      "slug": "AAA414DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=3",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AA8881DA2",
+      "slug": "AA8881DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=4",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AAA41234DA2",
+      "slug": "AAA41234DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=5",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "2564A41E1DA2",
+      "slug": "2564A41E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=7",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "ASSA41E1DA2",
+      "slug": "ASSA41E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=8",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AAT3E1DA2",
+      "slug": "AAT3E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=10",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "ACA83E13A2",
+      "slug": "ACA83E13A2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=11",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "AAA83E1DA2",
+      "slug": "AAA83E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=12",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    },
+    {
+      "id": "FFF83E1DA2",
+      "slug": "FFF83E1DA2",
+      "name": "מגשימים",
+      "description": "מגשימים - תוכנית הסייבר הלאומית היא תוכנית לימודים בתחום הסייבר והמחשבים לנוער מצטיין - בעיקר בפריפריה הגאוגרפית והחברתית - שמטרתה להגדיל את מאגר המועמדים לשירות ביחידות הסייבר של צהל ומערכת הביטחון, כמו גם להביא להשתלבותם כמובילים בתעשיית ההיי-טק ובאקדמיה.",
+      "contact_name": "דניאל אלון",
+      "phone_number": "0523124567",
+      "logo": "https://picsum.photos/200/300/?random=13",
+      "domain": "כחול (ליבה)",
+      "target_audience": [1, 2, 3, 4, 5, 6],
+      "rich_media": [
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=9",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "image",
+          "video_url": null,
+          "image_url": "https://picsum.photos/700/650/?random=6",
+          "activity": 1
+        },
+        {
+          "slug": "some-slug",
+          "name": "media-name",
+          "media_type": "video",
+          "video_url": "https://www.youtube.com/watch?v=7Dc5BQ31iLw",
+          "image_url": null,
+          "activity": 1
+        }
+      ],
+      "organization": "המרכז לחינוך סייבר"
+    }
+  ]
+}

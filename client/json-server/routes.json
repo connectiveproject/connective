@@ -1,0 +1,7 @@
+{
+  "/api/users/*": "/api-users/$1",
+  "/api/profiles/*": "/api-profiles/$1",
+  "/api/schools/*": "/api-schools/$1",
+  "/api/manage_students/*": "/api-students/$1",
+  "/api/activities/*": "/api-programs/$1"
+}
