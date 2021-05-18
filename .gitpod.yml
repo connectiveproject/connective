@@ -14,7 +14,7 @@ ports:
 
 tasks:
   - init: 'psql -c "CREATE DATABASE server" && export PIP_USER=false && pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && python manage.py migrate'
-    command: 'redis-server'
-  - command: 'cd server && python manage.py runserver'
+    command: 'cd server && python manage.py runserver'
+  - command: 'redis-server'
   - command: 'MailHog'
     # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
