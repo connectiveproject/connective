@@ -1,3 +1,5 @@
+import os
+
 from .base import *  # noqa
 from .base import env
 
@@ -11,7 +13,9 @@ SECRET_KEY = env(
     default="8KRy3qHYEiiz1VzdpG58RegxiBcjdp9yAFnmf56xAZn4hHIW7ZWRGAZKwuub3Msx",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+GITPOD_WORKSPACE_URL = os.environ.get("GITPOD_WORKSPACE_URL")
+
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", GITPOD_WORKSPACE_URL]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -63,3 +67,11 @@ CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+if GITPOD_WORKSPACE_URL:
+    DATABASES = {
+        "default": env.db(
+            "postgresql://gitpod@localhost/server",
+            default="postgres:///server",
+        ),
+    }
+    DATABASES["default"]["ATOMIC_REQUESTS"] = True

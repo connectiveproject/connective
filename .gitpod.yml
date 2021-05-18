@@ -3,13 +3,18 @@ image:
 
 ports:
   # django server
-  - port: 8080
-    # onOpen: open-preview
+  - port: 8000
+    onOpen: open-preview
+  - port: 1025
+    onOpen: open-preview
   # PostgreSQL server
   - port: 5432
     onOpen: ignore
 
 
 tasks:
-  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres'
-    command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
+  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && python manage.py migrate'
+    command: 'redis-server'
+  - command: 'python manage.py runserver'
+  - command: 'MailHog'
+    # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'

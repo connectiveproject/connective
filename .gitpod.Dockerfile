@@ -5,3 +5,5 @@ FROM gitpod/workspace-postgres
 # RUN brew install bastet
 #
 # More information: https://www.gitpod.io/docs/config-docker/
+RUN sudo apt-get update  && sudo apt-get install -y   redis-server  && sudo rm -rf /var/lib/apt/lists/* && brew update && brew install mailhog
+
