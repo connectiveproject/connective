@@ -1,6 +1,8 @@
+$hebrew-font-url: "~@/assets/fonts/Hebrew/VarelaRound-Regular.ttf";
+
 @font-face {
   font-family: VarelaRound;
-  src: url("../assets/fonts/Hebrew/VarelaRound-Regular.ttf");
+  src: url($hebrew-font-url);
 }
 
 // override vuetify default font
@@ -8,3 +10,5 @@ $body-font-family: "VarelaRound", Arial;
 $hebrew-font-family: $body-font-family;
 $english-font-family: Arial, Helvetica, sans-serif;
 $light-grey: #e0e0e0;
+
+

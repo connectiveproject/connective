@@ -1,4 +1,5 @@
 import "!style-loader!css-loader!sass-loader!../src/styles/main.scss"
+// import vuetify from '@/plugins/vuetify';     
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -9,3 +10,11 @@ export const parameters = {
     },
   },
 }
+
+// export const decorators = [
+//   Story => (
+//     <div style={{ margin: "3em" }}>
+//       <Story />
+//     </div>
+//   ),
+// ]
