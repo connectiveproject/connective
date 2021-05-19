@@ -2,7 +2,6 @@ import Vue from "vue"
 import Vuetify from "vuetify"
 import VueI18n from "vue-i18n"
 import i18n from "../src/plugins/i18n.js"
-import { options } from "../src/plugins/vuetify"
 import "!style-loader!css-loader!sass-loader!../src/styles/main.scss"
 
 export const parameters = {
