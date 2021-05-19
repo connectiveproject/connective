@@ -12,12 +12,9 @@ module.exports = {
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
-      // this is for both css and scss
       test: /.*\.(?:c|sc)ss$/,
       loaders: ["css-loader", "sass-loader"],
-      // include: path.resolve(__dirname, '../'),
     })
-
     config.resolve.alias = {
       ...config.resolve.alias,
       "~@": path.resolve(__dirname, "../src/"),
