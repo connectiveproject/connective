@@ -10,7 +10,7 @@ export default {
 const Template = args => ({
   components: { TitleToText },
   data() { return { args } },
-  template: '<TitleToText v-bind="args" />'
+  template: '<title-to-text v-bind="args" />'
 })
 
 export const Primary = Template.bind({})

@@ -1,6 +1,6 @@
 <template>
   <v-card class="chips-container mx-auto mt-15" elevation="5" v-bind="$attrs">
-    <v-card-title><slot></slot></v-card-title>
+    <v-card-title><slot/></v-card-title>
     <v-chip-group class="chips-group" column show-arrows>
       <v-chip
         color="indigo"
