@@ -13,7 +13,7 @@ module.exports = {
     "no-tabs": ["error", { allowIndentationTabs: false }],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "warn",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "warn",
-    indent: ["error", 2, { ignoredNodes: ["TemplateLiteral"], SwitchCase: 2 }],
+    indent: ["error", 2, { ignoredNodes: ["TemplateLiteral"], SwitchCase: 1 }],
     quotes: [
       "error",
       "double",

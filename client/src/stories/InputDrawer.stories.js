@@ -9,12 +9,17 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = args => ({
   components: { InputDrawer },
-  data() { return { args } },
-  template: '<InputDrawer v-bind="args" />'
+  data() {
+    return { args }
+  },
+  template: `<InputDrawer v-bind="args" />`,
 })
 
 export const Primary = Template.bind({})
 Primary.args = {
-  text: "text",
-  title: "title",
+  inputType: "text",
+  uniqueName: "firstName",
+  descriptiveName: "שם פרטי",
+  validationRules: "required",
+  value: "בנג'מין",
 }

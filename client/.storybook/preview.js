@@ -1,9 +1,11 @@
+
 import Vue from "vue"
 import Vuetify from "vuetify"
 import VueI18n from "vue-i18n"
 import i18n from "../src/plugins/i18n.js"
-import '../src/plugins/vuetify'
+import "../src/helpers/validators"
 import "!style-loader!css-loader!sass-loader!../src/styles/main.scss"
+import './vuetify'
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -15,10 +17,8 @@ export const parameters = {
   },
 }
 
-// configure Vue to use Vuetify
 Vue.use(Vuetify)
 Vue.use(VueI18n)
-// instantiate Vuetify instance with any component/story level params
 const vuetify = new Vuetify()
 
 export const decorators = [
