@@ -2,6 +2,7 @@ import Vue from "vue"
 import Vuetify from "vuetify"
 import VueI18n from "vue-i18n"
 import i18n from "../src/plugins/i18n.js"
+import '../src/plugins/vuetify'
 import "!style-loader!css-loader!sass-loader!../src/styles/main.scss"
 
 export const parameters = {
@@ -18,7 +19,7 @@ export const parameters = {
 Vue.use(Vuetify)
 Vue.use(VueI18n)
 // instantiate Vuetify instance with any component/story level params
-const vuetify = new Vuetify(options)
+const vuetify = new Vuetify()
 
 export const decorators = [
   (story, context) => {

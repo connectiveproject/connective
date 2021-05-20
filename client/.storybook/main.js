@@ -11,10 +11,6 @@ module.exports = {
     "@storybook/preset-scss",
   ],
   webpackFinal: async (config, { configType }) => {
-    config.module.rules.push({
-      test: /.*\.(?:c|sc)ss$/,
-      loaders: ["css-loader", "sass-loader"],
-    })
     config.resolve.alias = {
       ...config.resolve.alias,
       "~@": path.resolve(__dirname, "../src/"),
@@ -22,3 +18,5 @@ module.exports = {
     return config
   },
 }
+
+
