@@ -90,7 +90,7 @@ export default {
       required: true,
     },
     selectItems: {
-      // items for input type 'select'
+      // items for input type 'select'. Format: [{ value: 1, text: 'Option 1' }, { ... }]
       type: Array,
       required: false,
     },
@@ -115,13 +115,16 @@ export default {
   computed: {
     displayValue() {
       if (this.inputType === "select") {
-        // use the textual values of the items the user selected
+        // use the textual values of the items the user selected (ordered by the original array)
         let displayValues = []
         for (let item of this.selectItems) {
+          console.log(this.selectItems)
+          console.log(this.value)
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }
         }
+        console.log(displayValues)
         return displayValues.join(", ")
       }
       return this.value
