@@ -3,6 +3,7 @@ import InfoCard from "../components/InfoCard.vue"
 export default {
   title: "InfoCard",
   component: InfoCard,
+  argTypes: { onClick: { action: 'clicked' } },
 }
 
 const Template = args => ({

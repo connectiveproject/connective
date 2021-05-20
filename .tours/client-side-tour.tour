@@ -18,13 +18,13 @@
     },
     {
       "file": "client/src/layouts/Welcome.vue",
-      "description": "### Src Folder: Vue Components (1)\nvue.js components files are seperated into 3 folders:\n1. components: usually reusable, generic components. e.g., Navbar.vue. Use them when writing code!\n2. views: usually refers to a full page. e.g., Login.vue\n3. layouts: components that wraps views. e.g., Welcome.vue which would have both Login.vue & Register.vue encapsulated in it.\n\nWe won't dive into each and every one of them, but you're more than welcome to check them out!\n",
+      "description": "### Src Folder: Vue Components (1)\nvue.js components files are separated into 3 folders:\n1. components: usually reusable, generic components. e.g., Navbar.vue. Use them when writing code!\n2. views: usually refers to a full page. e.g., Login.vue\n3. layouts: components that wrap views. e.g., Welcome.vue, which would have both Login.vue & Register.vue encapsulated in it.\n\nWe won't dive into each and every one of them, but you're more than welcome to check them out!\n",
       "line": 1,
       "title": "Src Folder: Vue Components (1)"
     },
     {
       "file": "client/src/components/Navbar.vue",
-      "description": "### Src Folder: Vue Components (2) - Vuetify\n\n* Note that we're using *Vuetify* as our design framework.\n* Vuetify consists of many components we can use out-of-the-box, for faster coding.\n* For example, in this component (Navbar), we use v-toolbar, v-tooltip, v-btn, etc.\n* Make sure to use Vuetify components! They are so easy to use!\n* For more information:  https://vuetifyjs.com/",
+      "description": "### Src Folder: Vue Components (2) - Vuetify\n\n* Note that we're using *Vuetify* as our design framework.\n* Vuetify consists of many components we can use out-of-the-box for faster coding.\n* For example, in this component (Navbar), we use v-toolbar, v-tooltip, v-btn, etc.\n* Make sure to use Vuetify components! They are so easy to use!\n* For more information:  https://vuetifyjs.com/",
       "line": 2,
       "title": "Src Folder: Vue Components (2)"
     },
@@ -100,7 +100,7 @@
     },
     {
       "title": "Wrap Up",
-      "description": "That's pretty much it!\n\nYou're now familiar with the client-side code.\n\nLet's Recap:\n1. *client/src* folder is where our code lives.\n2. Our Vue components are seperated into: *components/* (reusable code), *views/* (each view is a page), *layouts/* (each contains for multiple pages).\n3. Our Vue components use *Vuetify*, we saves us a lot of time.\n3. *Helpers* folder: where our constants, utils and validators live.\n4. i18n: all translations are kept inside a JSON file, and can be referred using: `this.$t()`\n5. Global scss styles rock.\n5. Vuex is used for global state management.\n6. Vuex uses the API service to communicate with the server-side.\n7. *router/index.js* is where our routes live.\n\n\n#### Awesome! \n\nNow go ahead and grab yourself an issue!\n\nhttps://github.com/connectiveproject/connective/issues\n\n\nBest of Luck!\n"
+      "description": "That's pretty much it!\n\nYou're now familiar with the client-side code.\n\nLet's Recap:\n1. *client/src* folder is where our code lives.\n2. Our Vue components are seperated into: *components/* (reusable code), *views/* (each view is a page), *layouts/* (each contains for multiple pages).\n3. Our Vue components use *Vuetify*, which saves us a lot of time.\n3. *Helpers* folder: where our constants, utils, and validators live.\n4. i18n: all translations are kept inside a JSON file, and can be refferenced using: `this.$t()`\n5. Global scss styles rock.\n5. Vuex is used for global state management.\n6. Vuex uses the API service to communicate with the server-side.\n7. *router/index.js* is where our routes live.\n\n\n#### Awesome! \n\nNow go ahead and grab yourself an issue!\n\nhttps://github.com/connectiveproject/connective/issues\n\n\nBest of Luck!\n"
     }
   ]
 }

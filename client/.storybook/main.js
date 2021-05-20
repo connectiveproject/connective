@@ -7,6 +7,7 @@ module.exports = {
   ],
   addons: [
     "@storybook/addon-links",
+    "@storybook/addon-actions",
     "@storybook/addon-essentials",
     "@storybook/preset-scss",
   ],
@@ -19,5 +20,3 @@ module.exports = {
     return config
   },
 }
-
-
