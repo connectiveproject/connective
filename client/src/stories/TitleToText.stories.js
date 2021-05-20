@@ -9,8 +9,8 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = args => ({
   components: { TitleToText },
-  data() { return { args } },
-  template: '<title-to-text v-bind="args" />'
+  data: () => ({ args }),
+  template: '<title-to-text v-bind="args" />',
 })
 
 export const Primary = Template.bind({})
