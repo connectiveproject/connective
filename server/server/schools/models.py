@@ -25,8 +25,14 @@ class School(models.Model):
     grade_levels = models.JSONField()
 
 
-class SchoolMemeber(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class SchoolMember(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="school_member"
+    )
     school = models.ForeignKey(
-        School, on_delete=models.SET_NULL, null=True, blank=True
+        School,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="school_member",
     )
