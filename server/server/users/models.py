@@ -34,7 +34,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.type = self.base_user_type
+            self.user_type = self.base_user_type
         return super().save(*args, **kwargs)
 
 
