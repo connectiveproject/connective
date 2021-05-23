@@ -33,7 +33,7 @@ repos:
       rev: v7.26.0
       hooks:
       -   id: eslint
-          files: \.js$|\.vue$  # *.js, *.jsx, *.ts and *.tsx
+          files: \.js$|\.vue$
           types: [file]
           additional_dependencies:
           -   babel-eslint@^10.1.0
