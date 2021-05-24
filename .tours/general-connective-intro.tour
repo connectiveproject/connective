@@ -1,0 +1,19 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "General: Connective Intro",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "### Intro\nWelcome to the Connective Open Source Project!\n\nFirstly, we'd like to **thank you** for investing time in the the project.\n\nYour contribution brings us one step closer torwards making a true change in the Education System!\n\n\n"
+    },
+    {
+      "title": "Introduction",
+      "description": "In this Code Tour, you'll get familiar with the project's fundamentals.\n\nYou'll learn:\n* How to use Gitpod\n* How to run the project\n* How to contribute\n\nLet's Get Started!\n"
+    },
+    {
+      "title": "Gitpod",
+      "description": ""
+    }
+  ],
+  "isPrimary": true
+}
