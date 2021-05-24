@@ -4,15 +4,31 @@
   "steps": [
     {
       "title": "Introduction",
-      "description": "### Intro\nWelcome to the Connective Open Source Project!\n\nFirstly, we'd like to **thank you** for investing time in the the project.\n\nYour contribution brings us one step closer torwards making a true change in the Education System!\n\n\n"
+      "description": "### Intro\nWelcome to the *Connective Open Source Project* !\n\nFirstly, we'd like to **thank you** for investing time in the the project.\n\nYour contribution brings us one step closer torwards making a true change in the Education System!\n\n\n"
     },
     {
       "title": "Introduction",
-      "description": "In this Code Tour, you'll get familiar with the project's fundamentals.\n\nYou'll learn:\n* How to use Gitpod\n* How to run the project\n* How to contribute\n\nLet's Get Started!\n"
+      "description": "In this very short Code Tour, you'll get familiar with the project's fundamentals.\n\nYou'll learn:\n* How to use Gitpod\n* How to run the project\n* How to contribute\n\nLet's Get Started!\n"
     },
     {
       "title": "Gitpod",
-      "description": ""
+      "description": "### Gitpod ###\nLook around you! do you see what I see?\n\nWe're running an IDE (development environment) **inside our browser!**\n\nHave you ever seen anything like that?!\n\n#### What is Gitpod ####\n_Gitpod_ is an open-source platform providing a full development environemt inside the browser.\n\n#### Why do we use it? ####\n* **Reduce friction:** No need to set everything up! For instance, while you were reading, the server has been set up!\n* **Resources:** everything runs remotely, which makes development extremely easy and fast.\n* **Code together:** one can easily share his/her workspace and ask a fellow developer for help. [Click for more info](https://www.gitpod.io/docs/sharing-and-collaboration).\n* **And that's just the tip of the iceberg!**\n"
+    },
+    {
+      "title": "Gitpod",
+      "description": "### Gitpod ###\n#### Useful Tips When Working With Gitpod: ####\n* Gitpod is based on _Visual Studio Code_, and so most shortcuts & extensions work.\n* The _Remote Explorer_ tab (probably on your right) displays all relevant open ports. Try using it and open port 8080!\n* Under the _Explorer_ tab you can view the filesystem tree & the _CodeTour_ panel.\n* In Gitpod, each environment is called a _workspace_.\n    * To create a new workspace in a specfic branch, use the pattern: https://gitpod.io/#/https://github.com/connectiveproject/connective/tree/[branch-name]\n    * To view all your running workspaces, visit: [workspaces panel](https://gitpod.io/workspaces)\n    * **Important**: to avoid communication issues between the project's services, change the workspace setting to _share_, in the [workspaces panel](https://gitpod.io/workspaces)\n    \n    ![Image](./.tours/assets/share-workspace.png)\n\n    \n\n\n\n#### Great! You're now offically a Gitpod Ninja! ####\n\n\n\n"
+    },
+    {
+      "title": "Running The Project",
+      "description": "### Running The Project ###\nWe now understand how Gitpod works.\n\nLet's see how to run the project:\n* As stated, both frontend and backend will be ran automatically on workspace initialize (via the [Gitpod config file](.gitpod.yml)).\n* You may find all running project services under _Remote Explorer_ tab.\n* The main ones are:\n    * [Django](https://www.djangoproject.com/) on port 8000 (backend)\n    * [Vue.js](https://vuejs.org/) on port 8080 (frontend)\n\nIf needed, you may also run them yourself:\n\n* Django: under _server_ directory, run `python manage.py runserver`\n* Vue.js: under _client_ directory, run `yarn serve`\n    \n\n\nPretty straight forward right? Let's proceed."
+    },
+    {
+      "title": "Contributing",
+      "description": "### How To Contribute? ###\nContributing to connective is just like contributing to any other open-source project.\n\n**The steps are:**\n\n1. Grab an [issue](https://github.com/connectiveproject/connective/issues).\n2. Fork the project.\n3. Open it in Gitpod.\n4. Create your branch: `git checkout -b your-branch-name`.\n5. Code Code Code...\n6. Git Add, Commit, Push.\n7. Open a Pull Request!\n\nHere is an [example](https://www.youtube.com/watch?v=8lGpZkjnkt4).\n\nStill a bit confused? Don't be afraid to ask.\n\n\n\n\n"
+    },
+    {
+      "title": "Summary",
+      "description": "#### That's it! ####\n\nWe covered Gitpod, running the project and contribution.\n\nAgain, we're thrilled to have you on board!\n\nFeel free to ask questions, take initiative and suggest ideas!\n\nFrom here, we suggest diving into the Client Side / Server Side CodeTours.\n\n**Best Of luck!**\n"
     }
   ],
   "isPrimary": true
