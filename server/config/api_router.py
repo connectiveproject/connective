@@ -7,6 +7,7 @@ from server.organizations.api.views import (
     OrganizationViewSet,
 )
 from server.users.api.views import UserViewSet
+from server.schools.api.views import SchoolViewSet
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -17,6 +18,7 @@ router.register("users", UserViewSet)
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_medeas")
 router.register("activities", ActivityViewSet, basename="activities")
+router.register("schools", SchoolViewSet, "schools")
 
 
 app_name = "api"
