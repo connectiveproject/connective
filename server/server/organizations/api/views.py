@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework import viewsets
 
 from server.organizations.models import Activity, ActivityMedia, Organization
@@ -14,9 +16,13 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
 
     def get_queryset(self):
-        return Organization.objects.filter(
-            organization_member__in=[self.request.user.organization_member]
-        )
+        try:
+            Organization.objects.filter(
+                organization_member__in=[self.request.user.organization_member]
+            )
+
+        except ObjectDoesNotExist:
+            return Organization.objects.none()
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
