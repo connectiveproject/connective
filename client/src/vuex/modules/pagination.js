@@ -1,4 +1,6 @@
-import _ from "lodash"
+import isArray from "lodash/isArray"
+import snakeCase from "lodash/snakeCase"
+
 import Vue from "vue"
 
 function paginationToApiParams(pagination) {
@@ -15,17 +17,17 @@ function paginationToApiParams(pagination) {
   if (pagination.fieldFilters) {
     for (const [fieldName, value] of Object.entries(pagination.fieldFilters)) {
       let filters = value
-      if (_.isArray(value)) {
-        filters = value.map(filter => _.snakeCase(filter)).join()
+      if (isArray(value)) {
+        filters = value.map(filter => snakeCase(filter)).join()
       }
-      apiParams[_.snakeCase(fieldName)] = filters
+      apiParams[snakeCase(fieldName)] = filters
     }
   }
   if (pagination.searchFilter) {
     apiParams.q = pagination.searchFilter
   }
   if (pagination.sortBy && pagination.sortBy.length) {
-    apiParams._sort = pagination.sortBy.map(item => _.snakeCase(item)).join()
+    apiParams._sort = pagination.sortBy.map(item => snakeCase(item)).join()
   }
   if (pagination.sortDesc && pagination.sortDesc.length) {
     apiParams._order = pagination.sortDesc

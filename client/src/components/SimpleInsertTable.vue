@@ -66,7 +66,8 @@
 <script>
 import FormDialog from "./FormDialog"
 import Modal from "./Modal"
-import _ from "lodash"
+import isEqual from "lodash/isEqual";
+import cloneDeep from "lodash/cloneDeep";
 
 export default {
   components: { FormDialog, Modal },
@@ -85,7 +86,7 @@ export default {
         // heuristic validation (on first column only)
         const keys = Object.keys(cols[0])
         keys.sort()
-        return _.isEqual(keys, ["label", "name", "rule"])
+        return isEqual(keys, ["label", "name", "rule"])
       },
     },
     itemKey: {
@@ -112,7 +113,7 @@ export default {
   data() {
     return {
       editedRowIndex: -1,
-      formFields: _.cloneDeep(this.columns),
+      formFields: cloneDeep(this.columns),
       isDialogActive: false,
       csvFile: null,
       selectedRows: [],

@@ -4,7 +4,6 @@ import {
   getProfileApiUrl,
   updateProfileApiUrl,
   updateUserApiUrl,
-  getConnectiveProfileApiUrl,
 } from "../helpers/constants/constants"
 
 const user = {
@@ -12,11 +11,6 @@ const user = {
     // query for the user profile
     // return: axios Promise
     return axios.get(getProfileApiUrl)
-  },
-
-  getConnectiveProfile() {
-    // query for connective-only profile data
-    return axios.get(getConnectiveProfileApiUrl)
   },
 
   updateProfile(slug, payload) {

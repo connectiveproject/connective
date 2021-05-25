@@ -7,7 +7,6 @@ function getDefaultState() {
       first_name: null,
       last_name: null,
       email: null,
-      url: null,
       groups: [],
     },
     profile: {
@@ -15,11 +14,6 @@ function getDefaultState() {
       phoneNumber: null,
       profilePicture: null,
       jobDescription: null,
-    },
-    connectiveProfile: {
-      // connective-specific profile attributes
-      user: null,
-      school: null,
     },
   }
 }
@@ -36,9 +30,6 @@ const user = {
     },
     SET_PROFILE(state, userProfile) {
       state.profile = userProfile
-    },
-    SET_CONNECTIVE_PROFILE(state, connectiveProfile) {
-      state.connectiveProfile = connectiveProfile
     },
   },
   actions: {
@@ -70,14 +61,6 @@ const user = {
       let res = await Api.user.updateProfile(slug, profile)
       commit("SET_PROFILE", res.data)
       return state.profile
-    },
-    async getConnectiveProfile({ commit, state }) {
-      if (!state.connectiveProfile.user) {
-        // fetch if not in cache
-        let res = await Api.user.getConnectiveProfile()
-        commit("SET_CONNECTIVE_PROFILE", res.data[0])
-      }
-      return state.connectiveProfile
     },
   },
 }

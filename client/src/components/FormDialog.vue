@@ -45,7 +45,8 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import _ from "lodash"
+import cloneDeep from "lodash/cloneDeep";
+
 
 export default {
   components: {
@@ -114,7 +115,7 @@ export default {
 
     getInputFields() {
       // init based on prop
-      return _.cloneDeep(this.inputFields)
+      return cloneDeep(this.inputFields)
     },
   },
 }

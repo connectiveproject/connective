@@ -1,12 +1,11 @@
 import i18n from "../../plugins/i18n"
 
-const serverUrl = `${window.location.origin.replace("8080", "8001")}/api` // todo replace with env variable
+const serverUrl = `${window.location.origin.replace("8080", "8000")}/api` // todo replace with env variable
 export const loginApiUrl = `${serverUrl}/auth/login/`
 export const resetPasswordUrl = `${serverUrl}/auth/password-reset/confirm/`
 export const updateProfileApiUrl = `${serverUrl}/profiles/`
 export const updateUserApiUrl = `${serverUrl}/users/`
 export const getProfileApiUrl = `${serverUrl}/profiles/me/`
-export const getConnectiveProfileApiUrl = `${serverUrl}/connective_profile/`
 export const getUserDetailsApiUrl = `${serverUrl}/users/me/`
 export const getSchoolDetailsApiUrl = `${serverUrl}/schools/me/`
 export const updateSchoolDetailsApiUrl = `${serverUrl}/schools/`

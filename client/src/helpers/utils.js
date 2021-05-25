@@ -1,5 +1,6 @@
 import Papa from "papaparse"
-import _ from "lodash"
+import camelCase from "lodash/camelCase"
+import isArray from "lodash/isArray"
 import { youtubeIdRegexPattern, youtubeEmbedUrl } from "./constants/constants"
 
 const utils = {
@@ -47,7 +48,7 @@ const utils = {
     // does not convert other objects, e.g., File
     // :str convertCase: case to convert to: 'camel' / 'snake'
     const convert =
-      convertCase === "snake" ? this.camelToSnakeCase : _.camelCase
+      convertCase === "snake" ? this.camelToSnakeCase : camelCase
     if (obj instanceof FormData) {
       const convertedObj = new FormData()
       for (const [key, value] of obj.entries()) {
@@ -57,7 +58,7 @@ const utils = {
         )
       }
       return convertedObj
-    } else if (_.isArray(obj)) {
+    } else if (isArray(obj)) {
       return obj.map(item => this.convertKeysCase(item, convertCase))
     } else if (this.isNativeObject(obj)) {
       const convertedObj = {}
