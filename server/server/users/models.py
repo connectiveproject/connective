@@ -1,4 +1,6 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
+from django.db import models
 from django.db.models import CharField, Manager, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -36,6 +38,47 @@ class User(AbstractUser):
         if not self.id:
             self.user_type = self.base_user_type
         return super().save(*args, **kwargs)
+
+
+class BaseProfile(models.Model):
+    user = models.OneToOneField(
+        User, related_name="%(class)s", on_delete=models.CASCADE
+    )
+    profile_picture = models.JSONField(default=dict)
+
+    class Meta:
+        abstract = True
+
+
+class CoordinatorProfile(BaseProfile):
+    job_description = models.CharField(max_length=50, blank=True, null=True)
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+
+class ConsumerProfile(BaseProfile):
+    pass
+
+
+class VendorProfile(BaseProfile):
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
 
 
 class ConsumerManager(Manager):
@@ -77,6 +120,10 @@ class Consumer(User):
 
     class Meta:
         proxy = True
+
+    @property
+    def profile(self):
+        return self.profile
 
 
 class Coordinator(User):

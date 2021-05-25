@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 from server.users.forms import UserChangeForm, UserCreationForm
 
+from .models import ConsumerProfile, CoordinatorProfile, VendorProfile
+
 User = get_user_model()
 
 
@@ -32,3 +34,8 @@ class UserAdmin(auth_admin.UserAdmin):
     )
     list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
+
+
+admin.site.register(CoordinatorProfile)
+admin.site.register(ConsumerProfile)
+admin.site.register(VendorProfile)
