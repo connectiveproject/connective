@@ -17,7 +17,7 @@ class Organization(models.Model):
     status = models.CharField(max_length=50)
     target_audience = models.JSONField()
     number_of_employees = models.PositiveIntegerField()
-    nuber_of_members = models.PositiveIntegerField()
+    number_of_members = models.PositiveIntegerField()
     number_of_volunteers = models.PositiveIntegerField()
     location_lon = models.DecimalField(max_digits=9, decimal_places=6)
     location_lat = models.DecimalField(max_digits=9, decimal_places=6)
@@ -76,8 +76,14 @@ class ActivityMedia(models.Model):
     )
 
 
-class OrganizationMemeber(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class OrganizationMember(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="organization_member"
+    )
     organization = models.ForeignKey(
-        Organization, on_delete=models.SET_NULL, null=True, blank=True
+        Organization,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="organization_member",
     )

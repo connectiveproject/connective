@@ -1,0 +1,33 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Server Side: Django Rest Framework",
+  "steps": [
+    {
+      "title": "Models",
+      "file": "client/server/organization/models.py",
+      "description": "## This is a model.
+      Django docs describe it as
+      \"the single, definitive source of information about your data\"
+      Notice that `class Organization` inherits from `models.Model`
+      This means that it will eventually be reflected in our database as a table.
+      Attributes are assigned a field type.",
+      "line": 8
+    },
+    {
+      "title": "Serialization",
+      "file": "client/server/schools/api/serializers.py",
+      "description": "### The next piece of this puzzle is Serializer
+      `OrganizationSerializer` is a model serizlizer.It defines how a django model will be serialized and deserialized to and from types such is json and xml.
+      Notice that a Meta class is used to assign a model and specify the fields we choose to expose.",
+      "line": 5
+    },
+    {
+      "title": "ViewSets",
+      "file": "client/server/schools/api/views.py",
+      "description": "### A
+      `OrganizationSerializer` is a model serizlizer.It defines how a django model will be serialized and deserialized to and from types such is json and xml.",
+      "line": 5
+    }
+  ],
+  "ref": "orginizations_api"
+}
