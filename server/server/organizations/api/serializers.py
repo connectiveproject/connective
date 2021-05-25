@@ -17,7 +17,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "status",
             "target_audience",
             "number_of_employees",
-            "nuber_of_members",
+            "number_of_members",
             "number_of_volunteers",
             "location_lon",
             "location_lat",

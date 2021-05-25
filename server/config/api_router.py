@@ -15,7 +15,7 @@ else:
 
 router.register("users", UserViewSet)
 router.register("organizations", OrganizationViewSet, basename="organizations")
-router.register("activity_media", ActivityMediaViewSet, basename="activity_medeas")
+router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
 
 
