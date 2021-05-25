@@ -13,7 +13,7 @@ class OrganizationViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.UpdateModelMixin,
-    mixins.GenericViewSet,
+    viewsets.GenericViewSet,
 ):
     serializer_class = OrganizationSerializer
     lookup_field = "slug"
