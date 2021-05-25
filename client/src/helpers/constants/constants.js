@@ -14,6 +14,7 @@ export const addSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
 export const editSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
 export const deleteSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
 export const getProgramsListApiUrl = `${serverUrl}/activities/`
+export const getProgramMediaListApiUrl = `${serverUrl}/activity_media/`
 
 export const tokenCookieName = "token"
 export const schoolGradesItems = [

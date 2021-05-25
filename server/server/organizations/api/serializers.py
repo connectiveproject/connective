@@ -36,7 +36,14 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ActivityMedia
-        fields = ["slug", "name", "media_type", "video_url", "image_url", "activity"]
+        fields = [
+            "slug",
+            "name",
+            "media_type",
+            "video_url",
+            "image_url",
+            "activity",
+        ]
 
     def get_media_type(self, obj):
         if obj.video_url:

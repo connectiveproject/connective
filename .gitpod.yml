@@ -19,6 +19,7 @@ tasks:
   - command: 'redis-server'
   - command: 'MailHog'
   - command: 'cd client && yarn serve'
+  - command: 'cd client && yarn storybook'
     # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
 vscode:

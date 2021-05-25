@@ -1,5 +1,4 @@
 from django.core.exceptions import ObjectDoesNotExist
-
 from rest_framework import viewsets
 
 from server.organizations.models import Activity, ActivityMedia, Organization
@@ -36,3 +35,4 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
     serializer_class = ActivityMediaSerializer
     lookup_field = "slug"
     queryset = ActivityMedia.objects.all()
+    filterset_fields = ("activity__slug",)

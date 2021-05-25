@@ -35,7 +35,7 @@
           delimiter-icon="mdi-minus"
         >
           <v-carousel-item
-            v-for="media in program.richMedia"
+            v-for="media in mediaList"
             :key="media.id"
             reverse-transition="fade-transition"
             transition="fade-transition"
@@ -88,21 +88,26 @@ export default {
   data() {
     return {
       program: null,
+      medias: null
     }
   },
   methods: {
-    ...mapActions("program", ["getProgram"]),
+    ...mapActions("program", ["getProgram", "getProgramMediaList"]),
     youtubeToEmbeddedUrl: Utils.youtubeToEmbeddedUrl,
     close() {
       this.$emit("input", false)
     },
+    async getProgramDetails(slug) {
+      this.program = await this.getProgram(slug)
+      this.mediaList = await this.getProgramMediaList(slug)
+    }
   },
-  async created() {
-    this.program = await this.getProgram(this.slug)
+  created() {
+    getProgramDetails(this.slug)
   },
   watch: {
-    async slug(value) {
-      this.program = await this.getProgram(value)
+    slug(value) {
+      getProgramDetails(value)
     },
   },
 }

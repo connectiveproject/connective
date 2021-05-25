@@ -33,6 +33,11 @@ const program = {
       let res = await Api.program.getProgram(slug)
       return res.data
     },
+    async getProgramMediaList(ctx, slug) {
+      // fetch and return a specific program's media. does not save to store.
+      let res = await Api.program.getProgramMediaListApiUrl(slug)
+      return res.data
+    },
     async getProgramsList({ commit, state, rootGetters }, override = true) {
       // :boolean override: whether to override the programs list or not (i.e., extend)
       const params = rootGetters["pagination/apiParams"]
