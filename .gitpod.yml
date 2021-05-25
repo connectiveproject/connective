@@ -14,10 +14,11 @@ ports:
 
 
 tasks:
-  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate'
+  - init: 'cd client && yarn && cd .. && pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate'
     command: 'cd server && python manage.py runserver'
   - command: 'redis-server'
   - command: 'MailHog'
+  - command: 'cd client && yarn serve'
     # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
 vscode:
