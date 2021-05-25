@@ -44,7 +44,7 @@ class BaseProfile(models.Model):
     user = models.OneToOneField(
         User, related_name="%(class)s", on_delete=models.CASCADE
     )
-    profile_picture = models.JSONField(default=dict)
+    profile_picture = models.JSONField(blank=True, null=True, default=dict)
 
     class Meta:
         abstract = True
