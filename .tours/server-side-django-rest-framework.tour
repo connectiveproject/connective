@@ -5,12 +5,7 @@
     {
       "title": "Models",
       "file": "client/server/organization/models.py",
-      "description": "## This is a model.
-      Django docs describe it as
-      \"the single, definitive source of information about your data\"
-      Notice that `class Organization` inherits from `models.Model`
-      This means that it will eventually be reflected in our database as a table.
-      Attributes are assigned a field type.",
+      "description": "## ",
       "line": 8
     },
     {
