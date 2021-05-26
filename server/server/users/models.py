@@ -40,47 +40,6 @@ class User(AbstractUser):
         return super().save(*args, **kwargs)
 
 
-class BaseProfile(models.Model):
-    user = models.OneToOneField(
-        User, related_name="%(class)s", on_delete=models.CASCADE
-    )
-    profile_picture = models.JSONField(blank=True, null=True, default=dict)
-
-    class Meta:
-        abstract = True
-
-
-class CoordinatorProfile(BaseProfile):
-    job_description = models.CharField(max_length=50, blank=True, null=True)
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
-
-
-class ConsumerProfile(BaseProfile):
-    pass
-
-
-class VendorProfile(BaseProfile):
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
-
-
 class ConsumerManager(Manager):
     def get_queryset(self, *args, **kwargs):
         return (
@@ -123,7 +82,7 @@ class Consumer(User):
 
     @property
     def profile(self):
-        return self.profile
+        return self.consumerprofile
 
 
 class Coordinator(User):
@@ -133,6 +92,10 @@ class Coordinator(User):
     class Meta:
         proxy = True
 
+    @property
+    def profile(self):
+        return self.coordinatorprofile
+
 
 class Vendor(User):
     base_user_type = User.Types.VENDOR
@@ -140,3 +103,48 @@ class Vendor(User):
 
     class Meta:
         proxy = True
+
+    @property
+    def profile(self):
+        return self.vendorprofile
+
+
+class BaseProfile(models.Model):
+    user = models.OneToOneField(
+        User, related_name="%(class)s", on_delete=models.CASCADE, primary_key=True
+    )
+    profile_picture = models.JSONField(blank=True, null=True, default=dict)
+
+    class Meta:
+        abstract = True
+
+
+class CoordinatorProfile(BaseProfile):
+    job_description = models.CharField(max_length=50, default="")
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+
+class ConsumerProfile(BaseProfile):
+    pass
+
+
+class VendorProfile(BaseProfile):
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
