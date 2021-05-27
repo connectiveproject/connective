@@ -17,18 +17,24 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ConsumerProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
     class Meta:
         model = ConsumerProfile
-        exclude = ("user",)
+        fields = ["slug", "profile_picture"]
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
     class Meta:
         model = CoordinatorProfile
-        exclude = ("user",)
+        fields = ["slug", "profile_picture", "job_description", "phone_number"]
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
     class Meta:
         model = VendorProfile
-        exclude = ("user",)
+        fields = ["slug", "profile_picture", "phone_number"]

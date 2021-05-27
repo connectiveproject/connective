@@ -33,6 +33,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 class ConsumerProfileViewSet(ModelViewSet):
     serializer_class = ConsumerProfileSerializer
     queryset = ConsumerProfile.objects.all()
+    lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
@@ -45,6 +46,7 @@ class ConsumerProfileViewSet(ModelViewSet):
 class CoordinatorProfileViewSet(ModelViewSet):
     serializer_class = CoordinatorProfileSerializer
     queryset = CoordinatorProfile.objects.all()
+    lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
@@ -57,6 +59,7 @@ class CoordinatorProfileViewSet(ModelViewSet):
 class VendorProfileViewSet(ModelViewSet):
     serializer_class = VendorProfileSerializer
     queryset = VendorProfile.objects.all()
+    lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
