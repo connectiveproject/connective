@@ -1,10 +1,21 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import ConsumerProfile, CoordinatorProfile, User, VendorProfile
+from .models import (
+    Consumer,
+    ConsumerProfile,
+    Coordinator,
+    CoordinatorProfile,
+    User,
+    Vendor,
+    VendorProfile,
+)
 
 
 @receiver(post_save, sender=User)
+@receiver(post_save, sender=Consumer)
+@receiver(post_save, sender=Coordinator)
+@receiver(post_save, sender=Vendor)
 def update_user_profile(sender, instance, created, **kwargs):
     user_type_to_profile = {
         "COORDINATOR": CoordinatorProfile,
