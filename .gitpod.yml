@@ -14,8 +14,8 @@ ports:
 
 
 tasks:
-  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate'
-    command: 'cd server && python manage.py runserver'
+  - init: pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate && "from django.contrib.auth import get_user_model; get_user_model().objects.create_superuser('admin', 'admin@example.com', 'Aa123456789')" | python3 manage.py shell
+    command: cd server && python manage.py runserver
   - command: 'redis-server'
   - command: 'MailHog'
     # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
