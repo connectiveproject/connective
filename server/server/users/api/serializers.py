@@ -9,7 +9,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["name", "email", "url", "user_type"]
+        fields = ["id", "username", "name", "email", "url", "user_type"]
 
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -19,16 +19,16 @@ class UserSerializer(serializers.ModelSerializer):
 class ConsumerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsumerProfile
-        fields = "__all__"
+        exclude = ("user",)
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoordinatorProfile
-        fields = "__all__"
+        exclude = ("user",)
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorProfile
-        fields = "__all__"
+        exclude = ("user",)

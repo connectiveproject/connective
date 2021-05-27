@@ -14,7 +14,6 @@ function getDefaultState() {
       website: null,
       profilePicture: null,
       gradeLevels: [],
-      contacts: [],
     },
     studentList: [],
     totalStudents: 0,

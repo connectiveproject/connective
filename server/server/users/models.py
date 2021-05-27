@@ -5,6 +5,8 @@ from django.db.models import CharField, Manager, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from server.utils.model_fields import random_slug
+
 
 class User(AbstractUser):
     """Default user for server."""
@@ -25,6 +27,8 @@ class User(AbstractUser):
     first_name = None  # type: ignore
     last_name = None  # type: ignore
 
+    slug = CharField(max_length=40, default=random_slug, unique=True)
+
     def get_absolute_url(self):
         """Get url for user's detail view.
 
@@ -37,6 +41,7 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.id:
             self.user_type = self.base_user_type
+
         return super().save(*args, **kwargs)
 
 
@@ -79,6 +84,7 @@ class Consumer(User):
 
     class Meta:
         proxy = True
+        verbose_name_plural = "1. Consumers (Students)"
 
     @property
     def profile(self):
@@ -91,6 +97,7 @@ class Coordinator(User):
 
     class Meta:
         proxy = True
+        verbose_name_plural = "2. Coordinator (Principals)"
 
     @property
     def profile(self):
@@ -103,6 +110,7 @@ class Vendor(User):
 
     class Meta:
         proxy = True
+        verbose_name_plural = "3. Vendor (Organization Managers)"
 
     @property
     def profile(self):

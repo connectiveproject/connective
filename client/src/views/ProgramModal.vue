@@ -103,11 +103,11 @@ export default {
     }
   },
   created() {
-    getProgramDetails(this.slug)
+    this.getProgramDetails(this.slug)
   },
   watch: {
     slug(value) {
-      getProgramDetails(value)
+      this.getProgramDetails(value)
     },
   },
 }

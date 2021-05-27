@@ -3,17 +3,12 @@ import Api from "../../api"
 function getDefaultState() {
   return {
     userDetails: {
-      slug: null,
-      first_name: null,
-      last_name: null,
+      id: null,
+      username: null,
+      name: null,
       email: null,
-      groups: [],
-    },
-    profile: {
-      user: null,
-      phoneNumber: null,
-      profilePicture: null,
-      jobDescription: null,
+      // e.g., COORDINATOR
+      userType: null,
     },
   }
 }
@@ -27,9 +22,6 @@ const user = {
     },
     SET_USER_DETAILS(state, userDetails) {
       state.userDetails = userDetails
-    },
-    SET_PROFILE(state, userProfile) {
-      state.profile = userProfile
     },
   },
   actions: {
@@ -48,19 +40,6 @@ const user = {
       let res = await Api.user.updateUserDetails(slug, userDetails)
       commit("SET_USER_DETAILS", res.data)
       return state.userDetails
-    },
-    async getProfile({ commit, state }) {
-      if (!state.profile.phoneNumber) {
-        // fetch if not in cache
-        let res = await Api.user.getProfile()
-        commit("SET_PROFILE", res.data)
-      }
-      return state.profile
-    },
-    async updateProfile({ commit, state }, { slug, profile }) {
-      let res = await Api.user.updateProfile(slug, profile)
-      commit("SET_PROFILE", res.data)
-      return state.profile
     },
   },
 }

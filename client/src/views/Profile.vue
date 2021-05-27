@@ -99,15 +99,16 @@ export default {
       placeholderPicUrl: personRoundedDrawing,
       profilePicFile: null,
       popupMsg: "",
-      slug: "",
+      id: "",
     }
   },
 
   methods: {
-    ...mapActions("user", ["updateUserDetails", "updateProfile"]),
+    ...mapActions("user", ["updateUserDetails"]),
+    ...mapActions("coordinator", ["updateProfile"]),
     setUserAttributes(userAttributes) {
       // set user data received from server
-      this.slug = userAttributes.slug
+      this.id = userAttributes.id
       this.textFields.firstName.value = userAttributes.firstName || ""
       this.textFields.lastName.value = userAttributes.lastName || ""
       this.textFields.email.value = userAttributes.email || ""
@@ -124,7 +125,7 @@ export default {
 
     createUserSubmitPayload() {
       return {
-        slug: this.slug,
+        id: this.id,
         first_name: this.textFields.firstName.value,
         last_name: this.textFields.lastName.value,
         email: this.textFields.email.value,
@@ -142,8 +143,8 @@ export default {
 
     async postProfileData(userDetails, profile) {
       try {
-        await this.updateUserDetails({ slug: this.slug, userDetails })
-        await this.updateProfile({ slug: this.slug, profile })
+        await this.updateUserDetails({ id: this.id, userDetails })
+        await this.updateProfile({ id: this.id, profile })
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch (err) {
         if (

@@ -3,11 +3,11 @@ import i18n from "../../plugins/i18n"
 const serverUrl = `${window.location.origin.replace("8080", "8000")}/api` // todo replace with env variable
 export const loginApiUrl = `${serverUrl}/auth/login/`
 export const resetPasswordUrl = `${serverUrl}/auth/password-reset/confirm/`
-export const updateProfileApiUrl = `${serverUrl}/profiles/`
+export const updateCoordinatorProfileApiUrl = `${serverUrl}/coordinators_profiles/`
 export const updateUserApiUrl = `${serverUrl}/users/`
-export const getProfileApiUrl = `${serverUrl}/profiles/me/`
+export const getCoordinatorProfileApiUrl = `${serverUrl}/coordinators_profiles/me/`
 export const getUserDetailsApiUrl = `${serverUrl}/users/me/`
-export const getSchoolDetailsApiUrl = `${serverUrl}/schools/me/`
+export const getSchoolDetailsApiUrl = `${serverUrl}/schools/me`
 export const updateSchoolDetailsApiUrl = `${serverUrl}/schools/`
 export const getSchoolStudentListApiUrl = `${serverUrl}/manage_students/`
 export const addSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
@@ -159,8 +159,9 @@ export const programsCheckboxFilters = [
 
 export const server = {
   userTypes: {
-    students: "students",
-    principals: "principals",
+    coordinators: "coordinators", // i.e., principals
+    consumers: "consumers", // i.e., students
+    vendors: "vendors", // i.e., organization managers
   },
 }
 

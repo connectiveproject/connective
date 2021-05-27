@@ -17,38 +17,19 @@
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form @submit.prevent="incrementPage">
-              <v-row class="justify-space-between">
-                <v-col cols="6">
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="firstName"
-                    rules="required"
-                  >
-                    <v-text-field
-                      class="mt-5"
-                      v-model="registrationInfo.firstName"
-                      :error-messages="errors"
-                      :label="$t('auth.firstName')"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                </v-col>
-                <v-col cols="5">
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="lastName"
-                    rules="required"
-                  >
-                    <v-text-field
-                      class="mt-5"
-                      v-model="registrationInfo.lastName"
-                      :error-messages="errors"
-                      :label="$t('auth.lastName')"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                </v-col>
-              </v-row>
+              <validation-provider
+                v-slot="{ errors }"
+                name="name"
+                rules="required"
+              >
+                <v-text-field
+                  class="mt-5"
+                  v-model="registrationInfo.name"
+                  :error-messages="errors"
+                  :label="$t('general.name')"
+                  required
+                ></v-text-field>
+              </validation-provider>
 
               <validation-provider
                 v-slot="{ errors }"
@@ -64,7 +45,7 @@
                 ></v-text-field>
               </validation-provider>
 
-              <validation-provider
+              <!-- <validation-provider
                 v-slot="{ errors }"
                 name="profilePic"
                 rules="required|size:3000"
@@ -82,7 +63,7 @@
                   show-size
                 ></v-file-input>
               </validation-provider>
-
+ -->
               <div class="mx-auto d-flex justify-center mt-12">
                 <v-btn
                   class="ml-3 white--text"
@@ -291,18 +272,17 @@
             >
             <v-card-text
               ><b>{{ $t("general.name") }}:</b>
-              {{ registrationInfo.firstName }}
-              {{ registrationInfo.lastName }}</v-card-text
-            >
+              {{ registrationInfo.name }}
+            </v-card-text>
             <v-card-text
               ><b>{{ $t("general.phoneNumber") }}:</b>
               {{ registrationInfo.phone }}</v-card-text
             >
-            <img
+            <!-- <img
               height="175px"
               class="rounded-lg d-block mx-auto mt-6"
               :src="profilePicSource"
-            />
+            /> -->
             <br />
             <v-card-text
               class="text-center mb-5 text-subtitle-1 font-weight-bold"
@@ -386,8 +366,8 @@ import {
   schoolGradesItems,
   zipCodeValidationRule,
 } from "../helpers/constants/constants"
-import { errorMsgImage } from "../helpers/constants/images"
-import Utils from "../helpers/utils"
+// import { errorMsgImage } from "../helpers/constants/images"
+// import Utils from "../helpers/utils"
 import Modal from "../components/Modal"
 
 export default {
@@ -400,16 +380,16 @@ export default {
     zipCodeValidationRule,
     schoolGradesItems,
     modalRedirectComponentName: "",
-    slug: "",
+    username: "",
+    id: null,
     schoolSlug: "",
     showPass: false,
     page: 1,
     popupMsg: "",
     registrationInfo: {
-      firstName: "",
-      lastName: "",
+      name: "",
       phone: "",
-      profilePic: null,
+      // profilePic: null,
       schoolName: "",
       schoolCode: "",
       schoolCity: "",
@@ -425,13 +405,15 @@ export default {
   mounted: async function () {
     // fetch slugs
     let userDetails = await store.dispatch("user/getUserDetails")
-    this.slug = userDetails.slug
+    this.id = userDetails.id
+    this.username = userDetails.username
     let schoolDetails = await store.dispatch("school/getSchoolDetails")
     this.schoolSlug = schoolDetails.slug
   },
 
   methods: {
-    ...mapActions("user", ["updateProfile", "updateUserDetails"]),
+    ...mapActions("user", ["updateUserDetails"]),
+    ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
     submit() {
       let userDetailsPayload = this.createUserSubmitPayload()
@@ -446,21 +428,19 @@ export default {
 
     createUserSubmitPayload() {
       return {
-        slug: this.slug,
-        first_name: this.registrationInfo.firstName,
-        last_name: this.registrationInfo.lastName,
+        name: this.registrationInfo.name,
       }
     },
 
     createProfileSubmitPayload() {
       let profilePayload = new FormData()
       profilePayload.append("phone_number", this.registrationInfo.phone)
-      if (this.registrationInfo.profilePic) {
-        profilePayload.append(
-          "profile_picture",
-          this.registrationInfo.profilePic
-        )
-      }
+      // if (this.registrationInfo.profilePic) {
+      //   profilePayload.append(
+      //     "profile_picture",
+      //     this.registrationInfo.profilePic
+      //   )
+      // }
       return profilePayload
     },
 
@@ -488,9 +468,10 @@ export default {
       schoolPayload
     ) {
       try {
-        await this.updateProfile({ slug: this.slug, profile: profilePayload })
+        console.log("t", this.id)
+        await this.updateProfile({ userId: this.id, profile: profilePayload })
         await this.updateUserDetails({
-          slug: this.slug,
+          username: this.username,
           userDetails: userDetailsPayload,
         })
         await this.updateSchoolDetails({
@@ -526,14 +507,14 @@ export default {
     },
   },
 
-  computed: {
-    profilePicSource() {
-      // Use dummy image if no image provided
-      return this.registrationInfo.profilePic !== null
-        ? Utils.uploadedFileToUrl(this.registrationInfo.profilePic)
-        : errorMsgImage
-    },
-  },
+  // computed: {
+  //   profilePicSource() {
+  //     // Use dummy image if no image provided
+  //     return this.registrationInfo.profilePic !== null
+  //       ? Utils.uploadedFileToUrl(this.registrationInfo.profilePic)
+  //       : errorMsgImage
+  //   },
+  // },
 }
 </script>
 
