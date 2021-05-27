@@ -1,9 +1,8 @@
-import copy
 import pytest
 from rest_framework.test import APIClient
 
-from server.users.models import Coordinator
 from server.schools.models import School, SchoolMember
+from server.users.models import Coordinator
 
 pytestmark = pytest.mark.django_db
 
@@ -26,10 +25,8 @@ class TestSchoolViewSet:
             "profile_picture": None,
             "grade_levels": [1, 2, 3],
         }
-        school1_data = copy.copy(school_data)
-        school2_data = copy.copy(school_data)
-        school1_data["name"] = "school1"
-        school2_data["name"] = "school2"
+        school1_data = {"name": "school1", **school_data}
+        school2_data = {"name": "school2", **school_data}
 
         user1 = Coordinator.objects.create(username="user1", password="password1")
         user2 = Coordinator.objects.create(username="user2", password="password2")
@@ -45,7 +42,7 @@ class TestSchoolViewSet:
 
         SchoolMember.objects.create(user=user1, school=school1)
         SchoolMember.objects.create(user=user2, school=school2)
-        
+
         # query API after adding schools
         list_response_single_school = client.get("/api/schools/")
 
@@ -57,5 +54,8 @@ class TestSchoolViewSet:
         school1_slug = list_response_single_school.json()[0]["slug"]
         school1_data["slug"] = school1_slug
         detail_response = client.get(f"/api/schools/{school1_slug}/")
-        assert school1_data == list_response_single_school.json()[0] == detail_response.json()
-      
+        assert (
+            school1_data
+            == list_response_single_school.json()[0]
+            == detail_response.json()
+        )
