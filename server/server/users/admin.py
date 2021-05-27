@@ -23,7 +23,7 @@ class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (
-        (_("Account info"), {"fields": ("slug", "email", "password", "user_type")}),
+        (_("Account info"), {"fields": ("username", "email", "password", "user_type")}),
         (_("Personal info"), {"fields": ("name",)}),
         (
             _("Permissions"),
@@ -39,13 +39,33 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "name", "is_superuser"]
-    search_fields = ["name"]
+    list_display = ["email", "name", "is_superuser"]
+    search_fields = ["email"]
 
 
-admin.site.register(Coordinator)
-admin.site.register(Consumer)
-admin.site.register(Vendor)
+@admin.register(Coordinator, Consumer, Vendor)
+class UserTypesAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (_("Account info"), {"fields": ("email", "password", "user_type")}),
+        (_("Personal info"), {"fields": ("name",)}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
+    list_display = ["email"]
+    search_fields = ["email"]
+
+
 admin.site.register(CoordinatorProfile)
 admin.site.register(ConsumerProfile)
 admin.site.register(VendorProfile)
