@@ -87,7 +87,7 @@ class Consumer(User):
 
     class Meta:
         proxy = True
-        verbose_name_plural = "1. Consumers (Students)"
+        verbose_name_plural = "1. Consumer (Students)"
 
     @property
     def profile(self):
