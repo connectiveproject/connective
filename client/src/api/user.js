@@ -11,10 +11,10 @@ const user = {
     return axios.get(getUserDetailsApiUrl)
   },
 
-  updateUserDetails(username, payload) {
+  updateUserDetails(slug, payload) {
     // update user account details using payload
     // return: axios Promise
-    return axios.put(`${updateUserApiUrl}${username}/`, payload)
+    return axios.patch(`${updateUserApiUrl}${slug}/`, payload)
   },
 }
 

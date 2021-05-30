@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 
 from server.users.models import Consumer, Coordinator, Vendor
@@ -23,7 +23,9 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
             )
         except IntegrityError:
-            raise CommandError("Dev admin already exists")
+            self.stdout.write(
+                self.style.WARNING(f"{email} already exists. Skipping...")
+            )
 
     def createAdmin(self):
         try:
@@ -34,7 +36,9 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
             )
         except IntegrityError:
-            raise CommandError("Dev admin already exists")
+            self.stdout.write(
+                self.style.WARNING("Dev admin already exists. Skipping...")
+            )
 
     def handle(self, *args, **options):
         if not settings.DEBUG:

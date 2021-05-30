@@ -9,8 +9,8 @@ const coordinator = {
     return axios.get(getCoordinatorProfileApiUrl)
   },
 
-  updateProfile(userId, payload) {
-    return axios.put(`${updateCoordinatorProfileApiUrl}${userId}/`, payload)
+  updateProfile(slug, payload) {
+    return axios.patch(`${updateCoordinatorProfileApiUrl}${slug}/`, payload)
   },
 }
 

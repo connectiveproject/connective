@@ -405,7 +405,7 @@ export default {
   mounted: async function () {
     // fetch slugs
     let userDetails = await store.dispatch("user/getUserDetails")
-    this.id = userDetails.id
+    this.slug = userDetails.slug
     this.username = userDetails.username
     let schoolDetails = await store.dispatch("school/getSchoolDetails")
     this.schoolSlug = schoolDetails.slug
@@ -468,10 +468,9 @@ export default {
       schoolPayload
     ) {
       try {
-        console.log("t", this.id)
-        await this.updateProfile({ userId: this.id, profile: profilePayload })
+        await this.updateProfile({ slug: this.slug, profile: profilePayload })
         await this.updateUserDetails({
-          username: this.username,
+          slug: this.slug,
           userDetails: userDetailsPayload,
         })
         await this.updateSchoolDetails({

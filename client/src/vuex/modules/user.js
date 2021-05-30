@@ -3,8 +3,7 @@ import Api from "../../api"
 function getDefaultState() {
   return {
     userDetails: {
-      id: null,
-      username: null,
+      slug: null,
       name: null,
       email: null,
       // e.g., COORDINATOR

@@ -33,8 +33,8 @@ const coordinator = {
       }
       return state.profile
     },
-    async updateProfile({ commit, state }, { userId, profile }) {
-      let res = await Api.coordinator.updateProfile(userId, profile)
+    async updateProfile({ commit, state }, { slug, profile }) {
+      let res = await Api.coordinator.updateProfile(slug, profile)
       commit("SET_PROFILE", res.data)
       return state.profile
     },
