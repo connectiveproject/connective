@@ -1,6 +1,6 @@
 ---
 name: Feature Template
-about: Describe this issue template's purpose here.
+about: New Feature Template.
 title: "[Client/Server] | [Title]"
 labels: feature
 assignees: ''
