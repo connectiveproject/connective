@@ -19,7 +19,7 @@ tasks:
     command: cd server && python manage.py runserver
   - name: Vue Client
     init: cd client && yarn && gp sync-done client-install
-    command: yarn serve
+    command: cd client && yarn serve
   - name: Vue Storybook
     init: gp sync-await client-install
     command: 'cd client && yarn storybook'
