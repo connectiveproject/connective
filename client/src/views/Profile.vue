@@ -59,7 +59,7 @@ export default {
   async beforeRouteEnter(to, from, next) {
     try {
       // fetch profile data before load
-      let profile = await store.dispatch("user/getProfile")
+      let profile = await store.dispatch("coordinator/getProfile")
       let userDetails = await store.dispatch("user/getUserDetails")
       let userAttributes = { ...profile, ...userDetails }
       next(vm => vm.setUserAttributes(userAttributes))
@@ -71,15 +71,9 @@ export default {
   data() {
     return {
       textFields: {
-        firstName: {
-          uniqueName: "firstName",
-          descriptiveName: this.$t("auth.firstName"),
-          validationRules: "required",
-          value: "",
-        },
-        lastName: {
-          uniqueName: "lastName",
-          descriptiveName: this.$t("auth.lastName"),
+        name: {
+          uniqueName: "name",
+          descriptiveName: this.$t("general.name"),
           validationRules: "required",
           value: "",
         },
@@ -108,9 +102,8 @@ export default {
     ...mapActions("coordinator", ["updateProfile"]),
     setUserAttributes(userAttributes) {
       // set user data received from server
-      this.id = userAttributes.id
-      this.textFields.firstName.value = userAttributes.firstName || ""
-      this.textFields.lastName.value = userAttributes.lastName || ""
+      this.slug = userAttributes.slug
+      this.textFields.name.value = userAttributes.name || ""
       this.textFields.email.value = userAttributes.email || ""
       this.textFields.phone.value = userAttributes.phoneNumber || ""
       this.placeholderPicUrl =
@@ -125,9 +118,8 @@ export default {
 
     createUserSubmitPayload() {
       return {
-        id: this.id,
-        first_name: this.textFields.firstName.value,
-        last_name: this.textFields.lastName.value,
+        slug: this.slug,
+        name: this.textFields.name.value,
         email: this.textFields.email.value,
       }
     },
@@ -143,8 +135,8 @@ export default {
 
     async postProfileData(userDetails, profile) {
       try {
-        await this.updateUserDetails({ id: this.id, userDetails })
-        await this.updateProfile({ id: this.id, profile })
+        await this.updateUserDetails({ slug: this.slug, userDetails })
+        await this.updateProfile({ slug: this.slug, profile })
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch (err) {
         if (
