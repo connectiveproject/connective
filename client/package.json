@@ -26,6 +26,7 @@
     "vue-hot-reload-api": "^2.3.4",
     "vue-i18n": "^8.17.3",
     "vue-router": "^3.2.0",
+    "vuejs-avataaars": "^4.0.1",
     "vuetify": "^2.4.0",
     "vuex": "^3.6.2"
   },
