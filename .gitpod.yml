@@ -1,3 +1,4 @@
+
 image:
   file: .gitpod.Dockerfile
 
@@ -13,8 +14,12 @@ ports:
 
 
 tasks:
-  - init: 'pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate'
-    command: 'cd server && python manage.py runserver'
+  - init: pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py create_test_users
+    command: cd server && python manage.py runserver
   - command: 'redis-server'
   - command: 'MailHog'
     # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
+
+vscode:
+  extensions:
+    - vsls-contrib.codetour

@@ -7,9 +7,7 @@ export default {
 
 const Template = args => ({
   components: { ChipContainer },
-  data() {
-    return { args }
-  },
+  data: () => ({ args }),
   template: `
   <chip-container
     style="width: 400px; padding: 20px;"
@@ -22,7 +20,7 @@ const Template = args => ({
 
 export const Primary = Template.bind({})
 Primary.args = {
-  labels: ['David', 'Albert', 'Rachel', 'Amy', 'Benny'],
+  labels: ["David", "Albert", "Rachel", "Amy", "Benny"],
   icon: "mdi-account-circle",
-  defaultSlot: "Title"
+  defaultSlot: "Title",
 }

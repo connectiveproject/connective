@@ -1,17 +1,20 @@
+import { action } from "@storybook/addon-actions"
 import InfoCard from "../components/InfoCard.vue"
 
 export default {
   title: "InfoCard",
   component: InfoCard,
-  argTypes: { onClick: { action: 'clicked' } },
 }
 
 const Template = args => ({
   components: { InfoCard },
-  data() {
-    return { args }
-  },
-  template: `<info-card v-bind="args" />`,
+  methods: { action },
+  data: () => ({ args }),
+  template: `
+    <info-card
+    @click="action('click')()"
+    v-bind="args" />
+    `,
 })
 
 export const Primary = Template.bind({})

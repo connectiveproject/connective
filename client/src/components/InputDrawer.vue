@@ -118,13 +118,10 @@ export default {
         // use the textual values of the items the user selected (ordered by the original array)
         let displayValues = []
         for (let item of this.selectItems) {
-          console.log(this.selectItems)
-          console.log(this.value)
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }
         }
-        console.log(displayValues)
         return displayValues.join(", ")
       }
       return this.value

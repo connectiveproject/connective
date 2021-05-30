@@ -1,3 +1,4 @@
+import { action } from "@storybook/addon-actions"
 import InputDrawer from "../components/InputDrawer.vue"
 
 export default {
@@ -8,10 +9,14 @@ export default {
 
 const Template = args => ({
   components: { InputDrawer },
-  data() {
-    return { args }
-  },
-  template: `<input-drawer style="margin: 0 80px;" v-model="args.value" v-bind="args" />`,
+  methods: { action },
+  data: () => ({ args }),
+  template: `
+  <input-drawer
+  style="margin: 0 80px;"
+  v-model="args.value"
+  v-bind="args"
+  @input="action('input')()" />`
 })
 
 export const TextInput = Template.bind({})
