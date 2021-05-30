@@ -16,6 +16,9 @@ assignees: ''
 ### What does the proposed solution look like? (Balsamiq / Technical Overview)
 [The solution proposition - as detailed as possible. If needed, attach screenshots and references]
 
+### How to test?
+[If there are available tests already, specify how to run them]
+
 ### Blocked
 [If the task is currently blocked, enter its dependencies - e.g., links to other issues]
 
