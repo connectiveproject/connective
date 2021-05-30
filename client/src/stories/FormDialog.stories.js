@@ -16,6 +16,7 @@ const Template = args => ({
     style="width: 800px;"
     v-model="args.value"
     :inputFields="args.inputFields"
+    :title="args.title"
     @save="action('save')()"
     @input="action('input')()"
     />
@@ -29,27 +30,29 @@ Primary.args = {
     {
       name: "firstName",
       rule: "required",
-      label: "First Name",
+      label: "שם פרטי",
       value: "",
     },
     {
       name: "lastName",
       rule: "required",
-      label: "Last Name",
+      label: "שם משפחה",
       value: "",
     },
     {
       name: "phoneNumber",
       rule: "required",
-      label: "Phone",
+      label: "טלפון",
       value: "0521234567",
     },
     {
       name: "favPokemon",
+      type: "select",
       rule: "required",
-      label: "Favorite Pokemon",
-      value: "Pikachu",
+      label: "פוקימון אהוב",
+      choices: ["Pikachu", "Charizard", "Bulbasaur", "Snorlax"],
+      value: "",
     },
   ],
-  title: "Title",
+  title: "אני כותרת",
 }

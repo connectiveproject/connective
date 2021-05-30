@@ -18,7 +18,16 @@
                   :name="field.name"
                   :rules="field.rule"
                 >
+                  <v-select
+                    v-if="field.type && field.type === 'select'"
+                    class="mx-2"
+                    v-model="field.value"
+                    :label="field.label"
+                    :items="field.choices"
+                    :error-messages="errors"
+                  />
                   <v-text-field
+                    v-else
                     class="mx-2"
                     :label="field.label"
                     v-model="field.value"
