@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 
 from server.organizations.models import Activity, ActivityMedia, Organization
 
@@ -10,7 +10,12 @@ from .serializers import (
 )
 
 
-class OrganizationViewSet(viewsets.ModelViewSet):
+class OrganizationViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
     serializer_class = OrganizationSerializer
     lookup_field = "slug"
 

@@ -4,33 +4,33 @@
   "steps": [
     {
       "title": "Introduction",
-      "description": "## Hey there!\n\n### Welcome to the client-side code tour.\n\n### In this tour you will get familiar with the frontend code base.\n"
+      "description": "## Hey there!\n\nWelcome to the client-side code tour.\n\nIn this tour you will get familiar with the frontend code base.\n"
     },
     {
       "file": "client/src/main.js",
-      "description": "### Vue.js\n\nAs you can see, the client-side is based on the amazing Vue.js framework (version 2.x).\n\nLet's take a look at the file structure!",
+      "description": "### Vue.js\n\nAs you can see, the client-side is based on the amazing [Vue.js](https://vuejs.org/) framework (version 2.x).\n\nLet's take a look at the file structure!",
       "line": 23,
       "title": "Vue.js"
     },
     {
       "directory": "client",
-      "description": "### File structure overview\n\nAll client-side related code exists under the \"client\" directory.\nThe main folder under \"client\" is \"src\", which we will cover in a moment.\n\nOther relevant files & folder are:\n1. package.json: contains project configs & packages to install.\n2. tests: used for testing\n3. json-server: a backend API mock (see: https://www.npmjs.com/package/json-server)\n\n\nLet's see what's in the \"src\" folder..."
+      "description": "### File structure overview\n\nAll client-side related code exists under the _client_ directory.\nThe main folder under _client_ is _src_, which we will cover in a moment.\n\nOther relevant files & folder are:\n1. [package.json](./client/package.json): contains project configs & packages to install.\n2. tests: used for testing.\n3. json-server: a backend API mock (see [documentation](https://www.npmjs.com/package/json-server))\n\n\nLet's see what's in the _src_ folder..."
     },
     {
       "file": "client/src/layouts/Welcome.vue",
-      "description": "### Src Folder: Vue Components (1)\nvue.js components files are separated into 3 folders:\n1. components: usually reusable, generic components. e.g., Navbar.vue. Use them when writing code!\n2. views: usually refers to a full page. e.g., Login.vue\n3. layouts: components that wrap views. e.g., Welcome.vue, which would have both Login.vue & Register.vue encapsulated in it.\n\nWe won't dive into each and every one of them, but you're more than welcome to check them out!\n",
+      "description": "### Src Folder: Vue Components (1)\nvue.js components files are separated into 3 folders:\n1. **components**: usually reusable, generic components. e.g., [Navbar.vue](./client/src/components/Navbar.vue). Use them when writing code!\n2. **views**: usually refers to a full page. e.g., [Login.vue](./client/src/views/Login.vue).\n3. **layouts**: components that wrap views. e.g., [Welcome.vue](./client/src/layouts/Welcome.vue), which have has _Login.vue_ & _Register.vue_ encapsulated in it.\n\nWe won't dive into each and every one of them, but you're more than welcome to check them out!\n",
       "line": 1,
       "title": "Src Folder: Vue Components (1)"
     },
     {
       "file": "client/src/components/Navbar.vue",
-      "description": "### Src Folder: Vue Components (2) - Vuetify\n\n* Note that we're using *Vuetify* as our design framework.\n* Vuetify consists of many components we can use out-of-the-box for faster coding.\n* For example, in this component (Navbar), we use v-toolbar, v-tooltip, v-btn, etc.\n* Make sure to use Vuetify components! They are so easy to use!\n* For more information:  https://vuetifyjs.com/",
+      "description": "### Src Folder: Vue Components (2) - Vuetify\n\n* Note that we're using [Vuetify](https://vuetifyjs.com/) as our design framework.\n* Vuetify consists of many components we can use out-of-the-box for faster coding.\n* For example, in this component (Navbar), we use [v-toolbar](https://vuetifyjs.com/en/components/toolbars/), [v-btn](https://vuetifyjs.com/en/components/buttons/), etc.\n* Make sure to use Vuetify components! They are so easy to use!\n",
       "line": 2,
       "title": "Src Folder: Vue Components (2)"
     },
     {
       "file": "client/src/helpers/constants/constants.js",
-      "description": "### Src Folder: Helpers\n\ninside src/, you can also find the *helpers* folder, which consists of *constants* (the file we're currently visiting), *utils*, *validators* (for vee-validate forms)\nNotes:\n1. When adding images, make sure to add them to images.js constants.\n2. Check *utils.js* for useful functions!",
+      "description": "### Src Folder: Helpers\n\ninside src/, you can also find the *helpers* folder, which consists of [constants.js](./client/src/helpers/constants/constants.js) (the file we're currently visiting), [utils.js](./client/src/helpers/utils.js), [validators.js](./client/src/helpers/validators.js) (for [vee-validate](https://vee-validate.logaretm.com) forms).\n\n#### Notes: #####\n1. When adding images, make sure to add them to [images.js](./client/src/helpers/constants/images.js) constants.\n2. Check [utils.js](./client/src/helpers/utils.js) for useful functions!",
       "line": 1,
       "selection": {
         "start": {
@@ -50,7 +50,7 @@
     },
     {
       "file": "client/src/views/Error.vue",
-      "description": "### Src Folder: Internationalization (2)\n\nTo use the translation, simply use `this.$t(\"json.path\")`.\n\nIn the example above, we can see a button, whose text is a translation for the word \"Homepage\"",
+      "description": "### Src Folder: Internationalization (2)\n\nTo access the locales files and use the translations, simply use `this.$t(\"json.path\")`.\n\nIn the example above, we can see a button, whose text is a translation for the word \"Homepage\"",
       "line": 19,
       "title": "Src Folder: Internationalization (2)"
     },
@@ -61,7 +61,7 @@
     },
     {
       "file": "client/src/vuex/store.js",
-      "description": "### Src Folder: Vuex\n\nOur state management is based on *Vuex*.\n\nVuex modules are imported to *store.js* and registered in the store.\n\nExamples for global info stored here are:\n* user profile, pagination data\n* list of programs\n* authentication status\n* etc.\n",
+      "description": "### Src Folder: Vuex\n\nOur state management is based on [Vuex](https://vuex.vuejs.org/).\n\n_Vuex_ modules are imported to *store.js* and registered in the store.\n\nExamples for global info stored here are:\n* user profile, pagination data\n* list of programs\n* authentication status\n* etc.\n",
       "line": 1
     },
     {
@@ -76,13 +76,8 @@
     },
     {
       "file": "client/src/api/user.js",
-      "description": "### Src Folder: API (2)\n\nFor example, the \"user\" vuex module, uses Api.user.getProfile() to fetch user data from the server.",
+      "description": "### Src Folder: API (2)\n\nFor example, the _user_ vuex module, uses `Api.user.getProfile()` to fetch user data from the server.",
       "line": 5
-    },
-    {
-      "file": "client/src/router/index.js",
-      "description": "### Src Folder: Vue Router\n\nThis is the *Vue Router*!\n\nIt's simply an object containing all the routes.\n\n",
-      "line": 1
     },
     {
       "file": "client/src/router/index.js",
@@ -91,16 +86,16 @@
     },
     {
       "file": "client/src/router/index.js",
-      "description": "### Src Folder: Vue Router (2)\n\nNote that the route always starts with the requested language.\n#### An example URL would be:\n\n`BASE_URL/he/welcome/login`\n\n#### Note the pattern:\n\n`BASE_URL/:lang/:layout-name/:view-name`\n\n\n\nLet's proceed to the *assets* folder\n",
+      "description": "### Src Folder: Vue Router (2)\n\nNote that the route always starts with the requested language.\n#### An example URL of the website would be:\n\n`BASE_URL/he/welcome/login`\n\n#### Note the pattern:\n\n`BASE_URL/:lang/:layout-name/:view-name`\n\n\n\nLet's proceed to the _assets_ folder\n",
       "line": 32
     },
     {
       "directory": "client/src/assets",
-      "description": "### Src Folder: Assets\n\nThis is the assets folder - where our images & fonts live.\n\nUploading Images:\n1. For optimization purposes, we serve optimized, webp images.\n2. To upload an image, simply put it in *assets/img/original/big*, and run: `yarn imagemin`\n3. An optimized version would appear under *img/optimized* folder\n\n* if the original image is relatively small, use */original/small* instead.\n\n"
+      "description": "### Src Folder: Assets\n\nThis is the _assets_ folder - where our images & fonts live.\n\nUploading Images:\n1. For optimization purposes, we serve optimized, _.webp_ images.\n2. To upload an image, simply put it in _assets/img/original/big_, and run: `yarn imagemin`\n3. An optimized version would appear under _img/optimized_ folder\n\n* if the original image is relatively small, use _/original/small_ folder instead.\n\n"
     },
     {
       "title": "Wrap Up",
-      "description": "That's pretty much it!\n\nYou're now familiar with the client-side code.\n\nLet's Recap:\n1. *client/src* folder is where our code lives.\n2. Our Vue components are seperated into: *components/* (reusable code), *views/* (each view is a page), *layouts/* (each contains for multiple pages).\n3. Our Vue components use *Vuetify*, which saves us a lot of time.\n3. *Helpers* folder: where our constants, utils, and validators live.\n4. i18n: all translations are kept inside a JSON file, and can be refferenced using: `this.$t()`\n5. Global scss styles rock.\n5. Vuex is used for global state management.\n6. Vuex uses the API service to communicate with the server-side.\n7. *router/index.js* is where our routes live.\n\n\n#### Awesome! \n\nNow go ahead and grab yourself an issue!\n\nhttps://github.com/connectiveproject/connective/issues\n\n\nBest of Luck!\n"
+      "description": "That's pretty much it!\n\nYou're now familiar with the client-side code.\n\nLet's Recap:\n1. *client/src* folder is where our code lives.\n2. Our Vue components are seperated to 3 folders: \n    * *components*: reusable code.\n    * *views*: each view is a page.\n    * *layouts*: each layout encapsulates multiple pages.\n3. Our Vue components use *Vuetify*, which saves us a lot of time.\n3. [Helpers folder](./client/src/helpers/utils.js): where our constants, utils, and validators live.\n4. i18n: all translations are kept inside [json files](./client/src/locales/he.json), and can be refferenced using: `this.$t()`.\n5. Global scss styles rock.\n5. [Vuex](./client/src/vuex/store.js) is used for global state management.\n6. Vuex uses the API service to communicate with the server-side.\n7. [router/index.js](./client/src/router/index.js) is where our routes live.\n\n\n**Awesome!**\n\nNow go ahead and grab yourself an [issue](https://github.com/connectiveproject/connective/issues)!\n\nBest of luck!\n"
     }
   ]
 }

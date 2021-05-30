@@ -17,7 +17,7 @@ class Organization(models.Model):
     status = models.CharField(max_length=50)
     target_audience = models.JSONField()
     number_of_employees = models.PositiveIntegerField()
-    nuber_of_members = models.PositiveIntegerField()
+    number_of_members = models.PositiveIntegerField()
     number_of_volunteers = models.PositiveIntegerField()
     location_lon = models.DecimalField(max_digits=9, decimal_places=6)
     location_lat = models.DecimalField(max_digits=9, decimal_places=6)
