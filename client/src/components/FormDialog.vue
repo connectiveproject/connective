@@ -45,8 +45,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import cloneDeep from "lodash/cloneDeep";
-
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   components: {
