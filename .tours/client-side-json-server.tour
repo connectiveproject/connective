@@ -4,12 +4,12 @@
   "steps": [
     {
       "file": "client/json-server/db.json",
-      "description": "### Hello Again!\nOne topic which is not covered in the introduction tour is the usage of Json-Server.\n\n#### What is json-server?\nA package for mocking backend API.\n\nhttps://www.npmjs.com/package/json-server\n\n#### Why use json-server?\nNo need to wait for backend API to test your code.\nJust add some dummy data and use it.\n\n#### How to use it?\nLet's take a look!\n\n",
+      "description": "### Hello Again!\nOne topic which is not covered in the introduction tour is the usage of Json-Server.\n\n#### What is json-server?\nA package for mocking backend API.\n\nSee: [json-server](https://www.npmjs.com/package/json-server)\n\n#### Why use json-server?\nNo need to wait for backend API to test your code.\nJust add some dummy data and use it.\n\n#### How to use it?\nLet's take a look!\n\n",
       "line": 1
     },
     {
       "file": "client/json-server/db.json",
-      "description": "### db.json\n* To get json-server running, we need to add data.\n* The data is stored in a file named db.json\n* To add an API endpoint, just add a new key, and its objects.\n\n* SIDE NOTE: sometimes json-server requires we add an \"id\" field for each object.\n",
+      "description": "### db.json\n* To get json-server running, we need to add data.\n* The data is stored in a file named db.json\n* To add an API endpoint, just add a new key, and its objects.\n\n* **Side note:** sometimes json-server requires we add an \"id\" field for each object.\n",
       "line": 5
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "file": "client/json-server/run.sh",
-      "description": "### That's it!\n* Now all we need is to launch the server using the \"run.sh\" file!\n* A shorthand for that is running: \"yarn json-server\", under the \"client\" directory.\n* The json-server is now running and can be used!\n* (don't forget to change the server port constant from 8000 to 8001)\n",
+      "description": "### That's it!\n* Now all we need is to launch the server using the \"run.sh\" file!\n* A shorthand for that is running: `yarn json-server`, under the _client_ directory.\n* The json-server is now running and can be used!\n* (On vue.js constants, don't forget to change the server port from 8000 to 8001)\n",
       "line": 3
     }
   ]
