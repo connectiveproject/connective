@@ -14,13 +14,18 @@ ports:
 
 
 tasks:
-  - init: cd client && yarn && cd .. && pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py create_test_users
+  - name: Server
+    init: pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"  && cd server && python manage.py create_test_users
     command: cd server && python manage.py runserver
+  - name: Vue Client
+    init: cd client && yarn && gp sync-done client-install
+    command: yarn serve
+  - name: Vue Storybook
+    init: gp sync-await client-install
+    command: 'cd client && yarn storybook'
   - command: 'redis-server'
   - command: 'MailHog'
-  - command: 'cd client && yarn serve'
-  - command: 'cd client && yarn storybook'
-    # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
+  # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
 vscode:
   extensions:
