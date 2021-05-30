@@ -16,6 +16,9 @@ class Command(BaseCommand):
     def createUser(self, userModel, email, password):
         try:
             user = userModel.objects.create(email=email, password=password)
+            user.set_password(user.password)
+            user.save()
+
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
             )
