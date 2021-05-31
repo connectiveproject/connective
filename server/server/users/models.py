@@ -121,8 +121,22 @@ class Vendor(User):
 
 
 class BaseProfile(models.Model):
+    class Gender(TextChoices):
+        MALE = "MALE", "Male"
+        FEMALE = "FEMALE", "Female"
+        OTHER = (
+            "OTHER",
+            "Other",
+        )
+        UNKNOWN = "UNKNOWN", "Unknown"
+
+    base_gender = Gender.UNKNOWN
+
     user = models.OneToOneField(
         User, related_name="%(class)s", on_delete=models.CASCADE, primary_key=True
+    )
+    gender = models.CharField(
+        _("Gender"), max_length=50, choices=Gender.choices, default=base_gender
     )
     profile_picture = models.JSONField(blank=True, null=True, default=dict)
 

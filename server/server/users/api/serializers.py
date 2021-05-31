@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from ..models import ConsumerProfile, CoordinatorProfile, VendorProfile
+from server.schools.models import SchoolMember
+
+from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
 
 User = get_user_model()
 
@@ -21,7 +23,7 @@ class ConsumerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumerProfile
-        fields = ["slug", "profile_picture"]
+        fields = ["slug", "gender", "profile_picture"]
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
@@ -29,7 +31,13 @@ class CoordinatorProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CoordinatorProfile
-        fields = ["slug", "profile_picture", "job_description", "phone_number"]
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):
@@ -37,4 +45,24 @@ class VendorProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VendorProfile
-        fields = ["slug", "profile_picture", "phone_number"]
+        fields = ["slug", "gender", "profile_picture", "phone_number"]
+
+
+class ManageConsumersSerializer(serializers.ModelSerializer):
+    profile = ConsumerProfileSerializer()
+
+    class Meta:
+        model = Consumer
+        fields = ["name", "email", "profile"]
+
+    def create(self, validated_data):
+        profile_data = validated_data.pop("profile")
+        consumer = Consumer(**validated_data)
+        consumer._no_profile_create = True
+        consumer.save()
+
+        ConsumerProfile.objects.create(user=consumer, **profile_data)
+        SchoolMember.objects.create(
+            user=consumer, school=self.context["request"].user.school_member.school
+        )
+        return consumer

@@ -5,10 +5,11 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from ..models import ConsumerProfile, CoordinatorProfile, VendorProfile
+from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
+    ManageConsumersSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -67,3 +68,12 @@ class VendorProfileViewSet(ModelViewSet):
             request.user.vendorprofile, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class ManageConsumersViewSet(ModelViewSet):
+    serializer_class = ManageConsumersSerializer
+
+    def get_queryset(self):
+        return Consumer.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )

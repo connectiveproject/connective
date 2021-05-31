@@ -10,6 +10,7 @@ from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
     CoordinatorProfileViewSet,
+    ManageConsumersViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -31,6 +32,7 @@ router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
 router.register("schools", SchoolViewSet, "schools")
+router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 
 
 app_name = "api"
