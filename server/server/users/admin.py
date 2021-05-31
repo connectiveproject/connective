@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from server.users.forms import UserChangeForm
+from server.users.helpers import send_user_invite
 
 from .models import (
     Consumer,
@@ -15,6 +16,14 @@ from .models import (
 )
 
 User = get_user_model()
+
+
+def send_invite(self, request, queryset):
+    for user in queryset:
+        send_user_invite(user.email)
+
+
+send_invite.short_description = "Invite user"
 
 
 @admin.register(User, Coordinator, Consumer, Vendor)
@@ -43,6 +52,7 @@ class UserTypesAdmin(auth_admin.UserAdmin):
 
     list_display = ["email", "slug"]
     search_fields = ["email"]
+    actions = [send_invite]
 
 
 admin.site.register(CoordinatorProfile)

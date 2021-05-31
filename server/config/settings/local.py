@@ -14,6 +14,9 @@ SECRET_KEY = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 GITPOD_WORKSPACE_URL = os.environ.get("GITPOD_WORKSPACE_URL")
+GITPOD_WORKSPACE_ID = env(
+    "GITPOD_WORKSPACE_ID", default=os.environ.get("GITPOD_WORKSPACE_ID")
+)
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", GITPOD_WORKSPACE_URL]
 
@@ -82,3 +85,5 @@ else:
         "http://localhost:8080",
         "http://127.0.0.1:8080",
     ]
+
+RESET_BASE_URL = f"https://8080-{GITPOD_WORKSPACE_ID}.ws-eu03.gitpod.io"

@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from server.schools.models import SchoolMember
 
+from ..helpers import send_user_invite
 from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
 
 User = get_user_model()
@@ -58,6 +59,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         profile_data = validated_data.pop("profile")
         consumer = Consumer(**validated_data)
+        # make sure no auto profile creation is applied via signal
         consumer._no_profile_create = True
         consumer.save()
 
@@ -65,4 +67,5 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         SchoolMember.objects.create(
             user=consumer, school=self.context["request"].user.school_member.school
         )
+        send_user_invite(validated_data["email"])
         return consumer
