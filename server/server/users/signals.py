@@ -23,7 +23,7 @@ def update_user_profile(sender, instance, created, **kwargs):
         "VENDOR": VendorProfile,
     }
 
-    if created and not hasattr(instance, "_no_profile_create"):
+    if created:
         user_type_to_profile[instance.user_type].objects.create(
             user=instance,
         )

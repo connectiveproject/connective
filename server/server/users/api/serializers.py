@@ -49,6 +49,12 @@ class VendorProfileSerializer(serializers.ModelSerializer):
         fields = ["slug", "gender", "profile_picture", "phone_number"]
 
 
+import logging
+
+logger = logging.getLogger("root")
+logger.info("Whatever to log")
+
+
 class ManageConsumersSerializer(serializers.ModelSerializer):
     profile = ConsumerProfileSerializer()
 
@@ -57,13 +63,13 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         fields = ["name", "email", "profile"]
 
     def create(self, validated_data):
+        """
+        create user, update profile, attach to school, invite user via email
+        """
         profile_data = validated_data.pop("profile")
-        consumer = Consumer(**validated_data)
-        # make sure no auto profile creation is applied via signal
-        consumer._no_profile_create = True
-        consumer.save()
-
-        ConsumerProfile.objects.create(user=consumer, **profile_data)
+        consumer = Consumer.objects.create(**validated_data)
+        logger.info(profile_data)
+        ConsumerProfile.objects.filter(user=consumer).update(**profile_data)
         SchoolMember.objects.create(
             user=consumer, school=self.context["request"].user.school_member.school
         )
