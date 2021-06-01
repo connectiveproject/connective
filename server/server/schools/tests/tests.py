@@ -1,9 +1,10 @@
 import copy
+
 import pytest
 from rest_framework.test import APIClient
 
-from server.users.models import Coordinator
 from server.schools.models import School, SchoolMember
+from server.users.models import Coordinator
 
 pytestmark = pytest.mark.django_db
 
@@ -45,7 +46,7 @@ class TestSchoolViewSet:
 
         SchoolMember.objects.create(user=user1, school=school1)
         SchoolMember.objects.create(user=user2, school=school2)
-        
+
         # query API after adding schools
         list_response_single_school = client.get("/api/schools/")
 
@@ -57,5 +58,8 @@ class TestSchoolViewSet:
         school1_slug = list_response_single_school.json()[0]["slug"]
         school1_data["slug"] = school1_slug
         detail_response = client.get(f"/api/schools/{school1_slug}/")
-        assert school1_data == list_response_single_school.json()[0] == detail_response.json()
-      
+        assert (
+            school1_data
+            == list_response_single_school.json()[0]
+            == detail_response.json()
+        )
