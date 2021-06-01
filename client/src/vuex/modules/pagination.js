@@ -8,11 +8,11 @@ function paginationToApiParams(pagination) {
   // :object pagination: pagination data parameters
   let apiParams = {}
   if (pagination.itemsPerPage) {
-    apiParams._limit =
+    apiParams.page_size =
       pagination.itemsPerPage > 0 ? pagination.itemsPerPage : 99999
   }
   if (pagination.page) {
-    apiParams._page = pagination.page
+    apiParams.page = pagination.page
   }
   if (pagination.fieldFilters) {
     for (const [fieldName, value] of Object.entries(pagination.fieldFilters)) {

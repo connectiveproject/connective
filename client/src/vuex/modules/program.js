@@ -43,8 +43,8 @@ const program = {
       const params = rootGetters["pagination/apiParams"]
       const mutation = override ? "SET_PROGRAM_LIST" : "ADD_PROGRAMS_TO_LIST"
       let res = await Api.program.getProgramsList(params)
-      commit(mutation, res.data)
-      commit("SET_PROGRAMS_TOTAL", parseInt(res.headers["x-total-count"]))
+      commit(mutation, res.data.results)
+      commit("SET_PROGRAMS_TOTAL", res.data.count)
       return state.programsList
     },
   },

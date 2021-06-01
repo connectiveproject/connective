@@ -61,8 +61,8 @@ const school = {
       const params = rootGetters["pagination/apiParams"]
       const mutation = override ? "SET_STUDENT_LIST" : "ADD_STUDENTS_TO_LIST"
       let res = await Api.school.getStudentList(params)
-      commit(mutation, res.data)
-      commit("SET_STUDENTS_TOTAL", parseInt(res.headers["x-total-count"]))
+      commit(mutation, res.data.results)
+      commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
     addStudent(ctx, student) {
