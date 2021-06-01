@@ -34,13 +34,15 @@ const school = {
   },
 
   editStudent(slug, payload) {
-    return axios.put(editSchoolStudentsApiUrl + slug, payload)
+    return axios.patch(`${editSchoolStudentsApiUrl}${slug}/`, payload)
   },
 
-  async deleteStudents(studentSlugs) {
-    for (const slug of studentSlugs) {
-      await axios.delete(deleteSchoolStudentsApiUrl + slug)
-    }
+  deleteStudents(studentSlugs) {
+    return Promise.all(
+      studentSlugs.map(slug =>
+        axios.delete(`${deleteSchoolStudentsApiUrl}${slug}`)
+      )
+    )
   },
 }
 

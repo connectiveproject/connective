@@ -54,7 +54,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Consumer
-        fields = ["name", "email", "profile"]
+        fields = ["slug", "name", "email", "profile"]
 
     def create(self, validated_data):
         """
@@ -72,3 +72,19 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         )
         send_user_invite(validated_data["email"])
         return consumer
+
+    def update(self, instance, validated_data):
+        """
+        update user & profile
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
+
+        profile_data = validated_data.pop("profile")
+        profile = ConsumerProfile.objects.get(user=instance)
+        for attr, value in profile_data.items():
+            setattr(profile, attr, value)
+
+        instance.save()
+        profile.save()
+        return instance

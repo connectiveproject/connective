@@ -72,6 +72,7 @@ class VendorProfileViewSet(ModelViewSet):
 
 class ManageConsumersViewSet(ModelViewSet):
     serializer_class = ManageConsumersSerializer
+    lookup_field = "slug"
 
     def get_queryset(self):
         return Consumer.objects.filter(

@@ -35,14 +35,15 @@
               <v-col class="mt-8" cols="12">
                 <validation-provider
                   v-slot="{ errors }"
-                  name="phoneNumber"
-                  rules="required|phoneNumberIsrael"
+                  name="gender"
+                  rules="required"
                 >
-                  <v-text-field
-                    :label="$t('general.phoneNumber')"
-                    v-model="formInput.profile.phoneNumber"
+                  <v-select
+                    :label="$t('gender.gender')"
+                    :items="genderChoices"
+                    v-model="formInput.profile.gender"
                     :error-messages="errors"
-                  ></v-text-field>
+                  />
                 </validation-provider>
               </v-col>
             </v-row>
@@ -103,6 +104,24 @@ export default {
   data() {
     return {
       formInput: this.student,
+      genderChoices: [
+        {
+          text: this.$t("gender.male"),
+          value: "MALE",
+        },
+        {
+          text: this.$t("gender.female"),
+          value: "FEMALE",
+        },
+        {
+          text: this.$t("gender.other"),
+          value: "OTHER",
+        },
+        {
+          text: this.$t("gender.unknown"),
+          value: "UNKNOWN",
+        },
+      ],
     }
   },
 
@@ -120,7 +139,7 @@ export default {
         name: "",
         email: "",
         profile: {
-          phoneNumber: "",
+          gender: "",
         },
       }
     },
