@@ -24,15 +24,19 @@ function paginationToApiParams(pagination) {
     }
   }
   if (pagination.searchFilter) {
-    apiParams.q = pagination.searchFilter
+    apiParams.search = pagination.searchFilter
   }
   if (pagination.sortBy && pagination.sortBy.length) {
-    apiParams._sort = pagination.sortBy.map(item => snakeCase(item)).join()
-  }
-  if (pagination.sortDesc && pagination.sortDesc.length) {
-    apiParams._order = pagination.sortDesc
-      .map(isDesc => (isDesc ? "desc" : "asc"))
-      .join()
+    const order = []
+    for (let i = 0; i < pagination.sortBy.length; i++) {
+      if (pagination.sortDesc[i] !== false) {
+        // if undefined or True:
+        order.push(snakeCase(pagination.sortBy[i]))
+      } else {
+        order.push(`-${snakeCase(pagination.sortBy[i])}`)
+      }
+    }
+    apiParams.ordering = order.join()
   }
   return apiParams
 }

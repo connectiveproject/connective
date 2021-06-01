@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import status
+from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
@@ -73,6 +73,8 @@ class VendorProfileViewSet(ModelViewSet):
 class ManageConsumersViewSet(ModelViewSet):
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
 
     def get_queryset(self):
         return Consumer.objects.filter(

@@ -211,10 +211,8 @@ export default {
         itemsPerPage: this.tableProps.options.itemsPerPage,
         page: this.tableProps.options.page,
         searchFilter: this.searchFilter,
-        sort: {
-          sortBy: this.tableProps.options.sortBy,
-          sortDesc: this.tableProps.options.sortDesc,
-        },
+        sortBy: this.tableProps.options.sortBy,
+        sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
       this.tableProps.items = await this.getStudentList()
