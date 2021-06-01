@@ -78,16 +78,12 @@ class ManageConsumersViewSet(ModelViewSet):
             school_member__school=self.request.user.school_member.school
         )
 
-    # def get_serializer(self, *args, **kwargs):
-    #     # handle bulk creation
-    #     if isinstance(kwargs.get("data", {}), list):
-    #         kwargs["many"] = True
-
-    #     return super().get_serializer(*args, **kwargs)
-
-    # @action(detail=False, methods=["POST"])
-    # def bulk_create(self, request):
-    #     serializer = ManageConsumersSerializer(
-    #         request.user.coordinatorprofile, context={"request": request}, many=True
-    #     )
-    #     return Response(status=status.HTTP_200_OK, data=serializer.data)
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        serializer = ManageConsumersSerializer(
+            data=request.data, context={"request": request}, many=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
