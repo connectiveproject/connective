@@ -44,11 +44,7 @@ export default {
   },
   computed: {
     avataaarsOptions() {
-      console.log(Object.keys(this.avatarOptions))
-      console.log(this.avatarOptions)
       if (Object.keys(this.avatarOptions).length) {
-        console.log("using", this.avatarOptions)
-
         return this.avatarOptions
       }
       return this.defaultAvatarOptions

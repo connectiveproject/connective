@@ -6,29 +6,15 @@
         <form class="form mx-auto" @submit.prevent="save">
           <v-card-text>
             <v-row>
-              <v-col class="mt-8" cols="12" sm="5">
+              <v-col class="mt-8" cols="12">
                 <validation-provider
                   v-slot="{ errors }"
-                  name="firstName"
+                  name="name"
                   rules="required"
                 >
                   <v-text-field
-                    :label="$t('auth.firstName')"
-                    v-model="formInput.firstName"
-                    :error-messages="errors"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
-              <v-spacer></v-spacer>
-              <v-col class="mt-8" cols="12" sm="7">
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="lastName"
-                  rules="required"
-                >
-                  <v-text-field
-                    :label="$t('auth.lastName')"
-                    v-model="formInput.lastName"
+                    :label="$t('general.name')"
+                    v-model="formInput.name"
                     :error-messages="errors"
                   ></v-text-field>
                 </validation-provider>
@@ -131,10 +117,7 @@ export default {
     ...mapActions("school", ["addStudent", "editStudent"]),
     initFormInput() {
       this.formInput = {
-        idNumber: "",
-        firstName: "",
-        lastName: "",
-        city: "",
+        name: "",
         email: "",
         profile: {
           phoneNumber: "",

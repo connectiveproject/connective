@@ -9,10 +9,10 @@ export const getCoordinatorProfileApiUrl = `${serverUrl}/coordinators_profiles/m
 export const getUserDetailsApiUrl = `${serverUrl}/users/me/`
 export const getSchoolDetailsApiUrl = `${serverUrl}/schools/me`
 export const updateSchoolDetailsApiUrl = `${serverUrl}/schools/`
-export const getSchoolStudentListApiUrl = `${serverUrl}/manage_students/`
-export const addSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
-export const editSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
-export const deleteSchoolStudentsApiUrl = `${serverUrl}/manage_students/`
+export const getSchoolStudentListApiUrl = `${serverUrl}/manage_consumers/`
+export const addSchoolStudentsApiUrl = `${serverUrl}/manage_consumers/`
+export const editSchoolStudentsApiUrl = `${serverUrl}/manage_consumers/`
+export const deleteSchoolStudentsApiUrl = `${serverUrl}/manage_consumers/`
 export const getProgramsListApiUrl = `${serverUrl}/activities/`
 export const getProgramMediaListApiUrl = `${serverUrl}/activity_media/`
 

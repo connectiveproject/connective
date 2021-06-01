@@ -106,7 +106,6 @@ export default {
     submitProfile() {
       let userDetailsPayload = this.createUserSubmitPayload()
       let profilePayload = this.createProfileSubmitPayload()
-      console.log(profilePayload)
       this.postProfileData(userDetailsPayload, profilePayload)
     },
 

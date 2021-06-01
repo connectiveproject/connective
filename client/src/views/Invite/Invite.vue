@@ -139,8 +139,7 @@ export default {
         options: {},
         headers: [
           { text: "", value: "actions", sortable: false },
-          { text: this.$t("auth.firstName"), value: "firstName" },
-          { text: this.$t("auth.lastName"), value: "lastName" },
+          { text: this.$t("general.name"), value: "name" },
           {
             text: this.$t("general.phoneNumber"),
             value: "profile.phoneNumber",
@@ -157,8 +156,7 @@ export default {
       popupMsg: "",
 
       dialogStudent: {
-        firstName: "",
-        lastName: "",
+        name: "",
         email: "",
         profile: {
           phoneNumber: "",
