@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from server.organizations.models import (
@@ -69,6 +70,8 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    order_status = serializers.SerializerMethodField()
+
     class Meta:
         model = Activity
         fields = [
@@ -82,7 +85,19 @@ class ActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "logo",
             "phone_number",
+            "order_status",
         ]
+
+    def get_order_status(self, obj):
+        user = self.context["request"].user
+        if not user.user_type == get_user_model().Types.COORDINATOR or not hasattr(
+            user, "school_member"
+        ):
+            return None
+
+        return SchoolActivityOrder.objects.get(
+            school=user.school_member.school, activity=obj
+        ).status
 
 
 class ManageSchoolActivitySerializer(serializers.ModelSerializer):
