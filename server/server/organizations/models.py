@@ -41,16 +41,6 @@ class Activity(models.Model):
     )
     description = models.CharField(max_length=400, default="")
     contact_name = models.CharField(max_length=60, default="")
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
     logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
         blank=True,

@@ -1,5 +1,7 @@
 import pytest
 
+from server.organizations.models import Activity, Organization
+from server.organizations.tests.factories import ActivityFactory, OrganizationFactory
 from server.schools.models import School
 from server.schools.tests.factories import SchoolFactory
 from server.users.models import Consumer, Coordinator, User
@@ -33,3 +35,13 @@ def consumer() -> Consumer:
 @pytest.fixture
 def school() -> School:
     return SchoolFactory()
+
+
+@pytest.fixture
+def organization() -> Organization:
+    return OrganizationFactory()
+
+
+@pytest.fixture
+def activity() -> Activity:
+    return ActivityFactory()
