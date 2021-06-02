@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from server.schools.models import School
 from server.users.models import User
 from server.utils.model_fields import random_slug
 
@@ -72,8 +73,36 @@ class OrganizationMember(models.Model):
     )
     organization = models.ForeignKey(
         Organization,
+        on_delete=models.CASCADE,
+        related_name="organization_member",
+    )
+
+
+class SchoolActivityOrder(models.Model):
+    class Meta:
+        models.UniqueConstraint(fields=["school", "activity"], name="unique_order")
+
+    class Status(models.TextChoices):
+        PENDING_ADMIN_APPROVAL = "PENDING_ADMIN_APPROVAL", "Pending Admin Approval"
+        APPROVED = "APPROVED", "Approved"
+
+    base_status = Status.PENDING_ADMIN_APPROVAL
+
+    requester = models.ForeignKey(
+        User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="organization_member",
+        related_name="school_activity_orders",
     )
+    school = models.ForeignKey(
+        School, on_delete=models.CASCADE, related_name="school_activity_orders"
+    )
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="school_activity_orders"
+    )
+    status = models.CharField(
+        _("status"), max_length=50, choices=Status.choices, default=base_status
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
