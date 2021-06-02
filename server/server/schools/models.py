@@ -8,11 +8,11 @@ from server.utils.model_fields import PhoneNumberField
 
 
 def random_slug():
-    return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]
+    return uuid.uuid4().hex.upper()[0: random.randint(10, 22)]
 
 
 class School(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     address_city = models.CharField(max_length=50)

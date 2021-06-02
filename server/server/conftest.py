@@ -45,3 +45,6 @@ def organization() -> Organization:
 @pytest.fixture
 def activity() -> Activity:
     return ActivityFactory()
+
+
+school1 = school

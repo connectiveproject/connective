@@ -33,7 +33,7 @@ class Organization(models.Model):
 
 
 class Activity(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
     domain = models.CharField(max_length=55)
@@ -56,7 +56,7 @@ class Activity(models.Model):
 
 
 class ActivityMedia(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
     name = models.CharField(max_length=40)
     image_url = models.ImageField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
@@ -88,12 +88,19 @@ class SchoolActivityOrder(models.Model):
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 
-    requester = models.ForeignKey(
+    requested_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="school_activity_orders",
+        related_name="requested_orders",
+    )
+    last_updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="last_updated_by_me_orders",
     )
     school = models.ForeignKey(
         School, on_delete=models.CASCADE, related_name="school_activity_orders"

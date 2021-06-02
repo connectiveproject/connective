@@ -1,11 +1,17 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import mixins, viewsets
 
-from server.organizations.models import Activity, ActivityMedia, Organization
+from server.organizations.models import (
+    Activity,
+    ActivityMedia,
+    Organization,
+    SchoolActivityOrder,
+)
 
 from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
+    ManageSchoolActivitySerializer,
     OrganizationSerializer,
 )
 
@@ -41,3 +47,17 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
     queryset = ActivityMedia.objects.all()
     filterset_fields = ("activity__slug",)
+
+
+class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
+    serializer_class = ManageSchoolActivitySerializer
+
+    queryset = SchoolActivityOrder.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            requested_by=self.request.user, last_updated_by=self.request.user
+        )
+
+    def perform_update(self, serializer):
+        serializer.save(last_updated_by=self.request.user)

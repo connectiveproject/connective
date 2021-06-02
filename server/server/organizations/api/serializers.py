@@ -1,6 +1,11 @@
 from rest_framework import serializers
 
-from server.organizations.models import Activity, ActivityMedia, Organization
+from server.organizations.models import (
+    Activity,
+    ActivityMedia,
+    Organization,
+    SchoolActivityOrder,
+)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -77,3 +82,36 @@ class ActivitySerializer(serializers.ModelSerializer):
             "logo",
             "phone_number",
         ]
+
+
+class ManageSchoolActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolActivityOrder
+        read_only_fields = (
+            "requested_by",
+            "last_updated_by",
+            "status",
+            "created_at",
+            "updated_at",
+        )
+        fields = [
+            "requested_by",
+            "last_updated_by",
+            "school",
+            "activity",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate(self, data):
+        """
+        Check if the user is a school member of the relevant school
+        """
+        user = self.context["request"].user
+        if (
+            not hasattr(user, "school_member")
+            or not data["school"] == user.school_member.school
+        ):
+            raise serializers.ValidationError({"school": "must be a school member"})
+        return data

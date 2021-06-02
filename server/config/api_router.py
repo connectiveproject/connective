@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from server.organizations.api.views import (
     ActivityMediaViewSet,
     ActivityViewSet,
+    ManageSchoolActivityViewSet,
     OrganizationViewSet,
 )
 from server.schools.api.views import SchoolViewSet
@@ -33,6 +34,7 @@ router.register("activity_media", ActivityMediaViewSet, basename="activity_media
 router.register("activities", ActivityViewSet, basename="activities")
 router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
+router.register("manage_school_activity", ManageSchoolActivityViewSet)
 
 
 app_name = "api"
