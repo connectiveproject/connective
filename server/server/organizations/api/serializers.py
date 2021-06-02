@@ -6,6 +6,7 @@ from server.organizations.models import (
     Organization,
     SchoolActivityOrder,
 )
+from server.schools.models import School
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -85,6 +86,17 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class ManageSchoolActivitySerializer(serializers.ModelSerializer):
+    school = serializers.SlugRelatedField(
+        queryset=School.objects.all(), slug_field="slug"
+    )
+    activity = serializers.SlugRelatedField(
+        queryset=Activity.objects.all(), slug_field="slug"
+    )
+    requested_by = serializers.CharField(source="requested_by.slug", read_only=True)
+    last_updated_by = serializers.CharField(
+        source="last_updated_by.slug", read_only=True
+    )
+
     class Meta:
         model = SchoolActivityOrder
         read_only_fields = (
