@@ -7,6 +7,7 @@ from server.organizations.models import (
     Organization,
     SchoolActivityOrder,
 )
+from server.utils.permission_classes import AllowAllDebug
 
 from .serializers import (
     ActivityMediaSerializer,
@@ -50,6 +51,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
 
 
 class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAllDebug]
     serializer_class = ManageSchoolActivitySerializer
 
     queryset = SchoolActivityOrder.objects.all()
