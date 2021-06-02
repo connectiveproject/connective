@@ -133,7 +133,7 @@ class BaseProfile(models.Model):
     base_gender = Gender.UNKNOWN
 
     user = models.OneToOneField(
-        User, related_name="%(class)s", on_delete=models.CASCADE, primary_key=True
+        User, related_name="%(class)s", on_delete=models.CASCADE, unique=True
     )
     gender = models.CharField(
         _("Gender"), max_length=50, choices=Gender.choices, default=base_gender

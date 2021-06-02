@@ -12,7 +12,7 @@ def random_slug():
 
 
 class School(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     address_city = models.CharField(max_length=50)

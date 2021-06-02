@@ -33,7 +33,7 @@ class Organization(models.Model):
 
 
 class Activity(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
     domain = models.CharField(max_length=55)
@@ -56,7 +56,7 @@ class Activity(models.Model):
 
 
 class ActivityMedia(models.Model):
-    slug = models.CharField(max_length=40, default=random_slug, primary_key=True)
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=40)
     image_url = models.ImageField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
