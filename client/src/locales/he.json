@@ -25,12 +25,17 @@
     "loading": "בטעינה...",
     "student": "תלמיד",
     "date": "תאריך",
-    "AreYouSureYouWantToDelete": "האם אתם בטוחים שתרצו למחוק?",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
     "program": "תוכניות|תוכנית",
     "step": "שלב",
     "generalDetails": "פרטים כלליים",
     "chosen": "נבחרו"
+  },
+
+  "confirm": {
+    "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
+    "AreYouSureYouWantToOrderTheProgram?": "האם אתם בטוחים שברצונכם להזמין את התוכנית?",
+    "AllGroupsAndEventsWillBePermanentlyDeleted": "כל התוכניות והמופעים יימחקו לצמיתות"
   },
 
   "gender": {

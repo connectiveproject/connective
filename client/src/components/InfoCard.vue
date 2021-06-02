@@ -17,7 +17,7 @@
         @click="$emit('click')"
       />
       <v-icon
-        @click="starred = !starred"
+        @click="onStarClick"
         :color="starred ? 'orange' : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
       >
@@ -53,6 +53,18 @@ export default {
   data() {
     return {
       starred: false,
+    }
+  },
+
+  methods: {
+    onStarClick() {
+      this.starred = !this.starred
+      if (this.starred) {
+        this.$emit("star")
+      }
+      else {
+        this.$emit("unstar")
+      }
     }
   },
 

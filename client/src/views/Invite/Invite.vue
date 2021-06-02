@@ -242,7 +242,7 @@ export default {
     },
 
     async handleDeleteRequest() {
-      if (confirm(this.$t("general.AreYouSureYouWantToDelete"))) {
+      if (confirm(this.$t("general.AreYouSureYouWantToDelete?"))) {
         let slugs = this.selectedRows.map(row => row.slug)
         await this.deleteStudents(slugs)
         this.selectedRows = []

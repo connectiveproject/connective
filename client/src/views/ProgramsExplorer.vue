@@ -49,6 +49,8 @@
               :body="program.description"
               :subtitle="program.organization"
               @click="openProgram(program.slug)"
+              @star="requestProgram(program.slug)"
+              @unstar="disRequestProgram(program.slug)"
             />
           </v-col>
         </v-row>
@@ -105,6 +107,21 @@ export default {
         // fetch & ovrride programs list
         this.updatePagination({ page: 1 })
         this.getProgramsList(true)
+      }
+    },
+
+    requestProgram(programSlug) {
+      if (confirm(this.$t("confirm.AreYouSureYouWantToOrderTheProgram?"))) {
+        return programSlug
+      }
+    },
+
+    disRequestProgram(programSlug) {
+      const confirmationMessage = `${this.$t(
+        "confirm.AreYouSureYouWantToDelete?"
+      )}\n${this.$t("confirm.AllGroupsAndEventsWillBePermanentlyDeleted")}`
+      if (confirm(confirmationMessage)) {
+        return programSlug
       }
     },
   },
