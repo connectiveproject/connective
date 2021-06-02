@@ -29,7 +29,8 @@
     "program": "תוכניות|תוכנית",
     "step": "שלב",
     "generalDetails": "פרטים כלליים",
-    "chosen": "נבחרו"
+    "chosen": "נבחרו",
+    "status": "סטטוס"
   },
 
   "confirm": {
@@ -58,7 +59,10 @@
     "domain": "מרחב",
     "targetAudience": "קהל יעד",
     "richMedia": "מדיה",
-    "organization": "ארגון אב"
+    "organization": "ארגון אב",
+    "PENDING_ADMIN_APPROVAL": "ממתין לאישור מנהל",
+    "APPROVED": "אושר",
+    "available": "זמין"
   },
 
   "programFilters": {

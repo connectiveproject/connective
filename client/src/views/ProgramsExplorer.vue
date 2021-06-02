@@ -47,7 +47,7 @@
               :imgUrl="program.logo"
               :title="program.name"
               :body="program.description"
-              :subtitle="program.organization"
+              :subtitle="getCardSubtitle(program.orderStatus)"
               @click="openProgram(program.slug)"
               @star="requestProgram(program.slug)"
               @unstar="disRequestProgram(program.slug)"
@@ -108,6 +108,15 @@ export default {
         this.updatePagination({ page: 1 })
         this.getProgramsList(true)
       }
+    },
+
+    getCardSubtitle(orderStatus) {
+      const prefix = this.$t("general.status")
+      let status = this.$t("program.available")
+      if (orderStatus) {
+        status = this.$t(`program.${orderStatus}`)
+      }
+      return `${prefix}: ${status}`
     },
 
     requestProgram(programSlug) {
