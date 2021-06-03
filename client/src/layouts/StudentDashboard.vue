@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar/>
+    <navbar userType="consumer"/>
     <router-view/>
   </div>
 </template>

@@ -17,46 +17,24 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
 import { backgrounds } from "../../helpers/constants/images"
+import { userToButtons } from "./constants"
 
 export default {
-  data() {
-    const buttons = [
-      {
-        text: () => this.$t("auth.logout"),
-        icon: "mdi-export",
-        onClick: () => this.logout(),
+  props: {
+    userType: {
+      type: String,
+      required: true,
+      validator(value) {
+        return ["coordinator", "vendor", "consumer"].includes(value)
       },
-      {
-        text: () => this.$t("general.profile"),
-        icon: "mdi-account",
-        onClick: () => this.$router.push({ name: "Profile" }),
-      },
-      {
-        text: () => this.$tc("general.school", 0),
-        icon: "mdi-home",
-        onClick: () => this.$router.push({ name: "SchoolDetails" }),
-      },
-      {
-        text: () => this.$t("invite.usersInvitation"),
-        icon: "mdi-account-multiple-plus",
-        onClick: () => this.$router.push({ name: "Invite" }),
-      },
-      {
-        text: () => this.$tc("general.program", 1),
-        icon: "mdi-handshake",
-        onClick: () => this.$router.push({ name: "ProgramsExplorer" }),
-      },
-    ]
-    return {
-      bg: backgrounds.navbar,
-      buttons,
     }
   },
-
-  methods: {
-    ...mapActions("auth", ["logout"]),
+  data() {
+    return {
+      bg: backgrounds.navbar,
+      buttons: userToButtons[this.userType]
+    }
   },
 }
 </script>

@@ -14,10 +14,12 @@ Vue.config.productionTip = false
 Vue.use(cookies)
 Api.config.initAxiosSettings()
 
-new Vue({
+const vm = new Vue({
   vuetify,
   router,
   store,
   i18n,
   render: h => h(App),
 }).$mount("#app")
+
+export default vm

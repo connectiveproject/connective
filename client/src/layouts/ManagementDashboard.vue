@@ -1,6 +1,6 @@
 <template>
   <div :style="style">
-    <navbar/>
+    <navbar userType="coordinator"/>
     <router-view/>
   </div>
 </template>
