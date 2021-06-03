@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
 from server.organizations.models import (
@@ -70,6 +71,7 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    is_ordered = serializers.SerializerMethodField()
     order_status = serializers.SerializerMethodField()
 
     class Meta:
@@ -85,6 +87,7 @@ class ActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "logo",
             "phone_number",
+            "is_ordered",
             "order_status",
         ]
 
@@ -95,9 +98,29 @@ class ActivitySerializer(serializers.ModelSerializer):
         ):
             return None
 
-        return SchoolActivityOrder.objects.get(
+        try:
+            return SchoolActivityOrder.objects.get(
+                school=user.school_member.school, activity=obj
+            ).status
+
+        except ObjectDoesNotExist:
+            return None
+
+    def get_is_ordered(self, obj):
+        user = self.context["request"].user
+        if not user.user_type == get_user_model().Types.COORDINATOR or not hasattr(
+            user, "school_member"
+        ):
+            return False
+
+        orders = SchoolActivityOrder.objects.filter(
             school=user.school_member.school, activity=obj
-        ).status
+        ).exclude(status=SchoolActivityOrder.Status.CANCELLED)
+
+        if len(orders) == 0:
+            return False
+
+        return True
 
 
 class ManageSchoolActivitySerializer(serializers.ModelSerializer):
@@ -117,7 +140,6 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
         read_only_fields = (
             "requested_by",
             "last_updated_by",
-            "status",
             "created_at",
             "updated_at",
         )
@@ -133,7 +155,7 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Check if the user is a school member of the relevant school
+        Check if the school is under the user & validate status
         """
         user = self.context["request"].user
         if (
@@ -141,4 +163,11 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             or not data["school"] == user.school_member.school
         ):
             raise serializers.ValidationError({"school": "must be a school member"})
+
+        if "status" in data and data["status"] not in [
+            SchoolActivityOrder.Status.CANCELLED,
+            SchoolActivityOrder.Status.PENDING_ADMIN_APPROVAL,
+        ]:
+            raise serializers.ValidationError({"status": "invalid status"})
+
         return data

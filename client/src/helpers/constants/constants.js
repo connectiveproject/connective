@@ -15,6 +15,7 @@ export const editSchoolStudentsApiUrl = `${serverUrl}/manage_consumers/`
 export const deleteSchoolStudentsApiUrl = `${serverUrl}/manage_consumers/`
 export const getProgramsListApiUrl = `${serverUrl}/activities/`
 export const getProgramMediaListApiUrl = `${serverUrl}/activity_media/`
+export const orderSchoolProgramApiUrl = `${serverUrl}/manage_school_activity/`
 
 export const tokenCookieName = "token"
 export const schoolGradesItems = [
@@ -162,6 +163,11 @@ export const server = {
     coordinators: "coordinators", // i.e., principals
     consumers: "consumers", // i.e., students
     vendors: "vendors", // i.e., organization managers
+  },
+  programOrderStatus: {
+    cancelled: "CANCELLED",
+    pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
+    approved: "APPROVED",
   },
 }
 

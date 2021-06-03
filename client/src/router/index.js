@@ -7,6 +7,7 @@ import {
   initPrograms,
   flushPagination,
   flushToken,
+  PopulateVuex,
 } from "./guards"
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
@@ -79,6 +80,7 @@ const routes = [
       {
         path: "management-dashboard",
         component: ManagementDashboard,
+        beforeEnter: PopulateVuex,
         children: [
           {
             path: "",

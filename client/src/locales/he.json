@@ -35,8 +35,6 @@
 
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
-    "AreYouSureYouWantToOrderTheProgram?": "האם אתם בטוחים שברצונכם להזמין את התוכנית?",
-    "AllGroupsAndEventsWillBePermanentlyDeleted": "כל התוכניות והמופעים יימחקו לצמיתות"
   },
 
   "gender": {
@@ -62,6 +60,7 @@
     "organization": "ארגון אב",
     "PENDING_ADMIN_APPROVAL": "ממתין לאישור מנהל",
     "APPROVED": "אושר",
+    "CANCELLED": "בוטל",
     "available": "זמין"
   },
 

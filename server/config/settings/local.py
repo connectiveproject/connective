@@ -86,4 +86,5 @@ else:
         "http://127.0.0.1:8080",
     ]
 
-RESET_BASE_URL = f"https://8080-{GITPOD_WORKSPACE_ID}.ws-eu03.gitpod.io"
+if GITPOD_WORKSPACE_ID:
+    RESET_BASE_URL = f"https://8000-{GITPOD_WORKSPACE_URL[8:]}"

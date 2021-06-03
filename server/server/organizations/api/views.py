@@ -53,6 +53,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
 class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAllDebug]
     serializer_class = ManageSchoolActivitySerializer
+    lookup_field = "activity__slug"
 
     queryset = SchoolActivityOrder.objects.all()
 

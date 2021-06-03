@@ -30,6 +30,9 @@
 <script>
 import { infoCardImage } from "../helpers/constants/images"
 export default {
+  model: {
+    prop: "starred",
+  },
   props: {
     imgUrl: {
       type: String,
@@ -48,24 +51,16 @@ export default {
       type: String,
       required: true,
     },
-  },
-
-  data() {
-    return {
-      starred: false,
-    }
+    starred: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
     onStarClick() {
-      this.starred = !this.starred
-      if (this.starred) {
-        this.$emit("star")
-      }
-      else {
-        this.$emit("unstar")
-      }
-    }
+      this.$emit("input", !this.starred)
+    },
   },
 
   computed: {

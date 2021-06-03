@@ -80,9 +80,12 @@ class OrganizationMember(models.Model):
 
 class SchoolActivityOrder(models.Model):
     class Meta:
-        models.UniqueConstraint(fields=["school", "activity"], name="unique_order")
+        constraints = [
+            models.UniqueConstraint(fields=["school", "activity"], name="unique_order")
+        ]
 
     class Status(models.TextChoices):
+        CANCELLED = "CANCELLED", "Cancelled"
         PENDING_ADMIN_APPROVAL = "PENDING_ADMIN_APPROVAL", "Pending Admin Approval"
         APPROVED = "APPROVED", "Approved"
 

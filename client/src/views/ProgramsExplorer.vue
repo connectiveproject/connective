@@ -44,13 +44,13 @@
             :key="program.id"
           >
             <info-card
+              v-model="program.isOrdered"
               :imgUrl="program.logo"
               :title="program.name"
               :body="program.description"
               :subtitle="getCardSubtitle(program.orderStatus)"
+              @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
-              @star="requestProgram(program.slug)"
-              @unstar="disRequestProgram(program.slug)"
             />
           </v-col>
         </v-row>
@@ -66,8 +66,8 @@ import InfoCard from "../components/InfoCard"
 import PaginationCheckboxGroup from "../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../components/PaginationSearchBar"
 import EndOfPageDetector from "../components/EndOfPageDetector"
-import { programsCheckboxFilters } from "../helpers/constants/constants"
-import { mapActions, mapState } from "vuex"
+import { programsCheckboxFilters, server } from "../helpers/constants/constants"
+import { mapActions, mapGetters, mapState } from "vuex"
 
 export default {
   components: {
@@ -79,11 +79,17 @@ export default {
 
   computed: {
     ...mapState("program", ["programsList", "totalPrograms"]),
+    ...mapGetters("school", ["schoolSlug"]),
   },
 
   methods: {
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
-    ...mapActions("program", ["getProgramsList"]),
+    ...mapActions("program", [
+      "getProgramsList",
+      "orderProgram",
+      "disOrderProgram",
+      "reOrderProgram",
+    ]),
 
     onEndOfPage() {
       // trigger programs load on end of page
@@ -119,19 +125,39 @@ export default {
       return `${prefix}: ${status}`
     },
 
-    requestProgram(programSlug) {
-      if (confirm(this.$t("confirm.AreYouSureYouWantToOrderTheProgram?"))) {
-        return programSlug
+    onStarChange(program, isStarred) {
+      // (dis)request a program and change order status accordingly
+      try {
+        if (isStarred) {
+          this.requestProgram(program)
+        } else {
+          this.disRequestProgram(program)
+        }
+      } catch (err) {
+        console.warn(err)
+        // program.isOrdered = !isStarred
       }
+      //////////// add toast
     },
 
-    disRequestProgram(programSlug) {
-      const confirmationMessage = `${this.$t(
-        "confirm.AreYouSureYouWantToDelete?"
-      )}\n${this.$t("confirm.AllGroupsAndEventsWillBePermanentlyDeleted")}`
-      if (confirm(confirmationMessage)) {
-        return programSlug
+    requestProgram(program) {
+      if (program.orderStatus === server.programOrderStatus.cancelled) {
+        return this.reOrderProgram({
+          schoolSlug: this.schoolSlug,
+          programSlug: program.slug,
+        })
       }
+      return this.orderProgram({
+        schoolSlug: this.schoolSlug,
+        programSlug: program.slug,
+      })
+    },
+
+    disRequestProgram(program) {
+      return this.disOrderProgram({
+        schoolSlug: this.schoolSlug,
+        programSlug: program.slug,
+      })
     },
   },
 

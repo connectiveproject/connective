@@ -40,6 +40,11 @@ const school = {
       state.totalStudents = total
     },
   },
+  getters: {
+    schoolSlug(state) {
+      return state.details.slug
+    },
+  },
   actions: {
     flushState({ commit }) {
       commit("FLUSH_STATE")

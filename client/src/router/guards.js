@@ -5,7 +5,9 @@ import { server } from "../helpers/constants/constants"
 async function isStaffRegistered() {
   // check if staff completed registration
   let userDetails = await store.dispatch("user/getUserDetails")
-  let profile = await store.dispatch(`${userDetails.userType.toLowerCase()}/getProfile`)
+  let profile = await store.dispatch(
+    `${userDetails.userType.toLowerCase()}/getProfile`
+  )
   let schoolDetails = await store.dispatch("school/getSchoolDetails")
   return [
     profile.phoneNumber,
@@ -60,5 +62,10 @@ export function flushPagination(to, from, next) {
 
 export function flushToken(to, from, next) {
   store.dispatch("auth/logout", false)
+  next()
+}
+
+export function PopulateVuex(to, from, next) {
+  store.dispatch("school/getSchoolDetails")
   next()
 }

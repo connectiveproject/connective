@@ -27,7 +27,7 @@
           <title-to-text :text="program.domain" :title="$t('program.domain')" />
         </v-card-text>
         <v-carousel
-          v-if="program.richMedia.length"
+          v-if="mediaList.length"
           height="350"
           class="carousel mt-6 mx-auto rounded-lg"
           show-arrows-on-hover
@@ -71,6 +71,7 @@
 import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
+import { ProgramMediaPlaceholder } from "../helpers/constants/images"
 
 export default {
   components: { TitleToText },
@@ -88,7 +89,7 @@ export default {
   data() {
     return {
       program: null,
-      medias: null
+      mediaList: null,
     }
   },
   methods: {
@@ -98,9 +99,12 @@ export default {
       this.$emit("input", false)
     },
     async getProgramDetails(slug) {
-      this.program = await this.getProgram(slug)
       this.mediaList = await this.getProgramMediaList(slug)
-    }
+      this.program = await this.getProgram(slug)
+      if (!this.mediaList.length) {
+        this.mediaList = [{ imageUrl: ProgramMediaPlaceholder, mediaType: "image" }]
+      }
+    },
   },
   created() {
     this.getProgramDetails(this.slug)
