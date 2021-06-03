@@ -3,14 +3,13 @@ import Api from "../../api"
 function getDefaultState() {
   return {
     profile: {
-      phoneNumber: null,
+      gender: null,
       profilePicture: null,
-      jobDescription: null,
     },
   }
 }
 
-const coordinator = {
+const consumer = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
@@ -28,18 +27,18 @@ const coordinator = {
     async getProfile({ commit, state }) {
       if (!state.profile.phoneNumber) {
         // fetch if not in cache
-        let res = await Api.coordinator.getProfile()
+        let res = await Api.consumer.getProfile()
         commit("SET_PROFILE", res.data)
       }
       return state.profile
     },
     async updateProfile({ commit, state }, { slug, profile }) {
-      let res = await Api.coordinator.updateProfile(slug, profile)
+      let res = await Api.consumer.updateProfile(slug, profile)
       commit("SET_PROFILE", res.data)
       return state.profile
     },
   },
 }
 
-// i.e., principal
-export default coordinator
+// i.e., student
+export default consumer

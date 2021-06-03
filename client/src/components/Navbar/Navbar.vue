@@ -18,7 +18,7 @@
 
 <script>
 import { mapActions } from "vuex"
-import { backgrounds } from "../helpers/constants/images"
+import { backgrounds } from "../../helpers/constants/images"
 
 export default {
   data() {

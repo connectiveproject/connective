@@ -2,6 +2,7 @@ import Vue from "vue"
 import Vuex from "vuex"
 import auth from "./modules/auth"
 import user from "./modules/user"
+import consumer from "./modules/consumer"
 import coordinator from "./modules/coordinator"
 import school from "./modules/school"
 import program from "./modules/program"
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
   modules: {
     auth,
     user,
+    consumer,
     coordinator,
     school,
     program,

@@ -1,12 +1,12 @@
 <template>
   <div :style="style">
-    <navbar></navbar>
-    <router-view></router-view>
+    <navbar/>
+    <router-view/>
   </div>
 </template>
 <script>
 import { backgrounds } from "../helpers/constants/images"
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar/Navbar"
 
 export default {
   components: {
