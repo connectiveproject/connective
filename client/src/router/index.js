@@ -15,6 +15,7 @@ import StudentDashboard from "../layouts/StudentDashboard.vue"
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import Profile from "../views/Profile.vue"
+import ConsumerProfile from "../views/ConsumerProfile.vue"
 import SchoolDetails from "../views/SchoolDetails.vue"
 import ProgramsExplorer from "../views/ProgramsExplorer.vue"
 import Invite from "../views/Invite/Invite.vue"
@@ -76,6 +77,18 @@ const routes = [
         path: "student-dashboard",
         name: "StudentDashboard",
         component: StudentDashboard,
+        children: [
+          {
+            path: "",
+            name: "ManagementDashboard",
+            redirect: { name: "ConsumerProfile" },
+          },
+          {
+            path: "profile",
+            name: "ConsumerProfile",
+            component: ConsumerProfile,
+          },
+        ]
       },
       {
         path: "management-dashboard",

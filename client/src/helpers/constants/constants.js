@@ -162,9 +162,9 @@ export const programsCheckboxFilters = [
 
 export const server = {
   userTypes: {
-    coordinators: "coordinators", // i.e., principals
-    consumers: "consumers", // i.e., students
-    vendors: "vendors", // i.e., organization managers
+    coordinator: "COORDINATOR", // i.e., principals
+    consumer: "CONSUMER", // i.e., students
+    vendor: "VENDOR", // i.e., organization managers
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

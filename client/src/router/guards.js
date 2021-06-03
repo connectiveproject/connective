@@ -27,7 +27,7 @@ export async function checkRegistrationStatus(to, from, next) {
   }
   // on server - need to add userType field
   const userDetails = await store.dispatch("user/getUserDetails")
-  if (userDetails.userType === server.userTypes.consumers) {
+  if (userDetails.userType === server.userTypes.consumer) {
     next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   } else if (await isStaffRegistered()) {
     next({ name: "ManagementDashboard", params: { lang: i18n.locale } })
