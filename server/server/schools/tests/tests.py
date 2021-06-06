@@ -1,5 +1,3 @@
-import copy
-
 import pytest
 from rest_framework.test import APIClient
 
@@ -27,10 +25,8 @@ class TestSchoolViewSet:
             "profile_picture": None,
             "grade_levels": [1, 2, 3],
         }
-        school1_data = copy.copy(school_data)
-        school2_data = copy.copy(school_data)
-        school1_data["name"] = "school1"
-        school2_data["name"] = "school2"
+        school1_data = {"name": "school1", **school_data}
+        school2_data = {"name": "school2", **school_data}
 
         user1 = Coordinator.objects.create(username="user1", password="password1")
         user2 = Coordinator.objects.create(username="user2", password="password2")

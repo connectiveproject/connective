@@ -87,7 +87,7 @@ export default {
       },
       profilePicture: {},
       popupMsg: "",
-      id: "",
+      slug: "",
     }
   },
 

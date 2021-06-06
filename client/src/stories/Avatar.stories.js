@@ -21,13 +21,5 @@ const Template = args => ({
 
 export const Primary = Template.bind({})
 Primary.args = {
-  // avatarOptions: {
-  //   clotheType: "GraphicShirt",
-  //   eyebrowType: "Angry",
-  //   eyeType: "Cry",
-  //   mouthType: "Eating",
-  //   facialHairColor: "Blonde",
-  //   graphicType: "Cumbia",
-  // },
   avatarOptions: {},
 }

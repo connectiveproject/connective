@@ -42,28 +42,9 @@
                   :error-messages="errors"
                   :label="$t('general.phoneNumber')"
                   required
-                ></v-text-field>
+                />
               </validation-provider>
 
-              <!-- <validation-provider
-                v-slot="{ errors }"
-                name="profilePic"
-                rules="required|size:3000"
-              >
-                <v-file-input
-                  id="profilePic"
-                  class="mt-5"
-                  accept="image/png, image/jpeg, image/bmp"
-                  prepend-icon=""
-                  append-icon="mdi-camera"
-                  @click:append="clickId('profilePic')"
-                  v-model="registrationInfo.profilePic"
-                  :error-messages="errors"
-                  :label="$t('auth.profilePicture')"
-                  show-size
-                ></v-file-input>
-              </validation-provider>
- -->
               <div class="mx-auto d-flex justify-center mt-12">
                 <v-btn
                   class="ml-3 white--text"
@@ -278,11 +259,6 @@
               ><b>{{ $t("general.phoneNumber") }}:</b>
               {{ registrationInfo.phone }}</v-card-text
             >
-            <!-- <img
-              height="175px"
-              class="rounded-lg d-block mx-auto mt-6"
-              :src="profilePicSource"
-            /> -->
             <br />
             <v-card-text
               class="text-center mb-5 text-subtitle-1 font-weight-bold"
@@ -366,8 +342,6 @@ import {
   schoolGradesItems,
   zipCodeValidationRule,
 } from "../helpers/constants/constants"
-// import { errorMsgImage } from "../helpers/constants/images"
-// import Utils from "../helpers/utils"
 import Modal from "../components/Modal"
 
 export default {
@@ -380,8 +354,7 @@ export default {
     zipCodeValidationRule,
     schoolGradesItems,
     modalRedirectComponentName: "",
-    username: "",
-    id: null,
+    slug: null,
     schoolSlug: "",
     showPass: false,
     page: 1,
@@ -389,7 +362,6 @@ export default {
     registrationInfo: {
       name: "",
       phone: "",
-      // profilePic: null,
       schoolName: "",
       schoolCode: "",
       schoolCity: "",
@@ -403,10 +375,8 @@ export default {
   }),
 
   mounted: async function () {
-    // fetch slugs
     let userDetails = await store.dispatch("user/getUserDetails")
     this.slug = userDetails.slug
-    this.username = userDetails.username
     let schoolDetails = await store.dispatch("school/getSchoolDetails")
     this.schoolSlug = schoolDetails.slug
   },
@@ -435,12 +405,6 @@ export default {
     createProfileSubmitPayload() {
       let profilePayload = new FormData()
       profilePayload.append("phone_number", this.registrationInfo.phone)
-      // if (this.registrationInfo.profilePic) {
-      //   profilePayload.append(
-      //     "profile_picture",
-      //     this.registrationInfo.profilePic
-      //   )
-      // }
       return profilePayload
     },
 
@@ -500,20 +464,7 @@ export default {
     decrementPage() {
       this.page -= 1
     },
-
-    clickId(id) {
-      document.getElementById(id).click()
-    },
   },
-
-  // computed: {
-  //   profilePicSource() {
-  //     // Use dummy image if no image provided
-  //     return this.registrationInfo.profilePic !== null
-  //       ? Utils.uploadedFileToUrl(this.registrationInfo.profilePic)
-  //       : errorMsgImage
-  //   },
-  // },
 }
 </script>
 
