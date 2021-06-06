@@ -7,7 +7,8 @@ import {
   initPrograms,
   flushPagination,
   flushToken,
-  PopulateVuex,
+  PopulateConsumerData,
+  PopulateCoordinatorData,
 } from "./guards"
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
@@ -17,7 +18,7 @@ import Register from "../views/Register.vue"
 import Profile from "../views/Profile.vue"
 import ConsumerProfile from "../views/ConsumerProfile.vue"
 import SchoolDetails from "../views/SchoolDetails.vue"
-import ProgramsExplorer from "../views/ProgramsExplorer.vue"
+import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
 import Invite from "../views/Invite/Invite.vue"
 import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
@@ -76,6 +77,7 @@ const routes = [
       {
         path: "student-dashboard",
         component: StudentDashboard,
+        beforeEnter: PopulateConsumerData,
         children: [
           {
             path: "",
@@ -87,12 +89,25 @@ const routes = [
             name: "ConsumerProfile",
             component: ConsumerProfile,
           },
+          {
+            path: "programs-explorer",
+            name: "ConsumerProgramsExplorer",
+            component: ProgramsExplorer,
+            beforeEnter: initPrograms,
+            children: [
+              {
+                path: "program-modal/:slug",
+                component: ProgramModal,
+                props: true,
+              },
+            ],
+          },
         ]
       },
       {
         path: "management-dashboard",
         component: ManagementDashboard,
-        beforeEnter: PopulateVuex,
+        beforeEnter: PopulateCoordinatorData,
         children: [
           {
             path: "",
@@ -123,7 +138,6 @@ const routes = [
             children: [
               {
                 path: "program-modal/:slug",
-                name: "ProgramModal",
                 component: ProgramModal,
                 props: true,
               },

@@ -11,8 +11,8 @@
     <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">{{
       $t("general.connective")
     }}</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <v-spacer />
+    <v-app-bar-nav-icon />
   </v-toolbar>
 </template>
 
@@ -28,12 +28,12 @@ export default {
       validator(value) {
         return ["coordinator", "vendor", "consumer"].includes(value)
       },
-    }
+    },
   },
   data() {
     return {
       bg: backgrounds.navbar,
-      buttons: userToButtons[this.userType]
+      buttons: userToButtons[this.userType],
     }
   },
 }

@@ -65,7 +65,13 @@ export function flushToken(to, from, next) {
   next()
 }
 
-export function PopulateVuex(to, from, next) {
+export function PopulateConsumerData(to, from, next) {
+  store.dispatch("user/getUserDetails")
+  store.dispatch("consumer/getProfile")
+  next()
+}
+
+export function PopulateCoordinatorData(to, from, next) {
   store.dispatch("school/getSchoolDetails")
   next()
 }

@@ -2,6 +2,7 @@
   <div>
     <v-row class="pt-10 ml-0">
       <v-col
+        v-if="!isConsumer"
         cols="4"
         md="3"
         class="right-pane white-bg"
@@ -17,15 +18,13 @@
           :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
         />
       </v-col>
-      <v-col cols="8" md="9" :class="{ 'px-10': !$vuetify.breakpoint.mobile }">
+      <v-col
+        cols="8"
+        md="9"
+        :class="{ 'px-10': !$vuetify.breakpoint.mobile, 'mx-auto': isConsumer }"
+      >
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
-        <h3
-          v-text="
-            $t(
-              'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
-            )
-          "
-        />
+        <h3 v-text="getSubtitle(isConsumer)" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -62,12 +61,16 @@
 </template>
 
 <script>
-import InfoCard from "../components/InfoCard"
-import PaginationCheckboxGroup from "../components/PaginationCheckboxGroup"
-import PaginationSearchBar from "../components/PaginationSearchBar"
-import EndOfPageDetector from "../components/EndOfPageDetector"
-import { programsCheckboxFilters, server } from "../helpers/constants/constants"
+import InfoCard from "../../components/InfoCard"
+import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
+import PaginationSearchBar from "../../components/PaginationSearchBar"
+import EndOfPageDetector from "../../components/EndOfPageDetector"
+import {
+  programsCheckboxFilters,
+  server,
+} from "../../helpers/constants/constants"
 import { mapActions, mapGetters, mapState } from "vuex"
+import { getSubtitle } from "./helpers"
 
 export default {
   components: {
@@ -79,6 +82,7 @@ export default {
 
   computed: {
     ...mapState("program", ["programsList", "totalPrograms"]),
+    ...mapGetters("user", ["isConsumer"]),
     ...mapGetters("school", ["schoolSlug"]),
   },
 
@@ -90,6 +94,7 @@ export default {
       "disOrderProgram",
       "reOrderProgram",
     ]),
+    getSubtitle,
 
     onEndOfPage() {
       // trigger programs load on end of page
@@ -134,10 +139,9 @@ export default {
           this.disRequestProgram(program)
         }
       } catch (err) {
+        // add toast
         console.warn(err)
-        // program.isOrdered = !isStarred
       }
-      //////////// add toast
     },
 
     requestProgram(program) {

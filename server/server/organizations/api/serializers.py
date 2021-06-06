@@ -6,6 +6,7 @@ from server.organizations.models import (
     Activity,
     ActivityMedia,
     Organization,
+    SchoolActivityGroup,
     SchoolActivityOrder,
 )
 from server.schools.models import School
@@ -121,6 +122,40 @@ class ActivitySerializer(serializers.ModelSerializer):
             return False
 
         return True
+
+
+class ConsumerActivitySerializer(serializers.ModelSerializer):
+    is_consumer_registered = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Activity
+        fields = [
+            "slug",
+            "name",
+            "target_audience",
+            "domain",
+            "originization",
+            "description",
+            "contact_name",
+            "phone_number",
+            "logo",
+            "phone_number",
+            "is_consumer_registered",
+        ]
+
+    def get_is_consumer_registered(self, obj):
+        user = self.context["request"].user
+        if not user.user_type == user.Types.CONSUMER or not hasattr(
+            user, "school_member"
+        ):
+            return False
+
+        # check if consumer is in a group
+        if SchoolActivityGroup.objects.filter(
+            activity_order__activity=obj, consumers=user
+        ).exists():
+            return True
+        return False
 
 
 class ManageSchoolActivitySerializer(serializers.ModelSerializer):

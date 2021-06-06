@@ -12,6 +12,7 @@ from server.utils.permission_classes import AllowAllDebug
 from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
+    ConsumerActivitySerializer,
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
 )
@@ -37,10 +38,30 @@ class OrganizationViewSet(
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAllDebug]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
 
     queryset = Activity.objects.all()
+
+
+class ConsumerActivityViewSet(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
+    permission_classes = [AllowAllDebug]
+    serializer_class = ConsumerActivitySerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.user_type == user.Types.CONSUMER:
+            return Activity.objects.none()
+
+        approved_orders = SchoolActivityOrder.objects.filter(
+            school=user.school_member.school,
+            status=SchoolActivityOrder.Status.APPROVED,
+        ).values("activity")
+        return Activity.objects.filter(id__in=approved_orders)
 
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):
