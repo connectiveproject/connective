@@ -57,7 +57,6 @@ export default {
       return { email: userAttributes["email"], name: userAttributes["name"] }
     },
     updateProfilePicture(profilePicture) {
-      console.log(this.slug)
       this.updateProfile({ slug: this.slug, profile: { profilePicture } })
     },
   },
