@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from django.test import override_settings
 from rest_framework import status
@@ -7,6 +9,7 @@ from server.organizations.models import SchoolActivityGroup, SchoolActivityOrder
 from server.schools.models import SchoolMember
 
 pytestmark = pytest.mark.django_db
+RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL")[8:]
 
 
 class TestManageSchoolProgramsView:
@@ -22,8 +25,8 @@ class TestManageSchoolProgramsView:
         get_response = client.get(url)
 
         assert len(get_response.data["results"]) == 1
-        assert post_response.status_code == 201
-        assert get_response.status_code == 200
+        assert post_response.status_code == status.HTTP_201_CREATED
+        assert get_response.status_code == status.HTTP_200_OK
         assert post_response.data == get_response.data["results"][0]
         assert (
             post_response.data["requested_by"]
@@ -116,3 +119,21 @@ class TestConsumerActivityView:
             ]
             is True
         )
+
+
+class TestConsumerActivityRegisterView:
+    @override_settings(
+        DEBUG=True,
+        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+    )
+    def test_registeration(self, consumer, school_activity_group):
+        url = "/api/consumer_activity_register/"
+        activity_slug = school_activity_group.activity_order.activity.slug
+        consumer.SchoolMember.school = school_activity_group.activity_order.school
+        consumer.save()
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        response = client.post(url, {"activity_slug": activity_slug})
+
+        assert response.status_code == status.HTTP_201_CREATED

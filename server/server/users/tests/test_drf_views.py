@@ -47,7 +47,6 @@ class TestManageConsumersView:
     )
     def test_coordinator_can_create_get_consumer(self, coordinator, school):
         url = "/api/manage_consumers/"
-        payload_format = "json"
         create_payload = {
             "name": "name",
             "email": "new-consumer@example.com",
@@ -59,7 +58,7 @@ class TestManageConsumersView:
         client.force_authenticate(coordinator)
 
         # create consumer
-        consumer_post_response = client.post(url, create_payload, format=payload_format)
+        consumer_post_response = client.post(url, create_payload, format="json")
         consumer_slug = consumer_post_response.data["slug"]
         detail_url = f"{url}{consumer_slug}/"
 
@@ -95,13 +94,12 @@ class TestManageConsumersView:
         make sure an email is sent on creation
         """
         url = "/api/manage_consumers/"
-        payload_format = "json"
         create_payload = {"email": "new-consumer@example.com", "profile": {}}
         SchoolMember.objects.create(user=coordinator, school=school)
 
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
-        client.post(url, create_payload, format=payload_format)
+        client.post(url, create_payload, format="json")
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]

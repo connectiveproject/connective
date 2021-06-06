@@ -1,7 +1,13 @@
 from factory import Faker, SubFactory
 from factory.django import DjangoModelFactory
 
-from server.organizations.models import Activity, Organization
+from server.organizations.models import (
+    Activity,
+    Organization,
+    SchoolActivityGroup,
+    SchoolActivityOrder,
+)
+from server.schools.tests.factories import SchoolFactory
 
 
 class OrganizationFactory(DjangoModelFactory):
@@ -42,3 +48,20 @@ class ActivityFactory(DjangoModelFactory):
 
     class Meta:
         model = Activity
+
+
+class SchoolActivityOrderFactory(DjangoModelFactory):
+    activity = SubFactory(ActivityFactory)
+    school = SubFactory(SchoolFactory)
+
+    class Meta:
+        model = SchoolActivityOrder
+
+
+class SchoolActivityGroupFactory(DjangoModelFactory):
+    activity_order = SubFactory(SchoolActivityOrderFactory)
+    name = "Group 1"
+    description = "Group 1"
+
+    class Meta:
+        model = SchoolActivityGroup
