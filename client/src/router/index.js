@@ -75,12 +75,11 @@ const routes = [
       },
       {
         path: "student-dashboard",
-        name: "StudentDashboard",
         component: StudentDashboard,
         children: [
           {
             path: "",
-            name: "ManagementDashboard",
+            name: "StudentDashboard",
             redirect: { name: "ConsumerProfile" },
           },
           {

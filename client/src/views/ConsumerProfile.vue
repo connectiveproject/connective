@@ -1,53 +1,73 @@
 <template>
-  <div class="wrapper mt-15 mx-auto px-3">
-    <h1 class="mb-5">{{ $t("general.profile") }}</h1>
+  <v-card
+    class="wrapper mt-15 mx-auto px-10 py-10"
+    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    v-if="userAttributes"
+  >
+    <h1 class="mb-10">{{ $t("general.myProfile") }}</h1>
     <title-to-text
-      v-for="attribute in userAttributes"
-      :key="attribute.id"
-      title=""
-      text=""
+      v-for="(attrValue, attrName) in userAttributes"
+      :key="attrName"
+      :title="$t(`general.${attrName}`)"
+      :text="attrValue"
     />
-  </div>
+    <avatar
+      class="mx-auto avatar mt-16"
+      v-model="profilePicture"
+      @input="updateProfilePicture"
+    />
+  </v-card>
 </template>
 
 <script>
-// import store from "../vuex/store"
 import TitleToText from "../components/TitleToText"
-// import Avatar from "../components/Avatar/Avatar"
+import Avatar from "../components/Avatar/Avatar"
 import { mapActions } from "vuex"
 
 export default {
   components: {
     TitleToText,
-    // Avatar,
+    Avatar,
   },
 
   async mounted() {
-    const [userDetails, userProfile] = await Promise.all(
-      this.updateUserDetails(),
-      this.updateProfile()
-    )
-    console.log(userDetails, userProfile)
+    // get user details
+    const [userDetails, userProfile] = await Promise.all([
+      this.getUserDetails(),
+      this.getProfile(),
+    ])
+    this.slug = userDetails.slug
+    this.profilePicture = userProfile.profilePicture
+    this.userAttributes = this.filterAttributes(userDetails)
   },
 
-  // data() {
-  //   userAttributes: null
-  // },
+  data() {
+    return {
+      slug: null,
+      userAttributes: null,
+      profilePicture: null,
+    }
+  },
 
   methods: {
-    ...mapActions("user", ["updateUserDetails"]),
+    ...mapActions("user", ["getUserDetails"]),
+    ...mapActions("consumer", ["getProfile"]),
     ...mapActions("consumer", ["updateProfile"]),
+    filterAttributes(userAttributes) {
+      return { email: userAttributes["email"], name: userAttributes["name"] }
+    },
+    updateProfilePicture(profilePicture) {
+      console.log(this.slug)
+      this.updateProfile({ slug: this.slug, profile: { profilePicture } })
+    },
   },
 }
-// async beforeRouteEnter(to, from, next) {
-//   try {
-//     // fetch profile data before load
-//     let profile = await store.dispatch("consumer/getProfile")
-//     let userDetails = await store.dispatch("user/getUserDetails")
-//     let userAttributes = { ...profile, ...userDetails }
-//     next(vm => vm.setUserAttributes(userAttributes))
-//   } catch (err) {
-//     next(vm => (vm.popupMsg = vm.$t("errors.genericError")))
-//   }
-// },
 </script>
+<style lang="scss" scoped>
+.wrapper {
+  max-width: 600px;
+}
+.avatar {
+  width: 300px;
+}
+</style>
