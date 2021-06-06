@@ -47,6 +47,9 @@ class User(AbstractUser):
 
         return super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.email
+
 
 class ConsumerManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):

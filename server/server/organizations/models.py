@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.schools.models import School
-from server.users.models import User
+from server.users.models import Consumer, User
 from server.utils.model_fields import random_slug
 
 
@@ -116,3 +116,14 @@ class SchoolActivityOrder(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class SchoolActivityGroup(models.Model):
+    activity_order = models.ForeignKey(
+        SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
+    )
+    name = models.CharField(_("name"), max_length=50)
+    description = models.CharField(_("description"), max_length=255)
+    consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
+    # whether group is for containing consumers only or also for real-life activities
+    container_only = models.BooleanField(default=False)

@@ -5,6 +5,7 @@ from .models import (
     ActivityMedia,
     Organization,
     OrganizationMember,
+    SchoolActivityGroup,
     SchoolActivityOrder,
 )
 
@@ -18,3 +19,4 @@ admin.site.register(Organization)
 admin.site.register(Activity)
 admin.site.register(ActivityMedia)
 admin.site.register(OrganizationMember)
+admin.site.register(SchoolActivityGroup)
