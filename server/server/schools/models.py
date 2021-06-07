@@ -8,7 +8,7 @@ from server.utils.model_fields import PhoneNumberField
 
 
 def random_slug():
-    return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]
+    return uuid.uuid4().hex.upper()[0: random.randint(10, 22)]
 
 
 class School(models.Model):
@@ -31,8 +31,6 @@ class SchoolMember(models.Model):
     )
     school = models.ForeignKey(
         School,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.CASCADE,
         related_name="school_member",
     )
