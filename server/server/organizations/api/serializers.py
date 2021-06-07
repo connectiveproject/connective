@@ -98,7 +98,8 @@ class ActivitySerializer(serializers.ModelSerializer):
 
         try:
             return SchoolActivityOrder.objects.get(
-                school=user.school_member.school, activity=obj
+                school=user.school_member.school,
+                activity=obj,
             ).status
 
         except ObjectDoesNotExist:
@@ -109,14 +110,14 @@ class ActivitySerializer(serializers.ModelSerializer):
         if not hasattr(user, "school_member"):
             return False
 
-        orders = SchoolActivityOrder.objects.filter(
-            school=user.school_member.school, activity=obj
-        ).exclude(status=SchoolActivityOrder.Status.CANCELLED)
-
-        if len(orders) == 0:
-            return False
-
-        return True
+        return (
+            SchoolActivityOrder.objects.filter(
+                school=user.school_member.school,
+                activity=obj,
+            )
+            .exclude(status=SchoolActivityOrder.Status.CANCELLED)
+            .exists()
+        )
 
 
 class ConsumerActivitySerializer(serializers.ModelSerializer):

@@ -24,17 +24,23 @@ else:
 
 router.register("users", UserViewSet)
 router.register(
-    "consumers_profiles", ConsumerProfileViewSet, basename="consumers_profiles"
+    "consumers_profiles",
+    ConsumerProfileViewSet,
+    basename="consumers_profiles",
 )
 router.register(
-    "coordinators_profiles", CoordinatorProfileViewSet, basename="coordinators_profiles"
+    "coordinators_profiles",
+    CoordinatorProfileViewSet,
+    basename="coordinators_profiles",
 )
 router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_profiles")
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
 router.register(
-    "consumer_activities", ConsumerActivityViewSet, basename="consumer_activities"
+    "consumer_activities",
+    ConsumerActivityViewSet,
+    basename="consumer_activities",
 )
 router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")

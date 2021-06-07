@@ -52,7 +52,11 @@ class TestManageSchoolProgramsView:
         post_response_2 = client.post(
             self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
-        assert post_response.status_code == post_response_2.status_code == 400
+        assert (
+            status.HTTP_400_BAD_REQUEST
+            == post_response.status_code
+            == post_response_2.status_code
+        )
 
 
 class TestConsumerActivityView:
@@ -122,24 +126,25 @@ class TestConsumerActivityView:
         )
 
 
-class TestConsumerActivityRegisterView:
-    uri = "/api/consumer_activity_register/"
+# pending implementation
+# class TestConsumerActivityRegisterView:
+#     uri = "/api/consumer_activity_register/"
 
-    @override_settings(
-        DEBUG=True,
-        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
-    )
-    def test_registeration(self, consumer, school_activity_group):
-        """
-        test consumer can register to an activity
-        """
-        activity_slug = school_activity_group.activity_order.activity.slug
-        SchoolMember.objects.create(
-            user=consumer, school=school_activity_group.activity_order.school
-        )
+#     @override_settings(
+#         DEBUG=True,
+#         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+#     )
+#     def test_registeration(self, consumer, school_activity_group):
+#         """
+#         test consumer can register to an activity
+#         """
+#         activity_slug = school_activity_group.activity_order.activity.slug
+#         SchoolMember.objects.create(
+#             user=consumer, school=school_activity_group.activity_order.school
+#         )
 
-        client = APIClient()
-        client.force_authenticate(user=consumer)
-        response = client.post(self.uri, {"activity_slug": activity_slug})
+#         client = APIClient()
+#         client.force_authenticate(user=consumer)
+#         response = client.post(self.uri, {"activity_slug": activity_slug})
 
-        assert response.status_code == status.HTTP_201_CREATED
+#         assert response.status_code == status.HTTP_201_CREATED
