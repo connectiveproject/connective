@@ -28,11 +28,17 @@ class TestSchoolViewSet:
         school1_data = {"name": "school1", **school_data}
         school2_data = {"name": "school2", **school_data}
 
-        user1 = Coordinator.objects.create(username="user1", password="password1")
-        user2 = Coordinator.objects.create(username="user2", password="password2")
+        user1 = Coordinator.objects.create(
+            email="user1@example.com",
+            password="password1",
+        )
+        user2 = Coordinator.objects.create(
+            email="user2@example.com",
+            password="password2",
+        )
 
         client = APIClient(user1)
-        client.force_login(user1)
+        client.force_authenticate(user1)
 
         # query API before adding schools
         list_response_no_schools = client.get("/api/schools/")
@@ -47,15 +53,15 @@ class TestSchoolViewSet:
         list_response_single_school = client.get("/api/schools/")
 
         # check user can see exactly the schools it should
-        assert len(list_response_no_schools.json()) == 0
-        assert len(list_response_single_school.json()) == 1
+        assert len(list_response_no_schools.data["results"]) == 0
+        assert len(list_response_single_school.data["results"]) == 1
 
         # check the data itself from a specific school & school list data
-        school1_slug = list_response_single_school.json()[0]["slug"]
+        school1_slug = list_response_single_school.data["results"][0]["slug"]
         school1_data["slug"] = school1_slug
         detail_response = client.get(f"/api/schools/{school1_slug}/")
         assert (
             school1_data
-            == list_response_single_school.json()[0]
-            == detail_response.json()
+            == list_response_single_school.data["results"][0]
+            == detail_response.data
         )
