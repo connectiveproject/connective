@@ -57,9 +57,9 @@ const program = {
       commit("SET_PROGRAMS_TOTAL", res.data.count)
       return state.programsList
     },
-    async orderProgram({ commit }, { schoolSlug, programSlug }) {
+    async createProgramOrder({ commit }, { schoolSlug, programSlug }) {
       // order program for a school
-      const res = await Api.program.orderProgram(schoolSlug, programSlug)
+      const res = await Api.program.createProgramOrder(schoolSlug, programSlug)
       commit("UPDATE_PROGRAM_ORDER_IN_LIST", {
         programSlug,
         isOrdered: true,
@@ -67,9 +67,9 @@ const program = {
       })
       return res.data
     },
-    async reOrderProgram({ commit }, { schoolSlug, programSlug }) {
+    async reCreateProgramOrder({ commit }, { schoolSlug, programSlug }) {
       // order program after cancellation (order update instead of create)
-      const res = await Api.program.reOrderProgram(schoolSlug, programSlug)
+      const res = await Api.program.reCreateProgramOrder(schoolSlug, programSlug)
       commit("UPDATE_PROGRAM_ORDER_IN_LIST", {
         programSlug,
         isOrdered: true,
@@ -77,9 +77,9 @@ const program = {
       })
       return res.data
     },
-    async disOrderProgram({ commit }, { schoolSlug, programSlug }) {
+    async cancelProgramOrder({ commit }, { schoolSlug, programSlug }) {
       // remove an order for a program in the school
-      const res = await Api.program.disOrderProgram(schoolSlug, programSlug)
+      const res = await Api.program.cancelProgramOrder(schoolSlug, programSlug)
       commit("UPDATE_PROGRAM_ORDER_IN_LIST", {
         programSlug,
         isOrdered: false,

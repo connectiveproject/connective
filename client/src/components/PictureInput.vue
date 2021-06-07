@@ -37,7 +37,7 @@
 <script>
 import { ValidationProvider } from "vee-validate"
 import Utils from "../helpers/utils"
-import { jpgDocument } from "../helpers/constants/images"
+import { JPG_DOCUMENT } from "../helpers/constants/images"
 
 export default {
   components: {
@@ -48,7 +48,7 @@ export default {
     placeholderPicUrl: {
       type: String,
       required: false,
-      default: jpgDocument,
+      default: JPG_DOCUMENT,
     },
   },
 

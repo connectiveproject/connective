@@ -1,5 +1,5 @@
 import Api from "../../api"
-import { server } from "../../helpers/constants/constants"
+import { SERVER } from "../../helpers/constants/constants"
 
 function getDefaultState() {
   return {
@@ -26,7 +26,7 @@ const user = {
   },
   getters: {
     isConsumer(state) {
-      return state.userDetails.userType === server.userTypes.consumer
+      return state.userDetails.userType === SERVER.userTypes.consumer
     },
   },
   actions: {

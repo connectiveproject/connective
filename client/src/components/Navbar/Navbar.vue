@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { backgrounds } from "../../helpers/constants/images"
+import { BACKGROUNDS } from "../../helpers/constants/images"
 import { userToButtons } from "./constants"
 
 export default {
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      bg: backgrounds.navbar,
+      bg: BACKGROUNDS.navbar,
       buttons: userToButtons[this.userType],
     }
   },

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { backgrounds } from "../helpers/constants/images"
+import { BACKGROUNDS } from "../helpers/constants/images"
 export default {
   props: {
     // i18n JSONs keys for title and body
@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      bg: backgrounds.error,
+      bg: BACKGROUNDS.error,
     }
   },
 }

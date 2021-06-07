@@ -135,7 +135,7 @@
               <validation-provider
                 v-slot="{ errors }"
                 name="schoolZipCode"
-                :rules="zipCodeValidationRule"
+                :rules="ZIP_CODE_VALIDATION_RULE"
               >
                 <v-text-field
                   class="mt-5"
@@ -197,7 +197,7 @@
                   class="mt-5"
                   v-model="registrationInfo.schoolGrades"
                   :error-messages="errors"
-                  :items="schoolGradesItems"
+                  :items="SCHOOL_GRADES_ITEMS"
                   :label="$t('general.schoolGrades')"
                   multiple
                   chips
@@ -339,8 +339,8 @@ import store from "../vuex/store"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
-  schoolGradesItems,
-  zipCodeValidationRule,
+  SCHOOL_GRADES_ITEMS,
+  ZIP_CODE_VALIDATION_RULE,
 } from "../helpers/constants/constants"
 import Modal from "../components/Modal"
 
@@ -351,8 +351,8 @@ export default {
     Modal,
   },
   data: () => ({
-    zipCodeValidationRule,
-    schoolGradesItems,
+    ZIP_CODE_VALIDATION_RULE,
+    SCHOOL_GRADES_ITEMS,
     modalRedirectComponentName: "",
     slug: null,
     schoolSlug: "",

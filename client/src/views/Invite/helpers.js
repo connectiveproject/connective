@@ -1,8 +1,8 @@
 import i18n from "../../plugins/i18n"
 import Utils from "../../helpers/utils"
 import {
-  israeliPhoneRegexPattern,
-  emailRegexPattern,
+  ISRAELI_PHONE_REGEX_PATTERN,
+  EMAIL_REGEX_PATTERN,
 } from "../../helpers/constants/constants"
 
 export function exportCSV(studentsArray) {
@@ -24,10 +24,10 @@ export function validateStudentsArray(arr) {
     return i18n.t("errors.missingColumnsOrValues")
   }
   for (let student of arr) {
-    if (!new RegExp(israeliPhoneRegexPattern).test(student.phoneNumber)) {
+    if (!new RegExp(ISRAELI_PHONE_REGEX_PATTERN).test(student.phoneNumber)) {
       return `${i18n.t("errors.invalidPhoneNumber")} - ${student.phoneNumber}`
     }
-    if (!new RegExp(emailRegexPattern).test(student.email)) {
+    if (!new RegExp(EMAIL_REGEX_PATTERN).test(student.email)) {
       return `${i18n.t("errors.invalidEmail")} ${student.email}`
     }
   }

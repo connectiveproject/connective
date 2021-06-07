@@ -1,16 +1,16 @@
 import axios from "axios"
 import {
-  getCoordinatorProfileApiUrl,
-  updateCoordinatorProfileApiUrl,
+  GET_COORDINATOR_PROFILE_API_URL,
+  UPDATE_COORDINATOR_PROFILE_API_URL,
 } from "../helpers/constants/constants"
 
 const coordinator = {
   getProfile() {
-    return axios.get(getCoordinatorProfileApiUrl)
+    return axios.get(GET_COORDINATOR_PROFILE_API_URL)
   },
 
   updateProfile(slug, payload) {
-    return axios.patch(`${updateCoordinatorProfileApiUrl}${slug}/`, payload)
+    return axios.patch(`${UPDATE_COORDINATOR_PROFILE_API_URL}${slug}/`, payload)
   },
 }
 

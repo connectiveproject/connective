@@ -9,7 +9,7 @@
         :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
       >
         <pagination-checkbox-group
-          v-for="filter in programsCheckboxFilters"
+          v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
           :key="filter.id"
           :name="filter.name"
           :title="filter.readableName"
@@ -66,7 +66,7 @@ import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import {
-  programsCheckboxFilters,
+  PROGRAMS_CHECKBOX_FILTERS,
   server,
 } from "../../helpers/constants/constants"
 import { mapActions, mapGetters, mapState } from "vuex"
@@ -90,9 +90,9 @@ export default {
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
     ...mapActions("program", [
       "getProgramsList",
-      "orderProgram",
-      "disOrderProgram",
-      "reOrderProgram",
+      "createProgramOrder",
+      "cancelProgramOrder",
+      "reCreateProgramOrder",
     ]),
     getSubtitle,
 
@@ -146,19 +146,19 @@ export default {
 
     requestProgram(program) {
       if (program.orderStatus === server.programOrderStatus.cancelled) {
-        return this.reOrderProgram({
+        return this.reCreateProgramOrder({
           schoolSlug: this.schoolSlug,
           programSlug: program.slug,
         })
       }
-      return this.orderProgram({
+      return this.createProgramOrder({
         schoolSlug: this.schoolSlug,
         programSlug: program.slug,
       })
     },
 
     disRequestProgram(program) {
-      return this.disOrderProgram({
+      return this.cancelProgramOrder({
         schoolSlug: this.schoolSlug,
         programSlug: program.slug,
       })
@@ -167,7 +167,7 @@ export default {
 
   data() {
     return {
-      programsCheckboxFilters,
+      PROGRAMS_CHECKBOX_FILTERS,
       recentlyScrolled: false,
       isProgramOpen: true,
     }

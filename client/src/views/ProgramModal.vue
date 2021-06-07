@@ -71,7 +71,7 @@
 import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
-import { ProgramMediaPlaceholder } from "../helpers/constants/images"
+import { PROGRAM_MEDIA_PLACEHOLDER } from "../helpers/constants/images"
 
 export default {
   components: { TitleToText },
@@ -102,7 +102,7 @@ export default {
       this.mediaList = await this.getProgramMediaList(slug)
       this.program = await this.getProgram(slug)
       if (!this.mediaList.length) {
-        this.mediaList = [{ imageUrl: ProgramMediaPlaceholder, mediaType: "image" }]
+        this.mediaList = [{ imageUrl: PROGRAM_MEDIA_PLACEHOLDER, mediaType: "image" }]
       }
     },
   },

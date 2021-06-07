@@ -13,16 +13,17 @@ RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL")[8:]
 
 
 class TestManageSchoolProgramsView:
+    uri = "/api/manage_school_activity/"
+
     @override_settings(DEBUG=True)
     def test_create(self, school, coordinator, activity):
-        url = "/api/manage_school_activity/"
         SchoolMember.objects.create(school=school, user=coordinator)
         client = APIClient()
         client.force_authenticate(user=coordinator)
         post_response = client.post(
-            url, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
-        get_response = client.get(url)
+        get_response = client.get(self.uri)
 
         assert len(get_response.data["results"]) == 1
         assert post_response.status_code == status.HTTP_201_CREATED
@@ -40,38 +41,39 @@ class TestManageSchoolProgramsView:
         """
         make sure can't create when not a school member
         """
-        url = "/api/manage_school_activity/"
+        self.uri = "/api/manage_school_activity/"
         client = APIClient()
         client.force_authenticate(user=coordinator)
         post_response = client.post(
-            url, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
 
         SchoolMember.objects.create(school=school1, user=coordinator)
         post_response_2 = client.post(
-            url, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
         assert post_response.status_code == post_response_2.status_code == 400
 
 
 class TestConsumerActivityView:
+    uri = "/api/consumer_activities/"
+
     @override_settings(DEBUG=True)
     def test_consumer_can_view_only_approved_activities(
         self, consumer, school, activity
     ):
-        url = "/api/consumer_activities/"
         SchoolMember.objects.create(user=consumer, school=school)
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        get_response_before_order = client.get(url)
+        get_response_before_order = client.get(self.uri)
 
         order = SchoolActivityOrder.objects.create(activity=activity, school=school)
-        get_response_after_order_creation = client.get(url)
+        get_response_after_order_creation = client.get(self.uri)
 
         order.status = SchoolActivityOrder.Status.APPROVED
         order.save()
-        get_response_after_order_approval = client.get(url)
+        get_response_after_order_approval = client.get(self.uri)
 
         assert (
             status.HTTP_200_OK
@@ -91,7 +93,6 @@ class TestConsumerActivityView:
         """
         test if registration status is true if in group, false otherwise
         """
-        url = "/api/consumer_activities/"
         SchoolMember.objects.create(user=consumer, school=school)
         activity_order = SchoolActivityOrder.objects.create(
             activity=activity, school=school, status=SchoolActivityOrder.Status.APPROVED
@@ -102,10 +103,10 @@ class TestConsumerActivityView:
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        response_before_consumer_in_group = client.get(url)
+        response_before_consumer_in_group = client.get(self.uri)
 
         activity_group.consumers.add(consumer)
-        response_after_consumer_in_group = client.get(url)
+        response_after_consumer_in_group = client.get(self.uri)
 
         assert (
             response_before_consumer_in_group.data["results"][0][
@@ -122,18 +123,23 @@ class TestConsumerActivityView:
 
 
 class TestConsumerActivityRegisterView:
+    uri = "/api/consumer_activity_register/"
+
     @override_settings(
         DEBUG=True,
         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
     )
     def test_registeration(self, consumer, school_activity_group):
-        url = "/api/consumer_activity_register/"
+        """
+        test consumer can register to an activity
+        """
         activity_slug = school_activity_group.activity_order.activity.slug
-        consumer.SchoolMember.school = school_activity_group.activity_order.school
-        consumer.save()
+        SchoolMember.objects.create(
+            user=consumer, school=school_activity_group.activity_order.school
+        )
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        response = client.post(url, {"activity_slug": activity_slug})
+        response = client.post(self.uri, {"activity_slug": activity_slug})
 
         assert response.status_code == status.HTTP_201_CREATED

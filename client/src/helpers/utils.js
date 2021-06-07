@@ -1,7 +1,7 @@
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
-import { youtubeIdRegexPattern, youtubeEmbedUrl } from "./constants/constants"
+import { YOUTUBE_ID_REGEX_PATTERN, YOUTUBE_EMBED_URL } from "./constants/constants"
 
 const utils = {
   uploadedFileToUrl(file) {
@@ -72,7 +72,7 @@ const utils = {
   },
 
   extractYoutubeVideoId(url) {
-    const match = url.match(youtubeIdRegexPattern)
+    const match = url.match(YOUTUBE_ID_REGEX_PATTERN)
     return match && match[2].length > 10 ? match[2] : null
   },
 
@@ -80,7 +80,7 @@ const utils = {
     // convert youtube url to an embedded url, to avoid 'X-Frame-Options' errors
     const vid = utils.extractYoutubeVideoId(url)
     if (vid) {
-      return `${youtubeEmbedUrl}${vid}`
+      return `${YOUTUBE_EMBED_URL}${vid}`
     }
     return url
   },

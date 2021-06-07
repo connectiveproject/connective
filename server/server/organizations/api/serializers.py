@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
@@ -94,9 +93,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     def get_order_status(self, obj):
         user = self.context["request"].user
-        if not user.user_type == get_user_model().Types.COORDINATOR or not hasattr(
-            user, "school_member"
-        ):
+        if not hasattr(user, "school_member"):
             return None
 
         try:
@@ -109,9 +106,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     def get_is_ordered(self, obj):
         user = self.context["request"].user
-        if not user.user_type == get_user_model().Types.COORDINATOR or not hasattr(
-            user, "school_member"
-        ):
+        if not hasattr(user, "school_member"):
             return False
 
         orders = SchoolActivityOrder.objects.filter(
@@ -145,9 +140,7 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
 
     def get_is_consumer_registered(self, obj):
         user = self.context["request"].user
-        if not user.user_type == user.Types.CONSUMER or not hasattr(
-            user, "school_member"
-        ):
+        if not hasattr(user, "school_member"):
             return False
 
         # check if consumer is in a group

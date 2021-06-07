@@ -2,7 +2,7 @@ import Vue from "vue"
 import axios from "axios"
 import Utils from "../helpers/utils"
 import store from "../vuex/store"
-import { tokenCookieName } from "../helpers/constants/constants"
+import { TOKEN_COOKIE_NAME } from "../helpers/constants/constants"
 
 function addTokenHeader(token) {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`
@@ -70,7 +70,7 @@ function addPayloadCaseConversion() {
 const config = {
   initAxiosSettings() {
     // init app's axios settings - set token header is token exists, handle token backend expiry
-    let token = Vue.$cookies.get(tokenCookieName)
+    let token = Vue.$cookies.get(TOKEN_COOKIE_NAME)
     if (token) {
       addTokenHeader(token)
     }
@@ -82,13 +82,13 @@ const config = {
   setToken(token) {
     // save token as cookie and as axios header
     // :string token: the token to use
-    Vue.$cookies.set(tokenCookieName, token)
+    Vue.$cookies.set(TOKEN_COOKIE_NAME, token)
     addTokenHeader(token)
   },
 
   removeToken() {
     // remove token from cookie and axios header
-    Vue.$cookies.erase(tokenCookieName)
+    Vue.$cookies.erase(TOKEN_COOKIE_NAME)
     removeTokenHeader()
   },
 }

@@ -1,6 +1,6 @@
 import store from "../vuex/store.js"
 import i18n from "../plugins/i18n"
-import { server } from "../helpers/constants/constants"
+import { SERVER } from "../helpers/constants/constants"
 
 async function isStaffRegistered() {
   // check if staff completed registration
@@ -27,7 +27,7 @@ export async function checkRegistrationStatus(to, from, next) {
   }
   // on server - need to add userType field
   const userDetails = await store.dispatch("user/getUserDetails")
-  if (userDetails.userType === server.userTypes.consumer) {
+  if (userDetails.userType === SERVER.userTypes.consumer) {
     next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   } else if (await isStaffRegistered()) {
     next({ name: "ManagementDashboard", params: { lang: i18n.locale } })

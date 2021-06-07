@@ -4,12 +4,12 @@
   </div>
 </template>
 <script>
-import { backgrounds } from "../helpers/constants/images"
+import { BACKGROUNDS } from "../helpers/constants/images"
 export default {
   data() {
     return {
       style: {
-        background: `url(${backgrounds.welcome})`,
+        background: `url(${BACKGROUNDS.welcome})`,
         "background-size": "cover",
         "min-height": "100vh",
       },

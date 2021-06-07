@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { backgrounds } from "../helpers/constants/images"
+import { BACKGROUNDS } from "../helpers/constants/images"
 import Navbar from "../components/Navbar/Navbar"
 
 export default {
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       style: {
-        background: `url(${backgrounds.managementDashboard})`,
+        background: `url(${BACKGROUNDS.managementDashboard})`,
         "min-height": "100vh",
       },
     }

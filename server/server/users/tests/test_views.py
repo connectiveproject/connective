@@ -7,15 +7,12 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.http import HttpRequest
 from django.test import RequestFactory
 from django.urls import reverse
+from rest_framework import status
 
 from server.users.forms import UserChangeForm
 from server.users.models import User
 from server.users.tests.factories import UserFactory
-from server.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from server.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
@@ -88,7 +85,7 @@ class TestUserDetailView:
 
         response = user_detail_view(request, username=user.username)
 
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
 
     def test_not_authenticated(self, user: User, rf: RequestFactory):
         request = rf.get("/fake-url/")
@@ -97,5 +94,5 @@ class TestUserDetailView:
         response = user_detail_view(request, username=user.username)
         login_url = reverse(settings.LOGIN_URL)
 
-        assert response.status_code == 302
+        assert response.status_code == status.HTTP_302_FOUND
         assert response.url == f"{login_url}?next=/fake-url/"

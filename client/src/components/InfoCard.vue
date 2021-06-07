@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { infoCardImage } from "../helpers/constants/images"
+import { INFO_CARD_IMAGE } from "../helpers/constants/images"
 export default {
   model: {
     prop: "starred",
@@ -37,7 +37,7 @@ export default {
     imgUrl: {
       type: String,
       required: false,
-      default: infoCardImage,
+      default: INFO_CARD_IMAGE,
     },
     title: {
       type: String,
