@@ -5,6 +5,8 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from server.utils.permission_classes import AllowConsumer, AllowCoordinator, AllowVendor
+
 from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
 from .serializers import (
     ConsumerProfileSerializer,
@@ -32,6 +34,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
 
 class ConsumerProfileViewSet(ModelViewSet):
+    permission_classes = [AllowConsumer]
     serializer_class = ConsumerProfileSerializer
     queryset = ConsumerProfile.objects.all()
     lookup_field = "user__slug"
@@ -45,6 +48,7 @@ class ConsumerProfileViewSet(ModelViewSet):
 
 
 class CoordinatorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
     serializer_class = CoordinatorProfileSerializer
     queryset = CoordinatorProfile.objects.all()
     lookup_field = "user__slug"
@@ -58,6 +62,7 @@ class CoordinatorProfileViewSet(ModelViewSet):
 
 
 class VendorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowVendor]
     serializer_class = VendorProfileSerializer
     queryset = VendorProfile.objects.all()
     lookup_field = "user__slug"
@@ -71,6 +76,7 @@ class VendorProfileViewSet(ModelViewSet):
 
 
 class ManageConsumersViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]

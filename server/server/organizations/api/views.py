@@ -7,7 +7,12 @@ from server.organizations.models import (
     Organization,
     SchoolActivityOrder,
 )
-from server.utils.permission_classes import AllowAllDebug
+from server.utils.permission_classes import (
+    AllowConsumer,
+    AllowCoordinator,
+    AllowCoordinatorReadOnly,
+    AllowVendor,
+)
 
 from .serializers import (
     ActivityMediaSerializer,
@@ -24,6 +29,7 @@ class OrganizationViewSet(
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
+    permission_classes = [AllowCoordinatorReadOnly | AllowVendor]
     serializer_class = OrganizationSerializer
     lookup_field = "slug"
 
@@ -38,7 +44,7 @@ class OrganizationViewSet(
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAllDebug]
+    permission_classes = [AllowCoordinator]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
 
@@ -48,15 +54,12 @@ class ActivityViewSet(viewsets.ModelViewSet):
 class ConsumerActivityViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
-    permission_classes = [AllowAllDebug]
+    permission_classes = [AllowConsumer]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
 
     def get_queryset(self):
         user = self.request.user
-        if not user.user_type == user.Types.CONSUMER:
-            return Activity.objects.none()
-
         approved_orders = SchoolActivityOrder.objects.filter(
             school=user.school_member.school,
             status=SchoolActivityOrder.Status.APPROVED,
@@ -72,7 +75,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
 
 
 class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAllDebug]
+    permission_classes = [AllowCoordinator]
     serializer_class = ManageSchoolActivitySerializer
     lookup_field = "activity__slug"
 
