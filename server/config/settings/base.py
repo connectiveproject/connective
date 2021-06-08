@@ -83,7 +83,7 @@ LOCAL_APPS = [
     "server.users.apps.UsersConfig",
     "server.schools.apps.SchoolsConfig",
     "server.organizations.apps.OrganizationsConfig",
-    "server.organizations.apps.EventsConfig",
+    "server.evnents.apps.EventsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
