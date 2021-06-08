@@ -15,8 +15,7 @@ ports:
 
 tasks:
   - name: Server
-    before: pip install -r server/requirements/local.txt
-    init: cd server && pre-commit install && source .envs/.local/.django  && source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py create_test_users
+    init: cd server && pip install -r requirements/local.txt && pre-commit install && source .envs/.local/.django  && source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py create_test_users
     command: cd server && python manage.py runserver
   - name: Vue Client
     init: cd client && yarn && gp sync-done client-install
