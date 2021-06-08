@@ -1,10 +1,13 @@
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from server.organizations.models import (
     Activity,
     ActivityMedia,
     Organization,
+    SchoolActivityGroup,
     SchoolActivityOrder,
 )
 from server.utils.permission_classes import (
@@ -65,6 +68,24 @@ class ConsumerActivityViewSet(
             status=SchoolActivityOrder.Status.APPROVED,
         ).values("activity")
         return Activity.objects.filter(id__in=approved_orders)
+
+    @action(detail=True, methods=["POST"])
+    def join_group(self, request, slug=None):
+        if not hasattr(request.user, "school_member"):
+            return Response(
+                {"errors": "must be a school member"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        order = SchoolActivityOrder.objects.get(
+            school=request.user.school_member.school,
+            activity__slug=slug,
+        )
+        group, _created = SchoolActivityGroup.objects.get_or_create(
+            activity_order=order,
+            group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
+        )
+        group.consumers.add(self.request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):

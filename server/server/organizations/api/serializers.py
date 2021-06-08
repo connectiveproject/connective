@@ -121,7 +121,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class ConsumerActivitySerializer(serializers.ModelSerializer):
-    is_consumer_registered = serializers.SerializerMethodField()
+    is_consumer_joined = serializers.SerializerMethodField()
 
     class Meta:
         model = Activity
@@ -136,10 +136,10 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "logo",
             "phone_number",
-            "is_consumer_registered",
+            "is_consumer_joined",
         ]
 
-    def get_is_consumer_registered(self, obj):
+    def get_is_consumer_joined(self, obj):
         user = self.context["request"].user
         if not hasattr(user, "school_member"):
             return False
