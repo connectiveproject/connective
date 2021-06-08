@@ -14,6 +14,9 @@ SECRET_KEY = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 GITPOD_WORKSPACE_URL = os.environ.get("GITPOD_WORKSPACE_URL")
+GITPOD_WORKSPACE_ID = env(
+    "GITPOD_WORKSPACE_ID", default=os.environ.get("GITPOD_WORKSPACE_ID")
+)
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", GITPOD_WORKSPACE_URL]
 
@@ -75,3 +78,13 @@ if GITPOD_WORKSPACE_URL:
         ),
     }
     DATABASES["default"]["ATOMIC_REQUESTS"] = True
+    CORS_ORIGIN_ALLOW_ALL = True
+
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+    ]
+
+if GITPOD_WORKSPACE_ID:
+    RESET_BASE_URL = f"https://8000-{GITPOD_WORKSPACE_URL[8:]}"

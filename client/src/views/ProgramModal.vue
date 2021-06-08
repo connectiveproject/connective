@@ -27,7 +27,7 @@
           <title-to-text :text="program.domain" :title="$t('program.domain')" />
         </v-card-text>
         <v-carousel
-          v-if="program.richMedia.length"
+          v-if="mediaList.length"
           height="350"
           class="carousel mt-6 mx-auto rounded-lg"
           show-arrows-on-hover
@@ -35,7 +35,7 @@
           delimiter-icon="mdi-minus"
         >
           <v-carousel-item
-            v-for="media in program.richMedia"
+            v-for="media in mediaList"
             :key="media.id"
             reverse-transition="fade-transition"
             transition="fade-transition"
@@ -71,6 +71,7 @@
 import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
+import { PROGRAM_MEDIA_PLACEHOLDER } from "../helpers/constants/images"
 
 export default {
   components: { TitleToText },
@@ -88,21 +89,29 @@ export default {
   data() {
     return {
       program: null,
+      mediaList: null,
     }
   },
   methods: {
-    ...mapActions("program", ["getProgram"]),
+    ...mapActions("program", ["getProgram", "getProgramMediaList"]),
     youtubeToEmbeddedUrl: Utils.youtubeToEmbeddedUrl,
     close() {
       this.$emit("input", false)
     },
+    async getProgramDetails(slug) {
+      this.mediaList = await this.getProgramMediaList(slug)
+      this.program = await this.getProgram(slug)
+      if (!this.mediaList.length) {
+        this.mediaList = [{ imageUrl: PROGRAM_MEDIA_PLACEHOLDER, mediaType: "image" }]
+      }
+    },
   },
-  async created() {
-    this.program = await this.getProgram(this.slug)
+  created() {
+    this.getProgramDetails(this.slug)
   },
   watch: {
-    async slug(value) {
-      this.program = await this.getProgram(value)
+    slug(value) {
+      this.getProgramDetails(value)
     },
   },
 }

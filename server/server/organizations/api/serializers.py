@@ -1,6 +1,14 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
-from server.organizations.models import Activity, ActivityMedia, Organization
+from server.organizations.models import (
+    Activity,
+    ActivityMedia,
+    Organization,
+    SchoolActivityGroup,
+    SchoolActivityOrder,
+)
+from server.schools.models import School
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -36,7 +44,14 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ActivityMedia
-        fields = ["slug", "name", "media_type", "video_url", "image_url", "activity"]
+        fields = [
+            "slug",
+            "name",
+            "media_type",
+            "video_url",
+            "image_url",
+            "activity",
+        ]
 
     def get_media_type(self, obj):
         if obj.video_url:
@@ -56,6 +71,9 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    is_ordered = serializers.SerializerMethodField()
+    order_status = serializers.SerializerMethodField()
+
     class Meta:
         model = Activity
         fields = [
@@ -69,4 +87,116 @@ class ActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "logo",
             "phone_number",
+            "is_ordered",
+            "order_status",
         ]
+
+    def get_order_status(self, obj):
+        user = self.context["request"].user
+        if not hasattr(user, "school_member"):
+            return None
+
+        try:
+            return SchoolActivityOrder.objects.get(
+                school=user.school_member.school,
+                activity=obj,
+            ).status
+
+        except ObjectDoesNotExist:
+            return None
+
+    def get_is_ordered(self, obj):
+        user = self.context["request"].user
+        if not hasattr(user, "school_member"):
+            return False
+
+        return (
+            SchoolActivityOrder.objects.filter(
+                school=user.school_member.school,
+                activity=obj,
+            )
+            .exclude(status=SchoolActivityOrder.Status.CANCELLED)
+            .exists()
+        )
+
+
+class ConsumerActivitySerializer(serializers.ModelSerializer):
+    is_consumer_registered = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Activity
+        fields = [
+            "slug",
+            "name",
+            "target_audience",
+            "domain",
+            "originization",
+            "description",
+            "contact_name",
+            "phone_number",
+            "logo",
+            "phone_number",
+            "is_consumer_registered",
+        ]
+
+    def get_is_consumer_registered(self, obj):
+        user = self.context["request"].user
+        if not hasattr(user, "school_member"):
+            return False
+
+        # check if consumer is in a group
+        if SchoolActivityGroup.objects.filter(
+            activity_order__activity=obj, consumers=user
+        ).exists():
+            return True
+        return False
+
+
+class ManageSchoolActivitySerializer(serializers.ModelSerializer):
+    school = serializers.SlugRelatedField(
+        queryset=School.objects.all(), slug_field="slug"
+    )
+    activity = serializers.SlugRelatedField(
+        queryset=Activity.objects.all(), slug_field="slug"
+    )
+    requested_by = serializers.CharField(source="requested_by.slug", read_only=True)
+    last_updated_by = serializers.CharField(
+        source="last_updated_by.slug", read_only=True
+    )
+
+    class Meta:
+        model = SchoolActivityOrder
+        read_only_fields = (
+            "requested_by",
+            "last_updated_by",
+            "created_at",
+            "updated_at",
+        )
+        fields = [
+            "requested_by",
+            "last_updated_by",
+            "school",
+            "activity",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate(self, data):
+        """
+        Check if the school is under the user & validate status
+        """
+        user = self.context["request"].user
+        if (
+            not hasattr(user, "school_member")
+            or not data["school"] == user.school_member.school
+        ):
+            raise serializers.ValidationError({"school": "must be a school member"})
+
+        if "status" in data and data["status"] not in [
+            SchoolActivityOrder.Status.CANCELLED,
+            SchoolActivityOrder.Status.PENDING_ADMIN_APPROVAL,
+        ]:
+            raise serializers.ValidationError({"status": "invalid status"})
+
+        return data

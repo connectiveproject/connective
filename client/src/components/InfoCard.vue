@@ -17,7 +17,7 @@
         @click="$emit('click')"
       />
       <v-icon
-        @click="starred = !starred"
+        @click="onStarClick"
         :color="starred ? 'orange' : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
       >
@@ -28,13 +28,16 @@
 </template>
 
 <script>
-import { infoCardImage } from "../helpers/constants/images"
+import { INFO_CARD_IMAGE } from "../helpers/constants/images"
 export default {
+  model: {
+    prop: "starred",
+  },
   props: {
     imgUrl: {
       type: String,
       required: false,
-      default: infoCardImage,
+      default: INFO_CARD_IMAGE,
     },
     title: {
       type: String,
@@ -48,12 +51,16 @@ export default {
       type: String,
       required: true,
     },
+    starred: {
+      type: Boolean,
+      required: true,
+    },
   },
 
-  data() {
-    return {
-      starred: false,
-    }
+  methods: {
+    onStarClick() {
+      this.$emit("input", !this.starred)
+    },
   },
 
   computed: {

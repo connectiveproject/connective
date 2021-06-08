@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper mt-15 mx-auto px-3">
-    <h1 class="mb-5">{{ $t("general.profile") }}</h1>
+    <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
     <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
     <validation-observer v-slot="{ invalid }">
       <form @submit.prevent="submitProfile">
@@ -16,11 +16,7 @@
             ></input-drawer>
           </v-col>
           <v-col cols="12" sm="12" lg="3">
-            <picture-input
-              class="mx-auto"
-              :placeholderPicUrl="placeholderPicUrl"
-              @fileUpload="setPicture"
-            ></picture-input>
+            <avatar class="mx-auto avatar" v-model="profilePicture" />
           </v-col>
         </v-row>
         <v-btn
@@ -45,21 +41,20 @@ import store from "../vuex/store"
 import { ValidationObserver } from "vee-validate"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
-import PictureInput from "../components/PictureInput"
-import { personRoundedDrawing } from "../helpers/constants/images"
+import Avatar from "../components/Avatar/Avatar"
 
 export default {
   components: {
     ValidationObserver,
     Modal,
     InputDrawer,
-    PictureInput,
+    Avatar,
   },
 
   async beforeRouteEnter(to, from, next) {
     try {
       // fetch profile data before load
-      let profile = await store.dispatch("user/getProfile")
+      let profile = await store.dispatch("coordinator/getProfile")
       let userDetails = await store.dispatch("user/getUserDetails")
       let userAttributes = { ...profile, ...userDetails }
       next(vm => vm.setUserAttributes(userAttributes))
@@ -71,15 +66,9 @@ export default {
   data() {
     return {
       textFields: {
-        firstName: {
-          uniqueName: "firstName",
-          descriptiveName: this.$t("auth.firstName"),
-          validationRules: "required",
-          value: "",
-        },
-        lastName: {
-          uniqueName: "lastName",
-          descriptiveName: this.$t("auth.lastName"),
+        name: {
+          uniqueName: "name",
+          descriptiveName: this.$t("general.name"),
           validationRules: "required",
           value: "",
         },
@@ -96,24 +85,22 @@ export default {
           value: "",
         },
       },
-      placeholderPicUrl: personRoundedDrawing,
-      profilePicFile: null,
+      profilePicture: {},
       popupMsg: "",
       slug: "",
     }
   },
 
   methods: {
-    ...mapActions("user", ["updateUserDetails", "updateProfile"]),
+    ...mapActions("user", ["updateUserDetails"]),
+    ...mapActions("coordinator", ["updateProfile"]),
     setUserAttributes(userAttributes) {
       // set user data received from server
       this.slug = userAttributes.slug
-      this.textFields.firstName.value = userAttributes.firstName || ""
-      this.textFields.lastName.value = userAttributes.lastName || ""
+      this.textFields.name.value = userAttributes.name || ""
       this.textFields.email.value = userAttributes.email || ""
       this.textFields.phone.value = userAttributes.phoneNumber || ""
-      this.placeholderPicUrl =
-        userAttributes.profilePicture || this.placeholderPicUrl
+      this.profilePicture = userAttributes.profilePicture || {}
     },
 
     submitProfile() {
@@ -124,20 +111,16 @@ export default {
 
     createUserSubmitPayload() {
       return {
-        slug: this.slug,
-        first_name: this.textFields.firstName.value,
-        last_name: this.textFields.lastName.value,
+        name: this.textFields.name.value,
         email: this.textFields.email.value,
       }
     },
 
     createProfileSubmitPayload() {
-      let profilePayload = new FormData()
-      profilePayload.append("phone_number", this.textFields.phone.value)
-      if (this.profilePicFile) {
-        profilePayload.append("profile_picture", this.profilePicFile)
+      return {
+        phoneNumber: this.textFields.phone.value,
+        profilePicture: this.profilePicture,
       }
-      return profilePayload
     },
 
     async postProfileData(userDetails, profile) {
@@ -157,15 +140,14 @@ export default {
         }
       }
     },
-
-    setPicture(file) {
-      this.profilePicFile = file
-    },
   },
 }
 </script>
 <style lang="scss" scoped>
 .wrapper {
   width: 90%;
+}
+.avatar {
+  max-width: 350px;
 }
 </style>

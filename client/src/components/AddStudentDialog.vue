@@ -6,29 +6,15 @@
         <form class="form mx-auto" @submit.prevent="save">
           <v-card-text>
             <v-row>
-              <v-col class="mt-8" cols="12" sm="5">
+              <v-col class="mt-8" cols="12">
                 <validation-provider
                   v-slot="{ errors }"
-                  name="firstName"
+                  name="name"
                   rules="required"
                 >
                   <v-text-field
-                    :label="$t('auth.firstName')"
-                    v-model="formInput.firstName"
-                    :error-messages="errors"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
-              <v-spacer></v-spacer>
-              <v-col class="mt-8" cols="12" sm="7">
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="lastName"
-                  rules="required"
-                >
-                  <v-text-field
-                    :label="$t('auth.lastName')"
-                    v-model="formInput.lastName"
+                    :label="$t('general.name')"
+                    v-model="formInput.name"
                     :error-messages="errors"
                   ></v-text-field>
                 </validation-provider>
@@ -49,14 +35,15 @@
               <v-col class="mt-8" cols="12">
                 <validation-provider
                   v-slot="{ errors }"
-                  name="phoneNumber"
-                  rules="required|phoneNumberIsrael"
+                  name="gender"
+                  rules="required"
                 >
-                  <v-text-field
-                    :label="$t('general.phoneNumber')"
-                    v-model="formInput.profile.phoneNumber"
+                  <v-select
+                    :label="$t('gender.gender')"
+                    :items="genderChoices"
+                    v-model="formInput.profile.gender"
                     :error-messages="errors"
-                  ></v-text-field>
+                  />
                 </validation-provider>
               </v-col>
             </v-row>
@@ -117,6 +104,24 @@ export default {
   data() {
     return {
       formInput: this.student,
+      genderChoices: [
+        {
+          text: this.$t("gender.male"),
+          value: "MALE",
+        },
+        {
+          text: this.$t("gender.female"),
+          value: "FEMALE",
+        },
+        {
+          text: this.$t("gender.other"),
+          value: "OTHER",
+        },
+        {
+          text: this.$t("gender.unknown"),
+          value: "UNKNOWN",
+        },
+      ],
     }
   },
 
@@ -131,13 +136,10 @@ export default {
     ...mapActions("school", ["addStudent", "editStudent"]),
     initFormInput() {
       this.formInput = {
-        idNumber: "",
-        firstName: "",
-        lastName: "",
-        city: "",
+        name: "",
         email: "",
         profile: {
-          phoneNumber: "",
+          gender: "",
         },
       }
     },

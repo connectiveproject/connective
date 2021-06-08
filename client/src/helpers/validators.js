@@ -2,9 +2,9 @@ import i18n from "../plugins/i18n"
 import { required, email, size, numeric, digits } from "vee-validate/dist/rules"
 import { extend } from "vee-validate"
 import {
-  passwordRegexPattern,
-  israeliPhoneRegexPattern,
-  websiteRegexPattern,
+  PASSWORD_REGEX_PATTERN,
+  ISRAELI_PHONE_REGEX_PATTERN,
+  WEBSITE_REGEX_PATTERN,
 } from "./constants/constants"
 
 extend("required", {
@@ -25,7 +25,7 @@ extend("numeric", {
 extend("strongPass", {
   message: i18n.tc("errors.strongPassHint"),
   validate: value => {
-    let strongRegex = new RegExp(passwordRegexPattern)
+    let strongRegex = new RegExp(PASSWORD_REGEX_PATTERN)
     return strongRegex.test(value)
   },
 })
@@ -41,7 +41,7 @@ extend("passConfirm", {
 extend("phoneNumberIsrael", {
   message: i18n.tc("errors.invalidPhoneNumber"),
   validate: value => {
-    let strongRegex = new RegExp(israeliPhoneRegexPattern)
+    let strongRegex = new RegExp(ISRAELI_PHONE_REGEX_PATTERN)
     return strongRegex.test(value)
   },
 })
@@ -49,7 +49,7 @@ extend("phoneNumberIsrael", {
 extend("website", {
   message: i18n.tc("errors.invalidWebsiteAddress"),
   validate: value => {
-    const regex = new RegExp(websiteRegexPattern)
+    const regex = new RegExp(WEBSITE_REGEX_PATTERN)
     return regex.test(value)
   },
 })

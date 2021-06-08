@@ -1,40 +1,20 @@
 import axios from "axios"
 import {
-  getUserDetailsApiUrl,
-  getProfileApiUrl,
-  updateProfileApiUrl,
-  updateUserApiUrl,
-  getConnectiveProfileApiUrl,
+  GET_USER_DETAILS_API_URL,
+  UPDATE_USER_API_URL,
 } from "../helpers/constants/constants"
 
 const user = {
-  getProfile() {
-    // query for the user profile
-    // return: axios Promise
-    return axios.get(getProfileApiUrl)
-  },
-
-  getConnectiveProfile() {
-    // query for connective-only profile data
-    return axios.get(getConnectiveProfileApiUrl)
-  },
-
-  updateProfile(slug, payload) {
-    // put user profile information
-    // return: axios Promise
-    return axios.put(`${updateProfileApiUrl}${slug}/`, payload)
-  },
-
   getUserDetails() {
     // query for the user account details
     // return: axios Promise
-    return axios.get(getUserDetailsApiUrl)
+    return axios.get(GET_USER_DETAILS_API_URL)
   },
 
   updateUserDetails(slug, payload) {
     // update user account details using payload
     // return: axios Promise
-    return axios.put(`${updateUserApiUrl}${slug}/`, payload)
+    return axios.patch(`${UPDATE_USER_API_URL}${slug}/`, payload)
   },
 }
 

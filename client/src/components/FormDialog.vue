@@ -18,7 +18,16 @@
                   :name="field.name"
                   :rules="field.rule"
                 >
+                  <v-select
+                    v-if="field.type && field.type === 'select'"
+                    class="mx-2"
+                    v-model="field.value"
+                    :label="field.label"
+                    :items="field.choices"
+                    :error-messages="errors"
+                  />
                   <v-text-field
+                    v-else
                     class="mx-2"
                     :label="field.label"
                     v-model="field.value"
@@ -45,7 +54,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import _ from "lodash"
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   components: {
@@ -114,7 +123,7 @@ export default {
 
     getInputFields() {
       // init based on prop
-      return _.cloneDeep(this.inputFields)
+      return cloneDeep(this.inputFields)
     },
   },
 }

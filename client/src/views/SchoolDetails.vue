@@ -48,8 +48,8 @@ import { mapActions } from "vuex"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
-import { schoolGradesItems } from "../helpers/constants/constants"
-import { houseRoundedDrawing } from "../helpers/constants/images"
+import { SCHOOL_GRADES_ITEMS } from "../helpers/constants/constants"
+import { HOUSE_ROUNDED_DRAWING } from "../helpers/constants/images"
 
 export default {
   components: {
@@ -125,10 +125,10 @@ export default {
           validationRules: "required",
           value: [],
           inputType: "select",
-          selectItems: schoolGradesItems,
+          selectItems: SCHOOL_GRADES_ITEMS,
         },
       },
-      placeholderPicUrl: houseRoundedDrawing,
+      placeholderPicUrl: HOUSE_ROUNDED_DRAWING,
       profilePicFile: null,
       popupMsg: "",
     }

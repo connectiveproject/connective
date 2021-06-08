@@ -77,7 +77,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import Modal from "../components/Modal"
 import { mapActions } from "vuex"
-import { server } from "../helpers/constants/constants"
+import { SERVER } from "../helpers/constants/constants"
 
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
       type: String,
       required: true,
       validator: userType => {
-        return Object.values(server.userTypes).indexOf(userType) !== -1
+        return Object.values(SERVER.userTypes).indexOf(userType) !== -1
       },
     },
     uid: {
@@ -105,7 +105,7 @@ export default {
   },
 
   data: () => ({
-    userTypesList: server.userTypes,
+    userTypesList: SERVER.userTypes,
     showPass: false,
     popupMsg: "",
     identityNumber: "",

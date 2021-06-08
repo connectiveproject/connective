@@ -1,6 +1,7 @@
 import Papa from "papaparse"
-import _ from "lodash"
-import { youtubeIdRegexPattern, youtubeEmbedUrl } from "./constants/constants"
+import camelCase from "lodash/camelCase"
+import isArray from "lodash/isArray"
+import { YOUTUBE_ID_REGEX_PATTERN, YOUTUBE_EMBED_URL } from "./constants/constants"
 
 const utils = {
   uploadedFileToUrl(file) {
@@ -47,7 +48,7 @@ const utils = {
     // does not convert other objects, e.g., File
     // :str convertCase: case to convert to: 'camel' / 'snake'
     const convert =
-      convertCase === "snake" ? this.camelToSnakeCase : _.camelCase
+      convertCase === "snake" ? this.camelToSnakeCase : camelCase
     if (obj instanceof FormData) {
       const convertedObj = new FormData()
       for (const [key, value] of obj.entries()) {
@@ -57,7 +58,7 @@ const utils = {
         )
       }
       return convertedObj
-    } else if (_.isArray(obj)) {
+    } else if (isArray(obj)) {
       return obj.map(item => this.convertKeysCase(item, convertCase))
     } else if (this.isNativeObject(obj)) {
       const convertedObj = {}
@@ -71,7 +72,7 @@ const utils = {
   },
 
   extractYoutubeVideoId(url) {
-    const match = url.match(youtubeIdRegexPattern)
+    const match = url.match(YOUTUBE_ID_REGEX_PATTERN)
     return match && match[2].length > 10 ? match[2] : null
   },
 
@@ -79,7 +80,7 @@ const utils = {
     // convert youtube url to an embedded url, to avoid 'X-Frame-Options' errors
     const vid = utils.extractYoutubeVideoId(url)
     if (vid) {
-      return `${youtubeEmbedUrl}${vid}`
+      return `${YOUTUBE_EMBED_URL}${vid}`
     }
     return url
   },

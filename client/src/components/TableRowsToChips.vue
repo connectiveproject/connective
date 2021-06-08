@@ -33,7 +33,7 @@ export default {
       required: true,
     },
     totalServerItems: {
-      // usually received from server via x-total-count header
+      // received from server via count field
       type: Number,
       required: true,
     },

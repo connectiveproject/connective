@@ -2,13 +2,14 @@
   <div>
     <v-row class="pt-10 ml-0">
       <v-col
+        v-if="!isConsumer"
         cols="4"
         md="3"
         class="right-pane white-bg"
         :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
       >
         <pagination-checkbox-group
-          v-for="filter in programsCheckboxFilters"
+          v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
           :key="filter.id"
           :name="filter.name"
           :title="filter.readableName"
@@ -17,15 +18,13 @@
           :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
         />
       </v-col>
-      <v-col cols="8" md="9" :class="{ 'px-10': !$vuetify.breakpoint.mobile }">
+      <v-col
+        cols="8"
+        md="9"
+        :class="{ 'px-10': !$vuetify.breakpoint.mobile, 'mx-auto': isConsumer }"
+      >
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
-        <h3
-          v-text="
-            $t(
-              'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
-            )
-          "
-        />
+        <h3 v-text="getSubtitle(isConsumer)" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -44,10 +43,12 @@
             :key="program.id"
           >
             <info-card
+              v-model="program.isOrdered"
               :imgUrl="program.logo"
               :title="program.name"
               :body="program.description"
-              :subtitle="program.organization"
+              :subtitle="getCardSubtitle(program.orderStatus)"
+              @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             />
           </v-col>
@@ -60,12 +61,16 @@
 </template>
 
 <script>
-import InfoCard from "../components/InfoCard"
-import PaginationCheckboxGroup from "../components/PaginationCheckboxGroup"
-import PaginationSearchBar from "../components/PaginationSearchBar"
-import EndOfPageDetector from "../components/EndOfPageDetector"
-import { programsCheckboxFilters } from "../helpers/constants/constants"
-import { mapActions, mapState } from "vuex"
+import InfoCard from "../../components/InfoCard"
+import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
+import PaginationSearchBar from "../../components/PaginationSearchBar"
+import EndOfPageDetector from "../../components/EndOfPageDetector"
+import {
+  PROGRAMS_CHECKBOX_FILTERS,
+  SERVER,
+} from "../../helpers/constants/constants"
+import { mapActions, mapGetters, mapState } from "vuex"
+import { getSubtitle } from "./helpers"
 
 export default {
   components: {
@@ -77,11 +82,19 @@ export default {
 
   computed: {
     ...mapState("program", ["programsList", "totalPrograms"]),
+    ...mapGetters("user", ["isConsumer"]),
+    ...mapGetters("school", ["schoolSlug"]),
   },
 
   methods: {
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
-    ...mapActions("program", ["getProgramsList"]),
+    ...mapActions("program", [
+      "getProgramsList",
+      "createProgramOrder",
+      "cancelProgramOrder",
+      "reCreateProgramOrder",
+    ]),
+    getSubtitle,
 
     onEndOfPage() {
       // trigger programs load on end of page
@@ -107,11 +120,54 @@ export default {
         this.getProgramsList(true)
       }
     },
+
+    getCardSubtitle(orderStatus) {
+      const prefix = this.$t("general.status")
+      let status = this.$t("program.available")
+      if (orderStatus) {
+        status = this.$t(`program.${orderStatus}`)
+      }
+      return `${prefix}: ${status}`
+    },
+
+    onStarChange(program, isStarred) {
+      // (dis)request a program and change order status accordingly
+      try {
+        if (isStarred) {
+          this.requestProgram(program)
+        } else {
+          this.disRequestProgram(program)
+        }
+      } catch (err) {
+        // add toast
+        console.warn(err)
+      }
+    },
+
+    requestProgram(program) {
+      if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
+        return this.reCreateProgramOrder({
+          schoolSlug: this.schoolSlug,
+          programSlug: program.slug,
+        })
+      }
+      return this.createProgramOrder({
+        schoolSlug: this.schoolSlug,
+        programSlug: program.slug,
+      })
+    },
+
+    disRequestProgram(program) {
+      return this.cancelProgramOrder({
+        schoolSlug: this.schoolSlug,
+        programSlug: program.slug,
+      })
+    },
   },
 
   data() {
     return {
-      programsCheckboxFilters,
+      PROGRAMS_CHECKBOX_FILTERS,
       recentlyScrolled: false,
       isProgramOpen: true,
     }

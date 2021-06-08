@@ -1,4 +1,6 @@
-import _ from "lodash"
+import isArray from "lodash/isArray"
+import snakeCase from "lodash/snakeCase"
+
 import Vue from "vue"
 
 function paginationToApiParams(pagination) {
@@ -6,31 +8,35 @@ function paginationToApiParams(pagination) {
   // :object pagination: pagination data parameters
   let apiParams = {}
   if (pagination.itemsPerPage) {
-    apiParams._limit =
+    apiParams.page_size =
       pagination.itemsPerPage > 0 ? pagination.itemsPerPage : 99999
   }
   if (pagination.page) {
-    apiParams._page = pagination.page
+    apiParams.page = pagination.page
   }
   if (pagination.fieldFilters) {
     for (const [fieldName, value] of Object.entries(pagination.fieldFilters)) {
       let filters = value
-      if (_.isArray(value)) {
-        filters = value.map(filter => _.snakeCase(filter)).join()
+      if (isArray(value)) {
+        filters = value.map(filter => snakeCase(filter)).join()
       }
-      apiParams[_.snakeCase(fieldName)] = filters
+      apiParams[snakeCase(fieldName)] = filters
     }
   }
   if (pagination.searchFilter) {
-    apiParams.q = pagination.searchFilter
+    apiParams.search = pagination.searchFilter
   }
   if (pagination.sortBy && pagination.sortBy.length) {
-    apiParams._sort = pagination.sortBy.map(item => _.snakeCase(item)).join()
-  }
-  if (pagination.sortDesc && pagination.sortDesc.length) {
-    apiParams._order = pagination.sortDesc
-      .map(isDesc => (isDesc ? "desc" : "asc"))
-      .join()
+    const order = []
+    for (let i = 0; i < pagination.sortBy.length; i++) {
+      if (pagination.sortDesc[i] !== false) {
+        // if undefined or True:
+        order.push(snakeCase(pagination.sortBy[i]))
+      } else {
+        order.push(`-${snakeCase(pagination.sortBy[i])}`)
+      }
+    }
+    apiParams.ordering = order.join()
   }
   return apiParams
 }

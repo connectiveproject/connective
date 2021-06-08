@@ -1,15 +1,15 @@
 import axios from "axios"
-import { loginApiUrl, resetPasswordUrl } from "../helpers/constants/constants"
+import { LOGIN_API_URL, RESET_PASSWORD_URL } from "../helpers/constants/constants"
 
 const auth = {
   login(email, password) {
     // params are string payloads login request
     // return: axios Promise
-    return axios.post(loginApiUrl, { email, password })
+    return axios.post(LOGIN_API_URL, { email, password })
   },
 
   resetPassword(uid, token, password, passwordConfirmation) {
-    let url = `${resetPasswordUrl}${uid}/${token}/`
+    let url = `${RESET_PASSWORD_URL}${uid}/${token}/`
     let payload = {
       uid,
       token,

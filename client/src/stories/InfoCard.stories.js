@@ -13,12 +13,15 @@ const Template = args => ({
   template: `
     <info-card
     @click="action('click')()"
+    @input="action('input')()"
+    v-model="args.starred"
     v-bind="args" />
     `,
 })
 
 export const Primary = Template.bind({})
 Primary.args = {
+  starred: false,
   imgUrl: "https://picsum.photos/200/300",
   title: "כותרת",
   subtitle: "תת כותרת",

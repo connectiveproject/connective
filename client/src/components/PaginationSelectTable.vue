@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions } from "vuex"
-import _ from "lodash"
+import isEqual from "lodash/isEqual"
 export default {
   props: {
     headers: {
@@ -49,7 +49,7 @@ export default {
       required: true,
     },
     totalServerItems: {
-      // usually received from server via x-total-count header
+      // received from server via count field
       type: Number,
       required: true,
     },
@@ -99,7 +99,7 @@ export default {
     },
     isSelected(row) {
       // includes won't work due to re-fetch issues
-      return this.selectedRows.filter(selected => _.isEqual(selected, row))
+      return this.selectedRows.filter(selected => isEqual(selected, row))
         .length
     },
   },

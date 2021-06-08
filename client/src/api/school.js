@@ -1,46 +1,48 @@
 import axios from "axios"
 import {
-  getSchoolDetailsApiUrl,
-  updateSchoolDetailsApiUrl,
-  getSchoolStudentListApiUrl,
-  addSchoolStudentsApiUrl,
-  deleteSchoolStudentsApiUrl,
-  editSchoolStudentsApiUrl,
+  GET_SCHOOL_DETAILS_API_URL,
+  UPDATE_SCHOOL_DETAILS_API_URL,
+  GET_SCHOOL_STUDENTS_LIST_API_URL,
+  ADD_SCHOOL_STUDENTS_API_URL,
+  DELETE_SCHOOL_STUDENTS_API_URL,
+  EDIT_SCHOOL_STUDENTS_API_URL,
 } from "../helpers/constants/constants"
 
 const school = {
   getSchoolDetails() {
-    return axios.get(getSchoolDetailsApiUrl)
+    return axios.get(GET_SCHOOL_DETAILS_API_URL)
   },
 
   updateSchoolDetails(schoolSlug, payload) {
-    return axios.put(`${updateSchoolDetailsApiUrl}${schoolSlug}/`, payload)
+    return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, payload)
   },
 
   getStudentList(params) {
     // :Object params: query params
-    return axios.get(getSchoolStudentListApiUrl, { params })
+    return axios.get(GET_SCHOOL_STUDENTS_LIST_API_URL, { params })
   },
 
   addStudent(student) {
-    return axios.post(addSchoolStudentsApiUrl, student)
+    return axios.post(ADD_SCHOOL_STUDENTS_API_URL, student)
   },
 
   addStudents(csvFile) {
     // :File csvFile: file containing students to add to the school
     let formData = new FormData()
     formData.append("file", csvFile)
-    return axios.post(addSchoolStudentsApiUrl, formData)
+    return axios.post(ADD_SCHOOL_STUDENTS_API_URL, formData)
   },
 
   editStudent(slug, payload) {
-    return axios.put(editSchoolStudentsApiUrl + slug, payload)
+    return axios.patch(`${EDIT_SCHOOL_STUDENTS_API_URL}${slug}/`, payload)
   },
 
-  async deleteStudents(studentSlugs) {
-    for (const slug of studentSlugs) {
-      await axios.delete(deleteSchoolStudentsApiUrl + slug)
-    }
+  deleteStudents(studentSlugs) {
+    return Promise.all(
+      studentSlugs.map(slug =>
+        axios.delete(`${DELETE_SCHOOL_STUDENTS_API_URL}${slug}`)
+      )
+    )
   },
 }
 

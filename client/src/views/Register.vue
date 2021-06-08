@@ -17,38 +17,19 @@
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form @submit.prevent="incrementPage">
-              <v-row class="justify-space-between">
-                <v-col cols="6">
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="firstName"
-                    rules="required"
-                  >
-                    <v-text-field
-                      class="mt-5"
-                      v-model="registrationInfo.firstName"
-                      :error-messages="errors"
-                      :label="$t('auth.firstName')"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                </v-col>
-                <v-col cols="5">
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="lastName"
-                    rules="required"
-                  >
-                    <v-text-field
-                      class="mt-5"
-                      v-model="registrationInfo.lastName"
-                      :error-messages="errors"
-                      :label="$t('auth.lastName')"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                </v-col>
-              </v-row>
+              <validation-provider
+                v-slot="{ errors }"
+                name="name"
+                rules="required"
+              >
+                <v-text-field
+                  class="mt-5"
+                  v-model="registrationInfo.name"
+                  :error-messages="errors"
+                  :label="$t('general.name')"
+                  required
+                ></v-text-field>
+              </validation-provider>
 
               <validation-provider
                 v-slot="{ errors }"
@@ -61,26 +42,7 @@
                   :error-messages="errors"
                   :label="$t('general.phoneNumber')"
                   required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="profilePic"
-                rules="required|size:3000"
-              >
-                <v-file-input
-                  id="profilePic"
-                  class="mt-5"
-                  accept="image/png, image/jpeg, image/bmp"
-                  prepend-icon=""
-                  append-icon="mdi-camera"
-                  @click:append="clickId('profilePic')"
-                  v-model="registrationInfo.profilePic"
-                  :error-messages="errors"
-                  :label="$t('auth.profilePicture')"
-                  show-size
-                ></v-file-input>
+                />
               </validation-provider>
 
               <div class="mx-auto d-flex justify-center mt-12">
@@ -173,7 +135,7 @@
               <validation-provider
                 v-slot="{ errors }"
                 name="schoolZipCode"
-                :rules="zipCodeValidationRule"
+                :rules="ZIP_CODE_VALIDATION_RULE"
               >
                 <v-text-field
                   class="mt-5"
@@ -235,7 +197,7 @@
                   class="mt-5"
                   v-model="registrationInfo.schoolGrades"
                   :error-messages="errors"
-                  :items="schoolGradesItems"
+                  :items="SCHOOL_GRADES_ITEMS"
                   :label="$t('general.schoolGrades')"
                   multiple
                   chips
@@ -291,18 +253,12 @@
             >
             <v-card-text
               ><b>{{ $t("general.name") }}:</b>
-              {{ registrationInfo.firstName }}
-              {{ registrationInfo.lastName }}</v-card-text
-            >
+              {{ registrationInfo.name }}
+            </v-card-text>
             <v-card-text
               ><b>{{ $t("general.phoneNumber") }}:</b>
               {{ registrationInfo.phone }}</v-card-text
             >
-            <img
-              height="175px"
-              class="rounded-lg d-block mx-auto mt-6"
-              :src="profilePicSource"
-            />
             <br />
             <v-card-text
               class="text-center mb-5 text-subtitle-1 font-weight-bold"
@@ -383,11 +339,9 @@ import store from "../vuex/store"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
-  schoolGradesItems,
-  zipCodeValidationRule,
+  SCHOOL_GRADES_ITEMS,
+  ZIP_CODE_VALIDATION_RULE,
 } from "../helpers/constants/constants"
-import { errorMsgImage } from "../helpers/constants/images"
-import Utils from "../helpers/utils"
 import Modal from "../components/Modal"
 
 export default {
@@ -397,19 +351,17 @@ export default {
     Modal,
   },
   data: () => ({
-    zipCodeValidationRule,
-    schoolGradesItems,
+    ZIP_CODE_VALIDATION_RULE,
+    SCHOOL_GRADES_ITEMS,
     modalRedirectComponentName: "",
-    slug: "",
+    slug: null,
     schoolSlug: "",
     showPass: false,
     page: 1,
     popupMsg: "",
     registrationInfo: {
-      firstName: "",
-      lastName: "",
+      name: "",
       phone: "",
-      profilePic: null,
       schoolName: "",
       schoolCode: "",
       schoolCity: "",
@@ -423,7 +375,6 @@ export default {
   }),
 
   mounted: async function () {
-    // fetch slugs
     let userDetails = await store.dispatch("user/getUserDetails")
     this.slug = userDetails.slug
     let schoolDetails = await store.dispatch("school/getSchoolDetails")
@@ -431,7 +382,8 @@ export default {
   },
 
   methods: {
-    ...mapActions("user", ["updateProfile", "updateUserDetails"]),
+    ...mapActions("user", ["updateUserDetails"]),
+    ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
     submit() {
       let userDetailsPayload = this.createUserSubmitPayload()
@@ -446,21 +398,13 @@ export default {
 
     createUserSubmitPayload() {
       return {
-        slug: this.slug,
-        first_name: this.registrationInfo.firstName,
-        last_name: this.registrationInfo.lastName,
+        name: this.registrationInfo.name,
       }
     },
 
     createProfileSubmitPayload() {
       let profilePayload = new FormData()
       profilePayload.append("phone_number", this.registrationInfo.phone)
-      if (this.registrationInfo.profilePic) {
-        profilePayload.append(
-          "profile_picture",
-          this.registrationInfo.profilePic
-        )
-      }
       return profilePayload
     },
 
@@ -519,19 +463,6 @@ export default {
 
     decrementPage() {
       this.page -= 1
-    },
-
-    clickId(id) {
-      document.getElementById(id).click()
-    },
-  },
-
-  computed: {
-    profilePicSource() {
-      // Use dummy image if no image provided
-      return this.registrationInfo.profilePic !== null
-        ? Utils.uploadedFileToUrl(this.registrationInfo.profilePic)
-        : errorMsgImage
     },
   },
 }

@@ -18,6 +18,7 @@
     "understood": "הבנתי",
     "message": "הודעה",
     "profile": "פרופיל",
+    "myProfile": "הפרופיל שלי",
     "description": "תיאור",
     "website": "אתר",
     "detailsSuccessfullyUpdated": "הפרטים עודכנו בהצלחה",
@@ -25,17 +26,30 @@
     "loading": "בטעינה...",
     "student": "תלמיד",
     "date": "תאריך",
-    "AreYouSureYouWantToDelete": "האם אתם בטוחים שתרצו למחוק?",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
     "program": "תוכניות|תוכנית",
     "step": "שלב",
     "generalDetails": "פרטים כלליים",
-    "chosen": "נבחרו"
+    "chosen": "נבחרו",
+    "status": "סטטוס"
+  },
+
+  "confirm": {
+    "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?"
+  },
+
+  "gender": {
+    "gender": "מין",
+    "male": "זכר",
+    "female": "נקבה",
+    "unknown": "לא ידוע",
+    "other": "אחר"
   },
 
   "program": {
     "programsExplorer": "חוקר התוכניות",
     "findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!": "מצאו תוכניות שמתאימות לחזון הפדגוגי של בית הספר והתחילו לשתף פעולה!",
+    "searchAndFindTheProgramsYouLike!": "חפשו ומצאו את התוכניות שאתם אוהבים!",
     "programsFound": "תוכניות נמצאו",
     "name": "שם התוכנית",
     "description": "על התוכנית",
@@ -45,7 +59,11 @@
     "domain": "מרחב",
     "targetAudience": "קהל יעד",
     "richMedia": "מדיה",
-    "organization": "ארגון אב"
+    "organization": "ארגון אב",
+    "PENDING_ADMIN_APPROVAL": "ממתין לאישור מנהל",
+    "APPROVED": "אושר",
+    "CANCELLED": "בוטל",
+    "available": "זמין"
   },
 
   "programFilters": {
@@ -113,6 +131,7 @@
     "principalPosition": "תפקיד ושיוך ארגוני",
     "position": "תפקיד",
     "profilePicture": "תמונת פרופיל",
+    "myProfile": "הפרופיל שלי",
     "confirmDetails": "אישור הפרטים",
     "registrationFormExpired": "נראה שטופס הרישום פג תוקף",
     "registrationSucceeded": "ההרשמה הושלמה בהצלחה",

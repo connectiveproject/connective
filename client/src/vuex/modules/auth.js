@@ -1,10 +1,10 @@
 import Vue from "vue"
 import Api from "../../api"
-import { tokenCookieName } from "../../helpers/constants/constants"
+import { TOKEN_COOKIE_NAME } from "../../helpers/constants/constants"
 
 function getDefaultState() {
   return {
-    isAuthenticated: document.cookie.includes(`${tokenCookieName}=`),
+    isAuthenticated: document.cookie.includes(`${TOKEN_COOKIE_NAME}=`),
   }
 }
 

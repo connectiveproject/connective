@@ -30,12 +30,15 @@
           show-select
           multi-sort
           v-bind.sync="tableProps"
-          @input="tableProps.selectedRows = $event"
+          v-model="selectedRows"
         >
           <template v-slot:item.actions="{ item }">
             <v-icon size="20" class="mr-2" @click="editStudent(item)">
               mdi-pencil
             </v-icon>
+          </template>
+          <template v-slot:item.profile.gender="{ item }">
+            {{ $t(`gender.${item.profile.gender.toLowerCase()}`) }}
           </template>
           <!-- Pending Backend:
                     <template v-slot:item.createdOn="{ item }">
@@ -60,7 +63,7 @@
               text
               color="error"
               @click="handleDeleteRequest"
-              :disabled="!tableProps.selectedRows.length"
+              :disabled="!selectedRows.length"
             >
               {{ `${$tc("userActions.remove", 1)} ${$t("general.student")}` }}
             </v-btn>
@@ -127,10 +130,10 @@ export default {
   data() {
     return {
       searchFilter: "",
+      selectedRows: [],
       tableProps: {
         items: [],
-        selectedRows: [],
-        itemKey: "slug",
+        itemKey: "email",
         loading: false,
         loadingText: this.$t("general.loading"),
         serverItemsLength: this.$store.state.school.totalStudents,
@@ -139,13 +142,9 @@ export default {
         options: {},
         headers: [
           { text: "", value: "actions", sortable: false },
-          { text: this.$t("auth.firstName"), value: "firstName" },
-          { text: this.$t("auth.lastName"), value: "lastName" },
-          {
-            text: this.$t("general.phoneNumber"),
-            value: "profile.phoneNumber",
-          },
+          { text: this.$t("general.name"), value: "name" },
           { text: this.$t("general.email"), value: "email" },
+          { text: this.$t("gender.gender"), value: "profile.gender" },
           // Pending Backend:
           // { text: this.$t('general.date'), value: 'dateAdded' },
           // { text: this.$t('invite.invitationStatus'), value: 'status' },
@@ -157,11 +156,10 @@ export default {
       popupMsg: "",
 
       dialogStudent: {
-        firstName: "",
-        lastName: "",
+        name: "",
         email: "",
         profile: {
-          phoneNumber: "",
+          gender: "",
         },
       },
       dialogMode: "create",
@@ -213,10 +211,8 @@ export default {
         itemsPerPage: this.tableProps.options.itemsPerPage,
         page: this.tableProps.options.page,
         searchFilter: this.searchFilter,
-        sort: {
-          sortBy: this.tableProps.options.sortBy,
-          sortDesc: this.tableProps.options.sortDesc,
-        },
+        sortBy: this.tableProps.options.sortBy,
+        sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
       this.tableProps.items = await this.getStudentList()
@@ -246,16 +242,18 @@ export default {
     },
 
     async handleDeleteRequest() {
-      if (confirm(this.$t("general.AreYouSureYouWantToDelete"))) {
-        let slugs = this.tableProps.selectedRows.map(row => row.slug)
+      if (confirm(this.$t("general.AreYouSureYouWantToDelete?"))) {
+        let slugs = this.selectedRows.map(row => row.slug)
         await this.deleteStudents(slugs)
-        this.tableProps.selectedRows = []
+        this.selectedRows = []
         this.getStudents()
       }
     },
 
     editStudent(student) {
       this.dialogStudent = Object.assign({}, student)
+      delete this.dialogStudent.slug
+      delete this.dialogStudent.profile.slug
       this.dialogSlug = student.slug
       this.dialogMode = "edit"
       this.isDialogActive = true

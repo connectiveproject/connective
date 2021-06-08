@@ -2,7 +2,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from server.users.models import User
+from server.schools.models import School
+from server.users.models import Consumer, User
 from server.utils.model_fields import random_slug
 
 
@@ -41,16 +42,6 @@ class Activity(models.Model):
     )
     description = models.CharField(max_length=400, default="")
     contact_name = models.CharField(max_length=60, default="")
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
     logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
         blank=True,
@@ -82,8 +73,57 @@ class OrganizationMember(models.Model):
     )
     organization = models.ForeignKey(
         Organization,
+        on_delete=models.CASCADE,
+        related_name="organization_member",
+    )
+
+
+class SchoolActivityOrder(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["school", "activity"], name="unique_order")
+        ]
+
+    class Status(models.TextChoices):
+        CANCELLED = "CANCELLED", "Cancelled"
+        PENDING_ADMIN_APPROVAL = "PENDING_ADMIN_APPROVAL", "Pending Admin Approval"
+        APPROVED = "APPROVED", "Approved"
+
+    base_status = Status.PENDING_ADMIN_APPROVAL
+
+    requested_by = models.ForeignKey(
+        User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="organization_member",
+        related_name="requested_orders",
     )
+    last_updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="last_updated_by_me_orders",
+    )
+    school = models.ForeignKey(
+        School, on_delete=models.CASCADE, related_name="school_activity_orders"
+    )
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="school_activity_orders"
+    )
+    status = models.CharField(
+        _("status"), max_length=50, choices=Status.choices, default=base_status
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class SchoolActivityGroup(models.Model):
+    activity_order = models.ForeignKey(
+        SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
+    )
+    name = models.CharField(_("name"), max_length=50)
+    description = models.CharField(_("description"), max_length=255)
+    consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
+    # whether group is for containing consumers only or also for real-life activities
+    container_only = models.BooleanField(default=False)
