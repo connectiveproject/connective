@@ -46,6 +46,5 @@ router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 router.register("manage_school_activity", ManageSchoolActivityViewSet)
 
-
 app_name = "api"
 urlpatterns = router.urls

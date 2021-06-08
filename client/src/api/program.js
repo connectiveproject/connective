@@ -3,7 +3,7 @@ import {
   GET_PROGRAMS_LIST_API_URL,
   GET_PROGRAM_MEDIA_LIST_API_URL,
   ORDER_SCHOOL_PROGRAM_API_URL,
-  server,
+  SERVER,
 } from "../helpers/constants/constants"
 
 const program = {
@@ -25,13 +25,13 @@ const program = {
   },
   cancelProgramOrder(schoolSlug, programSlug) {
     return axios.patch(`${ORDER_SCHOOL_PROGRAM_API_URL}${programSlug}/`, {
-      status: server.programOrderStatus.cancelled,
+      status: SERVER.programOrderStatus.cancelled,
       school: schoolSlug
     })
   },
   reCreateProgramOrder(schoolSlug, programSlug) {
     return axios.patch(`${ORDER_SCHOOL_PROGRAM_API_URL}${programSlug}/`, {
-      status: server.programOrderStatus.pendingAdminApproval,
+      status: SERVER.programOrderStatus.pendingAdminApproval,
       school: schoolSlug
     })
   },

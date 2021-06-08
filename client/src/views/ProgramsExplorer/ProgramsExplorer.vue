@@ -67,7 +67,7 @@ import PaginationSearchBar from "../../components/PaginationSearchBar"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import {
   PROGRAMS_CHECKBOX_FILTERS,
-  server,
+  SERVER,
 } from "../../helpers/constants/constants"
 import { mapActions, mapGetters, mapState } from "vuex"
 import { getSubtitle } from "./helpers"
@@ -145,7 +145,7 @@ export default {
     },
 
     requestProgram(program) {
-      if (program.orderStatus === server.programOrderStatus.cancelled) {
+      if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
         return this.reCreateProgramOrder({
           schoolSlug: this.schoolSlug,
           programSlug: program.slug,

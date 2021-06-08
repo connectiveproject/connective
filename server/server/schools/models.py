@@ -31,8 +31,6 @@ class SchoolMember(models.Model):
     )
     school = models.ForeignKey(
         School,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.CASCADE,
         related_name="school_member",
     )
