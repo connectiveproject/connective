@@ -118,7 +118,7 @@ class ConsumerActivityViewSet(
 
         except ObjectDoesNotExist:
             return Response(
-                {"non_field_errors": ["user is not in am active group"]},
+                {"non_field_errors": ["user is not in an active group"]},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
