@@ -11,19 +11,3 @@ ports:
   # PostgreSQL server
   - port: 5432
     onOpen: ignore
-
-
-tasks:
-  - init: pip install -r server/requirements/local.txt && pre-commit install && source server/.envs/.local/.django  && source server/.envs/.local/.postgres && psql -c "CREATE DATABASE server"
-    command: cd server && python manage.py runserver
-  - command: 'redis-server'
-  - command: 'MailHog'
-  # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
-
-#vscode:
-#  extensions:
-#    - vsls-contrib.codetour
-
-github:
-  prebuilds:
-    master: false
