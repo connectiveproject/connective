@@ -20,9 +20,9 @@ tasks:
   - command: 'MailHog'
   # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
-vscode:
-  extensions:
-    - vsls-contrib.codetour
+#vscode:
+#  extensions:
+#    - vsls-contrib.codetour
 
 github:
   prebuilds:
