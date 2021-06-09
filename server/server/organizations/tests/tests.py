@@ -121,20 +121,24 @@ class TestConsumerActivityView:
             is True
         )
 
+
+class TestJoinGroupAction:
+    uri = "/api/consumer_activities/{0}/join_group/"
+
     @override_settings(
         DEBUG=True,
         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
     )
-    def test_join_group_action_with_create(self, consumer, school_activity_order):
+    def test_create_and_join(self, consumer, school_activity_order):
         """
         test consumer can join to an activity, when there are no groups (i.e., group is created)
         """
-        activity_slug = school_activity_order.activity.slug
         SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
         client = APIClient()
         client.force_authenticate(user=consumer)
-        action_uri = f"{self.uri}{activity_slug}/join_group/"
-        response = client.post(action_uri)
+
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
         assert (
             SchoolActivityGroup.objects.get(
                 activity_order=school_activity_order,
@@ -147,21 +151,36 @@ class TestConsumerActivityView:
         DEBUG=True,
         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
     )
-    def test_join_group_action(self, consumer, school_activity_group):
+    def test_join_to_existing(self, consumer, school_activity_group):
         """
         test consumer can join to an existing activity group
         """
         school_activity_group.group_type = (
-            school_activity_group.GroupTypes.CONTAINER_ONLY,
+            school_activity_group.GroupTypes.CONTAINER_ONLY
         )
         school_activity_group.save()
         school_activity_order = school_activity_group.activity_order
-        activity_slug = school_activity_order.activity.slug
         SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        action_uri = f"{self.uri}{activity_slug}/join_group/"
-        response = client.post(action_uri)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
         assert school_activity_group.consumers.all()[0] == consumer
         assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    def test_cant_join_group_twice(self, consumer, school_activity_group):
+        """
+        test consumer who is already on a group cant join again
+        """
+        school_activity_group.consumers.add(consumer)
+        school_activity_group.save()
+        school_activity_order = school_activity_group.activity_order
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data == {"non_field_errors": ["user already in a group"]}

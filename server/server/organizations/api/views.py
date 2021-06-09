@@ -73,13 +73,22 @@ class ConsumerActivityViewSet(
     def join_group(self, request, slug=None):
         if not hasattr(request.user, "school_member"):
             return Response(
-                {"errors": "must be a school member"},
+                {"non_field_errors": ["must be a school member"]},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         order = SchoolActivityOrder.objects.get(
             school=request.user.school_member.school,
             activity__slug=slug,
         )
+        if SchoolActivityGroup.objects.filter(
+            activity_order=order,
+            consumers=request.user.pk,
+        ).exists():
+            return Response(
+                {"non_field_errors": ["user already in a group"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         group, _created = SchoolActivityGroup.objects.get_or_create(
             activity_order=order,
             group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
