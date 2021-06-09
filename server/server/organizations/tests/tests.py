@@ -142,7 +142,7 @@ class TestJoinGroupAction:
         assert (
             SchoolActivityGroup.objects.get(
                 activity_order=school_activity_order,
-            ).consumers.all()[0]
+            ).consumers.first()
             == consumer
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -166,7 +166,7 @@ class TestJoinGroupAction:
         client.force_authenticate(user=consumer)
         activity_slug = school_activity_order.activity.slug
         response = client.post(self.uri.format(activity_slug))
-        assert school_activity_group.consumers.all()[0] == consumer
+        assert school_activity_group.consumers.first() == consumer
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
     def test_cant_join_group_twice(self, consumer, school_activity_group):
@@ -184,3 +184,30 @@ class TestJoinGroupAction:
         response = client.post(self.uri.format(activity_slug))
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert response.data == {"non_field_errors": ["user already in a group"]}
+
+
+class TestLeaveGroupAction:
+    uri = "/api/consumer_activities/{0}/leave_group/"
+
+    def test_leave_group(self, consumer, school_activity_group):
+        """
+        test consumer who is already on a group cant join again
+        """
+        school_activity_group.consumers.add(consumer)
+        school_activity_group.save()
+
+        school_activity_order = school_activity_group.activity_order
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert not school_activity_group.consumers.all().exists()
+        assert (
+            SchoolActivityGroup.objects.get(
+                group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
+            ).consumers.first()
+            == consumer
+        )

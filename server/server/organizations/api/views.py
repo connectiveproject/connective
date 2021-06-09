@@ -96,6 +96,39 @@ class ConsumerActivityViewSet(
         group.consumers.add(self.request.user.pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=["POST"])
+    def leave_group(self, request, slug=None):
+        """
+        move consumer to a "disabled consumers" group
+        """
+        if not hasattr(request.user, "school_member"):
+            return Response(
+                {"non_field_errors": ["must be a school member"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        order = SchoolActivityOrder.objects.get(
+            school=request.user.school_member.school,
+            activity__slug=slug,
+        )
+        try:
+            SchoolActivityGroup.objects.get(
+                activity_order=order,
+                consumers=request.user.pk,
+            ).consumers.remove(self.request.user.pk)
+
+        except ObjectDoesNotExist:
+            return Response(
+                {"non_field_errors": ["user is not in am active group"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        group, _created = SchoolActivityGroup.objects.get_or_create(
+            activity_order=order,
+            group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
+        )
+        group.consumers.add(self.request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):
     serializer_class = ActivityMediaSerializer
