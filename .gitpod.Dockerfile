@@ -19,7 +19,7 @@ ENV PGDATABASE="postgres"
 # This is a bit of a hack. At the moment we have no means of starting background
 # tasks from a Dockerfile. This workaround checks, on each bashrc eval, if the
 # PostgreSQL server is running, and if not starts it.
-# RUN printf "\n# Auto-start PostgreSQL server.\n[[ \$(pg_ctl status | grep PID) ]] || pg_start >> /workspace/connective/bashrc.log \n" >> ~/.bashrc
+RUN printf "\n# Auto-start PostgreSQL server.\n[[ \$(pg_ctl status | grep PID) ]] || pg_start >> /workspace/connective/bashrc.log \n" >> ~/.bashrc
 # RUN printf "\nif [[ ! \$(pg_ctl status | grep PID) ]]; then\n    pg_start\nfi\n" >> ~/.bashrc
 
 
