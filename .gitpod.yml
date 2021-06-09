@@ -23,3 +23,7 @@ tasks:
 vscode:
   extensions:
     - vsls-contrib.codetour
+
+github:
+  prebuilds:
+    master: false
