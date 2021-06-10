@@ -114,7 +114,7 @@ export default {
         }
       } catch (err) {
         // add toast
-        console.warn(err)
+        return
       }
     },
   },
