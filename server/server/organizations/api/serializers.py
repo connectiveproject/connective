@@ -145,9 +145,14 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
             return False
 
         # check if consumer is in a group
-        if SchoolActivityGroup.objects.filter(
-            activity_order__activity=obj, consumers=user
-        ).exists():
+        if (
+            SchoolActivityGroup.objects.filter(
+                activity_order__activity=obj,
+                consumers=user,
+            )
+            .exclude(group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS)
+            .exists()
+        ):
             return True
         return False
 

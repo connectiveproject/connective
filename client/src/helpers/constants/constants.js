@@ -15,9 +15,12 @@ export const GET_SCHOOL_STUDENTS_LIST_API_URL = `${SERVER_URL}/manage_consumers/
 export const ADD_SCHOOL_STUDENTS_API_URL = `${SERVER_URL}/manage_consumers/`
 export const EDIT_SCHOOL_STUDENTS_API_URL = `${SERVER_URL}/manage_consumers/`
 export const DELETE_SCHOOL_STUDENTS_API_URL = `${SERVER_URL}/manage_consumers/`
-export const GET_PROGRAMS_LIST_API_URL = `${SERVER_URL}/activities/`
+export const GET_PROGRAM_LIST_API_URL = `${SERVER_URL}/activities/`
 export const GET_PROGRAM_MEDIA_LIST_API_URL = `${SERVER_URL}/activity_media/`
 export const ORDER_SCHOOL_PROGRAM_API_URL = `${SERVER_URL}/manage_school_activity/`
+export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
+export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/{programSlug}/join_group/`
+export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/{programSlug}/leave_group/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const SCHOOL_GRADES_ITEMS = [

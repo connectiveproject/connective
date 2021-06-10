@@ -2,28 +2,13 @@
   <div>
     <v-row class="pt-10 ml-0">
       <v-col
-        cols="4"
-        md="3"
-        class="right-pane white-bg"
-        :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
-      >
-        <pagination-checkbox-group
-          v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
-          :key="filter.id"
-          :name="filter.name"
-          :title="filter.readableName"
-          :items="filter.options"
-          class="checkbox-group"
-          :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
-        />
-      </v-col>
-      <v-col
         cols="8"
         md="9"
         :class="{ 'px-10': !$vuetify.breakpoint.mobile }"
+        class="mx-auto"
       >
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
-        <h3 v-text="$t('program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!')" />
+        <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -42,11 +27,11 @@
             :key="program.id"
           >
             <info-card
-              v-model="program.isOrdered"
+              v-model="program.isConsumerJoined"
               :imgUrl="program.logo"
               :title="program.name"
               :body="program.description"
-              :subtitle="getCardSubtitle(program.orderStatus)"
+              :subtitle="getCardSubtitle(program.isConsumerJoined)"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             />
@@ -61,35 +46,28 @@
 
 <script>
 import InfoCard from "../../components/InfoCard"
-import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
-import {
-  PROGRAMS_CHECKBOX_FILTERS,
-  SERVER,
-} from "../../helpers/constants/constants"
 import { mapActions, mapGetters, mapState } from "vuex"
 
 export default {
   components: {
     InfoCard,
-    PaginationCheckboxGroup,
     PaginationSearchBar,
     EndOfPageDetector,
   },
 
   computed: {
-    ...mapState("program", ["programsList", "totalPrograms"]),
+    ...mapState("consumerProgram", ["programsList", "totalPrograms"]),
     ...mapGetters("school", ["schoolSlug"]),
   },
 
   methods: {
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
-    ...mapActions("program", [
+    ...mapActions("consumerProgram", [
       "getProgramsList",
-      "createProgramOrder",
-      "cancelProgramOrder",
-      "reCreateProgramOrder",
+      "joinProgram",
+      "leaveProgram",
     ]),
 
     onEndOfPage() {
@@ -117,11 +95,11 @@ export default {
       }
     },
 
-    getCardSubtitle(orderStatus) {
+    getCardSubtitle(isConsumerJoined) {
       const prefix = this.$t("general.status")
-      let status = this.$t("program.available")
-      if (orderStatus) {
-        status = this.$t(`program.${orderStatus}`)
+      let status = this.$t("auth.notRegistered")
+      if (isConsumerJoined) {
+        status = this.$t("auth.registered")
       }
       return `${prefix}: ${status}`
     },
@@ -130,40 +108,19 @@ export default {
       // (dis)request a program and change order status accordingly
       try {
         if (isStarred) {
-          this.requestProgram(program)
+          this.joinProgram(program.slug)
         } else {
-          this.disRequestProgram(program)
+          this.leaveProgram(program.slug)
         }
       } catch (err) {
         // add toast
         console.warn(err)
       }
     },
-
-    requestProgram(program) {
-      if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
-        return this.reCreateProgramOrder({
-          schoolSlug: this.schoolSlug,
-          programSlug: program.slug,
-        })
-      }
-      return this.createProgramOrder({
-        schoolSlug: this.schoolSlug,
-        programSlug: program.slug,
-      })
-    },
-
-    disRequestProgram(program) {
-      return this.cancelProgramOrder({
-        schoolSlug: this.schoolSlug,
-        programSlug: program.slug,
-      })
-    },
   },
 
   data() {
     return {
-      PROGRAMS_CHECKBOX_FILTERS,
       recentlyScrolled: false,
       isProgramOpen: true,
     }
@@ -180,7 +137,7 @@ export default {
     isProgramOpen(value) {
       // route back on close
       if (!value) {
-        this.$router.push({ name: "ProgramsExplorer" })
+        this.$router.push({ name: "ConsumerProgramsExplorer" })
       }
     },
   },
@@ -193,13 +150,6 @@ export default {
 }
 .right-pane {
   border-left: $light-grey 1px solid;
-}
-.checkbox-group {
-  float: right;
-  width: 100%;
-}
-.checkbox-small::v-deep label {
-  font-size: 12px;
 }
 .search-bar {
   max-width: 450px;

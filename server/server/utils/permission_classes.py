@@ -6,12 +6,18 @@ class AllowCoordinator(BasePermission):
         if not request.user.is_authenticated:
             return False
 
+        if not hasattr(request.user, "school_member"):
+            return False
+
         return request.user.user_type == request.user.Types.COORDINATOR
 
 
 class AllowConsumer(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
+            return False
+
+        if not hasattr(request.user, "school_member"):
             return False
 
         return request.user.user_type == request.user.Types.CONSUMER
@@ -30,6 +36,9 @@ class AllowCoordinatorReadOnly(BasePermission):
         if not request.user.is_authenticated:
             return False
 
+        if not hasattr(request.user, "school_member"):
+            return False
+
         return (
             request.method in SAFE_METHODS
             and request.user.user_type == request.user.Types.COORDINATOR
@@ -39,6 +48,9 @@ class AllowCoordinatorReadOnly(BasePermission):
 class AllowConsumerReadOnly(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
+            return False
+
+        if not hasattr(request.user, "school_member"):
             return False
 
         return (

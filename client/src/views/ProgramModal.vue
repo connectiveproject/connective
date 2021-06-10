@@ -48,7 +48,7 @@
               frameborder="0"
               allow="autoplay; encrypted-media"
               allowfullscreen
-            ></iframe>
+            />
             <img v-else :src="media.imageUrl" class="w-100" height="350" />
           </v-carousel-item>
         </v-carousel>

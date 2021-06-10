@@ -5,6 +5,7 @@ import {
   checkRegistrationStatus,
   loginOrFlushStore,
   initPrograms,
+  initConsumerPrograms,
   flushPagination,
   flushToken,
   PopulateConsumerData,
@@ -19,6 +20,7 @@ import Profile from "../views/Profile.vue"
 import ConsumerProfile from "../views/ConsumerProfile.vue"
 import SchoolDetails from "../views/SchoolDetails.vue"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
+import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer.vue"
 import Invite from "../views/Invite/Invite.vue"
 import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
@@ -92,11 +94,12 @@ const routes = [
           {
             path: "programs-explorer",
             name: "ConsumerProgramsExplorer",
-            component: ProgramsExplorer,
-            beforeEnter: initPrograms,
+            component: ConsumerProgramsExplorer,
+            beforeEnter: initConsumerPrograms,
             children: [
               {
                 path: "program-modal/:slug",
+                name: "ConsumerProgramModal",
                 component: ProgramModal,
                 props: true,
               },
@@ -138,6 +141,7 @@ const routes = [
             children: [
               {
                 path: "program-modal/:slug",
+                name: "ProgramModal",
                 component: ProgramModal,
                 props: true,
               },

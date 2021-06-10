@@ -55,6 +55,14 @@ export async function initPrograms(to, from, next) {
   next()
 }
 
+export async function initConsumerPrograms(to, from, next) {
+  // set pagination config & fetch initial program list from server
+  store.dispatch("pagination/flushState")
+  await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
+  await store.dispatch("consumerProgram/getProgramsList")
+  next()
+}
+
 export function flushPagination(to, from, next) {
   store.dispatch("pagination/flushState")
   next()

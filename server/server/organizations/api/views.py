@@ -80,14 +80,26 @@ class ConsumerActivityViewSet(
             school=request.user.school_member.school,
             activity__slug=slug,
         )
-        if SchoolActivityGroup.objects.filter(
-            activity_order=order,
-            consumers=request.user.pk,
-        ).exists():
-            return Response(
-                {"non_field_errors": ["user already in a group"]},
-                status=status.HTTP_400_BAD_REQUEST,
+
+        try:
+            existing_group = SchoolActivityGroup.objects.get(
+                activity_order=order,
+                consumers=request.user.pk,
             )
+            if (
+                existing_group.group_type
+                == SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS
+            ):
+                existing_group.consumers.remove(request.user.pk)
+
+            else:
+                return Response(
+                    {"non_field_errors": ["user already in a group"]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except ObjectDoesNotExist:
+            pass
 
         group, _created = SchoolActivityGroup.objects.get_or_create(
             activity_order=order,
@@ -111,10 +123,11 @@ class ConsumerActivityViewSet(
             activity__slug=slug,
         )
         try:
-            SchoolActivityGroup.objects.get(
-                activity_order=order,
-                consumers=request.user.pk,
-            ).consumers.remove(self.request.user.pk)
+            SchoolActivityGroup.objects.exclude(
+                group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS
+            ).get(activity_order=order, consumers=request.user.pk,).consumers.remove(
+                request.user.pk
+            )
 
         except ObjectDoesNotExist:
             return Response(
@@ -126,7 +139,7 @@ class ConsumerActivityViewSet(
             activity_order=order,
             group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
         )
-        group.consumers.add(self.request.user.pk)
+        group.consumers.add(request.user.pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
