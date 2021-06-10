@@ -39,7 +39,7 @@ class TestManageSchoolProgramsView:
     @override_settings(DEBUG=True)
     def test_create_without_member(self, school, school1, coordinator, activity):
         """
-        make sure can't create when not a school member
+        make sure can't create when not a school member of the relevant school
         """
         self.uri = "/api/manage_school_activity/"
         client = APIClient()
@@ -52,11 +52,8 @@ class TestManageSchoolProgramsView:
         post_response_2 = client.post(
             self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
-        assert (
-            status.HTTP_400_BAD_REQUEST
-            == post_response.status_code
-            == post_response_2.status_code
-        )
+        assert status.HTTP_403_FORBIDDEN == post_response.status_code
+        assert status.HTTP_400_BAD_REQUEST == post_response_2.status_code
 
 
 class TestConsumerActivityView:
