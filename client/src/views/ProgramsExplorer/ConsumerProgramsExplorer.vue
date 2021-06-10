@@ -78,7 +78,7 @@ export default {
 
     openProgram(slug) {
       this.isProgramOpen = true
-      this.$router.push({ name: "ProgramModal", params: { slug } })
+      this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
     },
 
     async getPrograms() {

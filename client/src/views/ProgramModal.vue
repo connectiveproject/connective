@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-if="program" :value="value" @input="close" width="600px">
-      <v-card>
+    <v-dialog v-if="program" :value="value" @input="close" width="540px">
+      <v-card class="px-5">
         <v-card-title v-text="program.name" class="py-8 justify-center" />
         <v-card-text>
           <title-to-text
@@ -17,14 +17,20 @@
             :title="$t('program.description')"
           />
           <title-to-text
+            v-if="!$route.meta.isConsumer"
             :text="program.contactName"
             :title="$t('program.contactName')"
           />
           <title-to-text
+            v-if="!$route.meta.isConsumer"
             :text="program.phoneNumber"
             :title="$t('program.contactPhone')"
           />
-          <title-to-text :text="program.domain" :title="$t('program.domain')" />
+          <title-to-text
+            v-if="!$route.meta.isConsumer"
+            :text="program.domain"
+            :title="$t('program.domain')"
+          />
         </v-card-text>
         <v-carousel
           v-if="mediaList.length"
@@ -68,10 +74,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
-import { PROGRAM_MEDIA_PLACEHOLDER } from "../helpers/constants/images"
 
 export default {
   components: { TitleToText },
@@ -81,37 +85,19 @@ export default {
       type: Boolean,
       required: true,
     },
-    slug: {
-      type: String,
+    program: {
+      type: Object,
+      required: true,
+    },
+    mediaList: {
+      type: Array,
       required: true,
     },
   },
-  data() {
-    return {
-      program: null,
-      mediaList: null,
-    }
-  },
   methods: {
-    ...mapActions("program", ["getProgram", "getProgramMediaList"]),
     youtubeToEmbeddedUrl: Utils.youtubeToEmbeddedUrl,
     close() {
       this.$emit("input", false)
-    },
-    async getProgramDetails(slug) {
-      this.mediaList = await this.getProgramMediaList(slug)
-      this.program = await this.getProgram(slug)
-      if (!this.mediaList.length) {
-        this.mediaList = [{ imageUrl: PROGRAM_MEDIA_PLACEHOLDER, mediaType: "image" }]
-      }
-    },
-  },
-  created() {
-    this.getProgramDetails(this.slug)
-  },
-  watch: {
-    slug(value) {
-      this.getProgramDetails(value)
     },
   },
 }

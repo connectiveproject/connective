@@ -10,6 +10,7 @@ import {
   flushToken,
   PopulateConsumerData,
   PopulateCoordinatorData,
+  fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
@@ -101,6 +102,8 @@ const routes = [
                 path: "program-modal/:slug",
                 name: "ConsumerProgramModal",
                 component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                meta: { isConsumer: true },
                 props: true,
               },
             ],
@@ -143,6 +146,8 @@ const routes = [
                 path: "program-modal/:slug",
                 name: "ProgramModal",
                 component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                meta: { isConsumer: false },
                 props: true,
               },
             ],
