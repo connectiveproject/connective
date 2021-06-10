@@ -53,7 +53,7 @@ const routes = [
             component: Register,
           },
           {
-            path: "reset-password/:userType/:uid/:token",
+            path: "reset-password/:uid/:token",
             name: "ResetPassword",
             component: ResetPassword,
             beforeEnter: flushToken,
