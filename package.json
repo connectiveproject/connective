@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "test:debug": "node --inspect-brk node_modules/.bin/vue-cli-service test:unit --no-cache --watch --runInBand",
-    "lint": "vue-cli-service lint",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "imagemin": "node imagemin.js",
-    "json-server": "cd ./json-server && ./run.sh",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "serve": "cd client && vue-cli-service serve",
+    "build": "cd client && vue-cli-service build",
+    "test:unit": "cd client && vue-cli-service test:unit",
+    "test:debug": "cd client && node --inspect-brk node_modules/.bin/vue-cli-service test:unit --no-cache --watch --runInBand",
+    "lint": "cd client && vue-cli-service lint",
+    "i18n:report": "cd client && vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "imagemin": "cd client && node imagemin.js",
+    "json-server": "cd ./clientjson-server && ./run.sh",
+    "storybook": "cd client && start-storybook -p 6006",
+    "build-storybook": "cd client && build-storybook"
   },
   "dependencies": {
     "@vue/cli": "^4.5.11",
