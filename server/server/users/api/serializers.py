@@ -81,7 +81,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get("email", instance.email)
 
         profile_data = validated_data.pop("profile")
-        profile = ConsumerProfile.objects.get(user=instance)
+        profile = instance.profile
         for attr, value in profile_data.items():
             setattr(profile, attr, value)
 
