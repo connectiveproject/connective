@@ -51,6 +51,8 @@ class Activity(models.Model):
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
+    activity_website_url = models.URLField(null=True, blank=True)
+    activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=550, default="")
     contact_name = models.CharField(max_length=60, default="")
     logo = models.ImageField(blank=True, null=True)
@@ -66,6 +68,10 @@ class Activity(models.Model):
     )
 
 
+def __str__(self):
+    return f"{self.name} | {self.slug} | {self.originization.name}"
+
+
 class ActivityMedia(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=40, null=True, blank=True)
@@ -76,6 +82,9 @@ class ActivityMedia(models.Model):
         on_delete=models.CASCADE,
         related_name="rich_media",
     )
+
+    def __str__(self):
+        return f"{self.name} | {self.slug} | {self.activity.name}"
 
 
 class OrganizationMember(models.Model):
@@ -133,8 +142,6 @@ class SchoolActivityGroup(models.Model):
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
-    activity_website_url = models.URLField(null=True, blank=True)
-    activity_email = models.EmailField(null=True, blank=True)
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
