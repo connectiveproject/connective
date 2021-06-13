@@ -133,8 +133,10 @@ class SchoolActivityGroup(models.Model):
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
+    activity_website_url = models.URLField(null=True, blank=True)
+    activity_email = models.EmailField(null=True, blank=True)
     name = models.CharField(_("name"), max_length=50)
-    description = models.CharField(_("description"), max_length=255)
+    description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
     # whether group is for containing consumers only or also for real-life activities
     container_only = models.BooleanField(default=False)
