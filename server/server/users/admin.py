@@ -20,7 +20,7 @@ User = get_user_model()
 
 def send_invite(self, request, queryset):
     for user in queryset:
-        send_user_invite(user.email)
+        send_user_invite(user.email, request)
 
 
 send_invite.short_description = "Invite user"
