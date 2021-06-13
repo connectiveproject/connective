@@ -1,6 +1,6 @@
 import i18n from "../../plugins/i18n"
 
-const SERVER_URL = `https://calm-hamlet-63949.herokuapp.com/api` // todo replace with env variable
+const SERVER_URL = `${window.location.origin.replace("8080", "8000")}/api` // todo replace with env variable
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
