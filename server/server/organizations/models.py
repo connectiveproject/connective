@@ -9,6 +9,7 @@ from server.utils.model_fields import random_slug
 
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    organization_number = models.CharField(max_length=10, unique=True, null=True)
     email = models.EmailField()
     description = models.CharField(max_length=250)
     website_url = models.URLField(null=True, blank=True)
@@ -50,7 +51,7 @@ class Activity(models.Model):
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
-    description = models.CharField(max_length=400, default="")
+    description = models.CharField(max_length=550, default="")
     contact_name = models.CharField(max_length=60, default="")
     logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
