@@ -1,3 +1,0 @@
-# This file is expected by Gitpod.
-
--r server/requirements/local.txt
