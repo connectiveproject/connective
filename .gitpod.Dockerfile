@@ -7,9 +7,9 @@ FROM gitpod/workspace-postgres
 # More information: https://www.gitpod.io/docs/config-docker/
 RUN sudo apt-get update  && sudo apt-get install -y   redis-server  && sudo rm -rf /var/lib/apt/lists/* && brew update && brew install mailhog
 
-COPY server/requirements/ .
+COPY server/requirements/ ./_temp_requirements
 
-RUN pip install -r server/requirements/local.txt
+RUN pip install -r _temp_requirements/local.txt
 
 COPY . .
 
