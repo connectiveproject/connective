@@ -68,7 +68,10 @@ class Activity(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} | {self.slug} | {self.originization.name}"
+        try:
+            return f"{self.name} | {self.slug} | {self.originization.name}"
+        except AttributeError:
+            return f"{self.name} | {self.slug}"
 
 
 class ActivityMedia(models.Model):
