@@ -88,3 +88,6 @@ else:
 
 if GITPOD_WORKSPACE_ID:
     RESET_BASE_URL = f"https://8000-{GITPOD_WORKSPACE_URL[8:]}"
+    CLIENT_BASE_URL = f"https://8080-{GITPOD_WORKSPACE_URL[8:]}"
+else:
+    CLIENT_BASE_URL = "http://localhost:8080"
