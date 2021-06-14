@@ -1,6 +1,6 @@
 import i18n from "../../plugins/i18n"
 
-const SERVER_URL = `https://calm-hamlet-63949.herokuapp.com/api` // todo replace with env variable
+const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
@@ -40,7 +40,8 @@ export const SCHOOL_GRADES_ITEMS = [
 
 export const PASSWORD_REGEX_PATTERN =
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
-export const ISRAELI_PHONE_REGEX_PATTERN = "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
+export const ISRAELI_PHONE_REGEX_PATTERN =
+  "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
 export const EMAIL_REGEX_PATTERN =
   '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
 export const WEBSITE_REGEX_PATTERN =
