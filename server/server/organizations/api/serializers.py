@@ -129,13 +129,9 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
             "slug",
             "name",
             "target_audience",
-            "domain",
             "originization",
             "description",
-            "contact_name",
-            "phone_number",
             "logo",
-            "phone_number",
             "is_consumer_joined",
         ]
 

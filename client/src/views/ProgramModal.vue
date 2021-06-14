@@ -5,29 +5,32 @@
         <v-card-title v-text="program.name" class="py-8 justify-center" />
         <v-card-text>
           <title-to-text
+            v-if="program.organization"
             :text="program.organization"
             :title="$t('program.organization')"
           />
           <title-to-text
+            v-if="program.targetAudience.length"
             :text="program.targetAudience.join(', ')"
             :title="$t('program.targetAudience')"
           />
           <title-to-text
+            v-if="program.description"
             :text="program.description"
             :title="$t('program.description')"
           />
           <title-to-text
-            v-if="!$route.meta.isConsumer"
+            v-if="!isConsumer && program.contactName"
             :text="program.contactName"
             :title="$t('program.contactName')"
           />
           <title-to-text
-            v-if="!$route.meta.isConsumer"
+            v-if="!isConsumer && program.phoneNumber"
             :text="program.phoneNumber"
             :title="$t('program.contactPhone')"
           />
           <title-to-text
-            v-if="!$route.meta.isConsumer"
+            v-if="!isConsumer && program.domain"
             :text="program.domain"
             :title="$t('program.domain')"
           />
@@ -74,6 +77,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
 
@@ -99,6 +103,9 @@ export default {
     close() {
       this.$emit("input", false)
     },
+  },
+  computed: {
+    ...mapGetters("user", ["isConsumer"]),
   },
 }
 </script>
