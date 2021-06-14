@@ -9,38 +9,51 @@ from server.utils.model_fields import random_slug
 
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    organization_number = models.CharField(max_length=10, unique=True, null=True)
     email = models.EmailField()
     description = models.CharField(max_length=250)
-    website_url = models.URLField()
+    website_url = models.URLField(null=True, blank=True)
     name = models.CharField(max_length=50)
-    goal = models.CharField(max_length=250)
+    goal = models.CharField(max_length=250, null=True, blank=True)
     year_founded = models.CharField(max_length=4, null=True, blank=True)
-    status = models.CharField(max_length=50)
-    target_audience = models.JSONField()
-    number_of_employees = models.PositiveIntegerField()
-    number_of_members = models.PositiveIntegerField()
-    number_of_volunteers = models.PositiveIntegerField()
-    location_lon = models.DecimalField(max_digits=9, decimal_places=6)
-    location_lat = models.DecimalField(max_digits=9, decimal_places=6)
+    status = models.CharField(max_length=50, null=True, blank=True)
+    target_audience = models.JSONField(null=True, blank=True)
+    number_of_employees = models.PositiveIntegerField(null=True, blank=True)
+    number_of_members = models.PositiveIntegerField(null=True, blank=True)
+    number_of_volunteers = models.PositiveIntegerField(null=True, blank=True)
+    location_lon = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
+    location_lat = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
 
-    address_city = models.CharField(max_length=150)
-    address_street = models.CharField(max_length=150)
-    address_house_num = models.CharField(max_length=4)
-    address_zipcode = models.CharField(max_length=9)
-    cities = models.JSONField()
-    districts = models.JSONField()
-    union_type = models.CharField(max_length=50)
+    address_city = models.CharField(max_length=150, null=True, blank=True)
+    address_street = models.CharField(max_length=150, null=True, blank=True)
+    address_house_num = models.CharField(max_length=4, null=True, blank=True)
+    address_zipcode = models.CharField(max_length=9, null=True, blank=True)
+    cities = models.JSONField(null=True, blank=True)
+    districts = models.JSONField(null=True, blank=True)
+    union_type = models.CharField(max_length=50, null=True, blank=True)
 
 
 class Activity(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
-    domain = models.CharField(max_length=55)
+    domain = models.CharField(max_length=55, null=True, blank=True)
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
-    description = models.CharField(max_length=400, default="")
+    activity_website_url = models.URLField(null=True, blank=True)
+    activity_email = models.EmailField(null=True, blank=True)
+    description = models.CharField(max_length=550, default="")
     contact_name = models.CharField(max_length=60, default="")
     logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
@@ -54,10 +67,16 @@ class Activity(models.Model):
         ],
     )
 
+    def __str__(self):
+        try:
+            return f"{self.name} | {self.slug} | {self.originization.name}"
+        except AttributeError:
+            return f"{self.name} | {self.slug}"
+
 
 class ActivityMedia(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40, null=True, blank=True)
     image_url = models.ImageField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
     activity = models.ForeignKey(
@@ -65,6 +84,9 @@ class ActivityMedia(models.Model):
         on_delete=models.CASCADE,
         related_name="rich_media",
     )
+
+    def __str__(self):
+        return f"{self.name} | {self.slug} | {self.activity.name}"
 
 
 class OrganizationMember(models.Model):
@@ -128,7 +150,7 @@ class SchoolActivityGroup(models.Model):
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
     name = models.CharField(_("name"), max_length=50)
-    description = models.CharField(_("description"), max_length=255)
+    description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
     group_type = models.CharField(
         _("group type"),
