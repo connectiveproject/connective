@@ -60,7 +60,7 @@ class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
 
 
-@admin.register(Vendor)
+@admin.register(User, Vendor)
 class OrgUserTypesAdmin(BaseUserTypesAdmin):
     pass
 

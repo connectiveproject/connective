@@ -52,8 +52,11 @@ class TestManageSchoolProgramsView:
         post_response_2 = client.post(
             self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
-        assert status.HTTP_403_FORBIDDEN == post_response.status_code
-        assert status.HTTP_400_BAD_REQUEST == post_response_2.status_code
+        assert (
+            status.HTTP_400_BAD_REQUEST
+            == post_response.status_code
+            == post_response_2.status_code
+        )
 
 
 class TestConsumerActivityView:
