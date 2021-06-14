@@ -1,3 +1,5 @@
+from contextlib import suppress
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -81,7 +83,8 @@ class ConsumerActivityViewSet(
             activity__slug=slug,
         )
 
-        try:
+        with suppress(ObjectDoesNotExist):
+            # check if user already in a group, and handle accordingly
             existing_group = SchoolActivityGroup.objects.get(
                 activity_order=order,
                 consumers=request.user.pk,
@@ -98,10 +101,7 @@ class ConsumerActivityViewSet(
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-        except ObjectDoesNotExist:
-            pass
-
-        group, _created = SchoolActivityGroup.objects.get_or_create(
+        group, _ = SchoolActivityGroup.objects.get_or_create(
             activity_order=order,
             group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
         )
