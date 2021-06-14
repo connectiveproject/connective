@@ -20,17 +20,17 @@
             :title="$t('program.description')"
           />
           <title-to-text
-            v-if="!isConsumer && program.contactName"
+            v-if="program.contactName"
             :text="program.contactName"
             :title="$t('program.contactName')"
           />
           <title-to-text
-            v-if="!isConsumer && program.phoneNumber"
+            v-if="program.phoneNumber"
             :text="program.phoneNumber"
             :title="$t('program.contactPhone')"
           />
           <title-to-text
-            v-if="!isConsumer && program.domain"
+            v-if="program.domain"
             :text="program.domain"
             :title="$t('program.domain')"
           />
@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
 
@@ -103,9 +102,6 @@ export default {
     close() {
       this.$emit("input", false)
     },
-  },
-  computed: {
-    ...mapGetters("user", ["isConsumer"]),
   },
 }
 </script>
