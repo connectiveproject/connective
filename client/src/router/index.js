@@ -15,6 +15,7 @@ import {
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
 import StudentDashboard from "../layouts/StudentDashboard.vue"
+import MyActivity from "../layouts/MyActivity.vue"
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import Profile from "../views/Profile.vue"
@@ -149,6 +150,11 @@ const routes = [
                 props: true,
               },
             ],
+          },
+          {
+            path: "my-activity",
+            name: "MyActivity",
+            component: MyActivity,
           },
         ],
       },

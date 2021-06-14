@@ -28,6 +28,11 @@ const coordinatorButtons = [
     icon: "mdi-handshake",
     onClick: () => Vue.$router.push({ name: "ProgramsExplorer" }),
   },
+  {
+    text: () => i18n.tc("myActivity.myActivity"),
+    icon: "mdi-drawing",
+    onClick: () => Vue.$router.push({ name: "MyActivity" }),
+  },
 ]
 
 const consumerButtons = [

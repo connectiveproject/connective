@@ -157,5 +157,12 @@
     "missingCityForID": "חסרה עיר לתעודת זהות",
     "missingColumnsOrValues": "חסרים ערכים או עמודות",
     "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה"
+  },
+
+  "myActivity": {
+    "myActivity": "הפעילות שלי",
+    "activeGroups": "קבוצות פעילות",
+    "myEvents": "האירועים שלי",
+    "myPrograms": "התוכניות שלי"
   }
 }
