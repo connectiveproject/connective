@@ -43,7 +43,7 @@ class Organization(models.Model):
     union_type = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return "{self.name} | {self.slug}"
+        return f"{self.name} | {self.slug}"
 
 
 class Activity(models.Model):
