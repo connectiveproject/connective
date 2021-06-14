@@ -201,3 +201,15 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"status": "invalid status"})
 
         return data
+
+
+class ManageSchoolActivityGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolActivityGroup
+        fields = [
+            "activity_order",
+            "name",
+            "description",
+            "consumers",
+            "group_type",
+        ]

@@ -5,6 +5,7 @@ from server.organizations.api.views import (
     ActivityMediaViewSet,
     ActivityViewSet,
     ConsumerActivityViewSet,
+    ManageSchoolActivityGroupViewSet,
     ManageSchoolActivityViewSet,
     OrganizationViewSet,
 )
@@ -45,6 +46,7 @@ router.register(
 router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 router.register("manage_school_activity", ManageSchoolActivityViewSet)
+router.register("manage_school_activity_group", ManageSchoolActivityGroupViewSet)
 
 app_name = "api"
 urlpatterns = router.urls

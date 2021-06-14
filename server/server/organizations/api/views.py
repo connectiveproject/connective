@@ -23,6 +23,7 @@ from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
     ConsumerActivitySerializer,
+    ManageSchoolActivityGroupSerializer,
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
 )
@@ -164,3 +165,14 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(last_updated_by=self.request.user)
+
+
+class ManageSchoolActivityGroupViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageSchoolActivityGroupSerializer
+    queryset = SchoolActivityOrder.objects.all()
+
+    def get_queryset(self):
+        return SchoolActivityGroup.objects.filter(
+            activity_order__in=self.request.user.school_member.school.school_activity_orders.all(),
+        )
