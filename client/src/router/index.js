@@ -5,10 +5,12 @@ import {
   checkRegistrationStatus,
   loginOrFlushStore,
   initPrograms,
+  initConsumerPrograms,
   flushPagination,
   flushToken,
   PopulateConsumerData,
   PopulateCoordinatorData,
+  fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
@@ -19,6 +21,7 @@ import Profile from "../views/Profile.vue"
 import ConsumerProfile from "../views/ConsumerProfile.vue"
 import SchoolDetails from "../views/SchoolDetails.vue"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
+import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer.vue"
 import Invite from "../views/Invite/Invite.vue"
 import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
@@ -50,7 +53,7 @@ const routes = [
             component: Register,
           },
           {
-            path: "reset-password/:userType/:uid/:token",
+            path: "reset-password/:uid/:token",
             name: "ResetPassword",
             component: ResetPassword,
             beforeEnter: flushToken,
@@ -92,12 +95,15 @@ const routes = [
           {
             path: "programs-explorer",
             name: "ConsumerProgramsExplorer",
-            component: ProgramsExplorer,
-            beforeEnter: initPrograms,
+            component: ConsumerProgramsExplorer,
+            beforeEnter: initConsumerPrograms,
             children: [
               {
                 path: "program-modal/:slug",
+                name: "ConsumerProgramModal",
                 component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                meta: { isConsumer: true },
                 props: true,
               },
             ],
@@ -138,7 +144,10 @@ const routes = [
             children: [
               {
                 path: "program-modal/:slug",
+                name: "ProgramModal",
                 component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                meta: { isConsumer: false },
                 props: true,
               },
             ],

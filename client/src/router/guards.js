@@ -1,6 +1,7 @@
 import store from "../vuex/store.js"
 import i18n from "../plugins/i18n"
 import { SERVER } from "../helpers/constants/constants"
+import { PROGRAM_MEDIA_PLACEHOLDER } from "../helpers/constants/images"
 
 async function isStaffRegistered() {
   // check if staff completed registration
@@ -55,6 +56,14 @@ export async function initPrograms(to, from, next) {
   next()
 }
 
+export async function initConsumerPrograms(to, from, next) {
+  // set pagination config & fetch initial program list from server
+  store.dispatch("pagination/flushState")
+  await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
+  await store.dispatch("consumerProgram/getProgramsList")
+  next()
+}
+
 export function flushPagination(to, from, next) {
   store.dispatch("pagination/flushState")
   next()
@@ -73,5 +82,22 @@ export function PopulateConsumerData(to, from, next) {
 
 export function PopulateCoordinatorData(to, from, next) {
   store.dispatch("school/getSchoolDetails")
+  next()
+}
+
+export async function fetchProgramDetails(to, from, next) {
+  let vuexModule = "program"
+  if (to.meta.isConsumer) {
+    vuexModule = "consumerProgram"
+  }
+  let [program, mediaList] = await Promise.all([
+    store.dispatch(`${vuexModule}/getProgram`, to.params.slug),
+    store.dispatch(`${vuexModule}/getProgramMediaList`, to.params.slug),
+  ])
+  if (!mediaList.length) {
+    mediaList = [{ imageUrl: PROGRAM_MEDIA_PLACEHOLDER, mediaType: "image" }]
+  }
+  to.params.program = program
+  to.params.mediaList = mediaList
   next()
 }

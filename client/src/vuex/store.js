@@ -6,6 +6,7 @@ import consumer from "./modules/consumer"
 import coordinator from "./modules/coordinator"
 import school from "./modules/school"
 import program from "./modules/program"
+import consumerProgram from "./modules/consumerProgram"
 import pagination from "./modules/pagination"
 import loading from "./modules/loading"
 
@@ -19,6 +20,7 @@ const store = new Vuex.Store({
     coordinator,
     school,
     program,
+    consumerProgram,
     loading,
     pagination,
   },

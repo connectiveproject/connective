@@ -141,11 +141,23 @@ class SchoolActivityOrder(models.Model):
 
 
 class SchoolActivityGroup(models.Model):
+    class GroupTypes(models.TextChoices):
+        CONTAINER_ONLY = "CONTAINER_ONLY", "Container Only"
+        DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
+        DEFAULT = "DEFAULT", "Default"
+
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
-    # whether group is for containing consumers only or also for real-life activities
-    container_only = models.BooleanField(default=False)
+    group_type = models.CharField(
+        _("group type"),
+        max_length=50,
+        choices=GroupTypes.choices,
+        default=GroupTypes.DEFAULT,
+    )
+
+    def __str__(self):
+        return f"{self.name} : {self.group_type} : {self.pk}"
