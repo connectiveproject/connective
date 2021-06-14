@@ -24,6 +24,9 @@ class School(models.Model):
     profile_picture = models.ImageField(null=True, blank=True)
     grade_levels = models.JSONField()
 
+    def __str__(self):
+        return f"{self.name} | {self.address_city} | {self.slug}"
+
 
 class SchoolMember(models.Model):
     user = models.OneToOneField(

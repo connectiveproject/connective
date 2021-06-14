@@ -11,7 +11,11 @@ const program = {
     return axios.get(`${GET_PROGRAM_LIST_API_URL}${slug}/`)
   },
   getProgramMediaList(programSlug) {
-    return axios.get(GET_PROGRAM_MEDIA_LIST_API_URL, { activity__slug: programSlug })
+    return axios.get(GET_PROGRAM_MEDIA_LIST_API_URL, {
+      params: {
+        activity__slug: programSlug,
+      },
+    })
   },
   getProgramsList(params) {
     // :Object params: query params
