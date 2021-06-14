@@ -39,7 +39,7 @@ class TestManageSchoolProgramsView:
     @override_settings(DEBUG=True)
     def test_create_without_member(self, school, school1, coordinator, activity):
         """
-        make sure can't create when not a school member
+        make sure can't create when not a school member of the relevant school
         """
         self.uri = "/api/manage_school_activity/"
         client = APIClient()
@@ -52,11 +52,8 @@ class TestManageSchoolProgramsView:
         post_response_2 = client.post(
             self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
         )
-        assert (
-            status.HTTP_400_BAD_REQUEST
-            == post_response.status_code
-            == post_response_2.status_code
-        )
+        assert status.HTTP_403_FORBIDDEN == post_response.status_code
+        assert status.HTTP_400_BAD_REQUEST == post_response_2.status_code
 
 
 class TestConsumerActivityView:
@@ -93,9 +90,9 @@ class TestConsumerActivityView:
         assert len(get_response_after_order_approval.data["results"]) == 1
 
     @override_settings(DEBUG=True)
-    def test_consumer_can_view_registration_status(self, consumer, school, activity):
+    def test_consumer_can_view_join_status(self, consumer, school, activity):
         """
-        test if registration status is true if in group, false otherwise
+        test if join status is true if in group, false otherwise
         """
         SchoolMember.objects.create(user=consumer, school=school)
         activity_order = SchoolActivityOrder.objects.create(
@@ -113,38 +110,101 @@ class TestConsumerActivityView:
         response_after_consumer_in_group = client.get(self.uri)
 
         assert (
-            response_before_consumer_in_group.data["results"][0][
-                "is_consumer_registered"
-            ]
+            response_before_consumer_in_group.data["results"][0]["is_consumer_joined"]
             is False
         )
         assert (
-            response_after_consumer_in_group.data["results"][0][
-                "is_consumer_registered"
-            ]
+            response_after_consumer_in_group.data["results"][0]["is_consumer_joined"]
             is True
         )
 
 
-# pending implementation
-# class TestConsumerActivityRegisterView:
-#     uri = "/api/consumer_activity_register/"
+class TestJoinGroupAction:
+    uri = "/api/consumer_activities/{0}/join_group/"
 
-#     @override_settings(
-#         DEBUG=True,
-#         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
-#     )
-#     def test_registeration(self, consumer, school_activity_group):
-#         """
-#         test consumer can register to an activity
-#         """
-#         activity_slug = school_activity_group.activity_order.activity.slug
-#         SchoolMember.objects.create(
-#             user=consumer, school=school_activity_group.activity_order.school
-#         )
+    @override_settings(
+        DEBUG=True,
+        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+    )
+    def test_create_and_join(self, consumer, school_activity_order):
+        """
+        test consumer can join to an activity, when there are no groups (i.e., group is created)
+        """
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+        client = APIClient()
+        client.force_authenticate(user=consumer)
 
-#         client = APIClient()
-#         client.force_authenticate(user=consumer)
-#         response = client.post(self.uri, {"activity_slug": activity_slug})
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert (
+            SchoolActivityGroup.objects.get(
+                activity_order=school_activity_order,
+            ).consumers.first()
+            == consumer
+        )
+        assert response.status_code == status.HTTP_204_NO_CONTENT
 
-#         assert response.status_code == status.HTTP_201_CREATED
+    @override_settings(
+        DEBUG=True,
+        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+    )
+    def test_join_to_existing(self, consumer, school_activity_group):
+        """
+        test consumer can join to an existing activity group
+        """
+        school_activity_group.group_type = (
+            school_activity_group.GroupTypes.CONTAINER_ONLY
+        )
+        school_activity_group.save()
+        school_activity_order = school_activity_group.activity_order
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert school_activity_group.consumers.first() == consumer
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    def test_cant_join_group_twice(self, consumer, school_activity_group):
+        """
+        test consumer who is already on a group cant join again
+        """
+        school_activity_group.consumers.add(consumer)
+        school_activity_group.save()
+        school_activity_order = school_activity_group.activity_order
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data == {"non_field_errors": ["user already in a group"]}
+
+
+class TestLeaveGroupAction:
+    uri = "/api/consumer_activities/{0}/leave_group/"
+
+    def test_leave_group(self, consumer, school_activity_group):
+        """
+        test consumer who is already on a group cant join again
+        """
+        school_activity_group.consumers.add(consumer)
+        school_activity_group.save()
+
+        school_activity_order = school_activity_group.activity_order
+        SchoolMember.objects.create(user=consumer, school=school_activity_order.school)
+
+        client = APIClient()
+        client.force_authenticate(user=consumer)
+        activity_slug = school_activity_order.activity.slug
+        response = client.post(self.uri.format(activity_slug))
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert not school_activity_group.consumers.all().exists()
+        assert (
+            SchoolActivityGroup.objects.get(
+                group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
+            ).consumers.first()
+            == consumer
+        )

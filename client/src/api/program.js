@@ -1,6 +1,6 @@
 import axios from "axios"
 import {
-  GET_PROGRAMS_LIST_API_URL,
+  GET_PROGRAM_LIST_API_URL,
   GET_PROGRAM_MEDIA_LIST_API_URL,
   ORDER_SCHOOL_PROGRAM_API_URL,
   SERVER,
@@ -8,14 +8,14 @@ import {
 
 const program = {
   getProgram(slug) {
-    return axios.get(`${GET_PROGRAMS_LIST_API_URL}${slug}/`)
+    return axios.get(`${GET_PROGRAM_LIST_API_URL}${slug}/`)
   },
   getProgramMediaList(programSlug) {
     return axios.get(GET_PROGRAM_MEDIA_LIST_API_URL, { activity__slug: programSlug })
   },
   getProgramsList(params) {
     // :Object params: query params
-    return axios.get(GET_PROGRAMS_LIST_API_URL, { params })
+    return axios.get(GET_PROGRAM_LIST_API_URL, { params })
   },
   createProgramOrder(schoolSlug, programSlug) {
     return axios.post(ORDER_SCHOOL_PROGRAM_API_URL, {
