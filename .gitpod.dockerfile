@@ -1,4 +1,5 @@
 FROM gitpod/workspace-postgres
+ENV TRIGGER_REBUILD 1
 
 # # Install custom tools, runtimes, etc.
 # # For example "bastet", a command-line tetris clone:
