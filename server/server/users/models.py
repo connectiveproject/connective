@@ -146,6 +146,9 @@ class BaseProfile(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return f"PROFILE | {self.user.user_type} | {self.user.email}"
+
 
 class CoordinatorProfile(BaseProfile):
     job_description = models.CharField(max_length=50, default="")

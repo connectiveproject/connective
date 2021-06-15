@@ -276,3 +276,4 @@ server/media/
 .env
 .envs/*
 !.envs/.local/
+node_modules

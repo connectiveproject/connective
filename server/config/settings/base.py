@@ -55,6 +55,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # APPS
 # ------------------------------------------------------------------------------
+PRECEDING_THIRD_PARTY_APPS = [
+    "jazzmin",
+]
 DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -87,7 +90,9 @@ LOCAL_APPS = [
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = (
+    PRECEDING_THIRD_PARTY_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+)
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -318,3 +323,10 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+# https://django-jazzmin.readthedocs.io/ui_customisation/
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+}
+JAZZMIN_SETTINGS = {
+    "custom_css": "css/project.css",
+}

@@ -135,7 +135,9 @@
     "confirmDetails": "אישור הפרטים",
     "registrationFormExpired": "נראה שטופס הרישום פג תוקף",
     "registrationSucceeded": "ההרשמה הושלמה בהצלחה",
-    "detailsCompletion": "השלמת פרטים"
+    "detailsCompletion": "השלמת פרטים",
+    "registered": "רשומ/ה",
+    "notRegistered": "לא רשומ/ה"
   },
 
   "errors": {

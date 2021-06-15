@@ -13,9 +13,9 @@ class Command(BaseCommand):
         "parser.add_argument('some_number', nargs='+', type=int)"
         pass
 
-    def createUser(self, userModel, email, password):
+    def create_user(self, user_model, email, password):
         try:
-            user = userModel.objects.create(email=email, password=password)
+            user = user_model.objects.create(email=email, password=password)
             user.set_password(user.password)
             user.save()
 
@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 self.style.WARNING(f"{email} already exists. Skipping...")
             )
 
-    def createAdmin(self):
+    def create_admin(self):
         try:
             user = get_user_model().objects.create_superuser(
                 "admin", "admin@example.com", "Aa123456789"
@@ -44,7 +44,7 @@ class Command(BaseCommand):
         if not settings.DEBUG:
             raise RuntimeError("create_test_users is meant for dev environments.")
 
-        self.createUser(Coordinator, "coord@example.com", "Aa123456789")
-        self.createUser(Consumer, "consumer@example.com", "Aa123456789")
-        self.createUser(Vendor, "vendor@example.com", "Aa123456789")
-        self.createAdmin()
+        self.create_user(Coordinator, "coord@example.com", "Aa123456789")
+        self.create_user(Consumer, "consumer@example.com", "Aa123456789")
+        self.create_user(Vendor, "vendor@example.com", "Aa123456789")
+        self.create_admin()

@@ -1,10 +1,13 @@
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from server.organizations.models import (
     Activity,
     ActivityMedia,
     Organization,
+    SchoolActivityGroup,
     SchoolActivityOrder,
 )
 from server.utils.permission_classes import (
@@ -65,6 +68,79 @@ class ConsumerActivityViewSet(
             status=SchoolActivityOrder.Status.APPROVED,
         ).values("activity")
         return Activity.objects.filter(id__in=approved_orders)
+
+    @action(detail=True, methods=["POST"])
+    def join_group(self, request, slug=None):
+        if not hasattr(request.user, "school_member"):
+            return Response(
+                {"non_field_errors": ["must be a school member"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        order = SchoolActivityOrder.objects.get(
+            school=request.user.school_member.school,
+            activity__slug=slug,
+        )
+
+        try:
+            existing_group = SchoolActivityGroup.objects.get(
+                activity_order=order,
+                consumers=request.user.pk,
+            )
+            if (
+                existing_group.group_type
+                == SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS
+            ):
+                existing_group.consumers.remove(request.user.pk)
+
+            else:
+                return Response(
+                    {"non_field_errors": ["user already in a group"]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except ObjectDoesNotExist:
+            pass
+
+        group, _created = SchoolActivityGroup.objects.get_or_create(
+            activity_order=order,
+            group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
+        )
+        group.consumers.add(self.request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["POST"])
+    def leave_group(self, request, slug=None):
+        """
+        move consumer to a "disabled consumers" group
+        """
+        if not hasattr(request.user, "school_member"):
+            return Response(
+                {"non_field_errors": ["must be a school member"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        order = SchoolActivityOrder.objects.get(
+            school=request.user.school_member.school,
+            activity__slug=slug,
+        )
+        try:
+            SchoolActivityGroup.objects.exclude(
+                group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS
+            ).get(activity_order=order, consumers=request.user.pk,).consumers.remove(
+                request.user.pk
+            )
+
+        except ObjectDoesNotExist:
+            return Response(
+                {"non_field_errors": ["user is not in an active group"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        group, _created = SchoolActivityGroup.objects.get_or_create(
+            activity_order=order,
+            group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
+        )
+        group.consumers.add(request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):

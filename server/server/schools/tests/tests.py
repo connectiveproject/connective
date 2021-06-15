@@ -1,4 +1,5 @@
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from server.schools.models import School, SchoolMember
@@ -53,7 +54,7 @@ class TestSchoolViewSet:
         list_response_single_school = client.get("/api/schools/")
 
         # check user can see exactly the schools it should
-        assert len(list_response_no_schools.data["results"]) == 0
+        assert list_response_no_schools.status_code == status.HTTP_403_FORBIDDEN
         assert len(list_response_single_school.data["results"]) == 1
 
         # check the data itself from a specific school & school list data

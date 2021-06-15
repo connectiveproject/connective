@@ -1,10 +1,9 @@
 import logging
 
 import sentry_sdk
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
-from sentry_sdk.integrations.celery import CeleryIntegration
-
 from sentry_sdk.integrations.redis import RedisIntegration
 
 from .base import *  # noqa
@@ -137,7 +136,7 @@ EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 ANYMAIL = {
     "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
     "SENDGRID_GENERATE_MESSAGE_ID": env("SENDGRID_GENERATE_MESSAGE_ID"),
-    "SENDGRID_MERGE_FIELD_FORMAT": env("SENDGRID_MERGE_FIELD_FORMAT"),
+    # "SENDGRID_MERGE_FIELD_FORMAT": env("SENDGRID_MERGE_FIELD_FORMAT"),
     "SENDGRID_API_URL": env("SENDGRID_API_URL", default="https://api.sendgrid.com/v3/"),
 }
 
@@ -205,3 +204,5 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])

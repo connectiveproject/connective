@@ -5,6 +5,7 @@ import consumer from "./consumer"
 import coordinator from "./coordinator"
 import config from "./config"
 import program from "./program"
+import consumerProgram from "./consumerProgram"
 
 export default {
   school,
@@ -14,4 +15,5 @@ export default {
   coordinator,
   auth,
   config,
+  consumerProgram,
 }
