@@ -157,7 +157,8 @@
     "missingCityForID": "חסרה עיר לתעודת זהות",
     "missingColumnsOrValues": "חסרים ערכים או עמודות",
     "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה",
-    "dataUnavailable": "המידע אינו זמין"
+    "empty": "ריק",
+    "unassigned": "לא שובץ"
   },
 
   "myActivity": {

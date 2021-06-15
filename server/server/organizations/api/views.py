@@ -171,6 +171,7 @@ class ManageSchoolActivityGroupViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator]
     serializer_class = ManageSchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
+    filterset_fields = ["group_type"]
 
     def get_queryset(self):
         return SchoolActivityGroup.objects.filter(

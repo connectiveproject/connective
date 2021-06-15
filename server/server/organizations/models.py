@@ -167,7 +167,12 @@ class SchoolActivityGroup(models.Model):
         choices=GroupTypes.choices,
         default=GroupTypes.DEFAULT,
     )
-    guide = models.CharField(max_length=50, default="")
+    guide = models.CharField(
+        max_length=50,
+        default="",
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return f"{self.name} : {self.group_type} : {self.pk}"

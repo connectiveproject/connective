@@ -25,9 +25,13 @@ const programsGroups = {
     },
   },
   actions: {
-    async getGroupList({ commit, state, rootGetters }, override = true) {
+    async getGroupList({ commit, state, rootGetters }, { groupType, override }) {
+      // :str groupType: which group type to fetch (if empty, fetch all groups)
       // :boolean override: whether to override the groups list or not (i.e., extend)
       const params = rootGetters["pagination/apiParams"]
+      if (groupType) {
+        params.group_type = groupType
+      }
       const mutation = override ? "SET_GROUPS_LIST" : "ADD_GROUPS_TO_LIST"
       let res = await Api.programGroups.getGroupList(params)
       commit(mutation, res.data.results)

@@ -176,6 +176,11 @@ export const SERVER = {
     pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
     approved: "APPROVED",
   },
+  programGroupTypes: {
+    standard: "DEFAULT",
+    containerOnly: "CONTAINER_ONLY",
+    disabledConsumers: "DISABLED_CONSUMERS",
+  }
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"

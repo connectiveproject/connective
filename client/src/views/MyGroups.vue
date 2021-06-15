@@ -15,7 +15,7 @@
         sm="6"
         lg="4"
         class="py-10"
-        v-for="group in groups"
+        v-for="group in groupList"
         :key="group.id"
       >
         <info-card
@@ -28,7 +28,7 @@
         >
           <title-to-text
             :title="$t('general.description')"
-            :text="group.description || $t('errors.dataUnavailable')"
+            :text="group.description || $t('errors.empty')"
           />
           <title-to-text
             :title="$t('myActivity.studentsNumberInGroup')"
@@ -36,21 +36,21 @@
           />
           <title-to-text
             :title="$t('myActivity.guideName')"
-            :text="group.guide || $t('errors.dataUnavailable')"
+            :text="group.guide || $t('errors.unassigned')"
           />
-        </info-card> </v-col
-    ></v-row>
-    <!-- TODO: add count of students & guide -->
+        </info-card>
+      </v-col>
+    </v-row>
     <end-of-page-detector @endOfPage="onEndOfPage" />
   </div>
 </template>
-
 <script>
 import store from "../vuex/store"
 import { mapActions, mapState } from "vuex"
 import EndOfPageDetector from "../components/EndOfPageDetector"
 import InfoCard from "../components/InfoCard"
 import TitleToText from "../components/TitleToText.vue"
+import { SERVER } from "../helpers/constants/constants"
 
 export default {
   components: {
@@ -60,13 +60,14 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
-    const groups = await store.dispatch("programsGroups/getGroupList")
-    next(vm => {
-      vm.groups = groups
+    await store.dispatch("programsGroups/getGroupList", {
+      groupType: SERVER.programGroupTypes.standard,
+      override: false,
     })
+    next()
   },
   computed: {
-    ...mapState("programsGroups", ["totalGroups"]),
+    ...mapState("programsGroups", ["totalGroups", "groupList"]),
     ...mapState("pagination", ["page"]),
   },
   methods: {
@@ -75,16 +76,14 @@ export default {
     onEndOfPage() {
       this.incrementPage()
     },
-    async fetchGroups() {
-      if (this.groups.length < this.totalGroups) {
-        this.groups = await this.getGroupList(false)
+    fetchGroups() {
+      if (this.groupList.length < this.totalGroups) {
+        this.getGroupList({
+          groupType: SERVER.programGroupTypes.standard,
+          override: false,
+        })
       }
     },
-  },
-  data() {
-    return {
-      groups: [],
-    }
   },
   watch: {
     page() {
