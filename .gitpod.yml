@@ -1,31 +1,31 @@
 
-image:
-  file: .gitpod.Dockerfile
+# image:
+#   file: .gitpod.Dockerfile
 
-ports:
-  # django server
-  - port: 8000
-    onOpen: open-preview
-  - port: 8025
-    onOpen: open-preview
-  # PostgreSQL server
-  - port: 5432
-    onOpen: ignore
+# ports:
+#   # django server
+#   - port: 8000
+#     onOpen: open-preview
+#   - port: 8025
+#     onOpen: open-preview
+#   # PostgreSQL server
+#   - port: 5432
+#     onOpen: ignore
 
 
-tasks:
-  - name: Server
-    init: pre-commit install && source .envs/.local/.django  && source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate && python manage.py create_test_users && python manage.py runserver
-  - name: Vue Client
-    init: cd client && yarn && cd .. && gp sync-done client-install
-    command: cd client && yarn serve
-  - name: Vue Storybook
-    init: gp sync-await client-install
-    command: 'cd client && yarn storybook'
-  - command: 'redis-server'
-  - command: 'MailHog'
-  # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
+# tasks:
+#   - name: Server
+#     init: pre-commit install && source .envs/.local/.django  && source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate && python manage.py create_test_users && python manage.py runserver
+#   - name: Vue Client
+#     init: cd client && yarn && cd .. && gp sync-done client-install
+#     command: cd client && yarn serve
+#   - name: Vue Storybook
+#     init: gp sync-await client-install
+#     command: 'cd client && yarn storybook'
+#   - command: 'redis-server'
+#   - command: 'MailHog'
+#   # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
-vscode:
-  extensions:
-    - vsls-contrib.codetour
+# vscode:
+#   extensions:
+#     - vsls-contrib.codetour
