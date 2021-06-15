@@ -223,4 +223,5 @@ class ManageSchoolActivityGroupSerializer(serializers.ModelSerializer):
             "description",
             "consumers",
             "group_type",
+            "guide",
         ]

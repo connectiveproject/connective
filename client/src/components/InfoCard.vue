@@ -11,8 +11,9 @@
       <slot></slot>
     </v-card-text>
 
-    <v-card-actions class="absolute-bottom mb-1">
+    <v-card-actions class="absolute-bottom actions">
       <v-btn
+        v-if="!hideButton"
         color="orange"
         text
         class="absolute-center"
@@ -20,7 +21,7 @@
         @click="$emit('click')"
       />
       <v-icon
-        v-if="showStar"
+        v-if="!hideStar"
         @click="onStarClick"
         :color="starred ? 'orange' : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
@@ -38,12 +39,15 @@ export default {
     prop: "starred",
   },
   props: {
-    showStar: {
+    hideStar: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    hideButton: {
+      type: Boolean,
+      default: false,
     },
     starred: {
-      // use with showStar true
       type: Boolean,
       required: false,
     },
@@ -68,3 +72,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.actions {
+  height: 40px;
+}
+</style>

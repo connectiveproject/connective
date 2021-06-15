@@ -27,6 +27,7 @@ import Invite from "../views/Invite/Invite.vue"
 import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
 import ProgramModal from "../views/ProgramModal"
+import MyGroups from "../views/MyGroups"
 
 Vue.use(VueRouter)
 
@@ -108,7 +109,7 @@ const routes = [
               },
             ],
           },
-        ]
+        ],
       },
       {
         path: "management-dashboard",
@@ -153,8 +154,19 @@ const routes = [
           },
           {
             path: "my-activity",
-            name: "MyActivity",
             component: MyActivity,
+            children: [
+              {
+                path: "",
+                name: "MyActivity",
+                redirect: { name: "MyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "MyGroups",
+                component: MyGroups,
+              },
+            ],
           },
         ],
       },
