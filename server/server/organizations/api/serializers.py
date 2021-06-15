@@ -204,9 +204,20 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
 
 
 class ManageSchoolActivityGroupSerializer(serializers.ModelSerializer):
+    activity_logo = serializers.ImageField(
+        source="activity_order.activity.logo",
+        read_only=True,
+    )
+    activity_name = serializers.CharField(
+        source="activity_order.activity.name",
+        read_only=True,
+    )
+
     class Meta:
         model = SchoolActivityGroup
         fields = [
+            "activity_logo",
+            "activity_name",
             "activity_order",
             "name",
             "description",

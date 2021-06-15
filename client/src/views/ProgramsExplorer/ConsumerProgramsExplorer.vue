@@ -30,11 +30,12 @@
               v-model="program.isConsumerJoined"
               :imgUrl="program.logo"
               :title="program.name"
-              :body="program.description"
               :subtitle="getCardSubtitle(program.isConsumerJoined)"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
-            />
+            >
+              {{ program.description | trimText(175) }}
+            </info-card>
           </v-col>
         </v-row>
       </v-col>

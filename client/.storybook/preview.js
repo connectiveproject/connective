@@ -1,11 +1,11 @@
-
 import Vue from "vue"
 import Vuetify from "vuetify"
 import VueI18n from "vue-i18n"
 import i18n from "../src/plugins/i18n.js"
 import "../src/helpers/validators"
 import "!style-loader!css-loader!sass-loader!../src/styles/main.scss"
-import './vuetify'
+import "./vuetify"
+import "../src/filters"
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

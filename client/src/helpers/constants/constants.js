@@ -21,6 +21,7 @@ export const ORDER_SCHOOL_PROGRAM_API_URL = `${SERVER_URL}/manage_school_activit
 export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
+export const GET_PROGRAMS_GROUPS_API_URL = `${SERVER_URL}/manage_school_activity_group/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const SCHOOL_GRADES_ITEMS = [

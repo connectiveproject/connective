@@ -6,7 +6,10 @@
       </v-overlay>
     </v-img>
     <v-card-subtitle v-text="subtitle" class="pb-3" />
-    <v-card-text v-text="trimmedBody" class="text--primary" />
+    <v-card-text class="text--primary">
+      <!-- if slot's text overflow, consider using the trim filter on parent  -->
+      <slot></slot>
+    </v-card-text>
 
     <v-card-actions class="absolute-bottom mb-1">
       <v-btn
@@ -17,6 +20,7 @@
         @click="$emit('click')"
       />
       <v-icon
+        v-if="showStar"
         @click="onStarClick"
         :color="starred ? 'orange' : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
@@ -34,9 +38,17 @@ export default {
     prop: "starred",
   },
   props: {
+    showStar: {
+      type: Boolean,
+      default: true,
+    },
+    starred: {
+      // use with showStar true
+      type: Boolean,
+      required: false,
+    },
     imgUrl: {
       type: String,
-      required: false,
       default: INFO_CARD_IMAGE,
     },
     title: {
@@ -47,29 +59,11 @@ export default {
       type: String,
       required: false,
     },
-    body: {
-      type: String,
-      required: true,
-    },
-    starred: {
-      type: Boolean,
-      required: true,
-    },
   },
 
   methods: {
     onStarClick() {
       this.$emit("input", !this.starred)
-    },
-  },
-
-  computed: {
-    trimmedBody() {
-      // TODO: create filter
-      if (this.body.length > 150) {
-        return this.body.substring(0, 150) + "...."
-      }
-      return this.body
     },
   },
 }
