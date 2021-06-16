@@ -26,13 +26,13 @@ Your contribution brings us one step closer torwards making a true change in the
 
 4. Contribute & create a [pull request](https://www.youtube.com/watch?v=nT8KGYVurIU).
 
-### We're here to help
-Something isn't working as expected?
+### We're Here to Help!
+Got a question? Struggling with the environment?
 Don't hesitate reaching out!
 * Ronnie Sheer +972-54-225-0900
 * Ben Lahav +972-52-745-7479
 
-### Notes:
+### Notes
 Our dev environment currently requires **a restart** right after creating a workspace.
 
 To do that, simply go to: https://gitpod.io/workspaces/, **stop and start** the workspace.
