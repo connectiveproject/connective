@@ -15,15 +15,35 @@ ports:
 
 tasks:
   - name: Server
-    init: cd server && pip install -r requirements/local.txt && pre-commit install && source .envs/.local/.django  && source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && python manage.py migrate && python manage.py create_test_users && python manage.py runserver
+    init: > 
+      pg_ctl status | grep PID  || pg_start &&  
+      cd server && 
+      pre-commit install && source .envs/.local/.django  && 
+      source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && 
+      python manage.py migrate && python manage.py create_test_users &&
+      cd ..
+    command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver
+  - command: redis-server
+  
+  - command: MailHog      
   - name: Vue Client
-    init: cd client && yarn && cd .. && gp sync-done client-install
-    command: cd client && yarn serve
+    init: > 
+      cd client && 
+      yarn && cd .. && 
+      gp sync-done client-install
+    command: > 
+      cd client && 
+      yarn serve
   - name: Vue Storybook
     init: gp sync-await client-install
-    command: 'cd client && yarn storybook'
-  - command: 'redis-server'
-  - command: 'MailHog'
+    command: >
+     cd client && 
+     yarn storybook
+  - command: >
+      echo welcome
+  - command: >
+      echo -e "\e[36mWELCOM CONTRIBUTER!"
+
   # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
 vscode:
