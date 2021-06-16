@@ -39,6 +39,10 @@ tasks:
     command: >
      cd client && 
      yarn storybook
+  - command: >
+      echo welcome
+  - command: >
+      echo -e "\e[36mWELCOM CONTRIBUTER!"
 
   # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
