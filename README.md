@@ -30,8 +30,8 @@ Your contribution brings us one step closer torwards making a true change in the
 ### We're Here to Help!
 Got a question? Struggling with the environment?
 Don't hesitate reaching out!
-* Ronnie Sheer ronnie@hiverrmp.com
-* Ben Lahav ben@hiverrmp.com
+* Ronnie: ronnie@hiverrmp.com
+* Ben: ben@hiverrmp.com
 
 ### Notes
 Our dev environment currently requires **a restart** right after creating a workspace.
