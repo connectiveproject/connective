@@ -24,7 +24,7 @@ Your contribution brings us one step closer torwards making a true change in the
 ![codetourimage](https://user-images.githubusercontent.com/19714226/122200284-8f0e4400-cea3-11eb-95b5-e131ed0ed9aa.png)
 
 
-4. Contribute & create a [pull request](https://www.youtube.com/watch?v=nT8KGYVurIU).
+4. Grab and [issue](../../issues), contribute & create a [pull request](https://www.youtube.com/watch?v=nT8KGYVurIU).
 
 ### We're Here to Help!
 Got a question? Struggling with the environment?
