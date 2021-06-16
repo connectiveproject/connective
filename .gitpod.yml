@@ -22,7 +22,7 @@ tasks:
       source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && 
       python manage.py migrate && python manage.py create_test_users
   - command: redis-server
-  - command: pg_ctl status | grep PID  || pg_start; python manage.py runserver
+  - command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver
   - command: MailHog      
   - name: Vue Client
     init: > 
