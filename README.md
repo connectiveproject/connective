@@ -8,7 +8,7 @@ We'd like to thank you for investing time in the the project.
 
 Your contribution brings us one step closer torwards making a true change in the Education System!
 
-### How to contribute
+### Getting Started
 1. Fork: Create a project fork using [this link](https://github.com/connectiveproject/connective/fork).
 
 2. Open a Gitpod Workspace:
