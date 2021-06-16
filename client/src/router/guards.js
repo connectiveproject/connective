@@ -87,7 +87,7 @@ export function PopulateCoordinatorData(to, from, next) {
 
 export async function fetchProgramDetails(to, from, next) {
   let vuexModule = "program"
-  if (to.meta.isConsumer) {
+  if (store.getters["user/isConsumer"]) {
     vuexModule = "consumerProgram"
   }
   let [program, mediaList] = await Promise.all([
