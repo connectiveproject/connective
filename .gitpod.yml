@@ -16,13 +16,14 @@ ports:
 tasks:
   - name: Server
     init: > 
-      pg_start && 
+      pg_start &&  
       cd server && 
-      pip install -r requirements/local.txt && 
       pre-commit install && source .envs/.local/.django  && 
       source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && 
-      python manage.py migrate && python manage.py create_test_users && 
-      python manage.py runserver
+      python manage.py migrate && python manage.py create_test_users
+  - command: redis-server
+  - command: pg_ctl status | grep PID  || pg_start && python manage.py runserver
+  - command: MailHog      
   - name: Vue Client
     init: > 
       cd client && 
@@ -36,8 +37,7 @@ tasks:
     command: >
      cd client && 
      yarn storybook
-  - command: redis-server
-  - command: MailHog
+
   # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 
 vscode:
