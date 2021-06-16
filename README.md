@@ -30,8 +30,8 @@ Your contribution brings us one step closer torwards making a true change in the
 ### We're Here to Help!
 Got a question? Struggling with the environment?
 Don't hesitate reaching out!
-* Ronnie Sheer +972-54-225-0900
-* Ben Lahav +972-52-745-7479
+* Ronnie Sheer ronnie@hiverrmp.com
+* Ben Lahav ben@hiverrmp.com
 
 ### Notes
 Our dev environment currently requires **a restart** right after creating a workspace.
