@@ -5,7 +5,10 @@
         :to="{ name: 'MyGroups' }"
         v-text="$t('myActivity.activeGroups')"
       />
-      <v-tab disabled v-text="$t('myActivity.myEvents')" />
+      <v-tab
+        :to="{ name: 'MyEvents' }"
+        v-text="$t('myActivity.myEvents')"
+      />
       <v-tab disabled v-text="$t('myActivity.myPrograms')" />
     </v-tabs>
     <v-row>

@@ -31,7 +31,8 @@
     "step": "שלב",
     "generalDetails": "פרטים כלליים",
     "chosen": "נבחרו",
-    "status": "סטטוס"
+    "status": "סטטוס",
+    "display": "תצוגה"
   },
 
   "confirm": {
@@ -158,17 +159,49 @@
     "missingColumnsOrValues": "חסרים ערכים או עמודות",
     "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה",
     "empty": "ריק",
-    "unassigned": "לא שובץ"
+    "unassigned": "לא שובץ",
+    "nameUnavailable": "שם לא זמין"
   },
 
   "myActivity": {
     "myActivity": "הפעילות שלי",
-    "activeGroups": "קבוצות פעילות",
+    "myEvents": "המפגשים שלי",
     "myGroups": "קבוצות פעילות",
-    "myEvents": "האירועים שלי",
+    "activeGroups": "קבוצות פעילות",
     "myPrograms": "התוכניות שלי",
     "studentsNumberInGroup": "מספר תלמידים בקבוצה",
     "guideName": "שם מדריך",
-    "hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool": "כאן ניתן לראות את כלל הקבוצות של התוכניות הפועלות בבית הספר"
+    "hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool": "כאן ניתן לראות את כלל הקבוצות של התוכניות הפועלות בבית הספר",
+    "hereYouCanSeeAllThePlannedEvents": "כאן ניתן לראות את כלל האירועים המתוכננים",
+    "eventDetails": "פרטי האירוע",
+    "location": "מיקום"
+  },
+
+  "time": {
+    "startTime": "זמן התחלה",
+    "endTime": "זמן סיום",
+    "day-0": "ראשון",
+    "day-1": "שני",
+    "day-2": "שלישי",
+    "day-3": "רביעי",
+    "day-4": "חמישי",
+    "day-5": "שישי",
+    "day-6": "שבת",
+    "month-1": "ינואר",
+    "month-2": "פברואר",
+    "month-3": "מרץ",
+    "month-4": "אפריל",
+    "month-5": "מאי",
+    "month-6": "יוני",
+    "month-7": "יולי",
+    "month-8": "אוגוסט",
+    "month-9": "ספטמבר",
+    "month-10": "אוקטובר",
+    "month-11": "נובמבר",
+    "month-12": "דצמבר",
+    "monthly": "חודשי",
+    "weekly": "שבועי",
+    "halfWeekly": "חצי שבועי",
+    "daily": "יומי"
   }
 }

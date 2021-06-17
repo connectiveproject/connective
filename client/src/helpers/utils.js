@@ -1,7 +1,10 @@
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
-import { YOUTUBE_ID_REGEX_PATTERN, YOUTUBE_EMBED_URL } from "./constants/constants"
+import {
+  YOUTUBE_ID_REGEX_PATTERN,
+  YOUTUBE_EMBED_URL,
+} from "./constants/constants"
 
 const utils = {
   uploadedFileToUrl(file) {
@@ -47,8 +50,7 @@ const utils = {
     // supports nested FormData, basic objects, arrays, primitive types
     // does not convert other objects, e.g., File
     // :str convertCase: case to convert to: 'camel' / 'snake'
-    const convert =
-      convertCase === "snake" ? this.camelToSnakeCase : camelCase
+    const convert = convertCase === "snake" ? this.camelToSnakeCase : camelCase
     if (obj instanceof FormData) {
       const convertedObj = new FormData()
       for (const [key, value] of obj.entries()) {
@@ -84,6 +86,44 @@ const utils = {
     }
     return url
   },
+
+  dateBenchmarkToRange(benchmarkDate, daysRadius) {
+    // recieve a moment.js date object and return two dates - before and after the original
+    // :momentObject benchmarkDate
+    // :Number daysRadius: number of days to move from each side
+    const startDate = benchmarkDate.clone()
+    const endDate = benchmarkDate.clone()
+    startDate.subtract(daysRadius, "days")
+    endDate.add(daysRadius, "days")
+    return [startDate, endDate]
+  },
+
+  dateToApiString(date) {
+    // convert moment.js date object into a valid string to send to api
+    // note: this ignores hours, minutes, seconds and uses date only
+    return date.format("YYYY-MM-DD 00:00")
+  },
+
+  getPsuedoRandomColorByString(str) {
+    // return a "random" color based on the first two characters
+    // it is useful when want to be color consistent, yet looking random
+    const colors = [
+      "blue",
+      "indigo",
+      "cyan",
+      "deep-purple",
+      "green",
+      "orange",
+      "grey darken-1",
+    ]
+
+    if (str.length <= 1) {
+      return colors[1]
+    }
+
+    const colorPos = (str.charCodeAt(0) + str.charCodeAt(1)) % colors.length
+    return colors[colorPos]
+  }
 }
 
 export default utils

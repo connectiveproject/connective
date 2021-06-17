@@ -8,11 +8,16 @@ class EventSerializer(serializers.ModelSerializer):
         source="school_group.activity_order.activity.name",
         read_only=True,
     )
+    school_group_name = serializers.CharField(
+        source="school_group.name",
+        read_only=True,
+    )
 
     class Meta:
         model = Event
         fields = [
             "activity_name",
+            "school_group_name",
             "start_time",
             "end_time",
             "consumers",

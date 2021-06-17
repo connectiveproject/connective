@@ -7,7 +7,7 @@ function getDefaultState() {
   }
 }
 
-const programsGroups = {
+const programGroup = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
@@ -25,7 +25,13 @@ const programsGroups = {
     },
   },
   actions: {
-    async getGroupList({ commit, state, rootGetters }, { groupType, override }) {
+    flushState({ commit }) {
+      commit("FLUSH_STATE")
+    },
+    async getGroupList(
+      { commit, state, rootGetters },
+      { groupType, override }
+    ) {
       // :str groupType: which group type to fetch (if empty, fetch all groups)
       // :boolean override: whether to override the groups list or not (i.e., extend)
       const params = rootGetters["pagination/apiParams"]
@@ -33,7 +39,7 @@ const programsGroups = {
         params.group_type = groupType
       }
       const mutation = override ? "SET_GROUPS_LIST" : "ADD_GROUPS_TO_LIST"
-      let res = await Api.programGroups.getGroupList(params)
+      let res = await Api.programGroup.getGroupList(params)
       commit(mutation, res.data.results)
       commit("SET_GROUPS_TOTAL", res.data.count)
       return state.groupList
@@ -41,4 +47,4 @@ const programsGroups = {
   },
 }
 
-export default programsGroups
+export default programGroup

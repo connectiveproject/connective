@@ -28,6 +28,7 @@ import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
 import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups"
+import MyEvents from "../views/MyEvents"
 
 Vue.use(VueRouter)
 
@@ -165,6 +166,11 @@ const routes = [
                 path: "my-groups",
                 name: "MyGroups",
                 component: MyGroups,
+              },
+              {
+                path: "my-events",
+                name: "MyEvents",
+                component: MyEvents,
               },
             ],
           },

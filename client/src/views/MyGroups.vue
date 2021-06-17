@@ -41,6 +41,9 @@
         </info-card>
       </v-col>
     </v-row>
+    <div class="text-center pt-10 overline">
+      {{ totalGroups }} {{ $t("program.programsFound") }}
+    </div>
     <end-of-page-detector @endOfPage="onEndOfPage" />
   </div>
 </template>
@@ -60,19 +63,19 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
-    await store.dispatch("programsGroups/getGroupList", {
+    await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: false,
     })
     next()
   },
   computed: {
-    ...mapState("programsGroups", ["totalGroups", "groupList"]),
+    ...mapState("programGroup", ["totalGroups", "groupList"]),
     ...mapState("pagination", ["page"]),
   },
   methods: {
     ...mapActions("pagination", ["incrementPage"]),
-    ...mapActions("programsGroups", ["getGroupList"]),
+    ...mapActions("programGroup", ["getGroupList"]),
     onEndOfPage() {
       this.incrementPage()
     },
