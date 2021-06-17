@@ -30,6 +30,8 @@
       :weekday-format="translateWeekdays"
       :month-format="translateMonths"
       :type="chosenDisplayType"
+      first-interval="5"
+      interval-count="19"
       @click:event="showEvent"
       @moved="fetchEvents"
     />
