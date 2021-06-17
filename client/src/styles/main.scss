@@ -40,6 +40,13 @@ html {
   transform: translate(-50%, -50%);
 }
 
+.fixed-center {
+  position: fixed !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .absolute-bottom {
   position: absolute;
   bottom: 0;
