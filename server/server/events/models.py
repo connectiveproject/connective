@@ -20,3 +20,6 @@ class Event(models.Model):
             raise ValidationError(
                 {"end_time": _("end time must occur after start time")}
             )
+
+    def __str__(self):
+        return f"{self.school_group} : {self.start_time}"

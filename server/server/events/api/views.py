@@ -12,4 +12,8 @@ class EventViewSet(viewsets.ModelViewSet):
     filterset_fields = {
         "start_time": ["gte", "lte"],
     }
-    queryset = Event.objects.all()
+
+    def get_queryset(self):
+        return Event.objects.filter(
+            school_group__activity_order__in=self.request.user.school_member.school.school_activity_orders.all()
+        )

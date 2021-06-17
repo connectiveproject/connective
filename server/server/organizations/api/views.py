@@ -41,7 +41,7 @@ class OrganizationViewSet(
 
     def get_queryset(self):
         try:
-            Organization.objects.filter(
+            return Organization.objects.filter(
                 organization_member__in=[self.request.user.organization_member]
             )
 
