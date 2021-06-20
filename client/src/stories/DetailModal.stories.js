@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions"
-import DetailModal from "../components/DetailModal.vue"
+import DetailModal from "../components/DetailModal"
 
 export default {
   title: "DetailModal",

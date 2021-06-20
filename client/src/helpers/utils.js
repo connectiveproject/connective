@@ -104,7 +104,7 @@ const utils = {
     return date.format("YYYY-MM-DD 00:00")
   },
 
-  getPsuedoRandomColorByString(str) {
+  stringToPsuedoRandomColor(str) {
     // return a "random" color based on the first two characters
     // it is useful when want to be color consistent, yet looking random
     const colors = [
