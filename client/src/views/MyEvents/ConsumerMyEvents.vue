@@ -104,7 +104,8 @@ export default {
 <style lang="scss" scoped>
 .modalBody {
   white-space: pre-line;
-  line-height: 2;
-  padding-bottom: 15px;
+  line-height: 2.3;
+  padding-bottom: 5px;
+  margin-top: -20px;
 }
 </style>
