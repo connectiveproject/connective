@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import store from "../vuex/store"
+import store from "../../vuex/store"
 import { mapState, mapActions } from "vuex"
 import moment from "moment"
-import ActionsCalendar from "../components/ActionsCalendar"
-import DetailModal from "../components/DetailModal"
-import Utils from "../helpers/utils"
+import ActionsCalendar from "../../components/ActionsCalendar"
+import DetailModal from "../../components/DetailModal"
+import Utils from "../../helpers/utils"
 
 export default {
   components: {

@@ -10,7 +10,9 @@ import consumerProgram from "./modules/consumerProgram"
 import pagination from "./modules/pagination"
 import loading from "./modules/loading"
 import programGroup from "./modules/programGroup"
+import consumerProgramGroup from "./modules/consumerProgramGroup"
 import event from "./modules/event"
+import consumerEvent from "./modules/consumerEvent"
 
 Vue.use(Vuex)
 
@@ -26,7 +28,9 @@ const store = new Vuex.Store({
     loading,
     pagination,
     programGroup,
+    consumerProgramGroup,
     event,
+    consumerEvent,
   },
   actions: {
     flushState({ dispatch }) {

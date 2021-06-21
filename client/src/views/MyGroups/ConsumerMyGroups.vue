@@ -4,7 +4,7 @@
     <h2
       v-text="
         $t(
-          'myActivity.hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool'
+          'myActivity.hereYouCanSeeTheGroupsYouJoined'
         )
       "
       class="pb-12"
@@ -48,12 +48,12 @@
   </div>
 </template>
 <script>
-import store from "../vuex/store"
+import store from "../../vuex/store"
 import { mapActions, mapState } from "vuex"
-import EndOfPageDetector from "../components/EndOfPageDetector"
-import InfoCard from "../components/InfoCard"
-import TitleToText from "../components/TitleToText.vue"
-import { SERVER } from "../helpers/constants/constants"
+import EndOfPageDetector from "../../components/EndOfPageDetector"
+import InfoCard from "../../components/InfoCard"
+import TitleToText from "../../components/TitleToText.vue"
+import { SERVER } from "../../helpers/constants/constants"
 
 export default {
   components: {
@@ -63,19 +63,19 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
-    await store.dispatch("programGroup/getGroupList", {
+    await store.dispatch("consumerProgramGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
-      override: false,
+      override: true,
     })
     next()
   },
   computed: {
-    ...mapState("programGroup", ["totalGroups", "groupList"]),
+    ...mapState("consumerProgramGroup", ["totalGroups", "groupList"]),
     ...mapState("pagination", ["page"]),
   },
   methods: {
     ...mapActions("pagination", ["incrementPage"]),
-    ...mapActions("programGroup", ["getGroupList"]),
+    ...mapActions("consumerProgramGroup", ["getGroupList"]),
     onEndOfPage() {
       this.incrementPage()
     },

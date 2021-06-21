@@ -17,7 +17,7 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.user_type == get_user_model().Types.CONSUMER:
-            return Event.objects.filter(consumers=user)
+            return Event.objects.filter(school_group__consumers=user)
 
         return Event.objects.filter(
             school_group__activity_order__in=user.school_member.school.school_activity_orders.all()

@@ -203,7 +203,7 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
         return data
 
 
-class ManageSchoolActivityGroupSerializer(serializers.ModelSerializer):
+class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     activity_logo = serializers.ImageField(
         source="activity_order.activity.logo",
         read_only=True,

@@ -15,7 +15,8 @@ import {
 import Welcome from "../layouts/Welcome.vue"
 import ManagementDashboard from "../layouts/ManagementDashboard.vue"
 import StudentDashboard from "../layouts/StudentDashboard.vue"
-import MyActivity from "../layouts/MyActivity.vue"
+import MyActivity from "../layouts/MyActivity/MyActivity.vue"
+import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity.vue"
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import Profile from "../views/Profile.vue"
@@ -27,8 +28,10 @@ import Invite from "../views/Invite/Invite.vue"
 import ResetPassword from "../views/ResetPassword.vue"
 import GenericError from "../views/Error.vue"
 import ProgramModal from "../views/ProgramModal"
-import MyGroups from "../views/MyGroups"
-import MyEvents from "../views/MyEvents"
+import MyGroups from "../views/MyGroups/MyGroups"
+import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
+import MyEvents from "../views/MyEvents/MyEvents"
+import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 
 Vue.use(VueRouter)
 
@@ -107,6 +110,27 @@ const routes = [
                 component: ProgramModal,
                 beforeEnter: fetchProgramDetails,
                 props: true,
+              },
+            ],
+          },
+          {
+            path: "my-activity",
+            component: ConsumerMyActivity,
+            children: [
+              {
+                path: "",
+                name: "ConsumerMyActivity",
+                redirect: { name: "ConsumerMyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "ConsumerMyGroups",
+                component: ConsumerMyGroups,
+              },
+              {
+                path: "my-events",
+                name: "ConsumerMyEvents",
+                component: ConsumerMyEvents,
               },
             ],
           },

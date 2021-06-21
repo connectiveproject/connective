@@ -25,9 +25,9 @@ from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
     ConsumerActivitySerializer,
-    ManageSchoolActivityGroupSerializer,
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
+    SchoolActivityGroupSerializer,
 )
 
 
@@ -169,9 +169,9 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
         serializer.save(last_updated_by=self.request.user)
 
 
-class ManageSchoolActivityGroupViewSet(viewsets.ModelViewSet):
+class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator | AllowConsumerReadOnly]
-    serializer_class = ManageSchoolActivityGroupSerializer
+    serializer_class = SchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
     filterset_fields = ["group_type"]
 

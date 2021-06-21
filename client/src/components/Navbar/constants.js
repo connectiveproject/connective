@@ -51,6 +51,11 @@ const consumerButtons = [
     icon: "mdi-handshake",
     onClick: () => Vue.$router.push({ name: "ConsumerProgramsExplorer" }),
   },
+  {
+    text: () => i18n.tc("myActivity.myActivity"),
+    icon: "mdi-drawing",
+    onClick: () => Vue.$router.push({ name: "ConsumerMyActivity" }),
+  },
 ]
 
 export const userToButtons = {

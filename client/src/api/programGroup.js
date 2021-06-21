@@ -1,9 +1,9 @@
 import axios from "axios"
-import { GET_PROGRAMS_GROUPS_API_URL } from "../helpers/constants/constants"
+import { GET_PROGRAM_GROUPS_API_URL } from "../helpers/constants/constants"
 
 const programGroup = {
   getGroupList(params) {
-    return axios.get(GET_PROGRAMS_GROUPS_API_URL, { params })
+    return axios.get(GET_PROGRAM_GROUPS_API_URL, { params })
   },
 }
 
