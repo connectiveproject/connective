@@ -204,5 +204,6 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+CLIENT_BASE_URL = env("CLIENT_BASE_URL")
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
