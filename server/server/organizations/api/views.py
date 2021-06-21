@@ -1,5 +1,6 @@
 from contextlib import suppress
 
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -14,6 +15,7 @@ from server.organizations.models import (
 )
 from server.utils.permission_classes import (
     AllowConsumer,
+    AllowConsumerReadOnly,
     AllowCoordinator,
     AllowCoordinatorReadOnly,
     AllowVendor,
@@ -168,12 +170,16 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
 
 class ManageSchoolActivityGroupViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | AllowConsumerReadOnly]
     serializer_class = ManageSchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
     filterset_fields = ["group_type"]
 
     def get_queryset(self):
+        user = self.request.user
+        if user.user_type == get_user_model().Types.CONSUMER:
+            return SchoolActivityGroup.objects.filter(consumers=user)
+
         return SchoolActivityGroup.objects.filter(
-            activity_order__in=self.request.user.school_member.school.school_activity_orders.all(),
+            activity_order__in=user.school_member.school.school_activity_orders.all(),
         )
