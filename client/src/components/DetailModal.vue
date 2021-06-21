@@ -1,7 +1,7 @@
 <template>
   <div v-show="value">
     <v-overlay />
-    <v-card class="fixed-center z-index-5" max-width="344">
+    <v-card v-bind="$attrs" class="fixed-center z-index-5" max-width="344">
       <v-card-text>
         <p v-text="topSubtitle" />
         <p class="text-h4 text--primary" v-text="title" />
@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     value: {
       // is open

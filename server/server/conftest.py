@@ -12,7 +12,7 @@ from server.organizations.tests.factories import (
     SchoolActivityGroupFactory,
     SchoolActivityOrderFactory,
 )
-from server.schools.models import School
+from server.schools.models import School, SchoolMember
 from server.schools.tests.factories import SchoolFactory
 from server.users.models import Consumer, Coordinator, User
 from server.users.tests.factories import (
@@ -65,6 +65,20 @@ def school_activity_order() -> SchoolActivityOrder:
 @pytest.fixture
 def school_activity_group() -> SchoolActivityGroup:
     return SchoolActivityGroupFactory()
+
+
+@pytest.fixture
+def school_entities(school_activity_group, coordinator, consumer) -> dict:
+    activity_order = school_activity_group.activity_order
+    SchoolMember.objects.create(user=coordinator, school=activity_order.school)
+    SchoolMember.objects.create(user=consumer, school=activity_order.school)
+    return {
+        "activity_group": school_activity_group,
+        "activity_order": activity_order,
+        "school": activity_order.school,
+        "coord": coordinator,
+        "consumer": consumer,
+    }
 
 
 school1 = school
