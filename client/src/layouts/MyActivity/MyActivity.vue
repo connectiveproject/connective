@@ -9,7 +9,6 @@
         :to="{ name: 'MyEvents' }"
         v-text="$t('myActivity.myEvents')"
       />
-      <v-tab disabled v-text="$t('myActivity.myPrograms')" />
     </v-tabs>
     <v-row>
       <v-col class="mx-auto" sm="11" lg="9">

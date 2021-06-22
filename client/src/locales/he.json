@@ -64,7 +64,8 @@
     "PENDING_ADMIN_APPROVAL": "ממתין לאישור מנהל",
     "APPROVED": "אושר",
     "CANCELLED": "בוטל",
-    "available": "זמין"
+    "available": "זמין",
+    "forProgramDetails": "לפרטי התוכנית"
   },
 
   "programFilters": {
@@ -175,7 +176,9 @@
     "hereYouCanSeeTheGroupsYouJoined": "כאן ניתן לראות את הקבוצות אליהן הצטרפת",
     "hereYouCanSeeAllThePlannedEvents": "כאן ניתן לראות את כלל האירועים המתוכננים",
     "eventDetails": "פרטי האירוע",
-    "location": "מיקום"
+    "location": "מיקום",
+    "groupDescription": "תיאור קבוצה",
+    "forGroupDetails": "לפרטי הקבוצה"
   },
 
   "time": {

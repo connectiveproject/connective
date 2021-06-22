@@ -48,6 +48,7 @@
               :imgUrl="program.logo"
               :title="program.name"
               :subtitle="getCardSubtitle(program.orderStatus)"
+              :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             >

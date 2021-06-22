@@ -19,15 +19,16 @@
         :key="group.id"
       >
         <info-card
-          :starred="false"
           :hideStar="true"
           :title="group.name"
           :subtitle="group.activityName"
           :body="group.description"
           :imgUrl="group.activityLogo"
+          :buttonText="$t('myActivity.forGroupDetails')"
+          buttonColor="teal"
         >
           <title-to-text
-            :title="$t('general.description')"
+            :title="$t('myActivity.groupDescription')"
             :text="group.description || $t('errors.empty')"
           />
           <title-to-text

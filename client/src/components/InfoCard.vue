@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-auto" width="290" height="436">
-    <v-img height="150px" :src="imgUrl">
+  <v-card class="mx-auto" :width="width" :height="height">
+    <v-img :height="imgHeight" :src="imgUrl">
       <v-overlay class="align-end justify-start" absolute opacity="0.25">
         <v-card-title class="white--text pr-8 pb-3" v-text="title" />
       </v-overlay>
@@ -14,10 +14,10 @@
     <v-card-actions class="absolute-bottom actions">
       <v-btn
         v-if="!hideButton"
-        color="orange"
+        :color="buttonColor"
         text
         class="absolute-center"
-        v-text="$tc('general.additionalInfo', 1)"
+        v-text="buttonText"
         @click="$emit('click')"
       />
       <v-icon
@@ -34,19 +34,13 @@
 
 <script>
 import { INFO_CARD_IMAGE } from "../helpers/constants/images"
+import i18n from "../plugins/i18n"
+
 export default {
   model: {
     prop: "starred",
   },
   props: {
-    hideStar: {
-      type: Boolean,
-      default: false,
-    },
-    hideButton: {
-      type: Boolean,
-      default: false,
-    },
     starred: {
       type: Boolean,
       required: false,
@@ -62,6 +56,34 @@ export default {
     subtitle: {
       type: String,
       required: false,
+    },
+    height: {
+      type: String,
+      default: "436",
+    },
+    width: {
+      type: String,
+      default: "290",
+    },
+    imgHeight: {
+      type: String,
+      default: "150",
+    },
+    hideStar: {
+      type: Boolean,
+      default: false,
+    },
+    hideButton: {
+      type: Boolean,
+      default: false,
+    },
+    buttonColor: {
+      type: String,
+      default: "orange",
+    },
+    buttonText: {
+      type: String,
+      default: i18n.tc("general.additionalInfo", 1),
     },
   },
 

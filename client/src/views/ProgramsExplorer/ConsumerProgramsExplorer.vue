@@ -31,6 +31,7 @@
               :imgUrl="program.logo"
               :title="program.name"
               :subtitle="getCardSubtitle(program.isConsumerJoined)"
+              :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             >
