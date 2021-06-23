@@ -204,6 +204,10 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
 
 
 class SchoolActivityGroupSerializer(serializers.ModelSerializer):
+    instructor_name = serializers.CharField(
+        source="instructor.name",
+        read_only=True,
+    )
     activity_logo = serializers.ImageField(
         source="activity_order.activity.logo",
         read_only=True,
@@ -223,5 +227,6 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "description",
             "consumers",
             "group_type",
-            "guide",
+            "instructor",
+            "instructor_name",
         ]

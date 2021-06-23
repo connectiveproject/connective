@@ -15,6 +15,7 @@ class User(AbstractUser):
         CONSUMER = "CONSUMER", "Consumer"
         COORDINATOR = "COORDINATOR", "Coordinator"
         VENDOR = "VENDOR", "Vendor"
+        INSTRUCTOR = "INSTRUCTOR", "Instructor"
 
     base_user_type = Types.CONSUMER
 
@@ -84,6 +85,17 @@ class VendorManager(BaseUserManager):
         )
 
 
+class InstructorManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(
+                user_type=User.Types.INSTRUCTOR,
+            )
+        )
+
+
 class Consumer(User):
     base_user_type = User.Types.CONSUMER
     objects = ConsumerManager()
@@ -121,6 +133,19 @@ class Vendor(User):
     @property
     def profile(self):
         return self.vendorprofile
+
+
+class Instructor(User):
+    base_user_type = User.Types.INSTRUCTOR
+    objects = InstructorManager()
+
+    class Meta:
+        proxy = True
+        verbose_name_plural = "4. Instructor (Guide)"
+
+    @property
+    def profile(self):
+        return self.instructorprofile
 
 
 class BaseProfile(models.Model):
@@ -169,6 +194,19 @@ class ConsumerProfile(BaseProfile):
 
 
 class VendorProfile(BaseProfile):
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+
+class InstructorProfile(BaseProfile):
     phone_number = models.CharField(
         blank=True,
         max_length=15,

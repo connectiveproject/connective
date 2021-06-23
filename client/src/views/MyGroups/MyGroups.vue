@@ -36,8 +36,8 @@
             :text="group.consumers.length"
           />
           <title-to-text
-            :title="$t('myActivity.guideName')"
-            :text="group.guide || $t('errors.unassigned')"
+            :title="$t('myActivity.instructorName')"
+            :text="group.instructorName || $t('errors.unassigned')"
           />
         </info-card>
       </v-col>
