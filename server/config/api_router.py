@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
-from server.events.api.views import EventViewSet
+from server.events.api.views import ConsumerEventViewSet, EventViewSet
 from server.organizations.api.views import (
     ActivityMediaViewSet,
     ActivityViewSet,
@@ -49,6 +49,7 @@ router.register("manage_consumers", ManageConsumersViewSet, basename="manage_con
 router.register("manage_school_activity", ManageSchoolActivityViewSet)
 router.register("school_activity_group", SchoolActivityGroupViewSet)
 router.register("events", EventViewSet, basename="events")
+router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")
 
 app_name = "api"
 urlpatterns = router.urls
