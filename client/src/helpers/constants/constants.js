@@ -5,9 +5,11 @@ export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
+export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
+export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
 export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
@@ -172,6 +174,7 @@ export const SERVER = {
   userTypes: {
     coordinator: "COORDINATOR", // i.e., principals
     consumer: "CONSUMER", // i.e., students
+    instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
   },
   programOrderStatus: {

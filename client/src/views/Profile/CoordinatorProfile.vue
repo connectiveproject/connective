@@ -37,11 +37,11 @@
 </template>
 <script>
 import { mapActions } from "vuex"
-import store from "../vuex/store"
+import store from "../../vuex/store"
 import { ValidationObserver } from "vee-validate"
-import Modal from "../components/Modal"
-import InputDrawer from "../components/InputDrawer"
-import Avatar from "../components/Avatar/Avatar"
+import Modal from "../../components/Modal"
+import InputDrawer from "../../components/InputDrawer"
+import Avatar from "../../components/Avatar/Avatar"
 
 export default {
   components: {

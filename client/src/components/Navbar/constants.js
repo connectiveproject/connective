@@ -11,7 +11,7 @@ const coordinatorButtons = [
   {
     text: () => i18n.t("general.profile"),
     icon: "mdi-account",
-    onClick: () => Vue.$router.push({ name: "Profile" }),
+    onClick: () => Vue.$router.push({ name: "CoordinatorProfile" }),
   },
   {
     text: () => i18n.tc("general.school", 0),
@@ -58,7 +58,31 @@ const consumerButtons = [
   },
 ]
 
+const instructorButtons = [
+  {
+    text: () => i18n.t("auth.logout"),
+    icon: "mdi-export",
+    onClick: () => store.dispatch("auth/logout"),
+  },
+  {
+    text: () => i18n.t("general.profile"),
+    icon: "mdi-account",
+    onClick: () => Vue.$router.push({ name: "InstructorProfile" }),
+  },
+  // {
+  //   text: () => i18n.tc("general.program", 1),
+  //   icon: "mdi-handshake",
+  //   onClick: () => Vue.$router.push({ name: "ConsumerProgramsExplorer" }),
+  // },
+  // {
+  //   text: () => i18n.tc("myActivity.myActivity"),
+  //   icon: "mdi-drawing",
+  //   onClick: () => Vue.$router.push({ name: "ConsumerMyActivity" }),
+  // },
+]
+
 export const userToButtons = {
   consumer: consumerButtons,
   coordinator: coordinatorButtons,
+  instructor: instructorButtons,
 }

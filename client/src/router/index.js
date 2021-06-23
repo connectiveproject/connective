@@ -15,12 +15,14 @@ import {
 import Welcome from "../layouts/Welcome.vue"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard.vue"
 import StudentDashboard from "../layouts/StudentDashboard.vue"
+import InstructorDashboard from "../layouts/InstructorDashboard.vue"
 import MyActivity from "../layouts/MyActivity/MyActivity.vue"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity.vue"
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
-import Profile from "../views/Profile.vue"
-import ConsumerProfile from "../views/ConsumerProfile.vue"
+import CoordinatorProfile from "../views/Profile/CoordinatorProfile.vue"
+import ConsumerProfile from "../views/Profile/ConsumerProfile.vue"
+import InstructorProfile from "../views/Profile/InstructorProfile.vue"
 import SchoolDetails from "../views/SchoolDetails.vue"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer.vue"
@@ -144,12 +146,12 @@ const routes = [
           {
             path: "",
             name: "CoordinatorDashboard",
-            redirect: { name: "Profile" },
+            redirect: { name: "CoordinatorProfile" },
           },
           {
             path: "profile",
-            name: "Profile",
-            component: Profile,
+            name: "CoordinatorProfile",
+            component: CoordinatorProfile,
           },
           {
             path: "schoolDetails",
@@ -197,6 +199,23 @@ const routes = [
                 component: MyEvents,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: "instructor-dashboard",
+        component: InstructorDashboard,
+        beforeEnter: PopulateConsumerData,
+        children: [
+          {
+            path: "",
+            name: "InstructorDashboard",
+            redirect: { name: "InstructorProfile" },
+          },
+          {
+            path: "profile",
+            name: "InstructorProfile",
+            component: InstructorProfile,
           },
         ],
       },

@@ -5,12 +5,24 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from server.utils.permission_classes import AllowConsumer, AllowCoordinator, AllowVendor
+from server.utils.permission_classes import (
+    AllowConsumer,
+    AllowCoordinator,
+    AllowInstructor,
+    AllowVendor,
+)
 
-from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
+from ..models import (
+    Consumer,
+    ConsumerProfile,
+    CoordinatorProfile,
+    InstructorProfile,
+    VendorProfile,
+)
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
+    InstructorProfileSerializer,
     ManageConsumersSerializer,
     UserSerializer,
     VendorProfileSerializer,
@@ -57,6 +69,20 @@ class CoordinatorProfileViewSet(ModelViewSet):
     def me(self, request):
         serializer = CoordinatorProfileSerializer(
             request.user.coordinatorprofile, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class InstructorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowInstructor]
+    serializer_class = InstructorProfileSerializer
+    queryset = InstructorProfile.objects.all()
+    lookup_field = "user__slug"
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        serializer = InstructorProfileSerializer(
+            request.user.instructorprofile, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 

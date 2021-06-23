@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import TitleToText from "../components/TitleToText"
-import Avatar from "../components/Avatar/Avatar"
+import TitleToText from "../../components/TitleToText"
+import Avatar from "../../components/Avatar/Avatar"
 import { mapActions } from "vuex"
 
 export default {

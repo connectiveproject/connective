@@ -14,6 +14,7 @@ from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
     CoordinatorProfileViewSet,
+    InstructorProfileViewSet,
     ManageConsumersViewSet,
     UserViewSet,
     VendorProfileViewSet,
@@ -34,6 +35,11 @@ router.register(
     "coordinators_profiles",
     CoordinatorProfileViewSet,
     basename="coordinators_profiles",
+)
+router.register(
+    "instructors_profiles",
+    InstructorProfileViewSet,
+    basename="instructors_profiles",
 )
 router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_profiles")
 router.register("organizations", OrganizationViewSet, basename="organizations")

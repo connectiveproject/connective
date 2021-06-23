@@ -3,6 +3,7 @@ import user from "./user"
 import school from "./school"
 import consumer from "./consumer"
 import coordinator from "./coordinator"
+import instructor from "./instructor"
 import config from "./config"
 import program from "./program"
 import consumerProgram from "./consumerProgram"
@@ -17,6 +18,7 @@ export default {
   school,
   consumer,
   coordinator,
+  instructor,
   config,
   program,
   consumerProgram,
