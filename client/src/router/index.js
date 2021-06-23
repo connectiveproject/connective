@@ -13,7 +13,7 @@ import {
   fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome.vue"
-import ManagementDashboard from "../layouts/ManagementDashboard.vue"
+import CoordinatorDashboard from "../layouts/CoordinatorDashboard.vue"
 import StudentDashboard from "../layouts/StudentDashboard.vue"
 import MyActivity from "../layouts/MyActivity/MyActivity.vue"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity.vue"
@@ -137,13 +137,13 @@ const routes = [
         ],
       },
       {
-        path: "management-dashboard",
-        component: ManagementDashboard,
+        path: "coordinator-dashboard",
+        component: CoordinatorDashboard,
         beforeEnter: PopulateCoordinatorData,
         children: [
           {
             path: "",
-            name: "ManagementDashboard",
+            name: "CoordinatorDashboard",
             redirect: { name: "Profile" },
           },
           {

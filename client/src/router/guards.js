@@ -31,7 +31,7 @@ export async function checkRegistrationStatus(to, from, next) {
   if (userDetails.userType === SERVER.userTypes.consumer) {
     next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   } else if (await isStaffRegistered()) {
-    next({ name: "ManagementDashboard", params: { lang: i18n.locale } })
+    next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
   } else {
     next({ name: "Register", params: { lang: i18n.locale } })
   }
