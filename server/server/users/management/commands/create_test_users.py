@@ -44,7 +44,7 @@ class Command(BaseCommand):
         if not settings.DEBUG:
             raise RuntimeError("create_test_users is meant for dev environments.")
 
-        self.create_user(Coordinator, "coord@example.com", "Aa123456789")
-        self.create_user(Consumer, "consumer@example.com", "Aa123456789")
-        self.create_user(Vendor, "vendor@example.com", "Aa123456789")
+        self.create_user(Coordinator, "coord1@example.com", "Aa123456789")
+        self.create_user(Consumer, "consumer1@example.com", "Aa123456789")
+        self.create_user(Vendor, "vendor1@example.com", "Aa123456789")
         self.create_admin()

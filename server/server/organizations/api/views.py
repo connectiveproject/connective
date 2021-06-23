@@ -1,5 +1,7 @@
 from contextlib import suppress
 
+
+from django.db.models import Count
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import mixins, status, viewsets
@@ -28,6 +30,7 @@ from .serializers import (
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
     SchoolActivityGroupSerializer,
+    StudentRequestDataSerializer,
 )
 
 
@@ -183,3 +186,8 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         return SchoolActivityGroup.objects.filter(
             activity_order__in=user.school_member.school.school_activity_orders.all(),
         )
+
+    @action(detail=False, methods=["get"])
+    def student_requests_data(self, request):
+        qs = self.get_queryset().annotate(student_requests=Count("consumers")).order_by("-student_requests")[:10]
+        return Response(StudentRequestDataSerializer(qs, many=True).data)
