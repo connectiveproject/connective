@@ -12,28 +12,29 @@ import {
   PopulateCoordinatorData,
   fetchProgramDetails,
 } from "./guards"
-import Welcome from "../layouts/Welcome.vue"
-import CoordinatorDashboard from "../layouts/CoordinatorDashboard.vue"
-import StudentDashboard from "../layouts/StudentDashboard.vue"
-import InstructorDashboard from "../layouts/InstructorDashboard.vue"
-import MyActivity from "../layouts/MyActivity/MyActivity.vue"
-import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity.vue"
-import Login from "../views/Login.vue"
-import Register from "../views/Register.vue"
-import CoordinatorProfile from "../views/Profile/CoordinatorProfile.vue"
-import ConsumerProfile from "../views/Profile/ConsumerProfile.vue"
-import InstructorProfile from "../views/Profile/InstructorProfile.vue"
-import SchoolDetails from "../views/SchoolDetails.vue"
-import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
-import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer.vue"
-import Invite from "../views/Invite/Invite.vue"
-import ResetPassword from "../views/ResetPassword.vue"
-import GenericError from "../views/Error.vue"
+import Welcome from "../layouts/Welcome"
+import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
+import StudentDashboard from "../layouts/StudentDashboard"
+import InstructorDashboard from "../layouts/InstructorDashboard"
+import MyActivity from "../layouts/MyActivity/MyActivity"
+import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
+import Login from "../views/Login"
+import Register from "../views/Register"
+import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
+import ConsumerProfile from "../views/Profile/ConsumerProfile"
+import InstructorProfile from "../views/Profile/InstructorProfile"
+import SchoolDetails from "../views/SchoolDetails"
+import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
+import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
+import Invite from "../views/Invite/Invite"
+import ResetPassword from "../views/ResetPassword"
+import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 
 Vue.use(VueRouter)
 
@@ -205,7 +206,6 @@ const routes = [
       {
         path: "instructor-dashboard",
         component: InstructorDashboard,
-        beforeEnter: PopulateConsumerData,
         children: [
           {
             path: "",
@@ -216,6 +216,11 @@ const routes = [
             path: "profile",
             name: "InstructorProfile",
             component: InstructorProfile,
+          },
+          {
+            path: "unsummarized-events",
+            name: "InstructorUnsummarizedEvents",
+            component: InstructorUnsummarizedEvents,
           },
         ],
       },

@@ -1,3 +1,4 @@
+import moment from "moment"
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
@@ -98,6 +99,14 @@ const utils = {
     return [startDate, endDate]
   },
 
+  addDaysToToday(days) {
+    // return a moment date object adding days to current date
+    // :Int days: days to add, can be minus to subtract (doesn't support floats)
+    const date = moment()
+    date.add(days, "days")
+    return date
+  },
+
   dateToApiString(date) {
     // convert moment.js date object into a valid string to send to api
     // note: this ignores hours, minutes, seconds and uses date only
@@ -123,7 +132,7 @@ const utils = {
 
     const colorPos = (str.charCodeAt(0) + str.charCodeAt(1)) % colors.length
     return colors[colorPos]
-  }
+  },
 }
 
 export default utils

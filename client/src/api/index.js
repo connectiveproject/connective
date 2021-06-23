@@ -9,8 +9,9 @@ import program from "./program"
 import consumerProgram from "./consumerProgram"
 import programGroup from "./programGroup"
 import consumerProgramGroup from "./consumerProgramGroup"
-import consumerEvent from "./consumerEvent"
 import event from "./event"
+import consumerEvent from "./consumerEvent"
+import instructorEvent from "./instructorEvent"
 
 export default {
   auth,
@@ -26,4 +27,5 @@ export default {
   consumerProgramGroup,
   event,
   consumerEvent,
+  instructorEvent,
 }

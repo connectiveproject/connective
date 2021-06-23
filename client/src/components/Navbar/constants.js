@@ -69,16 +69,11 @@ const instructorButtons = [
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "InstructorProfile" }),
   },
-  // {
-  //   text: () => i18n.tc("general.program", 1),
-  //   icon: "mdi-handshake",
-  //   onClick: () => Vue.$router.push({ name: "ConsumerProgramsExplorer" }),
-  // },
-  // {
-  //   text: () => i18n.tc("myActivity.myActivity"),
-  //   icon: "mdi-drawing",
-  //   onClick: () => Vue.$router.push({ name: "ConsumerMyActivity" }),
-  // },
+  {
+    text: () => i18n.t("events.eventsSummary"),
+    icon: "mdi-newspaper-variant",
+    onClick: () => Vue.$router.push({ name: "InstructorUnsummarizedEvents" }),
+  },
 ]
 
 export const userToButtons = {

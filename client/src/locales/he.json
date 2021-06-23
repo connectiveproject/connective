@@ -181,6 +181,13 @@
     "forGroupDetails": "לפרטי הקבוצה"
   },
 
+  "events": {
+    "eventsSummary": "סיכום אירועים",
+    "eventsToSummarize": "אירועים לסיכום",
+    "unsummarizedPastEvents": "אירועי עבר שלא סוכמו",
+    "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו"
+  },
+
   "time": {
     "startTime": "זמן התחלה",
     "endTime": "זמן סיום",
