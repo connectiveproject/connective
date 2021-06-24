@@ -34,13 +34,16 @@ const instructorEvent = {
       let res = await Api.instructorEvent.updateEvent(slug, payload)
       return res.data
     },
-    async getPastEvents({ commit, state }, daysAgo) {
+    async getPastEvents({ commit, state }, { daysAgo, unsummarizedOnly }) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(Utils.addDaysToToday(-daysAgo))
       const endDateString = Utils.dateToApiString(Utils.addDaysToToday(0))
       const params = {
         start_time__gte: startDateString,
         start_time__lte: endDateString,
+      }
+      if (unsummarizedOnly) {
+        params.has_summary = false
       }
       let res = await Api.instructorEvent.getEventList(params)
       commit("SET_EVENTS_LIST", res.data.results)

@@ -60,4 +60,4 @@ class Event(models.Model):
             )
 
     def __str__(self):
-        return f"{self.school_group} : {self.start_time}"
+        return f"{self.school_group} : {self.start_time} : {self.slug}"

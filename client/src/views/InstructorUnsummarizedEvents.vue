@@ -39,7 +39,7 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("instructorEvent/getPastEvents", 60)
+    await store.dispatch("instructorEvent/getPastEvents", { daysAgo: 60, unsummarizedOnly: true })
     next()
   },
   computed: {
