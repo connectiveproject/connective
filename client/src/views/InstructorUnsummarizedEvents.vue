@@ -1,25 +1,27 @@
 <template>
   <v-card
-    class="my-15 mx-auto px-10 py-10"
+    class="my-15 mx-auto px-sm-10 py-sm-10"
     max-width="1000"
+    :min-height="$vuetify.breakpoint.mobile ? 350 : 500"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
   >
     <v-card-title
-      class="text-h4"
+      class="text-sm-h4"
       v-text="$t('events.unsummarizedPastEvents')"
     />
     <v-card-subtitle
-      class="text-h6 pt-3"
+      class="text-md-h6 pt-3"
       v-text="$t('events.clickAnEventToSummarizeIt')"
     />
     <click-list
-      v-if="eventList.length"
+      v-if="formattedEvents.length"
       v-model="selected"
       class="my-12"
       :title="$t('events.eventsToSummarize')"
       :items="formattedEvents"
       @input="onEventClick"
     />
+    <div v-else class="text-center text-md-h6 absolute-center text-body-1" v-text="$t('events.eventsToSummarizeWereNotFound')" />
   </v-card>
 </template>
 

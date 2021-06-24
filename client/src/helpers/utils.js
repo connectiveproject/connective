@@ -113,6 +113,10 @@ const utils = {
     return date.format("YYYY-MM-DD 00:00")
   },
 
+  ApiStringToReadableDate(dateString) {
+    return moment(dateString).format("DD.MM.YYYY HH:mm")
+  },
+
   stringToPsuedoRandomColor(str) {
     // return a "random" color based on the first two characters
     // it is useful when want to be color consistent, yet looking random

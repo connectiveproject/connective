@@ -30,6 +30,10 @@ const instructorEvent = {
       let res = await Api.instructorEvent.getEvent(slug)
       return res.data
     },
+    async updateEvent(ctx, { slug, payload }) {
+      let res = await Api.instructorEvent.updateEvent(slug, payload)
+      return res.data
+    },
     async getPastEvents({ commit, state }, daysAgo) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(Utils.addDaysToToday(-daysAgo))

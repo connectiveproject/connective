@@ -25,10 +25,12 @@ export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/
 export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
 export const GET_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
+export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 
 
 export const TOKEN_COOKIE_NAME = "token"

@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from server.events.models import Event
+from server.organizations.models import SchoolActivityGroup
+from server.users.models import Consumer
 
 
 class BaseEventSerializer(serializers.ModelSerializer):
@@ -13,11 +15,25 @@ class BaseEventSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
+    consumers = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=Consumer.objects.all(),
+        many=True,
+    )
+    school_group = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=SchoolActivityGroup.objects.all(),
+    )
+
     def validate(self, data):
         """
         Check that start is before finish.
         """
-        if data["start_time"] > data["end_time"]:
+        if (
+            hasattr(data, "start_time")
+            and hasattr(data, "end_time")
+            and data["start_time"] > data["end_time"]
+        ):
             raise serializers.ValidationError(
                 {"end_time": "end time must occur after start time"}
             )

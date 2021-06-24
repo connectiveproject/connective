@@ -161,6 +161,7 @@
     "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה",
     "empty": "ריק",
     "unassigned": "לא שובץ",
+    "unavailable": "לא זמין",
     "nameUnavailable": "שם לא זמין"
   },
 
@@ -183,14 +184,21 @@
 
   "events": {
     "eventsSummary": "סיכום אירועים",
+    "eventSummary": "סיכום אירוע",
     "eventsToSummarize": "אירועים לסיכום",
+    "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
     "unsummarizedPastEvents": "אירועי עבר שלא סוכמו",
-    "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו"
+    "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו",
+    "summaryGeneralNotes": "הערות כלליות",
+    "summaryGeneralRating": "דירוג כולל",
+    "summaryChildrenBehavior": "התנהגות המשתתפים",
+    "attendance": "נוכחות",
+    "groupName": "שם הקבוצה"
   },
 
   "time": {
-    "startTime": "זמן התחלה",
-    "endTime": "זמן סיום",
+    "startTime": "שעת התחלה",
+    "endTime": "שעת סיום",
     "day-0": "ראשון",
     "day-1": "שני",
     "day-2": "שלישי",

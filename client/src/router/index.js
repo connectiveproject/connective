@@ -224,7 +224,7 @@ const routes = [
             component: InstructorUnsummarizedEvents,
           },
           {
-            path: "event-summary",
+            path: "event-summary/:slug",
             name: "InstructorEventSummary",
             component: InstructorEventSummary,
             props: true,

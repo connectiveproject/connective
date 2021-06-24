@@ -50,6 +50,9 @@ class Event(models.Model):
         blank=True,
     )
 
+    class Meta:
+        ordering = ["-start_time"]
+
     def clean(self):
         if self.start_time > self.end_time:
             raise ValidationError(

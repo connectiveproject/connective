@@ -12,6 +12,7 @@ import pagination from "./modules/pagination"
 import loading from "./modules/loading"
 import programGroup from "./modules/programGroup"
 import consumerProgramGroup from "./modules/consumerProgramGroup"
+import instructorProgramGroup from "./modules/instructorProgramGroup"
 import event from "./modules/event"
 import consumerEvent from "./modules/consumerEvent"
 import instructorEvent from "./modules/instructorEvent"
@@ -32,6 +33,7 @@ const store = new Vuex.Store({
     pagination,
     programGroup,
     consumerProgramGroup,
+    instructorProgramGroup,
     event,
     consumerEvent,
     instructorEvent,
