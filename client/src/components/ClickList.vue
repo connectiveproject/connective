@@ -1,8 +1,8 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
+  <v-card class="mx-auto" max-width="500" v-bind="$attrs">
     <v-toolbar :color="color" :dark="dark">
       <v-toolbar-title v-text="title" />
-      <v-spacer/>
+      <v-spacer />
     </v-toolbar>
 
     <v-list two-line>
@@ -15,18 +15,20 @@
         <div v-for="(item, index) in items" :key="index">
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"/>
+              <v-list-item-title v-text="item.title" />
 
               <v-list-item-subtitle
                 class="text--primary"
                 v-text="item.headline"
               />
 
-              <v-list-item-subtitle
-                v-text="item.subtitle"
-              />
+              <v-list-item-subtitle v-text="item.subtitle" />
             </v-list-item-content>
-            <div color="grey lighten-2" class="text-caption mb-6" v-text="item.action" />
+            <div
+              color="grey lighten-2"
+              class="text-caption mb-6"
+              v-text="item.action"
+            />
           </v-list-item>
           <v-divider v-if="index < items.length - 1" />
         </div>
@@ -37,6 +39,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   model: {
     prop: "selected",
   },

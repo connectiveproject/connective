@@ -14,6 +14,7 @@ from .serializers import ConsumerEventSerializer, EventSerializer
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator | AllowInstructor]
     serializer_class = EventSerializer
+    lookup_field = "slug"
     filterset_fields = {
         "start_time": ["gte", "lte"],
     }
@@ -31,6 +32,7 @@ class EventViewSet(viewsets.ModelViewSet):
 class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowConsumerReadOnly]
     serializer_class = ConsumerEventSerializer
+    lookup_field = "slug"
     filterset_fields = {
         "start_time": ["gte", "lte"],
     }

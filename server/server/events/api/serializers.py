@@ -28,6 +28,7 @@ class EventSerializer(BaseEventSerializer):
     class Meta:
         model = Event
         fields = [
+            "slug",
             "activity_name",
             "school_group_name",
             "start_time",
@@ -46,6 +47,7 @@ class ConsumerEventSerializer(BaseEventSerializer):
     class Meta:
         model = Event
         fields = [
+            "slug",
             "activity_name",
             "school_group_name",
             "start_time",

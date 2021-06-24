@@ -26,6 +26,10 @@ const instructorEvent = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
+    async getEvent(ctx, slug) {
+      let res = await Api.instructorEvent.getEvent(slug)
+      return res.data
+    },
     async getPastEvents({ commit, state }, daysAgo) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(Utils.addDaysToToday(-daysAgo))

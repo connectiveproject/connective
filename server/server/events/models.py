@@ -5,9 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
+from server.utils.model_fields import random_slug
 
 
 class Event(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     consumers = models.ManyToManyField(

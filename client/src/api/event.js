@@ -1,9 +1,9 @@
 import axios from "axios"
-import { GET_EVENTS_API_URL } from "../helpers/constants/constants"
+import { GET_EVENT_LIST_API_URL } from "../helpers/constants/constants"
 
 const event = {
   getEventList(params) {
-    return axios.get(GET_EVENTS_API_URL, { params })
+    return axios.get(GET_EVENT_LIST_API_URL, { params })
   },
 }
 

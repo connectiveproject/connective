@@ -35,6 +35,7 @@ import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
+import InstructorEventSummary from "../views/InstructorEventSummary"
 
 Vue.use(VueRouter)
 
@@ -221,6 +222,12 @@ const routes = [
             path: "unsummarized-events",
             name: "InstructorUnsummarizedEvents",
             component: InstructorUnsummarizedEvents,
+          },
+          {
+            path: "event-summary",
+            name: "InstructorEventSummary",
+            component: InstructorEventSummary,
+            props: true,
           },
         ],
       },

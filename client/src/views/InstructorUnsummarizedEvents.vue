@@ -4,7 +4,10 @@
     max-width="1000"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
   >
-    <v-card-title class="text-h4" v-text="$t('events.unsummarizedPastEvents')" />
+    <v-card-title
+      class="text-h4"
+      v-text="$t('events.unsummarizedPastEvents')"
+    />
     <v-card-subtitle
       class="text-h6 pt-3"
       v-text="$t('events.clickAnEventToSummarizeIt')"
@@ -30,6 +33,7 @@ export default {
   data() {
     return {
       selected: [],
+      isEventClicked: false,
     }
   },
   async beforeRouteEnter(to, from, next) {
@@ -50,7 +54,14 @@ export default {
   },
   methods: {
     onEventClick(e) {
-      console.log(e[0])
+      // extract event slug & route to event summary
+      if (this.isEventClicked) return
+      this.isEventClicked = true
+      const eventPos = e[0]
+      this.$router.push({
+        name: "InstructorEventSummary",
+        params: { slug: this.eventList[eventPos].slug },
+      })
     },
   },
 }
