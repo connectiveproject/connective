@@ -155,6 +155,7 @@ class SchoolActivityGroup(models.Model):
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
         DEFAULT = "DEFAULT", "Default"
 
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )

@@ -220,6 +220,7 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = SchoolActivityGroup
         fields = [
+            "slug",
             "activity_logo",
             "activity_name",
             "activity_order",

@@ -13,11 +13,13 @@ from server.organizations.models import (
     SchoolActivityGroup,
     SchoolActivityOrder,
 )
+from server.users.api.serializers import UserSerializer
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
     AllowCoordinator,
     AllowCoordinatorReadOnly,
+    AllowInstructorReadOnly,
     AllowVendor,
 )
 
@@ -170,16 +172,31 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
 
 class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator | AllowConsumerReadOnly]
+    permission_classes = [
+        AllowCoordinator | AllowConsumerReadOnly | AllowInstructorReadOnly
+    ]
     serializer_class = SchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
     filterset_fields = ["group_type"]
+    lookup_field = "slug"
 
     def get_queryset(self):
         user = self.request.user
         if user.user_type == get_user_model().Types.CONSUMER:
             return SchoolActivityGroup.objects.filter(consumers=user)
 
+        if user.user_type == get_user_model().Types.INSTRUCTOR:
+            return SchoolActivityGroup.objects.filter(instructor=user)
+
         return SchoolActivityGroup.objects.filter(
             activity_order__in=user.school_member.school.school_activity_orders.all(),
         )
+
+    @action(detail=True, methods=["GET"])
+    def group_consumers(self, request, slug=None):
+        serializer = UserSerializer(
+            self.get_object().consumers,
+            context={"request": request},
+            many=True,
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
