@@ -26,7 +26,7 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["coordinator", "vendor", "consumer"].includes(value)
+        return ["coordinator", "consumer", "instructor", "vendor"].includes(value)
       },
     },
   },

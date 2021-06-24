@@ -25,7 +25,7 @@ const consumer = {
       commit("FLUSH_STATE")
     },
     async getProfile({ commit, state }) {
-      if (!state.profile.phoneNumber) {
+      if (!state.profile.gender) {
         // fetch if not in cache
         let res = await Api.consumer.getProfile()
         commit("SET_PROFILE", res.data)

@@ -4,7 +4,13 @@ from rest_framework import serializers
 from server.schools.models import SchoolMember
 
 from ..helpers import send_user_invite
-from ..models import Consumer, ConsumerProfile, CoordinatorProfile, VendorProfile
+from ..models import (
+    Consumer,
+    ConsumerProfile,
+    CoordinatorProfile,
+    InstructorProfile,
+    VendorProfile,
+)
 
 User = get_user_model()
 
@@ -39,6 +45,14 @@ class CoordinatorProfileSerializer(serializers.ModelSerializer):
             "job_description",
             "phone_number",
         ]
+
+
+class InstructorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = InstructorProfile
+        fields = ["slug", "gender", "profile_picture"]
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):

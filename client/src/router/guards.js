@@ -19,21 +19,25 @@ async function isStaffRegistered() {
 
 export async function checkRegistrationStatus(to, from, next) {
   // redirect based on user type & registration status
-  // if not authenticated -> home screen
-  // elif registration info missing -> registration page
-  // else -> continue to relevant dashboard
   if (!store.state.auth.isAuthenticated) {
     next("/")
     return
   }
-  // on server - need to add userType field
   const userDetails = await store.dispatch("user/getUserDetails")
-  if (userDetails.userType === SERVER.userTypes.consumer) {
-    next({ name: "StudentDashboard", params: { lang: i18n.locale } })
-  } else if (await isStaffRegistered()) {
-    next({ name: "ManagementDashboard", params: { lang: i18n.locale } })
-  } else {
-    next({ name: "Register", params: { lang: i18n.locale } })
+  switch (userDetails.userType) {
+    case SERVER.userTypes.consumer:
+      next({ name: "StudentDashboard", params: { lang: i18n.locale } })
+      break
+    case SERVER.userTypes.instructor:
+      next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
+      break
+    default:
+      // coordinator
+      if (await isStaffRegistered()) {
+        next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
+      } else {
+        next({ name: "Register", params: { lang: i18n.locale } })
+      }
   }
 }
 

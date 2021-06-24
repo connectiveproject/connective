@@ -4,11 +4,18 @@ import auth from "./modules/auth"
 import user from "./modules/user"
 import consumer from "./modules/consumer"
 import coordinator from "./modules/coordinator"
+import instructor from "./modules/instructor"
 import school from "./modules/school"
 import program from "./modules/program"
 import consumerProgram from "./modules/consumerProgram"
 import pagination from "./modules/pagination"
 import loading from "./modules/loading"
+import programGroup from "./modules/programGroup"
+import consumerProgramGroup from "./modules/consumerProgramGroup"
+import instructorProgramGroup from "./modules/instructorProgramGroup"
+import event from "./modules/event"
+import consumerEvent from "./modules/consumerEvent"
+import instructorEvent from "./modules/instructorEvent"
 
 Vue.use(Vuex)
 
@@ -18,11 +25,18 @@ const store = new Vuex.Store({
     user,
     consumer,
     coordinator,
+    instructor,
     school,
     program,
     consumerProgram,
     loading,
     pagination,
+    programGroup,
+    consumerProgramGroup,
+    instructorProgramGroup,
+    event,
+    consumerEvent,
+    instructorEvent,
   },
   actions: {
     flushState({ dispatch }) {

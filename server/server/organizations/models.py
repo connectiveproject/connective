@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.schools.models import School
-from server.users.models import Consumer, User
+from server.users.models import Consumer, Instructor, User
 from server.utils.model_fields import random_slug
 
 
@@ -155,6 +155,7 @@ class SchoolActivityGroup(models.Model):
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
         DEFAULT = "DEFAULT", "Default"
 
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
@@ -166,6 +167,13 @@ class SchoolActivityGroup(models.Model):
         max_length=50,
         choices=GroupTypes.choices,
         default=GroupTypes.DEFAULT,
+    )
+    instructor = models.ForeignKey(
+        Instructor,
+        on_delete=models.SET_NULL,
+        related_name="managed_activity_groups",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):

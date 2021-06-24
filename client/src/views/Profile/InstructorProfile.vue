@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import TitleToText from "../components/TitleToText"
-import Avatar from "../components/Avatar/Avatar"
+import TitleToText from "../../components/TitleToText"
+import Avatar from "../../components/Avatar/Avatar"
 import { mapActions } from "vuex"
 
 export default {
@@ -51,8 +51,8 @@ export default {
 
   methods: {
     ...mapActions("user", ["getUserDetails"]),
-    ...mapActions("consumer", ["getProfile"]),
-    ...mapActions("consumer", ["updateProfile"]),
+    ...mapActions("instructor", ["getProfile"]),
+    ...mapActions("instructor", ["updateProfile"]),
     filterAttributes(userAttributes) {
       return { email: userAttributes["email"], name: userAttributes["name"] }
     },

@@ -9,6 +9,7 @@ import Api from "./api"
 import "./helpers/validators"
 import "nprogress/nprogress.css"
 import "./styles/main.scss"
+import "./filters"
 
 Vue.config.productionTip = false
 Vue.use(cookies)

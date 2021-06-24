@@ -31,7 +31,8 @@
     "step": "שלב",
     "generalDetails": "פרטים כלליים",
     "chosen": "נבחרו",
-    "status": "סטטוס"
+    "status": "סטטוס",
+    "display": "תצוגה"
   },
 
   "confirm": {
@@ -63,7 +64,8 @@
     "PENDING_ADMIN_APPROVAL": "ממתין לאישור מנהל",
     "APPROVED": "אושר",
     "CANCELLED": "בוטל",
-    "available": "זמין"
+    "available": "זמין",
+    "forProgramDetails": "לפרטי התוכנית"
   },
 
   "programFilters": {
@@ -156,6 +158,69 @@
     "incorrectNumberOfDigits": "מספר הספרות שהוקש שגוי",
     "missingCityForID": "חסרה עיר לתעודת זהות",
     "missingColumnsOrValues": "חסרים ערכים או עמודות",
-    "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה"
+    "recordWithTheSameValueAlreadyExists": "כבר קיימת רשומה עם ערך זה",
+    "empty": "ריק",
+    "unassigned": "לא שובץ",
+    "unavailable": "לא זמין",
+    "nameUnavailable": "שם לא זמין"
+  },
+
+  "myActivity": {
+    "myActivity": "הפעילות שלי",
+    "myEvents": "המפגשים שלי",
+    "myGroups": "קבוצות פעילות",
+    "activeGroups": "קבוצות פעילות",
+    "myPrograms": "התוכניות שלי",
+    "studentsNumberInGroup": "מספר תלמידים בקבוצה",
+    "instructorName": "שם מדריך",
+    "hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool": "כאן ניתן לראות את כלל הקבוצות של התוכניות הפועלות בבית הספר",
+    "hereYouCanSeeTheGroupsYouJoined": "כאן ניתן לראות את הקבוצות אליהן הצטרפת",
+    "hereYouCanSeeAllThePlannedEvents": "כאן ניתן לראות את כלל האירועים המתוכננים",
+    "eventDetails": "פרטי האירוע",
+    "location": "מיקום",
+    "groupDescription": "תיאור קבוצה",
+    "forGroupDetails": "לפרטי הקבוצה"
+  },
+
+  "events": {
+    "eventsSummary": "סיכום אירועים",
+    "eventSummary": "סיכום אירוע",
+    "eventsToSummarize": "אירועים לסיכום",
+    "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
+    "unsummarizedPastEvents": "אירועי עבר שלא סוכמו",
+    "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו",
+    "summaryGeneralNotes": "הערות כלליות",
+    "summaryGeneralRating": "דירוג כולל",
+    "summaryChildrenBehavior": "התנהגות המשתתפים",
+    "attendance": "נוכחות",
+    "groupName": "שם הקבוצה"
+  },
+
+  "time": {
+    "startTime": "שעת התחלה",
+    "endTime": "שעת סיום",
+    "day-0": "ראשון",
+    "day-1": "שני",
+    "day-2": "שלישי",
+    "day-3": "רביעי",
+    "day-4": "חמישי",
+    "day-5": "שישי",
+    "day-6": "שבת",
+    "month-1": "ינואר",
+    "month-2": "פברואר",
+    "month-3": "מרץ",
+    "month-4": "אפריל",
+    "month-5": "מאי",
+    "month-6": "יוני",
+    "month-7": "יולי",
+    "month-8": "אוגוסט",
+    "month-9": "ספטמבר",
+    "month-10": "אוקטובר",
+    "month-11": "נובמבר",
+    "month-12": "דצמבר",
+    "monthly": "חודשי",
+    "weekly": "שבועי",
+    "halfWeekly": "חצי שבועי",
+    "daily": "יומי"
   }
 }

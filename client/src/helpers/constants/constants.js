@@ -5,9 +5,11 @@ export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
+export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
+export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
 export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
@@ -21,6 +23,15 @@ export const ORDER_SCHOOL_PROGRAM_API_URL = `${SERVER_URL}/manage_school_activit
 export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
+export const GET_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS = `${SERVER_URL}/school_activity_group/`
+export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
+export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
+export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
+export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
+export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
+
 
 export const TOKEN_COOKIE_NAME = "token"
 export const SCHOOL_GRADES_ITEMS = [
@@ -168,12 +179,18 @@ export const SERVER = {
   userTypes: {
     coordinator: "COORDINATOR", // i.e., principals
     consumer: "CONSUMER", // i.e., students
+    instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
   },
   programOrderStatus: {
     cancelled: "CANCELLED",
     pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
     approved: "APPROVED",
+  },
+  programGroupTypes: {
+    standard: "DEFAULT",
+    containerOnly: "CONTAINER_ONLY",
+    disabledConsumers: "DISABLED_CONSUMERS",
   },
 }
 

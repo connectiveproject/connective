@@ -17,13 +17,15 @@
           :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
         />
       </v-col>
-      <v-col
-        cols="8"
-        md="9"
-        :class="{ 'px-10': !$vuetify.breakpoint.mobile }"
-      >
+      <v-col cols="8" md="9" :class="{ 'px-10': !$vuetify.breakpoint.mobile }">
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
-        <h3 v-text="$t('program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!')" />
+        <h3
+          v-text="
+            $t(
+              'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
+            )
+          "
+        />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -45,11 +47,13 @@
               v-model="program.isOrdered"
               :imgUrl="program.logo"
               :title="program.name"
-              :body="program.description"
               :subtitle="getCardSubtitle(program.orderStatus)"
+              :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
-            />
+            >
+              {{ program.description | trimText(175) }}
+            </info-card>
           </v-col>
         </v-row>
       </v-col>

@@ -201,3 +201,33 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"status": "invalid status"})
 
         return data
+
+
+class SchoolActivityGroupSerializer(serializers.ModelSerializer):
+    instructor_name = serializers.CharField(
+        source="instructor.name",
+        read_only=True,
+    )
+    activity_logo = serializers.ImageField(
+        source="activity_order.activity.logo",
+        read_only=True,
+    )
+    activity_name = serializers.CharField(
+        source="activity_order.activity.name",
+        read_only=True,
+    )
+
+    class Meta:
+        model = SchoolActivityGroup
+        fields = [
+            "slug",
+            "activity_logo",
+            "activity_name",
+            "activity_order",
+            "name",
+            "description",
+            "consumers",
+            "group_type",
+            "instructor",
+            "instructor_name",
+        ]

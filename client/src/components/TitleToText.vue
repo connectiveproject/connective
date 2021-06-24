@@ -8,11 +8,11 @@
 export default {
   props: {
     title: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     text: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
   },

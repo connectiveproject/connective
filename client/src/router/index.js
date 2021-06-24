@@ -12,20 +12,30 @@ import {
   PopulateCoordinatorData,
   fetchProgramDetails,
 } from "./guards"
-import Welcome from "../layouts/Welcome.vue"
-import ManagementDashboard from "../layouts/ManagementDashboard.vue"
-import StudentDashboard from "../layouts/StudentDashboard.vue"
-import Login from "../views/Login.vue"
-import Register from "../views/Register.vue"
-import Profile from "../views/Profile.vue"
-import ConsumerProfile from "../views/ConsumerProfile.vue"
-import SchoolDetails from "../views/SchoolDetails.vue"
-import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer.vue"
-import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer.vue"
-import Invite from "../views/Invite/Invite.vue"
-import ResetPassword from "../views/ResetPassword.vue"
-import GenericError from "../views/Error.vue"
+import Welcome from "../layouts/Welcome"
+import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
+import StudentDashboard from "../layouts/StudentDashboard"
+import InstructorDashboard from "../layouts/InstructorDashboard"
+import MyActivity from "../layouts/MyActivity/MyActivity"
+import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
+import Login from "../views/Login"
+import Register from "../views/Register"
+import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
+import ConsumerProfile from "../views/Profile/ConsumerProfile"
+import InstructorProfile from "../views/Profile/InstructorProfile"
+import SchoolDetails from "../views/SchoolDetails"
+import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
+import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
+import Invite from "../views/Invite/Invite"
+import ResetPassword from "../views/ResetPassword"
+import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
+import MyGroups from "../views/MyGroups/MyGroups"
+import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
+import MyEvents from "../views/MyEvents/MyEvents"
+import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
+import InstructorEventSummary from "../views/InstructorEventSummary"
 
 Vue.use(VueRouter)
 
@@ -107,22 +117,43 @@ const routes = [
               },
             ],
           },
-        ]
+          {
+            path: "my-activity",
+            component: ConsumerMyActivity,
+            children: [
+              {
+                path: "",
+                name: "ConsumerMyActivity",
+                redirect: { name: "ConsumerMyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "ConsumerMyGroups",
+                component: ConsumerMyGroups,
+              },
+              {
+                path: "my-events",
+                name: "ConsumerMyEvents",
+                component: ConsumerMyEvents,
+              },
+            ],
+          },
+        ],
       },
       {
-        path: "management-dashboard",
-        component: ManagementDashboard,
+        path: "coordinator-dashboard",
+        component: CoordinatorDashboard,
         beforeEnter: PopulateCoordinatorData,
         children: [
           {
             path: "",
-            name: "ManagementDashboard",
-            redirect: { name: "Profile" },
+            name: "CoordinatorDashboard",
+            redirect: { name: "CoordinatorProfile" },
           },
           {
             path: "profile",
-            name: "Profile",
-            component: Profile,
+            name: "CoordinatorProfile",
+            component: CoordinatorProfile,
           },
           {
             path: "schoolDetails",
@@ -149,6 +180,54 @@ const routes = [
                 props: true,
               },
             ],
+          },
+          {
+            path: "my-activity",
+            component: MyActivity,
+            children: [
+              {
+                path: "",
+                name: "MyActivity",
+                redirect: { name: "MyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "MyGroups",
+                component: MyGroups,
+              },
+              {
+                path: "my-events",
+                name: "MyEvents",
+                component: MyEvents,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "instructor-dashboard",
+        component: InstructorDashboard,
+        children: [
+          {
+            path: "",
+            name: "InstructorDashboard",
+            redirect: { name: "InstructorProfile" },
+          },
+          {
+            path: "profile",
+            name: "InstructorProfile",
+            component: InstructorProfile,
+          },
+          {
+            path: "unsummarized-events",
+            name: "InstructorUnsummarizedEvents",
+            component: InstructorUnsummarizedEvents,
+          },
+          {
+            path: "event-summary/:slug",
+            name: "InstructorEventSummary",
+            component: InstructorEventSummary,
+            props: true,
           },
         ],
       },

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 
-from server.users.models import Consumer, Coordinator, Vendor
+from server.users.models import Consumer, Coordinator, Instructor, Vendor
 
 
 class Command(BaseCommand):
@@ -46,5 +46,6 @@ class Command(BaseCommand):
 
         self.create_user(Coordinator, "coord@example.com", "Aa123456789")
         self.create_user(Consumer, "consumer@example.com", "Aa123456789")
+        self.create_user(Instructor, "instructor@example.com", "Aa123456789")
         self.create_user(Vendor, "vendor@example.com", "Aa123456789")
         self.create_admin()
