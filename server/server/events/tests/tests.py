@@ -31,14 +31,16 @@ class TestEventModel:
 class TestEventView:
     uri = "/api/events/"
 
-    def test_end_time_validator(self, coordinator):
+    def test_end_time_validator(self, school_entities):
         client = APIClient()
-        client.force_authenticate(user=coordinator)
+        client.force_authenticate(user=school_entities["coord"])
         post_response = client.post(
             self.uri,
             {
                 "start_time": tomorrow,
                 "end_time": today,
+                "consumers": [],
+                "school_group": school_entities["activity_group"].slug,
             },
             format="json",
         )
@@ -50,8 +52,8 @@ class TestEventView:
         payload = {
             "start_time": today,
             "end_time": tomorrow,
-            "consumers": [school_entities["consumer"].pk],
-            "school_group": school_entities["activity_group"].pk,
+            "consumers": [school_entities["consumer"].slug],
+            "school_group": school_entities["activity_group"].slug,
         }
 
         client = APIClient()

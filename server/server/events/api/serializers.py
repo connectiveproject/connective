@@ -30,8 +30,8 @@ class BaseEventSerializer(serializers.ModelSerializer):
         Check that start is before finish.
         """
         if (
-            hasattr(data, "start_time")
-            and hasattr(data, "end_time")
+            "end_time" in data
+            and "start_time" in data
             and data["start_time"] > data["end_time"]
         ):
             raise serializers.ValidationError(
