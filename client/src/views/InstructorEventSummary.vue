@@ -113,7 +113,7 @@ export default {
   methods: {
     ...mapActions("instructorEvent", ["updateEvent"]),
     parseDate: Utils.ApiStringToReadableDate,
-    onSubmit() {
+    async onSubmit() {
       const payload = {
         consumers: this.attendedConsumers,
         summaryGeneralNotes: this.summaryGeneralNotes,
@@ -121,7 +121,7 @@ export default {
         summaryChildrenBehavior: this.summaryChildrenBehavior,
         hasSummary: true
       }
-      this.updateEvent({ slug: this.slug, payload })
+      await this.updateEvent({ slug: this.slug, payload })
       this.isModalOpen = true
     },
   },
