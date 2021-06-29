@@ -164,16 +164,17 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
     last_updated_by = serializers.CharField(
         source="last_updated_by.slug", read_only=True
     )
+    activity_name = serializers.CharField(source="activity.name", read_only=True)
 
     class Meta:
         model = SchoolActivityOrder
         read_only_fields = (
-            "requested_by",
-            "last_updated_by",
+            "slug",
             "created_at",
             "updated_at",
         )
         fields = [
+            "slug",
             "requested_by",
             "last_updated_by",
             "school",
@@ -181,6 +182,7 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "updated_at",
+            "activity_name",
         ]
 
     def validate(self, data):
@@ -215,6 +217,9 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     activity_name = serializers.CharField(
         source="activity_order.activity.name",
         read_only=True,
+    )
+    activity_order = serializers.SlugRelatedField(
+        queryset=SchoolActivityOrder.objects.all(), slug_field="slug"
     )
 
     class Meta:

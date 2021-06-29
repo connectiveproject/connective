@@ -159,6 +159,7 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator]
     serializer_class = ManageSchoolActivitySerializer
     lookup_field = "activity__slug"
+    filterset_fields = ("status",)
 
     queryset = SchoolActivityOrder.objects.all()
 

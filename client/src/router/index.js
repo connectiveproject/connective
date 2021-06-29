@@ -36,6 +36,8 @@ import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
+import GroupEditor from "../views/GroupEditor"
+import CreateGroup from "../views/CreateGroup"
 
 Vue.use(VueRouter)
 
@@ -201,6 +203,22 @@ const routes = [
                 component: MyEvents,
               },
             ],
+          },
+          {
+            path: "group-editor",
+            component: GroupEditor,
+            children: [
+              {
+                path: "",
+                name: "GroupEditor",
+                redirect: { name: "CreateGroup" },
+              },
+              {
+                path: "create-group",
+                name: "CreateGroup",
+                component: CreateGroup
+              },
+            ]
           },
         ],
       },

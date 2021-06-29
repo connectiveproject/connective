@@ -2,6 +2,7 @@ import axios from "axios"
 import {
   GET_PROGRAM_LIST_API_URL,
   GET_PROGRAM_MEDIA_LIST_API_URL,
+  GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL,
   ORDER_SCHOOL_PROGRAM_API_URL,
   SERVER,
 } from "../helpers/constants/constants"
@@ -38,6 +39,9 @@ const program = {
       status: SERVER.programOrderStatus.pendingAdminApproval,
       school: schoolSlug
     })
+  },
+  getOrdersList(params) {
+    return axios.get(GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL, { params })
   },
 }
 

@@ -24,7 +24,7 @@ tasks:
       cd ..
     command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver
   - command: redis-server
-  
+
   - command: MailHog      
   - name: Vue Client
     init: > 
@@ -44,8 +44,9 @@ tasks:
   - command: >
       echo -e "\e[36mWELCOM CONTRIBUTER!"
 
-  # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
-
+# command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 vscode:
   extensions:
     - vsls-contrib.codetour
+    - octref.vetur
+    - esbenp.prettier-vscode

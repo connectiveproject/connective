@@ -1,8 +1,9 @@
 import Api from "../../api"
-
+import { SERVER } from "../../helpers/constants/constants"
 function getDefaultState() {
   return {
     programsList: [],
+    approvedOrdersList: [],
     totalPrograms: null,
   }
 }
@@ -29,6 +30,9 @@ const program = {
     },
     SET_PROGRAM_LIST(state, programsList) {
       state.programsList = programsList
+    },
+    SET_APPROVED_ORDERS_LIST(state, ordersList) {
+      state.approvedOrdersList = ordersList
     },
     SET_PROGRAMS_TOTAL(state, total) {
       state.totalPrograms = total
@@ -57,6 +61,13 @@ const program = {
       commit("SET_PROGRAMS_TOTAL", res.data.count)
       return state.programsList
     },
+    async getApprovedOrdersList({ commit, state }) {
+      let res = await Api.program.getOrdersList({
+        status: SERVER.programOrderStatus.approved,
+      })
+      commit("SET_APPROVED_ORDERS_LIST", res.data.results)
+      return state.approvedOrdersList
+    },
     async createProgramOrder({ commit }, { schoolSlug, programSlug }) {
       // order program for a school
       const res = await Api.program.createProgramOrder(schoolSlug, programSlug)
@@ -69,7 +80,10 @@ const program = {
     },
     async reCreateProgramOrder({ commit }, { schoolSlug, programSlug }) {
       // order program after cancellation (order update instead of create)
-      const res = await Api.program.reCreateProgramOrder(schoolSlug, programSlug)
+      const res = await Api.program.reCreateProgramOrder(
+        schoolSlug,
+        programSlug
+      )
       commit("UPDATE_PROGRAM_ORDER_IN_LIST", {
         programSlug,
         isOrdered: true,

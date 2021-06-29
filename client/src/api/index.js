@@ -1,3 +1,4 @@
+import utils from "./utils"
 import auth from "./auth"
 import user from "./user"
 import school from "./school"
@@ -15,6 +16,7 @@ import consumerEvent from "./consumerEvent"
 import instructorEvent from "./instructorEvent"
 
 export default {
+  utils,
   auth,
   user,
   school,

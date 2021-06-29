@@ -44,6 +44,10 @@ const programGroup = {
       commit("SET_GROUPS_TOTAL", res.data.count)
       return state.groupList
     },
+    async createGroup(ctx, payload) {
+      let res = await Api.programGroup.createGroup(payload)
+      return res.data
+    }
   },
 }
 

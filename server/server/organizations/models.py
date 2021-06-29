@@ -119,6 +119,7 @@ class SchoolActivityOrder(models.Model):
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     requested_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -161,7 +162,11 @@ class SchoolActivityGroup(models.Model):
     )
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
-    consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
+    consumers = models.ManyToManyField(
+        Consumer,
+        related_name="activity_groups",
+        blank=True,
+    )
     group_type = models.CharField(
         _("group type"),
         max_length=50,

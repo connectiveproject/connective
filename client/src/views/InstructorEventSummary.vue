@@ -6,7 +6,7 @@
   >
     <v-card-title v-text="$t('events.eventSummary')" class="px-0" />
     <v-card-subtitle v-text="event.activityName" class="px-0 pt-3 pb-10" />
-    <title-to-text :title="$t('events.groupName')" :text="event.schoolGroupName || $t('errors.unavailable')" />
+    <title-to-text :title="$t('groups.groupName')" :text="event.schoolGroupName || $t('errors.unavailable')" />
     <title-to-text :title="$t('time.startTime')" :text="parseDate(event.startTime) || $t('errors.unavailable')" />
     <title-to-text :title="$t('time.endTime')" :text="parseDate(event.endTime) || $t('errors.unavailable')" />
     <title-to-text
