@@ -7,7 +7,12 @@
       @valid="isFormValid = true"
       @invalid="isFormValid = false"
     />
-    <v-btn :disabled="!isFormValid" @click="onSubmit">Submit</v-btn>
+    <v-btn
+      class="white--text purple darken-3 mt-10 d-block mx-auto"
+      :disabled="!isFormValid"
+      @click="onSubmit"
+      v-text="$t('userActions.save')"
+    />
   </div>
 </template>
 
@@ -46,7 +51,7 @@ export default {
         choices: parentPrograms,
       },
     ]
-    next(vm => vm.fields = fields)
+    next(vm => (vm.fields = fields))
   },
   data() {
     return {
@@ -64,8 +69,8 @@ export default {
       }
       try {
         await this.createGroup(payload)
-        this.showMessage(this.$t("groupCreatedSuccessfully"))
-        this.$router.push({ name: "assignGroupConsumers" })
+        this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
+        this.$router.push({ name: "AssignGroupConsumers" })
       } catch (err) {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)

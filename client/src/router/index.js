@@ -38,6 +38,7 @@ import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
 import GroupEditor from "../views/GroupEditor"
 import CreateGroup from "../views/CreateGroup"
+import AssignGroupConsumers from "../views/AssignGroupConsumers"
 
 Vue.use(VueRouter)
 
@@ -217,6 +218,11 @@ const routes = [
                 path: "create-group",
                 name: "CreateGroup",
                 component: CreateGroup
+              },
+              {
+                path: "assign-group-students",
+                name: "AssignGroupConsumers",
+                component: AssignGroupConsumers
               },
             ]
           },
