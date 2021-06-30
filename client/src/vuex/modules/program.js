@@ -5,6 +5,7 @@ function getDefaultState() {
     programsList: [],
     approvedOrdersList: [],
     totalPrograms: null,
+    topConsumerRequestsStats: []
   }
 }
 
@@ -36,6 +37,9 @@ const program = {
     },
     SET_PROGRAMS_TOTAL(state, total) {
       state.totalPrograms = total
+    },
+    SET_TOP_CONSUMER_REQUESTS_STATS(state, stats) {
+      state.topConsumerRequestsStats = stats
     },
   },
   actions: {
@@ -101,6 +105,14 @@ const program = {
       })
       return res.data
     },
+    async getTopConsumerRequestsStats({ commit, state }) {
+      if (state.topConsumerRequestsStats.length) {
+        return state.topConsumerRequestsStats
+      }
+      const res = await Api.program.getTopConsumerRequestsStats()
+      commit("SET_TOP_CONSUMER_REQUESTS_STATS", res.data)
+      return res.data
+    }
   },
 }
 

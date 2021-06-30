@@ -2,6 +2,7 @@ from contextlib import suppress
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -27,6 +28,7 @@ from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
     ConsumerActivitySerializer,
+    ConsumerRequestDataSerializer,
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
     SchoolActivityGroupSerializer,
@@ -225,3 +227,14 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         container_only_group.consumers.add(*to_remove)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=["GET"])
+    def consumer_requests_data(self, request):
+        # requests to each activity, based on container_only consumers
+        qs = (
+            self.get_queryset()
+            .filter(group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY)
+            .annotate(consumer_requests=Count("consumers"))
+            .order_by("-consumer_requests")[:10]
+        )
+        return Response(ConsumerRequestDataSerializer(qs, many=True).data)

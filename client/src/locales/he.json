@@ -179,7 +179,10 @@
     "eventDetails": "פרטי האירוע",
     "location": "מיקום",
     "groupDescription": "תיאור קבוצה",
-    "forGroupDetails": "לפרטי הקבוצה"
+    "forGroupDetails": "לפרטי הקבוצה",
+    "statistics": "סטטיסטיקות",
+    "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
+    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור"
   },
 
   "events": {

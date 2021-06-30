@@ -7027,6 +7027,11 @@ chart.js@^3.4.0:
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.4.0.tgz#4fb2a750225fcc1b387221422f5d4260b55b4579"
   integrity sha512-mJsRm2apQm5mwz2OgYqGNG4erZh/qljcRZkWSa0kLkFr3UC3e1wKRMgnIh6WdhUrNu0w/JT9PkjLyylqEqHXEQ==
 
+chartjs-plugin-datalabels@^2.0.0-rc.1:
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-2.0.0-rc.1.tgz#65f688c4a5fb4977841fecc46371ef7ac249525e"
+  integrity sha512-p3JwpvIspZKHB7cRas3xoxa5BYeCOMCuCTp/AS/44RyvO8OuZ/Pz0DWl3WK2L+BMnoK72UUm0XnGLKiMEekaYA==
+
 check-types@^8.0.3:
   version "8.0.3"
   resolved "https://registry.npmjs.org/check-types/-/check-types-8.0.3.tgz"

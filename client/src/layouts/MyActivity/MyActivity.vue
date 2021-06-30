@@ -9,6 +9,10 @@
         :to="{ name: 'MyEvents' }"
         v-text="$t('myActivity.myEvents')"
       />
+      <v-tab
+        :to="{ name: 'CoordinatorStatistics' }"
+        v-text="$t('myActivity.statistics')"
+      />
     </v-tabs>
     <v-row>
       <v-col class="mx-auto" sm="11" lg="9">

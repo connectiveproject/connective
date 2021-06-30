@@ -18,7 +18,7 @@ export default {
     colors: {
       type: Array,
       default() {
-        return []
+        return ["#FFAEBC", "#A0E7E5", "#B4F8C8", "#FBE7C6", "#A49393", "#67595E"]
       },
     },
     data: {

@@ -236,3 +236,19 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "instructor",
             "instructor_name",
         ]
+
+
+class ConsumerRequestDataSerializer(serializers.ModelSerializer):
+
+    activity_name = serializers.CharField(
+        source="activity_order.activity.name",
+        read_only=True,
+    )
+    consumer_requests = serializers.IntegerField()
+
+    class Meta:
+        model = SchoolActivityGroup
+        fields = [
+            "activity_name",
+            "consumer_requests",
+        ]
