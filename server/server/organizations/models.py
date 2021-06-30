@@ -7,6 +7,18 @@ from server.users.models import Consumer, Instructor, User
 from server.utils.model_fields import random_slug
 
 
+class SchoolActivityGroupManager(models.Manager):
+    def get_sibling_container_only_group(self, activity_group):
+        container_only_groups = self.filter(
+            activity_order=activity_group.activity_order,
+            group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
+        )
+        if container_only_groups.exists():
+            return container_only_groups[0]
+
+        return None
+
+
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True, null=True)
@@ -156,6 +168,8 @@ class SchoolActivityGroup(models.Model):
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
         DEFAULT = "DEFAULT", "Default"
 
+    objects = SchoolActivityGroupManager()
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
@@ -182,4 +196,5 @@ class SchoolActivityGroup(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} : {self.group_type} : {self.pk}"
+        return f"{self.name} : {self.group_type} : {self.slug} : \
+        {self.activity_order.activity.name} : {self.activity_order.school.name}"

@@ -220,9 +220,10 @@ const routes = [
                 component: CreateGroup
               },
               {
-                path: "assign-group-students",
+                path: "assign-group-students/:groupSlug",
                 name: "AssignGroupConsumers",
-                component: AssignGroupConsumers
+                component: AssignGroupConsumers,
+                props: true,
               },
             ]
           },

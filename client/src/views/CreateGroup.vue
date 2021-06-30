@@ -68,9 +68,9 @@ export default {
         payload[f.name] = f.value
       }
       try {
-        await this.createGroup(payload)
+        const group = await this.createGroup(payload)
         this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
-        this.$router.push({ name: "AssignGroupConsumers" })
+        this.$router.push({ name: "AssignGroupConsumers", params: { groupSlug: group.slug } })
       } catch (err) {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)

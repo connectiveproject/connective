@@ -7,17 +7,12 @@
       single-line
       hide-details
       class="search-bar px-10 mt-5 mb-8 mx-auto"
-      @click:append="onSearch"
-      @keyup.enter="onSearch"
     />
     <v-data-table
       multi-sort
-      @update:options="paginate"
       :headers="tableHeaders"
       :items="items"
-      :loading="loading"
-      :loadingText="loadingText"
-      :server-items-length="totalServerItems"
+      :search="searchFilter"
     >
       <template v-slot:item.plus="{ item }">
         <v-icon
@@ -53,22 +48,11 @@ export default {
       type: Array,
       required: true,
     },
-    totalServerItems: {
-      // received from server via count field
-      type: Number,
-      required: true,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   data() {
     return {
-      loadingText: this.$t("general.loading"),
       searchFilter: "",
-      options: {},
     }
   },
 
@@ -93,19 +77,8 @@ export default {
       )
       this.$emit("diselect", item)
     },
-    paginate(options) {
-      this.updatePagination(options)
-      this.$emit("paginate")
-    },
-    onSearch() {
-      this.options.page = 1
-      this.updatePagination({ searchFilter: this.searchFilter })
-      this.$emit("paginate")
-    },
     isSelected(row) {
-      // includes won't work due to re-fetch issues
-      return this.selectedRows.filter(selected => isEqual(selected, row))
-        .length
+      return this.selectedRows.filter(selected => isEqual(selected, row)).length
     },
   },
 }

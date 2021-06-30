@@ -178,7 +178,7 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = SchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
-    filterset_fields = ["group_type"]
+    filterset_fields = ["group_type", "activity_order__slug"]
     lookup_field = "slug"
 
     def get_queryset(self):
@@ -201,3 +201,27 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             many=True,
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    @action(detail=True, methods=["PATCH"])
+    def update_group_consumers(self, request, slug=None):
+        # receive consumer slugs list, override existing consumers & move the removed to container-only group
+        current_group = self.get_object()
+        container_only_group = (
+            SchoolActivityGroup.objects.get_sibling_container_only_group(current_group)
+        )
+        if not container_only_group:
+            return Response(
+                {"non_field_errors": ["container group could not be found"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        to_remove = current_group.consumers.all().exclude(slug__in=request.data)
+        to_add = container_only_group.consumers.all().filter(slug__in=request.data)
+
+        current_group.consumers.remove(*to_remove)
+        current_group.consumers.add(*to_add)
+
+        container_only_group.consumers.remove(*to_add)
+        container_only_group.consumers.add(*to_remove)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

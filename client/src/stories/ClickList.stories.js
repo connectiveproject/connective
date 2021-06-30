@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-captions"
+import { action } from "@storybook/addon-actions"
 import ClickList from "../components/ClickList"
 
 export default {
