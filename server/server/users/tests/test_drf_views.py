@@ -43,12 +43,13 @@ class TestUserViewSet:
 
 
 class TestManageConsumersView:
+    url = "/api/manage_consumers/"
+
     @override_settings(
         DEBUG=True,
         RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
     )
     def test_coordinator_can_create_get_consumer(self, coordinator, school):
-        url = "/api/manage_consumers/"
         create_payload = {
             "name": "name",
             "email": "new-consumer@example.com",
@@ -60,12 +61,12 @@ class TestManageConsumersView:
         client.force_authenticate(coordinator)
 
         # create consumer
-        consumer_post_response = client.post(url, create_payload, format="json")
+        consumer_post_response = client.post(self.url, create_payload, format="json")
         consumer_slug = consumer_post_response.data["slug"]
-        detail_url = f"{url}{consumer_slug}/"
+        detail_url = f"{self.url}{consumer_slug}/"
 
         # get created consumer (via list & detailed)
-        consumer_list_get_response = client.get(url)
+        consumer_list_get_response = client.get(self.url)
         consumer_detail_get_response = client.get(detail_url)
 
         assert (
@@ -95,13 +96,117 @@ class TestManageConsumersView:
         """
         make sure an email is sent on creation
         """
-        url = "/api/manage_consumers/"
         create_payload = {"email": "new-consumer@example.com", "profile": {}}
         SchoolMember.objects.create(user=coordinator, school=school)
 
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
-        client.post(url, create_payload, format="json")
+        client.post(self.url, create_payload, format="json")
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]
+
+    def test_email_on_update(self, school_entities):
+        """
+        make sure an email is sent on email update only
+        """
+        email = "new-mail@example.com"
+        client = APIClient(school_entities["coord"])
+        client.force_authenticate(school_entities["coord"])
+        client.patch(
+            f"{self.url}{school_entities['consumer'].slug}/",
+            {"email": email},
+            format="json",
+        )
+        client.patch(
+            f"{self.url}{school_entities['consumer'].slug}/",
+            {"name": "Dave"},
+            format="json",
+        )
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].to[0] == email
+
+
+class TestManageCoordinatorsView:
+    url = "/api/manage_coordinators/"
+
+    @override_settings(
+        DEBUG=True,
+        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+    )
+    def test_coordinator_can_create_get_coordinators(self, coordinator, school):
+        create_payload = {
+            "name": "name",
+            "email": "new-coordinator@example.com",
+        }
+        SchoolMember.objects.create(user=coordinator, school=school)
+        client = APIClient(coordinator)
+        client.force_authenticate(coordinator)
+
+        # create coord
+        coordinator_post_response = client.post(self.url, create_payload, format="json")
+        coordinator_slug = coordinator_post_response.data["slug"]
+        detail_url = f"{self.url}{coordinator_slug}/"
+
+        # get created coord (via list & detailed)
+        coordinator_list_get_response = client.get(self.url)
+        coordinator_detail_get_response = client.get(detail_url)
+
+        assert (
+            coordinator_list_get_response.status_code
+            == coordinator_detail_get_response.status_code
+            == status.HTTP_200_OK
+        )
+
+        # validate get requests
+        list_results = coordinator_list_get_response.data["results"]
+        assert len(list_results) == 2
+        assert (
+            len(
+                [
+                    res
+                    for res in list_results
+                    if res == coordinator_detail_get_response.data
+                    and res["name"] == create_payload["name"]
+                ]
+            )
+            == 1
+        )
+
+    @override_settings(
+        DEBUG=True,
+        RESET_BASE_URL="https://8000-{0}".format(RESET_BASE_URL),
+    )
+    def test_email_on_create(self, coordinator, school):
+        """
+        make sure an email is sent on creation
+        """
+        create_payload = {"email": "new-coord@example.com"}
+        SchoolMember.objects.create(user=coordinator, school=school)
+
+        client = APIClient(coordinator)
+        client.force_authenticate(coordinator)
+        client.post(self.url, create_payload, format="json")
+
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].to[0] == create_payload["email"]
+
+    def test_email_on_update(self, school_entities):
+        """
+        make sure an email is sent on email update only
+        """
+        email = "new-mail@example.com"
+        client = APIClient(school_entities["coord"])
+        client.force_authenticate(school_entities["coord"])
+        client.patch(
+            f"{self.url}{school_entities['coord'].slug}/",
+            {"email": email},
+            format="json",
+        )
+        client.patch(
+            f"{self.url}{school_entities['coord'].slug}/",
+            {"name": "Dave"},
+            format="json",
+        )
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].to[0] == email

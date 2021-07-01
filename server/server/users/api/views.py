@@ -15,6 +15,7 @@ from server.utils.permission_classes import (
 from ..models import (
     Consumer,
     ConsumerProfile,
+    Coordinator,
     CoordinatorProfile,
     InstructorProfile,
     VendorProfile,
@@ -24,6 +25,7 @@ from .serializers import (
     CoordinatorProfileSerializer,
     InstructorProfileSerializer,
     ManageConsumersSerializer,
+    ManageCoordinatorsSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -116,6 +118,29 @@ class ManageConsumersViewSet(ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
         serializer = ManageConsumersSerializer(
+            data=request.data, context={"request": request}, many=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ManageCoordinatorsViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageCoordinatorsSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Coordinator.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        serializer = ManageCoordinatorsSerializer(
             data=request.data, context={"request": request}, many=True
         )
         if serializer.is_valid():
