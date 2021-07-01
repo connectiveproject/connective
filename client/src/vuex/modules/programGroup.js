@@ -51,6 +51,10 @@ const programGroup = {
       let res = await Api.programGroup.createGroup(payload)
       return res.data
     },
+    async updateGroup(ctx, { groupSlug, payload }) {
+      let res = await Api.programGroup.updateGroup(groupSlug, payload)
+      return res.data
+    },
     async getConsumers(ctx, groupSlug) {
       // get all consumers under a group
       // :str groupSlug: slug to fetch consumers by

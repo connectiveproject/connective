@@ -42,6 +42,12 @@
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
           buttonColor="teal"
+          @click="
+            $router.push({
+              name: 'DetailGroup',
+              params: { groupSlug: group.slug },
+            })
+          "
         >
           <title-to-text
             :title="$t('myActivity.groupDescription')"

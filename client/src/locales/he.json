@@ -209,7 +209,12 @@
     "groupsCreation": "יצירת קבוצה",
     "groupName": "שם הקבוצה",
     "parentProgram": "תוכנית אם",
-    "groupCreatedSuccessfully": "הקבוצה נוצרה בהצלחה"
+    "groupCreatedSuccessfully": "הקבוצה נוצרה בהצלחה",
+    "thisGroupIsUnderProgram": "קבוצה זו נמצאת תחת תוכנית",
+    "groupPage": "עמוד קבוצה",
+    "editAndViewTheGroupDetails": "ערכו וצפו בפרטי הקבוצה",
+    "viewAndEditStudents": "צפייה ועריכת תלמידים",
+    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו"
   },
 
   "time": {

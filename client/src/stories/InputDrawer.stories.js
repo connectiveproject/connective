@@ -21,7 +21,6 @@ const Template = args => ({
 
 export const TextInput = Template.bind({})
 TextInput.args = {
-  inputType: "text",
   uniqueName: "firstName",
   descriptiveName: "שם פרטי",
   validationRules: "required",

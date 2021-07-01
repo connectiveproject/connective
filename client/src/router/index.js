@@ -42,6 +42,7 @@ import InstructorEventSummary from "../views/InstructorEventSummary"
 import GroupEditor from "../views/GroupEditor"
 import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
+import DetailGroup from "../views/DetailGroup"
 
 Vue.use(VueRouter)
 
@@ -229,6 +230,12 @@ const routes = [
                 component: CoordinatorStatistics,
               },
             ],
+          },
+          {
+            path: "detail-group/:groupSlug",
+            name: "DetailGroup",
+            component: DetailGroup,
+            props: true,
           },
           {
             path: "group-editor",

@@ -7,11 +7,20 @@
       :headers="tableHeaders"
       :items="availableConsumers"
     />
-    <v-btn
-      class="white--text purple darken-3 mt-10 d-block mx-auto"
-      @click="onSubmit"
-      v-text="$t('userActions.save')"
-    />
+    <div class="mx-auto mt-10 text-center">
+      <v-btn
+        class="mx-3 white--text purple darken-3"
+        @click="onSubmit"
+        v-text="$t('userActions.save')"
+      />
+      <v-btn
+        class="mx-3 white--text"
+        color="purple darken-3"
+        outlined
+        v-text="$t('userActions.back')"
+        @click="$router.go(-1)"
+      />
+    </div>
   </div>
 </template>
 
@@ -87,7 +96,7 @@ export default {
         }
       }
       this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-      this.$router.push({ name: "MyGroups" })
+      this.$router.push({ name: "DetailGroup", params: { groupSlug: this.groupSlug } })
     },
   },
 }
