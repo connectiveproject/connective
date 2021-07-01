@@ -162,7 +162,8 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
     )
     requested_by = serializers.CharField(source="requested_by.slug", read_only=True)
     last_updated_by = serializers.CharField(
-        source="last_updated_by.slug", read_only=True
+        source="last_updated_by.slug",
+        read_only=True,
     )
     activity_name = serializers.CharField(source="activity.name", read_only=True)
 

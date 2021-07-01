@@ -8,7 +8,7 @@ from server.utils.model_fields import PhoneNumberField
 
 
 def random_slug():
-    return uuid.uuid4().hex.upper()[0: random.randint(10, 22)]
+    return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]
 
 
 class School(models.Model):
@@ -23,6 +23,13 @@ class School(models.Model):
     website = models.URLField()
     profile_picture = models.ImageField(null=True, blank=True)
     grade_levels = models.JSONField()
+    last_updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="last_updated_by_me_schools",
+    )
 
     def __str__(self):
         return f"{self.name} | {self.address_city} | {self.slug}"
