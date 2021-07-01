@@ -441,7 +441,7 @@ export default {
           slug: this.schoolSlug,
           schoolDetails: schoolPayload,
         })
-        this.modalRedirectComponentName = "Profile"
+        this.modalRedirectComponentName = "CoordinatorProfile"
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch (err) {
         if (

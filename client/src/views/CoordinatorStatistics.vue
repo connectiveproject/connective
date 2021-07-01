@@ -11,6 +11,7 @@
       :label="bubbleChartLabel"
     />
     <doughnut
+      v-if="!hideDoughnut"
       style="width: 450px;"
       class="mx-auto my-10"
       :data="doughnutChartData"
@@ -32,6 +33,7 @@ export default {
   },
   data() {
     return {
+      hideDoughnut: true,
       bubbleChartLabel: this.$t(
         "myActivity.mostPopularProgramsByPendingRequests"
       ),

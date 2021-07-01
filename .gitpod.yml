@@ -20,7 +20,7 @@ tasks:
       cd server && 
       pre-commit install && source .envs/.local/.django  && 
       source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && 
-      python manage.py migrate && python manage.py create_test_users &&
+      python manage.py migrate && python manage.py create_test_data &&
       cd ..
     command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver
   - command: redis-server
