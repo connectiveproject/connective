@@ -25,6 +25,7 @@
     "pleaseFillAllDetailsBelow": "נא מלאו את הפרטים שבהמשך",
     "loading": "בטעינה...",
     "student": "תלמיד",
+    "staff": "סגל",
     "date": "תאריך",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
     "program": "תוכניות|תוכנית",
@@ -87,10 +88,16 @@
 
   "invite": {
     "invite": "הזמנת|הזמינו",
+    "inviteStaff": "הזמנת סגל",
+    "inviteStaffMember": "הזמנת איש סגל",
+    "inviteStudents": "הזמנת תלמידים",
     "invitationStatus": "סטטוס הזמנה",
     "usersInvitation": "הזמנות משתמשים",
     "inviteStudentsToPlatformAndKeepTrackOfTheirStatus": "הזמינו תלמידים לפלטפורמה ועקבו אחר הסטטוס שלהם",
-    "pendingRecipientApproval": "מחכה לאישור הנמען"
+    "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
+    "pendingRecipientApproval": "מחכה לאישור הנמען",
+    "removeStaffMember": "הסרת איש סגל",
+    "editStaffMember": "עריכת איש סגל"
   },
 
   "userActions": {

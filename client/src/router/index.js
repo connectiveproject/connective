@@ -27,6 +27,8 @@ import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
 import Invite from "../views/Invite/Invite"
+import InviteConsumers from "../views/Invite/InviteConsumers"
+import InviteCoordinators from "../views/Invite/InviteCoordinators"
 import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
@@ -166,9 +168,26 @@ const routes = [
           },
           {
             path: "invite",
-            name: "Invite",
             component: Invite,
-            beforeEnter: flushPagination,
+            children: [
+              {
+                path: "",
+                name: "Invite",
+                redirect: { name: "InviteConsumers" },
+              },
+              {
+                path: "invite-students",
+                name: "InviteConsumers",
+                component: InviteConsumers,
+                beforeEnter: flushPagination,
+              },
+              {
+                path: "invite-staff",
+                name: "InviteCoordinators",
+                component: InviteCoordinators,
+                beforeEnter: flushPagination,
+              },
+            ],
           },
           {
             path: "programs-explorer",
@@ -223,7 +242,7 @@ const routes = [
               {
                 path: "create-group",
                 name: "CreateGroup",
-                component: CreateGroup
+                component: CreateGroup,
               },
               {
                 path: "assign-group-students/:groupSlug",
@@ -231,7 +250,7 @@ const routes = [
                 component: AssignGroupConsumers,
                 props: true,
               },
-            ]
+            ],
           },
         ],
       },
