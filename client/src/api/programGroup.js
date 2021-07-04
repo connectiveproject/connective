@@ -5,6 +5,7 @@ import {
   GET_PROGRAM_GROUP_CONSUMERS_API_URL,
   UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL,
   UPDATE_PROGRAM_GROUP_API_URL,
+  DELETE_PROGRAM_GROUP_API_URL,
 } from "../helpers/constants/constants"
 
 const programGroup = {
@@ -19,6 +20,9 @@ const programGroup = {
   },
   updateGroup(groupSlug, payload) {
     return axios.patch(`${UPDATE_PROGRAM_GROUP_API_URL}${groupSlug}/`, payload)
+  },
+  deleteGroup(groupSlug) {
+    return axios.delete(`${DELETE_PROGRAM_GROUP_API_URL}${groupSlug}/`)
   },
   getConsumers(groupSlug) {
     return axios.get(

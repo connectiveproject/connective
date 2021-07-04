@@ -2,8 +2,23 @@
   <div class="pt-8 pa-lg-16">
     <v-row class="mx-0">
       <v-col cols="12" lg="7">
-        <h1 v-text="$t('groups.groupPage')" class="mb-5" />
-        <h2 v-text="$t('groups.editAndViewTheGroupDetails')" class="pb-12" />
+        <div class="d-sm-flex justify-space-between mb-10">
+          <div>
+            <h1 v-text="$t('groups.groupPage')" class="mb-5" />
+            <h2 v-text="$t('groups.editAndViewTheGroupDetails')" class="" />
+          </div>
+          <v-btn
+            tile
+            large
+            color="error"
+            class="mx-auto mx-sm-0 d-block my-10 my-sm-0"
+            @click="isModalOpen = true"
+          >
+            {{ $t("userActions.delete") }}
+            <v-icon right> mdi-close </v-icon>
+          </v-btn>
+        </div>
+
         <validation-observer
           tag="form"
           v-slot="{ invalid }"
@@ -56,6 +71,9 @@
         </sticky-note>
       </v-col>
     </v-row>
+    <modal-approve v-model="isModalOpen" @approve="handleDelete">
+      {{ this.$t("confirm.AreYouSureYouWantToDeleteThisGroup?") }}
+    </modal-approve>
   </div>
 </template>
 
@@ -66,9 +84,10 @@ import Api from "../api"
 import store from "../vuex/store"
 import inputDrawer from "../components/InputDrawer"
 import StickyNote from "../components/StickyNote"
+import ModalApprove from "../components/ModalApprove"
 
 export default {
-  components: { ValidationObserver, inputDrawer, StickyNote },
+  components: { ValidationObserver, inputDrawer, StickyNote, ModalApprove },
   async beforeRouteEnter(to, from, next) {
     const group = await store.dispatch(
       "programGroup/getGroup",
@@ -89,6 +108,7 @@ export default {
   },
   data() {
     return {
+      isModalOpen: false,
       name: "",
       description: "",
       programName: "",
@@ -96,7 +116,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("programGroup", ["updateGroup"]),
+    ...mapActions("programGroup", ["updateGroup", "deleteGroup"]),
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
@@ -108,6 +128,15 @@ export default {
           },
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
+    async handleDelete() {
+      try {
+        await this.deleteGroup(this.groupSlug)
+        this.showMessage(this.$t("groups.groupDeletedSuccessfully"))
+        this.$router.push({ name: "MyGroups" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

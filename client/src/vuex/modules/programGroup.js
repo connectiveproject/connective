@@ -55,6 +55,9 @@ const programGroup = {
       let res = await Api.programGroup.updateGroup(groupSlug, payload)
       return res.data
     },
+    deleteGroup(ctx, groupSlug) {
+      return Api.programGroup.deleteGroup(groupSlug)
+    },
     async getConsumers(ctx, groupSlug) {
       // get all consumers under a group
       // :str groupSlug: slug to fetch consumers by
@@ -64,7 +67,10 @@ const programGroup = {
     async updateGroupConsumers(ctx, { groupSlug, consumerSlugs }) {
       // override group consumers and move the removed ones to container only
       // :Array consumerSlugs: consumers to apply to group
-      let res = await Api.programGroup.updateGroupConsumers(groupSlug, consumerSlugs)
+      let res = await Api.programGroup.updateGroupConsumers(
+        groupSlug,
+        consumerSlugs
+      )
       return res.data
     },
   },

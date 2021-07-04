@@ -31,6 +31,7 @@ export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities
 export const GET_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
 export const CREATE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
+export const DELETE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
