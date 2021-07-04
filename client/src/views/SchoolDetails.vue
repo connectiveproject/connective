@@ -15,7 +15,7 @@
               :validationRules="field.validationRules"
               :selectItems="field.selectItems || []"
               :inputType="field.inputType || 'text'"
-            ></input-drawer>
+            />
           </v-col>
           <v-col cols="12" sm="12" lg="3">
             <picture-input
@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
         <v-btn
-          class="my-16 py-5 white--text"
+          class="my-16 white--text mx-auto mx-sm-0 d-block"
           type="submit"
           color="purple darken-3"
           elevation="3"
