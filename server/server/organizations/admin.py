@@ -10,9 +10,19 @@ from .models import (
 )
 
 
+def approve_order(self, request, queryset):
+    for order in queryset:
+        order.status = SchoolActivityOrder.Status.APPROVED
+        order.save()
+
+
+approve_order.short_description = "Approve Order"
+
+
 @admin.register(SchoolActivityOrder)
 class SchoolActivityOrderAdmin(admin.ModelAdmin):
     list_display = ["school", "activity", "created_at", "updated_at", "status"]
+    actions = [approve_order]
 
 
 admin.site.register(Organization)
