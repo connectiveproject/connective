@@ -8,11 +8,9 @@
       </template>
       <span> {{ btn.text() }} </span>
     </v-tooltip>
-    <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">{{
-      $t("general.connective")
-    }}</v-toolbar-title>
-    <v-spacer />
-    <v-app-bar-nav-icon />
+    <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">
+      {{ $t("general.connective") }}
+    </v-toolbar-title>
   </v-toolbar>
 </template>
 
@@ -26,7 +24,9 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["coordinator", "consumer", "instructor", "vendor"].includes(value)
+        return ["coordinator", "consumer", "instructor", "vendor"].includes(
+          value
+        )
       },
     },
   },

@@ -173,7 +173,8 @@
     "empty": "ריק",
     "unassigned": "לא שובץ",
     "unavailable": "לא זמין",
-    "nameUnavailable": "שם לא זמין"
+    "nameUnavailable": "שם לא זמין",
+    "thisPageDoesNotExist": "עמוד זה אינו קיים"
   },
 
   "myActivity": {

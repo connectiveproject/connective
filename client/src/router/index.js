@@ -63,6 +63,10 @@ const routes = [
     },
     children: [
       {
+        path: "",
+        redirect: "/",
+      },
+      {
         path: "welcome",
         name: "Welcome",
         component: Welcome,
@@ -311,13 +315,19 @@ const routes = [
             name: "VendorProfile",
             component: VendorProfile,
           },
-        ]
+        ],
       },
       {
         path: "error",
         name: "Error",
         component: GenericError,
         props: true,
+      },
+      {
+        path: "*",
+        Name: "PageNotFound",
+        component: GenericError,
+        props: { bodyKey: "errors.thisPageDoesNotExist" },
       },
     ],
   },
