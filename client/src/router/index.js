@@ -16,13 +16,16 @@ import Welcome from "../layouts/Welcome"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
+import VendorDashboard from "../layouts/VendorDashboard"
 import MyActivity from "../layouts/MyActivity/MyActivity"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
-import Register from "../views/Register"
+import CoordinatorRegister from "../views/Register/CoordinatorRegister"
+import VendorRegister from "../views/Register/VendorRegister"
 import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
 import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
+import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
@@ -65,9 +68,15 @@ const routes = [
         component: Welcome,
         children: [
           {
-            path: "register",
-            name: "Register",
-            component: Register,
+            path: "school-staff-register",
+            name: "CoordinatorRegister",
+            component: CoordinatorRegister,
+            props: true,
+          },
+          {
+            path: "vendor-register",
+            name: "VendorRegister",
+            component: VendorRegister,
           },
           {
             path: "reset-password/:uid/:token",
@@ -287,6 +296,22 @@ const routes = [
             props: true,
           },
         ],
+      },
+      {
+        path: "vendor-dashboard",
+        component: VendorDashboard,
+        children: [
+          {
+            path: "",
+            name: "VendorDashboard",
+            redirect: { name: "VendorProfile" },
+          },
+          {
+            path: "profile",
+            name: "VendorProfile",
+            component: VendorProfile,
+          },
+        ]
       },
       {
         path: "error",

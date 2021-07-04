@@ -5,6 +5,7 @@ import school from "./school"
 import consumer from "./consumer"
 import coordinator from "./coordinator"
 import instructor from "./instructor"
+import vendor from "./vendor"
 import config from "./config"
 import program from "./program"
 import consumerProgram from "./consumerProgram"
@@ -23,6 +24,7 @@ export default {
   consumer,
   coordinator,
   instructor,
+  vendor,
   config,
   program,
   consumerProgram,

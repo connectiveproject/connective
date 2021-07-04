@@ -354,20 +354,26 @@
   </v-container>
 </template>
 <script>
-import store from "../vuex/store"
+import store from "../../vuex/store"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
   SCHOOL_GRADES_ITEMS,
   ZIP_CODE_VALIDATION_RULE,
-} from "../helpers/constants/constants"
-import Modal from "../components/Modal"
+} from "../../helpers/constants/constants"
+import Modal from "../../components/Modal"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
     Modal,
+  },
+  props: {
+    shouldEditSchool: {
+      type: Boolean,
+      required: true,
+    }
   },
   data() {
     return {
@@ -379,7 +385,6 @@ export default {
       showPass: false,
       page: 1,
       popupMsg: "",
-      shouldEditSchool: false,
       registrationInfo: {
         name: "",
         phone: "",
@@ -399,9 +404,6 @@ export default {
   async mounted() {
     let userDetails = await store.dispatch("user/getUserDetails")
     this.slug = userDetails.slug
-    let schoolDetails = await store.dispatch("school/getSchoolDetails")
-    this.schoolSlug = schoolDetails.slug
-    this.shouldEditSchool = !schoolDetails.lastUpdatedBy
   },
 
   methods: {

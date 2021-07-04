@@ -9,12 +9,13 @@ async function isStaffRegistered() {
   let profile = await store.dispatch(
     `${userDetails.userType.toLowerCase()}/getProfile`
   )
+  return [profile.phoneNumber, userDetails.name].every(item => !!item)
+}
+
+async function isSchoolFilled() {
+  // check if school details already filled by a coordinator
   let schoolDetails = await store.dispatch("school/getSchoolDetails")
-  return [
-    profile.phoneNumber,
-    userDetails.name,
-    schoolDetails.contactPhone,
-  ].every(item => !!item)
+  return schoolDetails.lastUpdatedBy
 }
 
 export async function checkRegistrationStatus(to, from, next) {
@@ -31,12 +32,23 @@ export async function checkRegistrationStatus(to, from, next) {
     case SERVER.userTypes.instructor:
       next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
       break
+    case SERVER.userTypes.vendor:
+      if (await isStaffRegistered()) {
+        next({ name: "VendorDashboard", params: { lang: i18n.locale } })
+      } else {
+        next({ name: "VendorRegister", params: { lang: i18n.locale } })
+      }
+      break
     default:
       // coordinator
       if (await isStaffRegistered()) {
         next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
       } else {
-        next({ name: "Register", params: { lang: i18n.locale } })
+        const shouldEditSchool = !(await isSchoolFilled())
+        next({
+          name: "CoordinatorRegister",
+          params: { lang: i18n.locale, shouldEditSchool },
+        })
       }
   }
 }
