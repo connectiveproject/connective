@@ -27,10 +27,10 @@
             :key="program.id"
           >
             <info-card
-              v-model="program.isConsumerJoined"
+              :value="program.isConsumerJoined"
               :imgUrl="program.logo"
               :title="program.name"
-              :subtitle="getCardSubtitle(program.isConsumerJoined)"
+              :subtitle="getCardSubtitle(program.consumerJoinStatus)"
               :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
@@ -66,6 +67,7 @@ export default {
 
   methods: {
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("consumerProgram", [
       "getProgramsList",
       "joinProgram",
@@ -97,26 +99,27 @@ export default {
       }
     },
 
-    getCardSubtitle(isConsumerJoined) {
-      const prefix = this.$t("general.status")
-      let status = this.$t("auth.notRegistered")
-      if (isConsumerJoined) {
-        status = this.$t("auth.registered")
-      }
-      return `${prefix}: ${status}`
+    getCardSubtitle(consumerJoinStatus) {
+      return `${this.$t("general.status")}: ${
+        this.statusToText[consumerJoinStatus]
+      }`
     },
 
-    onStarChange(program, isStarred) {
+    async onStarChange(program, isStarred) {
       // (dis)request a program and change order status accordingly
       try {
         if (isStarred) {
-          this.joinProgram(program.slug)
+          return await this.joinProgram(program.slug)
+        }
+        if (program.consumerJoinStatus === "JOINED") {
+          return this.showMessage(
+            this.$t("errors.cantLeaveProgramAfterGroupAssigned")
+          )
         } else {
-          this.leaveProgram(program.slug)
+          return await this.leaveProgram(program.slug)
         }
       } catch (err) {
-        // add toast
-        return
+        this.showMessage(Api.utils.parseResponseError(err))
       }
     },
   },
@@ -125,6 +128,11 @@ export default {
     return {
       recentlyScrolled: false,
       isProgramOpen: true,
+      statusToText: {
+        PENDING_GROUP_ASSIGNMENT: this.$t("program.pendingGroupAssignment"),
+        JOINED: this.$t("auth.registered"),
+        NOT_JOINED: this.$t("auth.notRegistered"),
+      },
     }
   },
 

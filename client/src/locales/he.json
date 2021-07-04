@@ -69,7 +69,8 @@
     "APPROVED": "אושר",
     "CANCELLED": "בוטל",
     "available": "זמין",
-    "forProgramDetails": "לפרטי התוכנית"
+    "forProgramDetails": "לפרטי התוכנית",
+    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה"
   },
 
   "programFilters": {
@@ -174,7 +175,8 @@
     "unassigned": "לא שובץ",
     "unavailable": "לא זמין",
     "nameUnavailable": "שם לא זמין",
-    "thisPageDoesNotExist": "עמוד זה אינו קיים"
+    "thisPageDoesNotExist": "עמוד זה אינו קיים",
+    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה"
   },
 
   "myActivity": {

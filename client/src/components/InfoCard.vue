@@ -23,10 +23,10 @@
       <v-icon
         v-if="!hideStar"
         @click="onStarClick"
-        :color="starred ? 'orange' : 'grey'"
+        :color="value ? 'orange' : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
       >
-        {{ starred ? "mdi-check-bold" : "mdi-check" }}
+        {{ value ? "mdi-check-bold" : "mdi-check" }}
       </v-icon>
     </v-card-actions>
   </v-card>
@@ -37,11 +37,9 @@ import { INFO_CARD_IMAGE } from "../helpers/constants/images"
 import i18n from "../plugins/i18n"
 
 export default {
-  model: {
-    prop: "starred",
-  },
   props: {
-    starred: {
+    // whether starred or not
+    value: {
       type: Boolean,
       required: false,
     },
@@ -89,7 +87,7 @@ export default {
 
   methods: {
     onStarClick() {
-      this.$emit("input", !this.starred)
+      this.$emit("input", !this.value)
     },
   },
 }
