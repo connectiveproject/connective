@@ -109,14 +109,16 @@ export default {
       // (dis)request a program and change order status accordingly
       try {
         if (isStarred) {
-          return await this.joinProgram(program.slug)
+          await this.joinProgram(program.slug)
+          return this.showMessage(this.$t("success.joinedProgramSuccessfully"))
         }
         if (program.consumerJoinStatus === "JOINED") {
           return this.showMessage(
             this.$t("errors.cantLeaveProgramAfterGroupAssigned")
           )
         } else {
-          return await this.leaveProgram(program.slug)
+          await this.leaveProgram(program.slug)
+          return this.showMessage(this.$t("success.leftProgramSuccessfully"))
         }
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))

@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex"
+import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
@@ -72,7 +74,6 @@ import {
   PROGRAMS_CHECKBOX_FILTERS,
   SERVER,
 } from "../../helpers/constants/constants"
-import { mapActions, mapGetters, mapState } from "vuex"
 
 export default {
   components: {
@@ -88,6 +89,7 @@ export default {
   },
 
   methods: {
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
     ...mapActions("program", [
       "getProgramsList",
@@ -130,17 +132,18 @@ export default {
       return `${prefix}: ${status}`
     },
 
-    onStarChange(program, isStarred) {
+    async onStarChange(program, isStarred) {
       // (dis)request a program and change order status accordingly
       try {
         if (isStarred) {
-          this.requestProgram(program)
+          await this.requestProgram(program)
+          this.showMessage(this.$t("success.programJoinRequestSent"))
         } else {
-          this.disRequestProgram(program)
+          await this.disRequestProgram(program)
+          this.showMessage(this.$t("success.programParticipationCancelled"))
         }
       } catch (err) {
-        // add toast
-        return
+        this.showMessage(Api.utils.parseResponseError(err))
       }
     },
 

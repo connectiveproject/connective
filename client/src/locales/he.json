@@ -154,6 +154,13 @@
     "notRegistered": "לא רשומ/ה"
   },
 
+  "success": {
+    "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
+    "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
+    "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
+    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה"
+  },
+
   "errors": {
     "invalidCreds": "הפרטים שהוזנו שגויים",
     "genericError": "התקבלה שגיאה. אנא נסו מאוחר יותר.",
