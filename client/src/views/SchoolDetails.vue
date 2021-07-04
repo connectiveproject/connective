@@ -182,7 +182,7 @@ export default {
         JSON.stringify(this.textFields.grades.value)
       )
       if (this.profilePicFile) {
-        payload.append("profile_picture", this.profilePicFile)
+        payload.append("profilePicture", this.profilePicFile)
       }
       return payload
     },
