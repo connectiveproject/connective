@@ -10,6 +10,7 @@ from server.events.models import Event
 from server.organizations.models import (
     Activity,
     Organization,
+    OrganizationMember,
     SchoolActivityGroup,
     SchoolActivityOrder,
 )
@@ -115,6 +116,16 @@ class Command(BaseCommand):
 
         school = School.objects.create(**school_payload)
         self.stdout.write(self.style.SUCCESS("Successfully created School"))
+
+        OrganizationMember.objects.bulk_create(
+            [
+                OrganizationMember(organization=org, user=instructor),
+                OrganizationMember(organization=org, user=vendor),
+            ]
+        )
+        self.stdout.write(
+            self.style.SUCCESS("Successfully created OrganizationMember relations")
+        )
 
         SchoolMember.objects.bulk_create(
             [
