@@ -38,7 +38,6 @@
           :hideStar="true"
           :title="group.name"
           :subtitle="group.activityName"
-          :body="group.description"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
           buttonColor="teal"
@@ -65,7 +64,7 @@
       </v-col>
     </v-row>
     <div class="text-center pt-10 overline">
-      {{ totalGroups }} {{ $t("program.programsFound") }}
+      {{ totalGroups }} {{ $t("myActivity.groupsFound") }}
     </div>
     <end-of-page-detector @endOfPage="onEndOfPage" />
   </div>

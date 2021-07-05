@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper mt-15 mx-auto px-3">
+  <div class="wrapper mx-auto">
     <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
     <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
     <validation-observer v-slot="{ invalid }">
@@ -16,11 +16,11 @@
             ></input-drawer>
           </v-col>
           <v-col cols="12" sm="12" lg="3">
-            <avatar class="mx-auto avatar" v-model="profilePicture" />
+            <avatar class="mr-lg-16 mx-auto avatar" v-model="profilePicture" />
           </v-col>
         </v-row>
         <v-btn
-          class="my-16 py-5 white--text"
+          class="d-block my-16 white--text mx-lg-0 mx-auto"
           type="submit"
           color="purple darken-3"
           elevation="3"

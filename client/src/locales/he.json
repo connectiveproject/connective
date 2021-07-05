@@ -35,12 +35,14 @@
     "status": "סטטוס",
     "display": "תצוגה",
     "yes": "כן",
-    "no": "לא"
+    "no": "לא",
+    "didYouKnow?": "הידעת?"
   },
 
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
-    "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?"
+    "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
+    "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?"
   },
 
   "gender": {
@@ -70,7 +72,14 @@
     "CANCELLED": "בוטל",
     "available": "זמין",
     "forProgramDetails": "לפרטי התוכנית",
-    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה"
+    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
+    "hereYouCanSeeAllTheProgramsListedUnderYou": "כאן ניתן לצפות בכלל התוכניות הנמצאות תחתיך",
+    "toProgramPage": "לעמוד התוכנית",
+    "programName": "שם תוכנית",
+    "programDescription": "תיאור תוכנית",
+    "editAndViewTheProgramDetails": "ערכו וצפו בפרטי התוכנית",
+    "programPage": "עמוד תוכנית",
+    "uploadingImagesAndVideosCanImproveTheProgramPopularity!": "העלאת תמונות וסרטונים משפרת את פופולריות התוכנית!"
   },
 
   "programFilters": {
@@ -159,7 +168,8 @@
     "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
     "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
-    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה"
+    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",
+    "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה"
   },
 
   "errors": {
@@ -204,7 +214,8 @@
     "forGroupDetails": "לפרטי הקבוצה",
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
-    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור"
+    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
+    "groupsFound": "קבוצות נמצאו"
   },
 
   "events": {

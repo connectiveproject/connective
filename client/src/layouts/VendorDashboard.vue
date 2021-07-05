@@ -1,7 +1,11 @@
 <template>
   <div>
-    <navbar userType="vendor"/>
-    <router-view/>
+    <navbar user-type="vendor" />
+    <v-row>
+      <v-col class="mt-16 px-6 mx-auto" md="9" xl="8">
+        <router-view />
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>

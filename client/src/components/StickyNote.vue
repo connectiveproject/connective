@@ -1,6 +1,6 @@
 <template>
   <div class="note">
-    <p class="amatic-sc-font text-center">
+    <p class="text-center">
       <slot></slot>
     </p>
   </div>

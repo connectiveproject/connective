@@ -22,7 +22,7 @@
               class="mx-auto"
               :placeholderPicUrl="placeholderPicUrl"
               @fileUpload="setPicture"
-            ></picture-input>
+            />
           </v-col>
         </v-row>
         <v-btn

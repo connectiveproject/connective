@@ -46,6 +46,8 @@ import GroupEditor from "../views/GroupEditor"
 import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
 import DetailGroup from "../views/DetailGroup"
+import VendorProgramList from "../views/VendorProgramList"
+import VendorDetailProgram from "../views/VendorDetailProgram/VendorDetailProgram"
 
 Vue.use(VueRouter)
 
@@ -314,6 +316,17 @@ const routes = [
             path: "profile",
             name: "VendorProfile",
             component: VendorProfile,
+          },
+          {
+            path: "my-programs",
+            name: "VendorProgramList",
+            component: VendorProgramList,
+          },
+          {
+            path: "detail-program/:programSlug",
+            name: "VendorDetailProgram",
+            component: VendorDetailProgram,
+            props: true,
           },
         ],
       },

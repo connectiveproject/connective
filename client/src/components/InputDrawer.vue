@@ -36,7 +36,7 @@
               @input="$emit('input', $event)"
               :error-messages="errors"
               :items="selectItems"
-              multiple
+              :multiple="multiselect"
               chips
               deletable-chips
             >
@@ -97,6 +97,10 @@ export default {
       type: Array,
       required: false,
     },
+    multiselect: {
+      type: Boolean,
+      default: true,
+    }
   },
 
   data: () => ({

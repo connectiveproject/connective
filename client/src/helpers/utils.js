@@ -137,6 +137,18 @@ const utils = {
     const colorPos = (str.charCodeAt(0) + str.charCodeAt(1)) % colors.length
     return colors[colorPos]
   },
+
+  objectToFormData(obj) {
+    const fd = new FormData()
+    for (const [key, value] of Object.entries(obj)) {
+      if (isArray(obj)) {
+        fd.append(key, JSON.stringify(value))
+      } else {
+        fd.append(key, value)
+      }
+    }
+    return fd
+  }
 }
 
 export default utils

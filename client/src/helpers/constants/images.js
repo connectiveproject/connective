@@ -1,3 +1,4 @@
+export const CAMERA_ROUNDED_DRAWING = require("@/assets/img/optimized/camera.webp") // https://freeiconshop.com/icon/camera-icon-flat/
 export const HOUSE_ROUNDED_DRAWING = require("@/assets/img/optimized/house.webp")
 export const JPG_DOCUMENT = require("@/assets/img/optimized/jpg-icon.webp")
 export const INFO_CARD_IMAGE = require("@/assets/img/optimized/child-in-class.webp") // unsplash.com/photos/O5EMzfdxedg
