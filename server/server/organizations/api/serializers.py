@@ -120,6 +120,25 @@ class ActivitySerializer(serializers.ModelSerializer):
         )
 
 
+class VendorActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = [
+            "slug",
+            "name",
+            "target_audience",
+            "domain",
+            "originization",
+            "activity_website_url",
+            "activity_email",
+            "description",
+            "contact_name",
+            "logo",
+            "phone_number",
+        ]
+        read_only_fields = ["slug", "originization"]
+
+
 class ConsumerActivitySerializer(serializers.ModelSerializer):
 
     consumer_join_status = serializers.SerializerMethodField()

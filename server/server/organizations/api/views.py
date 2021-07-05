@@ -16,7 +16,6 @@ from server.organizations.models import (
 )
 from server.users.api.serializers import UserSerializer
 from server.utils.permission_classes import (
-    AllowConsumer,
     AllowConsumerReadOnly,
     AllowCoordinator,
     AllowCoordinatorReadOnly,
@@ -32,6 +31,7 @@ from .serializers import (
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
     SchoolActivityGroupSerializer,
+    VendorActivitySerializer,
 )
 
 
@@ -55,18 +55,40 @@ class OrganizationViewSet(
             return Organization.objects.none()
 
 
-class ActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator]
+class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [AllowCoordinatorReadOnly]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
 
     queryset = Activity.objects.all()
 
 
+class VendorActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowVendor]
+    serializer_class = VendorActivitySerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Activity.objects.filter(
+            originization=user.organization_member.organization,
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
+
+    def perform_update(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
+
+
 class ConsumerActivityViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
-    permission_classes = [AllowConsumer]
+    permission_classes = [AllowConsumerReadOnly]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
 
