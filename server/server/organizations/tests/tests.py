@@ -211,3 +211,31 @@ class TestLeaveGroupAction:
             ).consumers.first()
             == consumer
         )
+
+
+class TestVendorActivityView:
+    uri = "/api/vendor_activities/"
+
+    @override_settings(DEBUG=True)
+    def test_create_activity(self, all_entities):
+        payload = {
+            "name": "Activity Name",
+            "target_audience": [1, 2, 3],
+            "domain": "Domain",
+            "description": "Activity Description",
+            "contact_name": "John Smith",
+            "logo": None,
+            "phone_number": "0521234567",
+        }
+
+        vendor = all_entities["vendor"]
+        client = APIClient()
+        client.force_authenticate(user=vendor)
+
+        post_response = client.post(self.uri, payload, format="json")
+        activity_slug = post_response.data["slug"]
+        get_response = client.get(f"{self.uri}{activity_slug}/")
+
+        assert post_response.status_code == status.HTTP_201_CREATED
+        assert get_response.status_code == status.HTTP_200_OK
+        assert get_response.data["originization"] == all_entities["organization"].pk

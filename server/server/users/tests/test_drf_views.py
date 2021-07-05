@@ -106,20 +106,20 @@ class TestManageConsumersView:
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]
 
-    def test_email_on_update(self, school_entities):
+    def test_email_on_update(self, all_entities):
         """
         make sure an email is sent on email update only
         """
         email = "new-mail@example.com"
-        client = APIClient(school_entities["coord"])
-        client.force_authenticate(school_entities["coord"])
+        client = APIClient(all_entities["coord"])
+        client.force_authenticate(all_entities["coord"])
         client.patch(
-            f"{self.url}{school_entities['consumer'].slug}/",
+            f"{self.url}{all_entities['consumer'].slug}/",
             {"email": email},
             format="json",
         )
         client.patch(
-            f"{self.url}{school_entities['consumer'].slug}/",
+            f"{self.url}{all_entities['consumer'].slug}/",
             {"name": "Dave"},
             format="json",
         )
@@ -191,20 +191,20 @@ class TestManageCoordinatorsView:
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]
 
-    def test_email_on_update(self, school_entities):
+    def test_email_on_update(self, all_entities):
         """
         make sure an email is sent on email update only
         """
         email = "new-mail@example.com"
-        client = APIClient(school_entities["coord"])
-        client.force_authenticate(school_entities["coord"])
+        client = APIClient(all_entities["coord"])
+        client.force_authenticate(all_entities["coord"])
         client.patch(
-            f"{self.url}{school_entities['coord'].slug}/",
+            f"{self.url}{all_entities['coord'].slug}/",
             {"email": email},
             format="json",
         )
         client.patch(
-            f"{self.url}{school_entities['coord'].slug}/",
+            f"{self.url}{all_entities['coord'].slug}/",
             {"name": "Dave"},
             format="json",
         )

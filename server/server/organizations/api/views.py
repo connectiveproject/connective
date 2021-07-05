@@ -16,6 +16,7 @@ from server.organizations.models import (
 )
 from server.users.api.serializers import UserSerializer
 from server.utils.permission_classes import (
+    AllowConsumer,
     AllowConsumerReadOnly,
     AllowCoordinator,
     AllowCoordinatorReadOnly,
@@ -88,7 +89,7 @@ class VendorActivityViewSet(viewsets.ModelViewSet):
 class ConsumerActivityViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
-    permission_classes = [AllowConsumerReadOnly]
+    permission_classes = [AllowConsumer]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
 

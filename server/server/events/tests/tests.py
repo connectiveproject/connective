@@ -31,29 +31,29 @@ class TestEventModel:
 class TestEventView:
     uri = "/api/events/"
 
-    def test_end_time_validator(self, school_entities):
+    def test_end_time_validator(self, all_entities):
         client = APIClient()
-        client.force_authenticate(user=school_entities["coord"])
+        client.force_authenticate(user=all_entities["coord"])
         post_response = client.post(
             self.uri,
             {
                 "start_time": tomorrow,
                 "end_time": today,
                 "consumers": [],
-                "school_group": school_entities["activity_group"].slug,
+                "school_group": all_entities["activity_group"].slug,
             },
             format="json",
         )
         assert post_response.status_code == status.HTTP_400_BAD_REQUEST
         assert "end_time" in post_response.data
 
-    def test_create_event(self, school_entities):
-        coord = school_entities["coord"]
+    def test_create_event(self, all_entities):
+        coord = all_entities["coord"]
         payload = {
             "start_time": today,
             "end_time": tomorrow,
-            "consumers": [school_entities["consumer"].slug],
-            "school_group": school_entities["activity_group"].slug,
+            "consumers": [all_entities["consumer"].slug],
+            "school_group": all_entities["activity_group"].slug,
         }
 
         client = APIClient()
