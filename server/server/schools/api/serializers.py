@@ -3,8 +3,12 @@ from rest_framework import serializers
 from ..models import School
 
 
-class SchoolSerializer(serializers.HyperlinkedModelSerializer):
+class SchoolSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
+    last_updated_by = serializers.CharField(
+        source="last_updated_by.slug",
+        read_only=True,
+    )
 
     class Meta:
         model = School
@@ -20,6 +24,7 @@ class SchoolSerializer(serializers.HyperlinkedModelSerializer):
             "website",
             "profile_picture",
             "grade_levels",
+            "last_updated_by",
         ]
 
     extra_kwargs = {"url": {"view_name": "api:school-detail", "lookup_field": "slug"}}

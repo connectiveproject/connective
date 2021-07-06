@@ -1,10 +1,19 @@
 <template>
   <div>
     <pagination-select-table
+      v-if="pagination"
       v-bind="$props"
       @paginate="$emit('paginate')"
-      @change="onRowsSelectionChange"
+      :value="selectedRows"
+      @input="e => $emit('input', e)"
     />
+    <select-table
+      v-else
+      v-bind="$props"
+      :value="selectedRows"
+      @input="e => $emit('input', e)"
+    />
+
     <chip-container :labels="getChipLabels()" icon="mdi-account-circle">{{
       $t("general.chosen")
     }}</chip-container>
@@ -13,13 +22,18 @@
 
 <script>
 // wrapper for the select table (add rows to chips bucket)
+import SelectTable from "./SelectTable"
 import PaginationSelectTable from "./PaginationSelectTable"
 import ChipContainer from "./ChipContainer"
 
 export default {
   components: {
+    SelectTable,
     PaginationSelectTable,
     ChipContainer,
+  },
+  model: {
+    prop: "selectedRows",
   },
   props: {
     headers: {
@@ -32,10 +46,18 @@ export default {
       type: Array,
       required: true,
     },
+    selectedRows: {
+      type: Array,
+      required: true
+    },
+    pagination: {
+      type: Boolean,
+      default: false,
+    },
     totalServerItems: {
-      // received from server via count field
+      // received from server via count field (relevant in pagination mode only)
       type: Number,
-      required: true,
+      required: false,
     },
     loading: {
       type: Boolean,
@@ -47,12 +69,7 @@ export default {
       required: true,
     },
   },
-  data: () => ({ selectedRows: [] }),
   methods: {
-    onRowsSelectionChange(rows) {
-      this.selectedRows = rows
-      this.$emit("change", this.selectedRows)
-    },
     getChipLabels() {
       return this.selectedRows.map(row => this.getLabel(row))
     },

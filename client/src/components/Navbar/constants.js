@@ -76,8 +76,22 @@ const instructorButtons = [
   },
 ]
 
+const vendorButtons = [
+  {
+    text: () => i18n.t("auth.logout"),
+    icon: "mdi-export",
+    onClick: () => store.dispatch("auth/logout"),
+  },
+  {
+    text: () => i18n.t("general.profile"),
+    icon: "mdi-account",
+    onClick: () => Vue.$router.push({ name: "VendorProfile" }),
+  },
+]
+
 export const userToButtons = {
   consumer: consumerButtons,
   coordinator: coordinatorButtons,
   instructor: instructorButtons,
+  vendor: vendorButtons,
 }

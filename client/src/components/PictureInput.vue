@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <div class="wrapper">
+    <v-avatar size="260" class="d-block">
       <validation-provider
         v-slot="{ errors }"
         name="picUpload"
@@ -30,8 +30,8 @@
       >
         <v-icon dark>mdi-cloud-upload</v-icon>
       </v-btn>
-      <img class="pic" :src="picSource" />
-    </div>
+      <img class="pic" alt="School Logo" :src="picSource" />
+    </v-avatar>
   </v-hover>
 </template>
 <script>
@@ -85,18 +85,6 @@ export default {
 <style lang="scss" scoped>
 $dark-strong: rgba(0, 0, 0, 0.75);
 $dark-light: rgba(0, 0, 0, 0.2);
-
-.wrapper {
-  width: 260px !important;
-  overflow: hidden;
-  height: 260px;
-  border-radius: 50%;
-  position: relative;
-}
-
-.pic {
-  height: 100%;
-}
 
 .pic-btn {
   z-index: 2;

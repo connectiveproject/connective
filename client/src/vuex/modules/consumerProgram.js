@@ -17,11 +17,11 @@ const program = {
     ADD_PROGRAMS_TO_LIST(state, programsList) {
       state.programsList.push(...programsList)
     },
-    UPDATE_JOIN_STATUS_IN_LIST(state, { programSlug, isConsumerJoined }) {
+    UPDATE_PROGRAM_IN_LIST(state, program) {
       const filteredProgram = state.programsList.filter(
-        p => p.slug === programSlug
+        p => p.slug === program.slug
       )[0]
-      filteredProgram.isConsumerJoined = isConsumerJoined
+      Object.assign(filteredProgram, program)
     },
     SET_PROGRAM_LIST(state, programsList) {
       state.programsList = programsList
@@ -53,20 +53,16 @@ const program = {
       commit("SET_PROGRAMS_TOTAL", res.data.count)
       return state.programsList
     },
-    async joinProgram({ commit }, programSlug) {
+    async joinProgram({ commit, dispatch }, programSlug) {
       const res = await Api.consumerProgram.joinProgram(programSlug)
-      commit("UPDATE_JOIN_STATUS_IN_LIST", {
-        programSlug,
-        isConsumerJoined: true,
-      })
+      const program = await dispatch("getProgram", programSlug)
+      commit("UPDATE_PROGRAM_IN_LIST", program)
       return res.data
     },
-    async leaveProgram({ commit }, programSlug) {
+    async leaveProgram({ commit, dispatch }, programSlug) {
       const res = await Api.consumerProgram.leaveProgram(programSlug)
-      commit("UPDATE_JOIN_STATUS_IN_LIST", {
-        programSlug,
-        isConsumerJoined: false,
-      })
+      const program = await dispatch("getProgram", programSlug)
+      commit("UPDATE_PROGRAM_IN_LIST", program)
       return res.data
     },
   },

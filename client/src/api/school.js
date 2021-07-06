@@ -6,6 +6,10 @@ import {
   ADD_SCHOOL_STUDENTS_API_URL,
   DELETE_SCHOOL_STUDENTS_API_URL,
   EDIT_SCHOOL_STUDENTS_API_URL,
+  GET_SCHOOL_COORDINATORS_LIST_API_URL,
+  ADD_SCHOOL_COORDINATORS_API_URL,
+  DELETE_SCHOOL_COORDINATORS_API_URL,
+  EDIT_SCHOOL_COORDINATORS_API_URL,
 } from "../helpers/constants/constants"
 
 const school = {
@@ -44,6 +48,35 @@ const school = {
       )
     )
   },
+
+  getCoordinatorList(params) {
+    // :Object params: query params
+    return axios.get(GET_SCHOOL_COORDINATORS_LIST_API_URL, { params })
+  },
+
+  addCoordinator(coordinator) {
+    return axios.post(ADD_SCHOOL_COORDINATORS_API_URL, coordinator)
+  },
+
+  addCoordinators(csvFile) {
+    // :File csvFile: file containing coordinators to add to the school
+    let formData = new FormData()
+    formData.append("file", csvFile)
+    return axios.post(ADD_SCHOOL_COORDINATORS_API_URL, formData)
+  },
+
+  editCoordinator(slug, payload) {
+    return axios.patch(`${EDIT_SCHOOL_COORDINATORS_API_URL}${slug}/`, payload)
+  },
+
+  deleteCoordinators(coordinatorSlugs) {
+    return Promise.all(
+      coordinatorSlugs.map(slug =>
+        axios.delete(`${DELETE_SCHOOL_COORDINATORS_API_URL}${slug}`)
+      )
+    )
+  },
+
 }
 
 export default school

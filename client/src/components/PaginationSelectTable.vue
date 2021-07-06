@@ -37,6 +37,7 @@
 import { mapActions } from "vuex"
 import isEqual from "lodash/isEqual"
 export default {
+  model: { prop: "selectedRows" },
   props: {
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
@@ -45,6 +46,10 @@ export default {
     },
     items: {
       // v-data-table items (i.e., table rows)
+      type: Array,
+      required: true,
+    },
+    selectedRows: {
       type: Array,
       required: true,
     },
@@ -64,7 +69,6 @@ export default {
       loadingText: this.$t("general.loading"),
       searchFilter: "",
       options: {},
-      selectedRows: [],
     }
   },
 
@@ -79,14 +83,15 @@ export default {
     toggleRowSelect(item) {
       // add or remove from selected rows and emit correlating events
       if (!this.isSelected(item)) {
-        this.selectedRows.push(item)
+        this.$emit("input", [...this.selectedRows, item])
         this.$emit("select", item)
-      } else {
-        const itemIndex = this.selectedRows.indexOf(item)
-        this.selectedRows.splice(itemIndex, 1)
-        this.$emit("diselect", item)
+        return
       }
-      this.$emit("change", this.selectedRows)
+      this.$emit(
+        "input",
+        this.selectedRows.filter(row => !isEqual(row, item))
+      )
+      this.$emit("diselect", item)
     },
     paginate(options) {
       this.updatePagination(options)

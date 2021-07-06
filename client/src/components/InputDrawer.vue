@@ -11,43 +11,45 @@
         </h3>
       </v-col>
       <v-col cols="7" lg="4">
-        <validation-provider
-          vid="uniqueName"
-          v-slot="{ errors }"
-          :name="uniqueName"
-          :rules="validationRules"
-          immediate
-        >
-          <v-text-field
-            v-if="inputType === 'text'"
-            v-show="isDrawerOpen()"
-            class="mt-5"
-            :value="value"
-            @input="$emit('input', $event)"
-            :error-messages="errors"
+        <validation-observer slim>
+          <validation-provider
+            vid="uniqueName"
+            v-slot="{ errors }"
+            :name="uniqueName"
+            :rules="validationRules"
+            immediate
           >
-          </v-text-field>
-          <v-select
-            v-if="inputType === 'select'"
-            v-show="isDrawerOpen()"
-            class="mt-5"
-            :value="value"
-            @input="$emit('input', $event)"
-            :error-messages="errors"
-            :items="selectItems"
-            multiple
-            chips
-            deletable-chips
-          >
-          </v-select>
-          <strong
-            v-show="!isDrawerOpen()"
-            class="text-subtitle-2 text-lg-subtitle-1"
-            :class="{ 'red--text': errors[0] }"
-          >
-            {{ errors[0] || displayValue }}
-          </strong>
-        </validation-provider>
+            <v-text-field
+              v-if="inputType === 'text'"
+              v-show="isDrawerOpen()"
+              class="mt-5"
+              :value="value"
+              @input="$emit('input', $event)"
+              :error-messages="errors"
+            >
+            </v-text-field>
+            <v-select
+              v-if="inputType === 'select'"
+              v-show="isDrawerOpen()"
+              class="mt-5"
+              :value="value"
+              @input="$emit('input', $event)"
+              :error-messages="errors"
+              :items="selectItems"
+              multiple
+              chips
+              deletable-chips
+            >
+            </v-select>
+            <strong
+              v-show="!isDrawerOpen()"
+              class="text-subtitle-2 text-lg-subtitle-1"
+              :class="{ 'red--text': errors[0] }"
+            >
+              {{ errors[0] || displayValue }}
+            </strong>
+          </validation-provider>
+        </validation-observer>
       </v-col>
       <v-col cols="1" sm="1">
         <v-icon v-show="!isDrawerOpen()">mdi-pencil</v-icon>
@@ -57,11 +59,12 @@
   </div>
 </template>
 <script>
-import { ValidationProvider } from "vee-validate"
+import { ValidationObserver, ValidationProvider } from "vee-validate"
 
 export default {
   components: {
     ValidationProvider,
+    ValidationObserver,
   },
 
   props: {

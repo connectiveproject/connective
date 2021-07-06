@@ -7,6 +7,7 @@ from ..helpers import send_user_invite
 from ..models import (
     Consumer,
     ConsumerProfile,
+    Coordinator,
     CoordinatorProfile,
     InstructorProfile,
     VendorProfile,
@@ -74,12 +75,14 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         """
         create user, update profile, attach to school, invite user via email
         """
-        profile_data = validated_data.pop("profile")
+        profile_data = validated_data.pop("profile", None)
         consumer = Consumer.objects.create(**validated_data)
-        profile = ConsumerProfile.objects.get(user=consumer)
-        for attr, value in profile_data.items():
-            setattr(profile, attr, value)
-        profile.save()
+
+        if profile_data:
+            profile = ConsumerProfile.objects.get(user=consumer)
+            for attr, value in profile_data.items():
+                setattr(profile, attr, value)
+            profile.save()
 
         SchoolMember.objects.create(
             user=consumer, school=self.context["request"].user.school_member.school
@@ -94,11 +97,44 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
 
-        profile_data = validated_data.pop("profile")
-        profile = instance.profile
-        for attr, value in profile_data.items():
-            setattr(profile, attr, value)
+        profile_data = validated_data.pop("profile", None)
+        if profile_data:
+            profile = instance.profile
+            for attr, value in profile_data.items():
+                setattr(profile, attr, value)
+            profile.save()
 
         instance.save()
-        profile.save()
+        if validated_data.get("email"):
+            send_user_invite(validated_data["email"])
+
+        return instance
+
+
+class ManageCoordinatorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coordinator
+        fields = ["slug", "name", "email"]
+
+    def create(self, validated_data):
+        """
+        create user, attach to school, invite user via email
+        """
+        coordinator = Coordinator.objects.create(**validated_data)
+
+        SchoolMember.objects.create(
+            user=coordinator, school=self.context["request"].user.school_member.school
+        )
+        send_user_invite(validated_data["email"])
+        return coordinator
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+
+        if validated_data.get("email"):
+            # invite again on email change
+            send_user_invite(validated_data["email"])
+
         return instance

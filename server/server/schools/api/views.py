@@ -28,6 +28,12 @@ class SchoolViewSet(
         except ObjectDoesNotExist:
             return School.objects.none()
 
+    def perform_create(self, serializer):
+        serializer.save(last_updated_by=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(last_updated_by=self.request.user)
+
     @action(detail=False, methods=["GET"])
     def me(self, request):
         serializer = SchoolSerializer(

@@ -15,7 +15,17 @@
               :name="field.name"
               :rules="field.rule"
             >
+              <v-select
+                v-if="field.type && field.type === 'select'"
+                class="mx-2"
+                :label="field.label"
+                :error-messages="errors"
+                :value="field.value"
+                :items="field.choices"
+                @input="input => updateField(i, input)"
+              />
               <v-text-field
+                v-else
                 class="mx-2"
                 :label="field.label"
                 :error-messages="errors"

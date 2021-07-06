@@ -1,14 +1,30 @@
 <template>
   <div>
-    <h1 v-text="$t('myActivity.myGroups')" class="mb-5" />
-    <h2
-      v-text="
-        $t(
-          'myActivity.hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool'
-        )
-      "
-      class="pb-12"
-    />
+    <v-row>
+      <v-col cols="12" md="8">
+        <h1 v-text="$t('myActivity.myGroups')" class="mb-5" />
+        <h2
+          v-text="
+            $t(
+              'myActivity.hereYouCanSeeAllTheGroupsOfTheRunningProgramsOfTheSchool'
+            )
+          "
+          class="pb-12"
+        />
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-btn
+          tile
+          large
+          class="d-block mx-auto"
+          color="success"
+          @click="$router.push({ name: 'GroupEditor' })"
+        >
+          {{ $tc("userActions.add", 1) }}
+          <v-icon right> mdi-plus </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row class="pt-10 ml-0" justify="space-around">
       <v-col
         cols="12"
@@ -26,6 +42,12 @@
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
           buttonColor="teal"
+          @click="
+            $router.push({
+              name: 'DetailGroup',
+              params: { groupSlug: group.slug },
+            })
+          "
         >
           <title-to-text
             :title="$t('myActivity.groupDescription')"

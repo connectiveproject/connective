@@ -16,17 +16,22 @@ import Welcome from "../layouts/Welcome"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
+import VendorDashboard from "../layouts/VendorDashboard"
 import MyActivity from "../layouts/MyActivity/MyActivity"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
-import Register from "../views/Register"
+import CoordinatorRegister from "../views/Register/CoordinatorRegister"
+import VendorRegister from "../views/Register/VendorRegister"
 import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
 import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
+import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
 import Invite from "../views/Invite/Invite"
+import InviteConsumers from "../views/Invite/InviteConsumers"
+import InviteCoordinators from "../views/Invite/InviteCoordinators"
 import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
@@ -34,8 +39,13 @@ import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import CoordinatorStatistics from "../views/CoordinatorStatistics"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
+import GroupEditor from "../views/GroupEditor"
+import CreateGroup from "../views/CreateGroup"
+import AssignGroupConsumers from "../views/AssignGroupConsumers"
+import DetailGroup from "../views/DetailGroup"
 
 Vue.use(VueRouter)
 
@@ -53,14 +63,24 @@ const routes = [
     },
     children: [
       {
+        path: "",
+        redirect: "/",
+      },
+      {
         path: "welcome",
         name: "Welcome",
         component: Welcome,
         children: [
           {
-            path: "register",
-            name: "Register",
-            component: Register,
+            path: "school-staff-register",
+            name: "CoordinatorRegister",
+            component: CoordinatorRegister,
+            props: true,
+          },
+          {
+            path: "vendor-register",
+            name: "VendorRegister",
+            component: VendorRegister,
           },
           {
             path: "reset-password/:uid/:token",
@@ -162,9 +182,26 @@ const routes = [
           },
           {
             path: "invite",
-            name: "Invite",
             component: Invite,
-            beforeEnter: flushPagination,
+            children: [
+              {
+                path: "",
+                name: "Invite",
+                redirect: { name: "InviteConsumers" },
+              },
+              {
+                path: "invite-students",
+                name: "InviteConsumers",
+                component: InviteConsumers,
+                beforeEnter: flushPagination,
+              },
+              {
+                path: "invite-staff",
+                name: "InviteCoordinators",
+                component: InviteCoordinators,
+                beforeEnter: flushPagination,
+              },
+            ],
           },
           {
             path: "programs-explorer",
@@ -200,6 +237,39 @@ const routes = [
                 name: "MyEvents",
                 component: MyEvents,
               },
+              {
+                path: "statistics",
+                name: "CoordinatorStatistics",
+                component: CoordinatorStatistics,
+              },
+            ],
+          },
+          {
+            path: "detail-group/:groupSlug",
+            name: "DetailGroup",
+            component: DetailGroup,
+            props: true,
+          },
+          {
+            path: "group-editor",
+            component: GroupEditor,
+            children: [
+              {
+                path: "",
+                name: "GroupEditor",
+                redirect: { name: "CreateGroup" },
+              },
+              {
+                path: "create-group",
+                name: "CreateGroup",
+                component: CreateGroup,
+              },
+              {
+                path: "assign-group-students/:groupSlug",
+                name: "AssignGroupConsumers",
+                component: AssignGroupConsumers,
+                props: true,
+              },
             ],
           },
         ],
@@ -232,10 +302,32 @@ const routes = [
         ],
       },
       {
+        path: "vendor-dashboard",
+        component: VendorDashboard,
+        children: [
+          {
+            path: "",
+            name: "VendorDashboard",
+            redirect: { name: "VendorProfile" },
+          },
+          {
+            path: "profile",
+            name: "VendorProfile",
+            component: VendorProfile,
+          },
+        ],
+      },
+      {
         path: "error",
         name: "Error",
         component: GenericError,
         props: true,
+      },
+      {
+        path: "*",
+        Name: "PageNotFound",
+        component: GenericError,
+        props: { bodyKey: "errors.thisPageDoesNotExist" },
       },
     ],
   },

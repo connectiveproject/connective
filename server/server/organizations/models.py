@@ -1,10 +1,23 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from taggit.managers import TaggableManager
 
 from server.schools.models import School
 from server.users.models import Consumer, Instructor, User
 from server.utils.model_fields import random_slug
+
+
+class SchoolActivityGroupManager(models.Manager):
+    def get_sibling_container_only_group(self, activity_group):
+        container_only_groups = self.filter(
+            activity_order=activity_group.activity_order,
+            group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
+        )
+        if container_only_groups.exists():
+            return container_only_groups[0]
+
+        return None
 
 
 class Organization(models.Model):
@@ -47,6 +60,8 @@ class Organization(models.Model):
 
 
 class Activity(models.Model):
+    tags = TaggableManager()
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
@@ -119,6 +134,7 @@ class SchoolActivityOrder(models.Model):
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     requested_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -155,13 +171,19 @@ class SchoolActivityGroup(models.Model):
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
         DEFAULT = "DEFAULT", "Default"
 
+    objects = SchoolActivityGroupManager()
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_order = models.ForeignKey(
         SchoolActivityOrder, on_delete=models.CASCADE, related_name="activity_groups"
     )
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
-    consumers = models.ManyToManyField(Consumer, related_name="activity_groups")
+    consumers = models.ManyToManyField(
+        Consumer,
+        related_name="activity_groups",
+        blank=True,
+    )
     group_type = models.CharField(
         _("group type"),
         max_length=50,
@@ -177,4 +199,5 @@ class SchoolActivityGroup(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} : {self.group_type} : {self.pk}"
+        return f"{self.name} : {self.group_type} : {self.slug} : \
+        {self.activity_order.activity.name} : {self.activity_order.school.name}"

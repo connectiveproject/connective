@@ -1,12 +1,18 @@
 $hebrew-font-url: "~@/assets/fonts/Hebrew/VarelaRound-Regular.ttf";
+$amatic-sc-font-url: "~@/assets/fonts/Hebrew/AmaticSC-Regular.ttf";
 
 @font-face {
   font-family: VarelaRound;
   src: url($hebrew-font-url);
 }
 
+@font-face {
+  font-family: AmaticSC;
+  src: url($amatic-sc-font-url);
+}
 // override vuetify default font
 $body-font-family: "VarelaRound", Arial !important;
 $hebrew-font-family: $body-font-family;
+$amatic-sc-font-family: "AmaticSC", "VarelaRound";
 $english-font-family: Arial, Helvetica, sans-serif;
 $light-grey: #e0e0e0;

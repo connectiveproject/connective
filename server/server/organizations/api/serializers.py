@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from server.organizations.models import (
     Activity,
@@ -70,9 +71,10 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class ActivitySerializer(serializers.ModelSerializer):
+class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
     is_ordered = serializers.SerializerMethodField()
     order_status = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
 
     class Meta:
         model = Activity
@@ -89,6 +91,7 @@ class ActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "is_ordered",
             "order_status",
+            "tags",
         ]
 
     def get_order_status(self, obj):
@@ -120,8 +123,11 @@ class ActivitySerializer(serializers.ModelSerializer):
         )
 
 
-class ConsumerActivitySerializer(serializers.ModelSerializer):
+class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
+
+    consumer_join_status = serializers.SerializerMethodField()
     is_consumer_joined = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
 
     class Meta:
         model = Activity
@@ -132,15 +138,38 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
             "originization",
             "description",
             "logo",
+            "consumer_join_status",
             "is_consumer_joined",
+            "tags",
         ]
+
+    def get_consumer_join_status(self, obj):
+        user = self.context["request"].user
+        if not hasattr(user, "school_member"):
+            return "NOT_JOINED"
+
+        # check if consumer is in a group
+        assigned_groups = SchoolActivityGroup.objects.filter(
+            activity_order__activity=obj,
+            consumers=user,
+        ).exclude(group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS)
+
+        if not assigned_groups.exists():
+            return "NOT_JOINED"
+
+        elif (
+            assigned_groups[0].group_type
+            == SchoolActivityGroup.GroupTypes.CONTAINER_ONLY
+        ):
+            return "PENDING_GROUP_ASSIGNMENT"
+
+        return "JOINED"
 
     def get_is_consumer_joined(self, obj):
         user = self.context["request"].user
         if not hasattr(user, "school_member"):
             return False
 
-        # check if consumer is in a group
         if (
             SchoolActivityGroup.objects.filter(
                 activity_order__activity=obj,
@@ -162,18 +191,20 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
     )
     requested_by = serializers.CharField(source="requested_by.slug", read_only=True)
     last_updated_by = serializers.CharField(
-        source="last_updated_by.slug", read_only=True
+        source="last_updated_by.slug",
+        read_only=True,
     )
+    activity_name = serializers.CharField(source="activity.name", read_only=True)
 
     class Meta:
         model = SchoolActivityOrder
         read_only_fields = (
-            "requested_by",
-            "last_updated_by",
+            "slug",
             "created_at",
             "updated_at",
         )
         fields = [
+            "slug",
             "requested_by",
             "last_updated_by",
             "school",
@@ -181,6 +212,7 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "updated_at",
+            "activity_name",
         ]
 
     def validate(self, data):
@@ -216,6 +248,9 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
         source="activity_order.activity.name",
         read_only=True,
     )
+    activity_order = serializers.SlugRelatedField(
+        queryset=SchoolActivityOrder.objects.all(), slug_field="slug"
+    )
 
     class Meta:
         model = SchoolActivityGroup
@@ -230,4 +265,20 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "group_type",
             "instructor",
             "instructor_name",
+        ]
+
+
+class ConsumerRequestDataSerializer(serializers.ModelSerializer):
+
+    activity_name = serializers.CharField(
+        source="activity_order.activity.name",
+        read_only=True,
+    )
+    consumer_requests = serializers.IntegerField()
+
+    class Meta:
+        model = SchoolActivityGroup
+        fields = [
+            "activity_name",
+            "consumer_requests",
         ]

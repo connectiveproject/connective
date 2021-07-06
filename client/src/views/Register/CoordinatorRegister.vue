@@ -61,7 +61,15 @@
         </v-card>
       </v-col>
 
-      <v-col cols="11" sm="6" md="6" lg="4" xl="3" v-show="page === 2">
+      <v-col
+        cols="11"
+        sm="6"
+        md="6"
+        lg="4"
+        xl="3"
+        v-if="shouldEditSchool"
+        v-show="page === 2"
+      >
         <v-card
           class="mx-auto py-12 px-5 registration-card"
           elevation="20"
@@ -232,7 +240,16 @@
         </v-card>
       </v-col>
 
-      <v-col cols="11" sm="6" md="6" lg="4" xl="3" v-show="page === 3">
+      <v-col
+        cols="11"
+        sm="6"
+        md="6"
+        lg="4"
+        xl="3"
+        v-show="
+          (page === 3 && shouldEditSchool) || (page === 2 && !shouldEditSchool)
+        "
+      >
         <v-card
           class="mx-auto py-12 px-5 registration-card"
           elevation="20"
@@ -260,46 +277,48 @@
               {{ registrationInfo.phone }}</v-card-text
             >
             <br />
-            <v-card-text
-              class="text-center mb-5 text-subtitle-1 font-weight-bold"
-              >{{ $t("general.schoolDetails") }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.name") }} {{ $tc("general.school", 0) }}:</b>
-              {{ registrationInfo.schoolName }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.schoolCode") }}:</b>
-              {{ registrationInfo.schoolCode }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.city") }}:</b>
-              {{ registrationInfo.schoolCity }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.street") }}:</b>
-              {{ registrationInfo.schoolStreet }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.zipCode") }}:</b>
-              {{ registrationInfo.schoolZipCode }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.phoneNumber") }}:</b>
-              {{ registrationInfo.schoolPhone }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.description") }}:</b>
-              {{ registrationInfo.schoolDescription }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.website") }}:</b>
-              {{ registrationInfo.schoolWebsite }}</v-card-text
-            >
-            <v-card-text
-              ><b>{{ $t("general.schoolGrades") }}:</b>
-              {{ registrationInfo.schoolGrades }}</v-card-text
-            >
+            <template v-if="shouldEditSchool">
+              <v-card-text
+                class="text-center mb-5 text-subtitle-1 font-weight-bold"
+                >{{ $t("general.schoolDetails") }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.name") }} {{ $tc("general.school", 0) }}:</b>
+                {{ registrationInfo.schoolName }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.schoolCode") }}:</b>
+                {{ registrationInfo.schoolCode }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.city") }}:</b>
+                {{ registrationInfo.schoolCity }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.street") }}:</b>
+                {{ registrationInfo.schoolStreet }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.zipCode") }}:</b>
+                {{ registrationInfo.schoolZipCode }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.phoneNumber") }}:</b>
+                {{ registrationInfo.schoolPhone }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.description") }}:</b>
+                {{ registrationInfo.schoolDescription }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.website") }}:</b>
+                {{ registrationInfo.schoolWebsite }}</v-card-text
+              >
+              <v-card-text
+                ><b>{{ $t("general.schoolGrades") }}:</b>
+                {{ registrationInfo.schoolGrades }}</v-card-text
+              >
+            </template>
 
             <div class="mx-auto d-flex justify-center mt-12">
               <v-btn
@@ -335,14 +354,14 @@
   </v-container>
 </template>
 <script>
-import store from "../vuex/store"
+import store from "../../vuex/store"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
   SCHOOL_GRADES_ITEMS,
   ZIP_CODE_VALIDATION_RULE,
-} from "../helpers/constants/constants"
-import Modal from "../components/Modal"
+} from "../../helpers/constants/constants"
+import Modal from "../../components/Modal"
 
 export default {
   components: {
@@ -350,35 +369,41 @@ export default {
     ValidationObserver,
     Modal,
   },
-  data: () => ({
-    ZIP_CODE_VALIDATION_RULE,
-    SCHOOL_GRADES_ITEMS,
-    modalRedirectComponentName: "",
-    slug: null,
-    schoolSlug: "",
-    showPass: false,
-    page: 1,
-    popupMsg: "",
-    registrationInfo: {
-      name: "",
-      phone: "",
-      schoolName: "",
-      schoolCode: "",
-      schoolCity: "",
-      schoolStreet: "",
-      schoolZipCode: "",
-      schoolPhone: "",
-      schoolDescription: "",
-      schoolWebsite: "",
-      schoolGrades: [],
-    },
-  }),
+  props: {
+    shouldEditSchool: {
+      type: Boolean,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      ZIP_CODE_VALIDATION_RULE,
+      SCHOOL_GRADES_ITEMS,
+      modalRedirectComponentName: "",
+      slug: null,
+      schoolSlug: "",
+      showPass: false,
+      page: 1,
+      popupMsg: "",
+      registrationInfo: {
+        name: "",
+        phone: "",
+        schoolName: "",
+        schoolCode: "",
+        schoolCity: "",
+        schoolStreet: "",
+        schoolZipCode: "",
+        schoolPhone: "",
+        schoolDescription: "",
+        schoolWebsite: "",
+        schoolGrades: [],
+      },
+    }
+  },
 
-  mounted: async function () {
+  async mounted() {
     let userDetails = await store.dispatch("user/getUserDetails")
     this.slug = userDetails.slug
-    let schoolDetails = await store.dispatch("school/getSchoolDetails")
-    this.schoolSlug = schoolDetails.slug
   },
 
   methods: {
@@ -437,11 +462,13 @@ export default {
           slug: this.slug,
           userDetails: userDetailsPayload,
         })
-        await this.updateSchoolDetails({
-          slug: this.schoolSlug,
-          schoolDetails: schoolPayload,
-        })
-        this.modalRedirectComponentName = "Profile"
+        if (this.shouldEditSchool) {
+          await this.updateSchoolDetails({
+            slug: this.schoolSlug,
+            schoolDetails: schoolPayload,
+          })
+        }
+        this.modalRedirectComponentName = "CoordinatorProfile"
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch (err) {
         if (

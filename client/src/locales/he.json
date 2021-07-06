@@ -25,6 +25,7 @@
     "pleaseFillAllDetailsBelow": "נא מלאו את הפרטים שבהמשך",
     "loading": "בטעינה...",
     "student": "תלמיד",
+    "staff": "סגל",
     "date": "תאריך",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
     "program": "תוכניות|תוכנית",
@@ -32,11 +33,14 @@
     "generalDetails": "פרטים כלליים",
     "chosen": "נבחרו",
     "status": "סטטוס",
-    "display": "תצוגה"
+    "display": "תצוגה",
+    "yes": "כן",
+    "no": "לא"
   },
 
   "confirm": {
-    "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?"
+    "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
+    "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?"
   },
 
   "gender": {
@@ -65,7 +69,8 @@
     "APPROVED": "אושר",
     "CANCELLED": "בוטל",
     "available": "זמין",
-    "forProgramDetails": "לפרטי התוכנית"
+    "forProgramDetails": "לפרטי התוכנית",
+    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה"
   },
 
   "programFilters": {
@@ -87,10 +92,16 @@
 
   "invite": {
     "invite": "הזמנת|הזמינו",
+    "inviteStaff": "הזמנת סגל",
+    "inviteStaffMember": "הזמנת איש סגל",
+    "inviteStudents": "הזמנת תלמידים",
     "invitationStatus": "סטטוס הזמנה",
     "usersInvitation": "הזמנות משתמשים",
     "inviteStudentsToPlatformAndKeepTrackOfTheirStatus": "הזמינו תלמידים לפלטפורמה ועקבו אחר הסטטוס שלהם",
-    "pendingRecipientApproval": "מחכה לאישור הנמען"
+    "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
+    "pendingRecipientApproval": "מחכה לאישור הנמען",
+    "removeStaffMember": "הסרת איש סגל",
+    "editStaffMember": "עריכת איש סגל"
   },
 
   "userActions": {
@@ -103,7 +114,8 @@
     "close": "סגירה",
     "search": "חיפוש",
     "edit": "עריכת|עירכו",
-    "add": "הוספה|הוסיפו"
+    "add": "הוספה|הוסיפו",
+    "delete": "מחיקה"
   },
 
   "grades": {
@@ -142,6 +154,13 @@
     "notRegistered": "לא רשומ/ה"
   },
 
+  "success": {
+    "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
+    "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
+    "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
+    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה"
+  },
+
   "errors": {
     "invalidCreds": "הפרטים שהוזנו שגויים",
     "genericError": "התקבלה שגיאה. אנא נסו מאוחר יותר.",
@@ -162,7 +181,9 @@
     "empty": "ריק",
     "unassigned": "לא שובץ",
     "unavailable": "לא זמין",
-    "nameUnavailable": "שם לא זמין"
+    "nameUnavailable": "שם לא זמין",
+    "thisPageDoesNotExist": "עמוד זה אינו קיים",
+    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה"
   },
 
   "myActivity": {
@@ -179,7 +200,10 @@
     "eventDetails": "פרטי האירוע",
     "location": "מיקום",
     "groupDescription": "תיאור קבוצה",
-    "forGroupDetails": "לפרטי הקבוצה"
+    "forGroupDetails": "לפרטי הקבוצה",
+    "statistics": "סטטיסטיקות",
+    "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
+    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור"
   },
 
   "events": {
@@ -192,8 +216,20 @@
     "summaryGeneralNotes": "הערות כלליות",
     "summaryGeneralRating": "דירוג כולל",
     "summaryChildrenBehavior": "התנהגות המשתתפים",
-    "attendance": "נוכחות",
-    "groupName": "שם הקבוצה"
+    "attendance": "נוכחות"
+  },
+
+  "groups": {
+    "groupsCreation": "יצירת קבוצה",
+    "groupName": "שם הקבוצה",
+    "parentProgram": "תוכנית אם",
+    "groupCreatedSuccessfully": "הקבוצה נוצרה בהצלחה",
+    "groupDeletedSuccessfully": "הקבוצה נמחקה בהצלחה",
+    "thisGroupIsUnderProgram": "קבוצה זו נמצאת תחת תוכנית",
+    "groupPage": "עמוד קבוצה",
+    "editAndViewTheGroupDetails": "ערכו וצפו בפרטי הקבוצה",
+    "viewAndEditStudents": "צפייה ועריכת תלמידים",
+    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו"
   },
 
   "time": {
