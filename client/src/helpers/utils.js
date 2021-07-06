@@ -141,7 +141,7 @@ const utils = {
   objectToFormData(obj) {
     const fd = new FormData()
     for (const [key, value] of Object.entries(obj)) {
-      if (isArray(obj)) {
+      if (isArray(value)) {
         fd.append(key, JSON.stringify(value))
       } else {
         fd.append(key, value)

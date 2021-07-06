@@ -30,7 +30,7 @@ class Command(BaseCommand):
     def create_admin(self):
         try:
             user = get_user_model().objects.create_superuser(
-                "admin", "admin@example.com", "Aa123456789"
+                "admin", "admin@example1111.com", "Aa123456789"
             )
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
@@ -60,49 +60,83 @@ class Command(BaseCommand):
         self.create_admin()
         coord = self.create_user(
             Coordinator,
-            "coord@example.com",
+            "coord@example1111.com",
             "Aa123456789",
             "David Cohen",
         )
-        consumer = self.create_user(
-            Consumer,
-            "consumer@example.com",
-            "Aa123456789",
-            "Daniel Levi",
-        )
-        consumer_two = self.create_user(
-            Consumer,
-            "consumer2@example.com",
-            "Aa123456789",
-            "Liora Weirshtrass",
-        )
-        consumer_three = self.create_user(
-            Consumer,
-            "consumer3@example.com",
-            "Aa123456789",
-            "Maor Azulay",
-        )
+
+        male_names = [
+            "נועם",
+            "אורי",
+            "איתי",
+            "דוד",
+            "יוסף",
+            "בן",
+            "רוני",
+            "אורי",
+        ]
+
+        female_names = [
+            "אביגיל",
+            "טליה",
+            "איילה",
+            "שרה",
+            "חנה",
+            "מור",
+            "מוריה",
+            "אלה",
+        ]
+
+        last_names = [
+            "כהן",
+            "לוי",
+            "שר",
+            "אורלין",
+            "להב",
+            "שימן",
+            "ברוש",
+            "שמיר",
+        ]
+
+        consumers = []
+        for i, name_record in enumerate(zip(male_names, last_names)):
+            first_name, last_name = name_record
+            user = self.create_user(
+                Consumer,
+                f"consumer-{i}@example1111.com",
+                "Aa123456789",
+                f"{first_name} {last_name}",
+            )
+            user.profile.gender = user.profile.Gender.MALE
+            user.profile.save()
+            consumers.append(user)
+
+        for i, name_record in enumerate(zip(female_names, last_names)):
+            first_name, last_name = name_record
+            user = self.create_user(
+                Consumer,
+                f"consumer-1{i}@example1111.com",
+                "Aa123456789",
+                f"{first_name} {last_name}",
+            )
+            user.profile.gender = user.profile.Gender.FEMALE
+            user.profile.save()
+            consumers.append(user)
+
         instructor = self.create_user(
             Instructor,
-            "instructor@example.com",
+            "instructor@example1111.com",
             "Aa123456789",
             "Dan Yusopov",
         )
         vendor = self.create_user(
             Vendor,
-            "vendor@example.com",
+            "vendor@example1111.com",
             "Aa123456789",
             "Meshi Bar-El",
         )
 
-        if not (
-            coord
-            and consumer
-            and consumer_two
-            and consumer_three
-            and instructor
-            and vendor
-        ):
+        if not (coord and instructor and vendor):
             return self.stdout.write(
                 self.style.ERROR(
                     "Users creation failed.\n\
@@ -127,13 +161,9 @@ class Command(BaseCommand):
             self.style.SUCCESS("Successfully created OrganizationMember relations")
         )
 
+        SchoolMember.objects.create(school=school, user=coord)
         SchoolMember.objects.bulk_create(
-            [
-                SchoolMember(school=school, user=coord),
-                SchoolMember(school=school, user=consumer),
-                SchoolMember(school=school, user=consumer_two),
-                SchoolMember(school=school, user=consumer_three),
-            ]
+            [SchoolMember(school=school, user=consumer) for consumer in consumers]
         )
         self.stdout.write(
             self.style.SUCCESS("Successfully created SchoolMember relations")
@@ -178,8 +208,8 @@ class Command(BaseCommand):
             group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS,
         )
 
-        group_one.consumers.add(consumer)
-        group_two.consumers.add(consumer_two)
+        group_one.consumers.add(consumers[0])
+        group_two.consumers.add(consumers[1])
         self.stdout.write(
             self.style.SUCCESS("Successfully created SchoolActivityGroups")
         )

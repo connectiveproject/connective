@@ -79,7 +79,9 @@
     "programDescription": "תיאור תוכנית",
     "editAndViewTheProgramDetails": "ערכו וצפו בפרטי התוכנית",
     "programPage": "עמוד תוכנית",
-    "uploadingImagesAndVideosCanImproveTheProgramPopularity!": "העלאת תמונות וסרטונים משפרת את פופולריות התוכנית!"
+    "uploadingImagesAndVideosCanImproveTheProgramPopularity!": "העלאת תמונות וסרטונים משפרת את פופולריות התוכנית!",
+    "mediaUpload": "העלאת מדיה",
+    "uploadVideosAndImagesSoSchoolsCanView": "העלו תמונות וסרטונים בכדי שבתי הספר יוכלו להתרשם"
   },
 
   "programFilters": {

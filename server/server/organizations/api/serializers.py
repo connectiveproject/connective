@@ -41,6 +41,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class ActivityMediaSerializer(serializers.ModelSerializer):
     media_type = serializers.SerializerMethodField()
+    activity = serializers.SlugRelatedField(
+        queryset=Activity.objects.all(), slug_field="slug"
+    )
 
     class Meta:
         model = ActivityMedia

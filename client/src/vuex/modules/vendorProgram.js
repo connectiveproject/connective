@@ -31,6 +31,14 @@ const vendorProgram = {
       let res = await Api.vendorProgram.getProgramMediaList(programSlug)
       return res.data.results
     },
+    deleteProgramMedia(ctx, mediaSlug) {
+      return Api.vendorProgram.deleteProgramMedia(mediaSlug)
+    },
+    async createProgramMedia(ctx, payload) {
+      // :Object payload: should contain activity & videoUrl/imageUrl
+      let res = await Api.vendorProgram.createProgramMedia(payload)
+      return res.data
+    },
     async getProgramList({ commit }) {
       let res = await Api.vendorProgram.getProgramList()
       commit("SET_PROGRAM_LIST", res.data.results)

@@ -1,30 +1,30 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" lg="7">
-        <div class="d-sm-flex justify-space-between mb-10">
-          <div>
-            <h1 v-text="$t('program.programPage')" class="mb-5" />
-            <h2 v-text="$t('program.editAndViewTheProgramDetails')" class="" />
+    <validation-observer
+      tag="form"
+      v-slot="{ invalid }"
+      @submit.prevent="onSubmit"
+      v-if="program"
+    >
+      <v-row no-gutters>
+        <v-col cols="12" lg="7" class="mb-12 mb-lg-0">
+          <div class="d-sm-flex justify-space-between mb-10">
+            <div>
+              <h1 v-text="$t('program.programPage')" class="mb-5" />
+              <h2 v-text="$t('program.editAndViewTheProgramDetails')" />
+            </div>
+            <v-btn
+              tile
+              large
+              color="error"
+              class="mx-auto mx-sm-0 d-block my-10 my-sm-0"
+              @click="isModalOpen = true"
+            >
+              {{ $t("userActions.delete") }}
+              <v-icon right> mdi-close </v-icon>
+            </v-btn>
           </div>
-          <v-btn
-            tile
-            large
-            color="error"
-            class="mx-auto mx-sm-0 d-block my-10 my-sm-0"
-            @click="isModalOpen = true"
-          >
-            {{ $t("userActions.delete") }}
-            <v-icon right> mdi-close </v-icon>
-          </v-btn>
-        </div>
 
-        <validation-observer
-          tag="form"
-          v-slot="{ invalid }"
-          @submit.prevent="onSubmit"
-          v-if="program"
-        >
           <input-drawer
             v-for="field in programFields"
             v-model="program[field.name]"
@@ -36,24 +36,41 @@
             :select-items="field.selectItems"
             :multiselect="field.multiselect"
           />
-          <v-btn
-            class="my-16 white--text"
-            type="submit"
-            color="purple darken-3"
-            elevation="3"
-            v-text="$t('userActions.save')"
-            :disabled="invalid"
+        </v-col>
+        <v-col cols="12" lg="5" class="px-10" align-self="center">
+          <picture-input
+            class="mx-auto"
+            :placeholderPicUrl="logoPlaceholder"
+            @fileUpload="setLogo"
           />
-        </validation-observer>
-      </v-col>
-      <v-col cols="12" lg="5" class="px-10" align-self="center">
-        <picture-input
-          class="mx-auto"
-          :placeholderPicUrl="logoPlaceholder"
-          @fileUpload="setLogo"
+        </v-col>
+      </v-row>
+      <div class="mx-auto mx-md-0 my-16">
+        <v-btn
+          class="mx-2 white--text"
+          type="submit"
+          color="purple darken-3"
+          elevation="3"
+          v-text="$t('userActions.save')"
+          :disabled="invalid"
         />
-      </v-col>
-    </v-row>
+        <v-btn
+          class="mx-2 white--text"
+          elevation="3"
+          type="button"
+          color="purple darken-3"
+          outlined
+          v-text="$t('program.mediaUpload')"
+          @click="
+            $router.push({
+              name: 'VendorProgramMediaUpload',
+              params: { programSlug },
+            })
+          "
+        />
+      </div>
+    </validation-observer>
+
     <modal-approve v-model="isModalOpen" @approve="handleDelete">
       {{ this.$t("confirm.AreYouSureYouWantToDeleteThisProgram?") }}
     </modal-approve>
@@ -137,7 +154,7 @@ export default {
   },
   computed: {
     logoPlaceholder() {
-      return this.program.logo || CAMERA_ROUNDED_DRAWING
+      return (this.program && this.program.logo) || CAMERA_ROUNDED_DRAWING
     },
   },
 }

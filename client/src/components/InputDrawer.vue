@@ -46,7 +46,7 @@
               class="text-subtitle-2 text-lg-subtitle-1"
               :class="{ 'red--text': errors[0] }"
             >
-              {{ errors[0] || displayValue }}
+              {{ errors[0] || displayValue | trimText(55) }}
             </strong>
           </validation-provider>
         </validation-observer>
@@ -89,7 +89,7 @@ export default {
       required: true,
     },
     value: {
-      type: [String, Array],
+      type: [String, Array, Number],
       required: true,
     },
     selectItems: {
@@ -100,7 +100,7 @@ export default {
     multiselect: {
       type: Boolean,
       default: true,
-    }
+    },
   },
 
   data: () => ({
@@ -122,9 +122,10 @@ export default {
   computed: {
     displayValue() {
       if (this.inputType === "select") {
-        // use the textual values of the items the user selected (ordered by the original array)
+        // display textual values of the selected items
         let displayValues = []
         for (let item of this.selectItems) {
+          console.log(this.value)
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }
