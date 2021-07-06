@@ -1,6 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from taggit.managers import TaggableManager
 
 from server.schools.models import School
 from server.users.models import Consumer, Instructor, User
@@ -59,6 +60,8 @@ class Organization(models.Model):
 
 
 class Activity(models.Model):
+    tags = TaggableManager()
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
