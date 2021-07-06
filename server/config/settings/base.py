@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "dj_rest_auth",
     "django_filters",
+    "taggit",
 ]
 
 LOCAL_APPS = [
@@ -330,3 +331,5 @@ JAZZMIN_UI_TWEAKS = {
 JAZZMIN_SETTINGS = {
     "custom_css": "css/project.css",
 }
+
+TAGGIT_CASE_INSENSITIVE = True

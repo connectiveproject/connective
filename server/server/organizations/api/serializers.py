@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from server.organizations.models import (
     Activity,
@@ -73,9 +74,10 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class ActivitySerializer(serializers.ModelSerializer):
+class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
     is_ordered = serializers.SerializerMethodField()
     order_status = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
 
     class Meta:
         model = Activity
@@ -92,6 +94,7 @@ class ActivitySerializer(serializers.ModelSerializer):
             "phone_number",
             "is_ordered",
             "order_status",
+            "tags",
         ]
 
     def get_order_status(self, obj):
@@ -124,6 +127,8 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class VendorActivitySerializer(serializers.ModelSerializer):
+    tags = TagListSerializerField()
+
     class Meta:
         model = Activity
         fields = [
@@ -138,14 +143,16 @@ class VendorActivitySerializer(serializers.ModelSerializer):
             "contact_name",
             "logo",
             "phone_number",
+            "tags",
         ]
         read_only_fields = ["slug", "originization"]
 
 
-class ConsumerActivitySerializer(serializers.ModelSerializer):
+class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 
     consumer_join_status = serializers.SerializerMethodField()
     is_consumer_joined = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
 
     class Meta:
         model = Activity
@@ -158,6 +165,7 @@ class ConsumerActivitySerializer(serializers.ModelSerializer):
             "logo",
             "consumer_join_status",
             "is_consumer_joined",
+            "tags",
         ]
 
     def get_consumer_join_status(self, obj):

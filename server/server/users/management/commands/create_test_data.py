@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
@@ -17,7 +16,14 @@ from server.organizations.models import (
 from server.schools.models import School, SchoolMember
 from server.users.models import Consumer, Coordinator, Instructor, Vendor
 
-from .constants import activity_payloads, organization_payload, school_payload
+from .constants import (
+    activity_payloads,
+    female_names,
+    last_names,
+    male_names,
+    organization_payload,
+    school_payload,
+)
 
 
 class Command(BaseCommand):
@@ -58,90 +64,70 @@ class Command(BaseCommand):
 
     def create_all(self):
         self.create_admin()
-        coord = self.create_user(
-            Coordinator,
-            "coord@example1111.com",
-            "Aa123456789",
-            "David Cohen",
-        )
-
-        male_names = [
-            "נועם",
-            "אורי",
-            "איתי",
-            "דוד",
-            "יוסף",
-            "בן",
-            "רוני",
-            "אורי",
-        ]
-
-        female_names = [
-            "אביגיל",
-            "טליה",
-            "איילה",
-            "שרה",
-            "חנה",
-            "מור",
-            "מוריה",
-            "אלה",
-        ]
-
-        last_names = [
-            "כהן",
-            "לוי",
-            "שר",
-            "אורלין",
-            "להב",
-            "שימן",
-            "ברוש",
-            "שמיר",
-        ]
 
         consumers = []
         for i, name_record in enumerate(zip(male_names, last_names)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-{i}@example1111.com",
+                f"consumer-{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
-            user.profile.gender = user.profile.Gender.MALE
-            user.profile.save()
-            consumers.append(user)
+            if user:
+                user.profile.gender = user.profile.Gender.MALE
+                user.profile.save()
+                consumers.append(user)
 
         for i, name_record in enumerate(zip(female_names, last_names)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-1{i}@example1111.com",
+                f"consumer-1{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
-            user.profile.gender = user.profile.Gender.FEMALE
-            user.profile.save()
-            consumers.append(user)
+            if user:
+                user.profile.gender = user.profile.Gender.FEMALE
+                user.profile.save()
+                consumers.append(user)
+
+        if len(consumers):
+            prev_email = consumers[0].email
+            consumers[0].email = "consumer@example.com"
+            consumers[0].save()
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"Successfully changed {prev_email} to {consumers[0].email}"
+                )
+            )
+
+        coord = self.create_user(
+            Coordinator,
+            "coord@example1111.com",
+            "Aa123456789",
+            "דוד כהן",
+        )
 
         instructor = self.create_user(
             Instructor,
             "instructor@example1111.com",
             "Aa123456789",
-            "Dan Yusopov",
+            "דן יוסופוב",
         )
         vendor = self.create_user(
             Vendor,
             "vendor@example1111.com",
             "Aa123456789",
-            "Meshi Bar-El",
+            "משי בר אל",
         )
 
-        if not (coord and instructor and vendor):
+        if not (len(consumers) and coord and instructor and vendor):
             return self.stdout.write(
                 self.style.ERROR(
-                    "Users creation failed.\n\
-                    You may flush all db using: `python manage.py flush`\n\
-                    USE WITH CAUTION - THIS DELETES EVERYTHING"
+                    "Users creation failed - already exist.\n\
+You may flush all db using: `python manage.py flush`\n\
+USE WITH CAUTION - THIS DELETES EVERYTHING"
                 )
             )
 
@@ -220,7 +206,7 @@ class Command(BaseCommand):
             events.append(
                 Event(
                     school_group=group_one,
-                    locations_name="Room 202",
+                    locations_name="חדר 202",
                     start_time=today + timedelta(days=i * 7),
                     end_time=today + timedelta(days=i * 7) + timedelta(hours=1.5),
                 )
@@ -230,6 +216,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Successfully created Events"))
 
     def handle(self, *args, **options):
-        if not settings.DEBUG:
-            raise RuntimeError("create_test_data is meant for dev environments.")
         self.create_all()
