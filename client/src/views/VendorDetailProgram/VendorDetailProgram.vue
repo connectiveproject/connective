@@ -102,7 +102,6 @@ export default {
       "vendorProgram/getProgram",
       to.params.programSlug
     )
-    console.log(program)
     next(vm => (vm.program = program))
   },
   props: {
@@ -134,8 +133,6 @@ export default {
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
       } catch (err) {
-        console.log(err)
-        debugger
         this.showMessage(Api.utils.parseResponseError(err))
       }
     },

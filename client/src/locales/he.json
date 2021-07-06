@@ -36,13 +36,17 @@
     "display": "תצוגה",
     "yes": "כן",
     "no": "לא",
-    "didYouKnow?": "הידעת?"
+    "didYouKnow?": "הידעת?",
+    "video": "וידאו",
+    "image": "תמונה",
+    "toThePreviousPage": "לעמוד הקודם"
   },
 
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
     "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
-    "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?"
+    "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?",
+    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?"
   },
 
   "gender": {
@@ -81,7 +85,10 @@
     "programPage": "עמוד תוכנית",
     "uploadingImagesAndVideosCanImproveTheProgramPopularity!": "העלאת תמונות וסרטונים משפרת את פופולריות התוכנית!",
     "mediaUpload": "העלאת מדיה",
-    "uploadVideosAndImagesSoSchoolsCanView": "העלו תמונות וסרטונים בכדי שבתי הספר יוכלו להתרשם"
+    "uploadVideosAndImagesSoSchoolsCanView": "העלו תמונות וסרטונים בכדי שבתי הספר יוכלו להתרשם",
+    "imageUpload": "העלאת תמונה",
+    "youtubeVideoUrl": "כתובת לסרטון יוטיוב",
+    "mediaType": "סוג מדיה"
   },
 
   "programFilters": {
@@ -171,7 +178,9 @@
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
     "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
     "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",
-    "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה"
+    "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה",
+    "mediaUploadedSuccessfully": "המדיה הועלתה בהצלחה",
+    "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה"
   },
 
   "errors": {
@@ -196,7 +205,8 @@
     "unavailable": "לא זמין",
     "nameUnavailable": "שם לא זמין",
     "thisPageDoesNotExist": "עמוד זה אינו קיים",
-    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה"
+    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
+    "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים"
   },
 
   "myActivity": {

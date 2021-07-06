@@ -1,10 +1,12 @@
 <template>
   <v-carousel
+    v-bind="$attrs"
     height="350"
     class="mt-6 mx-auto rounded-lg"
     show-arrows-on-hover
     hide-delimiter-background
     delimiter-icon="mdi-minus"
+    @change="e => $emit('input', e)"
   >
     <v-carousel-item
       v-for="media in mediaList"
@@ -30,6 +32,7 @@
 import Utils from "../helpers/utils"
 
 export default {
+  inheritAttrs: false,
   props: {
     mediaList: {
       // format: [ { mediaType: "image/video", videoUrl: "", imageUrl: ""} ]

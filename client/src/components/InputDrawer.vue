@@ -125,7 +125,6 @@ export default {
         // display textual values of the selected items
         let displayValues = []
         for (let item of this.selectItems) {
-          console.log(this.value)
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }

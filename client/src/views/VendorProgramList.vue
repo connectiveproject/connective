@@ -3,7 +3,10 @@
     <v-row>
       <v-col cols="12" md="8">
         <h1 v-text="$t('myActivity.myPrograms')" class="mb-5" />
-        <h2 v-text="$t('program.hereYouCanSeeAllTheProgramsListedUnderYou')" class="pb-12" />
+        <h2
+          v-text="$t('program.hereYouCanSeeAllTheProgramsListedUnderYou')"
+          class="pb-12"
+        />
       </v-col>
       <v-col cols="12" md="4">
         <v-btn

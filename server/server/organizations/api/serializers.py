@@ -64,12 +64,12 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
             return "image"
 
     def validate(self, data):
-        if data["video_url"] and data["image_url"]:
+        if data.get("video_url") and data.get("image_url"):
             raise serializers.ValidationError("Cannot contain both image and video_url")
         return data
 
     def update(self, instance, validated_data):
-        if validated_data["video_url"] and validated_data["image_url"]:
+        if validated_data.get("video_url") and validated_data.get("image_url"):
             raise serializers.ValidationError("Cannot contain both image and video_url")
         return super().update(instance, validated_data)
 

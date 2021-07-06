@@ -1,76 +1,70 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12" lg="7" class="mb-12 mb-lg-0">
-      <div>
-        <h1 v-text="$t('program.mediaUpload')" class="mb-5" />
-        <h2
-          v-text="$t('program.uploadVideosAndImagesSoSchoolsCanView')"
-          class=""
+  <div>
+    <v-row no-gutters>
+      <v-col cols="12" lg="7" class="mb-12 mb-lg-0">
+        <div class="pb-12">
+          <h1 v-text="$t('program.mediaUpload')" class="mb-5" />
+          <h2 v-text="$t('program.uploadVideosAndImagesSoSchoolsCanView')" />
+        </div>
+        <carousel
+          v-model="currentMediaIndex"
+          :media-list="mediaList.length ? mediaList : mediaListPlaceholder"
         />
-      </div>
-      <v-file-input
-        v-for="i in 3" :key="i"
-        accept="image/*"
-        prepend-icon="mdi-folder-multiple-image"
-        label="Images and Videos"
-        :disabled="imageList.length >= i"
-      />
-    </v-col>
-    <v-col cols="12" lg="5" class="px-10">
-      <sticky-note>
-        <b>{{ this.$t("general.didYouKnow?") }}</b>
-        <div
-          class="pt-5 sticky-span"
-          v-text="
-            $t(
-              'program.uploadingImagesAndVideosCanImproveTheProgramPopularity!'
-            )
-          "
-        />
-      </sticky-note>
-    </v-col>
-  </v-row>
-
-  <!-- <v-card class="mt-8 pt-5 px-12 pb-14" max-width="650">
-    <v-card-title>upload images & videos</v-card-title>
-    <v-file-input
-      accept="image/*"
-      prepend-icon="mdi-camera"
-      label="Logo"
-    />
-    <v-file-input
-      accept="image/png, image/jpeg, image/bmp"
-      prepend-icon="mdi-folder-multiple-image"
-      label="Images and Videos"
-      multiple
+        <div class="text-center pt-12">
+          <v-btn class="mx-4" fab color="error" @click="triggerMediaDelete">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+          <v-btn class="mx-4" fab color="success" @click="triggerMediaUpload">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+      </v-col>
+      <v-col cols="12" lg="5" class="px-10">
+        <sticky-note v-if="!$vuetify.breakpoint.mobile">
+          <b>{{ this.$t("general.didYouKnow?") }}</b>
+          <div
+            class="pt-5 sticky-span"
+            v-text="
+              $t(
+                'program.uploadingImagesAndVideosCanImproveTheProgramPopularity!'
+              )
+            "
+          />
+        </sticky-note>
+      </v-col>
+    </v-row>
+    <modal-approve
+      v-model="isApproveModalOpen"
+      @approve="deleteMedia(currentMediaIndex)"
     >
-      <template v-slot:selection="{ text }">
-        <v-chip v-text="text" />
-      </template>
-    </v-file-input>
-    <v-btn
-      class="d-block mt-8 mx-auto white--text"
-      type="submit"
-      color="purple darken-3"
-      elevation="3"
-      v-text="$t('userActions.save')"
-      :disabled="invalid"
-    />
-  </v-card> -->
+      {{
+        this.$t(
+          "confirm.thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?"
+        )
+      }}
+    </modal-approve>
+    <upload-modal v-model="isUploadModalOpen" @upload="uploadMedia" />
+  </div>
 </template>
 
 <script>
 import { mapActions } from "vuex"
-import StickyNote from "../components/StickyNote"
+import Api from "../api"
+import Utils from "../helpers/utils"
+import { CAROUSEL_PLACEHOLDER } from "../helpers/constants/images"
 import store from "../vuex/store"
+import ModalApprove from "../components/ModalApprove"
+import Carousel from "../components/Carousel"
+import StickyNote from "../components/StickyNote"
+import UploadModal from "../components/VendorProgramMediaUploadModal"
+
 export default {
-  components: { StickyNote },
+  components: { ModalApprove, StickyNote, Carousel, UploadModal },
   async beforeRouteEnter(to, from, next) {
     const mediaList = await store.dispatch(
       "vendorProgram/getProgramMediaList",
       to.params.programSlug
     )
-    console.log(mediaList)
     next(vm => (vm.mediaList = mediaList))
   },
   props: {
@@ -79,28 +73,53 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    // classify images & videos
-    for (const media of this.mediaList) {
-      if (media.mediaType === "video") {
-        this.videoList.push(media.videoUrl)
-      } else {
-        this.imageList.push(media.imageUrl)
-      }
-    }
-  },
   data() {
     return {
-      mediaList: null,
-      videoList: [],
-      imageList: [],
+      currentMediaIndex: 0,
+      mediaList: [],
+      mediaListPlaceholder: [{ imageUrl: CAROUSEL_PLACEHOLDER }],
+      isApproveModalOpen: false,
+      isUploadModalOpen: false,
     }
   },
   methods: {
     ...mapActions("vendorProgram", [
       "deleteProgramMedia",
       "createProgramMedia",
+      "getProgramMediaList",
     ]),
+    ...mapActions("snackbar", ["showMessage"]),
+    async deleteMedia(index) {
+      try {
+        await this.deleteProgramMedia(this.mediaList[index].slug)
+        this.mediaList = await this.getProgramMediaList(this.programSlug)
+        this.showMessage(this.$t("success.mediaDeletedSuccessfully"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
+    triggerMediaUpload() {
+      if (this.mediaList.length < 5) {
+        return (this.isUploadModalOpen = true)
+      }
+      this.showMessage(this.$t("errors.uploadLimitIsFive"))
+    },
+    triggerMediaDelete() {
+      this.isApproveModalOpen = true
+    },
+    async uploadMedia(mediaPayload) {
+      try {
+        const payload = Utils.objectToFormData({
+          activity: this.programSlug,
+          ...mediaPayload,
+        })
+        await this.createProgramMedia(payload)
+        this.mediaList = await this.getProgramMediaList(this.programSlug)
+        this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
   },
 }
 </script>
