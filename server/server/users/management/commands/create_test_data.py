@@ -36,7 +36,7 @@ class Command(BaseCommand):
     def create_admin(self):
         try:
             user = get_user_model().objects.create_superuser(
-                "admin", "admin@example1111.com", "Aa123456789"
+                "admin", "admin@example.com", "Aa123456789"
             )
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
@@ -104,20 +104,20 @@ class Command(BaseCommand):
 
         coord = self.create_user(
             Coordinator,
-            "coord@example1111.com",
+            "coord@example.com",
             "Aa123456789",
             "דוד כהן",
         )
 
         instructor = self.create_user(
             Instructor,
-            "instructor@example1111.com",
+            "instructor@example.com",
             "Aa123456789",
             "דן יוסופוב",
         )
         vendor = self.create_user(
             Vendor,
-            "vendor@example1111.com",
+            "vendor@example.com",
             "Aa123456789",
             "משי בר אל",
         )
