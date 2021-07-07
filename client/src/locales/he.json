@@ -187,7 +187,8 @@
     "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה",
     "programCreatedSuccessfully": "התוכנית נוצרה בהצלחה",
     "userDetailsUpdatedSuccessfully": "פרטי המשתמש עודכנו בהצלחה",
-    "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה"
+    "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה",
+    "userDeletedSuccessfully": "המשתמש נמחק בהצלחה"
   },
 
   "errors": {
