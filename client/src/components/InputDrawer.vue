@@ -46,7 +46,7 @@
               class="text-subtitle-2 text-lg-subtitle-1"
               :class="{ 'red--text': errors[0] }"
             >
-              {{ errors[0] || displayValue | trimText(55) }}
+              {{ errors[0] || displayValue | trimText(45) }}
             </strong>
           </validation-provider>
         </validation-observer>
