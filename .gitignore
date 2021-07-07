@@ -130,3 +130,5 @@ dmypy.json
 
 # misc
 vsls-contrib.codetour-0.0.53 (1).vsix
+
+node_modules/
