@@ -46,6 +46,7 @@ class User(AbstractUser):
             self.user_type = self.base_user_type
             self.slug = self.username
 
+        self.email = self.email.lower()
         return super().save(*args, **kwargs)
 
     def __str__(self):

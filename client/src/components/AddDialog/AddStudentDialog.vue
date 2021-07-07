@@ -66,6 +66,7 @@
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import Api from "../../api"
 
 export default {
   components: {
@@ -134,6 +135,7 @@ export default {
 
   methods: {
     ...mapActions("school", ["addStudent", "editStudent"]),
+    ...mapActions("snackbar", ["showMessage"]),
     initFormInput() {
       this.formInput = {
         name: "",
@@ -151,13 +153,19 @@ export default {
     },
     async save() {
       // save to store and notify parent, close dialog
-      if (this.slug) {
-        await this.editStudent({ slug: this.slug, student: this.formInput })
-      } else {
-        await this.addStudent(this.formInput)
+      try {
+        if (this.slug) {
+          await this.editStudent({ slug: this.slug, student: this.formInput })
+          this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
+        } else {
+          await this.addStudent(this.formInput)
+          this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+        }
+        this.$emit("save", this.formInput)
+        this.close()
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
       }
-      this.$emit("save", this.formInput)
-      this.close()
     },
   },
 }
