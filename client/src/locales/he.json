@@ -39,7 +39,8 @@
     "didYouKnow?": "הידעת?",
     "video": "וידאו",
     "image": "תמונה",
-    "toThePreviousPage": "לעמוד הקודם"
+    "toThePreviousPage": "לעמוד הקודם",
+    "media": "מדיה"
   },
 
   "confirm": {
@@ -88,7 +89,9 @@
     "uploadVideosAndImagesSoSchoolsCanView": "העלו תמונות וסרטונים בכדי שבתי הספר יוכלו להתרשם",
     "imageUpload": "העלאת תמונה",
     "youtubeVideoUrl": "כתובת לסרטון יוטיוב",
-    "mediaType": "סוג מדיה"
+    "mediaType": "סוג מדיה",
+    "programCreation": "יצירת תוכנית",
+    "fillInTheDetailsAndCreateNewProgram": "מלאו את הפרטים וצרו תוכנית חדשה"
   },
 
   "programFilters": {
@@ -134,7 +137,8 @@
     "search": "חיפוש",
     "edit": "עריכת|עירכו",
     "add": "הוספה|הוסיפו",
-    "delete": "מחיקה"
+    "delete": "מחיקה",
+    "finish": "סיום"
   },
 
   "grades": {
@@ -180,7 +184,8 @@
     "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",
     "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה",
     "mediaUploadedSuccessfully": "המדיה הועלתה בהצלחה",
-    "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה"
+    "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה",
+    "programCreatedSuccessfully": "התוכנית נוצרה בהצלחה"
   },
 
   "errors": {

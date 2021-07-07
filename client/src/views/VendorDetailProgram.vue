@@ -60,7 +60,7 @@
           type="button"
           color="purple darken-3"
           outlined
-          v-text="$t('program.mediaUpload')"
+          v-text="$t('general.media')"
           @click="
             $router.push({
               name: 'VendorProgramMediaUpload',

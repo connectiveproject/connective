@@ -3,7 +3,7 @@
     <v-dialog :value="value" @input="close" width="540px">
       <v-card class="px-5">
         <v-card-title
-          v-text="$t('program.mediaUpload')"
+          v-text="$t('general.media')"
           class="py-8 justify-center"
         />
         <v-card-text>

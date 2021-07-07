@@ -10,13 +10,26 @@
           v-model="currentMediaIndex"
           :media-list="mediaList.length ? mediaList : mediaListPlaceholder"
         />
-        <div class="text-center pt-12">
+        <div class="text-center pt-12 relative">
           <v-btn class="mx-4" fab color="error" @click="triggerMediaDelete">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
           <v-btn class="mx-4" fab color="success" @click="triggerMediaUpload">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
+          <v-btn
+            class="absolute-left"
+            x-large
+            outlined
+            color="success"
+            @click="
+              $router.push({
+                name: 'VendorDetailProgram',
+                params: { programSlug },
+              })
+            "
+            v-text="$t('userActions.finish')"
+          />
         </div>
       </v-col>
       <v-col cols="12" lg="5" class="px-10">
