@@ -49,6 +49,7 @@ import DetailGroup from "../views/DetailGroup"
 import VendorProgramList from "../views/VendorProgramList"
 import VendorDetailProgram from "../views/VendorDetailProgram/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
+import VendorProgramCreator from "../views/VendorProgramCreator"
 
 Vue.use(VueRouter)
 
@@ -328,6 +329,11 @@ const routes = [
             name: "VendorDetailProgram",
             component: VendorDetailProgram,
             props: true,
+          },
+          {
+            path: "program-creator",
+            name: "VendorProgramCreator",
+            component: VendorProgramCreator,
           },
           {
             path: "program-media-upload/:programSlug",

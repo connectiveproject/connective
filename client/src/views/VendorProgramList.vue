@@ -14,7 +14,7 @@
           large
           class="d-block mx-auto"
           color="success"
-          @click="$router.push({ name: 'VendorProgramEditor' })"
+          @click="$router.push({ name: 'VendorProgramCreator' })"
         >
           {{ $tc("userActions.add", 1) }}
           <v-icon right> mdi-plus </v-icon>
