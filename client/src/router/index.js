@@ -47,7 +47,7 @@ import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
 import DetailGroup from "../views/DetailGroup"
 import VendorProgramList from "../views/VendorProgramList"
-import VendorDetailProgram from "../views/VendorDetailProgram/VendorDetailProgram"
+import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
 import VendorProgramCreator from "../views/VendorProgramCreator"
 

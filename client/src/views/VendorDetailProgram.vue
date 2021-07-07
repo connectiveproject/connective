@@ -26,14 +26,14 @@
           </div>
 
           <input-drawer
-            v-for="field in programFields"
+            v-for="field in VENDOR_PROGRAM_FIELDS"
             v-model="program[field.name]"
             :key="field.id"
             :unique-name="field.name"
-            :descriptive-name="field.descriptiveName"
-            :validation-rules="field.validationRules"
-            :input-type="field.inputType || 'text'"
-            :select-items="field.selectItems"
+            :label="field.label"
+            :rules="field.rules"
+            :type="field.type || 'text'"
+            :choices="field.choices"
             :multiselect="field.multiselect"
           />
         </v-col>
@@ -79,16 +79,16 @@
 
 <script>
 import isString from "lodash/isString"
-import Utils from "../../helpers/utils"
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
-import Api from "../../api"
-import store from "../../vuex/store"
-import { CAMERA_ROUNDED_DRAWING } from "../../helpers/constants/images"
-import { programFields } from "./constants"
-import inputDrawer from "../../components/InputDrawer"
-import ModalApprove from "../../components/ModalApprove"
-import PictureInput from "../../components/PictureInput"
+import Utils from "../helpers/utils"
+import Api from "../api"
+import store from "../vuex/store"
+import { CAMERA_ROUNDED_DRAWING } from "../helpers/constants/images"
+import { VENDOR_PROGRAM_FIELDS } from "../helpers/constants/constants"
+import inputDrawer from "../components/InputDrawer"
+import ModalApprove from "../components/ModalApprove"
+import PictureInput from "../components/PictureInput"
 
 export default {
   components: {
@@ -112,7 +112,7 @@ export default {
   },
   data() {
     return {
-      programFields,
+      VENDOR_PROGRAM_FIELDS,
       isModalOpen: false,
       program: null,
     }

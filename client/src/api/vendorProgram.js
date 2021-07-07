@@ -4,6 +4,7 @@ import {
   GET_PROGRAM_MEDIA_LIST_API_URL,
   CREATE_PROGRAM_MEDIA_API_URL,
   DELETE_PROGRAM_MEDIA_API_URL,
+  CREATE_VENDOR_PROGRAM_API_URL,
   UPDATE_VENDOR_PROGRAM_API_URL,
   DELETE_VENDOR_PROGRAM_API_URL,
 } from "../helpers/constants/constants"
@@ -31,6 +32,9 @@ const vendorProgram = {
       return axios.get(GET_VENDOR_PROGRAM_LIST_API_URL, { params })
     }
     return axios.get(GET_VENDOR_PROGRAM_LIST_API_URL)
+  },
+  createProgram(payload) {
+    return axios.post(CREATE_VENDOR_PROGRAM_API_URL, payload)
   },
   updateProgram(programSlug, payload) {
     return axios.patch(

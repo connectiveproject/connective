@@ -11,9 +11,9 @@
               :key="field.id"
               v-model="field.value"
               :uniqueName="field.uniqueName"
-              :descriptiveName="field.descriptiveName"
-              :validationRules="field.validationRules"
-            ></input-drawer>
+              :label="field.label"
+              :rules="field.rules"
+            />
           </v-col>
           <v-col cols="12" sm="12" lg="3">
             <avatar class="mx-auto avatar" v-model="profilePicture" />
@@ -68,20 +68,20 @@ export default {
       textFields: {
         name: {
           uniqueName: "name",
-          descriptiveName: this.$t("general.name"),
-          validationRules: "required",
+          label: this.$t("general.name"),
+          rules: "required",
           value: "",
         },
         email: {
           uniqueName: "email",
-          descriptiveName: this.$t("general.email"),
-          validationRules: "required|email",
+          label: this.$t("general.email"),
+          rules: "required|email",
           value: "",
         },
         phone: {
           uniqueName: "phone",
-          descriptiveName: this.$t("general.phoneNumber"),
-          validationRules: "required|numeric|phoneNumberIsrael",
+          label: this.$t("general.phoneNumber"),
+          rules: "required|numeric|phoneNumberIsrael",
           value: "",
         },
       },

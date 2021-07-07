@@ -44,6 +44,10 @@ const vendorProgram = {
       commit("SET_PROGRAM_LIST", res.data.results)
       return res.data.results
     },
+    async createProgram(ctx, payload) {
+      let res = await Api.vendorProgram.createProgram(payload)
+      return res.data
+    },
     async updateProgram(ctx, { programSlug, payload }) {
       let res = await Api.vendorProgram.updateProgram(programSlug, payload)
       return res.data

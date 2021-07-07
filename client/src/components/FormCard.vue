@@ -13,7 +13,7 @@
             <validation-provider
               v-slot="{ errors }"
               :name="field.name"
-              :rules="field.rule"
+              :rules="field.rules"
             >
               <v-select
                 v-if="field.type && field.type === 'select'"
@@ -23,6 +23,7 @@
                 :value="field.value"
                 :items="field.choices"
                 @input="input => updateField(i, input)"
+                :multiple="field.multiselect"
               />
               <v-text-field
                 v-else
@@ -52,7 +53,7 @@ export default {
   props: {
     value: {
       // the form's prototype
-      // e.g.,  [ { name: 'field1', rule: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
+      // e.g.,  [ { name: 'field1', rules: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
       type: Array,
       required: true,
     },

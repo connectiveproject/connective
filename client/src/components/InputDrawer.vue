@@ -7,7 +7,7 @@
     <v-row dense justify="space-between">
       <v-col cols="2" sm="2">
         <h3 class="text-subtitle-2 text-lg-subtitle-1">
-          {{ descriptiveName }}
+          {{ label }}
         </h3>
       </v-col>
       <v-col cols="7" lg="4">
@@ -16,11 +16,11 @@
             vid="uniqueName"
             v-slot="{ errors }"
             :name="uniqueName"
-            :rules="validationRules"
+            :rules="rules"
             immediate
           >
             <v-text-field
-              v-if="inputType === 'text'"
+              v-if="type === 'text'"
               v-show="isDrawerOpen()"
               class="mt-5"
               :value="value"
@@ -29,13 +29,13 @@
             >
             </v-text-field>
             <v-select
-              v-if="inputType === 'select'"
+              v-if="type === 'select'"
               v-show="isDrawerOpen()"
               class="mt-5"
               :value="value"
               @input="$emit('input', $event)"
               :error-messages="errors"
-              :items="selectItems"
+              :items="choices"
               :multiple="multiselect"
               chips
               deletable-chips
@@ -68,7 +68,7 @@ export default {
   },
 
   props: {
-    inputType: {
+    type: {
       type: String,
       required: false,
       default: "text",
@@ -80,11 +80,11 @@ export default {
       type: String,
       required: true,
     },
-    descriptiveName: {
+    label: {
       type: String,
       required: true,
     },
-    validationRules: {
+    rules: {
       type: String,
       required: true,
     },
@@ -92,7 +92,7 @@ export default {
       type: [String, Array, Number],
       required: true,
     },
-    selectItems: {
+    choices: {
       // items for input type 'select'. Format: [{ value: 1, text: 'Option 1' }, { ... }]
       type: Array,
       required: false,
@@ -121,10 +121,10 @@ export default {
 
   computed: {
     displayValue() {
-      if (this.inputType === "select") {
+      if (this.type === "select") {
         // display textual values of the selected items
         let displayValues = []
-        for (let item of this.selectItems) {
+        for (let item of this.choices) {
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }

@@ -35,17 +35,17 @@ export default {
     const fields = [
       {
         name: "name",
-        rule: "required",
+        rules: "required",
         label: i18n.t("groups.groupName"),
       },
       {
         name: "description",
-        rule: "required",
+        rules: "required",
         label: i18n.t("general.description"),
       },
       {
         name: "activityOrder",
-        rule: "required",
+        rules: "required",
         label: i18n.t("groups.parentProgram"),
         type: "select",
         choices: parentPrograms,
