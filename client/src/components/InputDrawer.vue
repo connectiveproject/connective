@@ -10,7 +10,7 @@
           {{ label }}
         </h3>
       </v-col>
-      <v-col cols="7" lg="4">
+      <v-col cols="7" class="overflow-hidden">
         <validation-observer slim>
           <validation-provider
             vid="uniqueName"
@@ -51,7 +51,7 @@
           </validation-provider>
         </validation-observer>
       </v-col>
-      <v-col cols="1" sm="1">
+      <v-col cols="1">
         <v-icon v-show="!isDrawerOpen()">mdi-pencil</v-icon>
       </v-col>
     </v-row>
