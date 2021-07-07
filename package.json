@@ -15,8 +15,13 @@
     "build-storybook": "cd client && build-storybook"
   },
   "dependencies": {
+    "@sentry/tracing": "^6.8.0",
+    "@sentry/vue": "^6.8.0",
+    "@types/chart.js": "^2.9.32",
     "@vue/cli": "^4.5.11",
     "axios": "^0.21.1",
+    "chart.js": "^3.4.0",
+    "chartjs-plugin-datalabels": "^2.0.0-rc.1",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
@@ -71,4 +76,3 @@
     "not dead"
   ]
 }
-
