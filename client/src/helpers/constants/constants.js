@@ -58,8 +58,16 @@ export const ISRAELI_PHONE_REGEX_PATTERN =
   "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
 export const EMAIL_REGEX_PATTERN =
   '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
+// export const WEBSITE_REGEX_PATTERN =
+//   /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi
 export const WEBSITE_REGEX_PATTERN =
-  /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi
+  "^(https?:\\/\\/)" + // protocol
+  "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+  "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+  "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+  "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+  "(\\#[-a-z\\d_]*)?$" // fragment locator
+
 export const YOUTUBE_ID_REGEX_PATTERN =
   /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
 export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"
@@ -142,7 +150,6 @@ export const VENDOR_PROGRAM_FIELDS = [
     rules: "required|numeric|phoneNumberIsrael",
   },
 ]
-
 
 export const PROGRAMS_CHECKBOX_FILTERS = [
   {
