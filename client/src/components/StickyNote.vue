@@ -1,11 +1,32 @@
 <template>
-  <div class="note">
+  <div class="note" :style="{ backgroundColor: color }">
     <p class="text-center">
       <slot></slot>
     </p>
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    color: {
+      type: String,
+      default() {
+        const colors = [
+          "#CCF",
+          "#CFC",
+          "#FFC",
+          "#FF91BA",
+          "#FFAB8D",
+          "#C0FCF7",
+          "#FCA7ED",
+        ]
+        return colors[Math.floor(Math.random() * colors.length)]
+      },
+    },
+  },
+}
+</script>
 <style scoped lang="scss">
 .note {
   position: relative;
@@ -13,7 +34,6 @@
   min-height: 100px;
   margin: 25px auto;
   padding: 45px 15px 15px 15px;
-  background-color: #fff400;
   -webkit-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   box-shadow: 0 1px 2px #000;
