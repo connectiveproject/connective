@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import Vue from "vue"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 
 export default {
@@ -68,6 +69,7 @@ export default {
       // emit validation events
       deep: true,
       async handler() {
+        await Vue.nextTick()
         const isValid = await this.$refs.observer.validate({ silent: true })
         if (isValid) {
           this.$emit("valid")

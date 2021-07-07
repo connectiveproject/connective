@@ -174,6 +174,12 @@ class ConsumerActivityViewSet(
 
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        AllowVendor
+        | AllowCoordinatorReadOnly
+        | AllowInstructorReadOnly
+        | AllowConsumerReadOnly
+    ]
     serializer_class = ActivityMediaSerializer
     lookup_field = "slug"
     queryset = ActivityMedia.objects.all()
