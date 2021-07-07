@@ -18,7 +18,12 @@ GITPOD_WORKSPACE_ID = env(
     "GITPOD_WORKSPACE_ID", default=os.environ.get("GITPOD_WORKSPACE_ID")
 )
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", GITPOD_WORKSPACE_URL]
+ALLOWED_HOSTS = [
+    "localhost",
+    "0.0.0.0",
+    "127.0.0.1",
+    f"8000-{GITPOD_WORKSPACE_URL[8:]}",
+]
 
 # CACHES
 # ------------------------------------------------------------------------------

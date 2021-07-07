@@ -13,7 +13,7 @@
   min-height: 100px;
   margin: 25px auto;
   padding: 45px 15px 15px 15px;
-  background-color: #ffff7e;
+  background-color: #fff400;
   -webkit-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   box-shadow: 0 1px 2px #000;
