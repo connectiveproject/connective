@@ -240,7 +240,7 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         # receive consumer slugs list, override existing consumers & move the removed to container-only group
         current_group = self.get_object()
         container_only_group = (
-            SchoolActivityGroup.objects.get_sibling_container_only_group(current_group)
+            SchoolActivityGroup.objects.get_activity_container_only_group(current_group)
         )
         if not container_only_group:
             return Response(
@@ -261,7 +261,9 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["GET"])
     def consumer_requests_data(self, request):
-        # requests to each activity, based on container_only consumers
+        """
+        requests to each activity, based on container_only consumers
+        """
         qs = (
             self.get_queryset()
             .filter(group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY)

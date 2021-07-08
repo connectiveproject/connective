@@ -9,7 +9,7 @@ from server.utils.model_fields import random_slug
 
 
 class SchoolActivityGroupManager(models.Manager):
-    def get_sibling_container_only_group(self, activity_group):
+    def get_activity_container_only_group(self, activity_group):
         container_only_groups = self.filter(
             activity_order=activity_group.activity_order,
             group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
