@@ -58,8 +58,6 @@ export const ISRAELI_PHONE_REGEX_PATTERN =
   "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
 export const EMAIL_REGEX_PATTERN =
   '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
-// export const WEBSITE_REGEX_PATTERN =
-//   /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi
 export const WEBSITE_REGEX_PATTERN =
   "^(https?:\\/\\/)" + // protocol
   "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
