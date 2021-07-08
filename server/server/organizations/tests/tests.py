@@ -226,6 +226,7 @@ class TestVendorActivityView:
             "contact_name": "John Smith",
             "logo": None,
             "phone_number": "0521234567",
+            "tags": [],
         }
 
         vendor = all_entities["vendor"]
