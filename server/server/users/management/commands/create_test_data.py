@@ -36,7 +36,7 @@ class Command(BaseCommand):
     def create_admin(self):
         try:
             user = get_user_model().objects.create_superuser(
-                "admin", "admin@example.com", "Aa123456789"
+                "admin", "admin0@example.com", "Aa123456789"
             )
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
@@ -70,7 +70,7 @@ class Command(BaseCommand):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-{i}@example.com",
+                f"consumer-{i}0@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
@@ -83,7 +83,7 @@ class Command(BaseCommand):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-1{i}@example.com",
+                f"consumer-1{i}0@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
@@ -94,7 +94,7 @@ class Command(BaseCommand):
 
         if len(consumers):
             prev_email = consumers[0].email
-            consumers[0].email = "consumer@example.com"
+            consumers[0].email = "consumer-1010@example.com"
             consumers[0].save()
             self.stdout.write(
                 self.style.SUCCESS(
@@ -104,20 +104,20 @@ class Command(BaseCommand):
 
         coord = self.create_user(
             Coordinator,
-            "coord@example.com",
+            "coord0@example.com",
             "Aa123456789",
             "דוד כהן",
         )
 
         instructor = self.create_user(
             Instructor,
-            "instructor@example.com",
+            "instructor0@example.com",
             "Aa123456789",
             "דן יוסופוב",
         )
         vendor = self.create_user(
             Vendor,
-            "vendor@example.com",
+            "vendor0@example.com",
             "Aa123456789",
             "משי בר אל",
         )

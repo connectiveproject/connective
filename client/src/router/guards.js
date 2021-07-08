@@ -42,7 +42,7 @@ export async function checkRegistrationStatus(to, from, next) {
     default:
       // coordinator
       if (await isStaffRegistered()) {
-        next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
+        next({ name: "MyGroups", params: { lang: i18n.locale } })
       } else {
         const shouldEditSchool = !(await isSchoolFilled())
         next({
