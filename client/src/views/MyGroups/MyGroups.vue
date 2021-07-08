@@ -44,7 +44,7 @@
           buttonColor="teal"
           @click="
             $router.push({
-              name: 'DetailGroup',
+              name: 'GroupDetail',
               params: { groupSlug: group.slug },
             })
           "

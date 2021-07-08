@@ -167,24 +167,24 @@ export default {
     },
 
     createSchoolSubmitPayload() {
-      let payload = new FormData()
-      payload.append("slug", this.schoolSlug)
-      payload.append("name", this.textFields.name.value)
-      payload.append("address", this.textFields.street.value)
-      payload.append("address_city", this.textFields.city.value)
-      payload.append("zip_city", this.textFields.zipCode.value)
-      payload.append("school_code", this.textFields.schoolCode.value)
-      payload.append("description", this.textFields.description.value)
-      payload.append("contact_phone", this.textFields.contactPhone.value)
-      payload.append("website", this.textFields.website.value)
-      payload.append(
+      let data = new FormData()
+      data.append("slug", this.schoolSlug)
+      data.append("name", this.textFields.name.value)
+      data.append("address", this.textFields.street.value)
+      data.append("address_city", this.textFields.city.value)
+      data.append("zip_city", this.textFields.zipCode.value)
+      data.append("school_code", this.textFields.schoolCode.value)
+      data.append("description", this.textFields.description.value)
+      data.append("contact_phone", this.textFields.contactPhone.value)
+      data.append("website", this.textFields.website.value)
+      data.append(
         "grade_levels",
         JSON.stringify(this.textFields.grades.value)
       )
       if (this.profilePicFile) {
-        payload.append("profilePicture", this.profilePicFile)
+        data.append("profilePicture", this.profilePicFile)
       }
-      return payload
+      return data
     },
 
     async postSchoolData(schoolPayload) {

@@ -47,12 +47,12 @@ const programGroup = {
       let res = await Api.programGroup.getGroupList(params)
       return res.data.results
     },
-    async createGroup(ctx, payload) {
-      let res = await Api.programGroup.createGroup(payload)
+    async createGroup(ctx, data) {
+      let res = await Api.programGroup.createGroup(data)
       return res.data
     },
-    async updateGroup(ctx, { groupSlug, payload }) {
-      let res = await Api.programGroup.updateGroup(groupSlug, payload)
+    async updateGroup(ctx, { groupSlug, data }) {
+      let res = await Api.programGroup.updateGroup(groupSlug, data)
       return res.data
     },
     deleteGroup(ctx, groupSlug) {

@@ -17,12 +17,12 @@ from server.schools.models import School, SchoolMember
 from server.users.models import Consumer, Coordinator, Instructor, Vendor
 
 from .constants import (
-    activity_payloads,
-    female_names,
-    last_names,
-    male_names,
-    organization_payload,
-    school_payload,
+    ACTIVITY_PAYLOADS,
+    FEMALE_NAMES,
+    LAST_NAMES,
+    MALE_NAMES,
+    ORGANIZATION_PAYLOAD,
+    SCHOOL_PAYLOAD,
 )
 
 
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         self.create_admin(f"{entitiesPrefix}admin@example.com")
 
         consumers = []
-        for i, name_record in enumerate(zip(male_names, last_names)):
+        for i, name_record in enumerate(zip(MALE_NAMES, LAST_NAMES)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
@@ -79,7 +79,7 @@ class Command(BaseCommand):
                 user.profile.save()
                 consumers.append(user)
 
-        for i, name_record in enumerate(zip(female_names, last_names)):
+        for i, name_record in enumerate(zip(FEMALE_NAMES, LAST_NAMES)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
@@ -131,10 +131,10 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
                 )
             )
 
-        org = Organization.objects.create(**organization_payload)
+        org = Organization.objects.create(**ORGANIZATION_PAYLOAD)
         self.stdout.write(self.style.SUCCESS("Successfully created Organization"))
 
-        school = School.objects.create(**school_payload)
+        school = School.objects.create(**SCHOOL_PAYLOAD)
         self.stdout.write(self.style.SUCCESS("Successfully created School"))
 
         OrganizationMember.objects.bulk_create(
@@ -158,7 +158,7 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
         activity_one, activity_two = Activity.objects.bulk_create(
             map(
                 lambda activity: Activity(**activity, originization=org),
-                activity_payloads,
+                ACTIVITY_PAYLOADS,
             )
         )
         self.stdout.write(self.style.SUCCESS("Successfully created Activities"))

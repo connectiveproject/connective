@@ -23,8 +23,8 @@ const vendorProgram = {
   deleteProgramMedia(mediaSlug) {
     return axios.delete(`${DELETE_PROGRAM_MEDIA_API_URL}${mediaSlug}/`)
   },
-  createProgramMedia(payload) {
-    return axios.post(CREATE_PROGRAM_MEDIA_API_URL, payload)
+  createProgramMedia(data) {
+    return axios.post(CREATE_PROGRAM_MEDIA_API_URL, data)
   },
   getProgramList(params = null) {
     // :Object params: query params
@@ -33,13 +33,13 @@ const vendorProgram = {
     }
     return axios.get(GET_VENDOR_PROGRAM_LIST_API_URL)
   },
-  createProgram(payload) {
-    return axios.post(CREATE_VENDOR_PROGRAM_API_URL, payload)
+  createProgram(data) {
+    return axios.post(CREATE_VENDOR_PROGRAM_API_URL, data)
   },
-  updateProgram(programSlug, payload) {
+  updateProgram(programSlug, data) {
     return axios.patch(
       `${UPDATE_VENDOR_PROGRAM_API_URL}${programSlug}/`,
-      payload
+      data
     )
   },
   deleteProgram(programSlug) {

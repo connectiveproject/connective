@@ -122,11 +122,11 @@ export default {
     },
     async uploadMedia(mediaPayload) {
       try {
-        const payload = Utils.objectToFormData({
+        const data = Utils.objectToFormData({
           activity: this.programSlug,
           ...mediaPayload,
         })
-        await this.createProgramMedia(payload)
+        await this.createProgramMedia(data)
         this.mediaList = await this.getProgramMediaList(this.programSlug)
         this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
       } catch (err) {

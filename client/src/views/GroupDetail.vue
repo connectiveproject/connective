@@ -122,7 +122,7 @@ export default {
       try {
         await this.updateGroup({
           groupSlug: this.groupSlug,
-          payload: {
+          data: {
             name: this.name,
             description: this.description,
           },

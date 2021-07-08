@@ -45,7 +45,7 @@ import InstructorEventSummary from "../views/InstructorEventSummary"
 import GroupEditor from "../views/GroupEditor"
 import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
-import DetailGroup from "../views/DetailGroup"
+import GroupDetail from "../views/GroupDetail"
 import VendorProgramList from "../views/VendorProgramList"
 import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
@@ -59,17 +59,13 @@ const routes = [
     redirect: `/${i18n.locale}/welcome/login`,
   },
   {
-    path: "/:lang",
+    path: "/:lang(he)",
     component: {
       render(c) {
         return c("router-view")
       },
     },
     children: [
-      {
-        path: "",
-        redirect: "/",
-      },
       {
         path: "welcome",
         name: "Welcome",
@@ -250,8 +246,8 @@ const routes = [
           },
           {
             path: "detail-group/:groupSlug",
-            name: "DetailGroup",
-            component: DetailGroup,
+            name: "GroupDetail",
+            component: GroupDetail,
             props: true,
           },
           {
@@ -349,14 +345,13 @@ const routes = [
         component: GenericError,
         props: true,
       },
-      {
-        path: "*",
-        Name: "PageNotFound",
-        component: GenericError,
-        props: { bodyKey: "errors.thisPageDoesNotExist" },
-      },
     ],
   },
+  {
+    path: "*",
+    redirect: "/",
+  },
+
 ]
 
 const router = new VueRouter({

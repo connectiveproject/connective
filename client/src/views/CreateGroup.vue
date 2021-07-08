@@ -64,12 +64,12 @@ export default {
     ...mapActions("programGroup", ["createGroup"]),
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
-      const payload = { groupType: SERVER.programGroupTypes.standard }
+      const data = { groupType: SERVER.programGroupTypes.standard }
       for (const f of this.fields) {
-        payload[f.name] = f.value
+        data[f.name] = f.value
       }
       try {
-        const group = await this.createGroup(payload)
+        const group = await this.createGroup(data)
         this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
         this.$router.push({ name: "AssignGroupConsumers", params: { groupSlug: group.slug } })
       } catch (err) {

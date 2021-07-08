@@ -97,7 +97,7 @@ export default {
         }
       }
       this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-      this.$router.push({ name: "DetailGroup", params: { groupSlug: this.groupSlug } })
+      this.$router.push({ name: "GroupDetail", params: { groupSlug: this.groupSlug } })
     },
   },
 }

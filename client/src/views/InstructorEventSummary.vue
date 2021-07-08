@@ -114,14 +114,14 @@ export default {
     ...mapActions("instructorEvent", ["updateEvent"]),
     parseDate: Utils.ApiStringToReadableDate,
     async onSubmit() {
-      const payload = {
+      const data = {
         consumers: this.attendedConsumers,
         summaryGeneralNotes: this.summaryGeneralNotes,
         summaryGeneralRating: this.summaryGeneralRating,
         summaryChildrenBehavior: this.summaryChildrenBehavior,
         hasSummary: true
       }
-      await this.updateEvent({ slug: this.slug, payload })
+      await this.updateEvent({ slug: this.slug, data })
       this.isModalOpen = true
     },
   },

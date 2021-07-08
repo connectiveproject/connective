@@ -99,8 +99,6 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_order_status(self, obj):
         user = self.context["request"].user
-        if not hasattr(user, "school_member"):
-            return None
 
         try:
             return SchoolActivityOrder.objects.get(
@@ -149,6 +147,9 @@ class VendorActivitySerializer(serializers.ModelSerializer):
 
 
 class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
+    JOINED = "JOINED"
+    NOT_JOINED = "NOT_JOINED"
+    PENDING_GROUP_ASSIGNMENT = "PENDING_GROUP_ASSIGNMENT"
 
     consumer_join_status = serializers.SerializerMethodField()
     is_consumer_joined = serializers.SerializerMethodField()
@@ -170,9 +171,6 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_consumer_join_status(self, obj):
         user = self.context["request"].user
-        if not hasattr(user, "school_member"):
-            return "NOT_JOINED"
-
         # check if consumer is in a group
         assigned_groups = SchoolActivityGroup.objects.filter(
             activity_order__activity=obj,
@@ -180,15 +178,15 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         ).exclude(group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS)
 
         if not assigned_groups.exists():
-            return "NOT_JOINED"
+            return ConsumerActivitySerializer.NOT_JOINED
 
         elif (
             assigned_groups[0].group_type
             == SchoolActivityGroup.GroupTypes.CONTAINER_ONLY
         ):
-            return "PENDING_GROUP_ASSIGNMENT"
+            return ConsumerActivitySerializer.PENDING_GROUP_ASSIGNMENT
 
-        return "JOINED"
+        return ConsumerActivitySerializer.JOINED
 
     def get_is_consumer_joined(self, obj):
         user = self.context["request"].user

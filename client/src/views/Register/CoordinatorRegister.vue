@@ -447,21 +447,21 @@ export default {
     },
 
     createSchoolSubmitPayload() {
-      let payload = new FormData()
-      payload.append("slug", this.schoolSlug)
-      payload.append("name", this.registrationInfo.schoolName)
-      payload.append("address", this.registrationInfo.schoolStreet)
-      payload.append("address_city", this.registrationInfo.schoolCity)
-      payload.append("zip_city", this.registrationInfo.schoolZipCode)
-      payload.append("school_code", this.registrationInfo.schoolCode)
-      payload.append("description", this.registrationInfo.schoolDescription)
-      payload.append("contact_phone", this.registrationInfo.schoolPhone)
-      payload.append("website", this.registrationInfo.schoolWebsite)
-      payload.append(
+      let data = new FormData()
+      data.append("slug", this.schoolSlug)
+      data.append("name", this.registrationInfo.schoolName)
+      data.append("address", this.registrationInfo.schoolStreet)
+      data.append("address_city", this.registrationInfo.schoolCity)
+      data.append("zip_city", this.registrationInfo.schoolZipCode)
+      data.append("school_code", this.registrationInfo.schoolCode)
+      data.append("description", this.registrationInfo.schoolDescription)
+      data.append("contact_phone", this.registrationInfo.schoolPhone)
+      data.append("website", this.registrationInfo.schoolWebsite)
+      data.append(
         "grade_levels",
         JSON.stringify(this.registrationInfo.schoolGrades)
       )
-      return payload
+      return data
     },
 
     async postRegistrationData(

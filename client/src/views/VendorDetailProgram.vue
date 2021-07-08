@@ -122,14 +122,14 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
-        const payload = Utils.objectToFormData(this.program)
+        const data = Utils.objectToFormData(this.program)
         if (!this.program.logo || isString(this.program.logo)) {
           // if logo not uploaded
-          payload.delete("logo")
+          data.delete("logo")
         }
         await this.updateProgram({
           programSlug: this.programSlug,
-          payload,
+          data,
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
       } catch (err) {

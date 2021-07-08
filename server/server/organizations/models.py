@@ -17,8 +17,6 @@ class SchoolActivityGroupManager(models.Manager):
         if container_only_groups.exists():
             return container_only_groups[0]
 
-        return None
-
 
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
@@ -199,5 +197,7 @@ class SchoolActivityGroup(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} : {self.group_type} : {self.slug} : \
-        {self.activity_order.activity.name} : {self.activity_order.school.name}"
+        return f"""
+        {self.name} : {self.group_type} : {self.slug} :
+        {self.activity_order.activity.name} : {self.activity_order.school.name}
+        """

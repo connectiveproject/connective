@@ -65,13 +65,13 @@ export default {
     ...mapActions("vendorProgram", ["createProgram"]),
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
-      const payload = this.fields.reduce(
+      const data = this.fields.reduce(
         (accum, f) => ({ ...accum, [f.name]: f.value }),
         { tags: [], logo: this.logo }
       )
       try {
         const program = await this.createProgram(
-          Utils.objectToFormData(payload)
+          Utils.objectToFormData(data)
         )
         this.showMessage(this.$t("success.programCreatedSuccessfully"))
         this.$router.push({

@@ -34,9 +34,9 @@ const vendorProgram = {
     deleteProgramMedia(ctx, mediaSlug) {
       return Api.vendorProgram.deleteProgramMedia(mediaSlug)
     },
-    async createProgramMedia(ctx, payload) {
-      // :Object payload: should contain activity & videoUrl/imageUrl
-      let res = await Api.vendorProgram.createProgramMedia(payload)
+    async createProgramMedia(ctx, data) {
+      // :Object data: should contain activity & videoUrl/imageUrl
+      let res = await Api.vendorProgram.createProgramMedia(data)
       return res.data
     },
     async getProgramList({ commit }) {
@@ -44,12 +44,12 @@ const vendorProgram = {
       commit("SET_PROGRAM_LIST", res.data.results)
       return res.data.results
     },
-    async createProgram(ctx, payload) {
-      let res = await Api.vendorProgram.createProgram(payload)
+    async createProgram(ctx, data) {
+      let res = await Api.vendorProgram.createProgram(data)
       return res.data
     },
-    async updateProgram(ctx, { programSlug, payload }) {
-      let res = await Api.vendorProgram.updateProgram(programSlug, payload)
+    async updateProgram(ctx, { programSlug, data }) {
+      let res = await Api.vendorProgram.updateProgram(programSlug, data)
       return res.data
     },
     deleteProgram(ctx, programSlug) {
