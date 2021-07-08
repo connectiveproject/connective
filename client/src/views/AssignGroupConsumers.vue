@@ -10,6 +10,7 @@
     <div class="mx-auto mt-10 text-center">
       <v-btn
         class="mx-3 white--text purple darken-3"
+        data-testid="submit-button"
         @click="onSubmit"
         v-text="$t('userActions.save')"
       />

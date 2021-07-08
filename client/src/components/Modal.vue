@@ -15,7 +15,7 @@
             </slot>
           </div>
 
-          <v-btn class="d-block mx-auto" @click="onBtnClick">
+          <v-btn class="d-block mx-auto" @click="onBtnClick" data-testid="modal-button">
             <slot name="btn">
               {{ $t("general.understood") }}
             </slot>
