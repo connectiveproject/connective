@@ -62,7 +62,11 @@ router.register("manage_consumers", ManageConsumersViewSet, basename="manage_con
 router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
 )
-router.register("manage_school_activity", ManageSchoolActivityViewSet)
+router.register(
+    "manage_school_activity",
+    ManageSchoolActivityViewSet,
+    basename="manage_school_activity",
+)
 router.register("school_activity_group", SchoolActivityGroupViewSet)
 router.register("events", EventViewSet, basename="events")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")

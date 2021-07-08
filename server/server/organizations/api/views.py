@@ -192,7 +192,9 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
     lookup_field = "activity__slug"
     filterset_fields = ("status",)
 
-    queryset = SchoolActivityOrder.objects.all()
+    def get_queryset(self):
+        coord_school = self.request.user.school_member.school
+        return SchoolActivityOrder.objects.filter(school=coord_school)
 
     def perform_create(self, serializer):
         serializer.save(
