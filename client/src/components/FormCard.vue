@@ -18,6 +18,7 @@
               <v-select
                 v-if="field.type && field.type === 'select'"
                 class="mx-2"
+                :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"
                 :value="field.value"
@@ -28,6 +29,7 @@
               <v-text-field
                 v-else
                 class="mx-2"
+                :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"
                 :value="field.value"

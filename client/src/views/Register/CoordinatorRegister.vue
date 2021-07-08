@@ -16,7 +16,7 @@
             >{{ $t("general.personalInfo") }}</v-card-subtitle
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
-            <form @submit.prevent="incrementPage">
+            <form @submit.prevent="incrementPage" data-testid="form-1">
               <validation-provider
                 v-slot="{ errors }"
                 name="name"
@@ -25,6 +25,7 @@
                 <v-text-field
                   class="mt-5"
                   v-model="registrationInfo.name"
+                  data-testid="name"
                   :error-messages="errors"
                   :label="$t('general.name')"
                   required
@@ -39,6 +40,7 @@
                 <v-text-field
                   class="mt-5"
                   v-model="registrationInfo.phone"
+                  data-testid="phone"
                   :error-messages="errors"
                   :label="$t('general.phoneNumber')"
                   required
@@ -84,7 +86,7 @@
             >{{ $t("general.schoolDetails") }}</v-card-subtitle
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
-            <form @submit.prevent="incrementPage">
+            <form @submit.prevent="incrementPage" data-testid="form-2">
               <validation-provider
                 v-slot="{ errors }"
                 name="school"
@@ -92,6 +94,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school"
                   v-model="registrationInfo.schoolName"
                   :error-messages="errors"
                   :label="$tc('general.school', 0)"
@@ -105,6 +108,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-code"
                   v-model="registrationInfo.schoolCode"
                   :error-messages="errors"
                   :label="$t('general.schoolCode')"
@@ -119,6 +123,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-city"
                   v-model="registrationInfo.schoolCity"
                   :error-messages="errors"
                   :label="$t('general.city')"
@@ -133,6 +138,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="street"
                   v-model="registrationInfo.schoolStreet"
                   :error-messages="errors"
                   :label="$t('general.street')"
@@ -147,6 +153,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-zip-code"
                   v-model="registrationInfo.schoolZipCode"
                   :error-messages="errors"
                   :label="$t('general.zipCode')"
@@ -161,6 +168,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-phone"
                   v-model="registrationInfo.schoolPhone"
                   :error-messages="errors"
                   :label="$t('general.phoneNumber')"
@@ -175,6 +183,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-description"
                   v-model="registrationInfo.schoolDescription"
                   :error-messages="errors"
                   :label="$t('general.description')"
@@ -189,6 +198,7 @@
               >
                 <v-text-field
                   class="mt-5"
+                  data-testid="school-website"
                   v-model="registrationInfo.schoolWebsite"
                   :error-messages="errors"
                   :label="$t('general.website')"
@@ -203,6 +213,7 @@
               >
                 <v-select
                   class="mt-5"
+                  data-testid="school-grades"
                   v-model="registrationInfo.schoolGrades"
                   :error-messages="errors"
                   :items="SCHOOL_GRADES_ITEMS"
@@ -263,7 +274,7 @@
             class="purple--text text--darken-4 text-h6 text-center mb-8"
             >{{ $t("auth.confirmDetails") }}</v-card-subtitle
           >
-          <form @submit.prevent="submit">
+          <form @submit.prevent="submit" data-testid="form-3">
             <v-card-text
               class="text-center mb-5 text-subtitle-1 font-weight-bold"
               >{{ $t("general.personalInfo") }}</v-card-text
@@ -403,7 +414,9 @@ export default {
 
   async mounted() {
     let userDetails = await store.dispatch("user/getUserDetails")
+    let schoolDetails = await store.dispatch("school/getSchoolDetails")
     this.slug = userDetails.slug
+    this.schoolSlug = schoolDetails.slug
   },
 
   methods: {
@@ -468,7 +481,7 @@ export default {
             schoolDetails: schoolPayload,
           })
         }
-        this.modalRedirectComponentName = "CoordinatorProfile"
+        this.modalRedirectComponentName = "MyGroups"
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch (err) {
         if (

@@ -9,6 +9,7 @@
     />
     <v-btn
       class="white--text purple darken-3 mt-10 d-block mx-auto"
+      data-testid="submit-button"
       :disabled="!isFormValid"
       @click="onSubmit"
       v-text="$t('userActions.save')"

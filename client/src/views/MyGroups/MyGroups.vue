@@ -18,6 +18,7 @@
           large
           class="d-block mx-auto"
           color="success"
+          data-testid="create-group"
           @click="$router.push({ name: 'GroupEditor' })"
         >
           {{ $tc("userActions.add", 1) }}
