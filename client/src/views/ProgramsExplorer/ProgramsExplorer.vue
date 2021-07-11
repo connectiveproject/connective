@@ -52,7 +52,7 @@
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             >
-              {{ program.description | trimText(175) }}
+              {{ program.description | trimText(70) }}
             </info-card>
           </v-col>
         </v-row>

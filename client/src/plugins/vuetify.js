@@ -5,4 +5,11 @@ Vue.use(Vuetify)
 
 export default new Vuetify({
   rtl: true,
+  theme: {
+    themes: {
+      light: {
+        primary: "#10cb99",
+      },
+    },
+  },
 })

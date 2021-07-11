@@ -41,7 +41,7 @@
           :subtitle="group.activityName"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="teal"
+          buttonColor="primary"
           @click="
             $router.push({
               name: 'GroupDetail',

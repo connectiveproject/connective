@@ -20,7 +20,7 @@
           :subtitle="group.activityName"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="teal"
+          buttonColor="primary"
         >
           <title-to-text
             :title="$t('general.description')"
