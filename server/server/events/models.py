@@ -58,3 +58,41 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.school_group} : {self.start_time} : {self.slug}"
+
+
+class ConsumerEventFeedback(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+    )
+    consumer = models.ForeignKey(
+        Consumer,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+    )
+    general_notes = models.CharField(
+        max_length=400,
+        blank=True,
+    )
+    secondary_notes = models.CharField(
+        max_length=400,
+        blank=True,
+    )
+    general_rating = models.IntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10),
+        ],
+        null=True,
+        blank=True,
+    )
+    secondary_rating = models.IntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10),
+        ],
+        null=True,
+        blank=True,
+    )
