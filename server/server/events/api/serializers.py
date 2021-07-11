@@ -5,7 +5,7 @@ from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
 
 
-class BaseEventSerializer(serializers.ModelSerializer):
+class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
     activity_name = serializers.CharField(
         source="school_group.activity_order.activity.name",
         read_only=True,
@@ -40,7 +40,7 @@ class BaseEventSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventSerializer(BaseEventSerializer):
+class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = [
@@ -59,7 +59,7 @@ class EventSerializer(BaseEventSerializer):
         ]
 
 
-class ConsumerEventSerializer(BaseEventSerializer):
+class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = [
