@@ -57,6 +57,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ------------------------------------------------------------------------------
 PRECEDING_THIRD_PARTY_APPS = [
     "jazzmin",
+    "import_export",
 ]
 DJANGO_APPS = [
     "django.contrib.auth",

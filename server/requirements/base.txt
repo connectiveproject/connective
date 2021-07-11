@@ -24,3 +24,4 @@ dj-rest-auth # https://github.com/iMerica/dj-rest-auth
 dj-rest-auth[with_social] # https://dj-rest-auth.readthedocs.io/en/latest/installation.html
 django-filter==2.4.0 # https://django-filter.readthedocs.io/en/stable/
 django-jazzmin==2.4.7 # https://github.com/farridav/django-jazzmin
+django-import-export==2.5.0 # https://github.com/django-import-export
