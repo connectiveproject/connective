@@ -202,6 +202,7 @@
     "invalidWebsiteAddress": "כתובת האתר אינה תקינה",
     "passwordsMismatch": "הסיסמאות שהוקשו אינן תואמות",
     "fileSizeLimitExceeded": "הקובץ חורג ממגבלת הגודל המותרת",
+    "maxLengthExceeded": "חריגה ממספר התווים המקסימלי",
     "tokenExpired": "פג תוקף החיבור. נא התחברו מחדש.",
     "oops": "אופס",
     "incorrectNumberOfDigits": "מספר הספרות שהוקש שגוי",
@@ -251,8 +252,13 @@
     "summaryChildrenBehavior": "התנהגות המשתתפים",
     "attendance": "נוכחות",
     "eventsBoard": "לוח המפגשים",
+    "eventFeedback": "מישוב מפגש",
     "eventsFeedback": "מישוב מפגשים",
-    "clickAnEventToGiveFeedbackSoWeCanImproveTogether!": "לחצו על מפגש על מנת לתת משוב, כדי שנוכל להשתפר יחדיו!"
+    "clickAnEventToGiveFeedbackSoWeCanImproveTogether!": "לחצו על מפגש על מנת לתת משוב, כדי שנוכל להשתפר יחדיו!",
+    "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
+    "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
+    "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
+    "chooseYourLevelOfSatisfactionFromTheInstructor": "סמנו את שביעות רצונכם הכללית מהמדריך"
   },
 
   "groups": {

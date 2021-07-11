@@ -30,6 +30,11 @@ const consumerEvent = {
       commit("FLUSH_STATE")
     },
 
+    async getEvent(ctx, slug) {
+      let res = await Api.consumerEvent.getEvent(slug)
+      return res.data
+    },
+
     async getEventList({ commit, state }, { benchmarkDate, override }) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
@@ -59,6 +64,13 @@ const consumerEvent = {
       }
       let res = await Api.consumerEvent.getEventList(params)
       return res.data.results
+    },
+
+    async createEventFeedback(ctx, data) {
+      console.log(data)
+      debugger
+      let res = await Api.consumerEvent.createEventFeedback(data)
+      return res.data
     },
   },
 }

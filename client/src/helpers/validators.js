@@ -1,5 +1,5 @@
 import i18n from "../plugins/i18n"
-import { required, email, size, numeric, digits } from "vee-validate/dist/rules"
+import { required, email, size, max, numeric, digits } from "vee-validate/dist/rules"
 import { extend } from "vee-validate"
 import {
   PASSWORD_REGEX_PATTERN,
@@ -58,6 +58,11 @@ extend("website", {
 extend("size", {
   ...size,
   message: i18n.tc("errors.fileSizeLimitExceeded"),
+})
+
+extend("max", {
+  ...max,
+  message: i18n.tc("errors.maxLengthExceeded"),
 })
 
 extend("digits", {

@@ -40,6 +40,7 @@ import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
+import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
 import CoordinatorStatistics from "../views/CoordinatorStatistics"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
@@ -158,9 +159,15 @@ const routes = [
                 component: ConsumerMyEvents,
               },
               {
-                path: "events-feedback-list",
+                path: "events-pending-feedbacks",
                 name: "ConsumerPendingEventsFeedback",
                 component: ConsumerPendingEventsFeedback,
+              },
+              {
+                path: "event-feedback/:slug",
+                name: "ConsumerEventFeedback",
+                component: ConsumerEventFeedback,
+                props: true,
               },
             ],
           },

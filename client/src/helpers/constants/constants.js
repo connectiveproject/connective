@@ -46,10 +46,13 @@ export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activit
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
+export const GET_CONSUMER_EVENT_API_URL = `${SERVER_URL}/consumer_events/`
+export const CREATE_CONSUMER_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/consumer_event_feedback/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
+
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =

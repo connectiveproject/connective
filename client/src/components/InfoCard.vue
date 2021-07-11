@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto card overflow-hidden" :width="width" :height="height">
+  <v-card class="mx-auto card overflow-hidden" elevation="1" :width="width" :height="height">
     <v-card-title v-text="title" class="pa-2 font-weight-bold" />
     <v-card-subtitle
       v-text="subtitle"
