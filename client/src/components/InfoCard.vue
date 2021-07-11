@@ -65,7 +65,7 @@ export default {
     },
     imgHeight: {
       type: String,
-      default: "200",
+      default: "195",
     },
     hideStar: {
       type: Boolean,
