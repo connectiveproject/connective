@@ -4,7 +4,7 @@ import InputDrawer from "../components/InputDrawer.vue"
 export default {
   title: "InputDrawer",
   component: InputDrawer,
-  argTypes: { inputType: { action: "input" } },
+  argTypes: { type: { action: "input" } },
 }
 
 const Template = args => ({
@@ -22,19 +22,19 @@ const Template = args => ({
 export const TextInput = Template.bind({})
 TextInput.args = {
   uniqueName: "firstName",
-  descriptiveName: "שם פרטי",
-  validationRules: "required",
+  label: "שם פרטי",
+  rules: "required",
   value: "בנג'מין",
 }
 
 export const SelectInput = Template.bind({})
 SelectInput.args = {
-  inputType: "select",
+  type: "select",
   uniqueName: "Options",
-  descriptiveName: "אפשרויות",
-  validationRules: "required",
+  label: "אפשרויות",
+  rules: "required",
   value: [],
-  selectItems: [
+  choices: [
     { value: 1, text: "Option A" },
     { value: 2, text: "Option B" },
     { value: 3, text: "Option C" },

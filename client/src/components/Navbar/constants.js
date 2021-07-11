@@ -87,6 +87,11 @@ const vendorButtons = [
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "VendorProfile" }),
   },
+  {
+    text: () => i18n.t("myActivity.myPrograms"),
+    icon: "mdi-handshake",
+    onClick: () => Vue.$router.push({ name: "VendorProgramList" }),
+  },
 ]
 
 export const userToButtons = {

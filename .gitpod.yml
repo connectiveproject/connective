@@ -22,7 +22,7 @@ tasks:
       source .envs/.local/.postgres && psql -c "CREATE DATABASE server"  && 
       python manage.py migrate && python manage.py create_test_data &&
       cd ..
-    command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver
+    command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver 0.0.0.0:8000
   - command: redis-server
 
   - command: MailHog      

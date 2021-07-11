@@ -1,5 +1,8 @@
 FROM gitpod/workspace-full:latest
 
+# increment by one to re-run dockerfile commands without cache
+ENV INVALIDATE_CACHE=1
+
 # Install PostgreSQL
 RUN sudo install-packages postgresql-12 postgresql-contrib-12
 

@@ -7,7 +7,7 @@ function getDefaultState() {
   }
 }
 
-const program = {
+const consumerProgram = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
@@ -68,4 +68,4 @@ const program = {
   },
 }
 
-export default program
+export default consumerProgram

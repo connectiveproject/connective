@@ -11,10 +11,10 @@
               :key="field.id"
               v-model="field.value"
               :uniqueName="field.uniqueName"
-              :descriptiveName="field.descriptiveName"
-              :validationRules="field.validationRules"
-              :selectItems="field.selectItems || []"
-              :inputType="field.inputType || 'text'"
+              :label="field.label"
+              :rules="field.rules"
+              :choices="field.choices || []"
+              :type="field.type || 'text'"
             />
           </v-col>
           <v-col cols="12" sm="12" lg="3">
@@ -22,7 +22,7 @@
               class="mx-auto"
               :placeholderPicUrl="placeholderPicUrl"
               @fileUpload="setPicture"
-            ></picture-input>
+            />
           </v-col>
         </v-row>
         <v-btn
@@ -73,59 +73,59 @@ export default {
       textFields: {
         name: {
           uniqueName: "name",
-          descriptiveName: this.$t("general.name"),
-          validationRules: "required",
+          label: this.$t("general.name"),
+          rules: "required",
           value: "",
         },
         city: {
           uniqueName: "city",
-          descriptiveName: this.$t("general.city"),
-          validationRules: "required",
+          label: this.$t("general.city"),
+          rules: "required",
           value: "",
         },
         street: {
           uniqueName: "street",
-          descriptiveName: this.$t("general.street"),
-          validationRules: "required",
+          label: this.$t("general.street"),
+          rules: "required",
           value: "",
         },
         zipCode: {
           uniqueName: "zipCode",
-          descriptiveName: this.$t("general.zipCode"),
-          validationRules: "required|numeric",
+          label: this.$t("general.zipCode"),
+          rules: "required|numeric",
           value: "",
         },
         schoolCode: {
           uniqueName: "schoolCode",
-          descriptiveName: this.$t("general.schoolCode"),
-          validationRules: "required|numeric",
+          label: this.$t("general.schoolCode"),
+          rules: "required|numeric",
           value: "",
         },
         description: {
           uniqueName: "description",
-          descriptiveName: this.$t("general.description"),
-          validationRules: "",
+          label: this.$t("general.description"),
+          rules: "",
           value: "",
         },
         contactPhone: {
           uniqueName: "contactPhone",
-          descriptiveName: this.$t("general.phoneNumber"),
-          validationRules: "required|numeric|phoneNumberIsrael",
+          label: this.$t("general.phoneNumber"),
+          rules: "required|numeric|phoneNumberIsrael",
           value: "",
         },
         website: {
           uniqueName: "website",
-          descriptiveName: this.$t("general.website"),
-          validationRules: "required",
+          label: this.$t("general.website"),
+          rules: "required",
           value: "",
         },
         grades: {
           uniqueName: "grades",
-          descriptiveName: this.$t("general.schoolGrades"),
-          validationRules: "required",
+          label: this.$t("general.schoolGrades"),
+          rules: "required",
           value: [],
-          inputType: "select",
-          selectItems: SCHOOL_GRADES_ITEMS,
+          type: "select",
+          choices: SCHOOL_GRADES_ITEMS,
         },
       },
       placeholderPicUrl: HOUSE_ROUNDED_DRAWING,
@@ -167,24 +167,24 @@ export default {
     },
 
     createSchoolSubmitPayload() {
-      let payload = new FormData()
-      payload.append("slug", this.schoolSlug)
-      payload.append("name", this.textFields.name.value)
-      payload.append("address", this.textFields.street.value)
-      payload.append("address_city", this.textFields.city.value)
-      payload.append("zip_city", this.textFields.zipCode.value)
-      payload.append("school_code", this.textFields.schoolCode.value)
-      payload.append("description", this.textFields.description.value)
-      payload.append("contact_phone", this.textFields.contactPhone.value)
-      payload.append("website", this.textFields.website.value)
-      payload.append(
+      let data = new FormData()
+      data.append("slug", this.schoolSlug)
+      data.append("name", this.textFields.name.value)
+      data.append("address", this.textFields.street.value)
+      data.append("address_city", this.textFields.city.value)
+      data.append("zip_city", this.textFields.zipCode.value)
+      data.append("school_code", this.textFields.schoolCode.value)
+      data.append("description", this.textFields.description.value)
+      data.append("contact_phone", this.textFields.contactPhone.value)
+      data.append("website", this.textFields.website.value)
+      data.append(
         "grade_levels",
         JSON.stringify(this.textFields.grades.value)
       )
       if (this.profilePicFile) {
-        payload.append("profilePicture", this.profilePicFile)
+        data.append("profilePicture", this.profilePicFile)
       }
-      return payload
+      return data
     },
 
     async postSchoolData(schoolPayload) {

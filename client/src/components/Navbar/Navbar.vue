@@ -11,6 +11,15 @@
     <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">
       {{ $t("general.connective") }}
     </v-toolbar-title>
+    <v-spacer />
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn large icon v-bind="attrs" v-on="on" @click="$router.go(-1)">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+      </template>
+      <span v-text="$t('general.toThePreviousPage')" />
+    </v-tooltip>
   </v-toolbar>
 </template>
 

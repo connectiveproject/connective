@@ -84,6 +84,7 @@
           </div>
         </v-card-actions>
       </v-card>
+
       <v-file-input
         id="csvImportInput"
         class="d-none"
@@ -187,6 +188,7 @@ export default {
 
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("school", [
       "getStudentList",
       "deleteStudents",
@@ -232,6 +234,7 @@ export default {
         await this.deleteStudents(slugs)
         this.selectedRows = []
         this.getStudents()
+        this.showMessage(this.$t("success.userDeletedSuccessfully"))
       }
     },
 

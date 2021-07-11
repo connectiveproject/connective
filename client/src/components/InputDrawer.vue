@@ -7,20 +7,20 @@
     <v-row dense justify="space-between">
       <v-col cols="2" sm="2">
         <h3 class="text-subtitle-2 text-lg-subtitle-1">
-          {{ descriptiveName }}
+          {{ label }}
         </h3>
       </v-col>
-      <v-col cols="7" lg="4">
+      <v-col cols="7" class="overflow-hidden">
         <validation-observer slim>
           <validation-provider
             vid="uniqueName"
             v-slot="{ errors }"
             :name="uniqueName"
-            :rules="validationRules"
+            :rules="rules"
             immediate
           >
             <v-text-field
-              v-if="inputType === 'text'"
+              v-if="type === 'text'"
               v-show="isDrawerOpen()"
               class="mt-5"
               :value="value"
@@ -29,14 +29,14 @@
             >
             </v-text-field>
             <v-select
-              v-if="inputType === 'select'"
+              v-if="type === 'select'"
               v-show="isDrawerOpen()"
               class="mt-5"
               :value="value"
               @input="$emit('input', $event)"
               :error-messages="errors"
-              :items="selectItems"
-              multiple
+              :items="choices"
+              :multiple="multiselect"
               chips
               deletable-chips
             >
@@ -46,12 +46,12 @@
               class="text-subtitle-2 text-lg-subtitle-1"
               :class="{ 'red--text': errors[0] }"
             >
-              {{ errors[0] || displayValue }}
+              {{ errors[0] || displayValue | trimText(45) }}
             </strong>
           </validation-provider>
         </validation-observer>
       </v-col>
-      <v-col cols="1" sm="1">
+      <v-col cols="1">
         <v-icon v-show="!isDrawerOpen()">mdi-pencil</v-icon>
       </v-col>
     </v-row>
@@ -68,7 +68,7 @@ export default {
   },
 
   props: {
-    inputType: {
+    type: {
       type: String,
       required: false,
       default: "text",
@@ -80,22 +80,26 @@ export default {
       type: String,
       required: true,
     },
-    descriptiveName: {
+    label: {
       type: String,
       required: true,
     },
-    validationRules: {
+    rules: {
       type: String,
       required: true,
     },
     value: {
-      type: [String, Array],
+      type: [String, Array, Number],
       required: true,
     },
-    selectItems: {
+    choices: {
       // items for input type 'select'. Format: [{ value: 1, text: 'Option 1' }, { ... }]
       type: Array,
       required: false,
+    },
+    multiselect: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -117,10 +121,10 @@ export default {
 
   computed: {
     displayValue() {
-      if (this.inputType === "select") {
-        // use the textual values of the items the user selected (ordered by the original array)
+      if (this.type === "select") {
+        // display textual values of the selected items
         let displayValues = []
-        for (let item of this.selectItems) {
+        for (let item of this.choices) {
           if (this.value.includes(item.value)) {
             displayValues.push(item.text)
           }

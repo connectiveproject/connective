@@ -20,11 +20,13 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return Event.objects.filter(school_group__instructor=user)
+            return Event.objects.filter(school_group__instructor=user).order_by(
+                "-start_time"
+            )
 
         return Event.objects.filter(
             school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
-        )
+        ).order_by("-start_time")
 
 
 class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):

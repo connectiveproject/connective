@@ -173,6 +173,7 @@ export default {
 
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("school", [
       "getCoordinatorList",
       "deleteCoordinators",
@@ -218,6 +219,7 @@ export default {
         await this.deleteCoordinators(slugs)
         this.selectedRows = []
         this.getCoordinators()
+        this.showMessage(this.$t("success.userDeletedSuccessfully"))
       }
     },
 

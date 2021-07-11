@@ -30,8 +30,8 @@ const instructorEvent = {
       let res = await Api.instructorEvent.getEvent(slug)
       return res.data
     },
-    async updateEvent(ctx, { slug, payload }) {
-      let res = await Api.instructorEvent.updateEvent(slug, payload)
+    async updateEvent(ctx, { slug, data }) {
+      let res = await Api.instructorEvent.updateEvent(slug, data)
       return res.data
     },
     async getPastEvents({ commit, state }, { daysAgo, unsummarizedOnly }) {

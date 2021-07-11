@@ -1,37 +1,40 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-avatar size="260" class="d-block">
-      <validation-provider
-        v-slot="{ errors }"
-        name="picUpload"
-        rules="size:3000"
-      >
-        <v-file-input
-          :id="inputId"
-          class="d-none"
-          type="file"
-          accept="image/*"
-          v-model="picFile"
+    <div class="w-fit-content">
+      <v-avatar size="260">
+        <validation-provider
+          slim
+          v-slot="{ errors }"
+          name="picUpload"
+          rules="size:3000"
         >
-        </v-file-input>
-        <div
-          v-if="errors[0]"
-          class="error-msg red--text text-center font-weight-bold"
+          <v-file-input
+            :id="inputId"
+            class="d-none"
+            type="file"
+            accept="image/*"
+            v-model="picFile"
+          >
+          </v-file-input>
+          <div
+            v-if="errors[0]"
+            class="error-msg red--text text-center font-weight-bold"
+          >
+            {{ errors[0] }}
+          </div>
+        </validation-provider>
+        <v-btn
+          @click="triggerPicUpload()"
+          v-show="hover"
+          color="blue-grey"
+          class="pic-btn ma-2 white--text"
+          fab
         >
-          {{ errors[0] }}
-        </div>
-      </validation-provider>
-      <v-btn
-        @click="triggerPicUpload()"
-        v-show="hover"
-        color="blue-grey"
-        class="pic-btn ma-2 white--text"
-        fab
-      >
-        <v-icon dark>mdi-cloud-upload</v-icon>
-      </v-btn>
-      <img class="pic" alt="School Logo" :src="picSource" />
-    </v-avatar>
+          <v-icon dark>mdi-cloud-upload</v-icon>
+        </v-btn>
+        <img alt="School Logo" :src="picSource" />
+      </v-avatar>
+    </div>
   </v-hover>
 </template>
 <script>
