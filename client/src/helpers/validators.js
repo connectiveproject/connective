@@ -5,6 +5,7 @@ import {
   PASSWORD_REGEX_PATTERN,
   ISRAELI_PHONE_REGEX_PATTERN,
   WEBSITE_REGEX_PATTERN,
+  YOUTUBE_URL_REGEX_PATTERN,
 } from "./constants/constants"
 
 extend("required", {
@@ -62,4 +63,12 @@ extend("size", {
 extend("digits", {
   ...digits,
   message: i18n.tc("errors.incorrectNumberOfDigits"),
+})
+
+extend("youtubeUrl", {
+  message: i18n.tc("errors.invalidYoutubeUrl"),
+  validate: value => {
+    const regex = new RegExp(YOUTUBE_URL_REGEX_PATTERN, "i")
+    return regex.test(value)
+  },
 })

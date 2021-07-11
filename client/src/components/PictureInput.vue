@@ -6,7 +6,7 @@
           slim
           v-slot="{ errors }"
           name="picUpload"
-          rules="size:3000"
+          rules="size:5000"
         >
           <v-file-input
             :id="inputId"

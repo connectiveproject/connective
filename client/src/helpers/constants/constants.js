@@ -66,6 +66,8 @@ export const WEBSITE_REGEX_PATTERN =
   "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
   "(\\#[-a-z\\d_]*)?$" // fragment locator
 
+export const YOUTUBE_URL_REGEX_PATTERN =
+  /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 export const YOUTUBE_ID_REGEX_PATTERN =
   /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
 export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"
