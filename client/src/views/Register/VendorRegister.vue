@@ -8,11 +8,11 @@
           outlined
         >
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-6"
+            class="text-h4 justify-center mb-6"
             v-text="$t('auth.detailsCompletion')"
           />
           <v-card-subtitle
-            class="purple--text text--darken-4 text-h6 text-center mb-8"
+            class="text-h6 text-center mb-8"
             v-text="$t('general.personalInfo')"
           />
           <validation-observer
@@ -51,7 +51,7 @@
               <v-btn
                 class="ml-3 white--text"
                 type="submit"
-                color="purple darken-3"
+                color="primary"
                 elevation="3"
                 v-text="$t('auth.detailsCompletion')"
                 :disabled="invalid"
@@ -59,7 +59,7 @@
               <v-btn
                 class="mr-3"
                 type="button"
-                color="purple darken-3"
+                color="primary"
                 elevation="3"
                 outlined
                 v-text="$t('userActions.back')"

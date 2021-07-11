@@ -8,11 +8,11 @@
           outlined
         >
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-6"
+            class="text-h4 justify-center mb-6"
             >{{ $t("auth.detailsCompletion") }}</v-card-title
           >
           <v-card-subtitle
-            class="purple--text text--darken-4 text-h6 text-center mb-8"
+            class="text-h6 text-center mb-8"
             >{{ $t("general.personalInfo") }}</v-card-subtitle
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
@@ -51,7 +51,7 @@
                 <v-btn
                   class="ml-3 white--text"
                   type="submit"
-                  color="purple darken-3"
+                  color="primary"
                   elevation="3"
                   :disabled="invalid"
                 >
@@ -78,11 +78,11 @@
           outlined
         >
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-6"
+            class="text-h4 justify-center mb-6"
             >{{ $t("auth.detailsCompletion") }}</v-card-title
           >
           <v-card-subtitle
-            class="purple--text text--darken-4 text-h6 text-center mb-6"
+            class="text-h6 text-center mb-6"
             >{{ $t("general.schoolDetails") }}</v-card-subtitle
           >
           <validation-observer ref="observer" v-slot="{ invalid }">
@@ -229,7 +229,7 @@
                 <v-btn
                   class="ml-3 white--text"
                   type="submit"
-                  color="purple darken-3"
+                  color="primary"
                   elevation="3"
                   :disabled="invalid"
                 >
@@ -238,7 +238,7 @@
                 <v-btn
                   class="mr-3"
                   type="button"
-                  color="purple darken-3"
+                  color="primary"
                   elevation="3"
                   outlined
                   @click="decrementPage()"
@@ -267,11 +267,11 @@
           outlined
         >
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-6"
+            class="text-h4 justify-center mb-6"
             >{{ $t("auth.detailsCompletion") }}</v-card-title
           >
           <v-card-subtitle
-            class="purple--text text--darken-4 text-h6 text-center mb-8"
+            class="text-h6 text-center mb-8"
             >{{ $t("auth.confirmDetails") }}</v-card-subtitle
           >
           <form @submit.prevent="submit" data-testid="form-3">
@@ -335,7 +335,7 @@
               <v-btn
                 class="ml-3 white--text"
                 type="submit"
-                color="purple darken-3"
+                color="primary"
                 elevation="3"
               >
                 {{ $t("auth.detailsCompletion") }}
@@ -343,7 +343,7 @@
               <v-btn
                 class="mr-3"
                 type="button"
-                color="purple darken-3"
+                color="primary"
                 elevation="3"
                 outlined
                 @click="decrementPage()"

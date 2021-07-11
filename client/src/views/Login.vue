@@ -4,10 +4,10 @@
       <v-col cols="11" sm="6" md="6" lg="4" xl="3">
         <v-card class="mx-auto py-12 px-5 login-card" elevation="20" outlined>
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-3"
+            id="letter-spacing-2"
+            class="text-h4 justify-center mb-3 font-weight-bold"
             >{{ $t("general.connective") }}</v-card-title
           >
-
           <validation-observer ref="observer">
             <form @submit.prevent="submit">
               <validation-provider
@@ -47,7 +47,7 @@
                   data-testid="login-btn"
                   class="white--text"
                   type="submit"
-                  color="purple darken-3"
+                  color="primary"
                   elevation="3"
                 >
                   {{ $t("auth.login") }}
@@ -116,5 +116,8 @@ export default {
 <style lang="scss" scoped>
 .login-card {
   margin-top: 120px;
+}
+#letter-spacing-2 {
+  letter-spacing: 2px !important;
 }
 </style>

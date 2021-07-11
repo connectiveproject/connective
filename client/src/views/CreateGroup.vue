@@ -8,7 +8,7 @@
       @invalid="isFormValid = false"
     />
     <v-btn
-      class="white--text purple darken-3 mt-10 d-block mx-auto"
+      class="white--text primary mt-10 d-block mx-auto"
       data-testid="submit-button"
       :disabled="!isFormValid"
       @click="onSubmit"

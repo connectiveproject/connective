@@ -55,7 +55,7 @@
           dark
           large
           type="submit"
-          color="purple darken-3"
+          color="primary"
           class="mx-auto mt-9 mb-6 px-8"
           elevation="3"
           v-text="$t('userActions.save')"

@@ -23,12 +23,9 @@
           buttonColor="primary"
         >
           <title-to-text
+            class="mb-1"
             :title="$t('general.description')"
-            :text="trimText(group.description, 90) || $t('errors.empty')"
-          />
-          <title-to-text
-            :title="$t('myActivity.studentsNumberInGroup')"
-            :text="group.consumers.length"
+            :text="trimText(group.description, 21) || $t('errors.empty')"
           />
           <title-to-text
             :title="$t('myActivity.instructorName')"

@@ -14,7 +14,7 @@
         <v-btn
           text
           class="mx-auto"
-          color="deep-purple accent-4"
+          color="primary"
           v-text="buttonText"
           @click="close"
         />

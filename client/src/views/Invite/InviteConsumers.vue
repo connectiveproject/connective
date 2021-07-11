@@ -61,7 +61,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="triggerCSVUpload" icon v-bind="attrs" v-on="on">
-                  <v-icon color="purple darken-4">mdi-file-upload</v-icon>
+                  <v-icon color="primary">mdi-file-upload</v-icon>
                 </v-btn>
               </template>
               <span class="px-3">{{ $t("userActions.import") }} CSV</span>
@@ -74,7 +74,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon color="purple darken-4"
+                  <v-icon color="primary"
                     >mdi-file-download-outline</v-icon
                   >
                 </v-btn>

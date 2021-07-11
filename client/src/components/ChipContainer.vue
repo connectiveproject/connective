@@ -3,7 +3,7 @@
     <v-card-title><slot/></v-card-title>
     <v-chip-group class="chips-group" column show-arrows>
       <v-chip
-        color="indigo"
+        color="primary"
         text-color="white"
         class="ma-2"
         v-for="label in labels"

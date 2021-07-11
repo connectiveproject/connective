@@ -4,11 +4,11 @@
       <v-col cols="11" sm="6" md="6" lg="4" xl="3">
         <v-card class="py-12 px-5 mb-16" elevation="20" outlined>
           <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-6"
+            class="text-h4 justify-center mb-6"
             >{{ $t("general.connective") }}</v-card-title
           >
           <v-card-subtitle
-            class="purple--text text--darken-4 text-h6 text-center mb-8"
+            class="text-h6 text-center mb-8"
             >{{ $t("auth.registration") }}</v-card-subtitle
           >
           <validation-observer v-slot="{ invalid }">
@@ -49,7 +49,7 @@
                 <v-btn
                   class="ml-3 white--text"
                   type="submit"
-                  color="purple darken-3"
+                  color="primary"
                   elevation="3"
                   :disabled="invalid"
                 >
