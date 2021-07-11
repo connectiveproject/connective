@@ -29,6 +29,7 @@ const consumerEvent = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
+
     async getEventList({ commit, state }, { benchmarkDate, override }) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
@@ -44,6 +45,20 @@ const consumerEvent = {
       commit(mutation, res.data.results)
       commit("SET_EVENTS_TOTAL", res.data.count)
       return state.eventList
+    },
+
+    async getPastEvents(ctx, daysAgo) {
+      // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
+      const startDateString = Utils.dateToApiString(
+        Utils.addDaysToToday(-daysAgo)
+      )
+      const endDateString = Utils.dateToApiString(Utils.addDaysToToday(0))
+      const params = {
+        start_time__gte: startDateString,
+        start_time__lte: endDateString,
+      }
+      let res = await Api.consumerEvent.getEventList(params)
+      return res.data.results
     },
   },
 }

@@ -60,6 +60,8 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):
+    has_feedback = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
         fields = [
@@ -71,7 +73,15 @@ class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer)
             "consumers",
             "school_group",
             "locations_name",
+            "has_feedback",
         ]
+
+    def get_has_feedback(self, obj):
+        user = self.context["request"].user
+        return ConsumerEventFeedback.objects.filter(
+            event=obj.pk,
+            consumer=user,
+        ).exists()
 
 
 class ConsumerEventFeedbackSerializer(serializers.ModelSerializer):

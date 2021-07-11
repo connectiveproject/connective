@@ -220,7 +220,6 @@
 
   "myActivity": {
     "myActivity": "הפעילות שלי",
-    "myEvents": "המפגשים שלי",
     "myGroups": "קבוצות פעילות",
     "activeGroups": "קבוצות פעילות",
     "myPrograms": "התוכניות שלי",
@@ -244,12 +243,16 @@
     "eventSummary": "סיכום אירוע",
     "eventsToSummarize": "אירועים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
+    "eventsToFeedbackWereNotFound": "לא נמצאו אירועים למישוב",
     "unsummarizedPastEvents": "אירועי עבר שלא סוכמו",
     "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו",
     "summaryGeneralNotes": "הערות כלליות",
     "summaryGeneralRating": "דירוג כולל",
     "summaryChildrenBehavior": "התנהגות המשתתפים",
-    "attendance": "נוכחות"
+    "attendance": "נוכחות",
+    "eventsBoard": "לוח המפגשים",
+    "eventsFeedback": "מישוב מפגשים",
+    "clickAnEventToGiveFeedbackSoWeCanImproveTogether!": "לחצו על מפגש על מנת לתת משוב, כדי שנוכל להשתפר יחדיו!"
   },
 
   "groups": {

@@ -39,6 +39,7 @@ import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
 import CoordinatorStatistics from "../views/CoordinatorStatistics"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
@@ -155,6 +156,11 @@ const routes = [
                 path: "my-events",
                 name: "ConsumerMyEvents",
                 component: ConsumerMyEvents,
+              },
+              {
+                path: "events-feedback-list",
+                name: "ConsumerPendingEventsFeedback",
+                component: ConsumerPendingEventsFeedback,
               },
             ],
           },
