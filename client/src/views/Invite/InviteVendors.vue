@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper mx-auto mt-16">
-    <h1 class="mb-5" v-text="$t('invite.inviteStudents')" />
+  <div class="mx-auto">
+    <h1 class="mb-5" v-text="$t('invite.inviteVendors')" />
     <h2
       class="pb-12"
-      v-text="$t('invite.inviteStudentsToPlatformAndKeepTrackOfTheirStatus')"
+      v-text="$t('invite.inviteAdditionalVendorsToJoinThePlatform')"
     />
     <div class="mx-auto d-flex justify-center mt-10">
       <v-card elevation="3" class="mb-15">
@@ -17,11 +17,11 @@
             class="px-10 mt-5 mb-8"
             @click:append="
               tableProps.options.page = 1
-              getStudents()
+              getVendors()
             "
             @keyup.enter="
               tableProps.options.page = 1
-              getStudents()
+              getVendors()
             "
           />
         </v-card-title>
@@ -32,22 +32,18 @@
           v-model="selectedRows"
         >
           <template v-slot:item.actions="{ item }">
-            <v-icon size="20" class="mr-2" @click="editStudent(item)">
+            <v-icon size="20" class="mr-2" @click="editVendor(item)">
               mdi-pencil
             </v-icon>
-          </template>
-          <template v-slot:item.profile.gender="{ item }">
-            {{ $t(`gender.${item.profile.gender.toLowerCase()}`) }}
           </template>
         </v-data-table>
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
-            @click="addStudent"
+            @click="addVendor"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
             text
-          >
-            {{ `${$tc("invite.invite", 1)} ${$t("general.student")}` }}
-          </v-btn>
+            v-text="$t('invite.inviteUser')"
+          />
           <v-spacer></v-spacer>
           <div class="pl-2">
             <v-btn
@@ -55,9 +51,8 @@
               color="error"
               @click="handleDeleteRequest"
               :disabled="!selectedRows.length"
-            >
-              {{ `${$tc("userActions.remove", 1)} ${$t("general.student")}` }}
-            </v-btn>
+              v-text="$t('invite.removeUser')"
+            />
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="triggerCSVUpload" icon v-bind="attrs" v-on="on">
@@ -74,9 +69,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon color="primary"
-                    >mdi-file-download-outline</v-icon
-                  >
+                  <v-icon color="primary">mdi-file-download-outline</v-icon>
                 </v-btn>
               </template>
               <span class="px-3">{{ $t("userActions.export") }}</span>
@@ -84,7 +77,6 @@
           </div>
         </v-card-actions>
       </v-card>
-
       <v-file-input
         id="csvImportInput"
         class="d-none"
@@ -93,12 +85,12 @@
         v-model="csvFile"
       >
       </v-file-input>
-      <add-student-dialog
+      <add-vendor-dialog
         v-model="isDialogActive"
         :title="dialogTitle"
-        :student="dialogStudent"
+        :vendor="dialogVendor"
         :slug="dialogSlug"
-        @save="getStudents"
+        @save="getVendors"
       />
       <modal v-show="popupMsg !== ''" @close="popupMsg = ''">
         {{ popupMsg }}
@@ -109,14 +101,14 @@
 
 <script>
 import { mapActions } from "vuex"
-import { exportCSV, validateStudentsArray, translateStatus } from "./helpers"
+import { exportCSV, translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
-import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
+import AddVendorDialog from "../../components/AddDialog/AddVendorDialog"
 
 export default {
   components: {
     Modal,
-    AddStudentDialog,
+    AddVendorDialog,
   },
 
   data() {
@@ -128,7 +120,7 @@ export default {
         itemKey: "email",
         loading: false,
         loadingText: this.$t("general.loading"),
-        serverItemsLength: this.$store.state.school.totalStudents,
+        serverItemsLength: this.$store.state.organization.totalVendors,
         page: 1,
         pageCount: undefined,
         options: {},
@@ -136,7 +128,6 @@ export default {
           { text: "", value: "actions", sortable: false },
           { text: this.$t("general.name"), value: "name" },
           { text: this.$t("general.email"), value: "email" },
-          { text: this.$t("gender.gender"), value: "profile.gender" },
         ],
       },
 
@@ -144,12 +135,9 @@ export default {
       isDialogActive: false,
       popupMsg: "",
 
-      dialogStudent: {
+      dialogVendor: {
         name: "",
         email: "",
-        profile: {
-          gender: "",
-        },
       },
       dialogMode: "create",
       dialogSlug: null,
@@ -159,11 +147,9 @@ export default {
   computed: {
     dialogTitle() {
       if (this.dialogMode === "edit") {
-        return `${this.$tc("userActions.edit", 1)} ${this.$t(
-          "general.student"
-        )}`
+        return this.$t("invite.editVendor")
       }
-      return `${this.$tc("invite.invite", 1)} ${this.$t("general.student")}`
+      return this.$t("invite.inviteVendor")
     },
   },
 
@@ -178,7 +164,7 @@ export default {
       // re-fetch data on user request (e.g., sort, next page)
       deep: true,
       handler() {
-        this.getStudents()
+        this.getVendors()
       },
     },
   },
@@ -186,16 +172,15 @@ export default {
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("school", [
-      "getStudentList",
-      "deleteStudents",
-      "addStudents",
+    ...mapActions("organization", [
+      "getVendorList",
+      "deleteVendors",
+      "addVendors",
     ]),
     exportCSV,
     translateStatus,
-    validateStudentsArray,
 
-    async getStudents() {
+    async getVendors() {
       this.tableProps.loading = true
       let paginationOptions = {
         itemsPerPage: this.tableProps.options.itemsPerPage,
@@ -205,16 +190,17 @@ export default {
         sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getStudentList()
-      this.tableProps.serverItemsLength = this.$store.state.school.totalStudents
+      this.tableProps.items = await this.getVendorList()
+      this.tableProps.serverItemsLength =
+        this.$store.state.organization.totalVendors
       this.tableProps.loading = false
     },
 
     async importCSV() {
       try {
-        await this.addStudents(this.csvFile)
+        await this.addVendors(this.csvFile)
         this.tableProps.options.page = 1
-        this.getStudents()
+        this.getVendors()
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch {
         this.popupMsg = this.$t("errors.genericError")
@@ -228,23 +214,22 @@ export default {
     async handleDeleteRequest() {
       if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
         let slugs = this.selectedRows.map(row => row.slug)
-        await this.deleteStudents(slugs)
+        await this.deleteVendors(slugs)
         this.selectedRows = []
-        this.getStudents()
+        this.getVendors()
         this.showMessage(this.$t("success.userDeletedSuccessfully"))
       }
     },
 
-    editStudent(student) {
-      this.dialogStudent = Object.assign({}, student)
-      delete this.dialogStudent.slug
-      delete this.dialogStudent.profile.slug
-      this.dialogSlug = student.slug
+    editVendor(vendor) {
+      this.dialogVendor = Object.assign({}, vendor)
+      delete this.dialogVendor.slug
+      this.dialogSlug = vendor.slug
       this.dialogMode = "edit"
       this.isDialogActive = true
     },
 
-    addStudent() {
+    addVendor() {
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true
@@ -254,10 +239,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  width: 90%;
-}
-
 .abs-center {
   position: absolute;
   left: 50%;

@@ -25,6 +25,8 @@
     "pleaseFillAllDetailsBelow": "נא מלאו את הפרטים שבהמשך",
     "loading": "בטעינה...",
     "student": "תלמיד",
+    "vendor": "מנהל תוכנית",
+    "instructor": "מדריך",
     "staff": "סגל",
     "date": "תאריך",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
@@ -123,7 +125,18 @@
     "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
     "pendingRecipientApproval": "מחכה לאישור הנמען",
     "removeStaffMember": "הסרת איש סגל",
-    "editStaffMember": "עריכת איש סגל"
+    "editStaffMember": "עריכת איש סגל",
+    "inviteAdditionalVendorsToJoinThePlatform": "הזמינו מנהלי עמותה נוספים להצטרף לפלטפורמה",
+    "inviteVendors": "הזמנת מנהלי עמותה",
+    "inviteVendor": "הזמנת מנהל עמותה",
+    "editVendor": "עריכת מנהל עמותה",
+    "inviteInstructors": "הזמנת מדריכים",
+    "inviteInstructorsToJoinThePlatform": "הזמינו מדריכים להצטרף לפלטפורמה",
+    "removeInstructor": "הסרת מדריך",
+    "editInstructor": "עריכת מדריך",
+    "inviteInstructor": "הזמנת מדריך",
+    "inviteUser": "הזמנת משתמש",
+    "removeUser": "הסרת משתמש"
   },
 
   "userActions": {
