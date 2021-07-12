@@ -96,3 +96,6 @@ class ConsumerEventFeedback(models.Model):
         null=True,
         blank=True,
     )
+
+
+
