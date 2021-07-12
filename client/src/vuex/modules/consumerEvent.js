@@ -67,8 +67,6 @@ const consumerEvent = {
     },
 
     async createEventFeedback(ctx, data) {
-      console.log(data)
-      debugger
       let res = await Api.consumerEvent.createEventFeedback(data)
       return res.data
     },

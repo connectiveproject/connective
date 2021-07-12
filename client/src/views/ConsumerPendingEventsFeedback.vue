@@ -59,7 +59,6 @@ export default {
       if (this.isEventClicked) return
       this.isEventClicked = true
       const eventPos = e[0]
-      console.log(this.eventsToFeedback[eventPos].slug)
       this.$router.push({
         name: "ConsumerEventFeedback",
         params: { slug: this.eventsToFeedback[eventPos].slug },
