@@ -30,8 +30,30 @@ class SchoolActivityOrderAdmin(admin.ModelAdmin):
     actions = [approve_order]
 
 
+@admin.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = ["slug", "name", "originization", "tags"]
+
+
+@admin.register(SchoolActivityGroup)
+class SchoolActivityGroupAdmin(admin.ModelAdmin):
+    list_display = [
+        "slug",
+        "name",
+        "school",
+        "activity",
+        "group_type",
+        "instructor",
+        "activity_order",
+    ]
+
+    def school(self, obj):
+        return obj.activity_order.school
+
+    def activity(self, obj):
+        return obj.activity_order.activity
+
+
 admin.site.register(Organization)
-admin.site.register(Activity)
 admin.site.register(ActivityMedia)
 admin.site.register(OrganizationMember)
-admin.site.register(SchoolActivityGroup)
