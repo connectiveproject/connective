@@ -1,14 +1,19 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 
-from server.events.models import Event
+from server.events.models import ConsumerEventFeedback, Event
 from server.utils.permission_classes import (
+    AllowConsumer,
     AllowConsumerReadOnly,
     AllowCoordinator,
     AllowInstructor,
 )
 
-from .serializers import ConsumerEventSerializer, EventSerializer
+from .serializers import (
+    ConsumerEventFeedbackSerializer,
+    ConsumerEventSerializer,
+    EventSerializer,
+)
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -39,3 +44,18 @@ class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Event.objects.filter(school_group__consumers=self.request.user)
+
+
+class ConsumerEventFeedbackViewset(viewsets.ModelViewSet):
+    permission_classes = [AllowConsumer]
+    serializer_class = ConsumerEventFeedbackSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return ConsumerEventFeedback.objects.filter(consumer=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(consumer=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(consumer=self.request.user)

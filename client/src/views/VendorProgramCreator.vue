@@ -25,13 +25,13 @@
       <v-btn
         large
         v-text="$t('userActions.save')"
-        class="white--text purple darken-3"
+        class="white--text primary"
         :disabled="!(isFormValid && logo)"
         @click="onSubmit"
       />
       <v-btn
         class="mx-3 white--text"
-        color="purple darken-3"
+        color="primary"
         outlined
         large
         v-text="$t('userActions.back')"

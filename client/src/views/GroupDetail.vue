@@ -39,7 +39,7 @@
           <v-btn
             class="my-16 py-5 white--text"
             type="submit"
-            color="purple darken-3"
+            color="primary"
             elevation="3"
             v-text="$t('userActions.save')"
             :disabled="invalid"
@@ -48,7 +48,7 @@
             class="my-16 mx-2 mx-lg-8 py-5 white--text"
             elevation="3"
             type="button"
-            color="purple darken-3"
+            color="primary"
             outlined
             v-text="$t('groups.viewAndEditStudents')"
             @click="
@@ -128,6 +128,7 @@ export default {
           },
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        this.$router.push({ name: "MyGroups" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

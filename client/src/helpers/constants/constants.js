@@ -23,6 +23,14 @@ export const GET_SCHOOL_COORDINATORS_LIST_API_URL = `${SERVER_URL}/manage_coordi
 export const ADD_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinators/`
 export const EDIT_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinators/`
 export const DELETE_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinators/`
+export const GET_ORGANIZATION_INSTRUCTORS_LIST_API_URL = `${SERVER_URL}/manage_instructors/`
+export const ADD_ORGANIZATION_INSTRUCTORS_API_URL = `${SERVER_URL}/manage_instructors/`
+export const DELETE_ORGANIZATION_INSTRUCTORS_API_URL = `${SERVER_URL}/manage_instructors/`
+export const EDIT_ORGANIZATION_INSTRUCTORS_API_URL = `${SERVER_URL}/manage_instructors/`
+export const GET_ORGANIZATION_VENDORS_LIST_API_URL = `${SERVER_URL}/manage_vendors/`
+export const ADD_ORGANIZATION_VENDORS_API_URL = `${SERVER_URL}/manage_vendors/`
+export const DELETE_ORGANIZATION_VENDORS_API_URL = `${SERVER_URL}/manage_vendors/`
+export const EDIT_ORGANIZATION_VENDORS_API_URL = `${SERVER_URL}/manage_vendors/`
 export const GET_PROGRAM_LIST_API_URL = `${SERVER_URL}/activities/`
 export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
 export const GET_VENDOR_PROGRAM_LIST_API_URL = `${SERVER_URL}/vendor_activities/`
@@ -46,10 +54,13 @@ export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activit
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
+export const GET_CONSUMER_EVENT_API_URL = `${SERVER_URL}/consumer_events/`
+export const CREATE_CONSUMER_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/consumer_event_feedback/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
+
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =
@@ -66,6 +77,8 @@ export const WEBSITE_REGEX_PATTERN =
   "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
   "(\\#[-a-z\\d_]*)?$" // fragment locator
 
+export const YOUTUBE_URL_REGEX_PATTERN =
+  /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 export const YOUTUBE_ID_REGEX_PATTERN =
   /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
 export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"

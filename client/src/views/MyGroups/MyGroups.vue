@@ -41,7 +41,7 @@
           :subtitle="group.activityName"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="teal"
+          buttonColor="primary"
           @click="
             $router.push({
               name: 'GroupDetail',
@@ -50,16 +50,14 @@
           "
         >
           <title-to-text
+            class="mb-1"
             :title="$t('myActivity.groupDescription')"
-            :text="trimText(group.description, 90) || $t('errors.empty')"
+            :text="trimText(group.description, 21) || $t('errors.empty')"
           />
           <title-to-text
+            class="my-0"
             :title="$t('myActivity.studentsNumberInGroup')"
             :text="group.consumers.length"
-          />
-          <title-to-text
-            :title="$t('myActivity.instructorName')"
-            :text="group.instructorName || $t('errors.unassigned')"
           />
         </info-card>
       </v-col>

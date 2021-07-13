@@ -49,7 +49,7 @@
         <v-btn
           class="mx-2 white--text"
           type="submit"
-          color="purple darken-3"
+          color="primary"
           elevation="3"
           v-text="$t('userActions.save')"
           :disabled="invalid"
@@ -58,7 +58,7 @@
           class="mx-2 white--text"
           elevation="3"
           type="button"
-          color="purple darken-3"
+          color="primary"
           outlined
           v-text="$t('general.media')"
           @click="

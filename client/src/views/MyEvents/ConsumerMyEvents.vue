@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 v-text="$t('myActivity.myEvents')" class="mb-5" />
+    <h1 v-text="$t('events.eventsBoard')" class="mb-5" />
     <h2
       v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
       class="pb-12"

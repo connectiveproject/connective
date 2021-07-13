@@ -1,32 +1,11 @@
 <template>
-  <div class="note" :style="{ backgroundColor: color }">
+  <div class="note primary lighten-2">
     <p class="text-center">
       <slot></slot>
     </p>
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    color: {
-      type: String,
-      default() {
-        const colors = [
-          "#CCF",
-          "#CFC",
-          "#FFC",
-          "#FF91BA",
-          "#FFAB8D",
-          "#C0FCF7",
-          "#FCA7ED",
-        ]
-        return colors[Math.floor(Math.random() * colors.length)]
-      },
-    },
-  },
-}
-</script>
 <style scoped lang="scss">
 .note {
   position: relative;

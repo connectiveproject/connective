@@ -70,7 +70,7 @@ export default {
     },
     inputFields: {
       // the form's prototype
-      // e.g.,  [ { name: 'field1', rule: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
+      // e.g.,  [ { name: 'field1', rule: 'required|size:5000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
       type: Array,
       required: true,
     },

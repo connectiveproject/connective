@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from server.events.models import Event
+from server.events.models import ConsumerEventFeedback, Event
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
 
@@ -60,6 +60,8 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):
+    has_feedback = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
         fields = [
@@ -71,4 +73,36 @@ class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer)
             "consumers",
             "school_group",
             "locations_name",
+            "has_feedback",
         ]
+
+    def get_has_feedback(self, obj):
+        user = self.context["request"].user
+        return ConsumerEventFeedback.objects.filter(
+            event=obj.pk,
+            consumer=user,
+        ).exists()
+
+
+class ConsumerEventFeedbackSerializer(serializers.ModelSerializer):
+    event = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=Event.objects.all(),
+    )
+    consumer = serializers.SlugRelatedField(
+        slug_field="slug",
+        read_only=True,
+    )
+
+    class Meta:
+        model = ConsumerEventFeedback
+        fields = [
+            "slug",
+            "event",
+            "consumer",
+            "general_notes",
+            "secondary_notes",
+            "general_rating",
+            "secondary_rating",
+        ]
+        read_only_fields = ["slug"]

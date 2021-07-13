@@ -25,6 +25,8 @@
     "pleaseFillAllDetailsBelow": "נא מלאו את הפרטים שבהמשך",
     "loading": "בטעינה...",
     "student": "תלמיד",
+    "vendor": "מנהל תוכנית",
+    "instructor": "מדריך",
     "staff": "סגל",
     "date": "תאריך",
     "additionalInfo": "לפרטים נוספים|פרטים נוספים",
@@ -123,7 +125,18 @@
     "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
     "pendingRecipientApproval": "מחכה לאישור הנמען",
     "removeStaffMember": "הסרת איש סגל",
-    "editStaffMember": "עריכת איש סגל"
+    "editStaffMember": "עריכת איש סגל",
+    "inviteAdditionalVendorsToJoinThePlatform": "הזמינו מנהלי עמותה נוספים להצטרף לפלטפורמה",
+    "inviteVendors": "הזמנת מנהלי עמותה",
+    "inviteVendor": "הזמנת מנהל עמותה",
+    "editVendor": "עריכת מנהל עמותה",
+    "inviteInstructors": "הזמנת מדריכים",
+    "inviteInstructorsToJoinThePlatform": "הזמינו מדריכים להצטרף לפלטפורמה",
+    "removeInstructor": "הסרת מדריך",
+    "editInstructor": "עריכת מדריך",
+    "inviteInstructor": "הזמנת מדריך",
+    "inviteUser": "הזמנת משתמש",
+    "removeUser": "הסרת משתמש"
   },
 
   "userActions": {
@@ -173,6 +186,7 @@
     "registrationFormExpired": "נראה שטופס הרישום פג תוקף",
     "registrationSucceeded": "ההרשמה הושלמה בהצלחה",
     "detailsCompletion": "השלמת פרטים",
+    "detailsConfirmation": "אישור פרטים",
     "registered": "רשומ/ה",
     "notRegistered": "לא רשומ/ה"
   },
@@ -202,6 +216,7 @@
     "invalidWebsiteAddress": "כתובת האתר אינה תקינה",
     "passwordsMismatch": "הסיסמאות שהוקשו אינן תואמות",
     "fileSizeLimitExceeded": "הקובץ חורג ממגבלת הגודל המותרת",
+    "maxLengthExceeded": "חריגה ממספר התווים המקסימלי",
     "tokenExpired": "פג תוקף החיבור. נא התחברו מחדש.",
     "oops": "אופס",
     "incorrectNumberOfDigits": "מספר הספרות שהוקש שגוי",
@@ -214,12 +229,12 @@
     "nameUnavailable": "שם לא זמין",
     "thisPageDoesNotExist": "עמוד זה אינו קיים",
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
-    "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים"
+    "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
+    "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה"
   },
 
   "myActivity": {
     "myActivity": "הפעילות שלי",
-    "myEvents": "המפגשים שלי",
     "myGroups": "קבוצות פעילות",
     "activeGroups": "קבוצות פעילות",
     "myPrograms": "התוכניות שלי",
@@ -243,12 +258,21 @@
     "eventSummary": "סיכום אירוע",
     "eventsToSummarize": "אירועים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
+    "eventsToFeedbackWereNotFound": "לא נמצאו אירועים למישוב",
     "unsummarizedPastEvents": "אירועי עבר שלא סוכמו",
     "clickAnEventToSummarizeIt": "לחצו על אירוע על מנת לסכמו",
     "summaryGeneralNotes": "הערות כלליות",
     "summaryGeneralRating": "דירוג כולל",
     "summaryChildrenBehavior": "התנהגות המשתתפים",
-    "attendance": "נוכחות"
+    "attendance": "נוכחות",
+    "eventsBoard": "לוח המפגשים",
+    "eventFeedback": "מישוב מפגש",
+    "eventsFeedback": "מישוב מפגשים",
+    "clickAnEventToGiveFeedbackSoWeCanImproveTogether!": "לחצו על מפגש על מנת לתת משוב, כדי שנוכל להשתפר יחדיו!",
+    "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
+    "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
+    "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
+    "chooseYourLevelOfSatisfactionFromTheInstructor": "סמנו את שביעות רצונכם הכללית מהמדריך"
   },
 
   "groups": {

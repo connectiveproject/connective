@@ -28,7 +28,7 @@
         <v-btn
           class="my-16 white--text mx-auto mx-sm-0 d-block"
           type="submit"
-          color="purple darken-3"
+          color="primary"
           elevation="3"
           :disabled="invalid"
         >

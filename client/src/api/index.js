@@ -2,6 +2,7 @@ import utils from "./utils"
 import auth from "./auth"
 import user from "./user"
 import school from "./school"
+import organization from "./organization"
 import consumer from "./consumer"
 import coordinator from "./coordinator"
 import instructor from "./instructor"
@@ -22,6 +23,7 @@ export default {
   auth,
   user,
   school,
+  organization,
   consumer,
   coordinator,
   instructor,

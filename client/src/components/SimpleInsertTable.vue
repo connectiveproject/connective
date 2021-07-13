@@ -37,7 +37,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon color="purple darken-4">mdi-file-upload</v-icon>
+              <v-icon color="primary">mdi-file-upload</v-icon>
             </v-btn>
           </template>
           <span class="px-3">{{ $t("userActions.import") }} CSV</span>
@@ -45,7 +45,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon color="purple darken-4">mdi-file-download-outline</v-icon>
+              <v-icon color="primary">mdi-file-download-outline</v-icon>
             </v-btn>
           </template>
           <span class="px-3">{{ $t("userActions.export") }}</span>
@@ -66,8 +66,8 @@
 <script>
 import FormDialog from "./FormDialog"
 import Modal from "./Modal"
-import isEqual from "lodash/isEqual";
-import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual"
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   components: { FormDialog, Modal },

@@ -29,9 +29,12 @@ import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
-import Invite from "../views/Invite/Invite"
+import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
+import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
 import InviteConsumers from "../views/Invite/InviteConsumers"
 import InviteCoordinators from "../views/Invite/InviteCoordinators"
+import InviteInstructors from "../views/Invite/InviteInstructors"
+import InviteVendors from "../views/Invite/InviteVendors"
 import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
@@ -39,6 +42,8 @@ import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
+import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
 import CoordinatorStatistics from "../views/CoordinatorStatistics"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
@@ -156,6 +161,17 @@ const routes = [
                 name: "ConsumerMyEvents",
                 component: ConsumerMyEvents,
               },
+              {
+                path: "events-pending-feedbacks",
+                name: "ConsumerPendingEventsFeedback",
+                component: ConsumerPendingEventsFeedback,
+              },
+              {
+                path: "event-feedback/:slug",
+                name: "ConsumerEventFeedback",
+                component: ConsumerEventFeedback,
+                props: true,
+              },
             ],
           },
         ],
@@ -182,11 +198,11 @@ const routes = [
           },
           {
             path: "invite",
-            component: Invite,
+            component: SchoolInviteWrapper,
             children: [
               {
                 path: "",
-                name: "Invite",
+                name: "SchoolInviteWrapper",
                 redirect: { name: "InviteConsumers" },
               },
               {
@@ -336,6 +352,29 @@ const routes = [
             name: "VendorProgramMediaUpload",
             component: VendorProgramMediaUpload,
             props: true,
+          },
+          {
+            path: "invite",
+            component: OrganizationInviteWrapper,
+            children: [
+              {
+                path: "",
+                name: "OrganizationInviteWrapper",
+                redirect: { name: "InviteInstructors" },
+              },
+              {
+                path: "invite-instructors",
+                name: "InviteInstructors",
+                component: InviteInstructors,
+                beforeEnter: flushPagination,
+              },
+              {
+                path: "invite-vendors",
+                name: "InviteVendors",
+                component: InviteVendors,
+                beforeEnter: flushPagination,
+              },
+            ],
           },
         ],
       },

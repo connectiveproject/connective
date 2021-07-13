@@ -33,9 +33,10 @@
         <info-card
           :hideStar="true"
           :title="program.name"
+          :subtitle="$t(`programFilters.${program.domain}`)"
           :imgUrl="program.logo"
           :buttonText="$t('program.toProgramPage')"
-          buttonColor="teal"
+          buttonColor="primary"
           @click="
             $router.push({
               name: 'VendorDetailProgram',
@@ -43,7 +44,7 @@
             })
           "
         >
-          {{ program.description | trimText(175) }}
+          {{ program.description | trimText(70) }}
         </info-card>
       </v-col>
     </v-row>

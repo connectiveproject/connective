@@ -5,7 +5,7 @@ export const INFO_CARD_IMAGE = require("@/assets/img/optimized/child-in-class.we
 export const CAROUSEL_PLACEHOLDER = require("@/assets/img/optimized/children-boots.webp") // unsplash.com/photos/iDCtsz-INHI
 export const BACKGROUNDS = {
   error: require("@/assets/img/optimized/surprised.webp"), // unsplash.com/photos/qDY9ahp0Mto
-  welcome: require("@/assets/img/optimized/child-map.webp"), // unsplash.com/photos/kZO9xqmO_TA
+  welcome: require("@/assets/video/hashalem-optimized.mp4"),
   managementDashboard: require("@/assets/img/optimized/Liquid-Cheese.svg"), // background by SVGBACKGROUNDS.com
   navbar: "https://picsum.photos/1920/1080?random",
 }

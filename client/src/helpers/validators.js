@@ -1,10 +1,11 @@
 import i18n from "../plugins/i18n"
-import { required, email, size, numeric, digits } from "vee-validate/dist/rules"
+import { required, email, size, max, numeric, digits } from "vee-validate/dist/rules"
 import { extend } from "vee-validate"
 import {
   PASSWORD_REGEX_PATTERN,
   ISRAELI_PHONE_REGEX_PATTERN,
   WEBSITE_REGEX_PATTERN,
+  YOUTUBE_URL_REGEX_PATTERN,
 } from "./constants/constants"
 
 extend("required", {
@@ -59,7 +60,20 @@ extend("size", {
   message: i18n.tc("errors.fileSizeLimitExceeded"),
 })
 
+extend("max", {
+  ...max,
+  message: i18n.tc("errors.maxLengthExceeded"),
+})
+
 extend("digits", {
   ...digits,
   message: i18n.tc("errors.incorrectNumberOfDigits"),
+})
+
+extend("youtubeUrl", {
+  message: i18n.tc("errors.invalidYoutubeUrl"),
+  validate: value => {
+    const regex = new RegExp(YOUTUBE_URL_REGEX_PATTERN, "i")
+    return regex.test(value)
+  },
 })

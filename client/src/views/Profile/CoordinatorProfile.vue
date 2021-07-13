@@ -22,7 +22,7 @@
         <v-btn
           class="my-16 py-5 white--text"
           type="submit"
-          color="purple darken-3"
+          color="primary"
           elevation="3"
           :disabled="invalid"
         >

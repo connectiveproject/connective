@@ -1,7 +1,11 @@
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
-from server.events.api.views import ConsumerEventViewSet, EventViewSet
+from server.events.api.views import (
+    ConsumerEventFeedbackViewset,
+    ConsumerEventViewSet,
+    EventViewSet,
+)
 from server.organizations.api.views import (
     ActivityMediaViewSet,
     ActivityViewSet,
@@ -18,6 +22,8 @@ from server.users.api.views import (
     InstructorProfileViewSet,
     ManageConsumersViewSet,
     ManageCoordinatorsViewSet,
+    ManageInstructorsViewSet,
+    ManageVendorsViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -63,6 +69,10 @@ router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
 )
 router.register(
+    "manage_instructors", ManageInstructorsViewSet, basename="manage_instructors"
+)
+router.register("manage_vendors", ManageVendorsViewSet, basename="manage_vendors")
+router.register(
     "manage_school_activity",
     ManageSchoolActivityViewSet,
     basename="manage_school_activity",
@@ -70,6 +80,11 @@ router.register(
 router.register("school_activity_group", SchoolActivityGroupViewSet)
 router.register("events", EventViewSet, basename="events")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")
+router.register(
+    "consumer_event_feedback",
+    ConsumerEventFeedbackViewset,
+    basename="consumer_event_feedback",
+)
 
 app_name = "api"
 urlpatterns = router.urls

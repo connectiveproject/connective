@@ -56,7 +56,7 @@ export default {
   props: {
     value: {
       // the form's prototype
-      // e.g.,  [ { name: 'field1', rules: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
+      // e.g.,  [ { name: 'field1', rules: 'required|size:5000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
       type: Array,
       required: true,
     },

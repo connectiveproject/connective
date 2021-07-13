@@ -11,7 +11,7 @@
     <title-to-text :title="$t('time.endTime')" :text="parseDate(event.endTime) || $t('errors.unavailable')" />
     <title-to-text
       :title="$t('myActivity.location')"
-      :text="event.locations_name || $t('errors.empty')"
+      :text="event.locationsName || $t('errors.empty')"
     />
     <form class="form" @submit.prevent="onSubmit">
       <v-row>
@@ -52,10 +52,9 @@
         </v-col>
         </v-row>
         <v-btn
-          dark
           large
           type="submit"
-          color="purple darken-3"
+          color="primary"
           class="mx-auto mt-9 mb-6 px-8"
           elevation="3"
           v-text="$t('userActions.save')"
