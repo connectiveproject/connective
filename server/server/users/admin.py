@@ -14,6 +14,8 @@ from .models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Supervisor,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
@@ -62,7 +64,7 @@ class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
 
 
-@admin.register(User, Instructor, Vendor)
+@admin.register(User, Instructor, Vendor, Supervisor)
 class OrgUserTypesAdmin(BaseUserTypesAdmin):
     pass
 
@@ -71,3 +73,4 @@ admin.site.register(CoordinatorProfile)
 admin.site.register(ConsumerProfile)
 admin.site.register(InstructorProfile)
 admin.site.register(VendorProfile)
+admin.site.register(SupervisorProfile)

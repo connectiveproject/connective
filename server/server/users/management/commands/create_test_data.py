@@ -14,7 +14,7 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School, SchoolMember
-from server.users.models import Consumer, Coordinator, Instructor, Vendor
+from server.users.models import Consumer, Coordinator, Instructor, Supervisor, Vendor
 
 from .constants import (
     activity_payloads,
@@ -115,6 +115,14 @@ class Command(BaseCommand):
             "Aa123456789",
             "דן יוסופוב",
         )
+
+        self.create_user(
+            Supervisor,
+            "supervisor@example.com",
+            "Aa123456789",
+            "ישראל ישראלי",
+        )
+
         vendor = self.create_user(
             Vendor,
             "vendor0@example.com",

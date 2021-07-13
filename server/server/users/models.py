@@ -16,6 +16,7 @@ class User(AbstractUser):
         COORDINATOR = "COORDINATOR", "Coordinator"
         VENDOR = "VENDOR", "Vendor"
         INSTRUCTOR = "INSTRUCTOR", "Instructor"
+        SUPERVISOR = "SUPERVISOR", "Supervisor"
 
     base_user_type = Types.CONSUMER
 
@@ -70,6 +71,17 @@ class CoordinatorManager(BaseUserManager):
             .get_queryset(*args, **kwargs)
             .filter(
                 user_type=User.Types.COORDINATOR,
+            )
+        )
+
+
+class SupervisorManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(
+                user_type=User.Types.SUPERVISOR,
             )
         )
 
@@ -148,6 +160,19 @@ class Instructor(User):
         return self.instructorprofile
 
 
+class Supervisor(User):
+    base_user_type = User.Types.SUPERVISOR
+    objects = SupervisorManager()
+
+    class Meta:
+        proxy = True
+        verbose_name_plural = "5. Supervisor"
+
+    @property
+    def profile(self):
+        return self.supervisorprofile
+
+
 class BaseProfile(models.Model):
     class Gender(TextChoices):
         MALE = "MALE", "Male"
@@ -176,6 +201,20 @@ class BaseProfile(models.Model):
 
 
 class CoordinatorProfile(BaseProfile):
+    job_description = models.CharField(max_length=50, default="")
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+
+class SupervisorProfile(BaseProfile):
     job_description = models.CharField(max_length=50, default="")
     phone_number = models.CharField(
         blank=True,
