@@ -6,9 +6,18 @@
   >
     <v-card-title v-text="$t('events.eventSummary')" class="px-0" />
     <v-card-subtitle v-text="event.activityName" class="px-0 pt-3 pb-10" />
-    <title-to-text :title="$t('groups.groupName')" :text="event.schoolGroupName || $t('errors.unavailable')" />
-    <title-to-text :title="$t('time.startTime')" :text="parseDate(event.startTime) || $t('errors.unavailable')" />
-    <title-to-text :title="$t('time.endTime')" :text="parseDate(event.endTime) || $t('errors.unavailable')" />
+    <title-to-text
+      :title="$t('groups.groupName')"
+      :text="event.schoolGroupName || $t('errors.unavailable')"
+    />
+    <title-to-text
+      :title="$t('time.startTime')"
+      :text="parseDate(event.startTime) || $t('errors.unavailable')"
+    />
+    <title-to-text
+      :title="$t('time.endTime')"
+      :text="parseDate(event.endTime) || $t('errors.unavailable')"
+    />
     <title-to-text
       :title="$t('myActivity.location')"
       :text="event.locationsName || $t('errors.empty')"
@@ -34,7 +43,7 @@
         </v-col>
         <v-col cols="12" sm="12" lg="6">
           <v-select
-            :items="[1,2,3,4,5,6,7,8,9,10]"
+            :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
             v-model="summaryGeneralRating"
             :label="$t('events.summaryGeneralRating')"
             dense
@@ -43,32 +52,35 @@
         </v-col>
         <v-col cols="12" sm="12" lg="6">
           <v-select
-            :items="[1,2,3,4,5,6,7,8,9,10]"
+            :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
             v-model="summaryChildrenBehavior"
             :label="$t('events.summaryChildrenBehavior')"
             dense
             class="my-6"
           />
         </v-col>
-        </v-row>
-        <v-btn
-          large
-          type="submit"
-          color="primary"
-          class="mx-auto mt-9 mb-6 px-8"
-          elevation="3"
-          v-text="$t('userActions.save')"
-        />
+      </v-row>
+      <v-btn
+        large
+        type="submit"
+        color="primary"
+        class="mx-auto mt-9 mb-6 px-8"
+        elevation="3"
+        v-text="$t('userActions.save')"
+      />
     </form>
     <modal
       redirectComponentName="InstructorUnsummarizedEvents"
       v-show="isModalOpen"
-    > {{ modalMsg }} </modal>
+    >
+      {{ modalMsg }}
+    </modal>
   </v-card>
 </template>
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
@@ -112,17 +124,21 @@ export default {
   methods: {
     ...mapActions("instructorEvent", ["updateEvent"]),
     parseDate: Utils.ApiStringToReadableDate,
-    async onSubmit() {
-      const data = {
-        consumers: this.attendedConsumers,
-        summaryGeneralNotes: this.summaryGeneralNotes,
-        summaryGeneralRating: this.summaryGeneralRating,
-        summaryChildrenBehavior: this.summaryChildrenBehavior,
-        hasSummary: true
-      }
-      await this.updateEvent({ slug: this.slug, data })
-      this.isModalOpen = true
-    },
+    onSubmit: debounce(
+      async function () {
+        const data = {
+          consumers: this.attendedConsumers,
+          summaryGeneralNotes: this.summaryGeneralNotes,
+          summaryGeneralRating: this.summaryGeneralRating,
+          summaryChildrenBehavior: this.summaryChildrenBehavior,
+          hasSummary: true,
+        }
+        await this.updateEvent({ slug: this.slug, data })
+        this.isModalOpen = true
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

@@ -19,6 +19,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import i18n from "../plugins/i18n"
 import Api from "../api"
@@ -63,20 +64,27 @@ export default {
   methods: {
     ...mapActions("programGroup", ["createGroup"]),
     ...mapActions("snackbar", ["showMessage"]),
-    async onSubmit() {
-      const data = { groupType: SERVER.programGroupTypes.standard }
-      for (const f of this.fields) {
-        data[f.name] = f.value
-      }
-      try {
-        const group = await this.createGroup(data)
-        this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
-        this.$router.push({ name: "AssignGroupConsumers", params: { groupSlug: group.slug } })
-      } catch (err) {
-        const message = Api.utils.parseResponseError(err)
-        this.showMessage(message)
-      }
-    },
+    onSubmit: debounce(
+      async function () {
+        const data = { groupType: SERVER.programGroupTypes.standard }
+        for (const f of this.fields) {
+          data[f.name] = f.value
+        }
+        try {
+          const group = await this.createGroup(data)
+          this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
+          this.$router.push({
+            name: "AssignGroupConsumers",
+            params: { groupSlug: group.slug },
+          })
+        } catch (err) {
+          const message = Api.utils.parseResponseError(err)
+          this.showMessage(message)
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

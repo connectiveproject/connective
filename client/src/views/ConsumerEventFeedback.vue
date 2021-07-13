@@ -42,6 +42,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
@@ -104,7 +105,7 @@ export default {
     ...mapActions("consumerEvent", ["createEventFeedback"]),
     ...mapActions("snackbar", ["showMessage"]),
     parseDate: Utils.ApiStringToReadableDate,
-    async onSubmit() {
+    onSubmit: debounce(async function() {
       try {
         const feedback = this.form.reduce(
           (accum, field) => ({ ...accum, [field.name]: field.value }),
@@ -117,6 +118,9 @@ export default {
         this.showMessage(Api.utils.parseResponseError(err))
       }
     },
+    500,
+    { leading: true, trailing: false },
+    )
   },
 }
 </script>

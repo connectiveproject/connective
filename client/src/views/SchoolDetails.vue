@@ -43,8 +43,9 @@
 </template>
 <script>
 import { ValidationObserver } from "vee-validate"
-import store from "../vuex/store"
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
+import store from "../vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
@@ -161,10 +162,14 @@ export default {
       this.schoolSlug = schoolAttributes.slug
     },
 
-    submitSchoolDetails() {
-      let schoolDataPayload = this.createSchoolSubmitPayload()
-      this.postSchoolData(schoolDataPayload)
-    },
+    submitSchoolDetails: debounce(
+      function () {
+        let schoolDataPayload = this.createSchoolSubmitPayload()
+        this.postSchoolData(schoolDataPayload)
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     createSchoolSubmitPayload() {
       let data = new FormData()
@@ -177,10 +182,7 @@ export default {
       data.append("description", this.textFields.description.value)
       data.append("contact_phone", this.textFields.contactPhone.value)
       data.append("website", this.textFields.website.value)
-      data.append(
-        "grade_levels",
-        JSON.stringify(this.textFields.grades.value)
-      )
+      data.append("grade_levels", JSON.stringify(this.textFields.grades.value))
       if (this.profilePicFile) {
         data.append("profilePicture", this.profilePicFile)
       }

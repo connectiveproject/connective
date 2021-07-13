@@ -52,6 +52,7 @@
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import debounce from "lodash/debounce"
 import Api from "../../api"
 
 export default {
@@ -73,9 +74,7 @@ export default {
     title: {
       type: String,
       default: function () {
-        return `${this.$tc("invite.invite", 1)} ${this.$t(
-          "general.vendor"
-        )}`
+        return `${this.$tc("invite.invite", 1)} ${this.$t("general.vendor")}`
       },
     },
     slug: {
@@ -118,25 +117,29 @@ export default {
       this.$emit("input", false)
       this.initFormInput()
     },
-    async save() {
-      // save to store and notify parent, close dialog
-      try {
-        if (this.slug) {
-          await this.editVendor({
-            slug: this.slug,
-            vendor: this.formInput,
-          })
-          this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
-        } else {
-          await this.addVendor(this.formInput)
-          this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+    save: debounce(
+      async function () {
+        // save to store and notify parent, close dialog
+        try {
+          if (this.slug) {
+            await this.editVendor({
+              slug: this.slug,
+              vendor: this.formInput,
+            })
+            this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
+          } else {
+            await this.addVendor(this.formInput)
+            this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+          }
+          this.$emit("save", this.formInput)
+          this.close()
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
         }
-        this.$emit("save", this.formInput)
-        this.close()
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

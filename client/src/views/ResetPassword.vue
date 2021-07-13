@@ -68,9 +68,10 @@
   </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from "vee-validate"
-import Modal from "../components/Modal"
 import { mapActions } from "vuex"
+import { ValidationObserver, ValidationProvider } from "vee-validate"
+import debounce from "lodash/debounce"
+import Modal from "../components/Modal"
 
 export default {
   components: {
@@ -102,16 +103,20 @@ export default {
 
   methods: {
     ...mapActions("auth", ["resetPassword"]),
-    onSubmit() {
-      this.resetPassword({
-        uid: this.uid,
-        token: this.token,
-        pass: this.password,
-        passConfirm: this.passwordConfirmation,
-      })
-        .then(this.handleSubmitSuccess)
-        .catch(this.handleSubmitError)
-    },
+    onSubmit: debounce(
+      function () {
+        this.resetPassword({
+          uid: this.uid,
+          token: this.token,
+          pass: this.password,
+          passConfirm: this.passwordConfirmation,
+        })
+          .then(this.handleSubmitSuccess)
+          .catch(this.handleSubmitError)
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
     handleSubmitSuccess() {
       this.modalRedirectUrl = "/"
       this.popupMsg = this.$t("auth.registrationSucceeded") + "!"

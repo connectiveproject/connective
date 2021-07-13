@@ -27,6 +27,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"
@@ -84,21 +85,28 @@ export default {
   methods: {
     ...mapActions("programGroup", ["updateGroupConsumers"]),
     ...mapActions("snackbar", ["showMessage"]),
-    async onSubmit() {
-      const consumerSlugs = this.selectedConsumers.map(c => c.slug)
-      if (this.containerGroup) {
-        try {
-          await this.updateGroupConsumers({
-            groupSlug: this.groupSlug,
-            consumerSlugs,
-          })
-        } catch (err) {
-          return this.showMessage(Api.utils.parseResponseError(err))
+    onSubmit: debounce(
+      async function () {
+        const consumerSlugs = this.selectedConsumers.map(c => c.slug)
+        if (this.containerGroup) {
+          try {
+            await this.updateGroupConsumers({
+              groupSlug: this.groupSlug,
+              consumerSlugs,
+            })
+          } catch (err) {
+            return this.showMessage(Api.utils.parseResponseError(err))
+          }
         }
-      }
-      this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-      this.$router.push({ name: "GroupDetail", params: { groupSlug: this.groupSlug } })
-    },
+        this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        this.$router.push({
+          name: "GroupDetail",
+          params: { groupSlug: this.groupSlug },
+        })
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>
