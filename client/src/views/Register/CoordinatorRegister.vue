@@ -1,360 +1,313 @@
 <template>
-  <v-container>
-    <v-row dense justify="center">
-      <v-col cols="11" sm="6" md="6" lg="4" xl="3" v-show="page === 1">
-        <v-card
-          class="mx-auto py-12 px-5 registration-card"
-          elevation="20"
-          outlined
-        >
-          <v-card-title
-            class="text-h4 justify-center mb-6"
-            >{{ $t("auth.detailsCompletion") }}</v-card-title
+  <div class="wrapper">
+    <v-card class="py-12 px-7 mx-auto" width="320" elevation="16" v-show="page === 1">
+      <v-card-title class="text-h4 justify-center mb-6">{{
+        $t("auth.detailsCompletion")
+      }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-center mb-8">{{
+        $t("general.personalInfo")
+      }}</v-card-subtitle>
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <form @submit.prevent="incrementPage" data-testid="form-1">
+          <validation-provider v-slot="{ errors }" name="name" rules="required">
+            <v-text-field
+              v-model="registrationInfo.name"
+              data-testid="name"
+              :error-messages="errors"
+              :label="$t('general.name')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="phone"
+            rules="required|numeric|phoneNumberIsrael"
           >
-          <v-card-subtitle
-            class="text-h6 text-center mb-8"
-            >{{ $t("general.personalInfo") }}</v-card-subtitle
-          >
-          <validation-observer ref="observer" v-slot="{ invalid }">
-            <form @submit.prevent="incrementPage" data-testid="form-1">
-              <validation-provider
-                v-slot="{ errors }"
-                name="name"
-                rules="required"
-              >
-                <v-text-field
-                  class="mt-5"
-                  v-model="registrationInfo.name"
-                  data-testid="name"
-                  :error-messages="errors"
-                  :label="$t('general.name')"
-                  required
-                ></v-text-field>
-              </validation-provider>
+            <v-text-field
+              v-model="registrationInfo.phone"
+              data-testid="phone"
+              :error-messages="errors"
+              :label="$t('general.phoneNumber')"
+              required
+            />
+          </validation-provider>
 
-              <validation-provider
-                v-slot="{ errors }"
-                name="phone"
-                rules="required|numeric|phoneNumberIsrael"
-              >
-                <v-text-field
-                  class="mt-5"
-                  v-model="registrationInfo.phone"
-                  data-testid="phone"
-                  :error-messages="errors"
-                  :label="$t('general.phoneNumber')"
-                  required
-                />
-              </validation-provider>
-
-              <div class="mx-auto d-flex justify-center mt-12">
-                <v-btn
-                  class="ml-3 white--text"
-                  type="submit"
-                  color="primary"
-                  elevation="3"
-                  :disabled="invalid"
-                >
-                  {{ $t("userActions.next") }}
-                </v-btn>
-              </div>
-            </form>
-          </validation-observer>
-        </v-card>
-      </v-col>
-
-      <v-col
-        cols="11"
-        sm="6"
-        md="6"
-        lg="4"
-        xl="3"
-        v-if="shouldEditSchool"
-        v-show="page === 2"
-      >
-        <v-card
-          class="mx-auto py-12 px-5 registration-card"
-          elevation="20"
-          outlined
-        >
-          <v-card-title
-            class="text-h4 justify-center mb-6"
-            >{{ $t("auth.detailsCompletion") }}</v-card-title
-          >
-          <v-card-subtitle
-            class="text-h6 text-center mb-6"
-            >{{ $t("general.schoolDetails") }}</v-card-subtitle
-          >
-          <validation-observer ref="observer" v-slot="{ invalid }">
-            <form @submit.prevent="incrementPage" data-testid="form-2">
-              <validation-provider
-                v-slot="{ errors }"
-                name="school"
-                rules="required"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school"
-                  v-model="registrationInfo.schoolName"
-                  :error-messages="errors"
-                  :label="$tc('general.school', 0)"
-                  required
-                ></v-text-field>
-              </validation-provider>
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolCode"
-                rules="required|numeric"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-code"
-                  v-model="registrationInfo.schoolCode"
-                  :error-messages="errors"
-                  :label="$t('general.schoolCode')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolCity"
-                rules="required"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-city"
-                  v-model="registrationInfo.schoolCity"
-                  :error-messages="errors"
-                  :label="$t('general.city')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolStreet"
-                rules="required"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="street"
-                  v-model="registrationInfo.schoolStreet"
-                  :error-messages="errors"
-                  :label="$t('general.street')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolZipCode"
-                :rules="ZIP_CODE_VALIDATION_RULE"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-zip-code"
-                  v-model="registrationInfo.schoolZipCode"
-                  :error-messages="errors"
-                  :label="$t('general.zipCode')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolPhone"
-                rules="required|numeric|phoneNumberIsrael"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-phone"
-                  v-model="registrationInfo.schoolPhone"
-                  :error-messages="errors"
-                  :label="$t('general.phoneNumber')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolDescription"
-                rules="required"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-description"
-                  v-model="registrationInfo.schoolDescription"
-                  :error-messages="errors"
-                  :label="$t('general.description')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolWebsite"
-                rules="required|website"
-              >
-                <v-text-field
-                  class="mt-5"
-                  data-testid="school-website"
-                  v-model="registrationInfo.schoolWebsite"
-                  :error-messages="errors"
-                  :label="$t('general.website')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-
-              <validation-provider
-                v-slot="{ errors }"
-                name="schoolGrades"
-                rules="required"
-              >
-                <v-select
-                  class="mt-5"
-                  data-testid="school-grades"
-                  v-model="registrationInfo.schoolGrades"
-                  :error-messages="errors"
-                  :items="SCHOOL_GRADES_ITEMS"
-                  :label="$t('general.schoolGrades')"
-                  multiple
-                  chips
-                  deletable-chips
-                >
-                </v-select>
-              </validation-provider>
-
-              <div class="mx-auto d-flex justify-center mt-12">
-                <v-btn
-                  class="ml-3 white--text"
-                  type="submit"
-                  color="primary"
-                  elevation="3"
-                  :disabled="invalid"
-                >
-                  {{ $t("userActions.next") }}
-                </v-btn>
-                <v-btn
-                  class="mr-3"
-                  type="button"
-                  color="primary"
-                  elevation="3"
-                  outlined
-                  @click="decrementPage()"
-                >
-                  {{ $t("userActions.back") }}
-                </v-btn>
-              </div>
-            </form>
-          </validation-observer>
-        </v-card>
-      </v-col>
-
-      <v-col
-        cols="11"
-        sm="6"
-        md="6"
-        lg="4"
-        xl="3"
-        v-show="
-          (page === 3 && shouldEditSchool) || (page === 2 && !shouldEditSchool)
-        "
-      >
-        <v-card
-          class="mx-auto py-12 px-5 registration-card"
-          elevation="20"
-          outlined
-        >
-          <v-card-title
-            class="text-h4 justify-center mb-6"
-            >{{ $t("auth.detailsCompletion") }}</v-card-title
-          >
-          <v-card-subtitle
-            class="text-h6 text-center mb-8"
-            >{{ $t("auth.confirmDetails") }}</v-card-subtitle
-          >
-          <form @submit.prevent="submit" data-testid="form-3">
-            <v-card-text
-              class="text-center mb-5 text-subtitle-1 font-weight-bold"
-              >{{ $t("general.personalInfo") }}</v-card-text
+          <div class="mx-auto d-flex justify-center mt-12">
+            <v-btn
+              class="ml-3 white--text"
+              type="submit"
+              color="primary"
+              elevation="3"
+              :disabled="invalid"
             >
-            <v-card-text
-              ><b>{{ $t("general.name") }}:</b>
-              {{ registrationInfo.name }}
-            </v-card-text>
-            <v-card-text
-              ><b>{{ $t("general.phoneNumber") }}:</b>
-              {{ registrationInfo.phone }}</v-card-text
-            >
-            <br />
-            <template v-if="shouldEditSchool">
-              <v-card-text
-                class="text-center mb-5 text-subtitle-1 font-weight-bold"
-                >{{ $t("general.schoolDetails") }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.name") }} {{ $tc("general.school", 0) }}:</b>
-                {{ registrationInfo.schoolName }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.schoolCode") }}:</b>
-                {{ registrationInfo.schoolCode }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.city") }}:</b>
-                {{ registrationInfo.schoolCity }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.street") }}:</b>
-                {{ registrationInfo.schoolStreet }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.zipCode") }}:</b>
-                {{ registrationInfo.schoolZipCode }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.phoneNumber") }}:</b>
-                {{ registrationInfo.schoolPhone }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.description") }}:</b>
-                {{ registrationInfo.schoolDescription }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.website") }}:</b>
-                {{ registrationInfo.schoolWebsite }}</v-card-text
-              >
-              <v-card-text
-                ><b>{{ $t("general.schoolGrades") }}:</b>
-                {{ registrationInfo.schoolGrades }}</v-card-text
-              >
-            </template>
+              {{ $t("userActions.next") }}
+            </v-btn>
+          </div>
+        </form>
+      </validation-observer>
+    </v-card>
+    <v-card
+      v-if="shouldEditSchool"
+      v-show="page === 2"
+      class="py-12 px-7 mx-auto"
+      width="320"
+      elevation="16"
+    >
+      <v-card-title class="text-h4 justify-center mb-6">{{
+        $t("auth.detailsCompletion")
+      }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-center mb-6">{{
+        $t("general.schoolDetails")
+      }}</v-card-subtitle>
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <form @submit.prevent="incrementPage" data-testid="form-2">
+          <validation-provider
+            v-slot="{ errors }"
+            name="school"
+            rules="required"
+          >
+            <v-text-field
+              data-testid="school"
+              v-model="registrationInfo.schoolName"
+              :error-messages="errors"
+              :label="$tc('general.school', 0)"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolCode"
+            rules="required|numeric"
+          >
+            <v-text-field
+              data-testid="school-code"
+              v-model="registrationInfo.schoolCode"
+              :error-messages="errors"
+              :label="$t('general.schoolCode')"
+              required
+            ></v-text-field>
+          </validation-provider>
 
-            <div class="mx-auto d-flex justify-center mt-12">
-              <v-btn
-                class="ml-3 white--text"
-                type="submit"
-                color="primary"
-                elevation="3"
-              >
-                {{ $t("auth.detailsConfirmation") }}
-              </v-btn>
-              <v-btn
-                class="mr-3"
-                type="button"
-                color="primary"
-                elevation="3"
-                outlined
-                @click="decrementPage()"
-              >
-                {{ $t("userActions.back") }}
-              </v-btn>
-            </div>
-          </form>
-        </v-card>
-      </v-col>
-    </v-row>
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolCity"
+            rules="required"
+          >
+            <v-text-field
+              data-testid="school-city"
+              v-model="registrationInfo.schoolCity"
+              :error-messages="errors"
+              :label="$t('general.city')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolStreet"
+            rules="required"
+          >
+            <v-text-field
+              data-testid="street"
+              v-model="registrationInfo.schoolStreet"
+              :error-messages="errors"
+              :label="$t('general.street')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolZipCode"
+            :rules="ZIP_CODE_VALIDATION_RULE"
+          >
+            <v-text-field
+              data-testid="school-zip-code"
+              v-model="registrationInfo.schoolZipCode"
+              :error-messages="errors"
+              :label="$t('general.zipCode')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolPhone"
+            rules="required|numeric|phoneNumberIsrael"
+          >
+            <v-text-field
+              data-testid="school-phone"
+              v-model="registrationInfo.schoolPhone"
+              :error-messages="errors"
+              :label="$t('general.phoneNumber')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolDescription"
+            rules="required"
+          >
+            <v-text-field
+              data-testid="school-description"
+              v-model="registrationInfo.schoolDescription"
+              :error-messages="errors"
+              :label="$t('general.description')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolWebsite"
+            rules="required|website"
+          >
+            <v-text-field
+              data-testid="school-website"
+              v-model="registrationInfo.schoolWebsite"
+              :error-messages="errors"
+              :label="$t('general.website')"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="schoolGrades"
+            rules="required"
+          >
+            <v-select
+              data-testid="school-grades"
+              v-model="registrationInfo.schoolGrades"
+              :error-messages="errors"
+              :items="SCHOOL_GRADES_ITEMS"
+              :label="$t('general.schoolGrades')"
+              multiple
+              chips
+              deletable-chips
+            >
+            </v-select>
+          </validation-provider>
+
+          <div class="mx-auto d-flex justify-center mt-12">
+            <v-btn
+              class="ml-3 white--text"
+              type="submit"
+              color="primary"
+              elevation="3"
+              :disabled="invalid"
+            >
+              {{ $t("userActions.next") }}
+            </v-btn>
+            <v-btn
+              class="mr-3"
+              type="button"
+              color="primary"
+              elevation="3"
+              outlined
+              @click="decrementPage()"
+            >
+              {{ $t("userActions.back") }}
+            </v-btn>
+          </div>
+        </form>
+      </validation-observer>
+    </v-card>
+    <v-card
+      class="py-12 px-7 mx-auto"
+      width="320"
+      elevation="16"
+      v-show="
+        (page === 3 && shouldEditSchool) || (page === 2 && !shouldEditSchool)
+      "
+    >
+      <v-card-title class="text-h4 justify-center mb-6">{{
+        $t("auth.detailsCompletion")
+      }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-center mb-8">{{
+        $t("auth.confirmDetails")
+      }}</v-card-subtitle>
+      <form @submit.prevent="submit" data-testid="form-3">
+        <v-card-text
+          class="text-center mb-5 text-subtitle-1 font-weight-bold"
+          >{{ $t("general.personalInfo") }}</v-card-text
+        >
+        <v-card-text
+          ><b>{{ $t("general.name") }}:</b>
+          {{ registrationInfo.name }}
+        </v-card-text>
+        <v-card-text
+          ><b>{{ $t("general.phoneNumber") }}:</b>
+          {{ registrationInfo.phone }}</v-card-text
+        >
+        <br />
+        <template v-if="shouldEditSchool">
+          <v-card-text
+            class="text-center mb-5 text-subtitle-1 font-weight-bold"
+            >{{ $t("general.schoolDetails") }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.name") }} {{ $tc("general.school", 0) }}:</b>
+            {{ registrationInfo.schoolName }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.schoolCode") }}:</b>
+            {{ registrationInfo.schoolCode }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.city") }}:</b>
+            {{ registrationInfo.schoolCity }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.street") }}:</b>
+            {{ registrationInfo.schoolStreet }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.zipCode") }}:</b>
+            {{ registrationInfo.schoolZipCode }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.phoneNumber") }}:</b>
+            {{ registrationInfo.schoolPhone }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.description") }}:</b>
+            {{ registrationInfo.schoolDescription }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.website") }}:</b>
+            {{ registrationInfo.schoolWebsite }}</v-card-text
+          >
+          <v-card-text
+            ><b>{{ $t("general.schoolGrades") }}:</b>
+            {{ registrationInfo.schoolGrades }}</v-card-text
+          >
+        </template>
+
+        <div class="mx-auto d-flex justify-center mt-12">
+          <v-btn
+            class="ml-3 white--text"
+            type="submit"
+            color="primary"
+            elevation="3"
+          >
+            {{ $t("auth.detailsConfirmation") }}
+          </v-btn>
+          <v-btn
+            class="mr-3"
+            type="button"
+            color="primary"
+            elevation="3"
+            outlined
+            @click="decrementPage()"
+          >
+            {{ $t("userActions.back") }}
+          </v-btn>
+        </div>
+      </form>
+    </v-card>
     <modal
       :redirectComponentName="modalRedirectComponentName"
       v-show="popupMsg !== ''"
@@ -362,7 +315,7 @@
     >
       {{ popupMsg }}
     </modal>
-  </v-container>
+  </div>
 </template>
 <script>
 import store from "../../vuex/store"
@@ -384,7 +337,7 @@ export default {
     shouldEditSchool: {
       type: Boolean,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -509,8 +462,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.registration-card {
-  margin-top: 60px;
+.wrapper {
+  margin-top: 100px;
+  margin-bottom: 30px;
 }
 
 .v-card__subtitle,

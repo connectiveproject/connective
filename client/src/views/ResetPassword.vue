@@ -1,66 +1,60 @@
 <template>
-  <v-container fill-height>
-    <v-row dense justify="center" align="center">
-      <v-col cols="11" sm="6" md="6" lg="4" xl="3">
-        <v-card class="py-12 px-5 mb-16" elevation="20" outlined>
-          <v-card-title
-            class="text-h4 justify-center mb-6"
-            >{{ $t("general.connective") }}</v-card-title
+  <div>
+    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
+      <v-card-title class="text-h4 justify-center mb-6">{{
+        $t("general.connective")
+      }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-center mb-8">{{
+        $t("auth.registration")
+      }}</v-card-subtitle>
+      <validation-observer v-slot="{ invalid }">
+        <form @submit.prevent="onSubmit">
+          <validation-provider
+            v-slot="{ errors }"
+            name="password"
+            rules="required|strongPass"
           >
-          <v-card-subtitle
-            class="text-h6 text-center mb-8"
-            >{{ $t("auth.registration") }}</v-card-subtitle
+            <v-text-field
+              class="mt-5"
+              v-model="password"
+              :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+              :error-messages="errors"
+              :type="showPass ? 'text' : 'password'"
+              name="password"
+              :label="$t('auth.password')"
+              @click:append="showPass = !showPass"
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="passwordConfirmation"
+            rules="required|passConfirm:@password"
           >
-          <validation-observer v-slot="{ invalid }">
-            <form @submit.prevent="onSubmit">
-              <validation-provider
-                v-slot="{ errors }"
-                name="password"
-                rules="required|strongPass"
-              >
-                <v-text-field
-                  class="mt-5"
-                  v-model="password"
-                  :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                  :error-messages="errors"
-                  :type="showPass ? 'text' : 'password'"
-                  name="password"
-                  :label="$t('auth.password')"
-                  @click:append="showPass = !showPass"
-                ></v-text-field>
-              </validation-provider>
+            <v-text-field
+              class="mt-5"
+              v-model="passwordConfirmation"
+              :error-messages="errors"
+              type="password"
+              name="passwordConfirmation"
+              :label="$t('auth.reEnterPassword')"
+            ></v-text-field>
+          </validation-provider>
 
-              <validation-provider
-                v-slot="{ errors }"
-                name="passwordConfirmation"
-                rules="required|passConfirm:@password"
-              >
-                <v-text-field
-                  class="mt-5"
-                  v-model="passwordConfirmation"
-                  :error-messages="errors"
-                  type="password"
-                  name="passwordConfirmation"
-                  :label="$t('auth.reEnterPassword')"
-                ></v-text-field>
-              </validation-provider>
-
-              <div class="mx-auto d-flex justify-center mt-12">
-                <v-btn
-                  class="ml-3 white--text"
-                  type="submit"
-                  color="primary"
-                  elevation="3"
-                  :disabled="invalid"
-                >
-                  {{ $t("auth.finishRegistration") }}
-                </v-btn>
-              </div>
-            </form>
-          </validation-observer>
-        </v-card>
-      </v-col>
-    </v-row>
+          <div class="mx-auto d-flex justify-center mt-12">
+            <v-btn
+              class="ml-3 white--text"
+              type="submit"
+              color="primary"
+              elevation="3"
+              :disabled="invalid"
+            >
+              {{ $t("auth.finishRegistration") }}
+            </v-btn>
+          </div>
+        </form>
+      </validation-observer>
+    </v-card>
     <modal
       :redirectUrl="modalRedirectUrl"
       v-show="popupMsg !== ''"
@@ -71,7 +65,7 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
-  </v-container>
+  </div>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
