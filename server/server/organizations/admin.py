@@ -36,7 +36,6 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ["slug", "name", "originization", "tags"]
     search_fields = ["name"]
 
-
 @admin.register(SchoolActivityGroup)
 class SchoolActivityGroupAdmin(admin.ModelAdmin):
     list_display = [

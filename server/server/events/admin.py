@@ -13,5 +13,4 @@ class EventAdmin(admin.ModelAdmin):
     def activity(self, obj):
         return obj.school_group.activity_order.activity
 
-
 admin.site.register(ConsumerEventFeedback)
