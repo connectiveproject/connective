@@ -18,9 +18,9 @@ class School(models.Model):
     address_city = models.CharField(max_length=50)
     zip_city = models.CharField(max_length=15)
     school_code = models.CharField(max_length=15)
-    description = models.CharField(max_length=150)
+    description = models.CharField(max_length=150, blank=True)
     contact_phone = PhoneNumberField(max_length=15)
-    website = models.URLField()
+    website = models.URLField(blank=True)
     profile_picture = models.ImageField(null=True, blank=True)
     grade_levels = models.JSONField()
     last_updated_by = models.ForeignKey(

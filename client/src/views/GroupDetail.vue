@@ -128,6 +128,7 @@ export default {
           },
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        this.$router.push({ name: "MyGroups" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

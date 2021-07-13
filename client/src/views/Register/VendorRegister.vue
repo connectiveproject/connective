@@ -53,7 +53,7 @@
                 type="submit"
                 color="primary"
                 elevation="3"
-                v-text="$t('auth.detailsCompletion')"
+                v-text="$t('auth.detailsConfirmation')"
                 :disabled="invalid"
               />
               <v-btn

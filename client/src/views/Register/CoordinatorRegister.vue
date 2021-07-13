@@ -338,7 +338,7 @@
                 color="primary"
                 elevation="3"
               >
-                {{ $t("auth.detailsCompletion") }}
+                {{ $t("auth.detailsConfirmation") }}
               </v-btn>
               <v-btn
                 class="mr-3"
