@@ -4,7 +4,7 @@
       <router-view />
     </v-col>
     <v-col class="relative d-none d-lg-block overflow-hidden" lg="7">
-      <video width="800" :src="video" autoplay loop class="absolute-center" />
+      <video width="800" :src="video" autoplay playsinline loop muted class="absolute-center" />
     </v-col>
   </v-row>
 </template>

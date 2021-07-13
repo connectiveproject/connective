@@ -16,7 +16,7 @@ def approve_order(self, request, queryset):
         order.save()
 
 
-approve_order.short_description = "Approve Order"
+approve_order.short_description = "Approve Selected Orders"
 
 
 class OrganizationMemberTabularInline(admin.TabularInline):
@@ -27,13 +27,14 @@ class OrganizationMemberTabularInline(admin.TabularInline):
 @admin.register(SchoolActivityOrder)
 class SchoolActivityOrderAdmin(admin.ModelAdmin):
     list_display = ["school", "activity", "created_at", "updated_at", "status"]
+    search_fields = ["school__name", "activity__name"]
     actions = [approve_order]
 
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ["slug", "name", "originization", "tags"]
-
+    search_fields = ["name"]
 
 @admin.register(SchoolActivityGroup)
 class SchoolActivityGroupAdmin(admin.ModelAdmin):
