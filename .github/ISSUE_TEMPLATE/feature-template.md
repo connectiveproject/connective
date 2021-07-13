@@ -23,4 +23,4 @@ assignees: ''
 [If the task is currently blocked, enter its dependencies - e.g., links to other issues]
 
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/connectiveproject/connective)
+[![Gitpod ready-to-code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer)    

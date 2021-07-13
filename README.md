@@ -44,3 +44,6 @@ We work diligently to fix the issue, which will be hopefully solved soon.
 
 #### Happy Coding! 
 
+### stack overview
+![connective tech stack](https://github.com/connectiveproject/connective/blob/main/connective_stack.jpeg)
+
