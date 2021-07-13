@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event
+from .models import ConsumerEventFeedback, Event
 
 
 @admin.register(Event)
@@ -12,3 +12,6 @@ class EventAdmin(admin.ModelAdmin):
 
     def activity(self, obj):
         return obj.school_group.activity_order.activity
+
+
+admin.site.register(ConsumerEventFeedback)
