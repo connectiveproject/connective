@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from server.schools.models import SchoolMember
 
@@ -70,6 +71,13 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consumer
         fields = ["slug", "name", "email", "profile"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
 
     def create(self, validated_data):
         """
@@ -115,6 +123,13 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coordinator
         fields = ["slug", "name", "email"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
 
     def create(self, validated_data):
         """

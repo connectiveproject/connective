@@ -23,19 +23,19 @@ Primary.args = {
   value: [
     {
       name: "firstName",
-      rule: "required",
+      rules: "required",
       label: "First Name",
       value: ""
     },
     {
       name: "lastName",
-      rule: "required",
+      rules: "required",
       label: "Last Name",
       value: ""
     },
     {
       name: "phoneNumber",
-      rule: "required",
+      rules: "required",
       label: "Phone",
       value: "0521234567"
     },

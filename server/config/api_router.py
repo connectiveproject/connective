@@ -9,6 +9,7 @@ from server.organizations.api.views import (
     ManageSchoolActivityViewSet,
     OrganizationViewSet,
     SchoolActivityGroupViewSet,
+    VendorActivityViewSet,
 )
 from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
@@ -51,12 +52,21 @@ router.register(
     ConsumerActivityViewSet,
     basename="consumer_activities",
 )
+router.register(
+    "vendor_activities",
+    VendorActivityViewSet,
+    basename="vendor_activities",
+)
 router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
 )
-router.register("manage_school_activity", ManageSchoolActivityViewSet)
+router.register(
+    "manage_school_activity",
+    ManageSchoolActivityViewSet,
+    basename="manage_school_activity",
+)
 router.register("school_activity_group", SchoolActivityGroupViewSet)
 router.register("events", EventViewSet, basename="events")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")

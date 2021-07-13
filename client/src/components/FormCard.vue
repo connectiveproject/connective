@@ -13,20 +13,23 @@
             <validation-provider
               v-slot="{ errors }"
               :name="field.name"
-              :rules="field.rule"
+              :rules="field.rules"
             >
               <v-select
                 v-if="field.type && field.type === 'select'"
                 class="mx-2"
+                :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"
                 :value="field.value"
                 :items="field.choices"
                 @input="input => updateField(i, input)"
+                :multiple="field.multiselect"
               />
               <v-text-field
                 v-else
                 class="mx-2"
+                :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"
                 :value="field.value"
@@ -41,6 +44,7 @@
 </template>
 
 <script>
+import Vue from "vue"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 
 export default {
@@ -52,7 +56,7 @@ export default {
   props: {
     value: {
       // the form's prototype
-      // e.g.,  [ { name: 'field1', rule: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
+      // e.g.,  [ { name: 'field1', rules: 'required|size:3000', label: $t('translation'), value: 'placeholderValue' }, { ... }, ... ]
       type: Array,
       required: true,
     },
@@ -67,6 +71,7 @@ export default {
       // emit validation events
       deep: true,
       async handler() {
+        await Vue.nextTick()
         const isValid = await this.$refs.observer.validate({ silent: true })
         if (isValid) {
           this.$emit("valid")

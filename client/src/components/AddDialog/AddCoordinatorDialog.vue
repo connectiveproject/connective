@@ -52,6 +52,7 @@
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import Api from "../../api"
 
 export default {
   components: {
@@ -72,7 +73,9 @@ export default {
     title: {
       type: String,
       default: function () {
-        return `${this.$tc("invite.invite", 1)} ${this.$t("general.coordinator")}`
+        return `${this.$tc("invite.invite", 1)} ${this.$t(
+          "general.coordinator"
+        )}`
       },
     },
     slug: {
@@ -102,6 +105,7 @@ export default {
 
   methods: {
     ...mapActions("school", ["addCoordinator", "editCoordinator"]),
+    ...mapActions("snackbar", ["showMessage"]),
     initFormInput() {
       this.formInput = {
         name: "",
@@ -116,13 +120,22 @@ export default {
     },
     async save() {
       // save to store and notify parent, close dialog
-      if (this.slug) {
-        await this.editCoordinator({ slug: this.slug, coordinator: this.formInput })
-      } else {
-        await this.addCoordinator(this.formInput)
+      try {
+        if (this.slug) {
+          await this.editCoordinator({
+            slug: this.slug,
+            coordinator: this.formInput,
+          })
+          this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
+        } else {
+          await this.addCoordinator(this.formInput)
+          this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+        }
+        this.$emit("save", this.formInput)
+        this.close()
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
       }
-      this.$emit("save", this.formInput)
-      this.close()
     },
   },
 }

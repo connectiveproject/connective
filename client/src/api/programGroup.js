@@ -15,11 +15,11 @@ const programGroup = {
   getGroupList(params) {
     return axios.get(GET_PROGRAM_GROUPS_API_URL, { params })
   },
-  createGroup(payload) {
-    return axios.post(CREATE_PROGRAM_GROUP_API_URL, payload)
+  createGroup(data) {
+    return axios.post(CREATE_PROGRAM_GROUP_API_URL, data)
   },
-  updateGroup(groupSlug, payload) {
-    return axios.patch(`${UPDATE_PROGRAM_GROUP_API_URL}${groupSlug}/`, payload)
+  updateGroup(groupSlug, data) {
+    return axios.patch(`${UPDATE_PROGRAM_GROUP_API_URL}${groupSlug}/`, data)
   },
   deleteGroup(groupSlug) {
     return axios.delete(`${DELETE_PROGRAM_GROUP_API_URL}${groupSlug}/`)

@@ -32,6 +32,7 @@ from .serializers import (
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
     SchoolActivityGroupSerializer,
+    VendorActivitySerializer,
 )
 
 
@@ -55,12 +56,34 @@ class OrganizationViewSet(
             return Organization.objects.none()
 
 
-class ActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator]
+class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [AllowCoordinatorReadOnly]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
 
     queryset = Activity.objects.all()
+
+
+class VendorActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowVendor]
+    serializer_class = VendorActivitySerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Activity.objects.filter(
+            originization=user.organization_member.organization,
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
+
+    def perform_update(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
 
 
 class ConsumerActivityViewSet(
@@ -151,6 +174,12 @@ class ConsumerActivityViewSet(
 
 
 class ActivityMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        AllowVendor
+        | AllowCoordinatorReadOnly
+        | AllowInstructorReadOnly
+        | AllowConsumerReadOnly
+    ]
     serializer_class = ActivityMediaSerializer
     lookup_field = "slug"
     queryset = ActivityMedia.objects.all()
@@ -163,7 +192,9 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
     lookup_field = "activity__slug"
     filterset_fields = ("status",)
 
-    queryset = SchoolActivityOrder.objects.all()
+    def get_queryset(self):
+        coord_school = self.request.user.school_member.school
+        return SchoolActivityOrder.objects.filter(school=coord_school)
 
     def perform_create(self, serializer):
         serializer.save(
@@ -209,7 +240,7 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         # receive consumer slugs list, override existing consumers & move the removed to container-only group
         current_group = self.get_object()
         container_only_group = (
-            SchoolActivityGroup.objects.get_sibling_container_only_group(current_group)
+            SchoolActivityGroup.objects.get_activity_container_only_group(current_group)
         )
         if not container_only_group:
             return Response(
@@ -230,7 +261,9 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["GET"])
     def consumer_requests_data(self, request):
-        # requests to each activity, based on container_only consumers
+        """
+        requests to each activity, based on container_only consumers
+        """
         qs = (
             self.get_queryset()
             .filter(group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY)

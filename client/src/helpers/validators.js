@@ -49,7 +49,7 @@ extend("phoneNumberIsrael", {
 extend("website", {
   message: i18n.tc("errors.invalidWebsiteAddress"),
   validate: value => {
-    const regex = new RegExp(WEBSITE_REGEX_PATTERN)
+    const regex = new RegExp(WEBSITE_REGEX_PATTERN, "i")
     return regex.test(value)
   },
 })

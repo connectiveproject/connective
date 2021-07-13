@@ -17,8 +17,8 @@ const school = {
     return axios.get(GET_SCHOOL_DETAILS_API_URL)
   },
 
-  updateSchoolDetails(schoolSlug, payload) {
-    return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, payload)
+  updateSchoolDetails(schoolSlug, data) {
+    return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, data)
   },
 
   getStudentList(params) {
@@ -37,8 +37,8 @@ const school = {
     return axios.post(ADD_SCHOOL_STUDENTS_API_URL, formData)
   },
 
-  editStudent(slug, payload) {
-    return axios.patch(`${EDIT_SCHOOL_STUDENTS_API_URL}${slug}/`, payload)
+  editStudent(slug, data) {
+    return axios.patch(`${EDIT_SCHOOL_STUDENTS_API_URL}${slug}/`, data)
   },
 
   deleteStudents(studentSlugs) {
@@ -65,8 +65,8 @@ const school = {
     return axios.post(ADD_SCHOOL_COORDINATORS_API_URL, formData)
   },
 
-  editCoordinator(slug, payload) {
-    return axios.patch(`${EDIT_SCHOOL_COORDINATORS_API_URL}${slug}/`, payload)
+  editCoordinator(slug, data) {
+    return axios.patch(`${EDIT_SCHOOL_COORDINATORS_API_URL}${slug}/`, data)
   },
 
   deleteCoordinators(coordinatorSlugs) {

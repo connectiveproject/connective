@@ -187,7 +187,7 @@ export const defaultAvatarOptions = {
   accessoriesType: "Prescription02",
   facialHairType: "Blank",
   clotheType: "CollarSweater",
-  eyeType: "Happy",
+  eyeType: "Default",
   eyebrowType: "Default",
   mouthType: "Smile",
   skinColor: "Brown",

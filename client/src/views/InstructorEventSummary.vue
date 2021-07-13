@@ -24,7 +24,7 @@
         </v-col>
         <v-col cols="12" sm="12" lg="6">
           <v-select
-            :items="consumerSelectItems"
+            :items="consumerchoices"
             :label="$t('events.attendance')"
             v-model="attendedConsumers"
             class="my-6"
@@ -94,14 +94,14 @@ export default {
     )
     next(vm => {
       vm.event = event
-      vm.consumerSelectItems = consumers.map(c => ({ text: c.name, value: c.slug }))
+      vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
       vm.attendedConsumers = consumers.map(c => c.slug)
     })
   },
   data() {
     return {
       event: {},
-      consumerSelectItems: [],
+      consumerchoices: [],
       attendedConsumers: [],
       summaryGeneralNotes: "",
       summaryGeneralRating: 10,
@@ -114,14 +114,14 @@ export default {
     ...mapActions("instructorEvent", ["updateEvent"]),
     parseDate: Utils.ApiStringToReadableDate,
     async onSubmit() {
-      const payload = {
+      const data = {
         consumers: this.attendedConsumers,
         summaryGeneralNotes: this.summaryGeneralNotes,
         summaryGeneralRating: this.summaryGeneralRating,
         summaryChildrenBehavior: this.summaryChildrenBehavior,
         hasSummary: true
       }
-      await this.updateEvent({ slug: this.slug, payload })
+      await this.updateEvent({ slug: this.slug, data })
       this.isModalOpen = true
     },
   },

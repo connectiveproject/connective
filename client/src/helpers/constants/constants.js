@@ -24,10 +24,16 @@ export const ADD_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinator
 export const EDIT_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinators/`
 export const DELETE_SCHOOL_COORDINATORS_API_URL = `${SERVER_URL}/manage_coordinators/`
 export const GET_PROGRAM_LIST_API_URL = `${SERVER_URL}/activities/`
+export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
+export const GET_VENDOR_PROGRAM_LIST_API_URL = `${SERVER_URL}/vendor_activities/`
+export const CREATE_VENDOR_PROGRAM_API_URL = `${SERVER_URL}/vendor_activities/`
+export const DELETE_VENDOR_PROGRAM_API_URL = `${SERVER_URL}/vendor_activities/`
+export const UPDATE_VENDOR_PROGRAM_API_URL = `${SERVER_URL}/vendor_activities/`
 export const GET_PROGRAM_MEDIA_LIST_API_URL = `${SERVER_URL}/activity_media/`
+export const DELETE_PROGRAM_MEDIA_API_URL = `${SERVER_URL}/activity_media/`
+export const CREATE_PROGRAM_MEDIA_API_URL = `${SERVER_URL}/activity_media/`
 export const GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL = `${SERVER_URL}/manage_school_activity/`
 export const ORDER_SCHOOL_PROGRAM_API_URL = `${SERVER_URL}/manage_school_activity/`
-export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
 export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
 export const GET_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
@@ -46,6 +52,24 @@ export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
 
 export const TOKEN_COOKIE_NAME = "token"
+export const PASSWORD_REGEX_PATTERN =
+  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
+export const ISRAELI_PHONE_REGEX_PATTERN =
+  "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
+export const EMAIL_REGEX_PATTERN =
+  '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
+export const WEBSITE_REGEX_PATTERN =
+  "^(https?:\\/\\/)" + // protocol
+  "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+  "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+  "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+  "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+  "(\\#[-a-z\\d_]*)?$" // fragment locator
+
+export const YOUTUBE_ID_REGEX_PATTERN =
+  /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"
+
 export const SCHOOL_GRADES_ITEMS = [
   { value: 1, text: i18n.t("grades.1") },
   { value: 2, text: i18n.t("grades.2") },
@@ -61,17 +85,70 @@ export const SCHOOL_GRADES_ITEMS = [
   { value: 12, text: i18n.t("grades.12") },
 ]
 
-export const PASSWORD_REGEX_PATTERN =
-  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
-export const ISRAELI_PHONE_REGEX_PATTERN =
-  "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
-export const EMAIL_REGEX_PATTERN =
-  '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
-export const WEBSITE_REGEX_PATTERN =
-  /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi
-export const YOUTUBE_ID_REGEX_PATTERN =
-  /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
-export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"
+const DOMAIN_SELECT_ITEMS = [
+  {
+    text: i18n.t("programFilters.scienceAndTech"),
+    value: "scienceAndTech",
+  },
+  {
+    text: i18n.t("programFilters.extremeSports"),
+    value: "extremeSports",
+  },
+  {
+    text: i18n.t("programFilters.field"),
+    value: "field",
+  },
+]
+
+export const VENDOR_PROGRAM_FIELDS = [
+  {
+    name: "name",
+    label: i18n.t("program.programName"),
+    rules: "required",
+  },
+  {
+    name: "description",
+    label: i18n.t("program.programDescription"),
+    rules: "required",
+  },
+  {
+    name: "targetAudience",
+    label: i18n.t("program.targetAudience"),
+    rules: "required",
+    type: "select",
+    choices: SCHOOL_GRADES_ITEMS,
+    multiselect: true,
+  },
+  {
+    name: "domain",
+    label: i18n.t("program.domain"),
+    rules: "required",
+    type: "select",
+    choices: DOMAIN_SELECT_ITEMS,
+    multiselect: false,
+  },
+  {
+    name: "activityWebsiteUrl",
+    label: i18n.t("general.website"),
+    rules: "required|website",
+  },
+  {
+    name: "activityEmail",
+    label: i18n.t("general.email"),
+    rules: "required|email",
+  },
+  {
+    name: "contactName",
+    label: i18n.t("program.contactName"),
+    rules: "required",
+  },
+  {
+    name: "phoneNumber",
+    label: i18n.t("general.phoneNumber"),
+    rules: "required|numeric|phoneNumberIsrael",
+  },
+]
+
 export const PROGRAMS_CHECKBOX_FILTERS = [
   {
     name: "space",

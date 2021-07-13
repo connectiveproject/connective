@@ -3,6 +3,7 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from server.organizations.admin import OrganizationMemberTabularInline
 from server.schools.admin import SchoolMemberTabularInline
 from server.users.forms import UserChangeForm
 from server.users.helpers import send_user_invite
@@ -31,6 +32,7 @@ def send_invite(self, request, queryset):
 send_invite.short_description = "Invite user"
 
 
+@admin.register(User, Supervisor)
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
@@ -64,9 +66,9 @@ class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
 
 
-@admin.register(User, Instructor, Vendor, Supervisor)
+@admin.register(Instructor, Vendor)
 class OrgUserTypesAdmin(BaseUserTypesAdmin):
-    pass
+    inlines = [OrganizationMemberTabularInline]
 
 
 admin.site.register(CoordinatorProfile)

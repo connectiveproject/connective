@@ -35,12 +35,19 @@
     "status": "סטטוס",
     "display": "תצוגה",
     "yes": "כן",
-    "no": "לא"
+    "no": "לא",
+    "didYouKnow?": "הידעת?",
+    "video": "וידאו",
+    "image": "תמונה",
+    "toThePreviousPage": "לעמוד הקודם",
+    "media": "מדיה"
   },
 
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
-    "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?"
+    "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
+    "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?",
+    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?"
   },
 
   "gender": {
@@ -70,7 +77,21 @@
     "CANCELLED": "בוטל",
     "available": "זמין",
     "forProgramDetails": "לפרטי התוכנית",
-    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה"
+    "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
+    "hereYouCanSeeAllTheProgramsListedUnderYou": "כאן ניתן לצפות בכלל התוכניות הנמצאות תחתיך",
+    "toProgramPage": "לעמוד התוכנית",
+    "programName": "שם תוכנית",
+    "programDescription": "תיאור תוכנית",
+    "editAndViewTheProgramDetails": "ערכו וצפו בפרטי התוכנית",
+    "programPage": "עמוד תוכנית",
+    "uploadingImagesAndVideosCanImproveTheProgramPopularity!": "העלאת תמונות וסרטונים משפרת את פופולריות התוכנית!",
+    "mediaUpload": "העלאת מדיה",
+    "uploadVideosAndImagesSoSchoolsCanView": "העלו תמונות וסרטונים בכדי שבתי הספר יוכלו להתרשם",
+    "imageUpload": "העלאת תמונה",
+    "youtubeVideoUrl": "כתובת לסרטון יוטיוב",
+    "mediaType": "סוג מדיה",
+    "programCreation": "יצירת תוכנית",
+    "fillInTheDetailsAndCreateNewProgram": "מלאו את הפרטים וצרו תוכנית חדשה"
   },
 
   "programFilters": {
@@ -98,6 +119,7 @@
     "invitationStatus": "סטטוס הזמנה",
     "usersInvitation": "הזמנות משתמשים",
     "inviteStudentsToPlatformAndKeepTrackOfTheirStatus": "הזמינו תלמידים לפלטפורמה ועקבו אחר הסטטוס שלהם",
+    "invitingUserOrChangingExistingEmailWillSendAnInviteToTheInviteesMailbox": "הזמנת משתמש או שינוי כתובת מייל קיימת ישלחו הזמנה לתיבת המייל של המוזמנ/ת",
     "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
     "pendingRecipientApproval": "מחכה לאישור הנמען",
     "removeStaffMember": "הסרת איש סגל",
@@ -115,7 +137,8 @@
     "search": "חיפוש",
     "edit": "עריכת|עירכו",
     "add": "הוספה|הוסיפו",
-    "delete": "מחיקה"
+    "delete": "מחיקה",
+    "finish": "סיום"
   },
 
   "grades": {
@@ -158,7 +181,14 @@
     "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
     "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
-    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה"
+    "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",
+    "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה",
+    "mediaUploadedSuccessfully": "המדיה הועלתה בהצלחה",
+    "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה",
+    "programCreatedSuccessfully": "התוכנית נוצרה בהצלחה",
+    "userDetailsUpdatedSuccessfully": "פרטי המשתמש עודכנו בהצלחה",
+    "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה",
+    "userDeletedSuccessfully": "המשתמש נמחק בהצלחה"
   },
 
   "errors": {
@@ -183,7 +213,8 @@
     "unavailable": "לא זמין",
     "nameUnavailable": "שם לא זמין",
     "thisPageDoesNotExist": "עמוד זה אינו קיים",
-    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה"
+    "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
+    "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים"
   },
 
   "myActivity": {
@@ -203,7 +234,8 @@
     "forGroupDetails": "לפרטי הקבוצה",
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
-    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור"
+    "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
+    "groupsFound": "קבוצות נמצאו"
   },
 
   "events": {

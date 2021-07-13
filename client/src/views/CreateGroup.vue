@@ -9,6 +9,7 @@
     />
     <v-btn
       class="white--text purple darken-3 mt-10 d-block mx-auto"
+      data-testid="submit-button"
       :disabled="!isFormValid"
       @click="onSubmit"
       v-text="$t('userActions.save')"
@@ -35,17 +36,17 @@ export default {
     const fields = [
       {
         name: "name",
-        rule: "required",
+        rules: "required",
         label: i18n.t("groups.groupName"),
       },
       {
         name: "description",
-        rule: "required",
+        rules: "required",
         label: i18n.t("general.description"),
       },
       {
         name: "activityOrder",
-        rule: "required",
+        rules: "required",
         label: i18n.t("groups.parentProgram"),
         type: "select",
         choices: parentPrograms,
@@ -63,12 +64,12 @@ export default {
     ...mapActions("programGroup", ["createGroup"]),
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
-      const payload = { groupType: SERVER.programGroupTypes.standard }
+      const data = { groupType: SERVER.programGroupTypes.standard }
       for (const f of this.fields) {
-        payload[f.name] = f.value
+        data[f.name] = f.value
       }
       try {
-        const group = await this.createGroup(payload)
+        const group = await this.createGroup(data)
         this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
         this.$router.push({ name: "AssignGroupConsumers", params: { groupSlug: group.slug } })
       } catch (err) {

@@ -9,6 +9,7 @@ import vendor from "./modules/vendor"
 import school from "./modules/school"
 import program from "./modules/program"
 import consumerProgram from "./modules/consumerProgram"
+import vendorProgram from "./modules/vendorProgram"
 import pagination from "./modules/pagination"
 import loading from "./modules/loading"
 import snackbar from "./modules/snackbar"
@@ -32,6 +33,7 @@ const store = new Vuex.Store({
     school,
     program,
     consumerProgram,
+    vendorProgram,
     loading,
     snackbar,
     pagination,

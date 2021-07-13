@@ -26,14 +26,14 @@
         >
           <input-drawer
             unique-name="name"
-            :descriptive-name="$t('groups.groupName')"
-            validation-rules="required"
+            :label="$t('groups.groupName')"
+            rules="required"
             v-model="name"
           />
           <input-drawer
             unique-name="description"
-            :descriptive-name="$t('general.description')"
-            validation-rules="required"
+            :label="$t('general.description')"
+            rules="required"
             v-model="description"
           />
           <v-btn
@@ -122,7 +122,7 @@ export default {
       try {
         await this.updateGroup({
           groupSlug: this.groupSlug,
-          payload: {
+          data: {
             name: this.name,
             description: this.description,
           },
