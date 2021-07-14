@@ -9,6 +9,8 @@ from .models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Supervisor,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
@@ -18,12 +20,14 @@ from .models import (
 @receiver(post_save, sender=Coordinator)
 @receiver(post_save, sender=Instructor)
 @receiver(post_save, sender=Vendor)
+@receiver(post_save, sender=Supervisor)
 def update_user_profile(sender, instance, created, **kwargs):
     user_type_to_profile = {
         get_user_model().Types.COORDINATOR: CoordinatorProfile,
         get_user_model().Types.CONSUMER: ConsumerProfile,
         get_user_model().Types.INSTRUCTOR: InstructorProfile,
         get_user_model().Types.VENDOR: VendorProfile,
+        get_user_model().Types.SUPERVISOR: SupervisorProfile,
     }
 
     if created:

@@ -15,6 +15,8 @@ from .models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Supervisor,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
@@ -30,7 +32,7 @@ def send_invite(self, request, queryset):
 send_invite.short_description = "Invite user"
 
 
-@admin.register(User)
+@admin.register(User, Supervisor)
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
@@ -73,3 +75,4 @@ admin.site.register(CoordinatorProfile)
 admin.site.register(ConsumerProfile)
 admin.site.register(InstructorProfile)
 admin.site.register(VendorProfile)
+admin.site.register(SupervisorProfile)
