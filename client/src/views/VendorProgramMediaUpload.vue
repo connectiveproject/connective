@@ -62,6 +62,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { CAROUSEL_PLACEHOLDER } from "../helpers/constants/images"
@@ -120,19 +121,23 @@ export default {
     triggerMediaDelete() {
       this.isApproveModalOpen = true
     },
-    async uploadMedia(mediaPayload) {
-      try {
-        const data = Utils.objectToFormData({
-          activity: this.programSlug,
-          ...mediaPayload,
-        })
-        await this.createProgramMedia(data)
-        this.mediaList = await this.getProgramMediaList(this.programSlug)
-        this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+    uploadMedia: debounce(
+      async function (mediaPayload) {
+        try {
+          const data = Utils.objectToFormData({
+            activity: this.programSlug,
+            ...mediaPayload,
+          })
+          await this.createProgramMedia(data)
+          this.mediaList = await this.getProgramMediaList(this.programSlug)
+          this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

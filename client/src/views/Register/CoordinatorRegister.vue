@@ -1,6 +1,11 @@
 <template>
   <div class="wrapper">
-    <v-card class="py-12 px-7 mx-auto" width="320" elevation="16" v-show="page === 1">
+    <v-card
+      class="py-12 px-7 mx-auto"
+      width="320"
+      elevation="16"
+      v-show="page === 1"
+    >
       <v-card-title class="text-h4 justify-center mb-6">{{
         $t("auth.detailsCompletion")
       }}</v-card-title>
@@ -319,6 +324,7 @@
 </template>
 <script>
 import store from "../../vuex/store"
+import debounce from "lodash/debounce"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
@@ -376,16 +382,20 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
-    submit() {
-      let userDetailsPayload = this.createUserSubmitPayload()
-      let profilePayload = this.createProfileSubmitPayload()
-      let schoolPayload = this.createSchoolSubmitPayload()
-      this.postRegistrationData(
-        userDetailsPayload,
-        profilePayload,
-        schoolPayload
-      )
-    },
+    submit: debounce(
+      function () {
+        let userDetailsPayload = this.createUserSubmitPayload()
+        let profilePayload = this.createProfileSubmitPayload()
+        let schoolPayload = this.createSchoolSubmitPayload()
+        this.postRegistrationData(
+          userDetailsPayload,
+          profilePayload,
+          schoolPayload
+        )
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     createUserSubmitPayload() {
       return {

@@ -37,6 +37,7 @@
 </template>
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import store from "../../vuex/store"
 import { ValidationObserver } from "vee-validate"
 import Modal from "../../components/Modal"
@@ -103,11 +104,15 @@ export default {
       this.profilePicture = userAttributes.profilePicture || {}
     },
 
-    submitProfile() {
-      let userDetailsPayload = this.createUserSubmitPayload()
-      let profilePayload = this.createProfileSubmitPayload()
-      this.postProfileData(userDetailsPayload, profilePayload)
-    },
+    submitProfile: debounce(
+      function () {
+        let userDetailsPayload = this.createUserSubmitPayload()
+        let profilePayload = this.createProfileSubmitPayload()
+        this.postProfileData(userDetailsPayload, profilePayload)
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     createUserSubmitPayload() {
       return {

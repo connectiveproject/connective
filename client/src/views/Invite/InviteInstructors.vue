@@ -101,6 +101,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import { exportCSV, translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddInstructorDialog from "../../components/AddDialog/AddInstructorDialog"
@@ -211,15 +212,19 @@ export default {
       document.getElementById("csvImportInput").click()
     },
 
-    async handleDeleteRequest() {
-      if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
-        let slugs = this.selectedRows.map(row => row.slug)
-        await this.deleteInstructors(slugs)
-        this.selectedRows = []
-        this.getInstructors()
-        this.showMessage(this.$t("success.userDeletedSuccessfully"))
-      }
-    },
+    handleDeleteRequest: debounce(
+      async function () {
+        if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
+          let slugs = this.selectedRows.map(row => row.slug)
+          await this.deleteInstructors(slugs)
+          this.selectedRows = []
+          this.getInstructors()
+          this.showMessage(this.$t("success.userDeletedSuccessfully"))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     editInstructor(instructor) {
       this.dialogInstructor = Object.assign({}, instructor)

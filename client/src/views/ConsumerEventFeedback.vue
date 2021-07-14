@@ -105,22 +105,23 @@ export default {
     ...mapActions("consumerEvent", ["createEventFeedback"]),
     ...mapActions("snackbar", ["showMessage"]),
     parseDate: Utils.ApiStringToReadableDate,
-    onSubmit: debounce(async function() {
-      try {
-        const feedback = this.form.reduce(
-          (accum, field) => ({ ...accum, [field.name]: field.value }),
-          { event: this.slug }
-        )
-        await this.createEventFeedback(feedback)
-        this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-        this.$router.push({ name: "ConsumerPendingEventsFeedback" })
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
-    500,
-    { leading: true, trailing: false },
-    )
+    onSubmit: debounce(
+      async function () {
+        try {
+          const feedback = this.form.reduce(
+            (accum, field) => ({ ...accum, [field.name]: field.value }),
+            { event: this.slug }
+          )
+          await this.createEventFeedback(feedback)
+          this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+          this.$router.push({ name: "ConsumerPendingEventsFeedback" })
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>
