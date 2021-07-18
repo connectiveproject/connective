@@ -12,7 +12,8 @@
     "imagemin": "node imagemin.js",
     "json-server": "cd ./json-server && ./run.sh",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@types/chart.js": "^2.9.32",
@@ -51,6 +52,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
+    "cypress": "^7.7.0",
     "eslint": "^7.26.0",
     "eslint-plugin-vue": "^6.2.2",
     "flush-promises": "^1.0.2",

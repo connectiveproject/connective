@@ -2,11 +2,7 @@
   <div>
     <h1 v-text="$t('myActivity.myGroups')" class="mb-5" />
     <h2
-      v-text="
-        $t(
-          'myActivity.hereYouCanSeeTheGroupsYouJoined'
-        )
-      "
+      v-text="$t('myActivity.hereYouCanSeeTheGroupsYouJoined')"
       class="pb-12"
     />
     <v-row class="pt-10 ml-0" justify="space-around">
@@ -22,18 +18,14 @@
           :hideStar="true"
           :title="group.name"
           :subtitle="group.activityName"
-          :body="group.description"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="teal"
+          buttonColor="primary"
         >
           <title-to-text
+            class="mb-1"
             :title="$t('general.description')"
-            :text="group.description || $t('errors.empty')"
-          />
-          <title-to-text
-            :title="$t('myActivity.studentsNumberInGroup')"
-            :text="group.consumers.length"
+            :text="trimText(group.description, 21) || $t('errors.empty')"
           />
           <title-to-text
             :title="$t('myActivity.instructorName')"
@@ -43,7 +35,7 @@
       </v-col>
     </v-row>
     <div class="text-center pt-10 overline">
-      {{ totalGroups }} {{ $t("program.programsFound") }}
+      {{ totalGroups }} {{ $t("myActivity.groupsFound") }}
     </div>
     <end-of-page-detector @endOfPage="onEndOfPage" />
   </div>
@@ -51,6 +43,7 @@
 <script>
 import store from "../../vuex/store"
 import { mapActions, mapState } from "vuex"
+import { trimText } from "../../filters"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import InfoCard from "../../components/InfoCard"
 import TitleToText from "../../components/TitleToText.vue"
@@ -77,6 +70,7 @@ export default {
   methods: {
     ...mapActions("pagination", ["incrementPage"]),
     ...mapActions("consumerProgramGroup", ["getGroupList"]),
+    trimText,
     onEndOfPage() {
       this.incrementPage()
     },

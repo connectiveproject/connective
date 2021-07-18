@@ -1,7 +1,7 @@
 import store from "../vuex/store.js"
 import i18n from "../plugins/i18n"
 import { SERVER } from "../helpers/constants/constants"
-import { PROGRAM_MEDIA_PLACEHOLDER } from "../helpers/constants/images"
+import { CAROUSEL_PLACEHOLDER } from "../helpers/constants/images"
 
 async function isStaffRegistered() {
   // check if staff completed registration
@@ -14,7 +14,7 @@ async function isStaffRegistered() {
 
 async function isSchoolFilled() {
   // check if school details already filled by a coordinator
-  let schoolDetails = await store.dispatch("school/getSchoolDetails")
+  const schoolDetails = await store.dispatch("school/getSchoolDetails")
   return schoolDetails.lastUpdatedBy
 }
 
@@ -54,6 +54,15 @@ export async function checkRegistrationStatus(to, from, next) {
         })
       }
   }
+  // coord
+  const shouldEditSchool = !(await isSchoolFilled())
+  if (!shouldEditSchool && (await isStaffRegistered())) {
+    return next({ name: "MyGroups", params: { lang: i18n.locale } })
+  }
+  return next({
+    name: "CoordinatorRegister",
+    params: { lang: i18n.locale, shouldEditSchool },
+  })
 }
 
 export function loginOrFlushStore(to, from, next) {
@@ -114,7 +123,7 @@ export async function fetchProgramDetails(to, from, next) {
     store.dispatch(`${vuexModule}/getProgramMediaList`, to.params.slug),
   ])
   if (!mediaList.length) {
-    mediaList = [{ imageUrl: PROGRAM_MEDIA_PLACEHOLDER, mediaType: "image" }]
+    mediaList = [{ imageUrl: CAROUSEL_PLACEHOLDER, mediaType: "image" }]
   }
   to.params.program = program
   to.params.mediaList = mediaList

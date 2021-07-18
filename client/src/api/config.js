@@ -46,7 +46,7 @@ function addProgressBarInterceptors() {
   )
 }
 
-function addPayloadCaseConversion() {
+function addDataCaseConversion() {
   // add camelCase <-> snake_case conversion on request and response
   axios.defaults.transformResponse = [
     (data, headers) => {
@@ -76,7 +76,7 @@ const config = {
     }
     addInvalidTokenHandler()
     addProgressBarInterceptors()
-    addPayloadCaseConversion()
+    addDataCaseConversion()
   },
 
   setToken(token) {

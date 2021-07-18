@@ -9,13 +9,14 @@
     />
     <div class="mx-auto mt-10 text-center">
       <v-btn
-        class="mx-3 white--text purple darken-3"
+        class="mx-3 white--text primary"
+        data-testid="submit-button"
         @click="onSubmit"
         v-text="$t('userActions.save')"
       />
       <v-btn
         class="mx-3 white--text"
-        color="purple darken-3"
+        color="primary"
         outlined
         v-text="$t('userActions.back')"
         @click="$router.go(-1)"
@@ -96,7 +97,7 @@ export default {
         }
       }
       this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-      this.$router.push({ name: "DetailGroup", params: { groupSlug: this.groupSlug } })
+      this.$router.push({ name: "GroupDetail", params: { groupSlug: this.groupSlug } })
     },
   },
 }

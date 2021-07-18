@@ -19,10 +19,6 @@ html {
   text-align: left;
 }
 
-.amatic-sc-font {
-  font-family: $amatic-sc-font-family !important;
-}
-
 #nprogress .bar {
   // override NProgress default styling
   height: 3.5px;
@@ -37,15 +33,13 @@ html {
   position: absolute;
 }
 
-.absolute-center {
-  position: absolute !important;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+.absolute-left {
+  position: absolute;
+  left: 0;
 }
 
-.fixed-center {
-  position: fixed !important;
+.absolute-center {
+  position: absolute !important;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -56,6 +50,17 @@ html {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.fixed-center {
+  position: fixed !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.w-fit-content {
+  width: fit-content;
 }
 
 .w-100 {
@@ -74,6 +79,10 @@ html {
   width: 25%;
 }
 
+.w-45 {
+  width: 45%;
+}
+
 .w-25 {
   width: 25%;
 }
@@ -84,4 +93,12 @@ html {
 
 .z-index-5 {
   z-index: 5;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+letter-spacing-2 {
+  letter-spacing: 2px !important;
 }

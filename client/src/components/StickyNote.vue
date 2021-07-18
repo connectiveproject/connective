@@ -1,6 +1,6 @@
 <template>
-  <div class="note">
-    <p class="amatic-sc-font text-center">
+  <div class="note primary lighten-2">
+    <p class="text-center">
       <slot></slot>
     </p>
   </div>
@@ -13,7 +13,6 @@
   min-height: 100px;
   margin: 25px auto;
   padding: 45px 15px 15px 15px;
-  background-color: #ffff7e;
   -webkit-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   box-shadow: 0 1px 2px #000;

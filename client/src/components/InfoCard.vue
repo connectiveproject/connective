@@ -1,29 +1,29 @@
 <template>
-  <v-card class="mx-auto" :width="width" :height="height">
-    <v-img :height="imgHeight" :src="imgUrl">
-      <v-overlay class="align-end justify-start" absolute opacity="0.25">
-        <v-card-title class="white--text pr-8 pb-3" v-text="title" />
-      </v-overlay>
-    </v-img>
-    <v-card-subtitle v-text="subtitle" class="pb-3" />
-    <v-card-text class="text--primary">
+  <v-card class="mx-auto card overflow-hidden" elevation="1" :width="width" :height="height">
+    <v-card-title v-text="title" class="pa-2 font-weight-bold" />
+    <v-card-subtitle
+      v-text="subtitle"
+      class="px-2 pt-2 pb-1 subtitle-1"
+    />
+    <v-img :height="imgHeight" :src="imgUrl" />
+    <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
       <!-- if slot's text overflow, consider using the trim filter on parent  -->
       <slot></slot>
     </v-card-text>
-
     <v-card-actions class="absolute-bottom actions">
       <v-btn
+        id="info-button"
+        text
         v-if="!hideButton"
         :color="buttonColor"
-        text
-        class="absolute-center"
+        class="subtitle-1 font-weight-bold absolute-center"
         v-text="buttonText"
         @click="$emit('click')"
       />
       <v-icon
         v-if="!hideStar"
         @click="onStarClick"
-        :color="value ? 'orange' : 'grey'"
+        :color="value ? buttonColor : 'grey'"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
       >
         {{ value ? "mdi-check-bold" : "mdi-check" }}
@@ -57,15 +57,15 @@ export default {
     },
     height: {
       type: String,
-      default: "436",
+      default: "382",
     },
     width: {
       type: String,
-      default: "290",
+      default: "272",
     },
     imgHeight: {
       type: String,
-      default: "150",
+      default: "195",
     },
     hideStar: {
       type: Boolean,
@@ -93,7 +93,16 @@ export default {
 }
 </script>
 <style scoped>
+#info-button {
+  letter-spacing: 1.7px !important;
+}
 .actions {
   height: 40px;
+}
+.card {
+  border-radius: 4px;
+}
+.body {
+  line-height: 1.4;
 }
 </style>

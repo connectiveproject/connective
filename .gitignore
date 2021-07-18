@@ -127,6 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# misc
-vsls-contrib.codetour-0.0.53 (1).vsix

@@ -14,15 +14,15 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School, SchoolMember
-from server.users.models import Consumer, Coordinator, Instructor, Vendor
+from server.users.models import Consumer, Coordinator, Instructor, Supervisor, Vendor
 
 from .constants import (
-    activity_payloads,
-    female_names,
-    last_names,
-    male_names,
-    organization_payload,
-    school_payload,
+    ACTIVITY_PAYLOADS,
+    FEMALE_NAMES,
+    LAST_NAMES,
+    MALE_NAMES,
+    ORGANIZATION_PAYLOAD,
+    SCHOOL_PAYLOAD,
 )
 
 
@@ -33,10 +33,10 @@ class Command(BaseCommand):
         "parser.add_argument('some_number', nargs='+', type=int)"
         pass
 
-    def create_admin(self):
+    def create_admin(self, email):
         try:
             user = get_user_model().objects.create_superuser(
-                "admin", "admin0@example.com", "Aa123456789"
+                "admin", email, "Aa123456789"
             )
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
@@ -62,15 +62,15 @@ class Command(BaseCommand):
                 self.style.WARNING(f"{email} already exists. Skipping...")
             )
 
-    def create_all(self):
-        self.create_admin()
+    def create_all(self, entitiesPrefix=""):
+        self.create_admin(f"{entitiesPrefix}admin@example.com")
 
         consumers = []
-        for i, name_record in enumerate(zip(male_names, last_names)):
+        for i, name_record in enumerate(zip(MALE_NAMES, LAST_NAMES)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-{i}0@example.com",
+                f"{entitiesPrefix}consumer-{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
@@ -79,11 +79,11 @@ class Command(BaseCommand):
                 user.profile.save()
                 consumers.append(user)
 
-        for i, name_record in enumerate(zip(female_names, last_names)):
+        for i, name_record in enumerate(zip(FEMALE_NAMES, LAST_NAMES)):
             first_name, last_name = name_record
             user = self.create_user(
                 Consumer,
-                f"consumer-1{i}0@example.com",
+                f"{entitiesPrefix}consumer-1{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
             )
@@ -94,7 +94,7 @@ class Command(BaseCommand):
 
         if len(consumers):
             prev_email = consumers[0].email
-            consumers[0].email = "consumer-1010@example.com"
+            consumers[0].email = f"{entitiesPrefix}consumer@example.com"
             consumers[0].save()
             self.stdout.write(
                 self.style.SUCCESS(
@@ -104,20 +104,28 @@ class Command(BaseCommand):
 
         coord = self.create_user(
             Coordinator,
-            "coord0@example.com",
+            f"{entitiesPrefix}coord@example.com",
             "Aa123456789",
             "דוד כהן",
         )
 
         instructor = self.create_user(
             Instructor,
-            "instructor0@example.com",
+            f"{entitiesPrefix}instructor@example.com",
             "Aa123456789",
             "דן יוסופוב",
         )
+
+        self.create_user(
+            Supervisor,
+            "supervisor@example.com",
+            "Aa123456789",
+            "ישראל ישראלי",
+        )
+
         vendor = self.create_user(
             Vendor,
-            "vendor0@example.com",
+            f"{entitiesPrefix}vendor@example.com",
             "Aa123456789",
             "משי בר אל",
         )
@@ -131,10 +139,10 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
                 )
             )
 
-        org = Organization.objects.create(**organization_payload)
+        org = Organization.objects.create(**ORGANIZATION_PAYLOAD)
         self.stdout.write(self.style.SUCCESS("Successfully created Organization"))
 
-        school = School.objects.create(**school_payload)
+        school = School.objects.create(**SCHOOL_PAYLOAD)
         self.stdout.write(self.style.SUCCESS("Successfully created School"))
 
         OrganizationMember.objects.bulk_create(
@@ -158,7 +166,7 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
         activity_one, activity_two = Activity.objects.bulk_create(
             map(
                 lambda activity: Activity(**activity, originization=org),
-                activity_payloads,
+                ACTIVITY_PAYLOADS,
             )
         )
         self.stdout.write(self.style.SUCCESS("Successfully created Activities"))
@@ -217,3 +225,4 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
 
     def handle(self, *args, **options):
         self.create_all()
+        self.create_all(entitiesPrefix="test-")

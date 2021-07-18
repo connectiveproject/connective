@@ -10,9 +10,10 @@
     "lint": "cd client && vue-cli-service lint",
     "i18n:report": "cd client && vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "imagemin": "cd client && node imagemin.js",
-    "json-server": "cd ./clientjson-server && ./run.sh",
+    "json-server": "cd client && json-server && ./run.sh",
     "storybook": "cd client && start-storybook -p 6006",
-    "build-storybook": "cd client && build-storybook"
+    "build-storybook": "cd client && build-storybook",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@types/chart.js": "^2.9.32",
@@ -51,6 +52,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
+    "cypress": "^7.7.0",
     "eslint": "^7.26.0",
     "eslint-plugin-vue": "^6.2.2",
     "flush-promises": "^1.0.2",
@@ -74,4 +76,3 @@
     "not dead"
   ]
 }
-

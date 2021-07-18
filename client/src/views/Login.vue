@@ -1,67 +1,68 @@
 <template>
-  <v-container>
-    <v-row dense justify="center">
-      <v-col cols="11" sm="6" md="6" lg="4" xl="3">
-        <v-card class="mx-auto py-12 px-5 login-card" elevation="20" outlined>
-          <v-card-title
-            class="purple--text text--darken-4 text-h4 justify-center mb-3"
-            >{{ $t("general.connective") }}</v-card-title
+  <div>
+    <v-card
+      class="absolute-center py-12 px-7"
+      width="320"
+      elevation="16"
+    >
+      <v-card-title
+        id="letter-spacing-2"
+        class="text-h4 justify-center mb-3 font-weight-bold"
+        >{{ $t("general.connective") }}</v-card-title
+      >
+      <validation-observer ref="observer">
+        <form @submit.prevent="submit">
+          <validation-provider
+            v-slot="{ errors }"
+            name="email"
+            rules="required|email"
           >
+            <v-text-field
+              data-testid="email-input"
+              class="mt-2"
+              v-model="email"
+              :error-messages="errors"
+              :label="$t('general.email')"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="password"
+            rules="required"
+          >
+            <v-text-field
+              data-testid="password-input"
+              class="mt-2"
+              v-model="password"
+              :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+              :error-messages="errors"
+              :type="showPass ? 'text' : 'password'"
+              name="password"
+              :label="$t('auth.password')"
+              @click:append="showPass = !showPass"
+            ></v-text-field>
+          </validation-provider>
 
-          <validation-observer ref="observer">
-            <form @submit.prevent="submit">
-              <validation-provider
-                v-slot="{ errors }"
-                name="email"
-                rules="required|email"
-              >
-                <v-text-field
-                  data-testid="email-input"
-                  class="mt-2"
-                  v-model="email"
-                  :error-messages="errors"
-                  :label="$t('general.email')"
-                  required
-                ></v-text-field>
-              </validation-provider>
-              <validation-provider
-                v-slot="{ errors }"
-                name="password"
-                rules="required"
-              >
-                <v-text-field
-                  data-testid="password-input"
-                  class="mt-2"
-                  v-model="password"
-                  :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                  :error-messages="errors"
-                  :type="showPass ? 'text' : 'password'"
-                  name="password"
-                  :label="$t('auth.password')"
-                  @click:append="showPass = !showPass"
-                ></v-text-field>
-              </validation-provider>
-
-              <div class="mx-auto d-flex justify-center mt-16 mb-4">
-                <v-btn
-                  data-testid="login-btn"
-                  class="white--text"
-                  type="submit"
-                  color="purple darken-3"
-                  elevation="3"
-                >
-                  {{ $t("auth.login") }}
-                </v-btn>
-              </div>
-            </form>
-          </validation-observer>
-        </v-card>
-      </v-col>
-    </v-row>
+          <div class="mx-auto d-flex justify-center mt-8 mb-4">
+            <v-btn
+              data-testid="login-btn"
+              class="white--text"
+              type="submit"
+              color="primary"
+              elevation="3"
+              block
+            >
+              {{ $t("auth.login") }}
+            </v-btn>
+          </div>
+        </form>
+      </validation-observer>
+    </v-card>
     <modal v-show="popupMsg !== ''" @close="popupMsg = ''">
       {{ popupMsg }}
     </modal>
-  </v-container>
+  </div>
 </template>
 <script>
 import { mapActions } from "vuex"
@@ -114,7 +115,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.login-card {
-  margin-top: 120px;
+#letter-spacing-2 {
+  letter-spacing: 2px !important;
 }
 </style>

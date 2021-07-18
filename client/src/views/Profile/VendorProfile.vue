@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper mt-15 mx-auto px-3">
+  <div class="wrapper mx-auto">
     <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
     <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
     <validation-observer v-slot="{ invalid }">
@@ -11,18 +11,18 @@
               :key="field.id"
               v-model="field.value"
               :uniqueName="field.uniqueName"
-              :descriptiveName="field.descriptiveName"
-              :validationRules="field.validationRules"
+              :label="field.label"
+              :rules="field.rules"
             ></input-drawer>
           </v-col>
           <v-col cols="12" sm="12" lg="3">
-            <avatar class="mx-auto avatar" v-model="profilePicture" />
+            <avatar class="mr-lg-16 mx-auto avatar" v-model="profilePicture" />
           </v-col>
         </v-row>
         <v-btn
-          class="my-16 py-5 white--text"
+          class="d-block my-16 white--text mx-lg-0 mx-auto"
           type="submit"
-          color="purple darken-3"
+          color="primary"
           elevation="3"
           :disabled="invalid"
         >
@@ -68,20 +68,20 @@ export default {
       textFields: {
         name: {
           uniqueName: "name",
-          descriptiveName: this.$t("general.name"),
-          validationRules: "required",
+          label: this.$t("general.name"),
+          rules: "required",
           value: "",
         },
         email: {
           uniqueName: "email",
-          descriptiveName: this.$t("general.email"),
-          validationRules: "required|email",
+          label: this.$t("general.email"),
+          rules: "required|email",
           value: "",
         },
         phone: {
           uniqueName: "phone",
-          descriptiveName: this.$t("general.phoneNumber"),
-          validationRules: "required|numeric|phoneNumberIsrael",
+          label: this.$t("general.phoneNumber"),
+          rules: "required|numeric|phoneNumberIsrael",
           value: "",
         },
       },

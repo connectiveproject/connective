@@ -23,7 +23,11 @@ export default {
         },
         {
           componentName: "ConsumerMyEvents",
-          text: this.$t("myActivity.myEvents"),
+          text: this.$t("events.eventsBoard"),
+        },
+        {
+          componentName: "ConsumerPendingEventsFeedback",
+          text: this.$t("events.eventsFeedback"),
         },
       ],
     }

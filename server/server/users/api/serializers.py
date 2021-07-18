@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
+from server.organizations.models import OrganizationMember
 from server.schools.models import SchoolMember
 
 from ..helpers import send_user_invite
@@ -9,7 +11,9 @@ from ..models import (
     ConsumerProfile,
     Coordinator,
     CoordinatorProfile,
+    Instructor,
     InstructorProfile,
+    Vendor,
     VendorProfile,
 )
 
@@ -70,6 +74,13 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consumer
         fields = ["slug", "name", "email", "profile"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
 
     def create(self, validated_data):
         """
@@ -115,6 +126,13 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coordinator
         fields = ["slug", "name", "email"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
 
     def create(self, validated_data):
         """
@@ -127,6 +145,80 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         )
         send_user_invite(validated_data["email"])
         return coordinator
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+
+        if validated_data.get("email"):
+            # invite again on email change
+            send_user_invite(validated_data["email"])
+
+        return instance
+
+
+class ManageVendorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        fields = ["slug", "name", "email"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
+
+    def create(self, validated_data):
+        """
+        create user, attach to org, invite user via email
+        """
+        vendor = Vendor.objects.create(**validated_data)
+
+        OrganizationMember.objects.create(
+            user=vendor,
+            organization=self.context["request"].user.organization_member.organization,
+        )
+        send_user_invite(validated_data["email"])
+        return vendor
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+
+        if validated_data.get("email"):
+            # invite again on email change
+            send_user_invite(validated_data["email"])
+
+        return instance
+
+
+class ManageInstructorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Instructor
+        fields = ["slug", "name", "email"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
+
+    def create(self, validated_data):
+        """
+        create user, attach to org, invite user via email
+        """
+        instructor = Instructor.objects.create(**validated_data)
+
+        OrganizationMember.objects.create(
+            user=instructor,
+            organization=self.context["request"].user.organization_member.organization,
+        )
+        send_user_invite(validated_data["email"])
+        return instructor
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)

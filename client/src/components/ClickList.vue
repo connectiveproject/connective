@@ -60,7 +60,7 @@ export default {
     color: {
       // vuetify color pallete
       type: String,
-      default: "cyan",
+      default: "primary",
     },
     dark: {
       type: Boolean,

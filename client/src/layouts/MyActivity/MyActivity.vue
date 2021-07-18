@@ -23,7 +23,7 @@ export default {
         },
         {
           componentName: "MyEvents",
-          text: this.$t("myActivity.myEvents"),
+          text: this.$t("events.eventsBoard"),
         },
         {
           componentName: "CoordinatorStatistics",

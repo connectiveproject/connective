@@ -9,8 +9,8 @@ const instructorEvent = {
   getEvent(slug) {
     return axios.get(`${GET_INSTRUCTOR_EVENT_API_URL}${slug}/`)
   },
-  updateEvent(slug, payload) {
-    return axios.patch(`${UPDATE_INSTRUCTOR_EVENT_API_URL}${slug}/`, payload)
+  updateEvent(slug, data) {
+    return axios.patch(`${UPDATE_INSTRUCTOR_EVENT_API_URL}${slug}/`, data)
   },
   getEventList(params) {
     return axios.get(GET_INSTRUCTOR_EVENT_LIST_API_URL, { params })

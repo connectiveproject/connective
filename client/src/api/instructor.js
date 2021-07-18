@@ -9,8 +9,8 @@ const instructor = {
     return axios.get(GET_INSTRUCTOR_PROFILE_API_URL)
   },
 
-  updateProfile(slug, payload) {
-    return axios.patch(`${UPDATE_INSTRUCTOR_PROFILE_API_URL}${slug}/`, payload)
+  updateProfile(slug, data) {
+    return axios.patch(`${UPDATE_INSTRUCTOR_PROFILE_API_URL}${slug}/`, data)
   },
 }
 

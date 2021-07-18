@@ -31,9 +31,12 @@ import SupervisorProfile from "../views/Profile/SupervisorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
-import Invite from "../views/Invite/Invite"
+import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
+import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
 import InviteConsumers from "../views/Invite/InviteConsumers"
 import InviteCoordinators from "../views/Invite/InviteCoordinators"
+import InviteInstructors from "../views/Invite/InviteInstructors"
+import InviteVendors from "../views/Invite/InviteVendors"
 import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
@@ -41,13 +44,19 @@ import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
+import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
 import CoordinatorStatistics from "../views/CoordinatorStatistics"
 import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
 import InstructorEventSummary from "../views/InstructorEventSummary"
 import GroupEditor from "../views/GroupEditor"
 import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
-import DetailGroup from "../views/DetailGroup"
+import GroupDetail from "../views/GroupDetail"
+import VendorProgramList from "../views/VendorProgramList"
+import VendorDetailProgram from "../views/VendorDetailProgram"
+import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
+import VendorProgramCreator from "../views/VendorProgramCreator"
 
 Vue.use(VueRouter)
 
@@ -57,17 +66,13 @@ const routes = [
     redirect: `/${i18n.locale}/welcome/login`,
   },
   {
-    path: "/:lang",
+    path: "/:lang(he)",
     component: {
       render(c) {
         return c("router-view")
       },
     },
     children: [
-      {
-        path: "",
-        redirect: "/",
-      },
       {
         path: "welcome",
         name: "Welcome",
@@ -158,6 +163,17 @@ const routes = [
                 name: "ConsumerMyEvents",
                 component: ConsumerMyEvents,
               },
+              {
+                path: "events-pending-feedbacks",
+                name: "ConsumerPendingEventsFeedback",
+                component: ConsumerPendingEventsFeedback,
+              },
+              {
+                path: "event-feedback/:slug",
+                name: "ConsumerEventFeedback",
+                component: ConsumerEventFeedback,
+                props: true,
+              },
             ],
           },
         ],
@@ -184,11 +200,11 @@ const routes = [
           },
           {
             path: "invite",
-            component: Invite,
+            component: SchoolInviteWrapper,
             children: [
               {
                 path: "",
-                name: "Invite",
+                name: "SchoolInviteWrapper",
                 redirect: { name: "InviteConsumers" },
               },
               {
@@ -248,8 +264,8 @@ const routes = [
           },
           {
             path: "detail-group/:groupSlug",
-            name: "DetailGroup",
-            component: DetailGroup,
+            name: "GroupDetail",
+            component: GroupDetail,
             props: true,
           },
           {
@@ -317,6 +333,51 @@ const routes = [
             name: "VendorProfile",
             component: VendorProfile,
           },
+          {
+            path: "my-programs",
+            name: "VendorProgramList",
+            component: VendorProgramList,
+          },
+          {
+            path: "detail-program/:programSlug",
+            name: "VendorDetailProgram",
+            component: VendorDetailProgram,
+            props: true,
+          },
+          {
+            path: "program-creator",
+            name: "VendorProgramCreator",
+            component: VendorProgramCreator,
+          },
+          {
+            path: "program-media-upload/:programSlug",
+            name: "VendorProgramMediaUpload",
+            component: VendorProgramMediaUpload,
+            props: true,
+          },
+          {
+            path: "invite",
+            component: OrganizationInviteWrapper,
+            children: [
+              {
+                path: "",
+                name: "OrganizationInviteWrapper",
+                redirect: { name: "InviteInstructors" },
+              },
+              {
+                path: "invite-instructors",
+                name: "InviteInstructors",
+                component: InviteInstructors,
+                beforeEnter: flushPagination,
+              },
+              {
+                path: "invite-vendors",
+                name: "InviteVendors",
+                component: InviteVendors,
+                beforeEnter: flushPagination,
+              },
+            ],
+          },
         ],
       },
       {
@@ -341,14 +402,13 @@ const routes = [
         component: GenericError,
         props: true,
       },
-      {
-        path: "*",
-        Name: "PageNotFound",
-        component: GenericError,
-        props: { bodyKey: "errors.thisPageDoesNotExist" },
-      },
     ],
   },
+  {
+    path: "*",
+    redirect: "/",
+  },
+
 ]
 
 const router = new VueRouter({

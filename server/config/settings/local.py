@@ -13,12 +13,19 @@ SECRET_KEY = env(
     default="8KRy3qHYEiiz1VzdpG58RegxiBcjdp9yAFnmf56xAZn4hHIW7ZWRGAZKwuub3Msx",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = [
+    "localhost",
+    "0.0.0.0",
+    "127.0.0.1",
+]
 GITPOD_WORKSPACE_URL = os.environ.get("GITPOD_WORKSPACE_URL")
-GITPOD_WORKSPACE_ID = env(
-    "GITPOD_WORKSPACE_ID", default=os.environ.get("GITPOD_WORKSPACE_ID")
-)
+if GITPOD_WORKSPACE_URL:
+    GITPOD_WORKSPACE_ID = env(
+        "GITPOD_WORKSPACE_ID", default=os.environ.get("GITPOD_WORKSPACE_ID")
+    )
+    GITPOD_WORKSPACE_HOST = GITPOD_WORKSPACE_URL.replace("https://", "8000-")
+    ALLOWED_HOSTS.append(GITPOD_WORKSPACE_HOST)
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", GITPOD_WORKSPACE_URL]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -87,6 +94,6 @@ else:
     ]
 
 CLIENT_BASE_URL = "http://localhost:8080"
-if GITPOD_WORKSPACE_ID:
+if GITPOD_WORKSPACE_URL:
     RESET_BASE_URL = f"https://8000-{GITPOD_WORKSPACE_URL[8:]}"
     CLIENT_BASE_URL = f"https://8080-{GITPOD_WORKSPACE_URL[8:]}"

@@ -18,6 +18,7 @@
           large
           class="d-block mx-auto"
           color="success"
+          data-testid="create-group"
           @click="$router.push({ name: 'GroupEditor' })"
         >
           {{ $tc("userActions.add", 1) }}
@@ -38,34 +39,31 @@
           :hideStar="true"
           :title="group.name"
           :subtitle="group.activityName"
-          :body="group.description"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="teal"
+          buttonColor="primary"
           @click="
             $router.push({
-              name: 'DetailGroup',
+              name: 'GroupDetail',
               params: { groupSlug: group.slug },
             })
           "
         >
           <title-to-text
+            class="mb-1"
             :title="$t('myActivity.groupDescription')"
-            :text="group.description || $t('errors.empty')"
+            :text="trimText(group.description, 21) || $t('errors.empty')"
           />
           <title-to-text
+            class="my-0"
             :title="$t('myActivity.studentsNumberInGroup')"
             :text="group.consumers.length"
-          />
-          <title-to-text
-            :title="$t('myActivity.instructorName')"
-            :text="group.instructorName || $t('errors.unassigned')"
           />
         </info-card>
       </v-col>
     </v-row>
     <div class="text-center pt-10 overline">
-      {{ totalGroups }} {{ $t("program.programsFound") }}
+      {{ totalGroups }} {{ $t("myActivity.groupsFound") }}
     </div>
     <end-of-page-detector @endOfPage="onEndOfPage" />
   </div>
@@ -73,6 +71,7 @@
 <script>
 import store from "../../vuex/store"
 import { mapActions, mapState } from "vuex"
+import { trimText } from "../../filters"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import InfoCard from "../../components/InfoCard"
 import TitleToText from "../../components/TitleToText.vue"
@@ -99,6 +98,7 @@ export default {
   methods: {
     ...mapActions("pagination", ["incrementPage"]),
     ...mapActions("programGroup", ["getGroupList"]),
+    trimText,
     onEndOfPage() {
       this.incrementPage()
     },

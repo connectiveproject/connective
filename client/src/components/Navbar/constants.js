@@ -21,7 +21,7 @@ const coordinatorButtons = [
   {
     text: () => i18n.t("invite.usersInvitation"),
     icon: "mdi-account-multiple-plus",
-    onClick: () => Vue.$router.push({ name: "Invite" }),
+    onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
   },
   {
     text: () => i18n.tc("general.program", 1),
@@ -86,6 +86,16 @@ const vendorButtons = [
     text: () => i18n.t("general.profile"),
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "VendorProfile" }),
+  },
+  {
+    text: () => i18n.t("invite.usersInvitation"),
+    icon: "mdi-account-multiple-plus",
+    onClick: () => Vue.$router.push({ name: "OrganizationInviteWrapper" }),
+  },
+  {
+    text: () => i18n.t("myActivity.myPrograms"),
+    icon: "mdi-handshake",
+    onClick: () => Vue.$router.push({ name: "VendorProgramList" }),
   },
 ]
 

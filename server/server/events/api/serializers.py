@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from server.events.models import Event
+from server.events.models import ConsumerEventFeedback, Event
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
 
 
-class BaseEventSerializer(serializers.ModelSerializer):
+class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
     activity_name = serializers.CharField(
         source="school_group.activity_order.activity.name",
         read_only=True,
@@ -40,7 +40,7 @@ class BaseEventSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventSerializer(BaseEventSerializer):
+class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = [
@@ -59,7 +59,9 @@ class EventSerializer(BaseEventSerializer):
         ]
 
 
-class ConsumerEventSerializer(BaseEventSerializer):
+class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):
+    has_feedback = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
         fields = [
@@ -71,4 +73,36 @@ class ConsumerEventSerializer(BaseEventSerializer):
             "consumers",
             "school_group",
             "locations_name",
+            "has_feedback",
         ]
+
+    def get_has_feedback(self, obj):
+        user = self.context["request"].user
+        return ConsumerEventFeedback.objects.filter(
+            event=obj.pk,
+            consumer=user,
+        ).exists()
+
+
+class ConsumerEventFeedbackSerializer(serializers.ModelSerializer):
+    event = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=Event.objects.all(),
+    )
+    consumer = serializers.SlugRelatedField(
+        slug_field="slug",
+        read_only=True,
+    )
+
+    class Meta:
+        model = ConsumerEventFeedback
+        fields = [
+            "slug",
+            "event",
+            "consumer",
+            "general_notes",
+            "secondary_notes",
+            "general_rating",
+            "secondary_rating",
+        ]
+        read_only_fields = ["slug"]

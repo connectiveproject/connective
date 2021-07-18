@@ -109,8 +109,7 @@ const utils = {
 
   dateToApiString(date) {
     // convert moment.js date object into a valid string to send to api
-    // note: this ignores hours, minutes, seconds and uses date only
-    return date.format("YYYY-MM-DD 00:00")
+    return date.format("YYYY-MM-DD HH:mm")
   },
 
   ApiStringToReadableDate(dateString) {
@@ -137,6 +136,18 @@ const utils = {
     const colorPos = (str.charCodeAt(0) + str.charCodeAt(1)) % colors.length
     return colors[colorPos]
   },
+
+  objectToFormData(obj) {
+    const fd = new FormData()
+    for (const [key, value] of Object.entries(obj)) {
+      if (isArray(value)) {
+        fd.append(key, JSON.stringify(value))
+      } else {
+        fd.append(key, value)
+      }
+    }
+    return fd
+  }
 }
 
 export default utils

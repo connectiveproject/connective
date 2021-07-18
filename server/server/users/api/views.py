@@ -17,7 +17,9 @@ from ..models import (
     ConsumerProfile,
     Coordinator,
     CoordinatorProfile,
+    Instructor,
     InstructorProfile,
+    Vendor,
     VendorProfile,
 )
 from .serializers import (
@@ -26,6 +28,8 @@ from .serializers import (
     InstructorProfileSerializer,
     ManageConsumersSerializer,
     ManageCoordinatorsSerializer,
+    ManageInstructorsSerializer,
+    ManageVendorsSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -141,6 +145,52 @@ class ManageCoordinatorsViewSet(ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
         serializer = ManageCoordinatorsSerializer(
+            data=request.data, context={"request": request}, many=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ManageVendorsViewSet(ModelViewSet):
+    permission_classes = [AllowVendor]
+    serializer_class = ManageVendorsSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Vendor.objects.filter(
+            organization_member__organization=self.request.user.organization_member.organization
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        serializer = ManageVendorsSerializer(
+            data=request.data, context={"request": request}, many=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ManageInstructorsViewSet(ModelViewSet):
+    permission_classes = [AllowVendor]
+    serializer_class = ManageInstructorsSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Instructor.objects.filter(
+            organization_member__organization=self.request.user.organization_member.organization
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        serializer = ManageInstructorsSerializer(
             data=request.data, context={"request": request}, many=True
         )
         if serializer.is_valid():

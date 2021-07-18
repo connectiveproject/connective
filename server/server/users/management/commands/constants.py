@@ -1,4 +1,4 @@
-organization_payload = {
+ORGANIZATION_PAYLOAD = {
     "email": "Organization",
     "description": "Org Description",
     "website_url": "https://org.com",
@@ -21,7 +21,7 @@ organization_payload = {
     "union_type": "union type",
 }
 
-school_payload = {
+SCHOOL_PAYLOAD = {
     "name": "School Name",
     "address": "School Address",
     "address_city": "Tel Aviv",
@@ -33,7 +33,7 @@ school_payload = {
     "grade_levels": [1, 2, 3, 4, 5, 6],
 }
 
-activity_payloads = [
+ACTIVITY_PAYLOADS = [
     {
         "name": "Activity One",
         "target_audience": [1, 2, 3, 4, 5, 6],
@@ -54,7 +54,7 @@ activity_payloads = [
     },
 ]
 
-male_names = [
+MALE_NAMES = [
     "נועם",
     "אורי",
     "איתי",
@@ -65,7 +65,7 @@ male_names = [
     "אורי",
 ]
 
-female_names = [
+FEMALE_NAMES = [
     "אביגיל",
     "טליה",
     "איילה",
@@ -76,7 +76,7 @@ female_names = [
     "אלה",
 ]
 
-last_names = [
+LAST_NAMES = [
     "כהן",
     "לוי",
     "שר",

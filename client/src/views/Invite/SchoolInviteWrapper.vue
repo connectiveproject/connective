@@ -6,6 +6,14 @@
         <router-view />
       </v-col>
     </v-row>
+    <div class="overline text-center">
+      *
+      {{
+        this.$t(
+          "invite.invitingUserOrChangingExistingEmailWillSendAnInviteToTheInviteesMailbox"
+        )
+      }}.
+    </div>
   </div>
 </template>
 

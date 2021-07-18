@@ -26,20 +26,20 @@
         >
           <input-drawer
             unique-name="name"
-            :descriptive-name="$t('groups.groupName')"
-            validation-rules="required"
+            :label="$t('groups.groupName')"
+            rules="required"
             v-model="name"
           />
           <input-drawer
             unique-name="description"
-            :descriptive-name="$t('general.description')"
-            validation-rules="required"
+            :label="$t('general.description')"
+            rules="required"
             v-model="description"
           />
           <v-btn
             class="my-16 py-5 white--text"
             type="submit"
-            color="purple darken-3"
+            color="primary"
             elevation="3"
             v-text="$t('userActions.save')"
             :disabled="invalid"
@@ -48,7 +48,7 @@
             class="my-16 mx-2 mx-lg-8 py-5 white--text"
             elevation="3"
             type="button"
-            color="purple darken-3"
+            color="primary"
             outlined
             v-text="$t('groups.viewAndEditStudents')"
             @click="
@@ -122,12 +122,13 @@ export default {
       try {
         await this.updateGroup({
           groupSlug: this.groupSlug,
-          payload: {
+          data: {
             name: this.name,
             description: this.description,
           },
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        this.$router.push({ name: "MyGroups" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

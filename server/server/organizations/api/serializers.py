@@ -42,6 +42,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class ActivityMediaSerializer(serializers.ModelSerializer):
     media_type = serializers.SerializerMethodField()
+    activity = serializers.SlugRelatedField(
+        queryset=Activity.objects.all(), slug_field="slug"
+    )
 
     class Meta:
         model = ActivityMedia
@@ -61,12 +64,12 @@ class ActivityMediaSerializer(serializers.ModelSerializer):
             return "image"
 
     def validate(self, data):
-        if data["video_url"] and data["image_url"]:
+        if data.get("video_url") and data.get("image_url"):
             raise serializers.ValidationError("Cannot contain both image and video_url")
         return data
 
     def update(self, instance, validated_data):
-        if validated_data["video_url"] and validated_data["image_url"]:
+        if validated_data.get("video_url") and validated_data.get("image_url"):
             raise serializers.ValidationError("Cannot contain both image and video_url")
         return super().update(instance, validated_data)
 
@@ -96,8 +99,6 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_order_status(self, obj):
         user = self.context["request"].user
-        if not hasattr(user, "school_member"):
-            return None
 
         try:
             return SchoolActivityOrder.objects.get(
@@ -123,7 +124,32 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         )
 
 
+class VendorActivitySerializer(serializers.ModelSerializer):
+    tags = TagListSerializerField()
+
+    class Meta:
+        model = Activity
+        fields = [
+            "slug",
+            "name",
+            "target_audience",
+            "domain",
+            "originization",
+            "activity_website_url",
+            "activity_email",
+            "description",
+            "contact_name",
+            "logo",
+            "phone_number",
+            "tags",
+        ]
+        read_only_fields = ["slug", "originization"]
+
+
 class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
+    JOINED = "JOINED"
+    NOT_JOINED = "NOT_JOINED"
+    PENDING_GROUP_ASSIGNMENT = "PENDING_GROUP_ASSIGNMENT"
 
     consumer_join_status = serializers.SerializerMethodField()
     is_consumer_joined = serializers.SerializerMethodField()
@@ -145,9 +171,6 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_consumer_join_status(self, obj):
         user = self.context["request"].user
-        if not hasattr(user, "school_member"):
-            return "NOT_JOINED"
-
         # check if consumer is in a group
         assigned_groups = SchoolActivityGroup.objects.filter(
             activity_order__activity=obj,
@@ -155,15 +178,15 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         ).exclude(group_type=SchoolActivityGroup.GroupTypes.DISABLED_CONSUMERS)
 
         if not assigned_groups.exists():
-            return "NOT_JOINED"
+            return ConsumerActivitySerializer.NOT_JOINED
 
         elif (
             assigned_groups[0].group_type
             == SchoolActivityGroup.GroupTypes.CONTAINER_ONLY
         ):
-            return "PENDING_GROUP_ASSIGNMENT"
+            return ConsumerActivitySerializer.PENDING_GROUP_ASSIGNMENT
 
-        return "JOINED"
+        return ConsumerActivitySerializer.JOINED
 
     def get_is_consumer_joined(self, obj):
         user = self.context["request"].user

@@ -61,7 +61,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="triggerCSVUpload" icon v-bind="attrs" v-on="on">
-                  <v-icon color="purple darken-4">mdi-file-upload</v-icon>
+                  <v-icon color="primary">mdi-file-upload</v-icon>
                 </v-btn>
               </template>
               <span class="px-3">{{ $t("userActions.import") }} CSV</span>
@@ -74,7 +74,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon color="purple darken-4"
+                  <v-icon color="primary"
                     >mdi-file-download-outline</v-icon
                   >
                 </v-btn>
@@ -84,6 +84,7 @@
           </div>
         </v-card-actions>
       </v-card>
+
       <v-file-input
         id="csvImportInput"
         class="d-none"
@@ -136,9 +137,6 @@ export default {
           { text: this.$t("general.name"), value: "name" },
           { text: this.$t("general.email"), value: "email" },
           { text: this.$t("gender.gender"), value: "profile.gender" },
-          // Pending Backend:
-          // { text: this.$t('general.date'), value: 'dateAdded' },
-          // { text: this.$t('invite.invitationStatus'), value: 'status' },
         ],
       },
 
@@ -187,6 +185,7 @@ export default {
 
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("school", [
       "getStudentList",
       "deleteStudents",
@@ -232,6 +231,7 @@ export default {
         await this.deleteStudents(slugs)
         this.selectedRows = []
         this.getStudents()
+        this.showMessage(this.$t("success.userDeletedSuccessfully"))
       }
     },
 

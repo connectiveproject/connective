@@ -9,8 +9,8 @@ const consumer = {
     return axios.get(GET_CONSUMER_PROFILE_API_URL)
   },
 
-  updateProfile(slug, payload) {
-    return axios.patch(`${UPDATE_CONSUMER_PROFILE_API_URL}${slug}/`, payload)
+  updateProfile(slug, data) {
+    return axios.patch(`${UPDATE_CONSUMER_PROFILE_API_URL}${slug}/`, data)
   },
 }
 
