@@ -39,6 +39,9 @@ export async function checkRegistrationStatus(to, from, next) {
         next({ name: "VendorRegister", params: { lang: i18n.locale } })
       }
       break
+    case SERVER.userTypes.supervisor:
+      next({ name: "SupervisorDashboard", params: { lang: i18n.locale } })
+      break
     default:
       // coordinator
       if (await isStaffRegistered()) {

@@ -13,6 +13,7 @@ import {
   fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome"
+import SupervisorDashboard from "../layouts/SupervisorDashboard"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
@@ -26,6 +27,7 @@ import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
 import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
+import SupervisorProfile from "../views/Profile/SupervisorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
@@ -314,6 +316,22 @@ const routes = [
             path: "profile",
             name: "VendorProfile",
             component: VendorProfile,
+          },
+        ],
+      },
+      {
+        path: "supervisor-dashboard",
+        component: SupervisorDashboard,
+        children: [
+          {
+            path: "",
+            name: "SupervisorDashboard",
+            redirect: { name: "SupervisorProfile" },
+          },
+          {
+            path: "profile",
+            name: "SupervisorProfile",
+            component: SupervisorProfile,
           },
         ],
       },

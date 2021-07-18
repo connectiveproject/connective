@@ -193,6 +193,7 @@ export const SERVER = {
     consumer: "CONSUMER", // i.e., students
     instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR"
   },
   programOrderStatus: {
     cancelled: "CANCELLED",
