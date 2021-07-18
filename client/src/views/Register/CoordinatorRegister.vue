@@ -150,32 +150,23 @@
             ></v-text-field>
           </validation-provider>
 
-          <validation-provider
-            v-slot="{ errors }"
-            name="schoolDescription"
-            rules="required"
-          >
-            <v-text-field
-              data-testid="school-description"
-              v-model="registrationInfo.schoolDescription"
-              :error-messages="errors"
-              :label="$t('general.description')"
-              required
-            ></v-text-field>
-          </validation-provider>
+          <v-text-field
+            data-testid="school-description"
+            v-model="registrationInfo.schoolDescription"
+            :label="$t('general.description')"
+          />
 
           <validation-provider
             v-slot="{ errors }"
             name="schoolWebsite"
-            rules="required|website"
+            rules="website"
           >
             <v-text-field
               data-testid="school-website"
               v-model="registrationInfo.schoolWebsite"
               :error-messages="errors"
               :label="$t('general.website')"
-              required
-            ></v-text-field>
+            />
           </validation-provider>
 
           <validation-provider
@@ -287,7 +278,7 @@
           >
           <v-card-text
             ><b>{{ $t("general.schoolGrades") }}:</b>
-            {{ registrationInfo.schoolGrades }}</v-card-text
+            {{ registrationInfo.schoolGrades.map(num => $t(`grades.${num}`)).join(', ') }}</v-card-text
           >
         </template>
 

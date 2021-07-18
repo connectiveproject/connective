@@ -3,7 +3,7 @@ import { GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL } from "../helpers/const
 
 const instructorProgramGroup = {
   getConsumers(groupSlug) {
-    if (!groupSlug) return console.error("getConsumers: received empty slug")
+    if (!groupSlug) throw "getConsumers: received empty slug"
     return axios.get(`${GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL}${groupSlug}/group_consumers/`)
   },
 }

@@ -11,7 +11,7 @@
           />
           <title-to-text
             v-if="program.targetAudience.length"
-            :text="program.targetAudience.join(', ')"
+            :text="program.targetAudience.map(num => $t(`grades.${num}`)).join(', ')"
             :title="$t('program.targetAudience')"
           />
           <title-to-text

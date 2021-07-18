@@ -10,7 +10,7 @@ const coordinator = {
   },
 
   updateProfile(slug, data) {
-    if (!slug) return console.error("updateProfile: received empty slug")
+    if (!slug) throw "updateProfile: received empty slug"
     return axios.patch(`${UPDATE_COORDINATOR_PROFILE_API_URL}${slug}/`, data)
   },
 }

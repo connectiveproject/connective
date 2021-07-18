@@ -21,7 +21,7 @@ const organization = {
   },
 
   editInstructor(slug, data) {
-    if (!slug) return console.error("editInstructor: received empty slug")
+    if (!slug) throw "editInstructor: received empty slug"
     return axios.patch(`${EDIT_ORGANIZATION_INSTRUCTORS_API_URL}${slug}/`, data)
   },
 
@@ -43,7 +43,7 @@ const organization = {
   },
 
   editVendor(slug, data) {
-    if (!slug) return console.error("editVendor: received empty slug")
+    if (!slug) throw "editVendor: received empty slug"
     return axios.patch(`${EDIT_ORGANIZATION_VENDORS_API_URL}${slug}/`, data)
   },
 
