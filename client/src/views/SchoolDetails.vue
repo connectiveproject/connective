@@ -117,7 +117,7 @@ export default {
         website: {
           uniqueName: "website",
           label: this.$t("general.website"),
-          rules: "required",
+          rules: "website",
           value: "",
         },
         grades: {

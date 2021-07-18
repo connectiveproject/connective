@@ -270,11 +270,11 @@
           >
           <v-card-text
             ><b>{{ $t("general.description") }}:</b>
-            {{ registrationInfo.schoolDescription }}</v-card-text
+            {{ registrationInfo.schoolDescription || $t("errors.empty") }}</v-card-text
           >
           <v-card-text
             ><b>{{ $t("general.website") }}:</b>
-            {{ registrationInfo.schoolWebsite }}</v-card-text
+            {{ registrationInfo.schoolWebsite || $t("errors.empty") }}</v-card-text
           >
           <v-card-text
             ><b>{{ $t("general.schoolGrades") }}:</b>
