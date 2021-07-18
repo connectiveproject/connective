@@ -7,6 +7,7 @@ import {
 
 const consumerEvent = {
   getEvent(slug) {
+    if (!slug) return console.error("getEvent: received empty slug")
     return axios.get(`${GET_CONSUMER_EVENT_API_URL}${slug}/`)
   },
   getEventList(params) {

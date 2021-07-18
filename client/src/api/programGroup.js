@@ -10,6 +10,7 @@ import {
 
 const programGroup = {
   getGroup(groupSlug) {
+    if (!groupSlug) return console.error("getGroup: received empty slug")
     return axios.get(`${GET_PROGRAM_GROUPS_API_URL}${groupSlug}/`)
   },
   getGroupList(params) {
@@ -19,17 +20,23 @@ const programGroup = {
     return axios.post(CREATE_PROGRAM_GROUP_API_URL, data)
   },
   updateGroup(groupSlug, data) {
+    if (!groupSlug) return console.error("updateGroup: received empty slug")
     return axios.patch(`${UPDATE_PROGRAM_GROUP_API_URL}${groupSlug}/`, data)
   },
   deleteGroup(groupSlug) {
+    if (!groupSlug) return console.error("deleteGroup: received empty slug")
     return axios.delete(`${DELETE_PROGRAM_GROUP_API_URL}${groupSlug}/`)
   },
   getConsumers(groupSlug) {
+    if (!groupSlug) return console.error("getConsumers: received empty slug")
     return axios.get(
       `${GET_PROGRAM_GROUP_CONSUMERS_API_URL}${groupSlug}/group_consumers/`
     )
   },
   updateGroupConsumers(groupSlug, consumerSlugs) {
+    if (!groupSlug) {
+      return console.error("updateGroupConsumers: received empty slug")
+    }
     return axios.patch(
       `${UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL}${groupSlug}/update_group_consumers/`,
       consumerSlugs

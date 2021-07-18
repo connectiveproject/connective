@@ -14,6 +14,8 @@ const vendorProgram = {
     return axios.get(`${GET_VENDOR_PROGRAM_LIST_API_URL}${slug}/`)
   },
   getProgramMediaList(programSlug) {
+    if (!programSlug)
+      return console.error("getProgramMediaList: received empty slug")
     return axios.get(GET_PROGRAM_MEDIA_LIST_API_URL, {
       params: {
         activity__slug: programSlug,
@@ -21,6 +23,8 @@ const vendorProgram = {
     })
   },
   deleteProgramMedia(mediaSlug) {
+    if (!mediaSlug)
+      return console.error("deleteProgramMedia: received empty slug")
     return axios.delete(`${DELETE_PROGRAM_MEDIA_API_URL}${mediaSlug}/`)
   },
   createProgramMedia(data) {
@@ -37,12 +41,11 @@ const vendorProgram = {
     return axios.post(CREATE_VENDOR_PROGRAM_API_URL, data)
   },
   updateProgram(programSlug, data) {
-    return axios.patch(
-      `${UPDATE_VENDOR_PROGRAM_API_URL}${programSlug}/`,
-      data
-    )
+    if (!programSlug) return console.error("updateProgram: received empty slug")
+    return axios.patch(`${UPDATE_VENDOR_PROGRAM_API_URL}${programSlug}/`, data)
   },
   deleteProgram(programSlug) {
+    if (!programSlug) return console.error("deleteProgram: received empty slug")
     return axios.delete(`${DELETE_VENDOR_PROGRAM_API_URL}${programSlug}/`)
   },
 }

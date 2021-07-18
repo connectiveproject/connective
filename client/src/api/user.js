@@ -14,6 +14,7 @@ const user = {
   updateUserDetails(slug, data) {
     // update user account details using data
     // return: axios Promise
+    if (!slug) return console.error("updateUserDetails: received empty slug")
     return axios.patch(`${UPDATE_USER_API_URL}${slug}/`, data)
   },
 }

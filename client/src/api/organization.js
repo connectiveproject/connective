@@ -20,8 +20,8 @@ const organization = {
     return axios.post(ADD_ORGANIZATION_INSTRUCTORS_API_URL, instructor)
   },
 
-
   editInstructor(slug, data) {
+    if (!slug) return console.error("editInstructor: received empty slug")
     return axios.patch(`${EDIT_ORGANIZATION_INSTRUCTORS_API_URL}${slug}/`, data)
   },
 
@@ -43,6 +43,7 @@ const organization = {
   },
 
   editVendor(slug, data) {
+    if (!slug) return console.error("editVendor: received empty slug")
     return axios.patch(`${EDIT_ORGANIZATION_VENDORS_API_URL}${slug}/`, data)
   },
 
@@ -53,7 +54,6 @@ const organization = {
       )
     )
   },
-
 }
 
 export default organization
