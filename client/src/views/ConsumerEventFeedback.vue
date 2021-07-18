@@ -94,7 +94,7 @@ export default {
           type: "select",
           choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
           label: this.$t(
-            "events.chooseYourLevelOfSatisfactionFromTheInstructor"
+            "events.chooseHowLikelyYouAreToRecommendThisActivityToAFriend"
           ),
           value: "",
         },

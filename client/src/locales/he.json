@@ -53,7 +53,7 @@
   },
 
   "gender": {
-    "gender": "מין",
+    "gender": "מגדר",
     "male": "זכר",
     "female": "נקבה",
     "unknown": "לא ידוע",
@@ -272,7 +272,7 @@
     "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
     "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
-    "chooseYourLevelOfSatisfactionFromTheInstructor": "סמנו את שביעות רצונכם הכללית מהמדריך"
+    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים"
   },
 
   "groups": {

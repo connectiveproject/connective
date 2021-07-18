@@ -8,6 +8,12 @@ from .models import ConsumerEventFeedback, Event
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ["school_group", "start_time", "end_time", "school", "activity"]
+    search_fields = [
+        "school_group__activity_order__school__name",
+        "school_group__activity_order__activity__name",
+        "school_group__name",
+    ]
+    list_filter = ["school_group__name"]
 
     def school(self, obj):
         try:
