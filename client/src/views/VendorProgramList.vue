@@ -33,7 +33,7 @@
         <info-card
           :hideStar="true"
           :title="program.name"
-          :subtitle="$t(`programFilters.${program.domain}`)"
+          :subtitle="program.domain ? $t(`programFilters.${camelCase(program.domain)}`) : $t('errors.domainUnspecified')"
           :imgUrl="program.logo"
           :buttonText="$t('program.toProgramPage')"
           buttonColor="primary"
@@ -55,6 +55,7 @@
 </template>
 <script>
 import { mapState } from "vuex"
+import camelCase from "lodash/camelCase"
 import store from "../vuex/store"
 import InfoCard from "../components/InfoCard"
 
@@ -69,5 +70,8 @@ export default {
   computed: {
     ...mapState("vendorProgram", ["programList"]),
   },
+  methods: {
+    camelCase,
+  }
 }
 </script>

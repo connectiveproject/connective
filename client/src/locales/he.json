@@ -230,7 +230,8 @@
     "thisPageDoesNotExist": "עמוד זה אינו קיים",
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
     "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
-    "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה"
+    "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
+    "domainUnspecified": "מרחב לא צויין"
   },
 
   "myActivity": {
