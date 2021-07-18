@@ -58,7 +58,7 @@
             >
               {{ `${$tc("userActions.remove", 1)} ${$t("general.student")}` }}
             </v-btn>
-            <v-tooltip bottom>
+            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="triggerCSVUpload" icon v-bind="attrs" v-on="on">
                   <v-icon color="primary">mdi-file-upload</v-icon>
@@ -66,7 +66,7 @@
               </template>
               <span class="px-3">{{ $t("userActions.import") }} CSV</span>
             </v-tooltip>
-            <v-tooltip bottom>
+            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   @click="exportCSV(tableProps.items)"
