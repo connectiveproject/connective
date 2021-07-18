@@ -182,7 +182,7 @@ export const PROGRAMS_CHECKBOX_FILTERS = [
     ],
   },
   {
-    name: "domain",
+    name: "domain__in",
     readableName: i18n.t("programFilters.domainOfActivity"),
     options: [
       {
