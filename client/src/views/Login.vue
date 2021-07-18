@@ -83,12 +83,11 @@ export default {
   methods: {
     ...mapActions("auth", ["login"]),
     submit: debounce(
-      function () {
-        this.$refs.observer.validate().then(() => {
-          this.login({ email: this.email, password: this.password }).catch(
-            this.displayLoginError
-          )
-        })
+      async function () {
+        if (!(await this.$refs.observer.validate())) return
+        this.login({ email: this.email, password: this.password }).catch(
+          this.displayLoginError
+        )
       },
       500,
       { leading: true, trailing: false }
