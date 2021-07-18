@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-card
-      class="absolute-center py-12 px-7"
-      width="320"
-      elevation="16"
-    >
+    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
       <v-card-title
         id="letter-spacing-2"
         class="text-h4 justify-center mb-3 font-weight-bold"
@@ -66,6 +62,7 @@
 </template>
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import Modal from "../components/Modal"
 
@@ -85,15 +82,17 @@ export default {
 
   methods: {
     ...mapActions("auth", ["login"]),
-
-    submit() {
-      this.$refs.observer.validate().then(() => {
-        this.login({ email: this.email, password: this.password }).catch(
-          this.displayLoginError
-        )
-      })
-    },
-
+    submit: debounce(
+      function () {
+        this.$refs.observer.validate().then(() => {
+          this.login({ email: this.email, password: this.password }).catch(
+            this.displayLoginError
+          )
+        })
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
     displayLoginError(msg) {
       try {
         if (

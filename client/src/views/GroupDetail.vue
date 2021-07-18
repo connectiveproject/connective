@@ -80,6 +80,7 @@
 <script>
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import Api from "../api"
 import store from "../vuex/store"
 import inputDrawer from "../components/InputDrawer"
@@ -118,21 +119,25 @@ export default {
   methods: {
     ...mapActions("programGroup", ["updateGroup", "deleteGroup"]),
     ...mapActions("snackbar", ["showMessage"]),
-    async onSubmit() {
-      try {
-        await this.updateGroup({
-          groupSlug: this.groupSlug,
-          data: {
-            name: this.name,
-            description: this.description,
-          },
-        })
-        this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
-        this.$router.push({ name: "MyGroups" })
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+    onSubmit: debounce(
+      async function () {
+        try {
+          await this.updateGroup({
+            groupSlug: this.groupSlug,
+            data: {
+              name: this.name,
+              description: this.description,
+            },
+          })
+          this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+          this.$router.push({ name: "MyGroups" })
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
     async handleDelete() {
       try {
         await this.deleteGroup(this.groupSlug)

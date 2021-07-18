@@ -1,6 +1,11 @@
 <template>
   <div class="wrapper">
-    <v-card class="py-12 px-7 mx-auto" width="320" elevation="16" v-show="page === 1">
+    <v-card
+      class="py-12 px-7 mx-auto"
+      width="320"
+      elevation="16"
+      v-show="page === 1"
+    >
       <v-card-title class="text-h4 justify-center mb-6">{{
         $t("auth.detailsCompletion")
       }}</v-card-title>
@@ -145,32 +150,23 @@
             ></v-text-field>
           </validation-provider>
 
-          <validation-provider
-            v-slot="{ errors }"
-            name="schoolDescription"
-            rules="required"
-          >
-            <v-text-field
-              data-testid="school-description"
-              v-model="registrationInfo.schoolDescription"
-              :error-messages="errors"
-              :label="$t('general.description')"
-              required
-            ></v-text-field>
-          </validation-provider>
+          <v-text-field
+            data-testid="school-description"
+            v-model="registrationInfo.schoolDescription"
+            :label="$t('general.description')"
+          />
 
           <validation-provider
             v-slot="{ errors }"
             name="schoolWebsite"
-            rules="required|website"
+            rules="website"
           >
             <v-text-field
               data-testid="school-website"
               v-model="registrationInfo.schoolWebsite"
               :error-messages="errors"
               :label="$t('general.website')"
-              required
-            ></v-text-field>
+            />
           </validation-provider>
 
           <validation-provider
@@ -274,15 +270,15 @@
           >
           <v-card-text
             ><b>{{ $t("general.description") }}:</b>
-            {{ registrationInfo.schoolDescription }}</v-card-text
+            {{ registrationInfo.schoolDescription || $t("errors.empty") }}</v-card-text
           >
           <v-card-text
             ><b>{{ $t("general.website") }}:</b>
-            {{ registrationInfo.schoolWebsite }}</v-card-text
+            {{ registrationInfo.schoolWebsite || $t("errors.empty") }}</v-card-text
           >
           <v-card-text
             ><b>{{ $t("general.schoolGrades") }}:</b>
-            {{ registrationInfo.schoolGrades }}</v-card-text
+            {{ registrationInfo.schoolGrades.map(num => $t(`grades.${num}`)).join(', ') }}</v-card-text
           >
         </template>
 
@@ -319,6 +315,7 @@
 </template>
 <script>
 import store from "../../vuex/store"
+import debounce from "lodash/debounce"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import {
@@ -376,16 +373,20 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
-    submit() {
-      let userDetailsPayload = this.createUserSubmitPayload()
-      let profilePayload = this.createProfileSubmitPayload()
-      let schoolPayload = this.createSchoolSubmitPayload()
-      this.postRegistrationData(
-        userDetailsPayload,
-        profilePayload,
-        schoolPayload
-      )
-    },
+    submit: debounce(
+      function () {
+        let userDetailsPayload = this.createUserSubmitPayload()
+        let profilePayload = this.createProfileSubmitPayload()
+        let schoolPayload = this.createSchoolSubmitPayload()
+        this.postRegistrationData(
+          userDetailsPayload,
+          profilePayload,
+          schoolPayload
+        )
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     createUserSubmitPayload() {
       return {

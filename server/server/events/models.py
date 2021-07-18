@@ -20,7 +20,6 @@ class Event(models.Model):
         SchoolActivityGroup,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True,
     )
     locations_name = models.CharField(
         max_length=250,

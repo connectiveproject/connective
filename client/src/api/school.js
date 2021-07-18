@@ -18,6 +18,8 @@ const school = {
   },
 
   updateSchoolDetails(schoolSlug, data) {
+    if (!schoolSlug)
+      throw "updateSchoolDetails: received empty slug"
     return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, data)
   },
 
@@ -38,6 +40,7 @@ const school = {
   },
 
   editStudent(slug, data) {
+    if (!slug) throw "editStudent: received empty slug"
     return axios.patch(`${EDIT_SCHOOL_STUDENTS_API_URL}${slug}/`, data)
   },
 
@@ -66,6 +69,7 @@ const school = {
   },
 
   editCoordinator(slug, data) {
+    if (!slug) throw "editCoordinator: received empty slug"
     return axios.patch(`${EDIT_SCHOOL_COORDINATORS_API_URL}${slug}/`, data)
   },
 
@@ -76,7 +80,6 @@ const school = {
       )
     )
   },
-
 }
 
 export default school
