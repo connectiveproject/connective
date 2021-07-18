@@ -182,20 +182,20 @@ export const PROGRAMS_CHECKBOX_FILTERS = [
     ],
   },
   {
-    name: "domainOfActivity",
+    name: "domain",
     readableName: i18n.t("programFilters.domainOfActivity"),
     options: [
       {
         label: i18n.t("programFilters.scienceAndTech"),
-        value: "scienceAndTech",
+        value: "SCIENCE_AND_TECH",
       },
       {
         label: i18n.t("programFilters.extremeSports"),
-        value: "extremeSports",
+        value: "EXTREME_SPORTS",
       },
       {
         label: i18n.t("programFilters.field"),
-        value: "field",
+        value: "FIELD",
       },
     ],
   },

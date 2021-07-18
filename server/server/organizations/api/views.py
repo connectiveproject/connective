@@ -59,6 +59,7 @@ class OrganizationViewSet(
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowCoordinatorReadOnly]
     serializer_class = ActivitySerializer
+    filterset_fields = ["domain"]
     lookup_field = "slug"
 
     queryset = Activity.objects.all()
