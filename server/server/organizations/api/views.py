@@ -24,6 +24,7 @@ from server.utils.permission_classes import (
     AllowVendor,
 )
 
+from .filters import ActivityFilter
 from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
@@ -60,9 +61,10 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowCoordinatorReadOnly]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
-    filterset_fields = {
-        "domain": ["in"],
-    }
+    filterset_class = ActivityFilter
+    # filterset_fields = {
+    #     "domain": ["in"],
+    # }
 
     queryset = Activity.objects.all()
 
