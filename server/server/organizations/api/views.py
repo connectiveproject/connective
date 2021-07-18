@@ -3,7 +3,8 @@ from contextlib import suppress
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from rest_framework import mixins, status, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -62,9 +63,8 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ActivitySerializer
     lookup_field = "slug"
     filterset_class = ActivityFilter
-    # filterset_fields = {
-    #     "domain": ["in"],
-    # }
+    search_fields = ["name", "description"]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
 
     queryset = Activity.objects.all()
 

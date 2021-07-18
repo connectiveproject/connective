@@ -163,24 +163,24 @@ export const VENDOR_PROGRAM_FIELDS = [
 ]
 
 export const PROGRAMS_CHECKBOX_FILTERS = [
-  {
-    name: "space",
-    readableName: i18n.t("programFilters.space"),
-    options: [
-      {
-        label: i18n.t("programFilters.blueCore"),
-        value: "blue",
-      },
-      {
-        label: i18n.t("programFilters.greenEmpowermentEnrichment"),
-        value: "green",
-      },
-      {
-        label: i18n.t("programFilters.orangeCommunity"),
-        value: "orange",
-      },
-    ],
-  },
+  // {
+  //   name: "space",
+  //   readableName: i18n.t("programFilters.space"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.blueCore"),
+  //       value: "blue",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.greenEmpowermentEnrichment"),
+  //       value: "green",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.orangeCommunity"),
+  //       value: "orange",
+  //     },
+  //   ],
+  // },
   {
     name: "domain__in",
     readableName: i18n.t("programFilters.domainOfActivity"),
@@ -199,32 +199,28 @@ export const PROGRAMS_CHECKBOX_FILTERS = [
       },
     ],
   },
-  {
-    name: "natureOfActivity",
-    readableName: i18n.t("programFilters.natureOfActivity"),
-    options: [
-      {
-        label: i18n.t("programFilters.individual"),
-        value: "individual",
-      },
-      {
-        label: i18n.t("programFilters.cooperative"),
-        value: "cooperative",
-      },
-      {
-        label: i18n.t("programFilters.hybrid"),
-        value: "hybrid",
-      },
-    ],
-  },
+  // {
+  //   name: "natureOfActivity",
+  //   readableName: i18n.t("programFilters.natureOfActivity"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.individual"),
+  //       value: "individual",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.cooperative"),
+  //       value: "cooperative",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.hybrid"),
+  //       value: "hybrid",
+  //     },
+  //   ],
+  // },
   {
     name: "targetAudience",
     readableName: i18n.t("programFilters.targetAudience"),
     options: [
-      {
-        label: i18n.t("programFilters.allAges"),
-        value: "0",
-      },
       {
         label: i18n.t("grades.1"),
         value: "1",
