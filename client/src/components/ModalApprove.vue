@@ -14,6 +14,7 @@
         <v-btn
           text
           color="teal darken-4"
+          data-testid="modal-approve-yes"
           v-text="$t('general.yes')"
           @click="handleApprove"
         />

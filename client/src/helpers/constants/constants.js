@@ -101,15 +101,15 @@ export const SCHOOL_GRADES_ITEMS = [
 const DOMAIN_SELECT_ITEMS = [
   {
     text: i18n.t("programFilters.scienceAndTech"),
-    value: "scienceAndTech",
+    value: "SCIENCE_AND_TECH",
   },
   {
     text: i18n.t("programFilters.extremeSports"),
-    value: "extremeSports",
+    value: "EXTREME_SPORTS",
   },
   {
     text: i18n.t("programFilters.field"),
-    value: "field",
+    value: "FIELD",
   },
 ]
 
@@ -117,7 +117,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "name",
     label: i18n.t("program.programName"),
-    rules: "required",
+    rules: "required|max:35",
   },
   {
     name: "description",

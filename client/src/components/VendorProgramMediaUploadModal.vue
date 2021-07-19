@@ -10,6 +10,7 @@
           <v-card-text>
             <v-select
               v-model="mediaType"
+              data-testid="media-type-select"
               :items="mediaTypeList"
               :label="$t('program.mediaType')"
             />
@@ -50,6 +51,7 @@
               color="success"
               v-text="$t('userActions.save')"
               :disabled="invalid"
+              data-testid="save-btn"
               @click="upload"
             />
             <v-btn large v-text="$t('userActions.close')" text @click="close" />
