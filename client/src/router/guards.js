@@ -25,35 +25,36 @@ export async function checkRegistrationStatus(to, from, next) {
     return
   }
   const userDetails = await store.dispatch("user/getUserDetails")
-  switch (userDetails.userType) {
-    case SERVER.userTypes.consumer:
-      next({ name: "StudentDashboard", params: { lang: i18n.locale } })
-      break
-    case SERVER.userTypes.instructor:
-      next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
-      break
-    case SERVER.userTypes.vendor:
-      if (await isStaffRegistered()) {
-        next({ name: "VendorDashboard", params: { lang: i18n.locale } })
-      } else {
-        next({ name: "VendorRegister", params: { lang: i18n.locale } })
-      }
-      break
-    case SERVER.userTypes.supervisor:
-      next({ name: "SupervisorDashboard", params: { lang: i18n.locale } })
-      break
-    default:
-      // coordinator
-      if (await isStaffRegistered()) {
-        next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
-      } else {
-        const shouldEditSchool = !(await isSchoolFilled())
-        next({
-          name: "CoordinatorRegister",
-          params: { lang: i18n.locale, shouldEditSchool },
-        })
-      }
+  var currUser = userDetails.userType
+
+  if(currUser == SERVER.userTypes.consumer){
+    next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   }
+  else if(currUser == SERVER.userTypes.instructor){
+    next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
+  }
+  else if (currUser == SERVER.userTypes.vendor){
+    if (await isStaffRegistered()) {
+      next({ name: "VendorDashboard", params: { lang: i18n.locale } })
+    } else {
+      next({ name: "VendorRegister", params: { lang: i18n.locale } })
+    }
+  }
+  else if (currUser == SERVER.userTypes.supervisor){
+    next({ name: "SupervisorDashboard", params: { lang: i18n.locale } })
+  }
+  else{
+    if (await isStaffRegistered()) {
+      next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
+    } else {
+      const shouldEditSchool = !(await isSchoolFilled())
+      next({
+        name: "CoordinatorRegister",
+        params: { lang: i18n.locale, shouldEditSchool },
+      })
+    }
+  }
+
   // coord
   const shouldEditSchool = !(await isSchoolFilled())
   if (!shouldEditSchool && (await isStaffRegistered())) {
