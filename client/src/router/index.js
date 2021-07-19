@@ -11,6 +11,7 @@ import {
   PopulateConsumerData,
   PopulateCoordinatorData,
   fetchProgramDetails,
+  PopulateSupervisorData,
 } from "./guards"
 import Welcome from "../layouts/Welcome"
 import SupervisorDashboard from "../layouts/SupervisorDashboard"
@@ -175,6 +176,24 @@ const routes = [
                 props: true,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: "supervisor-dashboard",
+        component: SupervisorDashboard,
+        beforeEnter: PopulateSupervisorData,
+        children: [
+          {
+            path: "",
+            name: "SupervisorDashboard",
+            redirect: { name: "SupervisorProfile" },
+          },
+          {
+            path: "profile",
+            name: "SupervisorProfile",
+            component: SupervisorProfile,
+
           },
         ],
       },
@@ -377,22 +396,6 @@ const routes = [
                 beforeEnter: flushPagination,
               },
             ],
-          },
-        ],
-      },
-      {
-        path: "supervisor-dashboard",
-        component: SupervisorDashboard,
-        children: [
-          {
-            path: "",
-            name: "SupervisorDashboard",
-            redirect: { name: "SupervisorProfile" },
-          },
-          {
-            path: "profile",
-            name: "SupervisorProfile",
-            component: SupervisorProfile,
           },
         ],
       },

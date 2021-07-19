@@ -114,6 +114,12 @@ export function PopulateCoordinatorData(to, from, next) {
   next()
 }
 
+export function PopulateSupervisorData(to, from, next) {
+  store.dispatch("user/getUserDetails")
+  store.dispatch("supervisor/getProfile")
+  next()
+}
+
 export async function fetchProgramDetails(to, from, next) {
   let vuexModule = "program"
   if (store.getters["user/isConsumer"]) {
