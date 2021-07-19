@@ -13,6 +13,8 @@ from ..models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Supervisor,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
@@ -43,6 +45,20 @@ class CoordinatorProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CoordinatorProfile
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
+
+
+class SupervisorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = SupervisorProfile
         fields = [
             "slug",
             "gender",
@@ -145,6 +161,42 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         )
         send_user_invite(validated_data["email"])
         return coordinator
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+
+        if validated_data.get("email"):
+            # invite again on email change
+            send_user_invite(validated_data["email"])
+
+        return instance
+
+
+class ManageSupervisorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supervisor
+        fields = ["slug", "name", "email"]
+        extra_kwargs = {
+            "email": {
+                "validators": [
+                    UniqueValidator(queryset=User.objects.all(), lookup="iexact")
+                ]
+            },
+        }
+
+    def create(self, validated_data):
+        """
+        create user, attach to school, invite user via email
+        """
+        supervisor = Supervisor.objects.create(**validated_data)
+
+        SchoolMember.objects.create(
+            user=supervisor, school=self.context["request"].user.school_member.school
+        )
+        send_user_invite(validated_data["email"])
+        return supervisor
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
