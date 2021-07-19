@@ -34,7 +34,7 @@
             <v-select
               v-if="type === 'select'"
               v-show="isDrawerOpen()"
-              class="included mt-5"
+              class="mt-5"
               :value="value"
               @input="$emit('input', $event)"
               :error-messages="errors"
