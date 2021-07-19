@@ -1,1 +1,5 @@
-{}
+{
+    "env": {
+        "clientUrl": "https://8080-magenta-junglefowl-g3hgtcia.ws-eu11.gitpod.io"
+    }
+}
