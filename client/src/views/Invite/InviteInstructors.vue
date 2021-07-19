@@ -9,6 +9,7 @@
       <v-card elevation="3" class="mb-15">
         <v-card-title>
           <v-text-field
+            data-testid="invite-instructor-search-field"
             v-model="searchFilter"
             append-icon="mdi-magnify"
             :label="$t('userActions.search')"
@@ -39,16 +40,18 @@
         </v-data-table>
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
-            @click="addInstructor"
-            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
             text
+            data-testid="invite-instructor-btn"
             v-text="$t('invite.inviteInstructor')"
+            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
+            @click="addInstructor"
           />
           <v-spacer></v-spacer>
           <div class="pl-2">
             <v-btn
               text
               color="error"
+              data-testid="delete-instructor-btn"
               @click="handleDeleteRequest"
               :disabled="!selectedRows.length"
               v-text="$t('invite.removeInstructor')"
