@@ -93,7 +93,7 @@ export default {
 
   methods: {
     ...mapActions("user", ["updateUserDetails"]),
-    ...mapActions("coordinator", ["updateProfile"]),
+    ...mapActions("supervisorr", ["updateProfile"]),
     setUserAttributes(userAttributes) {
       // set user data received from server
       this.slug = userAttributes.slug
