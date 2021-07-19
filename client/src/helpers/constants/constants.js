@@ -13,7 +13,7 @@ export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profi
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
-export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me`
+export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me/`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
 export const GET_SCHOOL_STUDENTS_LIST_API_URL = `${SERVER_URL}/manage_consumers/`
 export const ADD_SCHOOL_STUDENTS_API_URL = `${SERVER_URL}/manage_consumers/`
@@ -163,68 +163,64 @@ export const VENDOR_PROGRAM_FIELDS = [
 ]
 
 export const PROGRAMS_CHECKBOX_FILTERS = [
+  // {
+  //   name: "space",
+  //   readableName: i18n.t("programFilters.space"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.blueCore"),
+  //       value: "blue",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.greenEmpowermentEnrichment"),
+  //       value: "green",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.orangeCommunity"),
+  //       value: "orange",
+  //     },
+  //   ],
+  // },
   {
-    name: "space",
-    readableName: i18n.t("programFilters.space"),
-    options: [
-      {
-        label: i18n.t("programFilters.blueCore"),
-        value: "blue",
-      },
-      {
-        label: i18n.t("programFilters.greenEmpowermentEnrichment"),
-        value: "green",
-      },
-      {
-        label: i18n.t("programFilters.orangeCommunity"),
-        value: "orange",
-      },
-    ],
-  },
-  {
-    name: "domainOfActivity",
+    name: "domain__in",
     readableName: i18n.t("programFilters.domainOfActivity"),
     options: [
       {
         label: i18n.t("programFilters.scienceAndTech"),
-        value: "scienceAndTech",
+        value: "SCIENCE_AND_TECH",
       },
       {
         label: i18n.t("programFilters.extremeSports"),
-        value: "extremeSports",
+        value: "EXTREME_SPORTS",
       },
       {
         label: i18n.t("programFilters.field"),
-        value: "field",
+        value: "FIELD",
       },
     ],
   },
-  {
-    name: "natureOfActivity",
-    readableName: i18n.t("programFilters.natureOfActivity"),
-    options: [
-      {
-        label: i18n.t("programFilters.individual"),
-        value: "individual",
-      },
-      {
-        label: i18n.t("programFilters.cooperative"),
-        value: "cooperative",
-      },
-      {
-        label: i18n.t("programFilters.hybrid"),
-        value: "hybrid",
-      },
-    ],
-  },
+  // {
+  //   name: "natureOfActivity",
+  //   readableName: i18n.t("programFilters.natureOfActivity"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.individual"),
+  //       value: "individual",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.cooperative"),
+  //       value: "cooperative",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.hybrid"),
+  //       value: "hybrid",
+  //     },
+  //   ],
+  // },
   {
     name: "targetAudience",
     readableName: i18n.t("programFilters.targetAudience"),
     options: [
-      {
-        label: i18n.t("programFilters.allAges"),
-        value: "0",
-      },
       {
         label: i18n.t("grades.1"),
         value: "1",

@@ -2,7 +2,10 @@
   <div
     class="drawer white-bg pt-3"
     @click="openDrawer"
-    v-click-outside="closeDrawer"
+    v-click-outside="{
+      handler: closeDrawer,
+      include: clickOutsideInclude,
+    }"
   >
     <v-row dense justify="space-between">
       <v-col cols="2" sm="2">
@@ -39,8 +42,7 @@
               :multiple="multiselect"
               chips
               deletable-chips
-            >
-            </v-select>
+            />
             <strong
               v-show="!isDrawerOpen()"
               class="text-subtitle-2 text-lg-subtitle-1"
@@ -103,9 +105,11 @@ export default {
     },
   },
 
-  data: () => ({
-    drawerOpened: false,
-  }),
+  data() {
+    return {
+      drawerOpened: false,
+    }
+  },
 
   methods: {
     openDrawer() {
@@ -116,6 +120,10 @@ export default {
     },
     isDrawerOpen() {
       return this.drawerOpened
+    },
+    clickOutsideInclude() {
+      // don't collapse input-drawer if click happened inside v-select
+      return [...document.getElementsByClassName("menuable__content__active")]
     },
   },
 
