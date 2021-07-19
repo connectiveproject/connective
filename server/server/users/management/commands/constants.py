@@ -1,8 +1,8 @@
 ORGANIZATION_PAYLOAD = {
-    "email": "Organization",
+    "email": "org@example.com",
     "description": "Org Description",
     "website_url": "https://org.com",
-    "name": "Organization Name",
+    "name": "ארגון חובק עולם",
     "goal": "Goal",
     "year_founded": "2005",
     "status": "status",
@@ -22,12 +22,12 @@ ORGANIZATION_PAYLOAD = {
 }
 
 SCHOOL_PAYLOAD = {
-    "name": "School Name",
-    "address": "School Address",
-    "address_city": "Tel Aviv",
+    "name": "בית ספר שרת - דמו",
+    "address": "ארלוזורוב 75",
+    "address_city": "תל אביב",
     "zip_city": "0564665",
     "school_code": 546321,
-    "description": "School description",
+    "description": "בית ספר יסודי שרת",
     "contact_phone": "0521234567",
     "website": "https://school.com",
     "grade_levels": [1, 2, 3, 4, 5, 6],
@@ -35,20 +35,22 @@ SCHOOL_PAYLOAD = {
 
 ACTIVITY_PAYLOADS = [
     {
-        "name": "Activity One",
+        "name": "ערכים דרך ריצה",
         "target_audience": [1, 2, 3, 4, 5, 6],
-        "domain": "Domain",
-        "description": "Activity One Desc",
-        "contact_name": "John Smith",
+        "domain": "FIELD",
+        "description": """תוכנית ערכים דרך ריצה היא תוכנית ריצת טבע.
+        רצים בשדות ולומדים על טבע ועל עצמנו דרך הרגליים""",
+        "contact_name": "ליאור רוטשטיין",
         "logo": "https://picsum.photos/200/300",
         "phone_number": "0521234567",
     },
     {
-        "name": "Activity Two",
+        "name": "שחמט לכל ילד",
         "target_audience": [1, 2, 3, 4, 5, 6],
-        "domain": "Domain",
-        "description": "Activity Two Desc",
-        "contact_name": "David Cohen",
+        "domain": "SCIENCE_AND_TECH",
+        "description": """שחמט לכל ילד הינה תוכנית ללימוד שחמט הקיימת מעל ל20 שנה ופועלת בכל רחבי הארץ.
+        אנו חורטים על דגלינו התפתחות חשיבה עצמאית ומסוגלת בקרב תלמידינו.""",
+        "contact_name": "דוד כהן",
         "logo": "https://picsum.photos/200/300",
         "phone_number": "0521234567",
     },
