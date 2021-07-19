@@ -32,6 +32,7 @@
           >
             <info-card
               hide-star
+              hide-button
               img-height="0"
               :img-url="null"
               :title="consumer.name"
