@@ -16,7 +16,7 @@
             ></input-drawer>
           </v-col>
           <v-col cols="12" sm="12" lg="3">
-            <avatar class="mr-lg-16 mx-auto avatar" v-model="profilePicture" />
+            <editable-avatar class="mr-lg-16 mx-auto avatar" v-model="profilePicture" />
           </v-col>
         </v-row>
         <v-btn
@@ -42,14 +42,14 @@ import store from "../../vuex/store"
 import { ValidationObserver } from "vee-validate"
 import Modal from "../../components/Modal"
 import InputDrawer from "../../components/InputDrawer"
-import Avatar from "../../components/Avatar/Avatar"
+import EditableAvatar from "../../components/Avatar/EditableAvatar"
 
 export default {
   components: {
     ValidationObserver,
     Modal,
     InputDrawer,
-    Avatar,
+    EditableAvatar,
   },
 
   async beforeRouteEnter(to, from, next) {

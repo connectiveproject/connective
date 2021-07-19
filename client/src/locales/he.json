@@ -251,7 +251,11 @@
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
     "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
-    "groupsFound": "קבוצות נמצאו"
+    "groupsFound": "קבוצות נמצאו",
+    "students": "תלמידים",
+    "studentsDisplay": "תצוגת תלמידים",
+    "studentsFound": "תלמידים נמצאו",
+    "toThePersonalPage": "לעמוד האישי"
   },
 
   "events": {
