@@ -70,6 +70,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import store from "../../vuex/store"
 import Modal from "../../components/Modal"
@@ -102,25 +103,29 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("vendor", ["updateProfile"]),
     ...mapActions("snackbar", ["showMessage"]),
-    async submit() {
-      try {
-        await Promise.all[
-          (this.updateProfile({
-            slug: this.slug,
-            profile: { phoneNumber: this.registrationInfo.phone },
-          }),
-          this.updateUserDetails({
-            slug: this.slug,
-            userDetails: { name: this.registrationInfo.name },
-          }))
-        ]
-        this.modalRedirectComponentName = "VendorProfile"
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch (err) {
-        const message = Api.utils.parseResponseError(err)
-        this.showMessage(message)
-      }
-    },
+    submit: debounce(
+      async function () {
+        try {
+          await Promise.all[
+            (this.updateProfile({
+              slug: this.slug,
+              profile: { phoneNumber: this.registrationInfo.phone },
+            }),
+            this.updateUserDetails({
+              slug: this.slug,
+              userDetails: { name: this.registrationInfo.name },
+            }))
+          ]
+          this.modalRedirectComponentName = "VendorProfile"
+          this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
+        } catch (err) {
+          const message = Api.utils.parseResponseError(err)
+          this.showMessage(message)
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

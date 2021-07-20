@@ -10,9 +10,11 @@ import {
 
 const program = {
   getProgram(slug) {
+    if (!slug) throw "getProgram: received empty slug"
     return axios.get(`${GET_PROGRAM_LIST_API_URL}${slug}/`)
   },
   getProgramMediaList(programSlug) {
+    if (!programSlug) throw "getProgramMediaList: received empty slug"
     return axios.get(GET_PROGRAM_MEDIA_LIST_API_URL, {
       params: {
         activity__slug: programSlug,

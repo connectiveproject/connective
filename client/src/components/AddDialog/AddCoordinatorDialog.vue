@@ -52,6 +52,7 @@
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import debounce from "lodash/debounce"
 import Api from "../../api"
 
 export default {
@@ -118,25 +119,29 @@ export default {
       this.$emit("input", false)
       this.initFormInput()
     },
-    async save() {
-      // save to store and notify parent, close dialog
-      try {
-        if (this.slug) {
-          await this.editCoordinator({
-            slug: this.slug,
-            coordinator: this.formInput,
-          })
-          this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
-        } else {
-          await this.addCoordinator(this.formInput)
-          this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+    save: debounce(
+      async function () {
+        // save to store and notify parent, close dialog
+        try {
+          if (this.slug) {
+            await this.editCoordinator({
+              slug: this.slug,
+              coordinator: this.formInput,
+            })
+            this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
+          } else {
+            await this.addCoordinator(this.formInput)
+            this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+          }
+          this.$emit("save", this.formInput)
+          this.close()
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
         }
-        this.$emit("save", this.formInput)
-        this.close()
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

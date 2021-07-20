@@ -1,6 +1,6 @@
 {
   "general": {
-    "connective": "הקונקטיב",
+    "connective": "קונקטיב",
     "email": "כתובת מייל",
     "phoneNumber": "מספר טלפון",
     "homepage": "דף הבית",
@@ -53,7 +53,7 @@
   },
 
   "gender": {
-    "gender": "מין",
+    "gender": "מגדר",
     "male": "זכר",
     "female": "נקבה",
     "unknown": "לא ידוע",
@@ -230,7 +230,8 @@
     "thisPageDoesNotExist": "עמוד זה אינו קיים",
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
     "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
-    "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה"
+    "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
+    "domainUnspecified": "מרחב לא צויין"
   },
 
   "myActivity": {
@@ -272,7 +273,7 @@
     "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
     "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
-    "chooseYourLevelOfSatisfactionFromTheInstructor": "סמנו את שביעות רצונכם הכללית מהמדריך"
+    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים"
   },
 
   "groups": {

@@ -6,6 +6,7 @@ ports:
   # django server
   - port: 8000
     onOpen: open-preview
+    visibility: public
   - port: 8025
     onOpen: open-preview
   # PostgreSQL server
@@ -25,7 +26,7 @@ tasks:
     command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver 0.0.0.0:8000
   - command: redis-server
 
-  - command: MailHog      
+  - command: MailHog
   - name: Vue Client
     init: > 
       cd client && 
@@ -42,7 +43,7 @@ tasks:
   - command: >
       echo welcome
   - command: >
-      echo -e "\e[36mWELCOM CONTRIBUTER!"
+      echo -e "\e[36mWELCOME CONTRIBUTER!"
 
 # command: 'createdb server -U postgres --password $POSTGRES_PASSWORD'
 vscode:

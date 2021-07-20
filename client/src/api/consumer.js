@@ -10,6 +10,7 @@ const consumer = {
   },
 
   updateProfile(slug, data) {
+    if (!slug) throw "updateProfile: received empty slug"
     return axios.patch(`${UPDATE_CONSUMER_PROFILE_API_URL}${slug}/`, data)
   },
 }

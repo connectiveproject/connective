@@ -105,6 +105,10 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         """
         update user & profile
         """
+        has_email_changed = validated_data.get(
+            "email"
+        ) and instance.email != validated_data.get("email")
+
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
 
@@ -116,7 +120,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
             profile.save()
 
         instance.save()
-        if validated_data.get("email"):
+        if has_email_changed:
             send_user_invite(validated_data["email"])
 
         return instance
@@ -147,12 +151,15 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         return coordinator
 
     def update(self, instance, validated_data):
+        has_email_changed = validated_data.get(
+            "email"
+        ) and instance.email != validated_data.get("email")
+
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
         instance.save()
 
-        if validated_data.get("email"):
-            # invite again on email change
+        if has_email_changed:
             send_user_invite(validated_data["email"])
 
         return instance
@@ -184,12 +191,15 @@ class ManageVendorsSerializer(serializers.ModelSerializer):
         return vendor
 
     def update(self, instance, validated_data):
+        has_email_changed = validated_data.get(
+            "email"
+        ) and instance.email != validated_data.get("email")
+
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
         instance.save()
 
-        if validated_data.get("email"):
-            # invite again on email change
+        if has_email_changed:
             send_user_invite(validated_data["email"])
 
         return instance
@@ -221,12 +231,15 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
         return instructor
 
     def update(self, instance, validated_data):
+        has_email_changed = validated_data.get(
+            "email"
+        ) and instance.email != validated_data.get("email")
+
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
         instance.save()
 
-        if validated_data.get("email"):
-            # invite again on email change
+        if has_email_changed:
             send_user_invite(validated_data["email"])
 
         return instance

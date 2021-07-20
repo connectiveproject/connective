@@ -15,7 +15,11 @@
             </slot>
           </div>
 
-          <v-btn class="d-block mx-auto" @click="onBtnClick" data-testid="modal-button">
+          <v-btn
+            class="d-block mx-auto"
+            @click="onBtnClick"
+            data-testid="modal-button"
+          >
             <slot name="btn">
               {{ $t("general.understood") }}
             </slot>
@@ -26,6 +30,8 @@
   </transition>
 </template>
 <script>
+import debounce from "lodash/debounce"
+
 export default {
   props: {
     redirectUrl: {
@@ -40,15 +46,19 @@ export default {
   },
 
   methods: {
-    onBtnClick() {
-      if (this.redirectUrl) {
-        this.$router.push({ path: this.redirectUrl })
-      } else if (this.redirectComponentName) {
-        this.$router.push({ name: this.redirectComponentName })
-      } else {
-        this.$emit("close")
-      }
-    },
+    onBtnClick: debounce(
+      function () {
+        if (this.redirectUrl) {
+          this.$router.push({ path: this.redirectUrl })
+        } else if (this.redirectComponentName) {
+          this.$router.push({ name: this.redirectComponentName })
+        } else {
+          this.$emit("close")
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

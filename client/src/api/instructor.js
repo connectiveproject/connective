@@ -10,6 +10,7 @@ const instructor = {
   },
 
   updateProfile(slug, data) {
+    if (!slug) throw "updateProfile: received empty slug"
     return axios.patch(`${UPDATE_INSTRUCTOR_PROFILE_API_URL}${slug}/`, data)
   },
 }
