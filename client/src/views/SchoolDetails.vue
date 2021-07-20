@@ -49,7 +49,10 @@ import store from "../vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
-import { SCHOOL_GRADES_ITEMS, ZIP_CODE_VALIDATION_RULE } from "../helpers/constants/constants"
+import {
+  SCHOOL_GRADES_ITEMS,
+  ZIP_CODE_VALIDATION_RULE,
+} from "../helpers/constants/constants"
 import { HOUSE_ROUNDED_DRAWING } from "../helpers/constants/images"
 
 export default {
