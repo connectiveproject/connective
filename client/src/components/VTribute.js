@@ -19,7 +19,6 @@ const VTribute =  {
         if (this.tribute) {
           this.$nextTick(() => {
             const $el = this.$el.querySelectorAll("textarea")[0];
-            console.log($el);
             this.tribute.detach($el);
 
             this.$nextTick(() => {
