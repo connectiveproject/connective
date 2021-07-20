@@ -5,7 +5,7 @@
         $t("general.connective")
       }}</v-card-title>
       <v-card-subtitle class="text-h6 text-center mb-8">{{
-        $t("auth.registration")
+        $t("auth.chooseNewPassword")
       }}</v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
         <form @submit.prevent="onSubmit">
@@ -21,7 +21,7 @@
               :error-messages="errors"
               :type="showPass ? 'text' : 'password'"
               name="password"
-              :label="$t('auth.password')"
+              :label="$t('auth.newPassword')"
               @click:append="showPass = !showPass"
             ></v-text-field>
           </validation-provider>

@@ -12,7 +12,9 @@
     "personalInfo": "פרטים אישיים",
     "name": "שם",
     "school": "בית ספר | בית הספר",
+    "schoolName": "שם בית ספר",
     "schoolCode": "סמל מוסד",
+    "schoolPhoneNumber": "טלפון בית ספר",
     "schoolGrades": "שכבות לימוד",
     "schoolDetails": "פרטי בית הספר",
     "understood": "הבנתי",
@@ -172,6 +174,8 @@
   "auth": {
     "password": "סיסמה",
     "reEnterPassword": "סיסמה חוזרת",
+    "newPassword": "סיסמה חדשה",
+    "chooseNewPassword": "בחרו סיסמה חדשה",
     "login": "התחברות",
     "logout": "התנתקות",
     "registration": "הרשמה",
