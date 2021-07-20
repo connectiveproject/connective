@@ -6,6 +6,7 @@ import organization from "./organization"
 import consumer from "./consumer"
 import coordinator from "./coordinator"
 import instructor from "./instructor"
+import supervisor from "./supervisor"
 import vendor from "./vendor"
 import config from "./config"
 import program from "./program"
@@ -26,6 +27,7 @@ export default {
   organization,
   consumer,
   coordinator,
+  supervisor,
   instructor,
   vendor,
   config,

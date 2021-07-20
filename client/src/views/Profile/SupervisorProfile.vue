@@ -1,153 +1,73 @@
 <template>
-  <div class="wrapper mt-15 mx-auto px-3">
-    <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
-    <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
-    <validation-observer v-slot="{ invalid }">
-      <form @submit.prevent="submitProfile">
-        <v-row>
-          <v-col class="pb-10" cols="12" sm="12" lg="8">
-            <input-drawer
-              v-for="field in textFields"
-              :key="field.id"
-              v-model="field.value"
-              :uniqueName="field.uniqueName"
-              :label="field.label"
-              :rules="field.rules"
-            />
-          </v-col>
-          <v-col cols="12" sm="12" lg="3">
-            <avatar class="mx-auto avatar" v-model="profilePicture" />
-          </v-col>
-        </v-row>
-        <v-btn
-          class="my-16 py-5 white--text"
-          type="submit"
-          color="primary"
-          elevation="3"
-          :disabled="invalid"
-        >
-          {{ $t("userActions.save") }}
-        </v-btn>
-      </form>
-    </validation-observer>
-    <modal v-show="popupMsg !== ''" @close="popupMsg = ''">
-      {{ popupMsg }}
-    </modal>
-  </div>
+  <v-card
+    class="wrapper mt-15 mx-auto px-10 py-10"
+    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    v-if="userAttributes"
+  >
+    <h1 class="mb-10">{{ $t("general.myProfile") }}</h1>
+    <title-to-text
+      v-for="(attrValue, attrName) in userAttributes"
+      :key="attrName"
+      :title="$t(`general.${attrName}`)"
+      :text="attrValue"
+    />
+    <avatar
+      class="mx-auto avatar mt-16"
+      v-model="profilePicture"
+      @input="updateProfilePicture"
+    />
+
+  </v-card>
 </template>
+
 <script>
-import { mapActions } from "vuex"
-import store from "../../vuex/store"
-import { ValidationObserver } from "vee-validate"
-import Modal from "../../components/Modal"
-import InputDrawer from "../../components/InputDrawer"
+import TitleToText from "../../components/TitleToText"
 import Avatar from "../../components/Avatar/Avatar"
+import { mapActions } from "vuex"
 
 export default {
   components: {
-    ValidationObserver,
-    Modal,
-    InputDrawer,
+    TitleToText,
     Avatar,
   },
 
-  async beforeRouteEnter(to, from, next) {
-    try {
-      // fetch profile data before load
-      let profile = await store.dispatch("supervisor/getProfile")
-      let userDetails = await store.dispatch("user/getUserDetails")
-      let userAttributes = { ...profile, ...userDetails }
-      next(vm => vm.setUserAttributes(userAttributes))
-    } catch (err) {
-      next(vm => (vm.popupMsg = vm.$t("errors.genericError")))
-    }
+  async mounted() {
+    // get user details
+    const [userDetails, userProfile] = await Promise.all([
+      this.getUserDetails(),
+      this.getProfile(),
+    ])
+    this.slug = userDetails.slug
+    this.profilePicture = userProfile.profilePicture
+    this.userAttributes = this.filterAttributes(userDetails)
   },
 
   data() {
     return {
-      textFields: {
-        name: {
-          uniqueName: "name",
-          label: this.$t("general.name"),
-          rules: "required",
-          value: "",
-        },
-        email: {
-          uniqueName: "email",
-          label: this.$t("general.email"),
-          rules: "required|email",
-          value: "",
-        },
-        phone: {
-          uniqueName: "phone",
-          label: this.$t("general.phoneNumber"),
-          rules: "required|numeric|phoneNumberIsrael",
-          value: "",
-        },
-      },
-      profilePicture: {},
-      popupMsg: "",
-      slug: "",
+      slug: null,
+      userAttributes: null,
+      profilePicture: null,
     }
   },
 
   methods: {
-    ...mapActions("user", ["updateUserDetails"]),
-    ...mapActions("supervisorr", ["updateProfile"]),
-    setUserAttributes(userAttributes) {
-      // set user data received from server
-      this.slug = userAttributes.slug
-      this.textFields.name.value = userAttributes.name || ""
-      this.textFields.email.value = userAttributes.email || ""
-      this.textFields.phone.value = userAttributes.phoneNumber || ""
-      this.profilePicture = userAttributes.profilePicture || {}
+    ...mapActions("user", ["getUserDetails"]),
+    ...mapActions("supervisor", ["getProfile"]),
+    ...mapActions("supervisor", ["updateProfile"]),
+    filterAttributes(userAttributes) {
+      return { email: userAttributes["email"], name: userAttributes["name"] }
     },
-
-    submitProfile() {
-      let userDetailsPayload = this.createUserSubmitPayload()
-      let profilePayload = this.createProfileSubmitPayload()
-      this.postProfileData(userDetailsPayload, profilePayload)
-    },
-
-    createUserSubmitPayload() {
-      return {
-        name: this.textFields.name.value,
-        email: this.textFields.email.value,
-      }
-    },
-
-    createProfileSubmitPayload() {
-      return {
-        phoneNumber: this.textFields.phone.value,
-        profilePicture: this.profilePicture,
-      }
-    },
-
-    async postProfileData(userDetails, profile) {
-      try {
-        await this.updateUserDetails({ slug: this.slug, userDetails })
-        await this.updateProfile({ slug: this.slug, profile })
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch (err) {
-        if (
-          err.response.status === 400 &&
-          Object.keys(err.response.data).length > 0
-        ) {
-          this.popupMsg =
-            err.response.data[Object.keys(err.response.data)[0]][0]
-        } else {
-          this.popupMsg = this.$t("errors.genericError")
-        }
-      }
+    updateProfilePicture(profilePicture) {
+      this.updateProfile({ slug: this.slug, profile: { profilePicture } })
     },
   },
 }
 </script>
 <style lang="scss" scoped>
 .wrapper {
-  width: 90%;
+  max-width: 600px;
 }
 .avatar {
-  max-width: 350px;
+  width: 300px;
 }
 </style>
