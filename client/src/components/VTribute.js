@@ -1,5 +1,4 @@
 // based on VueTribute (https://github.com/syropian/vue-tribute)
-// import VueTribute from "vue-tribute"
 
 import Tribute from "tributejs"
 // disable eslint for file
@@ -19,12 +18,12 @@ const VTribute =  {
       handler() {
         if (this.tribute) {
           this.$nextTick(() => {
-            var $el = this.$slots.default[0].elm;
+            const $el = this.$el.querySelectorAll("textarea")[0];
             console.log($el);
             this.tribute.detach($el);
 
             this.$nextTick(() => {
-              $el = this.$slots.default[0].elm;
+                const $el = this.$el.querySelectorAll("textarea")[0];
               this.tribute = new Tribute(this.options);
               this.tribute.attach($el);
               $el.tributeInstance = this.tribute;

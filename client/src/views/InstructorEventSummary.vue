@@ -113,12 +113,10 @@ export default {
       vm.event = event
       vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
       vm.attendedConsumers = consumers.map(c => c.slug)
-      vm.tributeOptions.values = consumers.map(consumer => {
-        return {
-          key: consumer.name,
-          value: consumer.name.replace(" ", "_")
-        }
-      })
+      vm.tributeOptions.values = consumers.map(consumer => ({
+        key: consumer.name,
+        value: consumer.name.replace(" ", "_")
+      }))
     })
   },
   data() {

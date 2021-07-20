@@ -21,17 +21,13 @@ class EventAdmin(admin.ModelAdmin):
         try:
             return obj.school_group.activity_order.school
         except AttributeError:
-            logging.getLogger("root").warning(
-                f"event {obj.slug} has no school_group attribute"
-            )
+            logger.warning(f"event {obj.slug} has no school_group attribute")
 
     def activity(self, obj):
         try:
             return obj.school_group.activity_order.activity
         except AttributeError:
-            logging.getLogger("root").warning(
-                f"event {obj.slug} has no school_group attribute"
-            )
+            logger.warning(f"event {obj.slug} has no school_group attribute")
 
 
 admin.site.register(ConsumerEventFeedback)
