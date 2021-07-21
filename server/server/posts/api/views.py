@@ -4,9 +4,6 @@ from rest_framework import viewsets
 from server.posts.models import Post
 from server.posts.api.serializers import PostSerializer
 
-from server.server.events.models import Event
-from server.server.organizations.models import SchoolActivityGroup
-
 
 class PostViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
