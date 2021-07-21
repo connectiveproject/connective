@@ -15,8 +15,12 @@ jobs:
   run-pre-commit-check:
     docker:
       - image: cimg/python:3.9.6
+    size: small
     steps:
       - checkout
+      - run:
+          name: Install Pre-Commit
+          command: python3 -m pip install pre-commit
       - run:
           name: Run Pre-Commit Vaildation on all files
           command: pre-commit run --all-files --verbose
