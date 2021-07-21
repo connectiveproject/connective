@@ -20,10 +20,10 @@ jobs:
       - checkout
       - run:
           name: Install Pre-Commit
-          command: python3 -m pip install pre-commit
+          command: pip install pre-commit
       - run:
           name: Run Pre-Commit Vaildation on all files
-          command: python3 -m pre-commit run --all-files --verbose
+          command: python -m pre-commit run --all-files --verbose
 
   run-tests:
     docker:
