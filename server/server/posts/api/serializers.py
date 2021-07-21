@@ -1,9 +1,18 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SlugRelatedField
 
 from server.posts.models import Post
 
 
 class PostSerializer(ModelSerializer):
+    event = SlugRelatedField(
+        slug_field="slug",
+        queryset=Post.objects.all(),
+    )
+    author = SlugRelatedField(
+        slug_field="slug",
+        read_only=True,
+    )
+
     class Meta:
         model = Post
         fields = [
