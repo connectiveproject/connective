@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.4.0
+
+workflows:
+  master:  
+    jobs:
+      - run-tests
+
+jobs:
+  run-tests:
+    executor:
+      name: python/default
+      tag: "3.9"
+    steps:
+      - checkout
+      - run:
+          command: pip install -r server/requirements/local.txt
+          name: Install local dependencies
+      - run:
+          name: Run tests
+          command: cd server && pytest
