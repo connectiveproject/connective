@@ -72,7 +72,12 @@ const supervisorButtons = [
   {
     text: () => i18n.tc("general.program", 1),
     icon: "mdi-handshake",
-    onClick: () => Vue.$router.push({ name: "SupervisorProgramExplorer" }),
+    //TODO check why not forwardingonClick: () => Vue.$router.push({ name: "SupervisorProgramExplorer" }),
+  },
+  {
+    text: () => i18n.tc("myActivity.myActivity"),
+    icon: "mdi-drawing",
+    onClick: () => Vue.$router.push({ name: "ConsumerMyActivity" }),
   },
 ]
 
