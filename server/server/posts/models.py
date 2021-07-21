@@ -4,6 +4,7 @@ from django.db.models import (
     CharField,
     SET_NULL,
     ManyToManyField,
+    TextField
 )
 
 from server.users.models import User
@@ -17,7 +18,7 @@ class Image(Model):
         default=random_slug,
         unique=True,
     )
-    image_b64 = CharField()
+    image_b64 = TextField()
 
 
 class Post(Model):
@@ -36,7 +37,7 @@ class Post(Model):
         on_delete=SET_NULL,
         null=True,
     )
-    post_content = CharField()
+    post_content = TextField()
     images = ManyToManyField(
         to=Image,
     )
