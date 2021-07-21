@@ -118,7 +118,7 @@ class Command(BaseCommand):
 
         self.create_user(
             Supervisor,
-            "supervisor@example.com",
+            f"{entitiesPrefix}supervisor@example.com",
             "Aa123456789",
             "ישראל ישראלי",
         )

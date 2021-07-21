@@ -1,17 +1,17 @@
 import { action } from "@storybook/addon-actions"
-import Avatar from "../components/Avatar/Avatar.vue"
+import EditableAvatar from "../components/Avatar/EditableAvatar"
 
 export default {
-  title: "Avatar",
-  component: Avatar,
+  title: "EditableAvatar",
+  component: EditableAvatar,
 }
 
 const Template = args => ({
-  components: { Avatar },
+  components: { EditableAvatar },
   methods: { action },
   data: () => ({ args }),
   template: `
-    <avatar
+    <editable-avatar
     style="width: 200px;"
     class="mx-auto"
     v-model="args.avatarOptions"

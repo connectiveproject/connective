@@ -11,7 +11,7 @@
       :title="$t(`general.${attrName}`)"
       :text="attrValue"
     />
-    <avatar
+    <editable-avatar
       class="mx-auto avatar mt-16"
       v-model="profilePicture"
       @input="updateProfilePicture"
@@ -21,13 +21,13 @@
 
 <script>
 import TitleToText from "../../components/TitleToText"
-import Avatar from "../../components/Avatar/Avatar"
+import EditableAvatar from "../../components/Avatar/EditableAvatar"
 import { mapActions } from "vuex"
 
 export default {
   components: {
     TitleToText,
-    Avatar,
+    EditableAvatar,
   },
 
   async mounted() {

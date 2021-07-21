@@ -48,6 +48,16 @@
             >
               {{ $t("userActions.next") }}
             </v-btn>
+            <v-btn
+              class="mr-3"
+              type="button"
+              color="primary"
+              elevation="3"
+              outlined
+              @click="logout"
+            >
+              {{ $t("userActions.toHomepage") }}
+            </v-btn>
           </div>
         </form>
       </validation-observer>
@@ -373,6 +383,7 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
+    ...mapActions("auth", ["logout"]),
     submit: debounce(
       function () {
         let userDetailsPayload = this.createUserSubmitPayload()

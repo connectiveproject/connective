@@ -109,8 +109,7 @@
     "individual": "פרטני",
     "cooperative": "קבוצתי",
     "hybrid": "משולב",
-    "targetAudience": "קהל יעד",
-    "allAges": "כלל הגילאים"
+    "targetAudience": "קהל יעד"
   },
 
   "invite": {
@@ -151,7 +150,8 @@
     "edit": "עריכת|עירכו",
     "add": "הוספה|הוסיפו",
     "delete": "מחיקה",
-    "finish": "סיום"
+    "finish": "סיום",
+    "toHomepage": "לדף הבית"
   },
 
   "grades": {
@@ -251,7 +251,11 @@
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
     "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
-    "groupsFound": "קבוצות נמצאו"
+    "groupsFound": "קבוצות נמצאו",
+    "students": "תלמידים",
+    "studentsDisplay": "תצוגת תלמידים",
+    "studentsFound": "תלמידים נמצאו",
+    "toThePersonalPage": "לעמוד האישי"
   },
 
   "events": {
