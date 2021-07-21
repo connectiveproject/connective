@@ -6,9 +6,9 @@ from django.db.models import (
     ManyToManyField,
 )
 
-from server.events.models import Event
-from server.schools.models import random_slug
 from server.users.models import User
+from server.events.models import Event
+from server.utils.model_fields import random_slug
 
 
 class Image(Model):
