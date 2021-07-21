@@ -37,6 +37,7 @@ repos:
       -   id: eslint
           files: \.js$|\.vue$
           types: [file]
+          args: ["-c", "client/.eslintrc.js"]
           additional_dependencies:
           -   babel-eslint@^10.1.0
           -   eslint-plugin-vue@^6.2.2
