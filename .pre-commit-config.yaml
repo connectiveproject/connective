@@ -38,7 +38,8 @@ repos:
           files: \.js$|\.vue$
           types: [file]
           exclude: "cypress/"
-          args: ["-c", "client/.eslintrc.js"]
+          verbose: true
+          args: ["-c", "client/.eslintrc.js", "--quiet"]
           additional_dependencies:
           -   babel-eslint@^10.1.0
           -   eslint-plugin-vue@^6.2.2
