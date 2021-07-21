@@ -14,7 +14,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         if user.user_type == get_user_model().Types.CONSUMER:  # student
             # return Post.objects.filter(event__school_group__consumers__contains=user)
-            return Post.objects.filter(event__school_group__consumerss=user)
+            return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
             # # TODO: db join
             # school_activity_groups = SchoolActivityGroup.objects.filter(
