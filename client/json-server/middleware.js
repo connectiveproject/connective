@@ -1,4 +1,4 @@
-post_to_get_urls = ["login"]
+const post_to_get_urls = ["login"]
 module.exports = function (req, res, next) {
   // convert requests to GET, if in whitelist
   for (let url of post_to_get_urls) {
