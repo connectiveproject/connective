@@ -69,6 +69,11 @@ const supervisorButtons = [
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "SupervisorProfile" }),
   },
+  {
+    text: () => i18n.tc("general.program", 1),
+    icon: "mdi-handshake",
+    onClick: () => Vue.$router.push({ name: "SupervisorProgramExplorer" }),
+  },
 ]
 
 
