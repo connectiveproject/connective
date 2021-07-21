@@ -16,17 +16,25 @@ class PostViewSet(viewsets.ModelViewSet):
         user = self.request.user
 
         if user.user_type == get_user_model().Types.CONSUMER:  # student
-            pass
+            # return Post.objects.filter(event__school_group__consumers__contains=user)
+            return Post.objects.filter(event__school_group__consumerss=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
-            return Post.objects.filter(
-                event=Event.objects.filter(school_group=
-                    SchoolActivityGroup.objects.filter(
-                        instructor=user,
-                    )
-                )
-            )
+            # # TODO: db join
+            # school_activity_groups = SchoolActivityGroup.objects.filter(
+            #     instructor=user,
+            # )
+            # events = Event.objects.filter(
+            #     school_group__in=school_activity_groups,
+            # )
+            # return Post.objects.filter(
+            #     event__in=events,
+            # )
+            return Post.objects.filter(event__school_group__instructor=user)
         elif user.user_type == get_user_model().Types.COORDINATOR:  # school manager
-            pass
+            return Post.objects.filter(
+                event__school_group__activity_order__school__school_member__user=user,
+            )
+            # schoolMember -> school_activity_order -> school_activity_group
         elif user.user_type == get_user_model().Types.SUPERVISOR:
             return Post.objects.all()
 
