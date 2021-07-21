@@ -14,13 +14,25 @@ workflows:
 jobs:
   run-pre-commit-check:
     docker:
-      - image: cimg/python:3.9.6
-    resource_class: small
+      - image: cimg/python:3.9.6-node
     steps:
       - checkout
       - run:
           name: Install Pre-Commit
           command: pip install pre-commit
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          key: yarn-packages-{{ checksum "client/yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            cd client
+            yarn install --immutable
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "client/yarn.lock" }}
+          paths:
+            - client/node_modules
       - run:
           name: Run Pre-Commit Vaildation on all files
           command: python -m pre_commit run --all-files --verbose
