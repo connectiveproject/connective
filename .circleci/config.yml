@@ -8,8 +8,19 @@ workflows:
     jobs:
       - run-tests:
           name: run tests
+      - run-pre-commit-check:
+          name: pre-commit validation
 
 jobs:
+  run-pre-commit-check:
+    docker:
+      - image: cimg/python:3.9.6
+    steps:
+      - checkout
+      - run:
+          name: Run Pre-Commit Vaildation on all files
+          command: pre-commit run --all-files --verbose
+
   run-tests:
     docker:
       - image: cimg/python:3.9.6
