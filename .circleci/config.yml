@@ -6,7 +6,10 @@ orbs:
 workflows:
   master:  
     jobs:
-      - run-tests
+      - run-tests:
+          name: run tests
+          context:
+            - SERVER_TESTING_ENV_VARS
 
 jobs:
   run-tests:
