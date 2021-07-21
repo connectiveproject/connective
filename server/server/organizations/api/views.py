@@ -97,6 +97,9 @@ class ConsumerActivityViewSet(
     permission_classes = [AllowConsumer]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
+    filterset_class = ActivityFilter
+    search_fields = ["name", "description"]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
 
     def get_queryset(self):
         user = self.request.user

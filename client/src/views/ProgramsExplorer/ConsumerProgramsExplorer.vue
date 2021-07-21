@@ -2,6 +2,22 @@
   <div>
     <v-row class="pt-10 ml-0">
       <v-col
+        cols="4"
+        md="3"
+        class="right-pane white-bg"
+        :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
+      >
+        <pagination-checkbox-group
+          v-for="filter in CONSUMER_PROGRAMS_CHECKBOX_FILTERS"
+          :key="filter.id"
+          :name="filter.name"
+          :title="filter.readableName"
+          :items="filter.options"
+          class="checkbox-group"
+          :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
+        />
+      </v-col>
+      <v-col
         cols="8"
         md="9"
         :class="{ 'px-10': !$vuetify.breakpoint.mobile }"
@@ -50,11 +66,16 @@
 import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
+import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { mapActions, mapGetters, mapState } from "vuex"
+import {
+  CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
+} from "../../helpers/constants/constants"
 
 export default {
   components: {
+    PaginationCheckboxGroup,
     InfoCard,
     PaginationSearchBar,
     EndOfPageDetector,
@@ -128,6 +149,7 @@ export default {
 
   data() {
     return {
+      CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
       recentlyScrolled: false,
       isProgramOpen: true,
       statusToText: {
@@ -165,5 +187,10 @@ export default {
 }
 .search-bar {
   max-width: 450px;
+}
+
+.checkbox-group {
+  float: right;
+  width: 100%;
 }
 </style>
