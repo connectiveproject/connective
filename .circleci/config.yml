@@ -16,12 +16,12 @@ jobs:
     executor:
       name: python/default
       tag: "3.9"
-    working_directory: ~/server
     steps:
       - checkout
-      - run:
-          command: pip install -r requirements/local.txt
-          name: Install local dependencies
+      - python/install-packages:
+          app-dir: server
+          pip-dependency-file: requirements/local.txt
+          pkg-manager: pip
       - run:
           name: Run tests
-          command: pytest
+          command: cd server && pytest
