@@ -61,6 +61,7 @@ class ImportedSchool(models.Model):
     social_economic_status = models.IntegerField(null=True, blank=True)
     decile_tipuah_hativa_benaim = models.IntegerField(null=True, blank=True)
     decile_tipuah_hativa_eliona = models.IntegerField(null=True, blank=True)
+    decile_tipuah_yesodi = models.IntegerField(null=True, blank=True)
     ivhun_percent = models.FloatField(null=True, blank=True)
     boys_army_enlist_rate = models.FloatField(null=True, blank=True)
     girls_army_enlist_rate = models.FloatField(null=True, blank=True)

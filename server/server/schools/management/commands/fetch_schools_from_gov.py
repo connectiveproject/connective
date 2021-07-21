@@ -108,6 +108,9 @@ class Command(BaseCommand):
             school_data["decile_tipuah_hativa_eliona"] = raw_school["mosadYearData"][
                 "ASIRON_HTE"
             ]
+            school_data["decile_tipuah_yesodi"] = raw_school["mosadYearData"][
+                "ASIRON_YES"
+            ]
             school_data["ivhun_percent"] = raw_school["mosadYearData"][
                 "ACHUZ_MECHOZI_IM_IVCHUN_ARTZI"
             ]
@@ -157,4 +160,6 @@ class Command(BaseCommand):
                                 school_data["girls_army_enlist_rate"] = index["Value"]
 
             school_data["last_updated"] = Now()
-            ImportedSchool.objects.update_or_create(defaults=school_data, school_code=school_code)
+            ImportedSchool.objects.update_or_create(
+                defaults=school_data, school_code=school_code
+            )
