@@ -11,6 +11,6 @@ class PostSerializer(ModelSerializer):
             "event",
             "author",
             "post_content",
-            "images",
+            "images_b64",
         ]
         read_only_fields = ["slug"]
