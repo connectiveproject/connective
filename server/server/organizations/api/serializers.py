@@ -124,6 +124,56 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         )
 
 
+class SupervisorActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
+    is_ordered = serializers.SerializerMethodField()
+    order_status = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
+
+    class Meta:
+        model = Activity
+        fields = [
+            "slug",
+            "name",
+            "target_audience",
+            "domain",
+            "originization",
+            "description",
+            "contact_name",
+            "phone_number",
+            "logo",
+            "phone_number",
+            "is_ordered",
+            "order_status",
+            "tags",
+        ]
+
+    def get_order_status(self, obj):
+        user = self.context["request"].user
+
+        try:
+            return SchoolActivityOrder.objects.get(
+                school=user.school_member.school,
+                activity=obj,
+            ).status
+
+        except ObjectDoesNotExist:
+            return None
+
+    def get_is_ordered(self, obj):
+        user = self.context["request"].user
+        if not hasattr(user, "school_member"):
+            return False
+
+        return (
+            SchoolActivityOrder.objects.filter(
+                school=user.school_member.school,
+                activity=obj,
+            )
+            .exclude(status=SchoolActivityOrder.Status.CANCELLED)
+            .exists()
+        )
+
+
 class VendorActivitySerializer(serializers.ModelSerializer):
     tags = TagListSerializerField()
 

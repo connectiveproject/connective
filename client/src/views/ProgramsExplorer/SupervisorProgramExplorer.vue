@@ -82,7 +82,6 @@ export default {
 
     openProgram(slug) {
       this.isProgramOpen = true
-      alert("im in a  wired place")
       this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
     },
 

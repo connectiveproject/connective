@@ -13,6 +13,7 @@ from server.organizations.api.views import (
     ManageSchoolActivityViewSet,
     OrganizationViewSet,
     SchoolActivityGroupViewSet,
+    SupervisorActivityViewSet,
     VendorActivityViewSet,
 )
 from server.schools.api.views import SchoolViewSet
@@ -60,6 +61,9 @@ router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_prof
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
+router.register(
+    "supervisor_activities", SupervisorActivityViewSet, basename="supervisor_activities"
+)
 router.register(
     "consumer_activities",
     ConsumerActivityViewSet,

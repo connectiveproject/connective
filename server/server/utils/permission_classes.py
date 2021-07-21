@@ -52,6 +52,17 @@ class AllowCoordinatorReadOnly(BasePermission):
         )
 
 
+class AllowSupervisorReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        return (
+            request.method in SAFE_METHODS
+            and request.user.user_type == request.user.Types.SUPERVISOR
+        )
+
+
 class AllowConsumerReadOnly(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
