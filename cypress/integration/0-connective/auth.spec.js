@@ -2,7 +2,7 @@
 
 describe("auth", () => {
   beforeEach(() => {
-    cy.visit("https://8080-gray-halibut-x0n7xsmr.ws-eu10.gitpod.io/")
+    cy.visit(Cypress.env("clientUrl"))
   })
 
   it("should login as a consumer", () => {

@@ -28,7 +28,7 @@ const organization = {
   deleteInstructors(instructorSlugs) {
     return Promise.all(
       instructorSlugs.map(slug =>
-        axios.delete(`${DELETE_ORGANIZATION_INSTRUCTORS_API_URL}${slug}`)
+        axios.delete(`${DELETE_ORGANIZATION_INSTRUCTORS_API_URL}${slug}/`)
       )
     )
   },
@@ -50,7 +50,7 @@ const organization = {
   deleteVendors(vendorSlugs) {
     return Promise.all(
       vendorSlugs.map(slug =>
-        axios.delete(`${DELETE_ORGANIZATION_VENDORS_API_URL}${slug}`)
+        axios.delete(`${DELETE_ORGANIZATION_VENDORS_API_URL}${slug}/`)
       )
     )
   },

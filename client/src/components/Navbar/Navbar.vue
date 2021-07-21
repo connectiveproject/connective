@@ -2,7 +2,7 @@
   <v-toolbar dark prominent :src="bg">
     <v-tooltip v-for="btn in buttons" :key="btn.id" bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" @click="btn.onClick">
+        <v-btn :data-testid="btn.id" icon v-bind="attrs" v-on="on" @click="btn.onClick">
           <v-icon>{{ btn.icon }}</v-icon>
         </v-btn>
       </template>

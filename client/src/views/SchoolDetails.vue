@@ -49,7 +49,10 @@ import store from "../vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
-import { SCHOOL_GRADES_ITEMS } from "../helpers/constants/constants"
+import {
+  SCHOOL_GRADES_ITEMS,
+  ZIP_CODE_VALIDATION_RULE,
+} from "../helpers/constants/constants"
 import { HOUSE_ROUNDED_DRAWING } from "../helpers/constants/images"
 
 export default {
@@ -93,7 +96,7 @@ export default {
         zipCode: {
           uniqueName: "zipCode",
           label: this.$t("general.zipCode"),
-          rules: "required|numeric",
+          rules: ZIP_CODE_VALIDATION_RULE,
           value: "",
         },
         schoolCode: {

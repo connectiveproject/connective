@@ -43,6 +43,9 @@ const utils = {
   },
 
   camelToSnakeCase(str) {
+    if (str.toUpperCase() === str) {
+      return str
+    }
     return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
   },
 
@@ -147,7 +150,7 @@ const utils = {
       }
     }
     return fd
-  }
+  },
 }
 
 export default utils

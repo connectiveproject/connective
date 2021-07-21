@@ -1,1 +1,8 @@
-{}
+{
+    "env": {
+        "clientUrl": "https://8080-magenta-junglefowl-g3hgtcia.ws-eu11.gitpod.io",
+        
+        "_comment": "leave mailboxUrl empty if not available",
+        "mailboxUrl": "https://8025-magenta-junglefowl-g3hgtcia.ws-eu11.gitpod.io"
+    }
+}

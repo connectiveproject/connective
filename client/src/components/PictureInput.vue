@@ -32,7 +32,7 @@
         >
           <v-icon dark>mdi-cloud-upload</v-icon>
         </v-btn>
-        <img alt="School Logo" :src="picSource" />
+        <img :src="picSource" />
       </v-avatar>
     </div>
   </v-hover>

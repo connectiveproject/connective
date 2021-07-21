@@ -52,8 +52,8 @@
             color="primary"
             elevation="3"
             outlined
-            v-text="$t('userActions.back')"
-            @click="this.$router.push({ path: '/' })"
+            v-text="$t('userActions.toHomepage')"
+            @click="logout"
           />
         </div>
       </validation-observer>
@@ -103,6 +103,7 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("vendor", ["updateProfile"]),
     ...mapActions("snackbar", ["showMessage"]),
+    ...mapActions("auth", ["logout"]),
     submit: debounce(
       async function () {
         try {

@@ -14,9 +14,13 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
   },
-
   transpileDependencies: ["vuetify"],
-
+  pages: {
+    index: {
+      entry: "src/main.js",
+      title: "Connective",
+    },
+  },
   pluginOptions: {
     i18n: {
       locale: "he",

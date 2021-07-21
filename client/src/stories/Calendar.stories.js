@@ -23,7 +23,7 @@ const Template = args => ({
 
 const args = {
   type: "week",
-  value: null,
+  value: "",
   events: [
     {
       name: "תופסים פוקימונים בפארק הירקון",

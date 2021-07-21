@@ -2,7 +2,7 @@
   <div class="pa-10">
     <route-tabs :tabs="tabs" />
     <v-row>
-      <v-col class="mx-auto" sm="11" lg="9">
+      <v-col class="mx-auto" sm="11">
         <router-view />
       </v-col>
     </v-row>
@@ -24,6 +24,10 @@ export default {
         {
           componentName: "MyEvents",
           text: this.$t("events.eventsBoard"),
+        },
+        {
+          componentName: "ConsumerList",
+          text: this.$t("myActivity.students"),
         },
         {
           componentName: "CoordinatorStatistics",

@@ -12,7 +12,9 @@
     "personalInfo": "פרטים אישיים",
     "name": "שם",
     "school": "בית ספר | בית הספר",
+    "schoolName": "שם בית ספר",
     "schoolCode": "סמל מוסד",
+    "schoolPhoneNumber": "טלפון בית ספר",
     "schoolGrades": "שכבות לימוד",
     "schoolDetails": "פרטי בית הספר",
     "understood": "הבנתי",
@@ -109,8 +111,7 @@
     "individual": "פרטני",
     "cooperative": "קבוצתי",
     "hybrid": "משולב",
-    "targetAudience": "קהל יעד",
-    "allAges": "כלל הגילאים"
+    "targetAudience": "קהל יעד"
   },
 
   "invite": {
@@ -151,7 +152,8 @@
     "edit": "עריכת|עירכו",
     "add": "הוספה|הוסיפו",
     "delete": "מחיקה",
-    "finish": "סיום"
+    "finish": "סיום",
+    "toHomepage": "לדף הבית"
   },
 
   "grades": {
@@ -172,6 +174,8 @@
   "auth": {
     "password": "סיסמה",
     "reEnterPassword": "סיסמה חוזרת",
+    "newPassword": "סיסמה חדשה",
+    "chooseNewPassword": "בחרו סיסמה חדשה",
     "login": "התחברות",
     "logout": "התנתקות",
     "registration": "הרשמה",
@@ -251,7 +255,11 @@
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
     "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
-    "groupsFound": "קבוצות נמצאו"
+    "groupsFound": "קבוצות נמצאו",
+    "students": "תלמידים",
+    "studentsDisplay": "תצוגת תלמידים",
+    "studentsFound": "תלמידים נמצאו",
+    "toThePersonalPage": "לעמוד האישי"
   },
 
   "events": {
@@ -290,6 +298,7 @@
   },
 
   "time": {
+    "today": "היום",
     "startTime": "שעת התחלה",
     "endTime": "שעת סיום",
     "day-0": "ראשון",
