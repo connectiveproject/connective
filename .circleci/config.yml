@@ -23,7 +23,7 @@ jobs:
           command: python3 -m pip install pre-commit
       - run:
           name: Run Pre-Commit Vaildation on all files
-          command: pre-commit run --all-files --verbose
+          command: python3 -m pre-commit run --all-files --verbose
 
   run-tests:
     docker:
