@@ -1,5 +1,5 @@
 # connective
-
+[![CircleCI](https://circleci.com/gh/connectiveproject/connective/tree/main.svg?style=svg)](https://circleci.com/gh/connectiveproject/connective/tree/main)
 
 ### Welcome
 Welcome to _Connective_ - The Education Marketplace Open Source Project.
