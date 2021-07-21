@@ -28,7 +28,7 @@ from server.users.api.views import (
     VendorProfileViewSet,
 )
 
-from server.posts.api.views import PostsViewSet
+from server.posts.api.views import PostViewSet
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -90,7 +90,7 @@ router.register(
 
 router.register(
     "posts",
-    PostsViewSet,
+    PostViewSet,
     basename="posts",
 )
 
