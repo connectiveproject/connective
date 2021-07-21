@@ -17,9 +17,13 @@ class PostSerializer(ModelSerializer):
         model = Post
         fields = [
             "slug",
+            "creation_time",
             "event",
             "author",
             "post_content",
             "images_b64",
         ]
-        read_only_fields = ["slug"]
+        read_only_fields = [
+            "slug",
+            "creation_time",
+        ]

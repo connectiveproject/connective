@@ -4,7 +4,7 @@ from django.db.models import (
     ForeignKey,
     CharField,
     SET_NULL,
-    TextField
+    TextField, DateTimeField
 )
 
 from server.users.models import User
@@ -17,6 +17,10 @@ class Post(Model):
         max_length=40,
         default=random_slug,
         unique=True,
+    )
+    creation_time = DateTimeField(
+        auto_now=True,
+        null=False,
     )
     event = ForeignKey(
         to=Event,
