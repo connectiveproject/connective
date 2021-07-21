@@ -96,6 +96,50 @@ class Activity(models.Model):
         except AttributeError:
             return f"{self.name} | {self.slug}"
 
+class ImportedActivity(models.Model):
+    class Domain(models.TextChoices):
+        SCIENCE_AND_TECH = "SCIENCE_AND_TECH", "Science And Tech"
+        EXTREME_SPORTS = "EXTREME_SPORTS", "Extreme Sports"
+        FIELD = "FIELD", "Field"
+
+    tags = TaggableManager(blank=True)
+
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    activity_code = models.IntegerField()
+    name = models.CharField(max_length=550)
+    raw_name = models.CharField(max_length=550)
+    target_audience = models.JSONField()
+    domain = models.CharField(
+        max_length=55, null=True, blank=True, choices=Domain.choices
+    )
+    originization = models.ForeignKey(
+        Organization, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    goal = models.CharField(max_length=1550, default="")
+    is_active = models.BooleanField()
+    activity_website_url = models.URLField(null=True, blank=True)
+    activity_email = models.EmailField(null=True, blank=True)
+    description = models.CharField(max_length=1550, default="")
+    contact_name = models.CharField(max_length=60, default="")
+    logo = models.ImageField(blank=True, null=True)
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+    def __str__(self):
+        try:
+            return f"{self.name} | {self.slug} | {self.originization.name}"
+        except AttributeError:
+            return f"{self.name} | {self.slug}"
+
+
 
 class ActivityMedia(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
