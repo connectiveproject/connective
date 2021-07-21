@@ -5,10 +5,12 @@ export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
+export const UPDATE_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisor_profiles/`
 export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
+export const GET_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisor_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
@@ -283,6 +285,7 @@ export const SERVER = {
     consumer: "CONSUMER", // i.e., students
     instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR"
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

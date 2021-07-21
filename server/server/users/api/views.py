@@ -9,6 +9,7 @@ from server.utils.permission_classes import (
     AllowConsumer,
     AllowCoordinator,
     AllowInstructor,
+    AllowSupervisor,
     AllowVendor,
 )
 
@@ -19,6 +20,8 @@ from ..models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Supervisor,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
@@ -29,7 +32,9 @@ from .serializers import (
     ManageConsumersSerializer,
     ManageCoordinatorsSerializer,
     ManageInstructorsSerializer,
+    ManageSupervisorSerializer,
     ManageVendorsSerializer,
+    SupervisorProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -75,6 +80,20 @@ class CoordinatorProfileViewSet(ModelViewSet):
     def me(self, request):
         serializer = CoordinatorProfileSerializer(
             request.user.coordinatorprofile, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class SupervisorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowSupervisor]
+    serializer_class = SupervisorProfileSerializer
+    queryset = SupervisorProfile.objects.all()
+    lookup_field = "user__slug"
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        serializer = SupervisorProfileSerializer(
+            request.user.supervisorprofile, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
@@ -145,6 +164,29 @@ class ManageCoordinatorsViewSet(ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
         serializer = ManageCoordinatorsSerializer(
+            data=request.data, context={"request": request}, many=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ManageSupervisorViewSet(ModelViewSet):
+    permission_classes = [AllowSupervisor]
+    serializer_class = ManageSupervisorSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Supervisor.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        serializer = ManageSupervisorSerializer(
             data=request.data, context={"request": request}, many=True
         )
         if serializer.is_valid():
