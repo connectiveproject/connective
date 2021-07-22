@@ -6,18 +6,22 @@ import {
   loginOrFlushStore,
   initPrograms,
   initConsumerPrograms,
+  initSupervisorPrograms,
   flushPagination,
   flushToken,
   PopulateConsumerData,
   PopulateCoordinatorData,
   fetchProgramDetails,
+  PopulateSupervisorData,
 } from "./guards"
 import Welcome from "../layouts/Welcome"
+import SupervisorDashboard from "../layouts/SupervisorDashboard"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
 import VendorDashboard from "../layouts/VendorDashboard"
 import MyActivity from "../layouts/MyActivity/MyActivity"
+import SupervisorMyActivity from "../layouts/MyActivity/SupervisorMyActivity"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
 import CoordinatorRegister from "../views/Register/CoordinatorRegister"
@@ -26,9 +30,11 @@ import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
 import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
+import SupervisorProfile from "../views/Profile/SupervisorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
+import SupervisorProgramExplorer from "../views/ProgramsExplorer/SupervisorProgramExplorer"
 import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
 import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
 import InviteConsumers from "../views/Invite/InviteConsumers"
@@ -39,8 +45,10 @@ import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
+import SupervisorMyGroups from "../views/MyGroups/SupervisorMyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
+import SupervisorMyEvents from "../views/MyEvents/SupervisorMyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
 import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
@@ -171,6 +179,60 @@ const routes = [
                 name: "ConsumerEventFeedback",
                 component: ConsumerEventFeedback,
                 props: true,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "supervisor-dashboard",
+        component: SupervisorDashboard,
+        beforeEnter: PopulateSupervisorData,
+        children: [
+          {
+            path: "",
+            name: "SupervisorDashboard",
+            redirect: { name: "SupervisorProfile" },
+          },
+          {
+            path: "profile",
+            name: "SupervisorProfile",
+            component: SupervisorProfile,
+
+          },
+          {
+            path: "programs-explorer",
+            name: "SupervisorProgramsExplorer",
+            component: SupervisorProgramExplorer,
+            beforeEnter: initSupervisorPrograms,
+            children: [
+              {
+                path: "program-modal/:slug",
+                name: "SupervisorProgramModal",
+                component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                props: true,
+              },
+            ],
+          },
+          {
+            path: "my-activity",
+            component: SupervisorMyActivity,
+            children: [
+              {
+                path: "",
+                name: "SupervisorMyActivity",
+                redirect: { name: "SupervisorMyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "SupervisorMyGroups",
+                component: SupervisorMyGroups,
+              },
+              {
+                path: "my-events",
+                name: "SupervisorMyEvents",
+                component: SupervisorMyEvents,
               },
             ],
           },

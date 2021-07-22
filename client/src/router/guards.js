@@ -25,16 +25,36 @@ export async function checkRegistrationStatus(to, from, next) {
     return
   }
   const userDetails = await store.dispatch("user/getUserDetails")
-  if (userDetails.userType === SERVER.userTypes.consumer) {
-    return next({ name: "StudentDashboard", params: { lang: i18n.locale } })
-  } else if (userDetails.userType === SERVER.userTypes.instructor) {
-    return next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
-  } else if (userDetails.userType === SERVER.userTypes.vendor) {
-    if (await isStaffRegistered()) {
-      return next({ name: "VendorDashboard", params: { lang: i18n.locale } })
-    }
-    return next({ name: "VendorRegister", params: { lang: i18n.locale } })
+  var currUser = userDetails.userType
+
+  if(currUser == SERVER.userTypes.consumer){
+    next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   }
+  else if(currUser == SERVER.userTypes.instructor){
+    next({ name: "InstructorDashboard", params: { lang: i18n.locale } })
+  }
+  else if (currUser == SERVER.userTypes.vendor){
+    if (await isStaffRegistered()) {
+      next({ name: "VendorDashboard", params: { lang: i18n.locale } })
+    } else {
+      next({ name: "VendorRegister", params: { lang: i18n.locale } })
+    }
+  }
+  else if (currUser == SERVER.userTypes.supervisor){
+    next({ name: "SupervisorDashboard", params: { lang: i18n.locale } })
+  }
+  else{
+    if (await isStaffRegistered()) {
+      next({ name: "CoordinatorDashboard", params: { lang: i18n.locale } })
+    } else {
+      const shouldEditSchool = !(await isSchoolFilled())
+      next({
+        name: "CoordinatorRegister",
+        params: { lang: i18n.locale, shouldEditSchool },
+      })
+    }
+  }
+
   // coord
   const shouldEditSchool = !(await isSchoolFilled())
   if (!shouldEditSchool && (await isStaffRegistered())) {
@@ -73,6 +93,14 @@ export async function initConsumerPrograms(to, from, next) {
   next()
 }
 
+export async function initSupervisorPrograms(to, from, next) {
+  // set pagination config & fetch initial program list from server
+  store.dispatch("pagination/flushState")
+  await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
+  await store.dispatch("supervisorProgram/getProgramsList")
+  next()
+}
+
 export function flushPagination(to, from, next) {
   store.dispatch("pagination/flushState")
   next()
@@ -91,6 +119,12 @@ export function PopulateConsumerData(to, from, next) {
 
 export function PopulateCoordinatorData(to, from, next) {
   store.dispatch("school/getSchoolDetails")
+  next()
+}
+
+export function PopulateSupervisorData(to, from, next) {
+  store.dispatch("user/getUserDetails")
+  store.dispatch("supervisor/getProfile")
   next()
 }
 

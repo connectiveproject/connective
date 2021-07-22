@@ -33,7 +33,7 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["coordinator", "consumer", "instructor", "vendor"].includes(
+        return ["coordinator", "consumer", "instructor", "vendor","supervisor"].includes(
           value
         )
       },

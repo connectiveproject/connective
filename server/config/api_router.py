@@ -13,6 +13,7 @@ from server.organizations.api.views import (
     ManageSchoolActivityViewSet,
     OrganizationViewSet,
     SchoolActivityGroupViewSet,
+    SupervisorActivityViewSet,
     VendorActivityViewSet,
 )
 from server.schools.api.views import SchoolViewSet
@@ -23,7 +24,9 @@ from server.users.api.views import (
     ManageConsumersViewSet,
     ManageCoordinatorsViewSet,
     ManageInstructorsViewSet,
+    ManageSupervisorViewSet,
     ManageVendorsViewSet,
+    SupervisorProfileViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -45,6 +48,11 @@ router.register(
     basename="coordinators_profiles",
 )
 router.register(
+    "supervisor_profiles",
+    SupervisorProfileViewSet,
+    basename="supervisor_profiles",
+)
+router.register(
     "instructors_profiles",
     InstructorProfileViewSet,
     basename="instructors_profiles",
@@ -53,6 +61,9 @@ router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_prof
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
+router.register(
+    "supervisor_activities", SupervisorActivityViewSet, basename="supervisor_activities"
+)
 router.register(
     "consumer_activities",
     ConsumerActivityViewSet,
@@ -67,6 +78,9 @@ router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
+)
+router.register(
+    "manage_supervisor", ManageSupervisorViewSet, basename="manage_supervisor"
 )
 router.register(
     "manage_instructors", ManageInstructorsViewSet, basename="manage_instructors"

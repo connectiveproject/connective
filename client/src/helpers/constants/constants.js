@@ -5,10 +5,12 @@ export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
+export const UPDATE_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisor_profiles/`
 export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
+export const GET_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisor_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
@@ -33,6 +35,7 @@ export const DELETE_ORGANIZATION_VENDORS_API_URL = `${SERVER_URL}/manage_vendors
 export const EDIT_ORGANIZATION_VENDORS_API_URL = `${SERVER_URL}/manage_vendors/`
 export const GET_PROGRAM_LIST_API_URL = `${SERVER_URL}/activities/`
 export const GET_CONSUMER_PROGRAM_LIST_API_URL = `${SERVER_URL}/consumer_activities/`
+export const GET_SUPERVISOR_PROGRAM_LIST_API_URL = `${SERVER_URL}/supervisor_activities/`
 export const GET_VENDOR_PROGRAM_LIST_API_URL = `${SERVER_URL}/vendor_activities/`
 export const CREATE_VENDOR_PROGRAM_API_URL = `${SERVER_URL}/vendor_activities/`
 export const DELETE_VENDOR_PROGRAM_API_URL = `${SERVER_URL}/vendor_activities/`
@@ -43,19 +46,25 @@ export const CREATE_PROGRAM_MEDIA_API_URL = `${SERVER_URL}/activity_media/`
 export const GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL = `${SERVER_URL}/manage_school_activity/`
 export const ORDER_SCHOOL_PROGRAM_API_URL = `${SERVER_URL}/manage_school_activity/`
 export const CONSUMER_JOIN_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
+export const SUPERVISOR_JOIN_PROGRAM_API_URL = `${SERVER_URL}/supervisor_activities/`
 export const CONSUMER_LEAVE_PROGRAM_API_URL = `${SERVER_URL}/consumer_activities/`
+export const SUPERVISORLEAVE_PROGRAM_API_URL = `${SERVER_URL}/supervisor_activities/`
 export const GET_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
 export const CREATE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
 export const DELETE_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_SUPERVISOR_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
+export const GET_SUPERVISOR_EVENT_LIST_API_URL = `${SERVER_URL}/supervisor_events/`
 export const GET_CONSUMER_EVENT_API_URL = `${SERVER_URL}/consumer_events/`
+export const GET_SUPERVISOR_EVENT_API_URL = `${SERVER_URL}/supervisor_events/`
 export const CREATE_CONSUMER_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/consumer_event_feedback/`
+export const CREATE_SUPERVISOR_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/supervisor_event_feedback/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
@@ -283,6 +292,7 @@ export const SERVER = {
     consumer: "CONSUMER", // i.e., students
     instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR"
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

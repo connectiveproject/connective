@@ -21,6 +21,8 @@ from server.utils.permission_classes import (
     AllowCoordinator,
     AllowCoordinatorReadOnly,
     AllowInstructorReadOnly,
+    AllowSupervisor,
+    AllowSupervisorReadOnly,
     AllowVendor,
 )
 
@@ -32,6 +34,7 @@ from .serializers import (
     ManageSchoolActivitySerializer,
     OrganizationSerializer,
     SchoolActivityGroupSerializer,
+    SupervisorActivitySerializer,
     VendorActivitySerializer,
 )
 
@@ -62,6 +65,28 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
 
     queryset = Activity.objects.all()
+
+
+class SupervisorActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowSupervisor]
+    serializer_class = SupervisorActivitySerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Activity.objects.filter(
+            originization=user.organization_member.organization,
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
+
+    def perform_update(self, serializer):
+        serializer.save(
+            originization=self.request.user.organization_member.organization
+        )
 
 
 class VendorActivityViewSet(viewsets.ModelViewSet):
@@ -179,6 +204,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
         | AllowCoordinatorReadOnly
         | AllowInstructorReadOnly
         | AllowConsumerReadOnly
+        | AllowSupervisorReadOnly
     ]
     serializer_class = ActivityMediaSerializer
     lookup_field = "slug"

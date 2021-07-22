@@ -58,6 +58,30 @@ const consumerButtons = [
   },
 ]
 
+const supervisorButtons = [
+  {
+    text: () => i18n.t("auth.logout"),
+    icon: "mdi-export",
+    onClick: () => store.dispatch("auth/logout"),
+  },
+  {
+    text: () => i18n.t("general.profile"),
+    icon: "mdi-account",
+    onClick: () => Vue.$router.push({ name: "SupervisorProfile" }),
+  },
+  {
+    text: () => i18n.tc("general.program", 1),
+    icon: "mdi-handshake",
+    onClick: () => Vue.$router.push({ name: "SupervisorProgramsExplorer" }),
+  },
+  {
+    text: () => i18n.tc("myActivity.myActivity"),
+    icon: "mdi-drawing",
+    onClick: () => Vue.$router.push({ name: "SupervisorMyActivity" }),
+  },
+]
+
+
 const instructorButtons = [
   {
     text: () => i18n.t("auth.logout"),
@@ -104,4 +128,5 @@ export const userToButtons = {
   coordinator: coordinatorButtons,
   instructor: instructorButtons,
   vendor: vendorButtons,
+  supervisor: supervisorButtons,
 }
