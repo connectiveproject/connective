@@ -258,7 +258,9 @@
     "consumersInActivity": "כמות תלמידים רשומים מסך התלמידים",
     "coursesInActivity": "כמות קורסים לא ריקים",
     "consumersInActivityLabel": "סך הכל",
-    "coursesInActivityLabel": "סך הכל"
+    "coursesInActivityLabel": "סך הכל",
+    "courseAttendance": "אחוז נוכחות",
+    "courseAttendanceLabel": "אחוז"
   },
   "events": {
     "eventsSummary": "סיכום אירועים",

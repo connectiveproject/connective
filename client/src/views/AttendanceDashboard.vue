@@ -39,6 +39,24 @@
           />
         </v-card>
       </v-col>
+      <v-col>
+        <h2
+          v-text="$t('attendanceDashboard.courseAttendance')"
+          class="pb-12"
+        />
+        <v-card>
+          <bar-chart
+            class="mx-auto my-10"
+            :datasets="[{
+              label: [$t('attendanceDashboard.courseAttendanceLabel')],
+              data: [courseAttendanceData.students / courseAttendanceData.total_meetings / courseAttendanceData.total_students * 100],
+              backgroundColor: ['#FFAEBCC0'],
+              borderWidth: 1,
+            }]"
+            :labels="courseAttendanceChartLabels"
+          />
+        </v-card>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -52,6 +70,7 @@ export default {
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("program/getConsumersInActivityStats")
     await store.dispatch("program/getCoursesInActivityStats")
+    await store.dispatch("program/getCourseAttendanceStats")
     next()
   },
   data() {
@@ -60,7 +79,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("program", ["consumersInActivityStats", "coursesInActivityStats"]),
+    ...mapState("program", ["consumersInActivityStats", "coursesInActivityStats", "courseAttendanceStats"]),
     attendanceLabels() {
       return ["כמות תלמידים", "כמות רשומים"]
     },
@@ -72,6 +91,12 @@ export default {
     },
     coursesChartLabels() {
       return ["קורסים", "קורסים פעילים"]
+    },
+    courseAttendanceData() {
+      return this.courseAttendanceStats
+    },
+    courseAttendanceChartLabels() {
+      return ["אחוז נוכחות ממוצע"]
     }
   },
 }

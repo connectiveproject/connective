@@ -8,6 +8,7 @@ function getDefaultState() {
     topConsumerRequestsStats: [],
     consumersInActivityStats: { totalConsumers: 0, inActivityConsumers: 0 },
     coursesInActivityStats: { totalCourses: 0, inActivityCourses: 0 },
+    courseAttendanceStats: {},
   }
 }
 
@@ -49,6 +50,10 @@ const program = {
     SET_COURSES_IN_ACTIVITY_STATS(state, stats) {
       state.coursesInActivityStats = stats
     },
+    SET_COURSE_ATTENDANCE_STATS(state, stats) {
+      state.courseAttendanceStats = stats
+    }
+
   },
   actions: {
     flushState({ commit }) {
@@ -135,6 +140,14 @@ const program = {
       }
       const res = await Api.program.getCoursesInActivityStats()
       commit("SET_COURSES_IN_ACTIVITY_STATS", res.data)
+      return res.data
+    },
+    async getCourseAttendanceStats({ commit, state }) {
+      if(state.courseAttendanceStats.length) {
+        return state.courseAttendanceStats
+      }
+      const res = await Api.program.getCourseAttendanceStats()
+      commit("SET_COURSE_ATTENDANCE_STATS", res.data)
       return res.data
     }
   },

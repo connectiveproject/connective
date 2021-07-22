@@ -8,6 +8,7 @@ import {
   SERVER,
   GET_CONSUMERS_IN_ACTIVITY_API_URL,
   GET_COURSES_IN_ACTIVITY_API_URL,
+  GET_COURSE_ATTENDANCE_API_URL,
 } from "../helpers/constants/constants"
 
 const program = {
@@ -56,6 +57,9 @@ const program = {
   },
   getCoursesInActivityStats() {
     return axios.get(GET_COURSES_IN_ACTIVITY_API_URL)
+  },
+  getCourseAttendanceStats() {
+    return axios.get(GET_COURSE_ATTENDANCE_API_URL)
   }
 }
 

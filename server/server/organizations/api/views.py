@@ -1,5 +1,7 @@
+import datetime
 from contextlib import suppress
 
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
@@ -7,6 +9,7 @@ from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from server.events.models import Event
 from server.organizations.models import (
     Activity,
     ActivityMedia,
@@ -307,5 +310,28 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             {
                 "total_courses": total_courses,
                 "in_activity_courses": in_activity_courses,
+            }
+        )
+
+    @action(detail=True, methods=["GET"])
+    def course_attendance(self, request, slug=None):
+        """ """
+        TODAY = datetime.date.today()
+        mon_rel = relativedelta(months=1)
+        total_meetings = 0
+        students = 0
+        # school = School.objects.first()
+        # Group = SchoolActivityGroup.objects.filter(activity_order__school=school)[0]
+        Group = SchoolActivityGroup.objects.get(slug=slug)
+        total_students = Group.consumers.count()
+        for e in Event.objects.filter(school_group=Group):
+            if e.start_time.date() < TODAY + mon_rel:
+                students += e.consumers.count()
+                total_meetings += 1
+        return Response(
+            {
+                "total_meetings": total_meetings,
+                "students": students,
+                "total_students": total_students,
             }
         )

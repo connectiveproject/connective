@@ -40,7 +40,7 @@ export default {
       const options = {
         type: "bar",
         data: chartData,
-
+        options: this.options
       }
       new Chart(canvas, options)
     },
