@@ -162,6 +162,91 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
 ]
 
+export const CONSUMER_TAGS = [
+  "פעילויות חוץ",
+  "שפות זרות",
+  "אתגר פיזי",
+  "שחיה",
+  "קהל דתי"
+]
+
+export const CONSUMER_PROGRAMS_CHECKBOX_FILTERS = [
+
+  {
+    name: "domain__in",
+    readableName: i18n.t("programFilters.domainOfActivity"),
+    options: [
+      {
+        label: i18n.t("programFilters.scienceAndTech"),
+        value: "SCIENCE_AND_TECH",
+      },
+      {
+        label: i18n.t("programFilters.extremeSports"),
+        value: "EXTREME_SPORTS",
+      },
+      {
+        label: i18n.t("programFilters.field"),
+        value: "FIELD",
+      },
+    ],
+  },
+
+  {
+    name: "targetAudience",
+    readableName: i18n.t("programFilters.targetAudience"),
+    options: [
+      {
+        label: i18n.t("grades.1"),
+        value: "1",
+      },
+      {
+        label: i18n.t("grades.2"),
+        value: "2",
+      },
+      {
+        label: i18n.t("grades.3"),
+        value: "3",
+      },
+      {
+        label: i18n.t("grades.4"),
+        value: "4",
+      },
+      {
+        label: i18n.t("grades.5"),
+        value: "5",
+      },
+      {
+        label: i18n.t("grades.6"),
+        value: "6",
+      },
+      {
+        label: i18n.t("grades.7"),
+        value: "7",
+      },
+      {
+        label: i18n.t("grades.8"),
+        value: "8",
+      },
+      {
+        label: i18n.t("grades.9"),
+        value: "9",
+      },
+      {
+        label: i18n.t("grades.10"),
+        value: "10",
+      },
+      {
+        label: i18n.t("grades.11"),
+        value: "11",
+      },
+      {
+        label: i18n.t("grades.12"),
+        value: "12",
+      },
+    ],
+  },
+]
+
 export const PROGRAMS_CHECKBOX_FILTERS = [
   // {
   //   name: "space",
