@@ -256,10 +256,10 @@
   "attendanceDashboard": {
     "title": "נוכחות",
     "consumersInActivity": "כמות תלמידים רשומים מסך התלמידים",
-    "coursesInActivity": "כמות קורסים לא ריקים",
+    "coursesInActivity": "לא ריקים עם רשומים",
     "consumersInActivityLabel": "סך הכל",
     "coursesInActivityLabel": "סך הכל",
-    "courseAttendance": "אחוז נוכחות",
+    "courseAttendance": "אחוז נוכחות בקורס גלישה" ,
     "courseAttendanceLabel": "אחוז"
   },
   "events": {
