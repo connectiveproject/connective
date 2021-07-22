@@ -162,6 +162,14 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
 ]
 
+export const CONSUMER_TAGS = [
+  "פעילויות חוץ",
+  "שפות זרות",
+  "אתגר פיזי",
+  "שחיה",
+  "קהל דתי"
+]
+
 export const CONSUMER_PROGRAMS_CHECKBOX_FILTERS = [
 
   {

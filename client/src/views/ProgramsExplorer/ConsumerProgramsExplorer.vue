@@ -26,6 +26,29 @@
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
         <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
+        <v-chip-group
+          multiple
+          color="primary"
+          text-color="white"
+          v-model="filterTags"
+          class="tags-selection mx-auto"
+          v-on:change="chipFilterChange"
+
+        >
+          <v-chip
+            filter
+            v-for="tag in CONSUMER_TAGS"
+            :key="tag"
+            active-class="blue--text"
+            :input-value="active"
+            @click="toggle"
+            class="filter-chip"
+          >
+            {{ tag }}
+          </v-chip>
+        </v-chip-group>
+
+        {{ this.filterTags }}
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -71,9 +94,11 @@ import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { mapActions, mapGetters, mapState } from "vuex"
 import {
   CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
+  CONSUMER_TAGS,
 } from "../../helpers/constants/constants"
 
 export default {
+
   components: {
     PaginationCheckboxGroup,
     InfoCard,
@@ -104,6 +129,9 @@ export default {
     openProgram(slug) {
       this.isProgramOpen = true
       this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
+    },
+    chipFilterChange(a) {
+      alert(this.filterTags,a)
     },
 
     async getPrograms() {
@@ -150,7 +178,9 @@ export default {
   data() {
     return {
       CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
+      CONSUMER_TAGS,
       recentlyScrolled: false,
+      filterTags: [],
       isProgramOpen: true,
       statusToText: {
         PENDING_GROUP_ASSIGNMENT: this.$t("program.pendingGroupAssignment"),
@@ -186,9 +216,15 @@ export default {
   border-left: $light-grey 1px solid;
 }
 .search-bar {
-  max-width: 450px;
+  max-width: 50%;
 }
 
+.tags-selection {
+  max-width: 50%;
+}
+.filter-chip {
+  margin: 5px;
+}
 .checkbox-group {
   float: right;
   width: 100%;
