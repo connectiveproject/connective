@@ -59,11 +59,11 @@
 </template>
 
 <script>
-import './page.css';
-import MyHeader from './Header.vue';
+import "./page.css"
+import MyHeader from "./Header.vue"
 
 export default {
-  name: 'my-page',
+  name: "my-page",
 
   components: { MyHeader },
 
@@ -75,14 +75,14 @@ export default {
 
   methods: {
     onLogin() {
-      this.$emit('onLogin');
+      this.$emit("onLogin")
     },
     onLogout() {
-      this.$emit('onLogout');
+      this.$emit("onLogout")
     },
     onCreateAccount() {
-      this.$emit('onCreateAccount');
+      this.$emit("onCreateAccount")
     },
   },
-};
+}
 </script>

@@ -1,5 +1,5 @@
 # connective
-
+[![CircleCI](https://circleci.com/gh/connectiveproject/connective/tree/main.svg?style=svg)](https://circleci.com/gh/connectiveproject/connective/tree/main)
 
 ### Welcome
 Welcome to _Connective_ - The Education Marketplace Open Source Project.
@@ -14,8 +14,8 @@ Your contribution brings us one step closer torwards making a true change in the
 2. Open a Gitpod Workspace:
     * Gitpod is an amazing OSS platform for dev in the cloud (an in-browser IDE).
     * To start a workspace - whilst in the fork, simply click:
-     
-     [![Gitpod ready-to-code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer)    
+
+     [![Gitpod ready-to-code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer)
     * **That's it!** You've got a VSCode with everything already installed and running!
     * More details on starting workspaces can be found [here](https://www.gitpod.io/docs/getting-started/).
 
@@ -42,8 +42,7 @@ We work diligently to fix the issue, which will be hopefully solved soon.
 
 
 
-#### Happy Coding! 
+#### Happy Coding!
 
 ### stack overview
 ![connective tech stack](https://github.com/connectiveproject/connective/blob/main/connective_stack.jpeg)
-

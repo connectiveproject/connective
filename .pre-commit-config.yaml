@@ -7,7 +7,9 @@ repos:
     rev: v4.0.1
     hooks:
       - id: trailing-whitespace
+        exclude_types: [svg]
       - id: end-of-file-fixer
+        exclude_types: [svg]
       - id: check-yaml
 
   - repo: https://github.com/psf/black
@@ -35,6 +37,9 @@ repos:
       -   id: eslint
           files: \.js$|\.vue$
           types: [file]
+          exclude: "cypress/"
+          verbose: true
+          args: ["-c", "client/.eslintrc.js", "--quiet"]
           additional_dependencies:
           -   babel-eslint@^10.1.0
           -   eslint-plugin-vue@^6.2.2

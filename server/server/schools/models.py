@@ -8,7 +8,7 @@ from server.utils.model_fields import PhoneNumberField
 
 
 def random_slug():
-    return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]
+    return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]  # noqa
 
 
 class School(models.Model):

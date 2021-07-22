@@ -1,23 +1,92 @@
 version: 2.1
 
+commands:
+  run-pre-commit-id:
+    parameters:
+      id:
+        type: string
+      args:
+        type: string
+        default: ""
+    steps:
+      - run:
+          command: python -m pre_commit run --all-files --verbose <<parameters.id>> <<parameters.args>>
+          name: Running Pre-Commit Vaildation - <<parameters.id>>
+
 orbs:
   python: circleci/python@1.4.0
 
 workflows:
-  master:  
+  main:
     jobs:
-      - run-tests
+      - run-tests:
+          name: run tests
+      - run-pre-commit-check:
+          name: pre-commit validation
 
 jobs:
-  run-tests:
-    executor:
-      name: python/default
-      tag: "3.9"
+  run-pre-commit-check:
+    docker:
+      - image: cimg/python:3.9.6-node
     steps:
       - checkout
       - run:
-          command: pip install -r server/requirements/local.txt
-          name: Install local dependencies
+          name: Install Pre-Commit
+          command: pip install pre-commit
+      - run-pre-commit-id:
+          id: trailing-whitespace
+      - run-pre-commit-id:
+          id: end-of-file-fixer
+      - run-pre-commit-id:
+          id: check-yaml
+      - run-pre-commit-id:
+          id: black
+      - run-pre-commit-id:
+          id: isort
+      - run-pre-commit-id:
+          id: flake8
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          key: yarn-packages-{{ checksum "client/yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            cd client
+            yarn install --immutable
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "client/yarn.lock" }}
+          paths:
+            - client/node_modules
+      - run:
+          name: lint
+          command: |
+            cd client
+            yarn lint
+
+  run-tests:
+    docker:
+      - image: cimg/python:3.9.6
+        environment:
+          CELERY_BROKER_URL: "redis://localhost:6379/0"
+          DATABASE_URL: "postgres://postgres@127.0.0.1:5432/server"
+          GITPOD_WORKSPACE_URL: "https://localhost"
+      - image: circleci/postgres:12-alpine
+        environment:
+          POSTGRES_USER: postgres
+    steps:
+      - checkout
+      - python/install-packages:
+          app-dir: server
+          pip-dependency-file: requirements/local.txt
+          pkg-manager: pip
       - run:
           name: Run tests
-          command: cd server && pytest
+          command: |
+            cd server
+            mkdir /tmp/test-results
+            pytest --junitxml=/tmp/test-results/junit.xml
+      - store_test_results:
+          path: /tmp/test-results/
+      - store_artifacts:
+          path: /tmp/test-results/
