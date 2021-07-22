@@ -16,20 +16,33 @@
           <v-card-title v-text="author" class="pa-2 font-weight-bold" />
         </v-col>
       </v-row>
-      <v-card-subtitle v-text="subtitle" class="px-2 pt-2 pb-1 subtitle-1" />
+      <v-row class="my-0 p-0">
+        <v-col md="auto" class="ms-3 pe-0">
+          <v-card-subtitle
+            v-text="subtitle"
+            class="px-2 pt-2 pb-1 subtitle-1"
+          />
+        </v-col>
+
+        <v-col md="auto" class="ms-3 pe-0">
+          <v-card-subtitle
+            v-text="subtitle"
+            class="px-2 pt-2 pb-1 subtitle-1"
+          />
+        </v-col>
+      </v-row>
       <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
         <!-- if slot's text overflow, consider using the trim filter on parent  -->
         <slot>{{ content }}</slot>
       </v-card-text>
       <v-row class="my-3">
-        <v-col md="auto" v-for="image in images.slice(0, 5)" :key="image.url">
+        <v-col md="auto" v-for="image in images.slice(0, 3)" :key="image.url">
           <div class="text-center">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-img
                   v-bind="attrs"
                   v-on="on"
-                  v-on:click="toggleModal()"
                   class="showMoreOverlay"
                   max-height="150"
                   alt=""
@@ -38,11 +51,7 @@
               </template>
 
               <v-card>
-                 <v-img
-                  class="showMoreOverlay"
-                  alt=""
-                  :src="image.url"
-                ></v-img>
+                <v-img class="showMoreOverlay" alt="" :src="image.url"></v-img>
               </v-card>
             </v-dialog>
           </div>
@@ -124,8 +133,8 @@ export default {
   },
   data() {
     return {
-      showMore: this.images.length > 5,
-      additionalImages: this.images.length - 5,
+      showMore: this.images.length > 3,
+      additionalImages: this.images.length - 3,
     }
   },
 }
