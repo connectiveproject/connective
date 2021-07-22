@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <v-row v-for="post in posts" :key="post.slug">
-      <Post :images="[{url: post.imagesB64}]" :content="post.post_content" />
+  <v-col>
+    <v-row
+      align="center"
+      justify="center"
+      v-for="post in posts"
+      :key="post.slug"
+    >
+      <Post :images="[{ url: post.imagesB64 }]" :content="post.postContent" />
     </v-row>
-  </div>
+  </v-col>
 </template>
 
 <script>

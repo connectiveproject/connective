@@ -76,7 +76,7 @@ const instructorButtons = [
   },
   {
     text: () => i18n.t("events.eventsSummary"),
-    icon: "mdi-pencil",
+    icon: "mdi-comment-quote",
     onClick: () => Vue.$router.push({ name: "EventFeedView" }),
   },
 ]
