@@ -189,7 +189,7 @@ export default {
         const feedData = {
           event: this.slug,
           post_content: this.feedContent,
-          images_b64: [0],
+          images_b64: [],
         }
         console.log(data, feedData)
         await this.createFeedPost( feedData )
