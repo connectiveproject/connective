@@ -18,16 +18,12 @@ export default {
     return {
       tabs: [
         {
-          componentName: "ConsumerMyGroups",
+          componentName: "SupervisorMyGroups",
           text: this.$t("myActivity.activeGroups"),
         },
         {
-          componentName: "ConsumerMyEvents",
+          componentName: "SupervisorMyEvents",
           text: this.$t("events.eventsBoard"),
-        },
-        {
-          componentName: "ConsumerPendingEventsFeedback",
-          text: this.$t("events.eventsFeedback"),
         },
       ],
     }

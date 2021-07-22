@@ -21,6 +21,7 @@ import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
 import VendorDashboard from "../layouts/VendorDashboard"
 import MyActivity from "../layouts/MyActivity/MyActivity"
+import SupervisorMyActivity from "../layouts/MyActivity/SupervisorMyActivity"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
 import CoordinatorRegister from "../views/Register/CoordinatorRegister"
@@ -44,8 +45,10 @@ import ResetPassword from "../views/ResetPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
+import SupervisorMyGroups from "../views/MyGroups/SupervisorMyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
+import SupervisorMyEvents from "../views/MyEvents/SupervisorMyEvents"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
 import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
@@ -214,27 +217,22 @@ const routes = [
           },
           {
             path: "my-activity",
-            component: MyActivity,
+            component: SupervisorMyActivity,
             children: [
               {
                 path: "",
-                name: "MyActivity",
-                redirect: { name: "MyGroups" },
+                name: "SupervisorMyActivity",
+                redirect: { name: "SupervisorMyGroups" },
               },
               {
                 path: "my-groups",
-                name: "MyGroups",
-                component: MyGroups,
+                name: "SupervisorMyGroups",
+                component: SupervisorMyGroups,
               },
               {
                 path: "my-events",
-                name: "MyEvents",
-                component: MyEvents,
-              },
-              {
-                path: "statistics",
-                name: "CoordinatorStatistics",
-                component: CoordinatorStatistics,
+                name: "SupervisorMyEvents",
+                component: SupervisorMyEvents,
               },
             ],
           },
