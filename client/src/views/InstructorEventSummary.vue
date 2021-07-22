@@ -108,8 +108,8 @@
           </v-col>
         </v-row>
       </v-card>
-      <v-card-title v-text="$t('events.eventFeedShareTitle')" class="px-0" />
-      <v-row>
+      <v-card-title class="my-3" v-text="$t('events.eventFeedShareTitle')" />
+      <v-row class="my-3">
         <v-col cols="12">
           <v-card-text>יוכלו לראות:כולם</v-card-text>
           <v-tribute :options="tributeOptions">
