@@ -6,6 +6,7 @@ import {
   loginOrFlushStore,
   initPrograms,
   initConsumerPrograms,
+  initSupervisorPrograms,
   flushPagination,
   flushToken,
   PopulateConsumerData,
@@ -32,6 +33,7 @@ import SupervisorProfile from "../views/Profile/SupervisorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
+import SupervisorProgramExplorer from "../views/ProgramsExplorer/SupervisorProgramExplorer"
 import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
 import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
 import InviteConsumers from "../views/Invite/InviteConsumers"
@@ -139,6 +141,21 @@ const routes = [
               {
                 path: "program-modal/:slug",
                 name: "ConsumerProgramModal",
+                component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                props: true,
+              },
+            ],
+          },
+          {
+            path: "programs-explorer",
+            name: "SupervisorProgramsExplorer",
+            component: SupervisorProgramExplorer,
+            beforeEnter: initSupervisorPrograms,
+            children: [
+              {
+                path: "program-modal/:slug",
+                name: "SupervisorProgramModal",
                 component: ProgramModal,
                 beforeEnter: fetchProgramDetails,
                 props: true,
