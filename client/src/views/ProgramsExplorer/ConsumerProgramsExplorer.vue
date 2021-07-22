@@ -46,8 +46,6 @@
             {{ tag }}
           </v-chip>
         </v-chip-group>
-
-        {{ this.filterTags }}
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
