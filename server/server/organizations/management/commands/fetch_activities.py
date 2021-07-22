@@ -91,7 +91,9 @@ class Command(BaseCommand):
                 activity_code = raw_activity['MisparTochnit']
                 contact_info = requests.post('https://apps.education.gov.il/TyhNet/ClientWs/TochnitCh.asmx/GetDataAc6', json={'MisparTochnit':activity_code})
                 raw_contact_info = contact_info.json()['d']
-                
+                targets = requests.post('https://apps.education.gov.il/TyhNet/ClientWs/TochnitCh.asmx/GetDataAc2', json={'MisparTochnit':activity_code})
+                raw_targets = targets.json()['d']
+
                 target_audience = [grades_letter_to_number[grade] for grade in raw_activity[ACTIVITY_FIELD_MAPPING["target_audience"]].replace("'", "").replace('"', '').split(" | ")]
                 target_audience.sort()
 
@@ -100,16 +102,22 @@ class Command(BaseCommand):
                     "target_audience":target_audience,
                     "activity_website_url":raw_contact_info['ktovet_kishur_atar_taagid'],
                     "activity_email":raw_contact_info['EMAIL'],
+                    "organization_name":raw_contact_info['SHEM_TAAGID'],
                     "organization_number":raw_contact_info['MISPAR_TAAGID'],
                     "description":raw_activity[ACTIVITY_FIELD_MAPPING["description"]],
                     "activity_code":activity_code,
                     "contact_name":raw_contact_info['GOREM_KESHER_BATAAGID'],
                     "phone_number":raw_contact_info['NAYAD'],
-                    "is_active":raw_activity[ACTIVITY_FIELD_MAPPING["activity_code"]] == 4, # Check all status codes
-
-                    # New fields
+                    "is_active":raw_activity[ACTIVITY_FIELD_MAPPING["is_active"]] == 4,
                     "goal":raw_activity[ACTIVITY_FIELD_MAPPING["goal"]],
                     "raw_name":raw_activity[ACTIVITY_FIELD_MAPPING["raw_name"]],
+
+                    "target_gender": raw_targets[1]['Value'].split(' | '),
+                    "target_population": raw_targets[2]['Value'].split(' | '),
+                    "target_time": raw_targets[3]['Value'].split(' | '),
+                    "target_size": raw_targets[4]['Value'].split(' | '),
+                    "target_migzar": raw_targets[7]['Value'].split(' | '),
+                    "target_pikuah": raw_targets[8]['Value'].split(' | ')                  
                 }
                 ImportedActivity.objects.update_or_create(defaults=activity, activity_code=activity_code)
             page_number += 1
