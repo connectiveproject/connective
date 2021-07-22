@@ -1,5 +1,12 @@
-from django.contrib.postgres.fields import ArrayField
-from django.db.models import SET_NULL, CharField, ForeignKey, Model, TextField, DateTimeField
+from django.db.models import (
+    SET_NULL,
+    CharField,
+    DateTimeField,
+    ForeignKey,
+    ImageField,
+    Model,
+    TextField,
+)
 
 from server.events.models import Event
 from server.users.models import User
@@ -27,8 +34,11 @@ class Post(Model):
         null=True,
     )
     post_content = TextField()
-    images_b64 = ArrayField(
-        TextField(),
-        blank=True,
+    # images_b64 = ArrayField(
+    #     TextField(),
+    #     null=True,
+    # )
+    images_b64 = ImageField(
         null=True,
+        blank=True,
     )

@@ -78,7 +78,7 @@
         </v-col>
         <v-col>
           <v-file-input
-            @change="Preview_image"
+            @change="previewImage"
             v-model="images"
             multiple
             prepend-icon="mdi-paperclip"
@@ -185,21 +185,21 @@ export default {
           summaryChildrenBehavior: this.summaryChildrenBehavior,
           hasSummary: true,
         }
-        await this.updateEvent({ slug: this.slug, data })
-        const parsedImages = await this.file2Base64(this.images)
+        //await this.updateEvent({ slug: this.slug, data })
         const feedData = {
           event: this.slug,
           post_content: this.feedContent,
-          images_b64: parsedImages,
+          images_b64: this.images[0],
         }
-        console.log(data, feedData)
-        await this.createFeedPost(feedData)
+        const newObj = Utils.objectToFormData(feedData)
+        console.log(data, feedData, newObj)
+        await this.createFeedPost(newObj)
         this.isModalOpen = true
       },
       500,
       { leading: true, trailing: false }
     ),
-    Preview_image() {
+    previewImage() {
       console.log(this.images)
       if (this.images.length === 0) {
         this.urls = []
