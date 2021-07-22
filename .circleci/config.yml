@@ -22,20 +22,7 @@ jobs:
           command: pip install pre-commit
       - run:
           name: Install ESlint
-          command: yarn add global eslint
-#      - restore_cache:
-#          name: Restore Yarn Package Cache
-#          key: yarn-packages-{{ checksum "client/yarn.lock" }}
-#      - run:
-#          name: Install Dependencies
-#          command: |
-#            cd client
-#            yarn install --immutable
-#      - save_cache:
-#          name: Save Yarn Package Cache
-#          key: yarn-packages-{{ checksum "client/yarn.lock" }}
-#          paths:
-#            - client/node_modules
+          command: sudo yarn add global eslint
       - run:
           name: Run Pre-Commit Vaildation on all files
           command: python -m pre_commit run --all-files --verbose
