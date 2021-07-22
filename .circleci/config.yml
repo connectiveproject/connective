@@ -22,7 +22,7 @@ jobs:
           command: pip install pre-commit
       - run:
           name: Install ESlint
-          command: sudo yarn add global eslint
+          command: sudo npm i -g eslint
       - run:
           name: Run Pre-Commit Vaildation on all files
           command: python -m pre_commit run --all-files --verbose
