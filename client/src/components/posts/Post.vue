@@ -12,7 +12,7 @@
             <v-img class="elevation-6" alt="" :src="authorIcon"></v-img>
           </v-list-item-avatar>
         </v-col>
-        <v-col class="px-0">
+        <v-col md="auto" class="px-0">
           <v-card-title v-text="author" class="pa-2 font-weight-bold" />
         </v-col>
       </v-row>
@@ -23,20 +23,36 @@
       </v-card-text>
       <v-row class="my-3">
         <v-col md="auto" v-for="image in images.slice(0, 5)" :key="image.url">
-          <v-img
-            max-height="150"
-            max-width="150"
-            alt=""
-            :src="image.url"
-          ></v-img>
+          <div class="text-center">
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-img
+                  v-bind="attrs"
+                  v-on="on"
+                  v-on:click="toggleModal()"
+                  class="showMoreOverlay"
+                  max-height="150"
+                  alt=""
+                  :src="image.url"
+                ></v-img>
+              </template>
+
+              <v-card>
+                 <v-img
+                  class="showMoreOverlay"
+                  alt=""
+                  :src="image.url"
+                ></v-img>
+              </v-card>
+            </v-dialog>
+          </div>
         </v-col>
         <v-col md="auto" v-if="showMore">
-          <v-img
-            max-height="150"
-            max-width="150"
-            alt=""
-            src="https://cdn0.iconfinder.com/data/icons/smoothies-vector-icons-volume-2/48/143-512.png"
-          ></v-img>
+          <v-img max-height="150" alt="" :src="images[6].url"
+            ><v-overlay absolute color="#036358" class="showMoreOverlay">
+              <h1>{{ additionalImages }}+</h1>
+            </v-overlay></v-img
+          >
         </v-col>
       </v-row>
     </v-card>
@@ -100,9 +116,16 @@ export default {
       ],
     },
   },
+
+  methods: {
+    toggleModal: function () {
+      alert("11111")
+    },
+  },
   data() {
     return {
       showMore: this.images.length > 5,
+      additionalImages: this.images.length - 5,
     }
   },
 }
@@ -110,6 +133,9 @@ export default {
 <style scoped>
 #info-button {
   letter-spacing: 1.7px !important;
+}
+.showMoreOverlay {
+  cursor: "pointer";
 }
 .actions {
   height: 40px;
