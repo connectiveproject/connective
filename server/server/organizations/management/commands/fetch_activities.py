@@ -27,7 +27,28 @@ class Command(BaseCommand):
             "goal": "MataraMerkazit",
             "raw_name": "ShemTochnit_Raw",
         }
-
+        grades_letter_to_number = {
+            "חיילים": 23,
+            "צוותי חינוך": 22,
+            "מנהלים": 21,
+            "הורים": 20,
+            "ילדי הגן": 0,
+            "גן": 0,
+            "א": 1,
+            "ב": 2,
+            "ג": 3,
+            "ד": 4,
+            "ה": 5,
+            "ו": 6,
+            "ז": 7,
+            "ח": 8,
+            "ט": 9,
+            "י": 10,
+            "יא": 11,
+            "יב": 12,
+            "יג": 13,
+            "יד": 14,
+        }
 
 
         total_records = None
@@ -71,11 +92,15 @@ class Command(BaseCommand):
                 contact_info = requests.post('https://apps.education.gov.il/TyhNet/ClientWs/TochnitCh.asmx/GetDataAc6', json={'MisparTochnit':activity_code})
                 raw_contact_info = contact_info.json()['d']
                 
+                target_audience = [grades_letter_to_number[grade] for grade in raw_activity[ACTIVITY_FIELD_MAPPING["target_audience"]].replace("'", "").replace('"', '').split(" | ")]
+                target_audience.sort()
+
                 activity = {
                     "name":raw_activity[ACTIVITY_FIELD_MAPPING["name"]],
-                    "target_audience":raw_activity[ACTIVITY_FIELD_MAPPING["target_audience"]].replace("'", "").split(" | "), # noqa
+                    "target_audience":target_audience,
                     "activity_website_url":raw_contact_info['ktovet_kishur_atar_taagid'],
                     "activity_email":raw_contact_info['EMAIL'],
+                    "organization_number":raw_contact_info['MISPAR_TAAGID'],
                     "description":raw_activity[ACTIVITY_FIELD_MAPPING["description"]],
                     "activity_code":activity_code,
                     "contact_name":raw_contact_info['GOREM_KESHER_BATAAGID'],
@@ -87,5 +112,7 @@ class Command(BaseCommand):
                     "raw_name":raw_activity[ACTIVITY_FIELD_MAPPING["raw_name"]],
                 }
                 ImportedActivity.objects.update_or_create(defaults=activity, activity_code=activity_code)
+            page_number += 1
+            total_records = content["TotalResultCount"]
         
 

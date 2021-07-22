@@ -115,12 +115,13 @@ class ImportedActivity(models.Model):
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
+    organization_number = models.IntegerField()
     goal = models.CharField(max_length=1550, default="")
     is_active = models.BooleanField()
     activity_website_url = models.URLField(null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=1550, default="")
-    contact_name = models.CharField(max_length=60, default="")
+    contact_name = models.CharField(max_length=100, default="")
     logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
         blank=True,
