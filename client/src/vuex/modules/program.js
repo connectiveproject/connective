@@ -5,7 +5,9 @@ function getDefaultState() {
     programsList: [],
     approvedOrdersList: [],
     totalPrograms: null,
-    topConsumerRequestsStats: []
+    topConsumerRequestsStats: [],
+    consumersInActivityStats: { totalConsumers: 0, inActivityConsumers: 0 },
+    coursesInActivityStats: { totalCourses: 0, inActivityCourses: 0 },
   }
 }
 
@@ -40,6 +42,12 @@ const program = {
     },
     SET_TOP_CONSUMER_REQUESTS_STATS(state, stats) {
       state.topConsumerRequestsStats = stats
+    },
+    SET_CONSUMERS_IN_ACTIVITY_STATS(state, stats) {
+      state.consumersInActivityStats = stats
+    },
+    SET_COURSES_IN_ACTIVITY_STATS(state, stats) {
+      state.coursesInActivityStats = stats
     },
   },
   actions: {
@@ -106,11 +114,27 @@ const program = {
       return res.data
     },
     async getTopConsumerRequestsStats({ commit, state }) {
-      if (state.topConsumerRequestsStats.length) {
+      if (state.topConsumerRequestsStats) {
         return state.topConsumerRequestsStats
       }
       const res = await Api.program.getTopConsumerRequestsStats()
       commit("SET_TOP_CONSUMER_REQUESTS_STATS", res.data)
+      return res.data
+    },
+    async getConsumersInActivityStats({ commit, state }) {
+      if (state.consumersInActivityStats.legnth) {
+        return state.consumersInActivityStats
+      }
+      const res = await Api.program.getConsumersInActivityStats()
+      commit("SET_CONSUMERS_IN_ACTIVITY_STATS", res.data)
+      return res.data
+    },
+    async getCoursesInActivityStats({ commit, state }) {
+      if (state.coursesInActivityStats.legnth) {
+        return state.coursesInActivityStats
+      }
+      const res = await Api.program.getCoursesInActivityStats()
+      commit("SET_COURSES_IN_ACTIVITY_STATS", res.data)
       return res.data
     }
   },

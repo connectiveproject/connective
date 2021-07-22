@@ -6,6 +6,8 @@ import {
   ORDER_SCHOOL_PROGRAM_API_URL,
   GET_TOP_CONSUMER_REQUESTS_STATS_API_URL,
   SERVER,
+  GET_CONSUMERS_IN_ACTIVITY_API_URL,
+  GET_COURSES_IN_ACTIVITY_API_URL,
 } from "../helpers/constants/constants"
 
 const program = {
@@ -48,6 +50,12 @@ const program = {
   },
   getTopConsumerRequestsStats() {
     return axios.get(GET_TOP_CONSUMER_REQUESTS_STATS_API_URL)
+  },
+  getConsumersInActivityStats() {
+    return axios.get(GET_CONSUMERS_IN_ACTIVITY_API_URL)
+  },
+  getCoursesInActivityStats() {
+    return axios.get(GET_COURSES_IN_ACTIVITY_API_URL)
   }
 }
 

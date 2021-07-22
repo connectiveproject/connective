@@ -60,7 +60,8 @@ export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
-
+export const GET_CONSUMERS_IN_ACTIVITY_API_URL = `${SERVER_URL}/school_activity_group/consumers_in_activity/`
+export const GET_COURSES_IN_ACTIVITY_API_URL = `${SERVER_URL}/school_activity_group/courses_in_activity/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =

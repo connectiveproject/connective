@@ -15,6 +15,7 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.users.api.serializers import UserSerializer
+from server.users.models import Consumer
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -271,3 +272,40 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             .order_by("-consumer_requests")[:10]
         )
         return Response(ConsumerRequestDataSerializer(qs, many=True).data)
+
+    @action(detail=False, methods=["GET"])
+    def consumers_in_activity(self, request):
+        """ """
+        total_consumers = 0
+        in_activity_consumers = 0
+        # school = School.objects.first()
+        school = request.user.school_member.school
+        for c in Consumer.objects.filter(school_member__school=school):
+            total_consumers += 1
+            if c.activity_groups.exists():
+                in_activity_consumers += 1
+        return Response(
+            {
+                "total_consumers": total_consumers,
+                "in_activity_consumers": in_activity_consumers,
+            }
+        )
+
+    @action(detail=False, methods=["GET"])
+    def courses_in_activity(self, request):
+        """ """
+        total_courses = 0
+        in_activity_courses = 0
+        # school = School.objects.first()
+        school = request.user.school_member.school
+        total_courses = SchoolActivityOrder.objects.filter(school=school).count()
+        for c in SchoolActivityOrder.objects.filter(school=school).filter(
+            activity_groups__consumers__isnull=False
+        ):
+            in_activity_courses += 1
+        return Response(
+            {
+                "total_courses": total_courses,
+                "in_activity_courses": in_activity_courses,
+            }
+        )

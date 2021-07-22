@@ -253,7 +253,13 @@
     "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
     "groupsFound": "קבוצות נמצאו"
   },
-
+  "attendanceDashboard": {
+    "title": "נוכחות",
+    "consumersInActivity": "כמות תלמידים רשומים מסך התלמידים",
+    "coursesInActivity": "כמות קורסים לא ריקים",
+    "consumersInActivityLabel": "סך הכל",
+    "coursesInActivityLabel": "סך הכל"
+  },
   "events": {
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
