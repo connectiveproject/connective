@@ -25,11 +25,15 @@
     <form class="form" @submit.prevent="onSubmit">
       <v-row>
         <v-col cols="12">
-          <v-text-field
-            :label="$t('events.summaryGeneralNotes')"
-            v-model="summaryGeneralNotes"
-            class="my-6"
-          />
+          <v-tribute :options="tributeOptions">
+            <v-textarea
+              :label="$t('events.summaryGeneralNotes')"
+              v-model="summaryGeneralNotes"
+              class="my-6"
+            >
+            </v-textarea>
+          </v-tribute>
+
         </v-col>
         <v-col cols="12" sm="12" lg="6">
           <v-select
@@ -80,14 +84,16 @@
 
 <script>
 import { mapActions } from "vuex"
+import VTribute from "../components/VTribute"
 import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Utils from "../helpers/utils"
 import TitleToText from "../components/TitleToText"
 import Modal from "../components/Modal"
 
+
 export default {
-  components: { TitleToText, Modal },
+  components: { TitleToText, Modal, VTribute },
   props: {
     slug: {
       type: String,
@@ -107,11 +113,23 @@ export default {
       vm.event = event
       vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
       vm.attendedConsumers = consumers.map(c => c.slug)
+      vm.tributeOptions.values = consumers.map(consumer => ({
+        key: consumer.name,
+        value: consumer.name.replace(" ", "_")
+      }))
     })
   },
   data() {
     return {
       event: {},
+      tributeOptions: {
+        trigger: "@",
+        values: [],
+        positionMenu: true,
+        // TODO: add noMatchTemplate
+        noMatchTemplate: "<li>השם לא נמצא</li>",
+        menuContainer: document.querySelector(".menu-container")
+      },
       consumerchoices: [],
       attendedConsumers: [],
       summaryGeneralNotes: "",
@@ -142,3 +160,54 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+  div.tribute-container > ul > li {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    tab-size: 4;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: Roboto,sans-serif;
+    text-align: center!important;
+    box-sizing: inherit;
+    align-items: center;
+    cursor: default;
+    display: inline-flex;
+    line-height: 20px;
+    max-width: 100%;
+    outline: none;
+    overflow: hidden;
+    padding: 0 12px;
+    position: relative;
+    text-decoration: none;
+    transition-duration: .28s;
+    transition-property: box-shadow,opacity;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 8px!important;
+    border-radius: 16px;
+    font-size: 14px;
+    height: 32px;
+    background-color: #5cbbf6 !important;
+    border-color: #5cbbf6 !important;
+    color: #fff;
+    background: #e0e0e0;
+    animation: bounce-in .3s;
+
+   @keyframes bounce-in {
+      0% {
+        transform: scale(ץ8);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+
+
+</style>
