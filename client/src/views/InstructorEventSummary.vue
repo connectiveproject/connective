@@ -187,12 +187,12 @@ export default {
         }
         await this.updateEvent({ slug: this.slug, data })
         const feedData = {
-          event_slug: this.slug,
+          event: this.slug,
           post_content: this.feedContent,
-          images_b64: [],
+          images_b64: [0],
         }
         console.log(data, feedData)
-        await this.createFeedPost({ data })
+        await this.createFeedPost( feedData )
         this.isModalOpen = true
       },
       500,
