@@ -1,13 +1,20 @@
 import requests
+import csv
 from django.core.management.base import BaseCommand
 from django.db.models.functions import Now
 from server.organizations.models import ImportedActivity
 
 class Command(BaseCommand):
     help = "Fetch activities from gov site and load to db"
+
     def handle(self, *args, **options):
-        self.fetch()
-    def fetch(self):
+        self.fetch(options['csv'])
+
+    def add_arguments(self, parser):
+        parser.add_argument('--csv', action='store_true')
+
+
+    def fetch(self, write_csv):        
         BASE_URL = "https://apps.education.gov.il"
         ACTIVITIES_API_URL = f"{BASE_URL}/TyhNet/ClientWs/TochnitCh.asmx/IturTochnitChByMeafyenim"  # noqa
         ACTIVITIES_DEFAULT_PAGE_SIZE = 100
@@ -49,6 +56,11 @@ class Command(BaseCommand):
             "יג": 13,
             "יד": 14,
         }
+        if write_csv:
+            fieldnames = ["name","target_audience","activity_website_url","activity_email","organization_name","organization_number","description","activity_code","contact_name","phone_number","is_active","goal","raw_name","proffesion","target_gender","target_population","target_time","target_size","target_migzar","target_pikuah"]
+            csv_file = open('activities.csv', 'w', encoding='UTF-8')
+            csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            csv_writer.writeheader()
 
 
         total_records = None
@@ -111,7 +123,7 @@ class Command(BaseCommand):
                     "is_active":raw_activity[ACTIVITY_FIELD_MAPPING["is_active"]] == 4,
                     "goal":raw_activity[ACTIVITY_FIELD_MAPPING["goal"]],
                     "raw_name":raw_activity[ACTIVITY_FIELD_MAPPING["raw_name"]],
-
+                    "proffesion": raw_activity["MiktsoaNoseIkari"].split('| '),
                     "target_gender": raw_targets[1]['Value'].split(' | '),
                     "target_population": raw_targets[2]['Value'].split(' | '),
                     "target_time": raw_targets[3]['Value'].split(' | '),
@@ -119,7 +131,11 @@ class Command(BaseCommand):
                     "target_migzar": raw_targets[7]['Value'].split(' | '),
                     "target_pikuah": raw_targets[8]['Value'].split(' | ')                  
                 }
-                ImportedActivity.objects.update_or_create(defaults=activity, activity_code=activity_code)
+                if write_csv:
+                    csv_writer.writerow(activity)
+                    csv_file.flush()
+                else:
+                    ImportedActivity.objects.update_or_create(defaults=activity, activity_code=activity_code)
             page_number += 1
             total_records = content["TotalResultCount"]
         

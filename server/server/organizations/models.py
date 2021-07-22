@@ -124,6 +124,7 @@ class ImportedActivity(models.Model):
     target_size = models.JSONField()
     target_migzar = models.JSONField()
     target_pikuah = models.JSONField()
+    proffesion = models.JSONField()
     goal = models.CharField(max_length=1550, default="")
     is_active = models.BooleanField()
     activity_website_url = models.URLField(null=True, blank=True)
