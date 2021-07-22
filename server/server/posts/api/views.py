@@ -1,12 +1,15 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 
-from server.posts.models import Post
 from server.posts.api.serializers import PostSerializer
-
-from server.server.utils.permission_classes import AllowConsumerReadOnly, \
-    AllowInstructor, AllowCoordinatorReadOnly, AllowVendorReadOnly, \
-    AllowSupervisorReadOnly
+from server.posts.models import Post
+from server.utils.permission_classes import (
+    AllowConsumerReadOnly,
+    AllowCoordinatorReadOnly,
+    AllowInstructor,
+    AllowSupervisorReadOnly,
+    AllowVendorReadOnly,
+)
 
 
 class PostViewSet(viewsets.ModelViewSet):
