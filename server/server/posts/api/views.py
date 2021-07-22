@@ -4,8 +4,19 @@ from rest_framework import viewsets
 from server.posts.models import Post
 from server.posts.api.serializers import PostSerializer
 
+from server.server.utils.permission_classes import AllowConsumerReadOnly, \
+    AllowInstructor, AllowCoordinatorReadOnly, AllowVendorReadOnly, \
+    AllowSupervisorReadOnly
+
 
 class PostViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        AllowConsumerReadOnly,
+        AllowInstructor,
+        AllowCoordinatorReadOnly,
+        AllowSupervisorReadOnly,
+        AllowVendorReadOnly,
+    ]
     lookup_field = "slug"
     serializer_class = PostSerializer
 
@@ -34,7 +45,10 @@ class PostViewSet(viewsets.ModelViewSet):
             # schoolMember -> school_activity_order -> school_activity_group
         elif user.user_type == get_user_model().Types.SUPERVISOR:
             return Post.objects.all()
-
+        elif user.user_type == get_user_model().Types.VENDOR:
+            return Post.objects.filter(
+                event__school_group__activity_order__activity__originization__organization_member__user=user,
+            )
         return []
 
     def perform_create(self, serializer):

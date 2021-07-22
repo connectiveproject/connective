@@ -33,6 +33,14 @@ class AllowVendor(BasePermission):
         return request.user.user_type == request.user.Types.VENDOR
 
 
+class AllowSupervisor(BasePermission):
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        return request.user.user_type == request.user.Types.SUPERVISOR
+
+
 class AllowCoordinatorReadOnly(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
@@ -74,4 +82,15 @@ class AllowVendorReadOnly(BasePermission):
         return (
             request.method in SAFE_METHODS
             and request.user.user_type == request.user.Types.VENDOR
+        )
+
+
+class AllowSupervisorReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        return (
+            request.method in SAFE_METHODS
+            and request.user.user_type == request.user.Types.SUPERVISOR
         )
