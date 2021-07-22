@@ -140,7 +140,6 @@ export default {
       } else {
         await this.removeFieldFilter("tags")
       }
-      this.getProgramsList(false)
     },
 
     async getPrograms() {
