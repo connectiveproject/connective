@@ -186,13 +186,14 @@ export default {
           hasSummary: true,
         }
         await this.updateEvent({ slug: this.slug, data })
+        const parsedImages = await this.file2Base64(this.images)
         const feedData = {
           event: this.slug,
           post_content: this.feedContent,
-          images_b64: [],
+          images_b64: parsedImages,
         }
         console.log(data, feedData)
-        await this.createFeedPost( feedData )
+        await this.createFeedPost(feedData)
         this.isModalOpen = true
       },
       500,
@@ -206,6 +207,26 @@ export default {
       this.images.map(
         image => (this.urls = [...this.urls, URL.createObjectURL(image)])
       )
+    },
+
+    async file2Base64(files) {
+      const parsedFiels = []
+
+      const parse = file => {
+        return new Promise()((resolve, reject) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = () => resolve(reader.result.toString())
+          reader.onerror = error => reject(error)
+        })
+      }
+
+      for (const file of files) {
+        const parsedFile = await parse(file)
+        parsedFiels.push(parsedFile)
+      }
+
+      return parsedFiels
     },
   },
 }
