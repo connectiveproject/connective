@@ -103,7 +103,7 @@
 
 <script>
 import { mapActions } from "vuex"
-import { exportCSV, translateStatus } from "./helpers"
+import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
 
@@ -177,9 +177,9 @@ export default {
     ...mapActions("school", [
       "getCoordinatorList",
       "deleteCoordinators",
-      "addCoordinators",
+      "addCoordinatorsBulk",
+      "exportCoordinatorList"
     ]),
-    exportCSV,
     translateStatus,
 
     async getCoordinators() {
@@ -200,7 +200,7 @@ export default {
 
     async importCSV() {
       try {
-        await this.addCoordinators(this.csvFile)
+        await this.addCoordinatorsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getCoordinators()
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
@@ -236,6 +236,10 @@ export default {
       this.dialogMode = "create"
       this.isDialogActive = true
     },
+
+    exportCSV(){
+      this.exportCoordinatorList()
+    }
   },
 }
 </script>

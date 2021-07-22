@@ -22,6 +22,10 @@ from server.users.api.views import (
     InstructorProfileViewSet,
     ManageConsumersViewSet,
     ManageCoordinatorsViewSet,
+    AddCoordinatorsBulkViewSet,
+    AddStudentsBulkViewSet,
+    ExportStudentListViewSet,
+    ExportCoordinatorListViewSet,
     ManageInstructorsViewSet,
     ManageVendorsViewSet,
     UserViewSet,
@@ -67,6 +71,18 @@ router.register("schools", SchoolViewSet, "schools")
 router.register("manage_consumers", ManageConsumersViewSet, basename="manage_consumers")
 router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
+)
+router.register(
+    "visiblerisk", AddCoordinatorsBulkViewSet, basename="visiblerisk"
+)
+router.register(
+    "team88", AddStudentsBulkViewSet, basename="team88"
+)
+router.register(
+    "vr", ExportStudentListViewSet, basename="vr"
+)
+router.register(
+    "t88", ExportCoordinatorListViewSet, basename="t88"
 )
 router.register(
     "manage_instructors", ManageInstructorsViewSet, basename="manage_instructors"

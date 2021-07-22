@@ -108,7 +108,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import { exportCSV, validateStudentsArray, translateStatus } from "./helpers"
+import { validateStudentsArray, translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
 
@@ -188,9 +188,9 @@ export default {
     ...mapActions("school", [
       "getStudentList",
       "deleteStudents",
-      "addStudents",
+      "addStudentsBulk",
+      "exportStudentList",
     ]),
-    exportCSV,
     translateStatus,
     validateStudentsArray,
 
@@ -211,7 +211,7 @@ export default {
 
     async importCSV() {
       try {
-        await this.addStudents(this.csvFile)
+        await this.addStudentsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getStudents()
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
@@ -252,6 +252,10 @@ export default {
       this.dialogMode = "create"
       this.isDialogActive = true
     },
+
+    exportCSV(){
+      this.exportStudentList()
+    }
   },
 }
 </script>
