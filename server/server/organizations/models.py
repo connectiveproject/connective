@@ -18,14 +18,52 @@ class SchoolActivityGroupManager(models.Manager):
             return container_only_groups[0]
 
 
+class ImportedOrganization(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    organization_number = models.CharField(max_length=10, unique=True)
+    email = models.EmailField(null=True, blank=True)
+    description = models.CharField(max_length=850, blank=True, null=True)
+    website_url = models.URLField(null=True, blank=True)
+    name = models.CharField(max_length=150,null=True, blank=True)
+    goal = models.CharField(max_length=850,null=True, blank=True)
+    year_founded = models.CharField(max_length=4, null=True, blank=True)
+    status = models.CharField(max_length=50, null=True, blank=True)
+    target_audience = models.JSONField(null=True, blank=True)
+    number_of_employees = models.PositiveIntegerField(null=True, blank=True)
+    number_of_members = models.PositiveIntegerField(null=True, blank=True)
+    number_of_volunteers = models.PositiveIntegerField(null=True, blank=True)
+    location_lon = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
+    location_lat = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
+
+    address_city = models.CharField(max_length=150, null=True, blank=True)
+    address_street = models.CharField(max_length=150, null=True, blank=True)
+    address_house_num = models.CharField(max_length=4, null=True, blank=True)
+    address_zipcode = models.CharField(max_length=9, null=True, blank=True)
+    cities = models.JSONField(null=True, blank=True)
+    districts = models.JSONField(null=True, blank=True)
+    union_type = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} | {self.slug}"
+
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True, null=True)
     email = models.EmailField()
-    description = models.CharField(max_length=250)
+    description = models.CharField(max_length=300)
     website_url = models.URLField(null=True, blank=True)
-    name = models.CharField(max_length=50)
-    goal = models.CharField(max_length=250, null=True, blank=True)
+    name = models.CharField(max_length=100) 
+    goal = models.CharField(max_length=300, null=True, blank=True) 
     year_founded = models.CharField(max_length=4, null=True, blank=True)
     status = models.CharField(max_length=50, null=True, blank=True)
     target_audience = models.JSONField(null=True, blank=True)
