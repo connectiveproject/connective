@@ -1,8 +1,8 @@
 <template>
   <div :style="style">
-    <Post />
     <navbar user-type="coordinator"/>
     <router-view/>
+    <Post />
   </div>
 </template>
 <script>

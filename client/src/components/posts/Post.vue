@@ -80,11 +80,11 @@ export default {
     content: {
       type: String,
       default:
-        "place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder",
+        "הייתה פעילות מעולה וכל החניכים נהנו בטירוף! תראו איזה שמחים כל המשתתפים!",
     },
     author: {
       type: String,
-      default: "place holder",
+      default: "דן אברמוב",
     },
     subtitle: {
       type: String,
