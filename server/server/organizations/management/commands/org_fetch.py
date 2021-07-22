@@ -2,6 +2,8 @@ from django.core.management.base import BaseCommand
 from server.organizations.models import ImportedOrganization
 import requests
 import json
+import csv
+import re
 import server.organizations.management.commands.config as config
 
 ajax_data = {"Content-Type": "application/json",
@@ -26,11 +28,30 @@ ajax_amount_of_results = {"action":"GSTAR_Ctrl","method":"getSeachMalkarCount",
                         "vid":"06624000000VGgM","ns":"","ver":43}}
 
 AJAX_URL = "https://www.guidestar.org.il/apexremote"
-
+ROOT_URL = "https://www.guidestar.org.il"
 
 class Command(BaseCommand):
     help = "Fetch schools from gov site and load to db"
 
+    def add_arguments(self, parser):
+        parser.add_argument("--csv", action='store_true')
+
+    def get_csrf(self):
+        """
+        This function should get from the site the csrf in order to send the request.
+
+        :return string
+        """
+
+        _response = requests.get(ROOT_URL)
+        _response.raise_for_status()
+        _response = _response.text
+        _csrf = re.findall("csrf\":\"([\w\d]+)\"", _response)
+
+        # if csrf is in the page else return default value
+        if _csrf:
+            return _csrf[0]
+        return "VmpFPSxNakF5TVMwd055MHlORlF3T0RvMU16b3dOeTQ1TkRKYSw4M0d2OGVKZVEzNnJ4M0dTLWxucmZYLE9EaG1aV0ky"
 
     def get_total_results_from_guidestar(self):
         """
@@ -38,7 +59,10 @@ class Command(BaseCommand):
 
         :return: int
         """
+
+        ajax_amount_of_results["ctx"]["csrf"] = self.get_csrf()
         post_response = requests.post(AJAX_URL, json=ajax_amount_of_results, headers=ajax_headers)
+        post_response.raise_for_status()
         post_response = json.loads(post_response.text)
         amount_of_results = post_response[0]["result"]
 
@@ -63,18 +87,19 @@ class Command(BaseCommand):
             print("complete {}/{}".format(page_number, amount_of_pages))
             # Set the requested page
             ajax_get_ids["data"][0]["pageNumber"] = page_number
+            ajax_get_ids["ctx"]["csrf"] = self.get_csrf() 
             if page_number > 1:
                 ajax_get_ids["data"][1]["value"] = last_company_name
 
             # Request for 50 more companies
             post_response = requests.post(AJAX_URL, json=ajax_get_ids, headers=ajax_headers)
+            post_response.raise_for_status()
             post_response = json.loads(post_response.text)
 
             # Run for each company and saves the company's id
             for company_json in post_response[0]["result"]["result"]:
                 ids_collection.add(company_json["regNum"])
             last_company_name = company_json["Name"]
-            return list(ids_collection) # DELETE AT THE END
         return list(ids_collection)
 
 
@@ -90,9 +115,11 @@ class Command(BaseCommand):
 
         # Set the requested ID
         ajax_data["data"][0] = _id
+        ajax_data["ctx"]["csrf"] = self.get_csrf()
 
         # Sending post request to collect the data
         response = requests.post(AJAX_URL, json=ajax_data, headers=ajax_headers)
+        response.raise_for_status()
 
         # Load the results
         try:
@@ -115,9 +142,9 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        self.fetch()
+        self.fetch(options['csv'])
 
-    def fetch(self):
+    def fetch(self, write_csv):
 
         # Calculates the amount of queries should be done in order to collect all IDs
         total_results = self.get_total_results_from_guidestar()
@@ -127,6 +154,15 @@ class Command(BaseCommand):
         # Run for each page between 1, (total_iteration / per_page_results) + 1
         print("total iterations: {}".format(num_of_iterations))
         companies_ids = self.collect_ids_from_guidestar(num_of_iterations)
+
+        # In case the user asked to write results to local csv
+        if write_csv:
+            fieldnames = ["organization_number","email","description","website_url","name","goal","year_founded","status","target_audience","number_of_employees","number_of_members","number_of_volunteers","location_lon","location_lat","address_city","address_street","address_house_num","address_zipcode","cities","districts", "union_type"]
+            csv_file = open('organizations.csv', 'w', encoding='UTF-8')
+            csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            csv_writer.writeheader()
+
+
 
         # For each IP create the object
         for _id in companies_ids:
@@ -138,4 +174,10 @@ class Command(BaseCommand):
                 districts = districts.replace("\"","").replace("\'", "")
                 districts = districts.replace("[", "").replace("]", "").split(",")
                 org_data["districts"] = districts
-            ImportedOrganization.objects.update_or_create(defaults=org_data, organization_number=org_data["organization_number"])
+            
+            if write_csv:
+                csv_writer.writerow(org_data)
+                csv_file.flush()
+
+            else:
+                ImportedOrganization.objects.update_or_create(defaults=org_data, organization_number=org_data["organization_number"])
