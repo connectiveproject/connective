@@ -100,6 +100,7 @@ class ConsumerActivityViewSet(
     filterset_class = ActivityFilter
     search_fields = ["name", "description", "tags__name"]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ["tags"]
 
     def get_queryset(self):
         user = self.request.user

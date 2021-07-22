@@ -53,6 +53,7 @@ function getDefaultState() {
     sortBy: [],
     // [true, false, ...]
     sortDesc: [],
+    tagFilters: [],
   }
 }
 

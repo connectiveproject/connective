@@ -33,7 +33,6 @@
           v-model="filterTags"
           class="tags-selection mx-auto"
           v-on:change="chipFilterChange"
-
         >
           <v-chip
             filter
@@ -98,7 +97,6 @@ import {
 } from "../../helpers/constants/constants"
 
 export default {
-
   components: {
     PaginationCheckboxGroup,
     InfoCard,
@@ -112,7 +110,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("pagination", ["incrementPage", "updatePagination"]),
+    ...mapActions("pagination", ["incrementPage", "updatePagination", "addFieldFilter", "removeFieldFilter"]),
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("consumerProgram", [
       "getProgramsList",
@@ -130,8 +128,19 @@ export default {
       this.isProgramOpen = true
       this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
     },
-    chipFilterChange(a) {
-      alert(this.filterTags,a)
+
+    async chipFilterChange() {
+      let tagsSelected = []
+      if (this.filterTags.length) {
+        for (let i = 0; i < this.filterTags.length; i++) {
+          tagsSelected.push(CONSUMER_TAGS[this.filterTags[i]])
+        }
+
+        await this.addFieldFilter({ fieldName: "tags", value: tagsSelected })
+      } else {
+        await this.removeFieldFilter("tags")
+      }
+      this.getProgramsList(false)
     },
 
     async getPrograms() {
