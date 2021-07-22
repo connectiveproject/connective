@@ -1,4 +1,5 @@
 import requests
+import csv
 from django.core.management.base import BaseCommand
 from django.db.models.functions import Now
 from server.schools.models import ImportedSchool
@@ -8,9 +9,12 @@ class Command(BaseCommand):
     help = "Fetch schools from gov site and load to db"
 
     def handle(self, *args, **options):
-        self.fetch()
+        self.fetch(options['csv'])
 
-    def fetch(self):
+    def add_arguments(self, parser):
+        parser.add_argument('--csv', action='store_true')
+    
+    def fetch(self, write_csv):
         school_data = {}
         grades_letter_to_number = {
             "גן": 0,
@@ -29,6 +33,11 @@ class Command(BaseCommand):
             "יג": 13,
             "יד": 14,
         }
+        if write_csv:
+            fieldnames = ['name', 'address', 'address_city', 'school_code', 'grade_levels', 'longtitude', 'latitude', 'region', 'status', 'boys', 'girls', 'male_teachers', 'female_teachers', 'migzar', 'school_type', 'school_stages', 'authority_city', 'is_bagrut', 'immigrants_percent', 'tech_students_percent', 'tech_diploma_eligible_percent', 'special_education_percent', 'social_economic_status', 'decile_tipuah_hativa_benaim', 'decile_tipuah_hativa_eliona', 'decile_tipuah_yesodi', 'ivhun_percent', 'hatmada_percent', 'drop_rate', 'bagrut_eligible_percent', 'bagrut_excelent_eligible_percent', 'bagrut_english_5u_percent', 'bagrut_math_5u_percent', 'last_updated']
+            csv_file = open('schools.csv', 'w', encoding='UTF-8')
+            csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            csv_writer.writeheader()
 
         all_schools = requests.get(
             r"https://shkifut.education.gov.il/api/data/lists"
@@ -160,6 +169,10 @@ class Command(BaseCommand):
                                 school_data["girls_army_enlist_rate"] = index["Value"]
 
             school_data["last_updated"] = Now()
-            ImportedSchool.objects.update_or_create(
-                defaults=school_data, school_code=school_code
-            )
+            if write_csv:
+                csv_writer.writerow(school_data)
+                csv_file.flush()
+            else:
+                ImportedSchool.objects.update_or_create(
+                    defaults=school_data, school_code=school_code
+                )
