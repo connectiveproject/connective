@@ -23,13 +23,6 @@
             class="px-2 pt-2 pb-1 subtitle-1"
           />
         </v-col>
-
-        <v-col md="auto" class="ms-3 pe-0">
-          <v-card-subtitle
-            v-text="subtitle"
-            class="px-2 pt-2 pb-1 subtitle-1"
-          />
-        </v-col>
       </v-row>
       <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
         <!-- if slot's text overflow, consider using the trim filter on parent  -->
@@ -80,15 +73,15 @@ export default {
     content: {
       type: String,
       default:
-        "place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder",
+        "place holder place holder place ",
     },
     author: {
       type: String,
       default: "place holder",
     },
     subtitle: {
-      type: String,
-      default: "place holder",
+      type: Date,
+      default: new Date(),
     },
     authorIcon: {
       type: String,
@@ -98,27 +91,6 @@ export default {
     images: {
       type: Array,
       default: () => [
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
         {
           url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
         },
