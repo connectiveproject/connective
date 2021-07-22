@@ -257,6 +257,8 @@
   "events": {
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
+    "eventFeedShareTitle": "פירסום אירוע",
+    "eventFeedShareContent": "תוכן הפוסט",
     "eventsToSummarize": "אירועים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
     "eventsToFeedbackWereNotFound": "לא נמצאו אירועים למישוב",
