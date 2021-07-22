@@ -22,7 +22,7 @@ jobs:
           command: pip install pre-commit
       - run:
           name: Install ESlint
-          command: yarn install global eslint
+          command: yarn add global eslint
 #      - restore_cache:
 #          name: Restore Yarn Package Cache
 #          key: yarn-packages-{{ checksum "client/yarn.lock" }}
