@@ -14,7 +14,7 @@
             :datasets="[{
               label: [$t('attendanceDashboard.consumersInActivityLabel')],
               data: [attendanceData.totalConsumers, attendanceData.inActivityConsumers],
-              backgroundColor: ['#FFAEBCC0', '#A0E7E5C0'],
+              backgroundColor: ['#B4F8C8', '#A0E7E5C0'],
               borderWidth: 1,
             }]"
             :labels="attendanceLabels"
@@ -32,7 +32,7 @@
             :datasets="[{
               label: [$t('attendanceDashboard.coursesInActivityLabel')],
               data: [coursesInActivityData.totalCourses, coursesInActivityData.inActivityCourses],
-              backgroundColor: ['#FFAEBCC0', '#A0E7E5C0'],
+              backgroundColor: ['#B4F8C8', '#A0E7E5C0'],
               borderWidth: 1,
             }]"
             :labels="coursesChartLabels"
@@ -49,8 +49,8 @@
             class="mx-auto my-10"
             :datasets="[{
               label: [$t('attendanceDashboard.courseAttendanceLabel')],
-              data: [courseAttendanceData.students / courseAttendanceData.total_meetings / courseAttendanceData.total_students * 100],
-              backgroundColor: ['#FFAEBCC0'],
+              data: [courseAttendanceData.students / courseAttendanceData.totalMeetings / courseAttendanceData.totalStudents * 100],
+              backgroundColor: ['#B4F8C8'],
               borderWidth: 1,
             }]"
             :labels="courseAttendanceChartLabels"
@@ -90,7 +90,7 @@ export default {
       return this.coursesInActivityStats
     },
     coursesChartLabels() {
-      return ["קורסים", "קורסים פעילים"]
+      return ["קורסים פעילים", "קורסים"]
     },
     courseAttendanceData() {
       return this.courseAttendanceStats
