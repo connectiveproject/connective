@@ -13,15 +13,15 @@ from server.utils.permission_classes import (
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        AllowConsumerReadOnly,
-        AllowInstructor,
-        AllowCoordinatorReadOnly,
-        AllowSupervisorReadOnly,
-        AllowVendorReadOnly,
-    ]
     lookup_field = "slug"
     serializer_class = PostSerializer
+    permission_classes = [
+        AllowConsumerReadOnly |
+        AllowInstructor |
+        AllowCoordinatorReadOnly |
+        AllowSupervisorReadOnly |
+        AllowVendorReadOnly
+    ]
 
     def get_queryset(self):
         user = self.request.user
