@@ -7,6 +7,7 @@ from .models import (
     OrganizationMember,
     SchoolActivityGroup,
     SchoolActivityOrder,
+    ImportedActivity
 )
 
 
@@ -59,3 +60,4 @@ class SchoolActivityGroupAdmin(admin.ModelAdmin):
 admin.site.register(Organization)
 admin.site.register(ActivityMedia)
 admin.site.register(OrganizationMember)
+admin.site.register(ImportedActivity)
