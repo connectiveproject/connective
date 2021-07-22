@@ -77,7 +77,7 @@ const supervisorButtons = [
   {
     text: () => i18n.tc("myActivity.myActivity"),
     icon: "mdi-drawing",
-    onClick: () => Vue.$router.push({ name: "ConsumerMyActivity" }),
+    onClick: () => Vue.$router.push({ name: "SupervisorMyActivity" }),
   },
 ]
 

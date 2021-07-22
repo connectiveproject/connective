@@ -148,21 +148,6 @@ const routes = [
             ],
           },
           {
-            path: "programs-explorer",
-            name: "SupervisorProgramsExplorer",
-            component: SupervisorProgramExplorer,
-            beforeEnter: initSupervisorPrograms,
-            children: [
-              {
-                path: "program-modal/:slug",
-                name: "SupervisorProgramModal",
-                component: ProgramModal,
-                beforeEnter: fetchProgramDetails,
-                props: true,
-              },
-            ],
-          },
-          {
             path: "my-activity",
             component: ConsumerMyActivity,
             children: [
@@ -211,6 +196,47 @@ const routes = [
             name: "SupervisorProfile",
             component: SupervisorProfile,
 
+          },
+          {
+            path: "programs-explorer",
+            name: "SupervisorProgramsExplorer",
+            component: SupervisorProgramExplorer,
+            beforeEnter: initSupervisorPrograms,
+            children: [
+              {
+                path: "program-modal/:slug",
+                name: "SupervisorProgramModal",
+                component: ProgramModal,
+                beforeEnter: fetchProgramDetails,
+                props: true,
+              },
+            ],
+          },
+          {
+            path: "my-activity",
+            component: MyActivity,
+            children: [
+              {
+                path: "",
+                name: "MyActivity",
+                redirect: { name: "MyGroups" },
+              },
+              {
+                path: "my-groups",
+                name: "MyGroups",
+                component: MyGroups,
+              },
+              {
+                path: "my-events",
+                name: "MyEvents",
+                component: MyEvents,
+              },
+              {
+                path: "statistics",
+                name: "CoordinatorStatistics",
+                component: CoordinatorStatistics,
+              },
+            ],
           },
         ],
       },
