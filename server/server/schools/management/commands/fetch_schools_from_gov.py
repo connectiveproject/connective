@@ -6,16 +6,15 @@ from server.schools.models import ImportedSchool
 
 
 class Command(BaseCommand):
-    help = "Fetch schools from gov site and load to db"
+    help = "Fetch schools from gov site and load to db or csv"
 
     def handle(self, *args, **options):
         self.fetch(options['csv'])
 
     def add_arguments(self, parser):
         parser.add_argument('--csv', action='store_true')
-    
+
     def fetch(self, write_csv):
-        school_data = {}
         grades_letter_to_number = {
             "גן": 0,
             "א": 1,
@@ -34,7 +33,17 @@ class Command(BaseCommand):
             "יד": 14,
         }
         if write_csv:
-            fieldnames = ['name', 'address', 'address_city', 'school_code', 'grade_levels', 'longtitude', 'latitude', 'region', 'status', 'boys', 'girls', 'male_teachers', 'female_teachers', 'migzar', 'school_type', 'school_stages', 'authority_city', 'is_bagrut', 'immigrants_percent', 'tech_students_percent', 'tech_diploma_eligible_percent', 'special_education_percent', 'social_economic_status', 'decile_tipuah_hativa_benaim', 'decile_tipuah_hativa_eliona', 'decile_tipuah_yesodi', 'ivhun_percent', 'hatmada_percent', 'drop_rate', 'bagrut_eligible_percent', 'bagrut_excelent_eligible_percent', 'bagrut_english_5u_percent', 'bagrut_math_5u_percent', 'last_updated']
+            fieldnames = ['name', 'address', 'address_city', 'school_code', 'grade_levels',
+             'longtitude', 'latitude', 'region', 'status', 'boys', 'girls', 'male_teachers',
+             'female_teachers', 'migzar', 'school_type', 'school_stages', 'authority_city',
+             'is_bagrut', 'immigrants_percent', 'tech_students_percent',
+             'tech_diploma_eligible_percent', 'special_education_percent',
+             'social_economic_status', 'decile_tipuah_hativa_benaim',
+             'decile_tipuah_hativa_eliona', 'decile_tipuah_yesodi', 'ivhun_percent',
+             'hatmada_percent', 'drop_rate', 'bagrut_eligible_percent',
+             'bagrut_excelent_eligible_percent', 'bagrut_english_5u_percent',
+             'bagrut_math_5u_percent', 'boys_army_enlist_rate', 'girls_army_enlist_rate',
+             'last_updated']
             csv_file = open('schools.csv', 'w', encoding='UTF-8')
             csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             csv_writer.writeheader()
@@ -51,13 +60,9 @@ class Command(BaseCommand):
             raw_school = requests.get(
                 f"https://shkifut.education.gov.il/api/data/mosad/?semelMosad={school_code}&year=2019"
             ).json()
-            school_data["name"] = raw_school["mosadGenaralData"]["SHEM_MOSAD"]
-            address, address_city = raw_school["mosadGenaralData"][
-                "KTOVET_MOSAD"
-            ].split(",")
-            school_data["address"] = address.strip()
-            school_data["address_city"] = address_city.strip()
-            school_data["school_code"] = school_code
+
+
+            address, address_city = raw_school["mosadGenaralData"]["KTOVET_MOSAD"].split(",")
 
             raw_grades = raw_school["mosadYearData"]["SHICHVA_AD_SHICHVA"]
             start_grade, end_grade = raw_grades.split(" - ")
@@ -68,68 +73,16 @@ class Command(BaseCommand):
                 )
             )
 
-            school_data["grade_levels"] = grades
-            school_data["longtitude"] = raw_school["mosadGenaralData"]["LONGITUDE"]
-            school_data["latitude"] = raw_school["mosadGenaralData"]["LATITUDE"]
-
-            # additional
-            school_data["region"] = raw_school["mosadGenaralData"]["MACHOZ_MEFAK"]
-            school_data["status"] = raw_school["mosadGenaralData"]["STATUS_MOSAD"]
-
-            # ammounts
-            school_data["boys"] = raw_school["mosadYearData"]["BANIM"]
-            school_data["girls"] = raw_school["mosadYearData"]["BANOT"]
-            school_data["male_teachers"] = raw_school["mosadYearData"]["MORIM"]
-            school_data["female_teachers"] = raw_school["mosadYearData"]["MOROT"]
-
-            # school type
-            school_data["migzar"] = raw_school["mosadYearData"]["MIGZAR_YY"]
-            school_data["school_type"] = raw_school["mosadYearData"]["PIKOH_YY"]
-            school_data["school_stages"] = raw_school["mosadYearData"][
-                "SHLAVE_CHINUCH_MOSAD_YY"
-            ]
-            school_data["authority_city"] = raw_school["mosadYearData"][
-                "SHEM_RASHUT_YY"
-            ]
-
-            # school metadata
-            school_data["is_bagrut"] = bool(
-                raw_school["mosadGenaralData"]["MEGISH_LE_BAGRUT"]
-            )
-            school_data["immigrants_percent"] = raw_school["mosadYearData"][
-                "TALMIDIM_OLIM"
-            ]
-            school_data["tech_students_percent"] = raw_school["mosadYearData"][
-                "TALMIDIM_TECHNOLOGI"
-            ]
-            school_data["tech_diploma_eligible_percent"] = raw_school["mosadYearData"][
-                "Zakaut_Tech_Achuz_Zakaim"
-            ]
-            school_data["special_education_percent"] = raw_school["mosadYearData"][
-                "MADAD_CHINUCH_MEYUCHAD"
-            ]
-            school_data["social_economic_status"] = raw_school["mosadYearData"][
-                "MATSAV_SOTSYOEKONOMI"
-            ]
-            school_data["decile_tipuah_hativa_benaim"] = raw_school["mosadYearData"][
-                "ASIRON_HTB"
-            ]
-            school_data["decile_tipuah_hativa_eliona"] = raw_school["mosadYearData"][
-                "ASIRON_HTE"
-            ]
-            school_data["decile_tipuah_yesodi"] = raw_school["mosadYearData"][
-                "ASIRON_YES"
-            ]
-            school_data["ivhun_percent"] = raw_school["mosadYearData"][
-                "ACHUZ_MECHOZI_IM_IVCHUN_ARTZI"
-            ]
-
-            # education picture
             education_picture = requests.get(
                 f"https://shkifut.education.gov.il/api/data/mosadEduPic/?semelMosad={school_code}"
             )
+            girls_army_enlist_rate = None
+            boys_army_enlist_rate = None
+            bagrut_eligible_percent = None
+            bagrut_excelent_eligible_percent = None
+            bagrut_english_5u_percent = None
+            bagrut_math_5u_percent = None
             if education_picture.status_code == 200:
-                # TODO: there is much more to get here
                 education_picture = education_picture.json()
                 for picture in education_picture["groups"]:
                     if picture["Id"] == 5 and picture["Classes"]:
@@ -137,38 +90,69 @@ class Command(BaseCommand):
                             if class_data["Id"] == 12:
                                 for zacaut in class_data["Indexes"]:
                                     if zacaut["Id"] == "ACHUZ_ZAKAIM":
-                                        school_data["bagrut_eligible_percent"] = zacaut[
-                                            "Value"
-                                        ]
+                                        bagrut_eligible_percent = zacaut["Value"]
                                     elif zacaut["Id"] == "ACHUZ_ZAKAIM_MITZTYEN":
-                                        school_data[
-                                            "bagrut_excelent_eligible_percent"
-                                        ] = zacaut["Value"]
+                                        bagrut_excelent_eligible_percent = zacaut["Value"]
                                     elif zacaut["Id"] == "ACHUZ_ANGLIT_5YL":
-                                        school_data[
-                                            "bagrut_english_5u_percent"
-                                        ] = zacaut["Value"]
+                                        bagrut_english_5u_percent = zacaut["Value"]
                                     elif zacaut["Id"] == "ACHUZ_MATEM_5YL":
-                                        school_data["bagrut_math_5u_percent"] = zacaut[
-                                            "Value"
-                                        ]
+                                        bagrut_math_5u_percent = zacaut["Value"]
                     elif picture["Id"] == 2 and picture["Classes"]:
                         class_data = picture["Classes"][0]
                         for index in class_data["Indexes"]:
                             if index["Id"] == "ACHUZ_MATMID":
-                                school_data["hatmada_percent"] = index["Value"]
+                                hatmada_percent = index["Value"]
                             elif index["Id"] == "ACHUZ_NESHIRA":
-                                school_data["drop_rate"] = index["Value"]
+                                drop_rate = index["Value"]
 
                     elif picture["Id"] == 1 and picture["Classes"]:
                         class_data = picture["Classes"][0]
                         for index in class_data["Indexes"]:
                             if index["Id"] == "GIUS_BANIM_LEZAVA":
-                                school_data["boys_army_enlist_rate"] = index["Value"]
+                                boys_army_enlist_rate = index["Value"]
                             elif index["Id"] == "GIUS_BANOT_LEZAVA":
-                                school_data["girls_army_enlist_rate"] = index["Value"]
+                                girls_army_enlist_rate = index["Value"]
 
-            school_data["last_updated"] = Now()
+
+            school_data = {
+                "name": raw_school["mosadGenaralData"]["SHEM_MOSAD"],
+                "address": address.strip(),
+                "address_city": address_city.strip(),
+                "school_code": school_code,
+                "grade_levels": grades,
+                "longtitude": raw_school["mosadGenaralData"]["LONGITUDE"],
+                "latitude": raw_school["mosadGenaralData"]["LATITUDE"],
+                "region": raw_school["mosadGenaralData"]["MACHOZ_MEFAK"],
+                "status": raw_school["mosadGenaralData"]["STATUS_MOSAD"],
+                "boys": raw_school["mosadYearData"]["BANIM"],
+                "girls": raw_school["mosadYearData"]["BANOT"],
+                "male_teachers": raw_school["mosadYearData"]["MORIM"],
+                "female_teachers": raw_school["mosadYearData"]["MOROT"],
+                "migzar": raw_school["mosadYearData"]["MIGZAR_YY"],
+                "school_type": raw_school["mosadYearData"]["PIKOH_YY"],
+                "school_stages": raw_school["mosadYearData"]["SHLAVE_CHINUCH_MOSAD_YY"],
+                "authority_city": raw_school["mosadYearData"]["SHEM_RASHUT_YY"],
+                "is_bagrut": bool(raw_school["mosadGenaralData"]["MEGISH_LE_BAGRUT"]),
+                "immigrants_percent": raw_school["mosadYearData"]["TALMIDIM_OLIM"],
+                "tech_students_percent": raw_school["mosadYearData"]["TALMIDIM_TECHNOLOGI"],
+                "tech_diploma_eligible_percent": raw_school["mosadYearData"]["Zakaut_Tech_Achuz_Zakaim"],
+                "special_education_percent": raw_school["mosadYearData"]["MADAD_CHINUCH_MEYUCHAD"],
+                "social_economic_status": raw_school["mosadYearData"]["MATSAV_SOTSYOEKONOMI"],
+                "decile_tipuah_hativa_benaim": raw_school["mosadYearData"]["ASIRON_HTB"],
+                "decile_tipuah_hativa_eliona": raw_school["mosadYearData"]["ASIRON_HTE"],
+                "decile_tipuah_yesodi": raw_school["mosadYearData"]["ASIRON_YES"],
+                "ivhun_percent": raw_school["mosadYearData"]["ACHUZ_MECHOZI_IM_IVCHUN_ARTZI"],
+                "bagrut_eligible_percent": bagrut_eligible_percent,
+                "girls_army_enlist_rate": girls_army_enlist_rate,
+                "boys_army_enlist_rate": boys_army_enlist_rate,
+                "drop_rate": drop_rate,
+                "hatmada_percent": hatmada_percent,
+                "bagrut_math_5u_percent": bagrut_math_5u_percent,
+                "bagrut_english_5u_percent": bagrut_english_5u_percent,
+                "bagrut_excelent_eligible_percent": bagrut_excelent_eligible_percent,
+                "last_updated": Now()
+            }
+
             if write_csv:
                 csv_writer.writerow(school_data)
                 csv_file.flush()
