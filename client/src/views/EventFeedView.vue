@@ -1,15 +1,20 @@
 <template>
   <div>
     <v-row v-for="post in posts" :key="post.slug">
-      <Post />
+      <Post :images="[{url: post.imagesB64}]" :content="post.post_content" />
     </v-row>
   </div>
 </template>
 
 <script>
-// import store from "../vuex/store"
+import store from "../vuex/store"
 import Post from "../components/posts/Post.vue"
+import { mapActions } from "vuex"
+
 export default {
+  methods: {
+    ...mapActions("instructorEvent", ["getFeedPosts"]),
+  },
   components: { Post },
   data() {
     return {
@@ -18,8 +23,9 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     // TODO GET
-    // await store.dispatch("instructorEvent/getPastEvents", { daysAgo: 60, unsummarizedOnly: true })
-    next()
+    const posts = await store.dispatch("instructorEvent/getFeedPosts")
+    console.log(posts)
+    next(vm => (vm.posts = posts))
   },
 }
 </script>

@@ -34,6 +34,10 @@ const instructorEvent = {
       let res = await Api.instructorEvent.updateEvent(slug, data)
       return res.data
     },
+    async getFeedPosts() {
+      let res = await Api.instructorEvent.getFeedPosts()
+      return res.data.results
+    },
     async createFeedPost(ctx, data ) {
       let res = await Api.instructorEvent.createFeedPost(data)
       return res.data

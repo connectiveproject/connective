@@ -223,7 +223,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("instructorEvent", ["updateEvent", "createFeedPost"]),
+    ...mapActions("instructorEvent", ["updateEvent", "createFeedPost", "getFeedPosts"]),
     parseDate: Utils.ApiStringToReadableDate,
     onSubmit: debounce(
       async function () {
@@ -240,6 +240,8 @@ export default {
           post_content: this.feedContent,
           images_b64: this.images[0],
         }
+        const a = await this.getFeedPosts()
+        console.log(a)
         const newObj = Utils.objectToFormData(feedData)
         console.log(data, feedData, newObj)
         await this.createFeedPost(newObj)
