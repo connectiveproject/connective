@@ -29,5 +29,6 @@ class Post(Model):
     post_content = TextField()
     images_b64 = ArrayField(
         TextField(),
+        blank=True,
         null=True,
     )
