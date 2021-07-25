@@ -19,13 +19,11 @@ from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
     CoordinatorProfileViewSet,
+    ExportConsumerListViewSet,
+    ExportCoordinatorListViewSet,
     InstructorProfileViewSet,
     ManageConsumersViewSet,
     ManageCoordinatorsViewSet,
-    AddCoordinatorsBulkViewSet,
-    AddStudentsBulkViewSet,
-    ExportStudentListViewSet,
-    ExportCoordinatorListViewSet,
     ManageInstructorsViewSet,
     ManageVendorsViewSet,
     UserViewSet,
@@ -73,16 +71,12 @@ router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
 )
 router.register(
-    "visiblerisk", AddCoordinatorsBulkViewSet, basename="visiblerisk"
+    "export_consumer_list", ExportConsumerListViewSet, basename="export_consumer_list"
 )
 router.register(
-    "team88", AddStudentsBulkViewSet, basename="team88"
-)
-router.register(
-    "vr", ExportStudentListViewSet, basename="vr"
-)
-router.register(
-    "t88", ExportCoordinatorListViewSet, basename="t88"
+    "export_coordinator_list",
+    ExportCoordinatorListViewSet,
+    basename="export_coordinator_list",
 )
 router.register(
     "manage_instructors", ManageInstructorsViewSet, basename="manage_instructors"

@@ -69,7 +69,7 @@
             <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  @click="exportCSV(tableProps.items)"
+                  @click="exportCSV"
                   icon
                   v-bind="attrs"
                   v-on="on"
@@ -189,7 +189,7 @@ export default {
       "getStudentList",
       "deleteStudents",
       "addStudentsBulk",
-      "exportStudentList",
+      "getStudentsExportFile",
     ]),
     translateStatus,
     validateStudentsArray,
@@ -253,9 +253,13 @@ export default {
       this.isDialogActive = true
     },
 
-    exportCSV(){
-      this.exportStudentList()
-    }
+    exportCSV: debounce(
+      function () {
+        this.getStudentsExportFile()
+      },
+      500,
+      { leading: true, trailing: false },
+    ),
   },
 }
 </script>

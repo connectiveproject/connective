@@ -83,19 +83,17 @@ const school = {
       commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
-    exportStudentList({ rootGetters }) {
-      // :boolean override: whether to override the list or not (i.e., extend)
+    getStudentsExportFile({ rootGetters }) {
       const params = rootGetters["pagination/apiParams"]
-      Api.school.exportStudentList(params).then(res => { // call this function when the above chained Promise resolves
+      Api.school.getStudentsExportFile(params).then(res => {
         Utils.downloadTextAsFile("students.csv", res.request.response)
         return res
       })
     },
-    exportCoordinatorList({ rootGetters }) {
-      // :boolean override: whether to override the list or not (i.e., extend)
+    getCoordinatorsExportFile({ rootGetters }) {
       const params = rootGetters["pagination/apiParams"]
-      Api.school.exportCoordinatorList(params).then(res => { // call this function when the above chained Promise resolves
-        Utils.downloadTextAsFile("coordinators.csv", res.request.response)
+      Api.school.getCoordinatorsExportFile(params).then(res => {
+        Utils.downloadTextAsFile("principals.csv", res.request.response)
         return res
       })
     },

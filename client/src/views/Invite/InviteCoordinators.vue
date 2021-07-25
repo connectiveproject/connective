@@ -63,15 +63,8 @@
             </v-tooltip>
             <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="exportCSV(tableProps.items)"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon color="primary"
-                    >mdi-file-download-outline</v-icon
-                  >
+                <v-btn @click="exportCSV" icon v-bind="attrs" v-on="on">
+                  <v-icon color="primary">mdi-file-download-outline</v-icon>
                 </v-btn>
               </template>
               <span class="px-3">{{ $t("userActions.export") }}</span>
@@ -103,6 +96,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
@@ -178,7 +172,7 @@ export default {
       "getCoordinatorList",
       "deleteCoordinators",
       "addCoordinatorsBulk",
-      "exportCoordinatorList"
+      "getCoordinatorsExportFile",
     ]),
     translateStatus,
 
@@ -213,15 +207,19 @@ export default {
       document.getElementById("csvImportInput").click()
     },
 
-    async handleDeleteRequest() {
-      if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
-        let slugs = this.selectedRows.map(row => row.slug)
-        await this.deleteCoordinators(slugs)
-        this.selectedRows = []
-        this.getCoordinators()
-        this.showMessage(this.$t("success.userDeletedSuccessfully"))
-      }
-    },
+    handleDeleteRequest: debounce(
+      async function () {
+        if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
+          let slugs = this.selectedRows.map(row => row.slug)
+          await this.deleteCoordinators(slugs)
+          this.selectedRows = []
+          this.getCoordinators()
+          this.showMessage(this.$t("success.userDeletedSuccessfully"))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     editCoordinator(coordinator) {
       this.dialogCoordinator = Object.assign({}, coordinator)
@@ -237,9 +235,13 @@ export default {
       this.isDialogActive = true
     },
 
-    exportCSV(){
-      this.exportCoordinatorList()
-    }
+    exportCSV: debounce(
+      function () {
+        this.getCoordinatorsExportFile()
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>
