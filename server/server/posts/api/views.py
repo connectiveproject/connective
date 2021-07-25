@@ -16,11 +16,11 @@ class PostViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
     serializer_class = PostSerializer
     permission_classes = [
-        AllowConsumerReadOnly |
-        AllowInstructor |
-        AllowCoordinatorReadOnly |
-        AllowSupervisorReadOnly |
-        AllowVendorReadOnly
+        AllowInstructor
+        | AllowConsumerReadOnly
+        | AllowCoordinatorReadOnly
+        | AllowSupervisorReadOnly
+        | AllowVendorReadOnly
     ]
 
     def get_queryset(self):

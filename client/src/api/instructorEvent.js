@@ -18,8 +18,8 @@ const instructorEvent = {
   createFeedPost(data) {
     return axios.post(`${CREATE_FEED_POST_API_URL}`, data)
   },
-  getFeedPosts(data) {
-    return axios.get(`${CREATE_FEED_POST_API_URL}`, data)
+  getFeedPosts(params) {
+    return axios.get(`${CREATE_FEED_POST_API_URL}`, { params })
   },
   getEventList(params) {
     return axios.get(GET_INSTRUCTOR_EVENT_LIST_API_URL, { params })

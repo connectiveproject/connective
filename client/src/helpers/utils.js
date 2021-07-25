@@ -145,7 +145,6 @@ const utils = {
     for (const [key, value] of Object.entries(obj)) {
       if (isArray(value)) {
         fd.append(key, JSON.stringify(value))
-
       } else {
         fd.append(key, value)
       }

@@ -1,24 +1,32 @@
-from rest_framework.serializers import (
-    ModelSerializer,
-    SerializerMethodField,
-    SlugRelatedField,
-)
+from rest_framework import serializers
 
 from server.events.models import Event
 from server.posts.models import Post
 from server.users.models import InstructorProfile
 
 
-class PostSerializer(ModelSerializer):
-    event = SlugRelatedField(
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = [
+            "slug",
+            "image_url",
+            "post",
+        ]
+        read_only_fields = ["slug"]
+
+
+class PostSerializer(serializers.ModelSerializer):
+    event = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Event.objects.all(),
     )
-    author = SlugRelatedField(
+    author = serializers.SlugRelatedField(
         slug_field="slug",
         read_only=True,
     )
-    author_profile_picture = SerializerMethodField()
+    author_profile_picture = serializers.SerializerMethodField()
+    images = PostImageSerializer(many=True, required=False, allow_null=True)
 
     class Meta:
         model = Post
@@ -29,11 +37,13 @@ class PostSerializer(ModelSerializer):
             "author",
             "author_profile_picture",
             "post_content",
-            "images_b64",
+            "images",
         ]
         read_only_fields = [
             "slug",
             "creation_time",
+            "author",
+            "author_profile_picture",
         ]
 
     def get_author_profile_picture(self, obj):

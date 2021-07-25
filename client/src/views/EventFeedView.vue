@@ -29,7 +29,6 @@ export default {
   async beforeRouteEnter(to, from, next) {
     // TODO GET
     const posts = await store.dispatch("instructorEvent/getFeedPosts")
-    console.log(posts)
     next(vm => (vm.posts = posts))
   },
 }
