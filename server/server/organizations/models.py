@@ -184,10 +184,7 @@ class ImportedActivity(models.Model):
     )
 
     def __str__(self):
-        try:
-            return f"{self.name} | {self.slug} | {self.originization.name}"
-        except AttributeError:
-            return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.slug} | {self.activity_code}"
 
 
 class ActivityMedia(models.Model):
