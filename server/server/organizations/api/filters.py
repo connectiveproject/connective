@@ -29,4 +29,4 @@ class ActivityFilter(django_filters.FilterSet):
         return queryset.filter(query)
 
     def tags_filter(self, queryset, name, value):
-        return queryset.filter(tags__name__in=value.split(","))
+        return queryset.filter(tags__name__in=value.split(",")).distinct()
