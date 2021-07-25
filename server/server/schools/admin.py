@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import School, SchoolMember
+from .models import ImportedSchool, School, SchoolMember
 
 
 @admin.register(School)
@@ -14,3 +14,4 @@ class SchoolMemberTabularInline(admin.TabularInline):
 
 
 admin.site.register(SchoolMember)
+admin.site.register(ImportedSchool)
