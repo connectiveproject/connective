@@ -16,6 +16,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 
 export default {
   props: {
@@ -44,13 +45,13 @@ export default {
     selected: {
       // update pagination filter
       deep: true,
-      handler(value) {
+      handler: debounce(function (value) {
         if (value.length) {
           this.addFieldFilter({ fieldName: this.name, value })
         } else {
           this.removeFieldFilter(this.name)
         }
-      },
+      }, 500),
     },
   },
 }

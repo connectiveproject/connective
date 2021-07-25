@@ -21,6 +21,7 @@
 </template>
 <script>
 import { mapActions } from "vuex"
+import debounce from "lodash/debounce"
 
 export default {
   props: {
@@ -32,14 +33,14 @@ export default {
   },
   methods: {
     ...mapActions("pagination", ["addFieldFilter", "removeFieldFilter"]),
-    async chipFilterChange() {
+    chipFilterChange: debounce(async function() {
       if (this.selectedChipsNumeric.length) {
         const chipsSelected = this.selectedChipsNumeric.map(chip => this.chips[chip])
         await this.addFieldFilter({ fieldName: "chips", value: chipsSelected })
       } else {
         await this.removeFieldFilter("chips")
       }
-    },
+    }, 500),
   },
   data() {
     return {
