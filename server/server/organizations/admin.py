@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import ImportedOrganization
 
 from .models import (
     Activity,
     ActivityMedia,
+    ImportedActivity,
+    ImportedOrganization,
     Organization,
     OrganizationMember,
     SchoolActivityGroup,
@@ -61,3 +62,4 @@ admin.site.register(Organization)
 admin.site.register(ActivityMedia)
 admin.site.register(OrganizationMember)
 admin.site.register(ImportedOrganization)
+admin.site.register(ImportedActivity)
