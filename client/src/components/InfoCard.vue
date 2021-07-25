@@ -12,8 +12,9 @@
     </v-card-text>
     <v-card-actions class="absolute-bottom actions">
       <v-btn
-        id="info-button"
         text
+        id="info-button"
+        data-testid="info-btn"
         v-if="!hideButton"
         :color="buttonColor"
         class="subtitle-1 font-weight-bold absolute-center"

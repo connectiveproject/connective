@@ -6,12 +6,20 @@
     v-on="$listeners"
     :weekday-format="translateWeekdays"
     :month-format="translateMonths"
+    :value="value"
+    @input="e => $emit('input', e)"
   />
 </template>
 
 <script>
 export default {
   inheritAttrs: false,
+  props: {
+    value: {
+      required: true,
+      type: [String, Number, Date],
+    },
+  },
   methods: {
     translateWeekdays(date) {
       // :object date: v-calendar day/date object

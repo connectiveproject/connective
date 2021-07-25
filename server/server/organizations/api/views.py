@@ -3,7 +3,8 @@ from contextlib import suppress
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from rest_framework import mixins, status, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -24,6 +25,7 @@ from server.utils.permission_classes import (
     AllowVendor,
 )
 
+from .filters import ActivityFilter
 from .serializers import (
     ActivityMediaSerializer,
     ActivitySerializer,
@@ -60,6 +62,9 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowCoordinatorReadOnly]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
+    filterset_class = ActivityFilter
+    search_fields = ["name", "description"]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
 
     queryset = Activity.objects.all()
 
@@ -92,6 +97,10 @@ class ConsumerActivityViewSet(
     permission_classes = [AllowConsumer]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
+    filterset_class = ActivityFilter
+    search_fields = ["name", "description", "tags__name"]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ["tags"]
 
     def get_queryset(self):
         user = self.request.user

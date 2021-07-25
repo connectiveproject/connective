@@ -1,30 +1,13 @@
 <template>
-  <hover-button @click="isDialogOpen = true" circle :shadow="false">
-    <avataaars v-bind="avataaarsOptions" />
-    <form-dialog
-      :title="$t('auth.profilePicture')"
-      v-model="isDialogOpen"
-      :inputFields="dialogOptions"
-      @save="saveAvatarOptions"
-    />
-  </hover-button>
+  <avataaars v-bind="avataaarsOptions" />
 </template>
 
 <script>
 import Avataaars from "vuejs-avataaars"
-import FormDialog from "../FormDialog"
-import HoverButton from "../HoverButton"
-import { getDialogOptions, defaultAvatarOptions } from "./helpers"
+import { defaultAvatarOptions } from "./helpers"
 
 export default {
-  components: {
-    Avataaars,
-    FormDialog,
-    HoverButton,
-  },
-  model: {
-    prop: "avatarOptions",
-  },
+  components: { Avataaars },
   props: {
     avatarOptions: {
       type: Object,
@@ -33,14 +16,8 @@ export default {
   },
   data() {
     return {
-      isDialogOpen: false,
       defaultAvatarOptions,
     }
-  },
-  methods: {
-    saveAvatarOptions(options) {
-      this.$emit("input", options)
-    },
   },
   computed: {
     avataaarsOptions() {
@@ -48,9 +25,6 @@ export default {
         return this.avatarOptions
       }
       return this.defaultAvatarOptions
-    },
-    dialogOptions() {
-      return getDialogOptions(this.avataaarsOptions)
     },
   },
 }

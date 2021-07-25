@@ -221,7 +221,7 @@ class TestVendorActivityView:
         payload = {
             "name": "Activity Name",
             "target_audience": [1, 2, 3],
-            "domain": "Domain",
+            "domain": "SCIENCE_AND_TECH",
             "description": "Activity Description",
             "contact_name": "John Smith",
             "logo": None,

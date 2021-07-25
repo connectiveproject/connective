@@ -13,7 +13,7 @@ export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profi
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
-export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me`
+export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me/`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
 export const GET_SCHOOL_STUDENTS_LIST_API_URL = `${SERVER_URL}/manage_consumers/`
 export const ADD_SCHOOL_STUDENTS_API_URL = `${SERVER_URL}/manage_consumers/`
@@ -81,7 +81,7 @@ export const YOUTUBE_URL_REGEX_PATTERN =
   /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 export const YOUTUBE_ID_REGEX_PATTERN =
   /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
-export const ZIP_CODE_VALIDATION_RULE = "required|numeric|digits:7"
+export const ZIP_CODE_VALIDATION_RULE = "numeric|digits:7"
 
 export const SCHOOL_GRADES_ITEMS = [
   { value: 1, text: i18n.t("grades.1") },
@@ -101,15 +101,15 @@ export const SCHOOL_GRADES_ITEMS = [
 const DOMAIN_SELECT_ITEMS = [
   {
     text: i18n.t("programFilters.scienceAndTech"),
-    value: "scienceAndTech",
+    value: "SCIENCE_AND_TECH",
   },
   {
     text: i18n.t("programFilters.extremeSports"),
-    value: "extremeSports",
+    value: "EXTREME_SPORTS",
   },
   {
     text: i18n.t("programFilters.field"),
-    value: "field",
+    value: "FIELD",
   },
 ]
 
@@ -117,7 +117,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "name",
     label: i18n.t("program.programName"),
-    rules: "required",
+    rules: "required|max:35",
   },
   {
     name: "description",
@@ -162,69 +162,150 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
 ]
 
-export const PROGRAMS_CHECKBOX_FILTERS = [
+export const CONSUMER_TAGS = [
+  "פעילויות חוץ",
+  "שפות זרות",
+  "אתגר פיזי",
+  "שחיה",
+  "קהל דתי"
+]
+
+export const CONSUMER_PROGRAMS_CHECKBOX_FILTERS = [
+
   {
-    name: "space",
-    readableName: i18n.t("programFilters.space"),
-    options: [
-      {
-        label: i18n.t("programFilters.blueCore"),
-        value: "blue",
-      },
-      {
-        label: i18n.t("programFilters.greenEmpowermentEnrichment"),
-        value: "green",
-      },
-      {
-        label: i18n.t("programFilters.orangeCommunity"),
-        value: "orange",
-      },
-    ],
-  },
-  {
-    name: "domainOfActivity",
+    name: "domain__in",
     readableName: i18n.t("programFilters.domainOfActivity"),
     options: [
       {
         label: i18n.t("programFilters.scienceAndTech"),
-        value: "scienceAndTech",
+        value: "SCIENCE_AND_TECH",
       },
       {
         label: i18n.t("programFilters.extremeSports"),
-        value: "extremeSports",
+        value: "EXTREME_SPORTS",
       },
       {
         label: i18n.t("programFilters.field"),
-        value: "field",
+        value: "FIELD",
       },
     ],
   },
-  {
-    name: "natureOfActivity",
-    readableName: i18n.t("programFilters.natureOfActivity"),
-    options: [
-      {
-        label: i18n.t("programFilters.individual"),
-        value: "individual",
-      },
-      {
-        label: i18n.t("programFilters.cooperative"),
-        value: "cooperative",
-      },
-      {
-        label: i18n.t("programFilters.hybrid"),
-        value: "hybrid",
-      },
-    ],
-  },
+
   {
     name: "targetAudience",
     readableName: i18n.t("programFilters.targetAudience"),
     options: [
       {
-        label: i18n.t("programFilters.allAges"),
-        value: "0",
+        label: i18n.t("grades.1"),
+        value: "1",
       },
+      {
+        label: i18n.t("grades.2"),
+        value: "2",
+      },
+      {
+        label: i18n.t("grades.3"),
+        value: "3",
+      },
+      {
+        label: i18n.t("grades.4"),
+        value: "4",
+      },
+      {
+        label: i18n.t("grades.5"),
+        value: "5",
+      },
+      {
+        label: i18n.t("grades.6"),
+        value: "6",
+      },
+      {
+        label: i18n.t("grades.7"),
+        value: "7",
+      },
+      {
+        label: i18n.t("grades.8"),
+        value: "8",
+      },
+      {
+        label: i18n.t("grades.9"),
+        value: "9",
+      },
+      {
+        label: i18n.t("grades.10"),
+        value: "10",
+      },
+      {
+        label: i18n.t("grades.11"),
+        value: "11",
+      },
+      {
+        label: i18n.t("grades.12"),
+        value: "12",
+      },
+    ],
+  },
+]
+
+export const PROGRAMS_CHECKBOX_FILTERS = [
+  // {
+  //   name: "space",
+  //   readableName: i18n.t("programFilters.space"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.blueCore"),
+  //       value: "blue",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.greenEmpowermentEnrichment"),
+  //       value: "green",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.orangeCommunity"),
+  //       value: "orange",
+  //     },
+  //   ],
+  // },
+  {
+    name: "domain__in",
+    readableName: i18n.t("programFilters.domainOfActivity"),
+    options: [
+      {
+        label: i18n.t("programFilters.scienceAndTech"),
+        value: "SCIENCE_AND_TECH",
+      },
+      {
+        label: i18n.t("programFilters.extremeSports"),
+        value: "EXTREME_SPORTS",
+      },
+      {
+        label: i18n.t("programFilters.field"),
+        value: "FIELD",
+      },
+    ],
+  },
+  // {
+  //   name: "natureOfActivity",
+  //   readableName: i18n.t("programFilters.natureOfActivity"),
+  //   options: [
+  //     {
+  //       label: i18n.t("programFilters.individual"),
+  //       value: "individual",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.cooperative"),
+  //       value: "cooperative",
+  //     },
+  //     {
+  //       label: i18n.t("programFilters.hybrid"),
+  //       value: "hybrid",
+  //     },
+  //   ],
+  // },
+  {
+    name: "targetAudience",
+    readableName: i18n.t("programFilters.targetAudience"),
+    options: [
       {
         label: i18n.t("grades.1"),
         value: "1",

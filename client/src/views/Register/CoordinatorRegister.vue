@@ -48,6 +48,16 @@
             >
               {{ $t("userActions.next") }}
             </v-btn>
+            <v-btn
+              class="mr-3"
+              type="button"
+              color="primary"
+              elevation="3"
+              outlined
+              @click="logout"
+            >
+              {{ $t("userActions.toHomepage") }}
+            </v-btn>
           </div>
         </form>
       </validation-observer>
@@ -76,7 +86,7 @@
               data-testid="school"
               v-model="registrationInfo.schoolName"
               :error-messages="errors"
-              :label="$tc('general.school', 0)"
+              :label="$t('general.schoolName')"
               required
             ></v-text-field>
           </validation-provider>
@@ -124,20 +134,6 @@
 
           <validation-provider
             v-slot="{ errors }"
-            name="schoolZipCode"
-            :rules="ZIP_CODE_VALIDATION_RULE"
-          >
-            <v-text-field
-              data-testid="school-zip-code"
-              v-model="registrationInfo.schoolZipCode"
-              :error-messages="errors"
-              :label="$t('general.zipCode')"
-              required
-            ></v-text-field>
-          </validation-provider>
-
-          <validation-provider
-            v-slot="{ errors }"
             name="schoolPhone"
             rules="required|numeric|phoneNumberIsrael"
           >
@@ -145,28 +141,9 @@
               data-testid="school-phone"
               v-model="registrationInfo.schoolPhone"
               :error-messages="errors"
-              :label="$t('general.phoneNumber')"
+              :label="$t('general.schoolPhoneNumber')"
               required
             ></v-text-field>
-          </validation-provider>
-
-          <v-text-field
-            data-testid="school-description"
-            v-model="registrationInfo.schoolDescription"
-            :label="$t('general.description')"
-          />
-
-          <validation-provider
-            v-slot="{ errors }"
-            name="schoolWebsite"
-            rules="website"
-          >
-            <v-text-field
-              data-testid="school-website"
-              v-model="registrationInfo.schoolWebsite"
-              :error-messages="errors"
-              :label="$t('general.website')"
-            />
           </validation-provider>
 
           <validation-provider
@@ -261,24 +238,16 @@
             {{ registrationInfo.schoolStreet }}</v-card-text
           >
           <v-card-text
-            ><b>{{ $t("general.zipCode") }}:</b>
-            {{ registrationInfo.schoolZipCode }}</v-card-text
-          >
-          <v-card-text
             ><b>{{ $t("general.phoneNumber") }}:</b>
             {{ registrationInfo.schoolPhone }}</v-card-text
           >
           <v-card-text
-            ><b>{{ $t("general.description") }}:</b>
-            {{ registrationInfo.schoolDescription || $t("errors.empty") }}</v-card-text
-          >
-          <v-card-text
-            ><b>{{ $t("general.website") }}:</b>
-            {{ registrationInfo.schoolWebsite || $t("errors.empty") }}</v-card-text
-          >
-          <v-card-text
             ><b>{{ $t("general.schoolGrades") }}:</b>
-            {{ registrationInfo.schoolGrades.map(num => $t(`grades.${num}`)).join(', ') }}</v-card-text
+            {{
+              registrationInfo.schoolGrades
+                .map(num => $t(`grades.${num}`))
+                .join(", ")
+            }}</v-card-text
           >
         </template>
 
@@ -318,10 +287,7 @@ import store from "../../vuex/store"
 import debounce from "lodash/debounce"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import {
-  SCHOOL_GRADES_ITEMS,
-  ZIP_CODE_VALIDATION_RULE,
-} from "../../helpers/constants/constants"
+import { SCHOOL_GRADES_ITEMS } from "../../helpers/constants/constants"
 import Modal from "../../components/Modal"
 
 export default {
@@ -338,7 +304,6 @@ export default {
   },
   data() {
     return {
-      ZIP_CODE_VALIDATION_RULE,
       SCHOOL_GRADES_ITEMS,
       modalRedirectComponentName: "",
       slug: null,
@@ -353,10 +318,7 @@ export default {
         schoolCode: "",
         schoolCity: "",
         schoolStreet: "",
-        schoolZipCode: "",
         schoolPhone: "",
-        schoolDescription: "",
-        schoolWebsite: "",
         schoolGrades: [],
       },
     }
@@ -373,6 +335,7 @@ export default {
     ...mapActions("user", ["updateUserDetails"]),
     ...mapActions("coordinator", ["updateProfile"]),
     ...mapActions("school", ["updateSchoolDetails"]),
+    ...mapActions("auth", ["logout"]),
     submit: debounce(
       function () {
         let userDetailsPayload = this.createUserSubmitPayload()
@@ -406,11 +369,8 @@ export default {
       data.append("name", this.registrationInfo.schoolName)
       data.append("address", this.registrationInfo.schoolStreet)
       data.append("address_city", this.registrationInfo.schoolCity)
-      data.append("zip_city", this.registrationInfo.schoolZipCode)
       data.append("school_code", this.registrationInfo.schoolCode)
-      data.append("description", this.registrationInfo.schoolDescription)
       data.append("contact_phone", this.registrationInfo.schoolPhone)
-      data.append("website", this.registrationInfo.schoolWebsite)
       data.append(
         "grade_levels",
         JSON.stringify(this.registrationInfo.schoolGrades)

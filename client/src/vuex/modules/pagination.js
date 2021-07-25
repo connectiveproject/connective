@@ -1,5 +1,5 @@
 import isArray from "lodash/isArray"
-import snakeCase from "lodash/snakeCase"
+import Utils from "../../helpers/utils"
 
 import Vue from "vue"
 
@@ -18,9 +18,9 @@ function paginationToApiParams(pagination) {
     for (const [fieldName, value] of Object.entries(pagination.fieldFilters)) {
       let filters = value
       if (isArray(value)) {
-        filters = value.map(filter => snakeCase(filter)).join()
+        filters = value.map(filter => Utils.camelToSnakeCase(filter)).join()
       }
-      apiParams[snakeCase(fieldName)] = filters
+      apiParams[Utils.camelToSnakeCase(fieldName)] = filters
     }
   }
   if (pagination.searchFilter) {
@@ -31,9 +31,9 @@ function paginationToApiParams(pagination) {
     for (let i = 0; i < pagination.sortBy.length; i++) {
       if (pagination.sortDesc[i] !== false) {
         // if undefined or True:
-        order.push(snakeCase(pagination.sortBy[i]))
+        order.push(Utils.camelToSnakeCase(pagination.sortBy[i]))
       } else {
-        order.push(`-${snakeCase(pagination.sortBy[i])}`)
+        order.push(`-${Utils.camelToSnakeCase(pagination.sortBy[i])}`)
       }
     }
     apiParams.ordering = order.join()
@@ -53,6 +53,7 @@ function getDefaultState() {
     sortBy: [],
     // [true, false, ...]
     sortDesc: [],
+    tagFilters: [],
   }
 }
 

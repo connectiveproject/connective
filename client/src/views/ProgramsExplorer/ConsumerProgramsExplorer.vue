@@ -2,6 +2,22 @@
   <div>
     <v-row class="pt-10 ml-0">
       <v-col
+        cols="4"
+        md="3"
+        class="right-pane white-bg"
+        :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
+      >
+        <pagination-checkbox-group
+          v-for="filter in CONSUMER_PROGRAMS_CHECKBOX_FILTERS"
+          :key="filter.id"
+          :name="filter.name"
+          :title="filter.readableName"
+          :items="filter.options"
+          class="checkbox-group"
+          :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
+        />
+      </v-col>
+      <v-col
         cols="8"
         md="9"
         :class="{ 'px-10': !$vuetify.breakpoint.mobile }"
@@ -10,6 +26,26 @@
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
         <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
+        <v-chip-group
+          multiple
+          color="primary"
+          text-color="white"
+          v-model="filterTags"
+          class="tags-selection mx-auto"
+          v-on:change="chipFilterChange"
+        >
+          <v-chip
+            filter
+            v-for="tag in CONSUMER_TAGS"
+            :key="tag"
+            active-class="blue--text"
+            :input-value="active"
+            @click="toggle"
+            class="filter-chip"
+          >
+            {{ tag }}
+          </v-chip>
+        </v-chip-group>
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -50,11 +86,17 @@
 import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
+import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { mapActions, mapGetters, mapState } from "vuex"
+import {
+  CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
+  CONSUMER_TAGS,
+} from "../../helpers/constants/constants"
 
 export default {
   components: {
+    PaginationCheckboxGroup,
     InfoCard,
     PaginationSearchBar,
     EndOfPageDetector,
@@ -66,7 +108,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("pagination", ["incrementPage", "updatePagination"]),
+    ...mapActions("pagination", ["incrementPage", "updatePagination", "addFieldFilter", "removeFieldFilter"]),
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("consumerProgram", [
       "getProgramsList",
@@ -83,6 +125,19 @@ export default {
     openProgram(slug) {
       this.isProgramOpen = true
       this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
+    },
+
+    async chipFilterChange() {
+      let tagsSelected = []
+      if (this.filterTags.length) {
+        for (let i = 0; i < this.filterTags.length; i++) {
+          tagsSelected.push(CONSUMER_TAGS[this.filterTags[i]])
+        }
+
+        await this.addFieldFilter({ fieldName: "tags", value: tagsSelected })
+      } else {
+        await this.removeFieldFilter("tags")
+      }
     },
 
     async getPrograms() {
@@ -128,7 +183,10 @@ export default {
 
   data() {
     return {
+      CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
+      CONSUMER_TAGS,
       recentlyScrolled: false,
+      filterTags: [],
       isProgramOpen: true,
       statusToText: {
         PENDING_GROUP_ASSIGNMENT: this.$t("program.pendingGroupAssignment"),
@@ -164,6 +222,17 @@ export default {
   border-left: $light-grey 1px solid;
 }
 .search-bar {
-  max-width: 450px;
+  max-width: 50%;
+}
+
+.tags-selection {
+  max-width: 50%;
+}
+.filter-chip {
+  margin: 5px;
+}
+.checkbox-group {
+  float: right;
+  width: 100%;
 }
 </style>

@@ -18,6 +18,7 @@
               large
               color="error"
               class="mx-auto mx-sm-0 d-block my-10 my-sm-0"
+              data-testid="delete-btn"
               @click="isModalOpen = true"
             >
               {{ $t("userActions.delete") }}
@@ -132,6 +133,7 @@ export default {
           data,
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        this.$router.push({ name: "VendorProgramList" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

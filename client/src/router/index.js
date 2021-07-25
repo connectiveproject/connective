@@ -41,6 +41,7 @@ import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
+import ConsumerList from "../views/ConsumerList/ConsumerList"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
 import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
@@ -252,6 +253,12 @@ const routes = [
                 path: "my-events",
                 name: "MyEvents",
                 component: MyEvents,
+              },
+              {
+                path: "student-list",
+                name: "ConsumerList",
+                component: ConsumerList,
+                beforeEnter: flushPagination,
               },
               {
                 path: "statistics",

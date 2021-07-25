@@ -10,6 +10,7 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-btn
+          data-testid="program-create-btn"
           tile
           large
           class="d-block mx-auto"
