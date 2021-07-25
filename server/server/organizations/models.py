@@ -22,10 +22,10 @@ class ImportedOrganization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True)
     email = models.EmailField(null=True, blank=True)
-    description = models.CharField(max_length=4096, blank=True, null=True)
+    description = models.CharField(max_length=4096, null=True, blank=True)
     website_url = models.URLField(null=True, blank=True)
-    name = models.CharField(max_length=256,null=True, blank=True)
-    goal = models.CharField(max_length=4096,null=True, blank=True)
+    name = models.CharField(max_length=256, null=True, blank=True)
+    goal = models.CharField(max_length=4096, null=True, blank=True)
     year_founded = models.CharField(max_length=128, null=True, blank=True)
     status = models.CharField(max_length=50, null=True, blank=True)
     target_audience = models.JSONField(null=True, blank=True)
@@ -54,7 +54,8 @@ class ImportedOrganization(models.Model):
     union_type = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.organization_number} | {self.slug}"
+
 
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
@@ -62,8 +63,8 @@ class Organization(models.Model):
     email = models.EmailField()
     description = models.CharField(max_length=300)
     website_url = models.URLField(null=True, blank=True)
-    name = models.CharField(max_length=100) 
-    goal = models.CharField(max_length=300, null=True, blank=True) 
+    name = models.CharField(max_length=100)
+    goal = models.CharField(max_length=300, null=True, blank=True)
     year_founded = models.CharField(max_length=4, null=True, blank=True)
     status = models.CharField(max_length=50, null=True, blank=True)
     target_audience = models.JSONField(null=True, blank=True)
@@ -92,7 +93,7 @@ class Organization(models.Model):
     union_type = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.organization_number} | {self.slug}"
 
 
 class Activity(models.Model):
