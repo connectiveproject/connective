@@ -15,6 +15,7 @@ from server.organizations.api.views import (
     SchoolActivityGroupViewSet,
     VendorActivityViewSet,
 )
+from server.posts.api.views import PostViewSet
 from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
@@ -94,6 +95,12 @@ router.register(
     "consumer_event_feedback",
     ConsumerEventFeedbackViewset,
     basename="consumer_event_feedback",
+)
+
+router.register(
+    "posts",
+    PostViewSet,
+    basename="posts",
 )
 
 app_name = "api"

@@ -34,9 +34,19 @@ const instructorEvent = {
       let res = await Api.instructorEvent.updateEvent(slug, data)
       return res.data
     },
+    async getFeedPosts() {
+      let res = await Api.instructorEvent.getFeedPosts()
+      return res.data.results
+    },
+    async createFeedPost(ctx, data ) {
+      let res = await Api.instructorEvent.createFeedPost(data)
+      return res.data
+    },
     async getPastEvents({ commit, state }, { daysAgo, unsummarizedOnly }) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
-      const startDateString = Utils.dateToApiString(Utils.addDaysToToday(-daysAgo))
+      const startDateString = Utils.dateToApiString(
+        Utils.addDaysToToday(-daysAgo)
+      )
       const endDateString = Utils.dateToApiString(Utils.addDaysToToday(0))
       const params = {
         start_time__gte: startDateString,
