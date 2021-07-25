@@ -137,24 +137,11 @@ class Activity(models.Model):
 
 
 class ImportedActivity(models.Model):
-    class Domain(models.TextChoices):
-        SCIENCE_AND_TECH = "SCIENCE_AND_TECH", "Science And Tech"
-        EXTREME_SPORTS = "EXTREME_SPORTS", "Extreme Sports"
-        FIELD = "FIELD", "Field"
-
-    tags = TaggableManager(blank=True)
-
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_code = models.IntegerField()
     name = models.CharField(max_length=550)
     raw_name = models.CharField(max_length=550)
     target_audience = models.JSONField()
-    domain = models.CharField(
-        max_length=55, null=True, blank=True, choices=Domain.choices
-    )
-    originization = models.ForeignKey(
-        Organization, on_delete=models.SET_NULL, null=True, blank=True
-    )
     organization_number = models.IntegerField()
     organization_name = models.CharField(max_length=1550, default="")
     target_gender = models.JSONField()
@@ -164,14 +151,13 @@ class ImportedActivity(models.Model):
     target_size = models.JSONField()
     target_migzar = models.JSONField()
     target_pikuah = models.JSONField()
-    proffesion = models.JSONField()
+    profession = models.JSONField()
     goal = models.CharField(max_length=1550, default="")
     is_active = models.BooleanField()
     activity_website_url = models.URLField(null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=1550, default="")
     contact_name = models.CharField(max_length=100, default="")
-    logo = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(
         blank=True,
         max_length=15,

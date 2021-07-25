@@ -36,6 +36,7 @@ class School(models.Model):
 
 
 class ImportedSchool(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     address_city = models.CharField(max_length=50)
@@ -71,7 +72,8 @@ class ImportedSchool(models.Model):
     bagrut_excelent_eligible_percent = models.FloatField(null=True, blank=True)
     bagrut_english_5u_percent = models.FloatField(null=True, blank=True)
     bagrut_math_5u_percent = models.FloatField(null=True, blank=True)
-    last_updated = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.name} | {self.address_city} | {self.school_code}"

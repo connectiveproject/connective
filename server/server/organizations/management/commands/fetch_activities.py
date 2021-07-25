@@ -1,9 +1,12 @@
 import csv
+import logging
 
 import requests
 from django.core.management.base import BaseCommand
 
 from server.organizations.models import ImportedActivity
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -72,7 +75,7 @@ class Command(BaseCommand):
                 "is_active",
                 "goal",
                 "raw_name",
-                "proffesion",
+                "profession",
                 "target_gender",
                 "target_population",
                 "target_time",
@@ -161,7 +164,7 @@ class Command(BaseCommand):
                     "is_active": raw_activity[ACTIVITY_FIELD_MAPPING["is_active"]] == 4,
                     "goal": raw_activity[ACTIVITY_FIELD_MAPPING["goal"]],
                     "raw_name": raw_activity[ACTIVITY_FIELD_MAPPING["raw_name"]],
-                    "proffesion": raw_activity["MiktsoaNoseIkari"].split("| "),
+                    "profession": raw_activity["MiktsoaNoseIkari"].split("| "),
                     "target_gender": raw_targets[1]["Value"].split(" | "),
                     "target_population": raw_targets[2]["Value"].split(" | "),
                     "target_time": raw_targets[3]["Value"].split(" | "),
@@ -173,6 +176,7 @@ class Command(BaseCommand):
                     csv_writer.writerow(activity)
                     csv_file.flush()
                 else:
+                    logger.info(activity)
                     ImportedActivity.objects.update_or_create(
                         defaults=activity, activity_code=activity_code
                     )
