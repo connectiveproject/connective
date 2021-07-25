@@ -28,6 +28,8 @@ from server.users.api.views import (
     VendorProfileViewSet,
 )
 
+from server.posts.api.views import PostViewSet
+
 if settings.DEBUG:
     router = DefaultRouter()
 else:
@@ -84,6 +86,12 @@ router.register(
     "consumer_event_feedback",
     ConsumerEventFeedbackViewset,
     basename="consumer_event_feedback",
+)
+
+router.register(
+    "posts",
+    PostViewSet,
+    basename="posts",
 )
 
 app_name = "api"

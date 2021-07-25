@@ -74,6 +74,11 @@ const instructorButtons = [
     icon: "mdi-newspaper-variant",
     onClick: () => Vue.$router.push({ name: "InstructorUnsummarizedEvents" }),
   },
+  {
+    text: () => i18n.t("events.eventsSummary"),
+    icon: "mdi-comment-quote",
+    onClick: () => Vue.$router.push({ name: "EventFeedView" }),
+  },
 ]
 
 const vendorButtons = [
