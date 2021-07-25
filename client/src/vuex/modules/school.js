@@ -1,4 +1,5 @@
 import Api from "../../api"
+import Utils from "../../helpers/utils"
 
 function getDefaultState() {
   return {
@@ -82,11 +83,27 @@ const school = {
       commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
+    exportStudentList({ rootGetters }) {
+      // :boolean override: whether to override the list or not (i.e., extend)
+      const params = rootGetters["pagination/apiParams"]
+      Api.school.exportStudentList(params).then(res => { // call this function when the above chained Promise resolves
+        Utils.downloadTextAsFile("students.csv", res.request.response)
+        return res
+      })
+    },
+    exportCoordinatorList({ rootGetters }) {
+      // :boolean override: whether to override the list or not (i.e., extend)
+      const params = rootGetters["pagination/apiParams"]
+      Api.school.exportCoordinatorList(params).then(res => { // call this function when the above chained Promise resolves
+        Utils.downloadTextAsFile("coordinators.csv", res.request.response)
+        return res
+      })
+    },
     addStudent(ctx, student) {
       return Api.school.addStudent(student)
     },
-    addStudents(ctx, csvFile) {
-      return Api.school.addStudents(csvFile)
+    addStudentsBulk(ctx, csvFile) {
+      return Api.school.addStudentsBulk(csvFile)
     },
     deleteStudents(ctx, studentSlugs) {
       return Api.school.deleteStudents(studentSlugs)
@@ -106,8 +123,8 @@ const school = {
     addCoordinator(ctx, coordinator) {
       return Api.school.addCoordinator(coordinator)
     },
-    addCoordinators(ctx, csvFile) {
-      return Api.school.addCoordinators(csvFile)
+    addCoordinatorsBulk(ctx, csvFile) {
+      return Api.school.addCoordinatorsBulk(csvFile)
     },
     deleteCoordinators(ctx, coordinatorSlugs) {
       return Api.school.deleteCoordinators(coordinatorSlugs)

@@ -4,6 +4,10 @@ import {
   UPDATE_SCHOOL_DETAILS_API_URL,
   GET_SCHOOL_STUDENTS_LIST_API_URL,
   ADD_SCHOOL_STUDENTS_API_URL,
+  ADD_SCHOOL_COORDINATORS_BULK_API_URL,
+  ADD_SCHOOL_STUDENTS_BULK_API_URL,
+  EXPORT_SCHOOL_STUDENTS_BULK_API_URL,
+  EXPORT_SCHOOL_COORDINATORS_BULK_API_URL,
   DELETE_SCHOOL_STUDENTS_API_URL,
   EDIT_SCHOOL_STUDENTS_API_URL,
   GET_SCHOOL_COORDINATORS_LIST_API_URL,
@@ -37,6 +41,30 @@ const school = {
     let formData = new FormData()
     formData.append("file", csvFile)
     return axios.post(ADD_SCHOOL_STUDENTS_API_URL, formData)
+  },
+
+  addCoordinatorsBulk(csvFile) {
+    // :File csvFile: file containing students to add to the school
+    let formData = new FormData()
+    formData.append("file", csvFile)
+    return axios.post(ADD_SCHOOL_COORDINATORS_BULK_API_URL, formData)
+  },
+
+  exportCoordinatorList(params) {
+    // :Object params: query params
+    return axios.get(EXPORT_SCHOOL_COORDINATORS_BULK_API_URL, { params })
+  },
+
+  addStudentsBulk(csvFile) {
+    // :File csvFile: file containing students to add to the school
+    let formData = new FormData()
+    formData.append("file", csvFile)
+    return axios.post(ADD_SCHOOL_STUDENTS_BULK_API_URL, formData)
+  },
+
+  exportStudentList(params) {
+    // :Object params: query params
+    return axios.get(EXPORT_SCHOOL_STUDENTS_BULK_API_URL, { params })
   },
 
   editStudent(slug, data) {

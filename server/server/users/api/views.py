@@ -1,9 +1,14 @@
+import csv
+import json
+import io
+import os
 from django.contrib.auth import get_user_model
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework_csv.renderers import CSVRenderer
 
 from server.utils.permission_classes import (
     AllowConsumer,
@@ -151,6 +156,128 @@ class ManageCoordinatorsViewSet(ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddCoordinatorsBulkViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageCoordinatorsSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Coordinator.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        coordinators_to_invite = []
+        if request.FILES:
+            request_file = request.FILES['file']
+            _, file_extension = os.path.splitext(request_file.name)
+            if file_extension == ".csv":
+                for row in csv.DictReader(io.StringIO(request_file.read().decode())):
+                    coordinators_to_invite.append(row)
+            else:
+                return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+
+            serializer = ManageCoordinatorsSerializer(
+                data=coordinators_to_invite, context={"request": request}, many=True
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddStudentsBulkViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageConsumersSerializer
+    lookup_field = "slug"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Consumer.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+    @action(detail=False, methods=["POST"])
+    def bulk_create(self, request):
+        consumers_to_invite = []
+        if request.FILES:
+            request_file = request.FILES['file']
+            _, file_extension = os.path.splitext(request_file.name)
+            if file_extension == ".csv":
+                for row in csv.DictReader(io.StringIO(request_file.read().decode())):
+                    consumers_to_invite.append({
+                        "name": row["name"],
+                        "email": row["email"],
+                        "profile": {"gender": row["gender"]},
+                        })
+            else:
+                return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+            serializer = ManageConsumersSerializer(
+                data=consumers_to_invite, context={"request": request}, many=True
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PaginatedCSVRenderer (CSVRenderer):
+    results_field = 'results'
+    delete_fields = ["slug"]
+
+    def delete_keys_from_dict(self, dict_del, lst_keys):
+        for k in lst_keys:
+            try:
+                del dict_del[k]
+            except KeyError:
+                pass
+        for v in dict_del.values():
+            if isinstance(v, dict):
+                self.delete_keys_from_dict(v, lst_keys)
+
+        return dict_del
+
+    def render(self, data, media_type=None, renderer_context=None):
+        if not isinstance(data, list):
+            data = data.get(self.results_field, [])
+            # Delete nested fields from objects.
+            data = [self.delete_keys_from_dict(obj, self.delete_fields) for obj in data]
+            # TODO: Refactor, this is magic that convert profile to gender only
+            data = [{**{k: v for k, v in obj.items() if k != "profile"},
+             **({"gender": obj["profile"]["gender"]} if "profile" in obj else {})} for obj in data]
+        return super(PaginatedCSVRenderer, self).render(data, media_type, renderer_context)
+
+
+class ExportStudentListViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageConsumersSerializer
+    lookup_field = "slug"
+    renderer_classes = (PaginatedCSVRenderer,)
+    results_field = 'results'
+
+    def get_queryset(self):
+        return Consumer.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+
+class ExportCoordinatorListViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageCoordinatorsSerializer
+    lookup_field = "slug"
+    renderer_classes = (PaginatedCSVRenderer,)
+    results_field = 'results'
+
+    def get_queryset(self):
+        return Coordinator.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
 
 
 class ManageVendorsViewSet(ModelViewSet):
