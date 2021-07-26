@@ -4,6 +4,7 @@ import {
   GET_INSTRUCTOR_EVENT_API_URL,
   UPDATE_INSTRUCTOR_EVENT_API_URL,
   CREATE_FEED_POST_API_URL,
+  CREATE_POST_IMAGES_API_URL,
 } from "../helpers/constants/constants"
 
 const instructorEvent = {
@@ -17,6 +18,13 @@ const instructorEvent = {
   },
   createFeedPost(data) {
     return axios.post(`${CREATE_FEED_POST_API_URL}`, data)
+  },
+  createPostImages(data) {
+    return axios.post(`${CREATE_POST_IMAGES_API_URL}`, data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    })
   },
   getFeedPosts(params) {
     return axios.get(`${CREATE_FEED_POST_API_URL}`, { params })

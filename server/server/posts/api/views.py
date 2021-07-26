@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 
-from server.posts.api.serializers import PostSerializer
-from server.posts.models import Post
+from server.posts.api.serializers import PostImageSerializer, PostSerializer
+from server.posts.models import Post, PostImage
 from server.utils.permission_classes import (
     AllowConsumerReadOnly,
     AllowCoordinatorReadOnly,
@@ -10,6 +10,31 @@ from server.utils.permission_classes import (
     AllowSupervisorReadOnly,
     AllowVendorReadOnly,
 )
+
+
+class BulkCreateMixin:
+    """
+    Allows bulk creation of a resource
+    """
+
+    def get_serializer(self, *args, **kwargs):
+        if isinstance(kwargs.get("data", {}), list):
+            kwargs["many"] = True
+
+        return super().get_serializer(*args, **kwargs)
+
+
+class PostImageViewSet(BulkCreateMixin, viewsets.ModelViewSet):
+    queryset = PostImage.objects.all()
+    serializer_class = PostImageSerializer
+    permission_classes = [
+        AllowInstructor
+        | AllowConsumerReadOnly
+        | AllowCoordinatorReadOnly
+        | AllowSupervisorReadOnly
+        | AllowVendorReadOnly
+    ]
+    # TODO: add filter by queryset
 
 
 class PostViewSet(viewsets.ModelViewSet):

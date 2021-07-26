@@ -47,6 +47,10 @@ const instructorEvent = {
       let res = await Api.instructorEvent.createFeedPost(data)
       return res.data
     },
+    async createPostImages(ctx, data) {
+      let res = await Api.instructorEvent.createPostImages(data)
+      return res.data
+    },
     async getPastEvents({ commit, state }, { daysAgo, unsummarizedOnly }) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(

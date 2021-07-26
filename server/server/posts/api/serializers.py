@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
 from server.events.models import Event
-from server.posts.models import Post
+from server.posts.models import Post, PostImage
 from server.users.models import InstructorProfile
 
 
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
+        model = PostImage
         fields = [
             "slug",
             "image_url",
@@ -26,7 +26,6 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     author_profile_picture = serializers.SerializerMethodField()
-    images = PostImageSerializer(many=True, required=False, allow_null=True)
 
     class Meta:
         model = Post
@@ -37,7 +36,6 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "author_profile_picture",
             "post_content",
-            "images",
         ]
         read_only_fields = [
             "slug",

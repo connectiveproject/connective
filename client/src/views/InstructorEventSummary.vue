@@ -225,24 +225,18 @@ export default {
     ...mapActions("instructorEvent", [
       "updateEvent",
       "createFeedPost",
-      "getFeedPosts",
+      "createPostImages",
     ]),
     parseDate: Utils.ApiStringToReadableDate,
     onSubmit: debounce(
       async function () {
-        console.log(this.images)
-        // const feedData = new FormData()
-        // feedData.append("event", this.slug)
-        // feedData.append("post_content", this.feedContent)
-        // feedData.append("images", { image_url: this.images[0] })
-        const feedData = {
+        const feedPostData = {
           event: this.slug,
           post_content: this.feedContent,
-          images: this.images.map(image => ({ image_url: image })),
         }
-        await this.getFeedPosts()
-        const newObj = Utils.objectToFormData(feedData)
-        await this.createFeedPost(newObj)
+        const post = await this.createFeedPost(feedPostData)
+        const postImagesData = this.images.map(image => ({ image_url: image, post: post.slug }))
+        await this.createPostImages(postImagesData)
         this.isModalOpen = true
       },
       500,
@@ -255,7 +249,6 @@ export default {
       this.images.map(
         image => (this.imageUrls = [...this.imageUrls, URL.createObjectURL(image)])
       )
-      console.log(this.images)
     },
   },
 }
