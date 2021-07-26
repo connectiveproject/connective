@@ -230,24 +230,44 @@ export default {
     parseDate: Utils.ApiStringToReadableDate,
     onSubmit: debounce(
       async function () {
-        const feedPostData = {
-          event: this.slug,
-          post_content: this.feedContent,
-        }
-        const post = await this.createFeedPost(feedPostData)
-        const postImagesData = this.images.map(image => ({ image_url: image, post: post.slug }))
-        await this.createPostImages(postImagesData)
+        await Promise.all([this.createSummary(), this.createPost()])
         this.isModalOpen = true
       },
       500,
       { leading: true, trailing: false }
     ),
+    createSummary() {
+      const data = {
+        consumers: this.attendedConsumers,
+        summaryGeneralNotes: this.summaryGeneralNotes,
+        summaryGeneralRating: this.summaryGeneralRating,
+        summaryChildrenBehavior: this.summaryChildrenBehavior,
+        hasSummary: true,
+      }
+      return this.updateEvent({ slug: this.slug, data })
+    },
+    async createPost() {
+      const feedPostData = {
+        event: this.slug,
+        post_content: this.feedContent,
+      }
+      const post = await this.createFeedPost(feedPostData)
+      // TODO: send them as one payload (BE supports it)
+      return Promise.all(
+        this.images.map(image =>
+          this.createPostImages(
+            Utils.objectToFormData({ image_url: image, post: post.slug })
+          )
+        )
+      )
+    },
     previewImage() {
       if (!this.images.length) {
         this.imageUrls = []
       }
       this.images.map(
-        image => (this.imageUrls = [...this.imageUrls, URL.createObjectURL(image)])
+        image =>
+          (this.imageUrls = [...this.imageUrls, URL.createObjectURL(image)])
       )
     },
   },

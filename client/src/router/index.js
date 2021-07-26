@@ -27,7 +27,7 @@ import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
-import EventFeedView from "../views/EventFeedView"
+import InstructorEventFeedView from "../views/InstructorEventFeedView"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
 import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
@@ -325,8 +325,8 @@ const routes = [
           },
           {
             path: "event-feed-view",
-            name: "EventFeedView",
-            component: EventFeedView,
+            name: "InstructorEventFeedView",
+            component: InstructorEventFeedView,
           },
         ],
       },

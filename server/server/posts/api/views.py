@@ -39,6 +39,7 @@ class PostImageViewSet(BulkCreateMixin, viewsets.ModelViewSet):
 
 class PostViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
+
     serializer_class = PostSerializer
     permission_classes = [
         AllowInstructor
@@ -47,6 +48,11 @@ class PostViewSet(viewsets.ModelViewSet):
         | AllowSupervisorReadOnly
         | AllowVendorReadOnly
     ]
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
     def get_queryset(self):
         user = self.request.user

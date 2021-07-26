@@ -38,4 +38,4 @@ class PostImage(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} | {self.slug} | {self.post.slug}"
+        return f"{self.image_url} | {self.slug} | {self.post.slug}"

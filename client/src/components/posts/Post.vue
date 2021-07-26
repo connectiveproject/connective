@@ -1,63 +1,42 @@
 <template>
-  <div :width="width" class="my-3">
+  <div class="my-3" :width="width">
     <v-card
-      class="mx-auto card overflow-hidden w-100"
-      elevation="1"
-      :width="width"
-      :height="height"
+      class="card overflow-hidden w-100 pt-5 pb-10 mx-auto px-7"
+      elevation="10"
     >
-      <v-row>
-        <v-col>
-          <v-list-item-avatar color="grey darken-3">
-            <v-img class="elevation-6" alt="" :src="authorIcon"></v-img>
-          </v-list-item-avatar>
-        </v-col>
-        <v-col class="px-0">
-          <v-card-title v-text="author" class="pa-2 font-weight-bold" />
-        </v-col>
-      </v-row>
-      <v-row class="my-0 p-0">
-        <v-col>
-          <v-card-subtitle
-            v-text="subtitle"
-            class="px-2 pt-2 pb-1 subtitle-1"
-          />
-        </v-col>
-      </v-row>
-      <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
-        <!-- if slot's text overflow, consider using the trim filter on parent  -->
-        <slot>{{ content }}</slot>
+      <div class="d-flex justify-space-between">
+        <v-card-title v-text="author" class="font-weight-bold pa-2" />
+        <avatar style="width: 50px" :avatar-options="authorAvatar" />
+      </div>
+      <v-card-subtitle v-text="subtitle" class="px-2 py-1" />
+      <v-card-text class="text--primary pt-3 px-2 text-h6 body">
+        "<slot>{{ content }}</slot
+        >"
       </v-card-text>
-      <v-row class="my-3 w-100">
-        <v-col
-          v-for="image in images.slice(0, 3)"
-          :key="image.url"
-          align="center"
-          justify="center"
-        >
+      <v-row class="my-10" justify="center" no-gutters>
+        <v-col v-for="image in images.slice(0, 3)" :key="image.id">
           <div class="text-center">
-            <v-dialog v-model="dialog" align="center" justify="center">
+            <v-dialog v-model="dialog">
               <template v-slot:activator="{ on, attrs }">
                 <v-img
                   style="max-width: 50vw; max-height: 50vh"
                   v-bind="attrs"
                   v-on="on"
-                  :src="image.url"
-                ></v-img>
+                  :src="image"
+                />
               </template>
-
               <v-card>
-                <v-img class="showMoreOverlay" alt="" :src="image.url"></v-img>
+                <v-img class="show-more-overlay" :src="image" />
               </v-card>
             </v-dialog>
           </div>
         </v-col>
-        <v-col md="auto" v-if="showMore" align="center" justify="center">
-          <v-img max-height="150" alt="" class="w-100" :src="images[6].url"
-            ><v-overlay absolute color="#036358" class="showMoreOverlay">
+        <v-col v-if="showMore">
+          <v-img max-height="150" class="w-100" :src="images[6]">
+            <v-overlay absolute color="#036358" class="show-more-overlay">
               <h1>{{ additionalImages }}+</h1>
-            </v-overlay></v-img
-          >
+            </v-overlay>
+          </v-img>
         </v-col>
       </v-row>
     </v-card>
@@ -65,8 +44,9 @@
 </template>
 
 <script>
+import Avatar from "../Avatar/Avatar.vue"
 export default {
-  components: {},
+  components: { Avatar },
 
   props: {
     width: {
@@ -75,39 +55,28 @@ export default {
     },
     content: {
       type: String,
-      default:
-        "הייתה פעילות מעולה וכל החניכים נהנו בטירוף! תראו איזה שמחים כל המשתתפים!",
+      required: true,
     },
     author: {
       type: String,
-      default: "דן אברמוב",
+      required: true,
+    },
+    authorAvatar: {
+      type: Object,
+      required: true,
     },
     subtitle: {
-      type: Date,
-      default: new Date().toDateString(),
-    },
-    authorIcon: {
       type: String,
-      default:
-        "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
+      required: true,
     },
     images: {
       type: Array,
-      default: () => [
-        {
-          url: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-        },
-      ],
-    },
-  },
-
-  methods: {
-    toggleModal: function () {
-      alert("11111")
+      default: () => [],
     },
   },
   data() {
     return {
+      dialog: false,
       showMore: this.images.length > 3,
       additionalImages: this.images.length - 3,
     }
@@ -118,18 +87,15 @@ export default {
 #info-button {
   letter-spacing: 1.7px !important;
 }
-.showMoreOverlay {
+.show-more-overlay {
   cursor: "pointer";
-}
-.postImange {
-  max-width: 50vw;
-  max-height: 50vh;
 }
 .actions {
   height: 40px;
 }
 .card {
   border-radius: 4px;
+  min-height: 285px;
 }
 .body {
   line-height: 1.4;

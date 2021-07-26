@@ -20,11 +20,7 @@ const instructorEvent = {
     return axios.post(`${CREATE_FEED_POST_API_URL}`, data)
   },
   createPostImages(data) {
-    return axios.post(`${CREATE_POST_IMAGES_API_URL}`, data, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    })
+    return axios.post(`${CREATE_POST_IMAGES_API_URL}`, data)
   },
   getFeedPosts(params) {
     return axios.get(`${CREATE_FEED_POST_API_URL}`, { params })

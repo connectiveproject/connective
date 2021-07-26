@@ -90,7 +90,7 @@ const instructorButtons = [
   {
     text: () => i18n.t("events.eventsSummary"),
     icon: "mdi-comment-quote",
-    onClick: () => Vue.$router.push({ name: "EventFeedView" }),
+    onClick: () => Vue.$router.push({ name: "InstructorEventFeedView" }),
   },
 ]
 
