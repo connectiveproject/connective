@@ -327,5 +327,9 @@
     "weekly": "שבועי",
     "halfWeekly": "חצי שבועי",
     "daily": "יומי"
+  },
+  "posts": {
+    "myFeed": "הפיד שלי",
+    "viewUpdatesAndPosts": "צפו בעדכונים ופרסומים"
   }
 }

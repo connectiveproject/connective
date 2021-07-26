@@ -39,7 +39,6 @@ class PostImageViewSet(BulkCreateMixin, viewsets.ModelViewSet):
 
 class PostViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
-
     serializer_class = PostSerializer
     permission_classes = [
         AllowInstructor
@@ -57,8 +56,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
-        if user.user_type == get_user_model().Types.CONSUMER:  # student
-            # return Post.objects.filter(event__school_group__consumers__contains=user)
+        if user.user_type == get_user_model().Types.CONSUMER:
             return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
             # # TODO: db join
@@ -71,18 +69,19 @@ class PostViewSet(viewsets.ModelViewSet):
             # return Post.objects.filter(
             #     event__in=events,
             # )
-            return Post.objects.filter(event__school_group__instructor=user)
-        elif user.user_type == get_user_model().Types.COORDINATOR:  # school manager
+            return Post.objects.filter(event__school_group__instructor=user).order_by(
+                "-creation_time"
+            )
+        elif user.user_type == get_user_model().Types.COORDINATOR:
             return Post.objects.filter(
                 event__school_group__activity_order__school__school_member__user=user,
-            )
-            # schoolMember -> school_activity_order -> school_activity_group
+            ).order_by("-creation_time")
         elif user.user_type == get_user_model().Types.SUPERVISOR:
-            return Post.objects.all()
+            return Post.objects.all().order_by("-creation_time")
         elif user.user_type == get_user_model().Types.VENDOR:
             return Post.objects.filter(
                 event__school_group__activity_order__activity__originization__organization_member__user=user,
-            )
+            ).order_by("-creation_time")
         return []
 
     def perform_create(self, serializer):

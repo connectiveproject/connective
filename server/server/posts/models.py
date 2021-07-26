@@ -12,17 +12,18 @@ class Post(models.Model):
         unique=True,
     )
     creation_time = models.DateTimeField(
-        auto_now=True,
-        null=False,
+        auto_now_add=True,
     )
     event = models.ForeignKey(
-        to=Event,
+        Event,
         on_delete=models.SET_NULL,
+        blank=False,
         null=True,
     )
     author = models.ForeignKey(
-        to=get_user_model(),
+        get_user_model(),
         on_delete=models.SET_NULL,
+        blank=False,
         null=True,
     )
     post_content = models.TextField()

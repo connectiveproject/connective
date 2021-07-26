@@ -327,6 +327,7 @@ const routes = [
             path: "event-feed-view",
             name: "InstructorEventFeedView",
             component: InstructorEventFeedView,
+            beforeEnter: flushPagination
           },
         ],
       },

@@ -5,7 +5,8 @@ function getDefaultState() {
   return {
     eventList: [],
     totalEvents: null,
-    feedPosts: []
+    feedPosts: [],
+    totalFeedPosts: null,
   }
 }
 
@@ -25,6 +26,12 @@ const instructorEvent = {
     SET_FEED_POSTS_LIST(state, posts) {
       state.feedPosts = posts
     },
+    SET_FEED_POSTS_TOTAL(state, total) {
+      state.totalFeedPosts = total
+    },
+    ADD_FEED_POSTS_TO_LIST(state, posts) {
+      state.feedPosts.push(...posts)
+    },
   },
   actions: {
     flushState({ commit }) {
@@ -38,9 +45,14 @@ const instructorEvent = {
       let res = await Api.instructorEvent.updateEvent(slug, data)
       return res.data
     },
-    async getFeedPosts({ commit }) {
-      let res = await Api.instructorEvent.getFeedPosts()
-      commit("SET_FEED_POSTS_LIST", res.data.results)
+    async getFeedPosts({ commit, rootGetters }, override = true) {
+      const params = rootGetters["pagination/apiParams"]
+      let res = await Api.instructorEvent.getFeedPosts(params)
+      const mutation = override
+        ? "SET_FEED_POSTS_LIST"
+        : "ADD_FEED_POSTS_TO_LIST"
+      commit(mutation, res.data.results)
+      commit("SET_FEED_POSTS_TOTAL", res.data.count)
       return res.data.results
     },
     async createFeedPost(ctx, data) {
