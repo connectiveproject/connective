@@ -304,7 +304,7 @@ div.tribute-container > ul > li {
 
   @keyframes bounce-in {
     0% {
-      transform: scale(ץ8);
+      transform: scale(.8);
     }
     50% {
       transform: scale(1.1);
