@@ -25,6 +25,7 @@ class BulkCreateMixin:
 
 
 class PostImageViewSet(BulkCreateMixin, viewsets.ModelViewSet):
+    lookup_field = "slug"
     queryset = PostImage.objects.all()
     serializer_class = PostImageSerializer
     permission_classes = [

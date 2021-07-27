@@ -9,9 +9,11 @@
         <avatar style="width: 50px" :avatar-options="authorAvatar" />
       </div>
       <v-card-subtitle v-text="subtitle" class="px-2 py-1" />
-      <v-card-text class="text--primary pt-3 px-2 text-h6 body">
-        "<slot>{{ content }}</slot
-        >"
+      <v-card-text
+        class="text--primary pt-3 px-2 body"
+        :class="{ 'text-h4': !images.length, 'text-h6': images.length }"
+      >
+        "{{ content }}"
       </v-card-text>
       <v-row class="my-10" justify="center" no-gutters>
         <v-col
@@ -26,7 +28,14 @@
             height="200"
             width="300"
             :src="image"
-          />
+            :lazy-src="LAZY_IMAGE_PLACEHOLDER"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular indeterminate color="grey lighten-1" />
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
         <v-col v-if="showMore" cols="6" class="pa-1">
           <v-img
@@ -35,6 +44,7 @@
             height="200"
             width="300"
             :src="images[3]"
+            :lazy-src="LAZY_IMAGE_PLACEHOLDER"
           >
             <v-overlay absolute color="#036358">
               <h1>{{ additionalImages }}+</h1>
@@ -50,6 +60,7 @@
 </template>
 
 <script>
+import { LAZY_IMAGE_PLACEHOLDER } from "../helpers/constants/images"
 import Avatar from "./Avatar/Avatar"
 import Carousel from "./Carousel"
 
@@ -83,6 +94,7 @@ export default {
   },
   data() {
     return {
+      LAZY_IMAGE_PLACEHOLDER,
       showCarousel: false,
       showMore: this.images.length > 3,
       additionalImages: this.images.length - 3,

@@ -154,7 +154,10 @@
     "add": "הוספה|הוסיפו",
     "delete": "מחיקה",
     "finish": "סיום",
-    "toHomepage": "לדף הבית"
+    "toHomepage": "לדף הבית",
+    "addMedia": "הוספת מדיה",
+    "addPost": "הוספת פוסט",
+    "addPublicPost": "הוספת פוסט פומבי"
   },
 
   "grades": {
@@ -266,7 +269,6 @@
   "events": {
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
-    "eventFeedShareTitle": "פומבי",
     "eventFeedShareContent": "תוכן הפוסט",
     "eventsToSummarize": "אירועים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
@@ -330,6 +332,8 @@
   },
   "posts": {
     "myFeed": "הפיד שלי",
-    "viewUpdatesAndPosts": "צפו בעדכונים ופרסומים"
+    "viewUpdatesAndPostsInRealTime!": "צפו בעדכונים ופרסומים בזמן אמת!",
+    "thisPostWillBeVisibleForEveryone": "פרסום זה יהיה חשוף לכולם",
+    "thisPostIsNotVisibleForStudents": "פרסום זה לא חשוף לתלמידים"
   }
 }

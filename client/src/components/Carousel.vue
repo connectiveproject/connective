@@ -2,7 +2,7 @@
   <v-carousel
     v-bind="$attrs"
     height="350"
-    class="mt-6 mx-auto rounded-lg grey darken-4"
+    class="mt-6 mx-auto rounded-lg grey darken-3"
     show-arrows-on-hover
     hide-delimiter-background
     delimiter-icon="mdi-minus"
