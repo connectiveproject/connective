@@ -113,7 +113,7 @@ class Activity(models.Model):
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
-    activity_website_url = models.URLField(null=True, blank=True)
+    activity_website_url = models.URLField(max_length=750, null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=550, default="")
     contact_name = models.CharField(max_length=60, default="")
@@ -154,7 +154,7 @@ class ImportedActivity(models.Model):
     profession = models.JSONField()
     goal = models.CharField(max_length=1550, default="")
     is_active = models.BooleanField()
-    activity_website_url = models.URLField(null=True, blank=True)
+    activity_website_url = models.URLField(max_length=750, null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=1550, default="")
     contact_name = models.CharField(max_length=100, default="")

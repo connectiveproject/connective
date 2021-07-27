@@ -138,7 +138,9 @@
     "editInstructor": "עריכת מדריך",
     "inviteInstructor": "הזמנת מדריך",
     "inviteUser": "הזמנת משתמש",
-    "removeUser": "הסרת משתמש"
+    "removeUser": "הסרת משתמש",
+    "consumersHasBeenInvitedToJoinThePlatform": "תלמידים הוזמנו להצטרף לפלטפורמה",
+    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה"
   },
 
   "userActions": {

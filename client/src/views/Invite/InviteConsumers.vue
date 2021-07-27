@@ -68,12 +68,7 @@
             </v-tooltip>
             <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="exportCSV"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn @click="exportCSV" icon v-bind="attrs" v-on="on">
                   <v-icon color="primary">mdi-file-download-outline</v-icon>
                 </v-btn>
               </template>
@@ -108,6 +103,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
+import Api from "../../api"
 import { validateStudentsArray, translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
@@ -211,12 +207,14 @@ export default {
 
     async importCSV() {
       try {
-        await this.addStudentsBulk(this.csvFile)
+        const added = await this.addStudentsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getStudents()
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = `${added.length} ${this.$t(
+          "invite.consumersHasBeenInvitedToJoinThePlatform"
+        )}`
+      } catch (err) {
+        this.popupMsg = Api.utils.parseResponseError(err)
       }
     },
 
@@ -258,7 +256,7 @@ export default {
         this.getStudentsExportFile()
       },
       500,
-      { leading: true, trailing: false },
+      { leading: true, trailing: false }
     ),
   },
 }

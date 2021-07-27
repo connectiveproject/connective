@@ -97,6 +97,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
+import Api from "../../api"
 import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
@@ -194,12 +195,14 @@ export default {
 
     async importCSV() {
       try {
-        await this.addCoordinatorsBulk(this.csvFile)
+        const added = await this.addCoordinatorsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getCoordinators()
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = `${added.length} ${this.$t(
+          "invite.coordinatorsHasBeenInvitedToJoinThePlatform"
+        )}`
+      } catch (err) {
+        this.popupMsg = Api.utils.parseResponseError(err)
       }
     },
 

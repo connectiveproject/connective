@@ -100,8 +100,9 @@ const school = {
     addStudent(ctx, student) {
       return Api.school.addStudent(student)
     },
-    addStudentsBulk(ctx, csvFile) {
-      return Api.school.addStudentsBulk(csvFile)
+    async addStudentsBulk(ctx, csvFile) {
+      const res = await Api.school.addStudentsBulk(csvFile)
+      return res.data
     },
     deleteStudents(ctx, studentSlugs) {
       return Api.school.deleteStudents(studentSlugs)
@@ -121,8 +122,9 @@ const school = {
     addCoordinator(ctx, coordinator) {
       return Api.school.addCoordinator(coordinator)
     },
-    addCoordinatorsBulk(ctx, csvFile) {
-      return Api.school.addCoordinatorsBulk(csvFile)
+    async addCoordinatorsBulk(ctx, csvFile) {
+      const res = await Api.school.addCoordinatorsBulk(csvFile)
+      return res.data
     },
     deleteCoordinators(ctx, coordinatorSlugs) {
       return Api.school.deleteCoordinators(coordinatorSlugs)
