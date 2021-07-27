@@ -241,7 +241,8 @@ class ExportConsumerListViewSet(ModelViewSet):
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
-    results_field = "results"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
 
     def get_queryset(self):
         return Consumer.objects.filter(
@@ -254,7 +255,8 @@ class ExportCoordinatorListViewSet(ModelViewSet):
     serializer_class = ManageCoordinatorsSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
-    results_field = "results"
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
 
     def get_queryset(self):
         return Coordinator.objects.filter(

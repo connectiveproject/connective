@@ -22,7 +22,7 @@ class UsersCSVRenderer(CSVRenderer):
 
     def render(self, data, media_type=None, renderer_context=None):
         if not isinstance(data, list):
-            data = data.get(self.results_field, [])
+            data = data.get("results", [])
             # Delete nested fields from objects.
             data = [self.delete_keys_from_dict(obj, self.delete_fields) for obj in data]
             # TODO: Refactor, this is magic that convert profile to gender only
