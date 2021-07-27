@@ -189,7 +189,7 @@ export default {
         values: [],
         positionMenu: true,
         // TODO: add noMatchTemplate
-        noMatchTemplate: "<li>השם לא נמצא</li>",
+        // noMatchTemplate: "<li>השם לא נמצא</li>",
         menuContainer: document.querySelector(".menu-container"),
       },
       consumerchoices: [],
