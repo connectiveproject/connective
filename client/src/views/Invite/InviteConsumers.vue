@@ -213,8 +213,10 @@ export default {
         this.popupMsg = `${added.length} ${this.$t(
           "invite.consumersHasBeenInvitedToJoinThePlatform"
         )}`
+        this.csvFile = null
       } catch (err) {
         this.popupMsg = Api.utils.parseResponseError(err)
+        this.csvFile = null
       }
     },
 
