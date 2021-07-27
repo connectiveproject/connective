@@ -27,6 +27,7 @@ import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
+import InstructorEventFeedView from "../views/InstructorEventFeedView"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
 import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
@@ -41,6 +42,7 @@ import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
+import ConsumerList from "../views/ConsumerList/ConsumerList"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
 import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
@@ -254,6 +256,12 @@ const routes = [
                 component: MyEvents,
               },
               {
+                path: "student-list",
+                name: "ConsumerList",
+                component: ConsumerList,
+                beforeEnter: flushPagination,
+              },
+              {
                 path: "statistics",
                 name: "CoordinatorStatistics",
                 component: CoordinatorStatistics,
@@ -314,6 +322,12 @@ const routes = [
             name: "InstructorEventSummary",
             component: InstructorEventSummary,
             props: true,
+          },
+          {
+            path: "event-feed-view",
+            name: "InstructorEventFeedView",
+            component: InstructorEventFeedView,
+            beforeEnter: flushPagination
           },
         ],
       },

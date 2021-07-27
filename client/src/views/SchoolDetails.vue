@@ -49,7 +49,10 @@ import store from "../vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
-import { SCHOOL_GRADES_ITEMS } from "../helpers/constants/constants"
+import {
+  SCHOOL_GRADES_ITEMS,
+  ZIP_CODE_VALIDATION_RULE,
+} from "../helpers/constants/constants"
 import { HOUSE_ROUNDED_DRAWING } from "../helpers/constants/images"
 
 export default {
@@ -93,7 +96,7 @@ export default {
         zipCode: {
           uniqueName: "zipCode",
           label: this.$t("general.zipCode"),
-          rules: "required|numeric",
+          rules: ZIP_CODE_VALIDATION_RULE,
           value: "",
         },
         schoolCode: {
@@ -146,7 +149,7 @@ export default {
       this.textFields.street.value =
         schoolAttributes.address || this.textFields.street.value
       this.textFields.zipCode.value =
-        schoolAttributes.zipCity || this.textFields.zipCode.value
+        schoolAttributes.addressZipcode || this.textFields.zipCode.value
       this.textFields.schoolCode.value =
         schoolAttributes.schoolCode || this.textFields.schoolCode.value
       this.textFields.contactPhone.value =
@@ -177,7 +180,7 @@ export default {
       data.append("name", this.textFields.name.value)
       data.append("address", this.textFields.street.value)
       data.append("address_city", this.textFields.city.value)
-      data.append("zip_city", this.textFields.zipCode.value)
+      data.append("address_zipcode", this.textFields.zipCode.value)
       data.append("school_code", this.textFields.schoolCode.value)
       data.append("description", this.textFields.description.value)
       data.append("contact_phone", this.textFields.contactPhone.value)

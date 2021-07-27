@@ -14,10 +14,17 @@
           <v-btn class="mx-4" fab color="error" @click="triggerMediaDelete">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
-          <v-btn class="mx-4" fab color="success" @click="triggerMediaUpload">
+          <v-btn
+            fab
+            data-testid="add-media-btn"
+            class="mx-4"
+            color="success"
+            @click="triggerMediaUpload"
+          >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
           <v-btn
+            data-testid="finish-btn"
             class="absolute-left"
             x-large
             outlined

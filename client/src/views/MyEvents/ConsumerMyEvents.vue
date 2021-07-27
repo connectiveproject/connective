@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      value: null,
+      value: "",
       chosenDisplayType: this.$vuetify.breakpoint.mobile ? "4day" : "week",
       clickedEvent: null,
       isModalOpen: false,

@@ -18,14 +18,53 @@ class SchoolActivityGroupManager(models.Manager):
             return container_only_groups[0]
 
 
+class ImportedOrganization(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    organization_number = models.CharField(max_length=10, unique=True)
+    email = models.EmailField(null=True, blank=True)
+    description = models.CharField(max_length=4096, null=True, blank=True)
+    website_url = models.URLField(null=True, blank=True)
+    name = models.CharField(max_length=256, null=True, blank=True)
+    goal = models.CharField(max_length=4096, null=True, blank=True)
+    year_founded = models.CharField(max_length=128, null=True, blank=True)
+    status = models.CharField(max_length=50, null=True, blank=True)
+    target_audience = models.JSONField(null=True, blank=True)
+    number_of_employees = models.PositiveIntegerField(null=True, blank=True)
+    number_of_members = models.PositiveIntegerField(null=True, blank=True)
+    number_of_volunteers = models.PositiveIntegerField(null=True, blank=True)
+    location_lon = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
+    location_lat = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+    )
+
+    address_city = models.CharField(max_length=256, null=True, blank=True)
+    address_street = models.CharField(max_length=256, null=True, blank=True)
+    address_house_num = models.CharField(max_length=30, null=True, blank=True)
+    address_zipcode = models.CharField(max_length=9, null=True, blank=True)
+    cities = models.JSONField(null=True, blank=True)
+    districts = models.JSONField(null=True, blank=True)
+    union_type = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} | {self.organization_number} | {self.slug}"
+
+
 class Organization(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True, null=True)
     email = models.EmailField()
-    description = models.CharField(max_length=250)
+    description = models.CharField(max_length=300)
     website_url = models.URLField(null=True, blank=True)
-    name = models.CharField(max_length=50)
-    goal = models.CharField(max_length=250, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    goal = models.CharField(max_length=300, null=True, blank=True)
     year_founded = models.CharField(max_length=4, null=True, blank=True)
     status = models.CharField(max_length=50, null=True, blank=True)
     target_audience = models.JSONField(null=True, blank=True)
@@ -47,14 +86,14 @@ class Organization(models.Model):
 
     address_city = models.CharField(max_length=150, null=True, blank=True)
     address_street = models.CharField(max_length=150, null=True, blank=True)
-    address_house_num = models.CharField(max_length=4, null=True, blank=True)
+    address_house_num = models.CharField(max_length=20, null=True, blank=True)
     address_zipcode = models.CharField(max_length=9, null=True, blank=True)
     cities = models.JSONField(null=True, blank=True)
     districts = models.JSONField(null=True, blank=True)
     union_type = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.organization_number} | {self.slug}"
 
 
 class Activity(models.Model):
@@ -74,7 +113,7 @@ class Activity(models.Model):
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
-    activity_website_url = models.URLField(null=True, blank=True)
+    activity_website_url = models.URLField(max_length=750, null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)
     description = models.CharField(max_length=550, default="")
     contact_name = models.CharField(max_length=60, default="")
@@ -95,6 +134,43 @@ class Activity(models.Model):
             return f"{self.name} | {self.slug} | {self.originization.name}"
         except AttributeError:
             return f"{self.name} | {self.slug}"
+
+
+class ImportedActivity(models.Model):
+    slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    activity_code = models.IntegerField()
+    name = models.CharField(max_length=550)
+    raw_name = models.CharField(max_length=550)
+    target_audience = models.JSONField()
+    organization_number = models.IntegerField()
+    organization_name = models.CharField(max_length=1550, default="")
+    target_gender = models.JSONField()
+    target_gender = models.JSONField()
+    target_population = models.JSONField()
+    target_time = models.JSONField()
+    target_size = models.JSONField()
+    target_migzar = models.JSONField()
+    target_pikuah = models.JSONField()
+    profession = models.JSONField()
+    goal = models.CharField(max_length=1550, default="")
+    is_active = models.BooleanField()
+    activity_website_url = models.URLField(max_length=750, null=True, blank=True)
+    activity_email = models.EmailField(null=True, blank=True)
+    description = models.CharField(max_length=1550, default="")
+    contact_name = models.CharField(max_length=100, default="")
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
+    def __str__(self):
+        return f"{self.name} | {self.slug} | {self.activity_code}"
 
 
 class ActivityMedia(models.Model):

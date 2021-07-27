@@ -1,8 +1,12 @@
 <template>
   <div
+    data-testid="input-drawer"
     class="drawer white-bg pt-3"
     @click="openDrawer"
-    v-click-outside="closeDrawer"
+    v-click-outside="{
+      handler: closeDrawer,
+      include: clickOutsideInclude,
+    }"
   >
     <v-row dense justify="space-between">
       <v-col cols="2" sm="2">
@@ -13,34 +17,35 @@
       <v-col cols="7" class="overflow-hidden">
         <validation-observer slim>
           <validation-provider
+            immediate
             vid="uniqueName"
             v-slot="{ errors }"
             :name="uniqueName"
             :rules="rules"
-            immediate
           >
             <v-text-field
               v-if="type === 'text'"
               v-show="isDrawerOpen()"
               class="mt-5"
+              :data-testid="uniqueName"
               :value="value"
-              @input="$emit('input', $event)"
               :error-messages="errors"
+              @input="$emit('input', $event)"
             >
             </v-text-field>
             <v-select
               v-if="type === 'select'"
               v-show="isDrawerOpen()"
+              chips
+              deletable-chips
               class="mt-5"
+              :data-testid="uniqueName"
               :value="value"
-              @input="$emit('input', $event)"
               :error-messages="errors"
               :items="choices"
               :multiple="multiselect"
-              chips
-              deletable-chips
-            >
-            </v-select>
+              @input="$emit('input', $event)"
+            />
             <strong
               v-show="!isDrawerOpen()"
               class="text-subtitle-2 text-lg-subtitle-1"
@@ -103,9 +108,11 @@ export default {
     },
   },
 
-  data: () => ({
-    drawerOpened: false,
-  }),
+  data() {
+    return {
+      drawerOpened: false,
+    }
+  },
 
   methods: {
     openDrawer() {
@@ -116,6 +123,10 @@ export default {
     },
     isDrawerOpen() {
       return this.drawerOpened
+    },
+    clickOutsideInclude() {
+      // don't collapse input-drawer if click happened inside v-select
+      return [...document.getElementsByClassName("menuable__content__active")]
     },
   },
 

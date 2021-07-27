@@ -60,6 +60,13 @@ class Event(models.Model):
 
 
 class ConsumerEventFeedback(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["consumer", "event"], name="unique consumer feedback"
+            )
+        ]
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     event = models.ForeignKey(
         Event,

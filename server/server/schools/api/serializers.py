@@ -17,7 +17,7 @@ class SchoolSerializer(serializers.ModelSerializer):
             "name",
             "address",
             "address_city",
-            "zip_city",
+            "address_zipcode",
             "school_code",
             "description",
             "contact_phone",

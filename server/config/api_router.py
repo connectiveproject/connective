@@ -15,10 +15,13 @@ from server.organizations.api.views import (
     SchoolActivityGroupViewSet,
     VendorActivityViewSet,
 )
+from server.posts.api.views import PostImageViewSet, PostViewSet
 from server.schools.api.views import SchoolViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
     CoordinatorProfileViewSet,
+    ExportConsumerListViewSet,
+    ExportCoordinatorListViewSet,
     InstructorProfileViewSet,
     ManageConsumersViewSet,
     ManageCoordinatorsViewSet,
@@ -69,6 +72,14 @@ router.register(
     "manage_coordinators", ManageCoordinatorsViewSet, basename="manage_coordinators"
 )
 router.register(
+    "export_consumer_list", ExportConsumerListViewSet, basename="export_consumer_list"
+)
+router.register(
+    "export_coordinator_list",
+    ExportCoordinatorListViewSet,
+    basename="export_coordinator_list",
+)
+router.register(
     "manage_instructors", ManageInstructorsViewSet, basename="manage_instructors"
 )
 router.register("manage_vendors", ManageVendorsViewSet, basename="manage_vendors")
@@ -84,6 +95,16 @@ router.register(
     "consumer_event_feedback",
     ConsumerEventFeedbackViewset,
     basename="consumer_event_feedback",
+)
+router.register(
+    "posts",
+    PostViewSet,
+    basename="posts",
+)
+router.register(
+    "post_image",
+    PostImageViewSet,
+    basename="post_image",
 )
 
 app_name = "api"

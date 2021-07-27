@@ -9,7 +9,14 @@ logger = logging.getLogger(__name__)
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ["school_group", "start_time", "end_time", "school", "activity"]
+    list_display = [
+        "school_group",
+        "start_time",
+        "end_time",
+        "school",
+        "activity",
+        "has_summary",
+    ]
     search_fields = [
         "school_group__activity_order__school__name",
         "school_group__activity_order__activity__name",

@@ -2,10 +2,11 @@
 
 describe("crud group", () => {
   beforeEach(() => {
-    cy.visit("https://8080-gray-halibut-x0n7xsmr.ws-eu10.gitpod.io/")
+    cy.visit(Cypress.env("clientUrl"))
     cy.get('[data-testid="email-input"]').type("test-coord@example.com")
     cy.get('[data-testid="password-input"]').type("Aa123456789")
     cy.get("form").submit()
+    cy.url().should("contain", "dashboard")
   })
 
   it("should create a group", () => {

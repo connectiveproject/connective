@@ -15,12 +15,12 @@
         :key="group.id"
       >
         <info-card
-          :hideStar="true"
+          hide-star
+          hide-button
           :title="group.name"
           :subtitle="group.activityName"
           :imgUrl="group.activityLogo"
-          :buttonText="$t('myActivity.forGroupDetails')"
-          buttonColor="primary"
+          :button-text="$t('myActivity.forGroupDetails')"
         >
           <title-to-text
             class="mb-1"
@@ -37,7 +37,7 @@
     <div class="text-center pt-10 overline">
       {{ totalGroups }} {{ $t("myActivity.groupsFound") }}
     </div>
-    <end-of-page-detector @endOfPage="onEndOfPage" />
+    <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 <script>

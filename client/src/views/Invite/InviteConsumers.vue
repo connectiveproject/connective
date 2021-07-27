@@ -68,12 +68,7 @@
             </v-tooltip>
             <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="exportCSV(tableProps.items)"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn @click="exportCSV" icon v-bind="attrs" v-on="on">
                   <v-icon color="primary">mdi-file-download-outline</v-icon>
                 </v-btn>
               </template>
@@ -108,7 +103,8 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import { exportCSV, validateStudentsArray, translateStatus } from "./helpers"
+import Api from "../../api"
+import { validateStudentsArray, translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
 
@@ -188,9 +184,9 @@ export default {
     ...mapActions("school", [
       "getStudentList",
       "deleteStudents",
-      "addStudents",
+      "addStudentsBulk",
+      "getStudentsExportFile",
     ]),
-    exportCSV,
     translateStatus,
     validateStudentsArray,
 
@@ -211,12 +207,16 @@ export default {
 
     async importCSV() {
       try {
-        await this.addStudents(this.csvFile)
+        const added = await this.addStudentsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getStudents()
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = `${added.length} ${this.$t(
+          "invite.consumersHasBeenInvitedToJoinThePlatform"
+        )}`
+        this.csvFile = null
+      } catch (err) {
+        this.popupMsg = Api.utils.parseResponseError(err)
+        this.csvFile = null
       }
     },
 
@@ -252,6 +252,14 @@ export default {
       this.dialogMode = "create"
       this.isDialogActive = true
     },
+
+    exportCSV: debounce(
+      function () {
+        this.getStudentsExportFile()
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

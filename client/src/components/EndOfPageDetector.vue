@@ -13,7 +13,7 @@ export default {
   methods: {
     onIntersect(event) {
       if (event[0].isIntersecting) {
-        this.$emit("endOfPage")
+        this.$emit("end-of-page")
       }
     },
   },

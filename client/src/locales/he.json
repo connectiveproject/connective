@@ -12,7 +12,9 @@
     "personalInfo": "פרטים אישיים",
     "name": "שם",
     "school": "בית ספר | בית הספר",
+    "schoolName": "שם בית ספר",
     "schoolCode": "סמל מוסד",
+    "schoolPhoneNumber": "טלפון בית ספר",
     "schoolGrades": "שכבות לימוד",
     "schoolDetails": "פרטי בית הספר",
     "understood": "הבנתי",
@@ -64,6 +66,7 @@
     "programsExplorer": "חוקר התוכניות",
     "findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!": "מצאו תוכניות שמתאימות לחזון הפדגוגי של בית הספר והתחילו לשתף פעולה!",
     "searchAndFindTheProgramsYouLike!": "חפשו ומצאו את התוכניות שאתם אוהבים!",
+    "tagsLabel": "תגיות",
     "programsFound": "תוכניות נמצאו",
     "name": "שם התוכנית",
     "description": "על התוכנית",
@@ -109,8 +112,7 @@
     "individual": "פרטני",
     "cooperative": "קבוצתי",
     "hybrid": "משולב",
-    "targetAudience": "קהל יעד",
-    "allAges": "כלל הגילאים"
+    "targetAudience": "קהל יעד"
   },
 
   "invite": {
@@ -136,7 +138,9 @@
     "editInstructor": "עריכת מדריך",
     "inviteInstructor": "הזמנת מדריך",
     "inviteUser": "הזמנת משתמש",
-    "removeUser": "הסרת משתמש"
+    "removeUser": "הסרת משתמש",
+    "consumersHasBeenInvitedToJoinThePlatform": "תלמידים הוזמנו להצטרף לפלטפורמה",
+    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה"
   },
 
   "userActions": {
@@ -151,7 +155,11 @@
     "edit": "עריכת|עירכו",
     "add": "הוספה|הוסיפו",
     "delete": "מחיקה",
-    "finish": "סיום"
+    "finish": "סיום",
+    "toHomepage": "לדף הבית",
+    "addMedia": "הוספת מדיה",
+    "addPost": "הוספת פוסט",
+    "addPublicPost": "הוספת פוסט פומבי"
   },
 
   "grades": {
@@ -172,6 +180,8 @@
   "auth": {
     "password": "סיסמה",
     "reEnterPassword": "סיסמה חוזרת",
+    "newPassword": "סיסמה חדשה",
+    "chooseNewPassword": "בחרו סיסמה חדשה",
     "login": "התחברות",
     "logout": "התנתקות",
     "registration": "הרשמה",
@@ -251,12 +261,17 @@
     "statistics": "סטטיסטיקות",
     "advancedViewOfAllYourActivities": "צפייה בפירוט מתקדם על כלל הפעילויות שלך",
     "mostPopularProgramsByPendingRequests": "התוכניות הפופולריות ביותר על פי בקשות המחכות לאישור",
-    "groupsFound": "קבוצות נמצאו"
+    "groupsFound": "קבוצות נמצאו",
+    "students": "תלמידים",
+    "studentsDisplay": "תצוגת תלמידים",
+    "studentsFound": "תלמידים נמצאו",
+    "toThePersonalPage": "לעמוד האישי"
   },
 
   "events": {
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
+    "eventFeedShareContent": "תוכן הפוסט",
     "eventsToSummarize": "אירועים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו אירועים לסיכום",
     "eventsToFeedbackWereNotFound": "לא נמצאו אירועים למישוב",
@@ -290,6 +305,7 @@
   },
 
   "time": {
+    "today": "היום",
     "startTime": "שעת התחלה",
     "endTime": "שעת סיום",
     "day-0": "ראשון",
@@ -315,5 +331,20 @@
     "weekly": "שבועי",
     "halfWeekly": "חצי שבועי",
     "daily": "יומי"
+  },
+
+  "posts": {
+    "myFeed": "הפיד שלי",
+    "viewUpdatesAndPostsInRealTime!": "צפו בעדכונים ופרסומים בזמן אמת!",
+    "thisPostWillBeVisibleForEveryone": "פרסום זה יהיה חשוף לכולם",
+    "thisPostIsNotVisibleForStudents": "פרסום זה לא חשוף לתלמידים"
+  },
+
+  "tags": {
+    "outdoorActivities": "פעילויות חוץ",
+    "foreignLanguages": "שפות זרות",
+    "physicalChallenge": "אתגר פיזי",
+    "swimming": "שחיה",
+    "suitedForReligious": "מותאם לקהל דתי"
   }
 }

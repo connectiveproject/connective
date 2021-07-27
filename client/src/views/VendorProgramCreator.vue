@@ -23,6 +23,7 @@
     </div>
     <div class="text-center text-lg-start mt-16 mb-8">
       <v-btn
+        data-testid="save-btn"
         large
         v-text="$t('userActions.save')"
         class="white--text primary"

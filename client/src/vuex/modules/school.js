@@ -1,4 +1,5 @@
 import Api from "../../api"
+import Utils from "../../helpers/utils"
 
 function getDefaultState() {
   return {
@@ -7,7 +8,7 @@ function getDefaultState() {
       name: null,
       address: null,
       addressCity: null,
-      zipCity: null,
+      addressZipcode: null,
       schoolCode: null,
       description: null,
       contactPhone: null,
@@ -82,11 +83,26 @@ const school = {
       commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
+    getStudentsExportFile({ rootGetters }) {
+      const params = rootGetters["pagination/apiParams"]
+      Api.school.getStudentsExportFile(params).then(res => {
+        Utils.downloadTextAsFile("students.csv", res.request.response)
+        return res
+      })
+    },
+    getCoordinatorsExportFile({ rootGetters }) {
+      const params = rootGetters["pagination/apiParams"]
+      Api.school.getCoordinatorsExportFile(params).then(res => {
+        Utils.downloadTextAsFile("principals.csv", res.request.response)
+        return res
+      })
+    },
     addStudent(ctx, student) {
       return Api.school.addStudent(student)
     },
-    addStudents(ctx, csvFile) {
-      return Api.school.addStudents(csvFile)
+    async addStudentsBulk(ctx, csvFile) {
+      const res = await Api.school.addStudentsBulk(csvFile)
+      return res.data
     },
     deleteStudents(ctx, studentSlugs) {
       return Api.school.deleteStudents(studentSlugs)
@@ -106,8 +122,9 @@ const school = {
     addCoordinator(ctx, coordinator) {
       return Api.school.addCoordinator(coordinator)
     },
-    addCoordinators(ctx, csvFile) {
-      return Api.school.addCoordinators(csvFile)
+    async addCoordinatorsBulk(ctx, csvFile) {
+      const res = await Api.school.addCoordinatorsBulk(csvFile)
+      return res.data
     },
     deleteCoordinators(ctx, coordinatorSlugs) {
       return Api.school.deleteCoordinators(coordinatorSlugs)

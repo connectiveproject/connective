@@ -3,6 +3,8 @@ from django.contrib import admin
 from .models import (
     Activity,
     ActivityMedia,
+    ImportedActivity,
+    ImportedOrganization,
     Organization,
     OrganizationMember,
     SchoolActivityGroup,
@@ -59,3 +61,5 @@ class SchoolActivityGroupAdmin(admin.ModelAdmin):
 admin.site.register(Organization)
 admin.site.register(ActivityMedia)
 admin.site.register(OrganizationMember)
+admin.site.register(ImportedOrganization)
+admin.site.register(ImportedActivity)

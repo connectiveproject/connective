@@ -63,15 +63,8 @@
             </v-tooltip>
             <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="exportCSV(tableProps.items)"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon color="primary"
-                    >mdi-file-download-outline</v-icon
-                  >
+                <v-btn @click="exportCSV" icon v-bind="attrs" v-on="on">
+                  <v-icon color="primary">mdi-file-download-outline</v-icon>
                 </v-btn>
               </template>
               <span class="px-3">{{ $t("userActions.export") }}</span>
@@ -103,7 +96,9 @@
 
 <script>
 import { mapActions } from "vuex"
-import { exportCSV, translateStatus } from "./helpers"
+import debounce from "lodash/debounce"
+import Api from "../../api"
+import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
 
@@ -177,9 +172,9 @@ export default {
     ...mapActions("school", [
       "getCoordinatorList",
       "deleteCoordinators",
-      "addCoordinators",
+      "addCoordinatorsBulk",
+      "getCoordinatorsExportFile",
     ]),
-    exportCSV,
     translateStatus,
 
     async getCoordinators() {
@@ -200,12 +195,16 @@ export default {
 
     async importCSV() {
       try {
-        await this.addCoordinators(this.csvFile)
+        const added = await this.addCoordinatorsBulk(this.csvFile)
         this.tableProps.options.page = 1
         this.getCoordinators()
-        this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
-      } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = `${added.length} ${this.$t(
+          "invite.coordinatorsHasBeenInvitedToJoinThePlatform"
+        )}`
+        this.csvFile = null
+      } catch (err) {
+        this.popupMsg = Api.utils.parseResponseError(err)
+        this.csvFile = null
       }
     },
 
@@ -213,15 +212,19 @@ export default {
       document.getElementById("csvImportInput").click()
     },
 
-    async handleDeleteRequest() {
-      if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
-        let slugs = this.selectedRows.map(row => row.slug)
-        await this.deleteCoordinators(slugs)
-        this.selectedRows = []
-        this.getCoordinators()
-        this.showMessage(this.$t("success.userDeletedSuccessfully"))
-      }
-    },
+    handleDeleteRequest: debounce(
+      async function () {
+        if (confirm(this.$t("confirm.AreYouSureYouWantToDelete?"))) {
+          let slugs = this.selectedRows.map(row => row.slug)
+          await this.deleteCoordinators(slugs)
+          this.selectedRows = []
+          this.getCoordinators()
+          this.showMessage(this.$t("success.userDeletedSuccessfully"))
+        }
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     editCoordinator(coordinator) {
       this.dialogCoordinator = Object.assign({}, coordinator)
@@ -236,6 +239,14 @@ export default {
       this.dialogMode = "create"
       this.isDialogActive = true
     },
+
+    exportCSV: debounce(
+      function () {
+        this.getCoordinatorsExportFile()
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 }
 </script>

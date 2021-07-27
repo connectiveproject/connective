@@ -13,6 +13,7 @@
                   rules="required"
                 >
                   <v-text-field
+                    data-testid="instructor-dialog-name-input"
                     :label="$t('general.name')"
                     v-model="formInput.name"
                     :error-messages="errors"
@@ -26,6 +27,7 @@
                   rules="required|email"
                 >
                   <v-text-field
+                    data-testid="instructor-dialog-email-input"
                     :label="$t('general.email')"
                     v-model="formInput.email"
                     :error-messages="errors"

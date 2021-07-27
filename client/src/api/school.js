@@ -4,6 +4,10 @@ import {
   UPDATE_SCHOOL_DETAILS_API_URL,
   GET_SCHOOL_STUDENTS_LIST_API_URL,
   ADD_SCHOOL_STUDENTS_API_URL,
+  ADD_SCHOOL_COORDINATORS_BULK_API_URL,
+  ADD_SCHOOL_STUDENTS_BULK_API_URL,
+  GET_SCHOOL_STUDENTS_EXPORT_FILE_API_URL,
+  GET_SCHOOL_COORDINATORS_EXPORT_FILE_API_URL,
   DELETE_SCHOOL_STUDENTS_API_URL,
   EDIT_SCHOOL_STUDENTS_API_URL,
   GET_SCHOOL_COORDINATORS_LIST_API_URL,
@@ -18,8 +22,7 @@ const school = {
   },
 
   updateSchoolDetails(schoolSlug, data) {
-    if (!schoolSlug)
-      throw "updateSchoolDetails: received empty slug"
+    if (!schoolSlug) throw "updateSchoolDetails: received empty slug"
     return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, data)
   },
 
@@ -32,11 +35,28 @@ const school = {
     return axios.post(ADD_SCHOOL_STUDENTS_API_URL, student)
   },
 
-  addStudents(csvFile) {
+  addCoordinatorsBulk(csvFile) {
     // :File csvFile: file containing students to add to the school
     let formData = new FormData()
     formData.append("file", csvFile)
-    return axios.post(ADD_SCHOOL_STUDENTS_API_URL, formData)
+    return axios.post(ADD_SCHOOL_COORDINATORS_BULK_API_URL, formData)
+  },
+
+  getCoordinatorsExportFile(params) {
+    // :Object params: query params
+    return axios.get(GET_SCHOOL_COORDINATORS_EXPORT_FILE_API_URL, { params })
+  },
+
+  addStudentsBulk(csvFile) {
+    // :File csvFile: file containing students to add to the school
+    let formData = new FormData()
+    formData.append("file", csvFile)
+    return axios.post(ADD_SCHOOL_STUDENTS_BULK_API_URL, formData)
+  },
+
+  getStudentsExportFile(params) {
+    // :Object params: query params
+    return axios.get(GET_SCHOOL_STUDENTS_EXPORT_FILE_API_URL, { params })
   },
 
   editStudent(slug, data) {
@@ -59,13 +79,6 @@ const school = {
 
   addCoordinator(coordinator) {
     return axios.post(ADD_SCHOOL_COORDINATORS_API_URL, coordinator)
-  },
-
-  addCoordinators(csvFile) {
-    // :File csvFile: file containing coordinators to add to the school
-    let formData = new FormData()
-    formData.append("file", csvFile)
-    return axios.post(ADD_SCHOOL_COORDINATORS_API_URL, formData)
   },
 
   editCoordinator(slug, data) {

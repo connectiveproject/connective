@@ -1,3 +1,7 @@
+import csv
+import io
+import os
+
 from django.contrib.auth import get_user_model
 from rest_framework import filters, status
 from rest_framework.decorators import action
@@ -22,6 +26,7 @@ from ..models import (
     Vendor,
     VendorProfile,
 )
+from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
@@ -121,8 +126,49 @@ class ManageConsumersViewSet(ModelViewSet):
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
+        users_to_invite = []
+        if not request.FILES:
+            return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
+
+        request_file = request.FILES["file"]
+        _, file_extension = os.path.splitext(request_file.name)
+        if file_extension != ".csv":
+            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+
+        emails = set()
+        for row in csv.DictReader(
+            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
+        ):
+            name = row.get("name").strip() if row.get("name") else ""
+            email = row.get("email").strip() if row.get("email") else ""
+            gender = (
+                row.get("gender").strip()
+                if row.get("gender")
+                else ConsumerProfile.Gender.UNKNOWN
+            )
+            if email not in emails:
+                emails.add(email)
+                users_to_invite.append(
+                    {
+                        "name": name,
+                        "email": email,
+                        "profile": {"gender": gender},
+                    }
+                )
+
+        already_existing_emails = User.objects.filter(
+            email__in=[user["email"] for user in users_to_invite]
+        ).values_list("email", flat=True)
+        users_to_invite = [
+            user
+            for user in users_to_invite
+            if user["email"] not in already_existing_emails
+        ]
+
         serializer = ManageConsumersSerializer(
-            data=request.data, context={"request": request}, many=True
+            data=users_to_invite,
+            context={"request": request},
+            many=True,
         )
         if serializer.is_valid():
             serializer.save()
@@ -144,13 +190,78 @@ class ManageCoordinatorsViewSet(ModelViewSet):
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
+        users_to_invite = []
+        if not request.FILES:
+            return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
+
+        request_file = request.FILES["file"]
+        _, file_extension = os.path.splitext(request_file.name)
+        if file_extension != ".csv":
+            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+
+        emails = set()
+        for row in csv.DictReader(
+            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
+        ):
+            name = row.get("name").strip() if row.get("name") else ""
+            email = row.get("email").strip() if row.get("email") else ""
+            if email not in emails:
+                # add user if email not seem already in the file
+                users_to_invite.append(
+                    {
+                        "name": name,
+                        "email": email,
+                    }
+                )
+                emails.add(email)
+
+        # remove already existing emails
+        already_existing_emails = User.objects.filter(
+            email__in=[user["email"] for user in users_to_invite]
+        ).values_list("email", flat=True)
+        users_to_invite = [
+            user
+            for user in users_to_invite
+            if user["email"] not in already_existing_emails
+        ]
+
         serializer = ManageCoordinatorsSerializer(
-            data=request.data, context={"request": request}, many=True
+            data=users_to_invite,
+            context={"request": request},
+            many=True,
         )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ExportConsumerListViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageConsumersSerializer
+    lookup_field = "slug"
+    renderer_classes = (UsersCSVRenderer,)
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Consumer.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
+
+
+class ExportCoordinatorListViewSet(ModelViewSet):
+    permission_classes = [AllowCoordinator]
+    serializer_class = ManageCoordinatorsSerializer
+    lookup_field = "slug"
+    renderer_classes = (UsersCSVRenderer,)
+    search_fields = ["email", "name"]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+
+    def get_queryset(self):
+        return Coordinator.objects.filter(
+            school_member__school=self.request.user.school_member.school
+        )
 
 
 class ManageVendorsViewSet(ModelViewSet):
@@ -165,16 +276,6 @@ class ManageVendorsViewSet(ModelViewSet):
             organization_member__organization=self.request.user.organization_member.organization
         )
 
-    @action(detail=False, methods=["POST"])
-    def bulk_create(self, request):
-        serializer = ManageVendorsSerializer(
-            data=request.data, context={"request": request}, many=True
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class ManageInstructorsViewSet(ModelViewSet):
     permission_classes = [AllowVendor]
@@ -187,13 +288,3 @@ class ManageInstructorsViewSet(ModelViewSet):
         return Instructor.objects.filter(
             organization_member__organization=self.request.user.organization_member.organization
         )
-
-    @action(detail=False, methods=["POST"])
-    def bulk_create(self, request):
-        serializer = ManageInstructorsSerializer(
-            data=request.data, context={"request": request}, many=True
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

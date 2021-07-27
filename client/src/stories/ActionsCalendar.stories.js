@@ -24,7 +24,7 @@ const Template = args => ({
 export const Primary = Template.bind({})
 Primary.args = {
   displayType: "week",
-  value: null,
+  value: "",
   events: [
     {
       name: "תופסים פוקימונים בפארק הירקון",
