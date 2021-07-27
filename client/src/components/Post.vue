@@ -18,40 +18,43 @@
           v-for="image in images.slice(0, 3)"
           :key="image.id"
           cols="6"
+          class="pa-1"
         >
-          <div class="text-center">
-            <v-dialog v-model="dialog">
-              <template v-slot:activator="{ on, attrs }">
-                <v-img
-                  style="max-width: 50vw; max-height: 50vh"
-                  v-bind="attrs"
-                  v-on="on"
-                  :src="image"
-                />
-              </template>
-              <v-card>
-                <v-img class="show-more-overlay" :src="image" />
-              </v-card>
-            </v-dialog>
-          </div>
+          <v-img
+            class="cursor-pointer"
+            @click="showCarousel = true"
+            height="200"
+            width="300"
+            :src="image"
+          />
         </v-col>
-        <v-col v-if="showMore" cols="6">
-          <v-img max-height="150" class="w-100" :src="images[4]">
-            <v-overlay absolute color="#036358" class="show-more-overlay">
+        <v-col v-if="showMore" cols="6" class="pa-1">
+          <v-img
+            class="cursor-pointer"
+            @click="showCarousel = true"
+            height="200"
+            width="300"
+            :src="images[3]"
+          >
+            <v-overlay absolute color="#036358">
               <h1>{{ additionalImages }}+</h1>
             </v-overlay>
           </v-img>
         </v-col>
       </v-row>
     </v-card>
+    <v-dialog v-model="showCarousel" max-width="650">
+      <carousel :media-list="carouselMedia" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import Avatar from "./Avatar/Avatar.vue"
-export default {
-  components: { Avatar },
+import Avatar from "./Avatar/Avatar"
+import Carousel from "./Carousel"
 
+export default {
+  components: { Avatar, Carousel },
   props: {
     width: {
       type: String,
@@ -80,19 +83,24 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      showCarousel: false,
       showMore: this.images.length > 3,
       additionalImages: this.images.length - 3,
     }
+  },
+  computed: {
+    carouselMedia() {
+      return this.images.map(image => ({
+        mediaType: "image",
+        imageUrl: image,
+      }))
+    },
   },
 }
 </script>
 <style scoped>
 #info-button {
   letter-spacing: 1.7px !important;
-}
-.show-more-overlay {
-  cursor: "pointer";
 }
 .actions {
   height: 40px;

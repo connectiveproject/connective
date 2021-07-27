@@ -2,7 +2,7 @@
   <v-carousel
     v-bind="$attrs"
     height="350"
-    class="mt-6 mx-auto rounded-lg"
+    class="mt-6 mx-auto rounded-lg grey darken-4"
     show-arrows-on-hover
     hide-delimiter-background
     delimiter-icon="mdi-minus"
@@ -13,6 +13,7 @@
       :key="media.id"
       reverse-transition="fade-transition"
       transition="fade-transition"
+      class="text-center"
     >
       <iframe
         v-if="media.mediaType === 'video'"
@@ -23,11 +24,10 @@
         allow="autoplay; encrypted-media"
         allowfullscreen
       />
-      <img v-else :src="media.imageUrl" class="w-100" height="350" />
+      <img v-else :src="media.imageUrl" height="350" />
     </v-carousel-item>
   </v-carousel>
 </template>
-
 <script>
 import Utils from "../helpers/utils"
 
