@@ -141,6 +141,7 @@
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "../vuex/store"
+import Api from "../api"
 import Utils from "../helpers/utils"
 import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
 import VTribute from "../components/VTribute"
@@ -204,6 +205,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("instructorEvent", [
       "updateEvent",
       "createFeedPost",
@@ -212,12 +214,17 @@ export default {
     parseDate: Utils.ApiStringToReadableDate,
     onSubmit: debounce(
       async function () {
-        if (this.addPost) {
-          await Promise.all([this.createSummary(), this.createPost()])
-        } else {
-          await this.createSummary()
+        try {
+          if (this.addPost) {
+            await Promise.all([this.createSummary(), this.createPost()])
+          } else {
+            await this.createSummary()
+          }
+          this.isModalOpen = true
+        } catch (err) {
+          const message = Api.utils.parseResponseError(err)
+          this.showMessage(message)
         }
-        this.isModalOpen = true
       },
       500,
       { leading: true, trailing: false }
