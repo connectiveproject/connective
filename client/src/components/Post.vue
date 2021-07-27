@@ -14,7 +14,11 @@
         >"
       </v-card-text>
       <v-row class="my-10" justify="center" no-gutters>
-        <v-col v-for="image in images.slice(0, 3)" :key="image.id">
+        <v-col
+          v-for="image in images.slice(0, 3)"
+          :key="image.id"
+          cols="6"
+        >
           <div class="text-center">
             <v-dialog v-model="dialog">
               <template v-slot:activator="{ on, attrs }">
@@ -31,8 +35,8 @@
             </v-dialog>
           </div>
         </v-col>
-        <v-col v-if="showMore">
-          <v-img max-height="150" class="w-100" :src="images[6]">
+        <v-col v-if="showMore" cols="6">
+          <v-img max-height="150" class="w-100" :src="images[4]">
             <v-overlay absolute color="#036358" class="show-more-overlay">
               <h1>{{ additionalImages }}+</h1>
             </v-overlay>

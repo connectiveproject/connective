@@ -37,7 +37,7 @@
     <div class="text-center pt-10 overline">
       {{ totalGroups }} {{ $t("myActivity.groupsFound") }}
     </div>
-    <end-of-page-detector @endOfPage="onEndOfPage" />
+    <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 <script>

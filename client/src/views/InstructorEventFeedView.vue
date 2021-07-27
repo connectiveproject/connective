@@ -17,7 +17,7 @@
         />
       </v-col>
     </v-row>
-    <end-of-page-detector @endOfPage="onEndOfPage" />
+    <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
     ...mapActions("pagination", ["incrementPage"]),
     onEndOfPage() {
       this.incrementPage()
-      if (this.totalFeedPosts > this.postList.length) {
+      if (this.totalFeedPosts > this.posts.length) {
         this.getFeedPosts(false)
       }
     },

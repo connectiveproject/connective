@@ -55,7 +55,7 @@
         </v-row>
       </v-col>
     </v-row>
-    <end-of-page-detector @endOfPage="onEndOfPage" />
+    <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 

@@ -59,7 +59,7 @@
       </v-col>
     </v-row>
     <router-view v-model="isProgramOpen" />
-    <end-of-page-detector @endOfPage="onEndOfPage" />
+    <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 
