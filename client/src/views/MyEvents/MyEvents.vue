@@ -1,10 +1,24 @@
 <template>
   <div>
-    <h1 v-text="$t('events.eventsBoard')" class="mb-5" />
-    <h2
-      v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
-      class="pb-12"
-    />
+    <div class="d-flex mb-5 justify-space-between">
+      <div>
+        <h1 v-text="$t('events.eventsBoard')" />
+        <h2
+          v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
+          class="pb-12"
+        />
+      </div>
+      <v-btn
+        tile
+        large
+        class="d-block"
+        color="success"
+        @click="$router.push({ name: 'CoordinatorEventCreator' })"
+      >
+        {{ $tc("userActions.addEvents", 1) }}
+        <v-icon right> mdi-plus </v-icon>
+      </v-btn>
+    </div>
     <actions-calendar
       v-model="value"
       first-interval="5"

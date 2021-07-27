@@ -42,6 +42,7 @@ import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
+import CoordinatorEventCreator from "../views/CoordinatorEventCreator"
 import ConsumerList from "../views/ConsumerList/ConsumerList"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
@@ -275,6 +276,11 @@ const routes = [
             props: true,
           },
           {
+            path: "event-creator",
+            name: "CoordinatorEventCreator",
+            component: CoordinatorEventCreator,
+          },
+          {
             path: "group-editor",
             component: GroupEditor,
             children: [
@@ -327,7 +333,7 @@ const routes = [
             path: "event-feed-view",
             name: "InstructorEventFeedView",
             component: InstructorEventFeedView,
-            beforeEnter: flushPagination
+            beforeEnter: flushPagination,
           },
         ],
       },
@@ -404,7 +410,6 @@ const routes = [
     path: "*",
     redirect: "/",
   },
-
 ]
 
 const router = new VueRouter({

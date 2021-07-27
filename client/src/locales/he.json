@@ -144,6 +144,8 @@
   },
 
   "userActions": {
+    "confirm": "אישור",
+    "cancel": "ביטול",
     "remove": "הסרת|הסירו",
     "save": "שמירה",
     "next": "המשך",
@@ -159,7 +161,10 @@
     "toHomepage": "לדף הבית",
     "addMedia": "הוספת מדיה",
     "addPost": "הוספת פוסט",
-    "addPublicPost": "הוספת פוסט פומבי"
+    "addPublicPost": "הוספת פוסט פומבי",
+    "addEvents": "הוספת מפגשים",
+    "timeChoose": "בחירת שעה",
+    "dateChoose": "בחירת תאריך"
   },
 
   "grades": {
@@ -288,7 +293,8 @@
     "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
     "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
-    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים"
+    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים",
+    "eventsCreation": "יצירת מפגשים"
   },
 
   "groups": {

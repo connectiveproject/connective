@@ -10,6 +10,7 @@ from server.utils.model_fields import random_slug
 
 class Event(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
+    events_sequence_slug = models.CharField(max_length=40, default=random_slug)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     consumers = models.ManyToManyField(
