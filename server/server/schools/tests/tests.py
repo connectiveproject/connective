@@ -17,7 +17,7 @@ class TestSchoolViewSet:
         school_data = {
             "address": "123 foo foo",
             "address_city": "city",
-            "zip_city": "1111111111111",
+            "address_zipcode": "1111111111111",
             "school_code": "1111111111111",
             "description": "A SCHOOL",
             "contact_phone": "1111111111111",

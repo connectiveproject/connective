@@ -25,7 +25,7 @@ SCHOOL_PAYLOAD = {
     "name": "בית ספר שרת - דמו",
     "address": "ארלוזורוב 75",
     "address_city": "תל אביב",
-    "zip_city": "0564665",
+    "address_zipcode": "0564665",
     "school_code": 546321,
     "description": "בית ספר יסודי שרת",
     "contact_phone": "0521234567",

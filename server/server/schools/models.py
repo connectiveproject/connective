@@ -16,7 +16,7 @@ class School(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     address_city = models.CharField(max_length=50)
-    zip_city = models.CharField(max_length=15, blank=True)
+    address_zipcode = models.CharField(max_length=15, blank=True)
     school_code = models.CharField(max_length=15)
     description = models.CharField(max_length=150, blank=True)
     contact_phone = PhoneNumberField(max_length=15)

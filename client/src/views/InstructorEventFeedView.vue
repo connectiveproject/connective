@@ -11,9 +11,9 @@
           class="mx-auto"
           :author="post.authorName"
           :author-avatar="post.authorProfilePicture"
-          :images="post.images"
+          :images="post.images.map(img => img.imageUrl)"
           :content="post.postContent"
-          :subtitle="ApiStringToReadableDate(post.creationTime)"
+          :subtitle="ApiStringToReadableDate(post.created)"
         />
       </v-col>
     </v-row>

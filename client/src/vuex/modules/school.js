@@ -8,7 +8,7 @@ function getDefaultState() {
       name: null,
       address: null,
       addressCity: null,
-      zipCity: null,
+      addressZipcode: null,
       schoolCode: null,
       description: null,
       contactPhone: null,

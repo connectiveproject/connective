@@ -21,6 +21,13 @@ class PostImageSerializer(serializers.ModelSerializer):
         read_only_fields = ["slug"]
 
 
+class ImageOnlyPostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImage
+        fields = ["image_url"]
+        read_only_fields = ["image_url"]
+
+
 class PostSerializer(serializers.ModelSerializer):
     event = serializers.SlugRelatedField(
         slug_field="slug",
@@ -32,13 +39,13 @@ class PostSerializer(serializers.ModelSerializer):
     )
     author_profile_picture = serializers.SerializerMethodField()
     author_name = serializers.CharField(source="author.name", read_only=True)
-    images = serializers.SerializerMethodField()
+    images = ImageOnlyPostImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
         fields = [
             "slug",
-            "creation_time",
+            "created",
             "event",
             "author",
             "author_name",
@@ -48,17 +55,10 @@ class PostSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "slug",
-            "creation_time",
+            "created",
             "author",
             "author_profile_picture",
         ]
 
     def get_author_profile_picture(self, obj):
         return InstructorProfile.objects.get(user=obj.author).profile_picture
-
-    def get_images(self, obj):
-        request = self.context.get("request")
-        return [
-            request.build_absolute_uri(img.image_url.url)
-            for img in PostImage.objects.filter(post__slug=obj.slug)
-        ]

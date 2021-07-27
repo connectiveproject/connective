@@ -7,7 +7,7 @@ admin.site.register(PostImage)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["slug", "creation_time", "event", "author", "content"]
+    list_display = ["slug", "created", "event", "author", "content"]
     search_fields = [
         "content",
         "author",

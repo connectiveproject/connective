@@ -149,7 +149,7 @@ export default {
       this.textFields.street.value =
         schoolAttributes.address || this.textFields.street.value
       this.textFields.zipCode.value =
-        schoolAttributes.zipCity || this.textFields.zipCode.value
+        schoolAttributes.addressZipcode || this.textFields.zipCode.value
       this.textFields.schoolCode.value =
         schoolAttributes.schoolCode || this.textFields.schoolCode.value
       this.textFields.contactPhone.value =
@@ -180,7 +180,7 @@ export default {
       data.append("name", this.textFields.name.value)
       data.append("address", this.textFields.street.value)
       data.append("address_city", this.textFields.city.value)
-      data.append("zip_city", this.textFields.zipCode.value)
+      data.append("address_zipcode", this.textFields.zipCode.value)
       data.append("school_code", this.textFields.schoolCode.value)
       data.append("description", this.textFields.description.value)
       data.append("contact_phone", this.textFields.contactPhone.value)

@@ -11,7 +11,7 @@ class Post(models.Model):
         default=random_slug,
         unique=True,
     )
-    creation_time = models.DateTimeField(
+    created = models.DateTimeField(
         auto_now_add=True,
     )
     event = models.ForeignKey(

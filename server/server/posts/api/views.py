@@ -49,11 +49,6 @@ class PostViewSet(viewsets.ModelViewSet):
         | AllowVendorReadOnly
     ]
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({"request": self.request})
-        return context
-
     def get_queryset(self):
         user = self.request.user
 
@@ -61,18 +56,18 @@ class PostViewSet(viewsets.ModelViewSet):
             return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
             return Post.objects.filter(event__school_group__instructor=user).order_by(
-                "-creation_time"
+                "-created"
             )
         elif user.user_type == get_user_model().Types.COORDINATOR:
             return Post.objects.filter(
                 event__school_group__activity_order__school__school_member__user=user,
-            ).order_by("-creation_time")
+            ).order_by("-created")
         elif user.user_type == get_user_model().Types.SUPERVISOR:
-            return Post.objects.all().order_by("-creation_time")
+            return Post.objects.all().order_by("-created")
         elif user.user_type == get_user_model().Types.VENDOR:
             return Post.objects.filter(
                 event__school_group__activity_order__activity__originization__organization_member__user=user,
-            ).order_by("-creation_time")
+            ).order_by("-created")
         return []
 
     def perform_create(self, serializer):
