@@ -2,7 +2,6 @@
   <div :style="style">
     <navbar user-type="coordinator"/>
     <router-view/>
-    <Post />
   </div>
 </template>
 <script>

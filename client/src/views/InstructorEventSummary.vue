@@ -115,7 +115,7 @@
                 <v-chip small label color="primary" v-text="text" />
               </template>
             </v-file-input>
-            <v-img v-for="url in imageUrls" :key="url" :src="url"></v-img>
+            <v-img v-for="url in imageUrls" :key="url" :src="url" />
           </v-col>
         </v-row>
       </v-card>

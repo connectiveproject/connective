@@ -7,7 +7,6 @@ const utils = {
     // :object err: error caught from response
     try {
       const response = err.response
-      debugger
       if (response.status === 400 && Object.keys(response).length) {
         let errors = response.data
         if (isArray(response.data) && response.data.length) {

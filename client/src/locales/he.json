@@ -332,10 +332,19 @@
     "halfWeekly": "חצי שבועי",
     "daily": "יומי"
   },
+
   "posts": {
     "myFeed": "הפיד שלי",
     "viewUpdatesAndPostsInRealTime!": "צפו בעדכונים ופרסומים בזמן אמת!",
     "thisPostWillBeVisibleForEveryone": "פרסום זה יהיה חשוף לכולם",
     "thisPostIsNotVisibleForStudents": "פרסום זה לא חשוף לתלמידים"
+  },
+
+  "tags": {
+    "outdoorActivities": "פעילויות חוץ",
+    "foreignLanguages": "שפות זרות",
+    "physicalChallenge": "אתגר פיזי",
+    "swimming": "שחיה",
+    "suitedForReligious": "מותאם לקהל דתי"
   }
 }

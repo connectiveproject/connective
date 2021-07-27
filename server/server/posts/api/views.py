@@ -60,16 +60,6 @@ class PostViewSet(viewsets.ModelViewSet):
         if user.user_type == get_user_model().Types.CONSUMER:
             return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
-            # # TODO: db join
-            # school_activity_groups = SchoolActivityGroup.objects.filter(
-            #     instructor=user,
-            # )
-            # events = Event.objects.filter(
-            #     school_group__in=school_activity_groups,
-            # )
-            # return Post.objects.filter(
-            #     event__in=events,
-            # )
             return Post.objects.filter(event__school_group__instructor=user).order_by(
                 "-creation_time"
             )
