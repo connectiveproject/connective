@@ -135,22 +135,34 @@ class ManageConsumersViewSet(ModelViewSet):
                     "Unsupported file type", status=status.HTTP_400_BAD_REQUEST
                 )
 
+            emails = set()
             for row in csv.DictReader(
                 io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
             ):
-                users_to_invite.append(
-                    {
-                        "name": row["name"],
-                        "email": row["email"],
-                        "profile": {"gender": row["gender"]},
-                    }
+                name = row.get("name").strip() if row.get("name") else ""
+                email = row.get("email").strip() if row.get("email") else ""
+                gender = (
+                    row.get("gender").strip()
+                    if row.get("gender")
+                    else ConsumerProfile.Gender.UNKNOWN
                 )
+                if email not in emails:
+                    emails.add(email)
+                    users_to_invite.append(
+                        {
+                            "name": name,
+                            "email": email,
+                            "profile": {"gender": gender},
+                        }
+                    )
 
             already_existing_emails = User.objects.filter(
-                email__in=[c["email"] for c in users_to_invite]
+                email__in=[user["email"] for user in users_to_invite]
             ).values_list("email", flat=True)
             users_to_invite = [
-                c for c in users_to_invite if c["email"] not in already_existing_emails
+                user
+                for user in users_to_invite
+                if user["email"] not in already_existing_emails
             ]
 
             serializer = ManageConsumersSerializer(
@@ -187,16 +199,30 @@ class ManageCoordinatorsViewSet(ModelViewSet):
                     "Unsupported file type", status=status.HTTP_400_BAD_REQUEST
                 )
 
+            emails = set()
             for row in csv.DictReader(
                 io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
             ):
-                users_to_invite.append(row)
+                name = row.get("name").strip() if row.get("name") else ""
+                email = row.get("email").strip() if row.get("email") else ""
+                if email not in emails:
+                    # add user if email not seem already in the file
+                    users_to_invite.append(
+                        {
+                            "name": name,
+                            "email": email,
+                        }
+                    )
+                    emails.add(email)
 
+            # remove already existing emails
             already_existing_emails = User.objects.filter(
-                email__in=[c["email"] for c in users_to_invite]
+                email__in=[user["email"] for user in users_to_invite]
             ).values_list("email", flat=True)
             users_to_invite = [
-                c for c in users_to_invite if c["email"] not in already_existing_emails
+                user
+                for user in users_to_invite
+                if user["email"] not in already_existing_emails
             ]
 
             serializer = ManageCoordinatorsSerializer(
