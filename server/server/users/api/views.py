@@ -127,52 +127,52 @@ class ManageConsumersViewSet(ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
         users_to_invite = []
-        if request.FILES:
-            request_file = request.FILES["file"]
-            _, file_extension = os.path.splitext(request_file.name)
-            if file_extension != ".csv":
-                return Response(
-                    "Unsupported file type", status=status.HTTP_400_BAD_REQUEST
-                )
+        if not request.FILES:
+            return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
 
-            emails = set()
-            for row in csv.DictReader(
-                io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
-            ):
-                name = row.get("name").strip() if row.get("name") else ""
-                email = row.get("email").strip() if row.get("email") else ""
-                gender = (
-                    row.get("gender").strip()
-                    if row.get("gender")
-                    else ConsumerProfile.Gender.UNKNOWN
-                )
-                if email not in emails:
-                    emails.add(email)
-                    users_to_invite.append(
-                        {
-                            "name": name,
-                            "email": email,
-                            "profile": {"gender": gender},
-                        }
-                    )
+        request_file = request.FILES["file"]
+        _, file_extension = os.path.splitext(request_file.name)
+        if file_extension != ".csv":
+            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
 
-            already_existing_emails = User.objects.filter(
-                email__in=[user["email"] for user in users_to_invite]
-            ).values_list("email", flat=True)
-            users_to_invite = [
-                user
-                for user in users_to_invite
-                if user["email"] not in already_existing_emails
-            ]
-
-            serializer = ManageConsumersSerializer(
-                data=users_to_invite,
-                context={"request": request},
-                many=True,
+        emails = set()
+        for row in csv.DictReader(
+            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
+        ):
+            name = row.get("name").strip() if row.get("name") else ""
+            email = row.get("email").strip() if row.get("email") else ""
+            gender = (
+                row.get("gender").strip()
+                if row.get("gender")
+                else ConsumerProfile.Gender.UNKNOWN
             )
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if email not in emails:
+                emails.add(email)
+                users_to_invite.append(
+                    {
+                        "name": name,
+                        "email": email,
+                        "profile": {"gender": gender},
+                    }
+                )
+
+        already_existing_emails = User.objects.filter(
+            email__in=[user["email"] for user in users_to_invite]
+        ).values_list("email", flat=True)
+        users_to_invite = [
+            user
+            for user in users_to_invite
+            if user["email"] not in already_existing_emails
+        ]
+
+        serializer = ManageConsumersSerializer(
+            data=users_to_invite,
+            context={"request": request},
+            many=True,
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -191,48 +191,48 @@ class ManageCoordinatorsViewSet(ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
         users_to_invite = []
-        if request.FILES:
-            request_file = request.FILES["file"]
-            _, file_extension = os.path.splitext(request_file.name)
-            if file_extension != ".csv":
-                return Response(
-                    "Unsupported file type", status=status.HTTP_400_BAD_REQUEST
+        if not request.FILES:
+            return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
+
+        request_file = request.FILES["file"]
+        _, file_extension = os.path.splitext(request_file.name)
+        if file_extension != ".csv":
+            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+
+        emails = set()
+        for row in csv.DictReader(
+            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
+        ):
+            name = row.get("name").strip() if row.get("name") else ""
+            email = row.get("email").strip() if row.get("email") else ""
+            if email not in emails:
+                # add user if email not seem already in the file
+                users_to_invite.append(
+                    {
+                        "name": name,
+                        "email": email,
+                    }
                 )
+                emails.add(email)
 
-            emails = set()
-            for row in csv.DictReader(
-                io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
-            ):
-                name = row.get("name").strip() if row.get("name") else ""
-                email = row.get("email").strip() if row.get("email") else ""
-                if email not in emails:
-                    # add user if email not seem already in the file
-                    users_to_invite.append(
-                        {
-                            "name": name,
-                            "email": email,
-                        }
-                    )
-                    emails.add(email)
+        # remove already existing emails
+        already_existing_emails = User.objects.filter(
+            email__in=[user["email"] for user in users_to_invite]
+        ).values_list("email", flat=True)
+        users_to_invite = [
+            user
+            for user in users_to_invite
+            if user["email"] not in already_existing_emails
+        ]
 
-            # remove already existing emails
-            already_existing_emails = User.objects.filter(
-                email__in=[user["email"] for user in users_to_invite]
-            ).values_list("email", flat=True)
-            users_to_invite = [
-                user
-                for user in users_to_invite
-                if user["email"] not in already_existing_emails
-            ]
-
-            serializer = ManageCoordinatorsSerializer(
-                data=users_to_invite,
-                context={"request": request},
-                many=True,
-            )
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer = ManageCoordinatorsSerializer(
+            data=users_to_invite,
+            context={"request": request},
+            many=True,
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
