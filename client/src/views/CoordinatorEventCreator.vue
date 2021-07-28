@@ -1,29 +1,29 @@
 <template>
-  <v-row class="pa-16" justify="space-around" align="center">
+  <v-row class="pa-16" justify="space-around" align="center" no-gutters>
     <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.mobile }">
       <h1 class="pb-8" v-text="$t('events.eventsCreation')" />
       <div :class="{ 'w-75': !$vuetify.breakpoint.mobile }">
-      <radio-group
-        class="pa-0"
-        v-model="recurrence"
-        :title="`${$t('time.recurrence')}:`"
-        :choices="recurrenceChoices"
-        row
-      />
-      <date-input v-model="startDate" :label="$t('time.startDate')" />
-      <time-input v-model="startTime" :label="$t('time.startTime')" />
-      <date-input v-model="endDate" :label="$t('time.endDate')" />
-      <time-input v-model="endTime" :label="$t('time.endTime')" />
-      <v-select
-        v-model="selectedGroup"
-        :items="schoolGroups"
-        :label="$t('groups.parentGroup')"
-      />
-      <v-text-field
-        v-model="location"
-        :label="$t('myActivity.location')"
-        append-icon="mdi-map-marker"
-      />
+        <radio-group
+          class="pa-0"
+          v-model="recurrence"
+          :title="`${$t('time.recurrence')}:`"
+          :choices="recurrenceChoices"
+          row
+        />
+        <date-input v-model="startDate" :label="$t('time.startDate')" />
+        <time-input v-model="startTime" :label="$t('time.startTime')" />
+        <date-input v-model="endDate" :label="$t('time.endDate')" />
+        <time-input v-model="endTime" :label="$t('time.endTime')" />
+        <v-select
+          v-model="selectedGroup"
+          :items="schoolGroups"
+          :label="$t('groups.parentGroup')"
+        />
+        <v-text-field
+          v-model="location"
+          :label="$t('myActivity.location')"
+          append-icon="mdi-map-marker"
+        />
       </div>
       <v-btn
         class="mt-4"
@@ -34,7 +34,7 @@
       />
     </v-col>
     <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.mobile">
-      <v-img style="border-radius: 10px;" :src="img" />
+      <v-img style="border-radius: 10px" :src="img" />
     </v-col>
   </v-row>
 </template>
@@ -69,22 +69,22 @@ export default {
       endTime: "",
       selectedGroup: "",
       location: "",
-      recurrence: "oneTime",
+      recurrence: "ONE_TIME",
       recurrenceChoices: [
         {
           label: this.$t("time.oneTime"),
-          value: "oneTime",
+          value: "ONE_TIME",
         },
         {
           label: this.$t("time.weeklyForYear"),
-          value: "weekly",
+          value: "WEEKLY",
         },
       ],
     }
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("event", ["createEvent", "createRecurringEvents"]),
+    ...mapActions("event", ["createEventOrder"]),
     async onSubmit() {
       const startTime = Utils.dateToApiString(
         moment(`${this.startDate}T${this.startTime}`)
@@ -92,31 +92,21 @@ export default {
       const endTime = Utils.dateToApiString(
         moment(`${this.endDate}T${this.endTime}`)
       )
-      const event = {
+      const eventOrder = {
         startTime,
         endTime,
         schoolGroup: this.selectedGroup,
         locationsName: this.location,
+        recurrence: this.recurrence,
       }
       try {
-        if (this.recurrence === "oneTime") {
-          await this.createEvent(event)
-          this.showMessage(
-            this.$t("success.eventCreatedAndWaitingForOrganizationApproval")
-          )
-          return this.$router.push({ name: "MyEvents" })
-        }
-
-        await this.createRecurringEvents({
-          ...event,
-          recurrence: this.recurrence,
-        })
+        await this.createEventOrder(eventOrder)
         this.showMessage(
-          this.$t("success.eventsCreatedAndWaitingForOrganizationApproval")
+          this.$t("success.orderCreatedAndWaitingForOrganizationApproval")
         )
         return this.$router.push({ name: "MyEvents" })
 
-        ///// console.log(add validation), show only approved/grey + filter on consumers & others as well
+        ///// console.log(add validation)
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

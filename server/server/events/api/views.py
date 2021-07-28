@@ -1,24 +1,38 @@
-from datetime import datetime, timedelta
-
 from django.contrib.auth import get_user_model
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from rest_framework import viewsets
 
 from server.events.models import ConsumerEventFeedback, Event
-from server.utils.model_fields import random_slug
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
     AllowCoordinator,
     AllowInstructor,
+    AllowVendor,
 )
 
 from .serializers import (
     ConsumerEventFeedbackSerializer,
     ConsumerEventSerializer,
+    EventOrderSerializer,
     EventSerializer,
 )
+
+
+class EventOrderViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowCoordinator | AllowVendor]
+    serializer_class = EventOrderSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.user_type == get_user_model().Types.VENDOR:
+            return Event.objects.filter(
+                school_group__activity_order__activity__originization=user.organization_member.organization
+            ).order_by("-start_time")
+
+        return Event.objects.filter(
+            school_group__activity_order__activity__school=user.school_member.school
+        ).order_by("-start_time")
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -37,51 +51,6 @@ class EventViewSet(viewsets.ModelViewSet):
         return Event.objects.filter(
             school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
         ).order_by("-start_time")
-
-    @action(detail=False, methods=["POST"])
-    def recurring_events_create(self, request):
-        recurring_events_slug = random_slug()
-        recurrence = request.data.pop("recurrence", None)
-        if recurrence != "weekly":
-            return Response(
-                "received invalid event 'recurrence'",
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        events = []
-        base_start_time = datetime.strptime(
-            request.data.pop("start_time", None), "%Y-%m-%d %H:%M"
-        )
-        base_end_time = datetime.strptime(
-            request.data.pop("end_time", None), "%Y-%m-%d %H:%M"
-        )
-        if not base_start_time or not base_end_time:
-            return Response(
-                "received invalid start/end time", status=status.HTTP_400_BAD_REQUEST
-            )
-        for i in range(0, 54):
-            start_time = datetime.strftime(
-                base_start_time + timedelta(days=i * 7), "%Y-%m-%d %H:%M"
-            )
-            end_time = datetime.strftime(
-                base_end_time + timedelta(days=i * 7), "%Y-%m-%d %H:%M"
-            )
-            events.append(
-                {
-                    **request.data,
-                    "start_time": start_time,
-                    "end_time": end_time,
-                    "recurring_events_slug": recurring_events_slug,
-                }
-            )
-
-        serializer = EventSerializer(
-            data=events,
-            many=True,
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):

@@ -1,8 +1,44 @@
 from rest_framework import serializers
 
-from server.events.models import ConsumerEventFeedback, Event
+from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
+
+
+class EventOrderSerializer(serializers.ModelSerializer):
+    school_group = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=SchoolActivityGroup.objects.all(),
+    )
+
+    class Meta:
+        model = EventOrder
+        fields = [
+            "slug",
+            "status",
+            "recurrence",
+            "school_group",
+            "locations_name",
+            "start_time",
+            "end_time",
+            "created",
+            "updated",
+        ]
+        read_only_fields = ["slug", "created", "updated"]
+
+    def validate(self, data):
+        """
+        Check that start is before finish.
+        """
+        if (
+            "end_time" in data
+            and "start_time" in data
+            and data["start_time"] > data["end_time"]
+        ):
+            raise serializers.ValidationError(
+                {"end_time": "end time must occur after start time"}
+            )
+        return data
 
 
 class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
@@ -45,8 +81,7 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
         model = Event
         fields = [
             "slug",
-            "recurring_events_slug",
-            "is_approved",
+            "event_order",
             "activity_name",
             "school_group_name",
             "start_time",
@@ -59,7 +94,7 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
             "summary_general_rating",
             "summary_children_behavior",
         ]
-        read_only_fields = ["slug", "recurring_events_slug", "is_approved"]
+        read_only_fields = ["slug", "event_order"]
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):
