@@ -8,8 +8,8 @@ export default {
 const Template = args => ({
   components: { TimeInput },
   data: () => ({ args }),
-  template: `<time-input v-model="args.time" />`,
+  template: `<time-input v-model="args.time" :label="label" />`,
 })
 
 export const Primary = Template.bind({})
-Primary.args = { time: "" }
+Primary.args = { time: "", label: "choose time!" }

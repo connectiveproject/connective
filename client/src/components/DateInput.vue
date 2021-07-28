@@ -12,22 +12,13 @@
         :value="value"
         @input="e => $emit('input', e)"
         :label="label"
-        append-icon="mdi-clock-time-four-outline"
+        append-icon="mdi-calendar"
         readonly
         v-bind="attrs"
         v-on="on"
       />
     </template>
-    <v-time-picker
-      v-if="modal"
-      :value="value"
-      @input="e => $emit('input', e)"
-      color="primary"
-      full-width
-      format="24hr"
-      landscape
-      scrollable
-    >
+    <v-date-picker @input="e => $emit('input', e)" :label="label" scrollable>
       <v-spacer />
       <v-btn
         text
@@ -41,7 +32,7 @@
         @click="$refs.dialog.save(value)"
         v-text="$t('userActions.confirm')"
       />
-    </v-time-picker>
+    </v-date-picker>
   </v-dialog>
 </template>
 <script>
@@ -55,14 +46,11 @@ export default {
     },
     label: {
       type: String,
-      default: i18n.t("userActions.timeChoose"),
+      default: i18n.t("userActions.dateChoose"),
     },
   },
-
-  data() {
-    return {
-      modal: false,
-    }
-  },
+  data: () => ({
+    modal: false,
+  }),
 }
 </script>
