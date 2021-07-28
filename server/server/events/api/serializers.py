@@ -10,6 +10,18 @@ class EventOrderSerializer(serializers.ModelSerializer):
         slug_field="slug",
         queryset=SchoolActivityGroup.objects.all(),
     )
+    school_group_name = serializers.CharField(
+        source="school_group.name",
+        read_only=True,
+    )
+    activity_name = serializers.CharField(
+        source="school_group.activity_order.activity.name",
+        read_only=True,
+    )
+    school_name = serializers.CharField(
+        source="school_group.activity_order.school.name",
+        read_only=True,
+    )
 
     class Meta:
         model = EventOrder
@@ -23,6 +35,9 @@ class EventOrderSerializer(serializers.ModelSerializer):
             "end_time",
             "created",
             "updated",
+            "school_group_name",
+            "activity_name",
+            "school_name",
         ]
         read_only_fields = ["slug", "created", "updated"]
 

@@ -219,7 +219,9 @@
     "userDetailsUpdatedSuccessfully": "פרטי המשתמש עודכנו בהצלחה",
     "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה",
     "userDeletedSuccessfully": "המשתמש נמחק בהצלחה",
-    "orderCreatedAndWaitingForOrganizationApproval": "ההזמנת נוצרה בהצלחה ומחכה לאישור עמותה"
+    "orderCreatedAndWaitingForOrganizationApproval": "ההזמנת נוצרה בהצלחה ומחכה לאישור עמותה",
+    "eventSuccessfullyApproved": "האירוע/ים אושר/ו בהצלחה",
+    "eventDenied": "האירוע/ים נדחה/ו"
   },
 
   "errors": {
