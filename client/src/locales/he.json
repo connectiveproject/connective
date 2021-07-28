@@ -307,13 +307,16 @@
     "groupPage": "עמוד קבוצה",
     "editAndViewTheGroupDetails": "ערכו וצפו בפרטי הקבוצה",
     "viewAndEditStudents": "צפייה ועריכת תלמידים",
-    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו"
+    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו",
+    "parentGroup": "קבוצת אם"
   },
 
   "time": {
     "today": "היום",
     "startTime": "שעת התחלה",
     "endTime": "שעת סיום",
+    "startDate": "תאריך התחלה",
+    "endDate": "תאריך סיום",
     "day-0": "ראשון",
     "day-1": "שני",
     "day-2": "שלישי",
@@ -336,7 +339,9 @@
     "monthly": "חודשי",
     "weekly": "שבועי",
     "halfWeekly": "חצי שבועי",
-    "daily": "יומי"
+    "daily": "יומי",
+    "oneTime": "חד פעמי",
+    "recurrence": "חזרתיות"
   },
 
   "posts": {

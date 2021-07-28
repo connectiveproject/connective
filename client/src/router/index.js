@@ -279,6 +279,7 @@ const routes = [
             path: "event-creator",
             name: "CoordinatorEventCreator",
             component: CoordinatorEventCreator,
+            beforeEnter: flushPagination,
           },
           {
             path: "group-editor",
