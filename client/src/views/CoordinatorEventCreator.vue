@@ -86,13 +86,13 @@ export default {
         locationsName: this.location,
         recurrence: this.recurrence
       }
+      ///// console.log(add validation)
       console.log(event)
     },
   },
   computed: {
     ...mapState("programGroup", ["groupList"]),
     schoolGroups() {
-      console.log(this.groupList)
       return this.groupList.map(group => ({
         value: group.slug,
         text: `${group.name} (${group.activityName})`,

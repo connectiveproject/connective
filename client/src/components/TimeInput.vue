@@ -25,7 +25,7 @@
       color="primary"
       full-width
       format="24hr"
-      landscape
+      :landscape="!$vuetify.breakpoint.mobile"
       scrollable
     >
       <v-spacer />
