@@ -53,7 +53,6 @@ import RadioGroup from "../components/RadioGroup"
 export default {
   components: { DateInput, TimeInput, RadioGroup },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("pagination/updatePagination", { itemsPerPage: 999 })
     await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,

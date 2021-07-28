@@ -42,6 +42,10 @@ class EventOrder(models.Model):
         null=True,
         blank=True,
     )
+    status_reason = models.CharField(
+        max_length=250,
+        blank=True,
+    )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)

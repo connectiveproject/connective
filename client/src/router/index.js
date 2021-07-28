@@ -6,6 +6,7 @@ import {
   loginOrFlushStore,
   initPrograms,
   initConsumerPrograms,
+  removePagination,
   flushPagination,
   flushToken,
   PopulateConsumerData,
@@ -58,6 +59,7 @@ import VendorProgramList from "../views/VendorProgramList"
 import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
 import VendorProgramCreator from "../views/VendorProgramCreator"
+import VendorEventsApprove from "../views/VendorEventsApprove"
 
 Vue.use(VueRouter)
 
@@ -279,7 +281,7 @@ const routes = [
             path: "event-creator",
             name: "CoordinatorEventCreator",
             component: CoordinatorEventCreator,
-            beforeEnter: flushPagination,
+            beforeEnter: removePagination,
           },
           {
             path: "group-editor",
@@ -351,6 +353,12 @@ const routes = [
             path: "profile",
             name: "VendorProfile",
             component: VendorProfile,
+          },
+          {
+            path: "events-approve",
+            name: "VendorEventsApprove",
+            component: VendorEventsApprove,
+            beforeEnter: removePagination,
           },
           {
             path: "my-programs",

@@ -145,6 +145,7 @@
 
   "userActions": {
     "confirm": "אישור",
+    "deny": "דחייה",
     "cancel": "ביטול",
     "remove": "הסרת|הסירו",
     "save": "שמירה",
@@ -275,6 +276,7 @@
   },
 
   "events": {
+    "requestsForEvents": "בקשות לאירוכים",
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
     "eventFeedShareContent": "תוכן הפוסט",

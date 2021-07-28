@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 
-from server.events.models import ConsumerEventFeedback, Event
+from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -26,11 +26,11 @@ class EventOrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.user_type == get_user_model().Types.VENDOR:
-            return Event.objects.filter(
+            return EventOrder.objects.filter(
                 school_group__activity_order__activity__originization=user.organization_member.organization
             ).order_by("-start_time")
 
-        return Event.objects.filter(
+        return EventOrder.objects.filter(
             school_group__activity_order__activity__school=user.school_member.school
         ).order_by("-start_time")
 
