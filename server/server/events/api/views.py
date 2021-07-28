@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from server.events.models import ConsumerEventFeedback, Event
+from server.utils.model_fields import random_slug
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -39,6 +40,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["POST"])
     def recurring_events_create(self, request):
+        recurring_events_slug = random_slug()
         recurrence = request.data.pop("recurrence", None)
         if recurrence != "weekly":
             return Response(
@@ -56,7 +58,6 @@ class EventViewSet(viewsets.ModelViewSet):
             return Response(
                 "received invalid start/end time", status=status.HTTP_400_BAD_REQUEST
             )
-
         for i in range(0, 54):
             start_time = datetime.strftime(
                 base_start_time + timedelta(days=i * 7), "%Y-%m-%d %H:%M"
@@ -65,7 +66,12 @@ class EventViewSet(viewsets.ModelViewSet):
                 base_end_time + timedelta(days=i * 7), "%Y-%m-%d %H:%M"
             )
             events.append(
-                {**request.data, "start_time": start_time, "end_time": end_time}
+                {
+                    **request.data,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "recurring_events_slug": recurring_events_slug,
+                }
             )
 
         serializer = EventSerializer(

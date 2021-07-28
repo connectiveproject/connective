@@ -45,6 +45,8 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
         model = Event
         fields = [
             "slug",
+            "recurring_events_slug",
+            "is_approved",
             "activity_name",
             "school_group_name",
             "start_time",
@@ -57,6 +59,7 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
             "summary_general_rating",
             "summary_children_behavior",
         ]
+        read_only_fields = ["slug", "recurring_events_slug", "is_approved"]
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):

@@ -10,7 +10,8 @@ from server.utils.model_fields import random_slug
 
 class Event(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
-    events_sequence_slug = models.CharField(max_length=40, default=random_slug)
+    recurring_events_slug = models.CharField(max_length=40, default=random_slug)
+    is_approved = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     consumers = models.ManyToManyField(
