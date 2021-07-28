@@ -14,11 +14,11 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         source="school_group.name",
         read_only=True,
     )
-
     consumers = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Consumer.objects.all(),
         many=True,
+        required=False,
     )
     school_group = serializers.SlugRelatedField(
         slug_field="slug",

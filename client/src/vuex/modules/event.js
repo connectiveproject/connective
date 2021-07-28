@@ -45,6 +45,14 @@ const event = {
       commit("SET_EVENTS_TOTAL", res.data.count)
       return state.eventList
     },
+    async createEvent(ctx, data) {
+      const res = await Api.event.createEvent(data)
+      return res.data
+    },
+    async createRecurringEvents(ctx, data) {
+      const res = await Api.event.createRecurringEvents(data)
+      return res.data
+    },
   },
 }
 

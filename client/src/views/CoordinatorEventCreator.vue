@@ -32,8 +32,9 @@
 
 <script>
 import moment from "moment"
-import { mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
 import store from "../vuex/store"
+import Api from "../api"
 import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
 import DateInput from "../components/DateInput"
@@ -65,14 +66,16 @@ export default {
           value: "oneTime",
         },
         {
-          label: this.$t("time.weekly"),
+          label: this.$t("time.weeklyForYear"),
           value: "weekly",
         },
       ],
     }
   },
   methods: {
-    onSubmit() {
+    ...mapActions("snackbar", ["showMessage"]),
+    ...mapActions("event", ["createEvent", "createRecurringEvents" ]),
+    async onSubmit() {
       const startTime = Utils.dateToApiString(
         moment(`${this.startDate}T${this.startTime}`)
       )
@@ -84,10 +87,27 @@ export default {
         endTime,
         schoolGroup: this.selectedGroup,
         locationsName: this.location,
-        recurrence: this.recurrence
       }
-      ///// console.log(add validation)
-      console.log(event)
+      try {
+        if (this.recurrence === "oneTime") {
+          await this.createEvent(event)
+          this.showMessage(
+            this.$t("success.eventCreatedAndWaitingForOrganizationApproval")
+          )
+          return this.$router.push({ name: "MyEvents" })
+        }
+
+        await this.createRecurringEvents({
+          ...event,
+          recurrence: this.recurrence,
+        })
+        this.showMessage(
+          this.$t("success.eventsCreatedAndWaitingForOrganizationApproval")
+        )
+        ///// console.log(add validation), show only approved/grey + filter on consumers & others as well
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
     },
   },
   computed: {
