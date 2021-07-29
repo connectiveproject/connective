@@ -60,6 +60,7 @@ import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
 import VendorProgramCreator from "../views/VendorProgramCreator"
 import VendorEventsApprove from "../views/VendorEventsApprove"
+import CoordinatorEventOrderStatus from "../views/CoordinatorEventOrderStatus"
 
 Vue.use(VueRouter)
 
@@ -276,6 +277,11 @@ const routes = [
             name: "GroupDetail",
             component: GroupDetail,
             props: true,
+          },
+          {
+            path: "event-order-status",
+            name: "CoordinatorEventOrderStatus",
+            component: CoordinatorEventOrderStatus,
           },
           {
             path: "event-creator",

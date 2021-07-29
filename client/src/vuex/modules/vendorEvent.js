@@ -34,7 +34,6 @@ const vendorEvent = {
     },
     async updateEventOrder({ commit }, { slug, data }) {
       const res = await Api.vendorEvent.updateEventOrder(slug, data)
-      console.log(res.data)
       commit("UPDATE_EVENT_ORDER", res.data)
       return res.data
     },

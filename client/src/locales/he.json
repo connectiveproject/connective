@@ -221,7 +221,9 @@
     "userDeletedSuccessfully": "המשתמש נמחק בהצלחה",
     "orderCreatedAndWaitingForOrganizationApproval": "ההזמנת נוצרה בהצלחה ומחכה לאישור עמותה",
     "eventSuccessfullyApproved": "האירוע/ים אושר/ו בהצלחה",
-    "eventDenied": "האירוע/ים נדחה/ו"
+    "eventDenied": "האירוע/ים נדחה/ו",
+    "allRelatedEventsHaveBeenCancelled": "כלל האירועים המקושרים בוטלו",
+    "eventOrderAndEventsSuccessfullyDeleted": "הזמנת  האירוע בוטלה וכלל האירועים המקושרים נמחקו"
   },
 
   "errors": {
@@ -250,7 +252,9 @@
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
     "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
     "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
-    "domainUnspecified": "מרחב לא צויין"
+    "domainUnspecified": "מרחב לא צויין",
+    "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
+    "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו"
   },
 
   "myActivity": {
@@ -299,7 +303,8 @@
     "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
     "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים",
-    "eventsCreation": "יצירת מפגשים"
+    "eventsCreation": "יצירת מפגשים",
+    "createAndOrderEvents": "הזמנת ויצירת מפגשים"
   },
 
   "groups": {

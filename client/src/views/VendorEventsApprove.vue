@@ -2,8 +2,11 @@
   <actions-table
     :headers="headers"
     :items="eventOrders"
+    :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
+      'userActions.cancel'
+    )}`"
     @action-one-click="approveOrder"
-    @action-two-click="denyOrder"
+    @action-two-click="rejectOrder"
   />
 </template>
 
@@ -18,7 +21,7 @@ import ActionsTable from "../components/ActionsTable"
 export default {
   components: { ActionsTable },
   async beforeRouteEnter(to, from, next) {
-    console.log(await store.dispatch("vendorEvent/getEventOrders"))
+    await store.dispatch("vendorEvent/getEventOrders")
     next()
   },
   computed: {
@@ -43,7 +46,11 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     approveOrder: debounce(
       async function (order) {
-        ////// console.log(Add approve modal!)
+        if (order.status !== SERVER.eventOrderStatus.pendingApproval) {
+          return this.showMessage(
+            this.$t("errors.cantApproveEventsThatArentPendingApproval")
+          )
+        }
         try {
           await this.updateEventOrder({
             slug: order.slug,
@@ -57,23 +64,57 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    denyOrder: debounce(
+
+    rejectOrder: debounce(
+      ////// Add approve modal with rejection text!
       async function (order) {
-        ////// Add approve modal with rejection text!
-        try {
-          await this.updateEventOrder({
-            slug: order.slug,
-            data: { status: SERVER.eventOrderStatus.denied },
-          })
-          this.showMessage(this.$t("success.eventDenied"))
-        } catch (err) {
-          console.log(err)
-          this.showMessage(Api.utils.parseResponseError(err))
+        if (
+          [
+            SERVER.eventOrderStatus.cancelled,
+            SERVER.eventOrderStatus.cancelled,
+          ].includes(order.status)
+        ) {
+          return this.showMessage(
+            this.$t("errors.cantRejectAlreadyCancelledOrDeniedEvents")
+          )
+        }
+        if (order.status === SERVER.eventOrderStatus.approved) {
+          return this.cancelOrder(order)
+        }
+        if (order.status === SERVER.eventOrderStatus.pendingApproval) {
+          return this.denyOrder(order)
         }
       },
       500,
-      { leading: true, trailing: false }
+      {
+        leading: true,
+        trailing: false,
+      }
     ),
+
+    async cancelOrder(order) {
+      try {
+        await this.updateEventOrder({
+          slug: order.slug,
+          data: { status: SERVER.eventOrderStatus.cancelled },
+        })
+        this.showMessage(this.$t("success.allRelatedEventsHaveBeenCancelled"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
+
+    async denyOrder(order) {
+      try {
+        await this.updateEventOrder({
+          slug: order.slug,
+          data: { status: SERVER.eventOrderStatus.denied },
+        })
+        this.showMessage(this.$t("success.eventDenied"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
   },
 }
 </script>

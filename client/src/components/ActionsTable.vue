@@ -31,7 +31,7 @@
           <span>{{ actionOneIconTooltip }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="totalActions >= 2">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
               :color="actionTwoIconColor"
@@ -56,6 +56,10 @@ import i18n from "../plugins/i18n"
 
 export default {
   props: {
+    totalActions: {
+      type: Number,
+      default: 2
+    },
     actionOneIcon: {
       type: String,
       default: "mdi-check",

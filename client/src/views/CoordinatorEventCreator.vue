@@ -103,9 +103,7 @@ export default {
         this.showMessage(
           this.$t("success.orderCreatedAndWaitingForOrganizationApproval")
         )
-        return this.$router.push({ name: "MyEvents" })
-
-        ///// console.log(add validation)
+        return this.$router.push({ name: "CoordinatorEventOrderStatus" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

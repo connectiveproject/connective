@@ -61,7 +61,7 @@ class EventOrder(models.Model):
 class Event(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     event_order = models.ForeignKey(
-        EventOrder, on_delete=models.SET_NULL, null=True, related_name="events"
+        EventOrder, on_delete=models.CASCADE, null=True, related_name="events"
     )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

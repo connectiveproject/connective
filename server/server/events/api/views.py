@@ -31,7 +31,7 @@ class EventOrderViewSet(viewsets.ModelViewSet):
             ).order_by("-start_time")
 
         return EventOrder.objects.filter(
-            school_group__activity_order__activity__school=user.school_member.school
+            school_group__activity_order__school=user.school_member.school
         ).order_by("-start_time")
 
 

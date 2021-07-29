@@ -12,12 +12,10 @@
         tile
         large
         class="d-block"
-        color="success"
-        @click="$router.push({ name: 'CoordinatorEventCreator' })"
-      >
-        {{ $tc("userActions.addEvents", 1) }}
-        <v-icon right> mdi-plus </v-icon>
-      </v-btn>
+        color="primary"
+        @click="$router.push({ name: 'CoordinatorEventOrderStatus' })"
+        v-text="$t('events.createAndOrderEvents')"
+      />
     </div>
     <actions-calendar
       v-model="value"
