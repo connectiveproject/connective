@@ -2,7 +2,12 @@
   <v-row class="pa-16" justify="space-around" align="center" no-gutters>
     <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.mobile }">
       <h1 class="pb-8" v-text="$t('events.eventsCreation')" />
-      <div :class="{ 'w-75': !$vuetify.breakpoint.mobile }">
+      <validation-observer
+        tag="form"
+        v-slot="{ invalid }"
+        @submit.prevent="onSubmit"
+        :class="{ 'w-75': !$vuetify.breakpoint.mobile }"
+      >
         <radio-group
           class="pa-0"
           v-model="recurrence"
@@ -10,28 +15,60 @@
           :choices="recurrenceChoices"
           row
         />
-        <date-input v-model="startDate" :label="$t('time.startDate')" />
-        <time-input v-model="startTime" :label="$t('time.startTime')" />
-        <date-input v-model="endDate" :label="$t('time.endDate')" />
-        <time-input v-model="endTime" :label="$t('time.endTime')" />
-        <v-select
-          v-model="selectedGroup"
-          :items="schoolGroups"
-          :label="$t('groups.parentGroup')"
+        <validation-provider v-slot="{ errors }" rules="required" name="startDate">
+          <date-input
+            v-model="startDate"
+            :label="$t('time.startDate')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider v-slot="{ errors }" rules="required" name="startTime">
+          <time-input
+            v-model="startTime"
+            :label="$t('time.startTime')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider v-slot="{ errors }" rules="required" name="endDate">
+          <date-input
+            v-model="endDate"
+            :label="$t('time.endDate')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+
+        <validation-provider v-slot="{ errors }" rules="required|afterStartDate:@startDate,@startTime,@endDate">
+          <time-input
+            v-model="endTime"
+            :label="$t('time.endTime')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider v-slot="{ errors }" rules="required">
+          <v-select
+            v-model="selectedGroup"
+            :items="schoolGroups"
+            :label="$t('groups.parentGroup')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider v-slot="{ errors }" rules="required">
+          <v-text-field
+            v-model="location"
+            :label="$t('myActivity.location')"
+            append-icon="mdi-map-marker"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <v-btn
+          type="submit"
+          class="mt-4"
+          color="primary"
+          large
+          v-text="$t('userActions.save')"
+          :disabled="invalid"
         />
-        <v-text-field
-          v-model="location"
-          :label="$t('myActivity.location')"
-          append-icon="mdi-map-marker"
-        />
-      </div>
-      <v-btn
-        class="mt-4"
-        color="primary"
-        large
-        v-text="$t('userActions.save')"
-        @click="onSubmit"
-      />
+      </validation-observer>
     </v-col>
     <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.mobile">
       <v-img style="border-radius: 10px" :src="img" />
@@ -42,6 +79,7 @@
 <script>
 import moment from "moment"
 import { mapActions, mapState } from "vuex"
+import { ValidationObserver, ValidationProvider } from "vee-validate"
 import store from "../vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
@@ -51,7 +89,13 @@ import DateInput from "../components/DateInput"
 import TimeInput from "../components/TimeInput"
 import RadioGroup from "../components/RadioGroup"
 export default {
-  components: { DateInput, TimeInput, RadioGroup },
+  components: {
+    DateInput,
+    TimeInput,
+    RadioGroup,
+    ValidationObserver,
+    ValidationProvider,
+  },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,

@@ -14,7 +14,7 @@
         :label="label"
         append-icon="mdi-clock-time-four-outline"
         readonly
-        v-bind="attrs"
+        v-bind="{ ...attrs, ...$attrs }"
         v-on="on"
       />
     </template>
@@ -48,6 +48,7 @@
 import i18n from "../plugins/i18n"
 
 export default {
+  inheritAttrs: false,
   props: {
     value: {
       type: String,

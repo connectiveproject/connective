@@ -256,7 +256,8 @@
     "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
     "domainUnspecified": "מרחב לא צויין",
     "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
-    "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו"
+    "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו",
+    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה"
   },
 
   "myActivity": {
