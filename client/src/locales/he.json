@@ -308,7 +308,8 @@
     "eventsCreation": "יצירת מפגשים",
     "createAndOrderEvents": "הזמנת ויצירת מפגשים",
     "reasonForDenyOrCancellation": "סיבת דחייה / ביטול",
-    "reasonForEventsDenyOrCancellation": "סיבה לדחייה / ביטול האירועים"
+    "reasonForEventsDenyOrCancellation": "סיבה לדחייה / ביטול האירועים",
+    "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים"
   },
 
   "groups": {
@@ -372,5 +373,12 @@
     "physicalChallenge": "אתגר פיזי",
     "swimming": "שחיה",
     "suitedForReligious": "מותאם לקהל דתי"
+  },
+
+  "status": {
+    "cancelled": "בוטל",
+    "pendingApproval": "ממתין לאישור",
+    "approved": "אושר",
+    "denied": "נדחה"
   }
 }

@@ -68,15 +68,15 @@ export default {
       endTime: "",
       selectedGroup: "",
       location: "",
-      recurrence: "ONE_TIME",
+      recurrence: SERVER.eventOrderReccurence.oneTime,
       recurrenceChoices: [
         {
           label: this.$t("time.oneTime"),
-          value: "ONE_TIME",
+          value: SERVER.eventOrderReccurence.oneTime,
         },
         {
           label: this.$t("time.weeklyForYear"),
-          value: "WEEKLY",
+          value: SERVER.eventOrderReccurence.weekly,
         },
       ],
     }

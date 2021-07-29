@@ -391,6 +391,10 @@ export const SERVER = {
     approved: "APPROVED",
     denied: "DENIED",
   },
+  eventOrderReccurence: {
+    oneTime: "ONE_TIME",
+    weekly: "WEEKLY"
+  }
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"

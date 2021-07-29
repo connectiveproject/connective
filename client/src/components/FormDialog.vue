@@ -2,6 +2,11 @@
   <v-dialog max-width="600px" v-model="value" persistent>
     <v-card>
       <v-card-title class="headline pt-13 justify-center" v-text="title" />
+      <v-card-subtitle
+        class="text-subtitle-1 pt-5 text-center"
+        v-text="subtitle"
+        v-if="subtitle"
+      />
       <validation-observer v-slot="{ invalid }" ref="observer">
         <form class="w-75 mx-auto" @submit.prevent="save">
           <v-card-text>
@@ -79,6 +84,10 @@ export default {
       default: function () {
         return this.$tc("userActions.add", 1)
       },
+    },
+    subtitle: {
+      type: String,
+      default: "",
     },
   },
 
