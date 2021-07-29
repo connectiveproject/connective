@@ -51,7 +51,9 @@
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
     "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
     "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?",
-    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?"
+    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?",
+    "AreYouSureYouWantToDeleteThisOrder?ThisActionWillDeleteAllRelatedEvents": "האם אתם בטוחים שברצונכם למחוק הזמנה זו? פעולה זו תמחק את כלל האירועים המקושרים",
+    "AreYouSureYouWantToApproveThisRequest?ThisActionWillStartCollaborationWithTheSchoolAndCreateTheRelevantEvents": "האם אתם בטוחים שתרצו לאשר בקשה זו? פעולה זו תתחיל שיתוף פעולה עם בית הספר ותיצור את המפגשים הרלוונטיים"
   },
 
   "gender": {

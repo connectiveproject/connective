@@ -1,13 +1,22 @@
 <template>
-  <actions-table
-    :headers="headers"
-    :items="eventOrders"
-    :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
-      'userActions.cancel'
-    )}`"
-    @action-one-click="approveOrder"
-    @action-two-click="rejectOrder"
-  />
+  <div>
+    <actions-table
+      :headers="headers"
+      :items="eventOrders"
+      :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
+        'userActions.cancel'
+      )}`"
+      @action-one-click="onApproveClick"
+      @action-two-click="rejectOrder"
+    />
+    <modal-approve v-model="isModalOpen" @approve="approveOrder">
+      {{
+        this.$t(
+          "confirm.AreYouSureYouWantToApproveThisRequest?ThisActionWillStartCollaborationWithTheSchoolAndCreateTheRelevantEvents"
+        )
+      }}
+    </modal-approve>
+  </div>
 </template>
 
 <script>
@@ -17,9 +26,10 @@ import store from "../vuex/store"
 import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"
 import ActionsTable from "../components/ActionsTable"
+import ModalApprove from "../components/ModalApprove"
 
 export default {
-  components: { ActionsTable },
+  components: { ActionsTable, ModalApprove },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorEvent/getEventOrders")
     next()
@@ -29,6 +39,8 @@ export default {
   },
   data() {
     return {
+      orderToApprove: null,
+      isModalOpen: false,
       headers: [
         { text: this.$t("groups.groupName"), value: "schoolGroupName" },
         { text: this.$t("general.schoolName"), value: "schoolName" },
@@ -44,29 +56,33 @@ export default {
   methods: {
     ...mapActions("vendorEvent", ["updateEventOrder"]),
     ...mapActions("snackbar", ["showMessage"]),
-    approveOrder: debounce(
+    onApproveClick: debounce(
       async function (order) {
         if (order.status !== SERVER.eventOrderStatus.pendingApproval) {
           return this.showMessage(
             this.$t("errors.cantApproveEventsThatArentPendingApproval")
           )
         }
-        try {
-          await this.updateEventOrder({
-            slug: order.slug,
-            data: { status: SERVER.eventOrderStatus.approved },
-          })
-          this.showMessage(this.$t("success.eventSuccessfullyApproved"))
-        } catch (err) {
-          this.showMessage(Api.utils.parseResponseError(err))
-        }
+        this.orderToApprove = order
+        this.isModalOpen = true
       },
       500,
       { leading: true, trailing: false }
     ),
 
+    async approveOrder() {
+      try {
+        await this.updateEventOrder({
+          slug: this.orderToApprove.slug,
+          data: { status: SERVER.eventOrderStatus.approved },
+        })
+        this.showMessage(this.$t("success.eventSuccessfullyApproved"))
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
+
     rejectOrder: debounce(
-      ////// Add approve modal with rejection text!
       async function (order) {
         if (
           [
