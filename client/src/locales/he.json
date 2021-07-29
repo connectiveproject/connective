@@ -306,7 +306,9 @@
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
     "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים",
     "eventsCreation": "יצירת מפגשים",
-    "createAndOrderEvents": "הזמנת ויצירת מפגשים"
+    "createAndOrderEvents": "הזמנת ויצירת מפגשים",
+    "reasonForDenyOrCancellation": "סיבת דחייה / ביטול",
+    "reasonForEventsDenyOrCancellation": "סיבה לדחייה / ביטול האירועים"
   },
 
   "groups": {

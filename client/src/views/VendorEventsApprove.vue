@@ -7,7 +7,7 @@
         'userActions.cancel'
       )}`"
       @action-one-click="onApproveClick"
-      @action-two-click="rejectOrder"
+      @action-two-click="onRejectClick"
     />
     <modal-approve v-model="isModalOpen" @approve="approveOrder">
       {{
@@ -16,6 +16,12 @@
         )
       }}
     </modal-approve>
+    <form-dialog
+      v-model="isDenyFormDialogActive"
+      :title="$tc('general.additionalInfo', 0)"
+      :input-fields="rejectDialogFields"
+      @save="rejectOrder"
+    />
   </div>
 </template>
 
@@ -27,9 +33,10 @@ import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"
 import ActionsTable from "../components/ActionsTable"
 import ModalApprove from "../components/ModalApprove"
+import FormDialog from "../components/FormDialog"
 
 export default {
-  components: { ActionsTable, ModalApprove },
+  components: { ActionsTable, ModalApprove, FormDialog },
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorEvent/getEventOrders")
     next()
@@ -40,7 +47,17 @@ export default {
   data() {
     return {
       orderToApprove: null,
+      orderToReject: null,
       isModalOpen: false,
+      isDenyFormDialogActive: false,
+      rejectDialogFields: [
+        {
+          name: "statusReason",
+          rule: "required",
+          label: this.$t("events.reasonForEventsDenyOrCancellation"),
+          value: "",
+        },
+      ],
       headers: [
         { text: this.$t("groups.groupName"), value: "schoolGroupName" },
         { text: this.$t("general.schoolName"), value: "schoolName" },
@@ -50,6 +67,10 @@ export default {
         { text: this.$t("time.endTime"), value: "endTime" },
         { text: this.$t("time.recurrence"), value: "recurrence" },
         { text: this.$t("general.status"), value: "status" },
+        {
+          text: this.$t("events.reasonForDenyOrCancellation"),
+          value: "statusReason",
+        },
       ],
     }
   },
@@ -70,6 +91,28 @@ export default {
       { leading: true, trailing: false }
     ),
 
+    onRejectClick: debounce(
+      async function (order) {
+        if (
+          [
+            SERVER.eventOrderStatus.cancelled,
+            SERVER.eventOrderStatus.cancelled,
+          ].includes(order.status)
+        ) {
+          return this.showMessage(
+            this.$t("errors.cantRejectAlreadyCancelledOrDeniedEvents")
+          )
+        }
+        this.orderToReject = order
+        this.isDenyFormDialogActive = true
+      },
+      500,
+      {
+        leading: true,
+        trailing: false,
+      }
+    ),
+
     async approveOrder() {
       try {
         await this.updateEventOrder({
@@ -82,37 +125,25 @@ export default {
       }
     },
 
-    rejectOrder: debounce(
-      async function (order) {
-        if (
-          [
-            SERVER.eventOrderStatus.cancelled,
-            SERVER.eventOrderStatus.cancelled,
-          ].includes(order.status)
-        ) {
-          return this.showMessage(
-            this.$t("errors.cantRejectAlreadyCancelledOrDeniedEvents")
-          )
-        }
-        if (order.status === SERVER.eventOrderStatus.approved) {
-          return this.cancelOrder(order)
-        }
-        if (order.status === SERVER.eventOrderStatus.pendingApproval) {
-          return this.denyOrder(order)
-        }
-      },
-      500,
-      {
-        leading: true,
-        trailing: false,
+    rejectOrder({ statusReason }) {
+      if (this.orderToReject.status === SERVER.eventOrderStatus.approved) {
+        return this.cancelOrder({ ...this.orderToReject, statusReason })
       }
-    ),
+      if (
+        this.orderToReject.status === SERVER.eventOrderStatus.pendingApproval
+      ) {
+        return this.denyOrder({ ...this.orderToReject, statusReason })
+      }
+    },
 
     async cancelOrder(order) {
       try {
         await this.updateEventOrder({
           slug: order.slug,
-          data: { status: SERVER.eventOrderStatus.cancelled },
+          data: {
+            status: SERVER.eventOrderStatus.cancelled,
+            statusReason: order.statusReason,
+          },
         })
         this.showMessage(this.$t("success.allRelatedEventsHaveBeenCancelled"))
       } catch (err) {
@@ -124,7 +155,10 @@ export default {
       try {
         await this.updateEventOrder({
           slug: order.slug,
-          data: { status: SERVER.eventOrderStatus.denied },
+          data: {
+            status: SERVER.eventOrderStatus.denied,
+            statusReason: order.statusReason,
+          },
         })
         this.showMessage(this.$t("success.eventDenied"))
       } catch (err) {

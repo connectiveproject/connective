@@ -28,6 +28,7 @@ class EventOrderSerializer(serializers.ModelSerializer):
         fields = [
             "slug",
             "status",
+            "status_reason",
             "recurrence",
             "school_group",
             "locations_name",
