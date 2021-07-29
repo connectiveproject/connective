@@ -202,7 +202,7 @@ sentry_sdk.init(
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
 
-# Your stuff...
+# Your additions...
 # ------------------------------------------------------------------------------
 CLIENT_BASE_URL = env("CLIENT_BASE_URL")
 
