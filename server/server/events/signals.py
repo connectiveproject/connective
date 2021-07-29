@@ -7,7 +7,7 @@ from .models import Event, EventOrder
 
 
 @receiver(post_save, sender=EventOrder)
-def create_events_on_order_approve(sender, instance, created, **kwargs):
+def create_events_on_order_approval(sender, instance, created, **kwargs):
     if instance.status == EventOrder.Status.APPROVED and instance.events.count() == 0:
         if instance.recurrence == EventOrder.Recurrence.ONE_TIME:
             return Event.objects.create(
@@ -31,5 +31,10 @@ def create_events_on_order_approve(sender, instance, created, **kwargs):
                     event_order=instance,
                 )
             )
-
         Event.objects.bulk_create(events_to_create)
+
+
+@receiver(post_save, sender=EventOrder)
+def delete_events_on_order_cancellation(sender, instance, created, **kwargs):
+    if instance.status == EventOrder.Status.CANCELLED:
+        Event.objects.filter(event_order=instance).delete()
