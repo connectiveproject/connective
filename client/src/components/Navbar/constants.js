@@ -119,6 +119,12 @@ const vendorButtons = [
     icon: "mdi-handshake",
     onClick: () => Vue.$router.push({ name: "VendorProgramList" }),
   },
+  {
+    id: "events-approve-navbar-btn",
+    text: () => i18n.t("events.requestsForEvents"),
+    icon: "mdi-email-newsletter ",
+    onClick: () => Vue.$router.push({ name: "VendorEventsApprove" }),
+  },
 ]
 
 export const userToButtons = {
