@@ -285,7 +285,7 @@
   },
 
   "events": {
-    "requestsForEvents": "בקשות לאירוכים",
+    "requestsForEvents": "בקשות לאירועים",
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
     "eventFeedShareContent": "תוכן הפוסט",
@@ -310,7 +310,10 @@
     "createAndOrderEvents": "הזמנת ויצירת מפגשים",
     "reasonForDenyOrCancellation": "סיבת דחייה / ביטול",
     "reasonForEventsDenyOrCancellation": "סיבה לדחייה / ביטול האירועים",
-    "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים"
+    "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים",
+    "eventsStatus": "סטטוס מפגשים",
+    "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
+    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר"
   },
 
   "groups": {

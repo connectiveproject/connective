@@ -1,16 +1,28 @@
 <template>
   <div class="w-75 mx-auto">
-    <v-btn
-      tile
-      large
-      class="d-block my-10"
-      color="success"
-      @click="$router.push({ name: 'CoordinatorEventCreator' })"
-    >
-      {{ $tc("userActions.addEvents", 1) }}
-      <v-icon right> mdi-plus </v-icon>
-    </v-btn>
-
+    <div class="d-flex justify-space-between py-10 flex-wrap">
+      <div>
+        <h1 class="pb-4" v-text="$t('events.eventsStatus')" />
+        <h2
+          v-text="
+            $t(
+              'events.viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents'
+            )
+          "
+          class="pb-12"
+        />
+      </div>
+      <v-btn
+        tile
+        large
+        :class="{ 'd-block mx-auto': $vuetify.breakpoint.mobile }"
+        color="success"
+        @click="$router.push({ name: 'CoordinatorEventCreator' })"
+      >
+        {{ $tc("userActions.addEvents", 1) }}
+        <v-icon right> mdi-plus </v-icon>
+      </v-btn>
+    </div>
     <actions-table
       :headers="headers"
       :items="readableEventOrders"
@@ -19,9 +31,14 @@
       action-one-icon="mdi-delete"
       action-one-icon-color="red darken-1"
       @action-one-click="onDeleteClick"
+      class="mb-16"
     />
     <modal-approve v-model="isModalOpen" @approve="deleteOrder">
-      {{ this.$t("confirm.AreYouSureYouWantToDeleteThisOrder?ThisActionWillDeleteAllRelatedEvents") }}
+      {{
+        this.$t(
+          "confirm.AreYouSureYouWantToDeleteThisOrder?ThisActionWillDeleteAllRelatedEvents"
+        )
+      }}
     </modal-approve>
   </div>
 </template>
@@ -77,8 +94,8 @@ export default {
         { text: this.$t("general.schoolName"), value: "schoolName" },
         { text: this.$t("program.programName"), value: "activityName" },
         { text: this.$t("myActivity.location"), value: "locationsName" },
-        { text: this.$t("time.startTime"), value: "readableStartTime" },
-        { text: this.$t("time.endTime"), value: "readableEndTime" },
+        { text: this.$t("time.startDate"), value: "readableStartTime" },
+        { text: this.$t("time.endDate"), value: "readableEndTime" },
         { text: this.$t("time.recurrence"), value: "readableRecurrence" },
         { text: this.$t("general.status"), value: "readableStatus" },
         {

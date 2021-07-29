@@ -1,6 +1,16 @@
 <template>
   <div>
+    <h1 class="pb-4" v-text="$t('events.eventsStatus')" />
+    <h2
+      v-text="
+        $t(
+          'events.viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents'
+        )
+      "
+      class="pb-12"
+    />
     <actions-table
+      class="mb-10"
       :headers="headers"
       :items="readableEventOrders"
       :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
@@ -90,8 +100,8 @@ export default {
         { text: this.$t("general.schoolName"), value: "schoolName" },
         { text: this.$t("program.programName"), value: "activityName" },
         { text: this.$t("myActivity.location"), value: "locationsName" },
-        { text: this.$t("time.startTime"), value: "readableStartTime" },
-        { text: this.$t("time.endTime"), value: "readableEndTime" },
+        { text: this.$t("time.startDate"), value: "readableStartTime" },
+        { text: this.$t("time.endDate"), value: "readableEndTime" },
         { text: this.$t("time.recurrence"), value: "readableRecurrence" },
         { text: this.$t("general.status"), value: "readableStatus" },
         {
