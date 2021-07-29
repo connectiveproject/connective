@@ -2,7 +2,8 @@
   <v-dialog
     ref="dialog"
     v-model="modal"
-    :return-value.sync="value"
+    :return-value="value"
+    @update:return-value="e => $emit('input', e)"
     persistent
     width="90%"
     max-width="550px"
