@@ -36,7 +36,6 @@
             :error-messages="errors"
           />
         </validation-provider>
-
         <validation-provider v-slot="{ errors }" rules="required|afterStartDate:@startDate,@startTime,@endDate">
           <time-input
             v-model="endTime"
