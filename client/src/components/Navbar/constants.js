@@ -39,6 +39,11 @@ const coordinatorButtons = [
     icon: "mdi-drawing",
     onClick: () => Vue.$router.push({ name: "MyActivity" }),
   },
+  {
+    text: () => i18n.t("events.eventsSummary"),
+    icon: "mdi-comment-quote",
+    onClick: () => Vue.$router.push({ name: "CoordinatorEventFeedView" }),
+  }
 ]
 
 const consumerButtons = [

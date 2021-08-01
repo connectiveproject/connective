@@ -60,6 +60,7 @@ import VendorProgramCreator from "../views/VendorProgramCreator"
 
 Vue.use(VueRouter)
 
+
 const routes = [
   {
     path: "/",
@@ -192,6 +193,12 @@ const routes = [
             path: "profile",
             name: "CoordinatorProfile",
             component: CoordinatorProfile,
+          },
+          {
+            path: "event-feed-view",
+            name: "CoordinatorEventFeedView",
+            component: InstructorEventFeedView,
+            beforeEnter: flushPagination
           },
           {
             path: "schoolDetails",
