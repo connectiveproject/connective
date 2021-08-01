@@ -73,12 +73,6 @@ export async function initConsumerPrograms(to, from, next) {
   next()
 }
 
-export async function removePagination(to, from, next) {
-  await store.dispatch("pagination/flushState")
-  await store.dispatch("pagination/updatePagination", { itemsPerPage: 99999 })
-  next()
-}
-
 export function flushPagination(to, from, next) {
   store.dispatch("pagination/flushState")
   next()

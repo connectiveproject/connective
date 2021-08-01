@@ -1,60 +1,8 @@
 from rest_framework import serializers
 
-from server.events.models import ConsumerEventFeedback, Event, EventOrder
+from server.events.models import ConsumerEventFeedback, Event
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
-
-
-class EventOrderSerializer(serializers.ModelSerializer):
-    school_group = serializers.SlugRelatedField(
-        slug_field="slug",
-        queryset=SchoolActivityGroup.objects.all(),
-    )
-    school_group_name = serializers.CharField(
-        source="school_group.name",
-        read_only=True,
-    )
-    activity_name = serializers.CharField(
-        source="school_group.activity_order.activity.name",
-        read_only=True,
-    )
-    school_name = serializers.CharField(
-        source="school_group.activity_order.school.name",
-        read_only=True,
-    )
-
-    class Meta:
-        model = EventOrder
-        fields = [
-            "slug",
-            "status",
-            "status_reason",
-            "recurrence",
-            "school_group",
-            "locations_name",
-            "start_time",
-            "end_time",
-            "created",
-            "updated",
-            "school_group_name",
-            "activity_name",
-            "school_name",
-        ]
-        read_only_fields = ["slug", "created", "updated"]
-
-    def validate(self, data):
-        """
-        Check that start is before finish.
-        """
-        if (
-            "end_time" in data
-            and "start_time" in data
-            and data["start_time"] > data["end_time"]
-        ):
-            raise serializers.ValidationError(
-                {"end_time": "end time must occur after start time"}
-            )
-        return data
 
 
 class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
@@ -66,11 +14,11 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         source="school_group.name",
         read_only=True,
     )
+
     consumers = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Consumer.objects.all(),
         many=True,
-        required=False,
     )
     school_group = serializers.SlugRelatedField(
         slug_field="slug",
@@ -97,7 +45,6 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
         model = Event
         fields = [
             "slug",
-            "event_order",
             "activity_name",
             "school_group_name",
             "start_time",
@@ -110,7 +57,6 @@ class EventSerializer(EventSerializerMixin, serializers.ModelSerializer):
             "summary_general_rating",
             "summary_children_behavior",
         ]
-        read_only_fields = ["slug", "event_order"]
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):

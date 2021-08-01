@@ -5,7 +5,6 @@ function getDefaultState() {
   return {
     eventList: [],
     totalEvents: null,
-    eventOrders: []
   }
 }
 
@@ -24,12 +23,6 @@ const event = {
     },
     SET_EVENTS_TOTAL(state, total) {
       state.totalEvents = total
-    },
-    SET_EVENT_ORDERS(state, orders) {
-      state.eventOrders = orders
-    },
-    DELETE_EVENT_ORDER(state, slug) {
-      state.eventOrders = state.eventOrders.filter(order => order.slug !== slug)
     },
   },
   actions: {
@@ -51,19 +44,6 @@ const event = {
       commit(mutation, res.data.results)
       commit("SET_EVENTS_TOTAL", res.data.count)
       return state.eventList
-    },
-    async createEventOrder(ctx, data) {
-      const res = await Api.event.createEventOrder(data)
-      return res.data
-    },
-    async getEventOrders({ commit }) {
-      const res = await Api.event.getEventOrders()
-      commit("SET_EVENT_ORDERS", res.data.results)
-      return res.data.results
-    },
-    async deleteEventOrder({ commit }, slug) {
-      await Api.event.deleteEventOrder(slug)
-      commit("DELETE_EVENT_ORDER", slug)
     },
   },
 }

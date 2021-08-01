@@ -1,22 +1,10 @@
 <template>
   <div>
-    <div class="d-flex mb-5 justify-space-between">
-      <div>
-        <h1 v-text="$t('events.eventsBoard')" />
-        <h2
-          v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
-          class="pb-12"
-        />
-      </div>
-      <v-btn
-        tile
-        large
-        class="d-block"
-        color="primary"
-        @click="$router.push({ name: 'CoordinatorEventOrderStatus' })"
-        v-text="$t('events.createAndOrderEvents')"
-      />
-    </div>
+    <h1 v-text="$t('events.eventsBoard')" class="mb-5" />
+    <h2
+      v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
+      class="pb-12"
+    />
     <actions-calendar
       v-model="value"
       first-interval="5"

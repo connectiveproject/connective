@@ -51,9 +51,7 @@
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
     "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
     "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?",
-    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?",
-    "AreYouSureYouWantToDeleteThisOrder?ThisActionWillDeleteAllRelatedEvents": "האם אתם בטוחים שברצונכם למחוק הזמנה זו? פעולה זו תמחק את כלל האירועים המקושרים",
-    "AreYouSureYouWantToApproveThisRequest?ThisActionWillStartCollaborationWithTheSchoolAndCreateTheRelevantEvents": "האם אתם בטוחים שתרצו לאשר בקשה זו? פעולה זו תתחיל שיתוף פעולה עם בית הספר ותיצור את המפגשים הרלוונטיים"
+    "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?"
   },
 
   "gender": {
@@ -146,9 +144,6 @@
   },
 
   "userActions": {
-    "confirm": "אישור",
-    "deny": "דחייה",
-    "cancel": "ביטול",
     "remove": "הסרת|הסירו",
     "save": "שמירה",
     "next": "המשך",
@@ -164,10 +159,7 @@
     "toHomepage": "לדף הבית",
     "addMedia": "הוספת מדיה",
     "addPost": "הוספת פוסט",
-    "addPublicPost": "הוספת פוסט פומבי",
-    "addEvents": "הוספת מפגשים",
-    "timeChoose": "בחירת שעה",
-    "dateChoose": "בחירת תאריך"
+    "addPublicPost": "הוספת פוסט פומבי"
   },
 
   "grades": {
@@ -220,12 +212,7 @@
     "programCreatedSuccessfully": "התוכנית נוצרה בהצלחה",
     "userDetailsUpdatedSuccessfully": "פרטי המשתמש עודכנו בהצלחה",
     "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה",
-    "userDeletedSuccessfully": "המשתמש נמחק בהצלחה",
-    "orderCreatedAndWaitingForOrganizationApproval": "ההזמנת נוצרה בהצלחה ומחכה לאישור עמותה",
-    "eventSuccessfullyApproved": "האירוע/ים אושר/ו בהצלחה",
-    "eventDenied": "האירוע/ים נדחה/ו",
-    "allRelatedEventsHaveBeenCancelled": "כלל האירועים המקושרים בוטלו",
-    "eventOrderAndEventsSuccessfullyDeleted": "הזמנת  האירוע בוטלה וכלל האירועים המקושרים נמחקו"
+    "userDeletedSuccessfully": "המשתמש נמחק בהצלחה"
   },
 
   "errors": {
@@ -254,10 +241,7 @@
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
     "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
     "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
-    "domainUnspecified": "מרחב לא צויין",
-    "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
-    "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו",
-    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה"
+    "domainUnspecified": "מרחב לא צויין"
   },
 
   "myActivity": {
@@ -285,7 +269,6 @@
   },
 
   "events": {
-    "requestsForEvents": "בקשות לאירועים",
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
     "eventFeedShareContent": "תוכן הפוסט",
@@ -305,15 +288,7 @@
     "summarizeYourExperienceInTheEventAndWriteWhatYouLearned": "סכמו את חווייתכם מהמפגש ופרטו מה למדתם",
     "writeProsAndCons": "פרטו נקודות לשיפור ולשימור",
     "chooseYourLevelOfSatisfactionFromTheEvent": "סמנו את שביעות רצונכם הכללית מהמפגש",
-    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים",
-    "eventsCreation": "יצירת מפגשים",
-    "createAndOrderEvents": "הזמנת ויצירת מפגשים",
-    "reasonForDenyOrCancellation": "סיבת דחייה / ביטול",
-    "reasonForEventsDenyOrCancellation": "סיבה לדחייה / ביטול האירועים",
-    "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים",
-    "eventsStatus": "סטטוס מפגשים",
-    "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
-    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר"
+    "chooseHowLikelyYouAreToRecommendThisActivityToAFriend": "סמנו כמה הייתם ממליצים פעילות זו לחברים"
   },
 
   "groups": {
@@ -326,16 +301,13 @@
     "groupPage": "עמוד קבוצה",
     "editAndViewTheGroupDetails": "ערכו וצפו בפרטי הקבוצה",
     "viewAndEditStudents": "צפייה ועריכת תלמידים",
-    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו",
-    "parentGroup": "קבוצת אם"
+    "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו"
   },
 
   "time": {
     "today": "היום",
     "startTime": "שעת התחלה",
     "endTime": "שעת סיום",
-    "startDate": "תאריך התחלה",
-    "endDate": "תאריך סיום",
     "day-0": "ראשון",
     "day-1": "שני",
     "day-2": "שלישי",
@@ -358,10 +330,7 @@
     "monthly": "חודשי",
     "weekly": "שבועי",
     "halfWeekly": "חצי שבועי",
-    "daily": "יומי",
-    "oneTime": "חד פעמי",
-    "weeklyForYear": "שבועי למשך שנה",
-    "recurrence": "חזרתיות"
+    "daily": "יומי"
   },
 
   "posts": {
@@ -377,12 +346,5 @@
     "physicalChallenge": "אתגר פיזי",
     "swimming": "שחיה",
     "suitedForReligious": "מותאם לקהל דתי"
-  },
-
-  "status": {
-    "cancelled": "בוטל",
-    "pendingApproval": "ממתין לאישור",
-    "approved": "אושר",
-    "denied": "נדחה"
   }
 }

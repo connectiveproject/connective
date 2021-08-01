@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <p>{{ title }}</p>
-    <v-radio-group v-bind="$attrs" :value="selectedItem" @change="onChange">
+    <v-radio-group :value="selectedItem" @change="onChange">
       <v-radio
         v-for="choice in choices"
         :key="choice.id"
@@ -16,7 +16,6 @@ export default {
   model: {
     prop: "selectedItem",
   },
-  inheritAttrs: false,
   props: {
     selectedItem: {
       // empty string or item a value from choices prop

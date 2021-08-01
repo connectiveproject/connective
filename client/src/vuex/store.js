@@ -20,7 +20,6 @@ import instructorProgramGroup from "./modules/instructorProgramGroup"
 import event from "./modules/event"
 import consumerEvent from "./modules/consumerEvent"
 import instructorEvent from "./modules/instructorEvent"
-import vendorEvent from "./modules/vendorEvent"
 
 Vue.use(Vuex)
 
@@ -46,7 +45,6 @@ const store = new Vuex.Store({
     event,
     consumerEvent,
     instructorEvent,
-    vendorEvent,
   },
   actions: {
     flushState({ dispatch }) {

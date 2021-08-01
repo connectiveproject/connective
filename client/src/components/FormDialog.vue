@@ -2,11 +2,6 @@
   <v-dialog max-width="600px" v-model="value" persistent>
     <v-card>
       <v-card-title class="headline pt-13 justify-center" v-text="title" />
-      <v-card-subtitle
-        class="text-subtitle-1 pt-5 text-center"
-        v-text="subtitle"
-        v-if="subtitle"
-      />
       <validation-observer v-slot="{ invalid }" ref="observer">
         <form class="w-75 mx-auto" @submit.prevent="save">
           <v-card-text>
@@ -16,7 +11,7 @@
                 :key="field.id"
                 class="mt-8"
                 cols="12"
-                :md="formInput.length > 1 ? 6 : 12"
+                md="6"
               >
                 <validation-provider
                   v-slot="{ errors }"
@@ -43,11 +38,11 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="pb-5 mt-12">
-            <v-spacer />
-            <v-btn color="primary" text @click="close" type="button">
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="close" type="button">
               {{ $t("userActions.close") }}
             </v-btn>
-            <v-btn color="primary" text type="submit" :disabled="invalid">
+            <v-btn color="blue darken-1" text type="submit" :disabled="invalid">
               {{ $t("userActions.save") }}
             </v-btn>
           </v-card-actions>
@@ -84,10 +79,6 @@ export default {
       default: function () {
         return this.$tc("userActions.add", 1)
       },
-    },
-    subtitle: {
-      type: String,
-      default: "",
     },
   },
 

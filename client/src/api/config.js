@@ -17,7 +17,7 @@ function addInvalidTokenHandler() {
     // pop token if backend rejects it
     response => response,
     error => {
-      if (error.response && error.response.data.detail === "Invalid token.") {
+      if (error.response.data.detail === "Invalid token.") {
         config.removeToken()
         Vue.$router.push({
           name: "Error",

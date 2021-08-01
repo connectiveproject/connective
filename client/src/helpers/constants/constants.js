@@ -57,18 +57,12 @@ export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_acti
 export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
-export const CREATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
-export const UPDATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
 export const GET_CONSUMER_EVENT_API_URL = `${SERVER_URL}/consumer_events/`
 export const CREATE_CONSUMER_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/consumer_event_feedback/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
-export const GET_VENDOR_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
-export const UPDATE_VENDOR_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
-export const GET_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
-export const DELETE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const CREATE_FEED_POST_API_URL = `${SERVER_URL}/posts/`
 export const CREATE_POST_IMAGES_API_URL = `${SERVER_URL}/post_image/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
@@ -385,16 +379,6 @@ export const SERVER = {
     containerOnly: "CONTAINER_ONLY",
     disabledConsumers: "DISABLED_CONSUMERS",
   },
-  eventOrderStatus: {
-    cancelled: "CANCELLED",
-    pendingApproval: "PENDING_APPROVAL",
-    approved: "APPROVED",
-    denied: "DENIED",
-  },
-  eventOrderReccurence: {
-    oneTime: "ONE_TIME",
-    weekly: "WEEKLY"
-  }
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"

@@ -1,13 +1,5 @@
-import moment from "moment"
 import i18n from "../plugins/i18n"
-import {
-  required,
-  email,
-  size,
-  max,
-  numeric,
-  digits,
-} from "vee-validate/dist/rules"
+import { required, email, size, max, numeric, digits } from "vee-validate/dist/rules"
 import { extend } from "vee-validate"
 import {
   PASSWORD_REGEX_PATTERN,
@@ -84,19 +76,4 @@ extend("youtubeUrl", {
     const regex = new RegExp(YOUTUBE_URL_REGEX_PATTERN, "i")
     return regex.test(value)
   },
-})
-
-extend("afterStartDate", {
-  // should be attached to end-time
-  // check if end-time + end-date is after start-time + start-date
-  params: ["startDate", "startTime", "endDate"],
-  validate(endTime, { startDate, startTime, endDate }) {
-    if (!endTime || !startDate || !startTime || !endDate) {
-      return true
-    }
-    const startDateObj = moment(`${startDate}T${startTime}`)
-    const endDateObj = moment(`${endDate}T${endTime}`)
-    return endDateObj.isAfter(startDateObj)
-  },
-  message: i18n.tc("errors.endTimeShouldBeLaterThanStartTime"),
 })

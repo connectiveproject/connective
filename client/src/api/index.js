@@ -17,7 +17,6 @@ import instructorProgramGroup from "./instructorProgramGroup"
 import event from "./event"
 import consumerEvent from "./consumerEvent"
 import instructorEvent from "./instructorEvent"
-import vendorEvent from "./vendorEvent"
 
 export default {
   utils,
@@ -39,5 +38,4 @@ export default {
   event,
   consumerEvent,
   instructorEvent,
-  vendorEvent,
 }

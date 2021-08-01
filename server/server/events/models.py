@@ -8,61 +8,8 @@ from server.users.models import Consumer
 from server.utils.model_fields import random_slug
 
 
-class EventOrder(models.Model):
-    class Status(models.TextChoices):
-        CANCELLED = "CANCELLED", "Cancelled"
-        PENDING_APPROVAL = "PENDING_APPROVAL", "Pending Approval"
-        APPROVED = "APPROVED", "Approved"
-        DENIED = "DENIED", "Denied"
-
-    class Recurrence(models.TextChoices):
-        ONE_TIME = "ONE_TIME", "One Time"
-        WEEKLY = "WEEKLY", "Weekly"
-
-    base_status = Status.PENDING_APPROVAL
-    base_recurrence = Recurrence.ONE_TIME
-
-    slug = models.CharField(max_length=40, default=random_slug, unique=True)
-    status = models.CharField(
-        _("status"), max_length=50, choices=Status.choices, default=base_status
-    )
-    recurrence = models.CharField(
-        _("recurrence"),
-        max_length=50,
-        choices=Recurrence.choices,
-        default=base_recurrence,
-    )
-    school_group = models.ForeignKey(
-        SchoolActivityGroup,
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-    locations_name = models.CharField(
-        max_length=250,
-        null=True,
-        blank=True,
-    )
-    status_reason = models.CharField(
-        max_length=250,
-        blank=True,
-    )
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def clean(self):
-        if self.start_time > self.end_time:
-            raise ValidationError(
-                {"end_time": _("end time must occur after start time")}
-            )
-
-
 class Event(models.Model):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
-    event_order = models.ForeignKey(
-        EventOrder, on_delete=models.CASCADE, null=True, related_name="events"
-    )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     consumers = models.ManyToManyField(

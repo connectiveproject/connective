@@ -6,7 +6,6 @@ import {
   loginOrFlushStore,
   initPrograms,
   initConsumerPrograms,
-  removePagination,
   flushPagination,
   flushToken,
   PopulateConsumerData,
@@ -43,7 +42,6 @@ import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
 import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
 import MyEvents from "../views/MyEvents/MyEvents"
-import CoordinatorEventCreator from "../views/CoordinatorEventCreator"
 import ConsumerList from "../views/ConsumerList/ConsumerList"
 import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
 import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
@@ -59,8 +57,6 @@ import VendorProgramList from "../views/VendorProgramList"
 import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
 import VendorProgramCreator from "../views/VendorProgramCreator"
-import VendorEventsApprove from "../views/VendorEventsApprove"
-import CoordinatorEventOrderStatus from "../views/CoordinatorEventOrderStatus"
 
 Vue.use(VueRouter)
 
@@ -279,17 +275,6 @@ const routes = [
             props: true,
           },
           {
-            path: "event-order-status",
-            name: "CoordinatorEventOrderStatus",
-            component: CoordinatorEventOrderStatus,
-          },
-          {
-            path: "event-creator",
-            name: "CoordinatorEventCreator",
-            component: CoordinatorEventCreator,
-            beforeEnter: removePagination,
-          },
-          {
             path: "group-editor",
             component: GroupEditor,
             children: [
@@ -342,7 +327,7 @@ const routes = [
             path: "event-feed-view",
             name: "InstructorEventFeedView",
             component: InstructorEventFeedView,
-            beforeEnter: flushPagination,
+            beforeEnter: flushPagination
           },
         ],
       },
@@ -359,12 +344,6 @@ const routes = [
             path: "profile",
             name: "VendorProfile",
             component: VendorProfile,
-          },
-          {
-            path: "events-approve",
-            name: "VendorEventsApprove",
-            component: VendorEventsApprove,
-            beforeEnter: removePagination,
           },
           {
             path: "my-programs",
@@ -425,6 +404,7 @@ const routes = [
     path: "*",
     redirect: "/",
   },
+
 ]
 
 const router = new VueRouter({
