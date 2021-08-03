@@ -208,6 +208,8 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("instructorEvent", [
       "updateEvent",
+    ]),
+    ...mapActions("eventFeedPost", [
       "createFeedPost",
       "createPostImages",
     ]),
