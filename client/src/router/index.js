@@ -27,7 +27,7 @@ import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
 import SchoolDetails from "../views/SchoolDetails"
-import InstructorEventFeedView from "../views/InstructorEventFeedView"
+import EventFeedView from "../views/EventFeedView"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
 import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
 import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
@@ -197,7 +197,7 @@ const routes = [
           {
             path: "event-feed-view",
             name: "CoordinatorEventFeedView",
-            component: InstructorEventFeedView,
+            component: EventFeedView,
             beforeEnter: flushPagination
           },
           {
@@ -333,7 +333,7 @@ const routes = [
           {
             path: "event-feed-view",
             name: "InstructorEventFeedView",
-            component: InstructorEventFeedView,
+            component: EventFeedView,
             beforeEnter: flushPagination
           },
         ],

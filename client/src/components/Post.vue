@@ -13,7 +13,7 @@
         class="text--primary pt-3 px-2 body"
         :class="{ 'text-h4': !images.length, 'text-h6': images.length }"
       >
-        "{{ content }}"
+        {{ content }}
       </v-card-text>
       <v-row class="my-10" justify="center" no-gutters>
         <v-col

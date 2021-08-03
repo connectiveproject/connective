@@ -5,8 +5,6 @@ function getDefaultState() {
   return {
     eventList: [],
     totalEvents: null,
-    feedPosts: [],
-    totalFeedPosts: null,
   }
 }
 
@@ -23,15 +21,6 @@ const instructorEvent = {
     SET_EVENTS_TOTAL(state, total) {
       state.totalEvents = total
     },
-    SET_FEED_POSTS_LIST(state, posts) {
-      state.feedPosts = posts
-    },
-    SET_FEED_POSTS_TOTAL(state, total) {
-      state.totalFeedPosts = total
-    },
-    ADD_FEED_POSTS_TO_LIST(state, posts) {
-      state.feedPosts.push(...posts)
-    },
   },
   actions: {
     flushState({ commit }) {
@@ -43,24 +32,6 @@ const instructorEvent = {
     },
     async updateEvent(ctx, { slug, data }) {
       let res = await Api.instructorEvent.updateEvent(slug, data)
-      return res.data
-    },
-    async getFeedPosts({ commit, rootGetters }, override = true) {
-      const params = rootGetters["pagination/apiParams"]
-      let res = await Api.instructorEvent.getFeedPosts(params)
-      const mutation = override
-        ? "SET_FEED_POSTS_LIST"
-        : "ADD_FEED_POSTS_TO_LIST"
-      commit(mutation, res.data.results)
-      commit("SET_FEED_POSTS_TOTAL", res.data.count)
-      return res.data.results
-    },
-    async createFeedPost(ctx, data) {
-      let res = await Api.instructorEvent.createFeedPost(data)
-      return res.data
-    },
-    async createPostImages(ctx, data) {
-      let res = await Api.instructorEvent.createPostImages(data)
       return res.data
     },
     async getPastEvents({ commit, state }, { daysAgo, unsummarizedOnly }) {

@@ -31,11 +31,11 @@ import EndOfPageDetector from "../components/EndOfPageDetector"
 export default {
   components: { Post, EndOfPageDetector },
   async beforeRouteEnter(to, from, next) {
-    const posts = await store.dispatch("instructorEvent/getFeedPosts")
+    const posts = await store.dispatch("eventFeedPost/getFeedPosts")
     next(vm => (vm.posts = posts))
   },
   methods: {
-    ...mapActions("instructorEvent", ["getFeedPosts"]),
+    ...mapActions("eventFeedPost", ["getFeedPosts"]),
     ...mapActions("pagination", ["incrementPage"]),
     ApiStringToReadableDate: Utils.ApiStringToReadableDate,
     onEndOfPage() {
@@ -51,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("instructorEvent", ["totalFeedPosts"]),
+    ...mapState("eventFeedPost", ["totalFeedPosts"]),
   },
 }
 </script>
