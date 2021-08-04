@@ -50,10 +50,10 @@
           </v-card-text>
           <v-card-actions class="pb-5 mt-12">
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="close" type="button">
-              {{ $t("userActions.close") }}
+            <v-btn color="primary" text @click="close" type="button">
+              {{ $t("userActions.cancel") }}
             </v-btn>
-            <v-btn color="blue darken-1" text type="submit" :disabled="invalid">
+            <v-btn color="primary" text type="submit" :disabled="invalid">
               {{ $t("userActions.save") }}
             </v-btn>
           </v-card-actions>

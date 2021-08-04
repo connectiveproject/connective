@@ -27,6 +27,7 @@
           "
         />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
+        <pagination-chip-group class="tags-selection" :chips="TAGS" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -44,14 +45,23 @@
             :key="program.id"
           >
             <info-card
-              v-model="program.isOrdered"
-              :imgUrl="program.logo"
+              :img-url="program.logo"
               :title="program.name"
-              :subtitle="getCardSubtitle(program.orderStatus)"
               :button-text="$t('program.forProgramDetails')"
-              @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
+              :secondary-button-text="
+                program.isOrdered
+                  ? $t('userActions.leave')
+                  : $t('userActions.join')
+              "
+              @secondary-click="onOrderClick(program)"
             >
+              <template v-slot:subtitle>
+                <span> {{ $t("general.status") }}: </span>
+                <span :class="`${statusToColor[program.orderStatus]}--text`">
+                  {{ statusToText[program.orderStatus] }}
+                </span>
+              </template>
               {{ program.description | trimText(70) }}
             </info-card>
           </v-col>
@@ -65,21 +75,22 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex"
+import debounce from "lodash/debounce"
 import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
+import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
-import {
-  PROGRAMS_CHECKBOX_FILTERS,
-  SERVER,
-} from "../../helpers/constants/constants"
+import { SERVER } from "../../helpers/constants/constants"
+import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 
 export default {
   components: {
     InfoCard,
     PaginationCheckboxGroup,
     PaginationSearchBar,
+    PaginationChipGroup,
     EndOfPageDetector,
   },
 
@@ -117,35 +128,32 @@ export default {
           this.getProgramsList(false)
         }
       } else {
-        // fetch & ovrride programs list
+        // fetch & override programs list
         this.updatePagination({ page: 1 })
         this.getProgramsList(true)
       }
     },
 
-    getCardSubtitle(orderStatus) {
-      const prefix = this.$t("general.status")
-      let status = this.$t("program.available")
-      if (orderStatus) {
-        status = this.$t(`program.${orderStatus}`)
-      }
-      return `${prefix}: ${status}`
-    },
-
-    async onStarChange(program, isStarred) {
-      // (dis)request a program and change order status accordingly
-      try {
-        if (isStarred) {
-          await this.requestProgram(program)
-          this.showMessage(this.$t("success.programJoinRequestSent"))
-        } else {
-          await this.disRequestProgram(program)
-          this.showMessage(this.$t("success.programParticipationCancelled"))
+    onOrderClick: debounce(
+      async function (program) {
+        // (dis)request a program and change order status accordingly
+        try {
+          if (program.isOrdered) {
+            await this.disRequestProgram(program)
+            this.showMessage(this.$t("success.programParticipationCancelled"))
+          } else {
+            await this.requestProgram(program)
+            this.showMessage(
+              this.$t("success.joinRequestSentAndIsWaitingForAdminApproval")
+            )
+          }
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
         }
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     requestProgram(program) {
       if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
@@ -171,8 +179,25 @@ export default {
   data() {
     return {
       PROGRAMS_CHECKBOX_FILTERS,
+      TAGS,
       recentlyScrolled: false,
       isProgramOpen: true,
+      statusToText: {
+        [SERVER.programOrderStatus.cancelled]: this.$t(
+          "program.requestCancelled"
+        ),
+        [SERVER.programOrderStatus.approved]: this.$t(
+          "program.requestApproved"
+        ),
+        [SERVER.programOrderStatus.pendingAdminApproval]: this.$t(
+          "program.pendingAdminApproval"
+        ),
+      },
+      statusToColor: {
+        [SERVER.programOrderStatus.cancelled]: "error",
+        [SERVER.programOrderStatus.approved]: "success",
+        [SERVER.programOrderStatus.pendingAdminApproval]: "orange",
+      },
     }
   },
 
@@ -208,6 +233,7 @@ export default {
 .checkbox-small::v-deep label {
   font-size: 12px;
 }
+.tags-selection,
 .search-bar {
   max-width: 450px;
 }

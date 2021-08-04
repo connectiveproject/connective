@@ -30,15 +30,19 @@ export default {
       type: Array,
       required: true,
     },
+    filterFieldName: {
+      type: String,
+      default: "tags"
+    }
   },
   methods: {
     ...mapActions("pagination", ["addFieldFilter", "removeFieldFilter"]),
     chipFilterChange: debounce(async function() {
       if (this.selectedChipsNumeric.length) {
         const chipsSelected = this.selectedChipsNumeric.map(chip => this.chips[chip])
-        await this.addFieldFilter({ fieldName: "chips", value: chipsSelected })
+        await this.addFieldFilter({ fieldName: this.filterFieldName, value: chipsSelected })
       } else {
-        await this.removeFieldFilter("chips")
+        await this.removeFieldFilter(this.filterFieldName)
       }
     }, 500),
   },

@@ -36,9 +36,7 @@
         :key="group.id"
       >
         <info-card
-          :hideStar="true"
           :title="group.name"
-          :subtitle="group.activityName"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
           buttonColor="primary"
@@ -49,6 +47,9 @@
             })
           "
         >
+          <template v-slot:subtitle>
+            {{ group.activityName }}
+          </template>
           <title-to-text
             class="mb-1"
             :title="$t('myActivity.groupDescription')"

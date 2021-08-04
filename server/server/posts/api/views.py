@@ -55,9 +55,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if user.user_type == get_user_model().Types.CONSUMER:
             return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:
-            return Post.objects.filter(event__school_group__instructor=user).order_by(
-                "-created"
-            )
+            return Post.objects.filter(author=user).order_by("-created")
         elif user.user_type == get_user_model().Types.COORDINATOR:
             return Post.objects.filter(
                 event__school_group__activity_order__school__school_member__user=user,

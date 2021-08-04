@@ -40,11 +40,12 @@
         </v-data-table>
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
-            text
             data-testid="invite-instructor-btn"
             v-text="$t('invite.inviteInstructor')"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
             @click="addInstructor"
+            color="primary"
+            outlined
           />
           <v-spacer></v-spacer>
           <div class="pl-2">

@@ -31,13 +31,12 @@
             :key="consumer.id"
           >
             <info-card
-              hide-star
               hide-button
               img-height="0"
               :img-url="null"
               :title="consumer.name"
-              :subtitle="$t(`gender.${consumer.profile.gender.toLowerCase()}`)"
               :button-text="$t('myActivity.toThePersonalPage')"
+              :img-clickable="false"
               @click="
                 $router.push({
                   name: 'ConsumerDetail',
@@ -45,6 +44,9 @@
                 })
               "
             >
+              <template v-slot:subtitle>
+                {{ $t(`gender.${consumer.profile.gender.toLowerCase()}`) }}
+              </template>
               <avatar
                 class="mx-auto d-block"
                 style="width: 200px"

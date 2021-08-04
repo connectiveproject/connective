@@ -111,9 +111,6 @@ export default {
 }
 </script>
 <style scoped>
-#info-button {
-  letter-spacing: 1.7px !important;
-}
 .actions {
   height: 40px;
 }

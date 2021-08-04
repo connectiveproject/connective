@@ -57,12 +57,18 @@ export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_acti
 export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
+export const CREATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
+export const UPDATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
 export const GET_CONSUMER_EVENT_API_URL = `${SERVER_URL}/consumer_events/`
 export const CREATE_CONSUMER_EVENT_FEEDBACK_API_URL = `${SERVER_URL}/consumer_event_feedback/`
 export const GET_INSTRUCTOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
+export const GET_VENDOR_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
+export const UPDATE_VENDOR_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
+export const GET_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
+export const DELETE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const CREATE_FEED_POST_API_URL = `${SERVER_URL}/posts/`
 export const CREATE_POST_IMAGES_API_URL = `${SERVER_URL}/post_image/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
@@ -71,7 +77,7 @@ export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
 export const ISRAELI_PHONE_REGEX_PATTERN =
-  "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
+  "^0(([23489]{1}\\d{7})|[57]{1}\\d{8})$"
 export const EMAIL_REGEX_PATTERN =
   '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
 export const WEBSITE_REGEX_PATTERN =
@@ -115,6 +121,10 @@ const DOMAIN_SELECT_ITEMS = [
   {
     text: i18n.t("programFilters.field"),
     value: "FIELD",
+  },
+  {
+    text: i18n.t("programFilters.other"),
+    value: "OTHER",
   },
 ]
 
@@ -167,201 +177,6 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
 ]
 
-export const CONSUMER_TAGS = [
-  i18n.t("tags.outdoorActivities"),
-  i18n.t("tags.foreignLanguages"),
-  i18n.t("tags.physicalChallenge"),
-  i18n.t("tags.swimming"),
-  i18n.t("tags.suitedForReligious"),
-]
-
-export const CONSUMER_PROGRAMS_CHECKBOX_FILTERS = [
-  {
-    name: "domain__in",
-    readableName: i18n.t("programFilters.domainOfActivity"),
-    options: [
-      {
-        label: i18n.t("programFilters.scienceAndTech"),
-        value: "SCIENCE_AND_TECH",
-      },
-      {
-        label: i18n.t("programFilters.extremeSports"),
-        value: "EXTREME_SPORTS",
-      },
-      {
-        label: i18n.t("programFilters.field"),
-        value: "FIELD",
-      },
-    ],
-  },
-
-  {
-    name: "targetAudience",
-    readableName: i18n.t("programFilters.targetAudience"),
-    options: [
-      {
-        label: i18n.t("grades.1"),
-        value: "1",
-      },
-      {
-        label: i18n.t("grades.2"),
-        value: "2",
-      },
-      {
-        label: i18n.t("grades.3"),
-        value: "3",
-      },
-      {
-        label: i18n.t("grades.4"),
-        value: "4",
-      },
-      {
-        label: i18n.t("grades.5"),
-        value: "5",
-      },
-      {
-        label: i18n.t("grades.6"),
-        value: "6",
-      },
-      {
-        label: i18n.t("grades.7"),
-        value: "7",
-      },
-      {
-        label: i18n.t("grades.8"),
-        value: "8",
-      },
-      {
-        label: i18n.t("grades.9"),
-        value: "9",
-      },
-      {
-        label: i18n.t("grades.10"),
-        value: "10",
-      },
-      {
-        label: i18n.t("grades.11"),
-        value: "11",
-      },
-      {
-        label: i18n.t("grades.12"),
-        value: "12",
-      },
-    ],
-  },
-]
-
-export const PROGRAMS_CHECKBOX_FILTERS = [
-  // {
-  //   name: "space",
-  //   readableName: i18n.t("programFilters.space"),
-  //   options: [
-  //     {
-  //       label: i18n.t("programFilters.blueCore"),
-  //       value: "blue",
-  //     },
-  //     {
-  //       label: i18n.t("programFilters.greenEmpowermentEnrichment"),
-  //       value: "green",
-  //     },
-  //     {
-  //       label: i18n.t("programFilters.orangeCommunity"),
-  //       value: "orange",
-  //     },
-  //   ],
-  // },
-  {
-    name: "domain__in",
-    readableName: i18n.t("programFilters.domainOfActivity"),
-    options: [
-      {
-        label: i18n.t("programFilters.scienceAndTech"),
-        value: "SCIENCE_AND_TECH",
-      },
-      {
-        label: i18n.t("programFilters.extremeSports"),
-        value: "EXTREME_SPORTS",
-      },
-      {
-        label: i18n.t("programFilters.field"),
-        value: "FIELD",
-      },
-    ],
-  },
-  // {
-  //   name: "natureOfActivity",
-  //   readableName: i18n.t("programFilters.natureOfActivity"),
-  //   options: [
-  //     {
-  //       label: i18n.t("programFilters.individual"),
-  //       value: "individual",
-  //     },
-  //     {
-  //       label: i18n.t("programFilters.cooperative"),
-  //       value: "cooperative",
-  //     },
-  //     {
-  //       label: i18n.t("programFilters.hybrid"),
-  //       value: "hybrid",
-  //     },
-  //   ],
-  // },
-  {
-    name: "targetAudience",
-    readableName: i18n.t("programFilters.targetAudience"),
-    options: [
-      {
-        label: i18n.t("grades.1"),
-        value: "1",
-      },
-      {
-        label: i18n.t("grades.2"),
-        value: "2",
-      },
-      {
-        label: i18n.t("grades.3"),
-        value: "3",
-      },
-      {
-        label: i18n.t("grades.4"),
-        value: "4",
-      },
-      {
-        label: i18n.t("grades.5"),
-        value: "5",
-      },
-      {
-        label: i18n.t("grades.6"),
-        value: "6",
-      },
-      {
-        label: i18n.t("grades.7"),
-        value: "7",
-      },
-      {
-        label: i18n.t("grades.8"),
-        value: "8",
-      },
-      {
-        label: i18n.t("grades.9"),
-        value: "9",
-      },
-      {
-        label: i18n.t("grades.10"),
-        value: "10",
-      },
-      {
-        label: i18n.t("grades.11"),
-        value: "11",
-      },
-      {
-        label: i18n.t("grades.12"),
-        value: "12",
-      },
-    ],
-  },
-]
-
 export const SERVER = {
   userTypes: {
     coordinator: "COORDINATOR", // i.e., principals
@@ -379,6 +194,21 @@ export const SERVER = {
     containerOnly: "CONTAINER_ONLY",
     disabledConsumers: "DISABLED_CONSUMERS",
   },
+  eventOrderStatus: {
+    cancelled: "CANCELLED",
+    pendingApproval: "PENDING_APPROVAL",
+    approved: "APPROVED",
+    denied: "DENIED",
+  },
+  eventOrderReccurence: {
+    oneTime: "ONE_TIME",
+    weekly: "WEEKLY"
+  },
+  consumerProgramJoinStatus: {
+    joined: "JOINED",
+    notJoined: "NOT_JOINED",
+    pendingGroupAssignment: "PENDING_GROUP_ASSIGNMENT",
+  }
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"

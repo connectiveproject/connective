@@ -101,15 +101,14 @@ class Activity(models.Model):
         SCIENCE_AND_TECH = "SCIENCE_AND_TECH", "Science And Tech"
         EXTREME_SPORTS = "EXTREME_SPORTS", "Extreme Sports"
         FIELD = "FIELD", "Field"
+        OTHER = "OTHER", "Other"
 
     tags = TaggableManager(blank=True)
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
     target_audience = models.JSONField()
-    domain = models.CharField(
-        max_length=55, null=True, blank=True, choices=Domain.choices
-    )
+    domain = models.CharField(max_length=55, null=True, choices=Domain.choices)
     originization = models.ForeignKey(
         Organization, on_delete=models.SET_NULL, null=True, blank=True
     )
