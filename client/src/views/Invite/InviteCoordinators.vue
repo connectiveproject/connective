@@ -41,8 +41,9 @@
           <v-btn
             @click="addCoordinator"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
-            text
             v-text="$t('invite.inviteStaffMember')"
+            color="primary"
+            outlined
           />
           <v-spacer></v-spacer>
           <div class="pl-2">

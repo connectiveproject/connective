@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 import pytest
 
+from server.events.models import Event
 from server.organizations.models import (
     Activity,
     Organization,
@@ -87,6 +90,13 @@ def all_entities(
     activity_order = school_activity_group.activity_order
     activity = activity_order.activity
     organization = activity.originization
+    event = Event.objects.create(
+        start_time=datetime.now(),
+        end_time=datetime.now() + timedelta(days=1),
+        school_group=school_activity_group,
+    )
+    event.consumers.add(consumer)
+    event.save()
 
     SchoolMember.objects.create(user=coordinator, school=activity_order.school)
     SchoolMember.objects.create(user=consumer, school=activity_order.school)
@@ -103,6 +113,7 @@ def all_entities(
         "consumer": consumer,
         "vendor": vendor,
         "instructor": instructor,
+        "event": event,
     }
 
 

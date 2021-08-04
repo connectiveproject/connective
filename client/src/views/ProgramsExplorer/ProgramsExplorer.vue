@@ -27,6 +27,10 @@
           "
         />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
+        <pagination-chip-group
+          class="tags-selection"
+          :chips="TAGS"
+        />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -69,17 +73,17 @@ import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
+import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
-import {
-  PROGRAMS_CHECKBOX_FILTERS,
-  SERVER,
-} from "../../helpers/constants/constants"
+import { SERVER } from "../../helpers/constants/constants"
+import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 
 export default {
   components: {
     InfoCard,
     PaginationCheckboxGroup,
     PaginationSearchBar,
+    PaginationChipGroup,
     EndOfPageDetector,
   },
 
@@ -117,7 +121,7 @@ export default {
           this.getProgramsList(false)
         }
       } else {
-        // fetch & ovrride programs list
+        // fetch & override programs list
         this.updatePagination({ page: 1 })
         this.getProgramsList(true)
       }
@@ -171,6 +175,7 @@ export default {
   data() {
     return {
       PROGRAMS_CHECKBOX_FILTERS,
+      TAGS,
       recentlyScrolled: false,
       isProgramOpen: true,
     }
@@ -208,6 +213,7 @@ export default {
 .checkbox-small::v-deep label {
   font-size: 12px;
 }
+.tags-selection,
 .search-bar {
   max-width: 450px;
 }

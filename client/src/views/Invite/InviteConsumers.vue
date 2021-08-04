@@ -44,7 +44,8 @@
           <v-btn
             @click="addStudent"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
-            text
+            color="primary"
+            outlined
           >
             {{ `${$tc("invite.invite", 1)} ${$t("general.student")}` }}
           </v-btn>

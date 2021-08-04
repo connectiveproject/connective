@@ -71,10 +71,7 @@ import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { mapActions, mapGetters, mapState } from "vuex"
-import {
-  CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
-  CONSUMER_TAGS,
-} from "../../helpers/constants/constants"
+import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 
 export default {
   components: {
@@ -153,8 +150,8 @@ export default {
 
   data() {
     return {
-      CONSUMER_PROGRAMS_CHECKBOX_FILTERS,
-      CONSUMER_TAGS,
+      PROGRAMS_CHECKBOX_FILTERS,
+      TAGS,
       recentlyScrolled: false,
       isProgramOpen: true,
       statusToText: {
@@ -190,14 +187,15 @@ export default {
 .right-pane {
   border-left: $light-grey 1px solid;
 }
-.search-bar {
-  max-width: 450px;
-}
 .checkbox-group {
   float: right;
   width: 100%;
 }
-.tags-selection {
+.checkbox-small::v-deep label {
+  font-size: 12px;
+}
+.tags-selection,
+.search-bar {
   max-width: 450px;
 }
 </style>
