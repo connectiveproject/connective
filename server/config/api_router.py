@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from server.events.api.views import (
     ConsumerEventFeedbackViewset,
     ConsumerEventViewSet,
+    EventOrderViewSet,
     EventViewSet,
 )
 from server.organizations.api.views import (
@@ -90,6 +91,7 @@ router.register(
 )
 router.register("school_activity_group", SchoolActivityGroupViewSet)
 router.register("events", EventViewSet, basename="events")
+router.register("event_order", EventOrderViewSet, basename="event_order")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")
 router.register(
     "consumer_event_feedback",

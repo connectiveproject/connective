@@ -18,6 +18,7 @@ import event from "./event"
 import consumerEvent from "./consumerEvent"
 import instructorEvent from "./instructorEvent"
 import eventFeedPost from "./eventFeedPost"
+import vendorEvent from "./vendorEvent"
 
 export default {
   utils,
@@ -40,4 +41,5 @@ export default {
   consumerEvent,
   instructorEvent,
   eventFeedPost,
+  vendorEvent,
 }
