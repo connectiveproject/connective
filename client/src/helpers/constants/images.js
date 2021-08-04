@@ -10,5 +10,5 @@ export const BACKGROUNDS = {
   error: require("@/assets/img/optimized/surprised.webp"), // unsplash.com/photos/qDY9ahp0Mto
   welcome: require("@/assets/video/hashalem-optimized.mp4"),
   managementDashboard: require("@/assets/img/optimized/Liquid-Cheese.svg"), // background by SVGBACKGROUNDS.com
-  navbar: "https://picsum.photos/1920/1080?random",
+  navbar: require("@/assets/img/optimized/navbar.webp"), // unsplash.com/photos/APX-IrnG8yw
 }
