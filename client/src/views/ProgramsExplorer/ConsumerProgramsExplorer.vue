@@ -8,7 +8,7 @@
         :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
       >
         <pagination-checkbox-group
-          v-for="filter in CONSUMER_PROGRAMS_CHECKBOX_FILTERS"
+          v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
           :key="filter.id"
           :name="filter.name"
           :title="filter.readableName"
@@ -26,7 +26,7 @@
         <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
         <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
-        <pagination-chip-group class="tags-selection" :chips="CONSUMER_TAGS" />
+        <pagination-chip-group class="tags-selection" :chips="TAGS" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -44,15 +44,24 @@
             :key="program.id"
           >
             <info-card
-              :value="program.isConsumerJoined"
               :imgUrl="program.logo"
               :title="program.name"
               :button-text="$t('program.forProgramDetails')"
-              @input="e => onStarChange(program, e)"
+              :secondary-button-text="
+                program.consumerJoinStatus === notJoinedText
+                  ? $t('userActions.join')
+                  : $t('userActions.leave')
+              "
+              @secondary-click="onJoinClick(program)"
               @click="openProgram(program.slug)"
             >
               <template v-slot:subtitle>
-                {{ getCardSubtitle(program.consumerJoinStatus) }}
+                <span> {{ $t("general.status") }}: </span>
+                <span
+                  :class="`${statusToColor[program.consumerJoinStatus]}--text`"
+                >
+                  {{ statusToText[program.consumerJoinStatus] }}
+                </span>
               </template>
               {{ program.description | trimText(70) }}
             </info-card>
@@ -66,13 +75,15 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from "vuex"
+import debounce from "lodash/debounce"
 import Api from "../../api"
+import { SERVER } from "../../helpers/constants/constants"
 import InfoCard from "../../components/InfoCard"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
-import { mapActions, mapGetters, mapState } from "vuex"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 
 export default {
@@ -123,43 +134,60 @@ export default {
       }
     },
 
-    getCardSubtitle(consumerJoinStatus) {
-      return `${this.$t("general.status")}: ${
-        this.statusToText[consumerJoinStatus]
-      }`
-    },
-
-    async onStarChange(program, isStarred) {
-      // (dis)request a program and change order status accordingly
-      try {
-        if (isStarred) {
-          await this.joinProgram(program.slug)
-          return this.showMessage(this.$t("success.joinedProgramSuccessfully"))
+    onJoinClick: debounce(
+      async function (program) {
+        // (dis)request a program and change order status accordingly
+        try {
+          if (
+            program.consumerJoinStatus ===
+            SERVER.consumerProgramJoinStatus.notJoined
+          ) {
+            await this.joinProgram(program.slug)
+            return this.showMessage(
+              this.$t("success.joinRequestSentSuccessfully")
+            )
+          }
+          if (
+            program.consumerJoinStatus ===
+            SERVER.consumerProgramJoinStatus.joined
+          ) {
+            return this.showMessage(
+              this.$t("errors.cantLeaveProgramAfterGroupAssigned")
+            )
+          } else {
+            await this.leaveProgram(program.slug)
+            return this.showMessage(this.$t("success.leftProgramSuccessfully"))
+          }
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
         }
-        if (program.consumerJoinStatus === "JOINED") {
-          return this.showMessage(
-            this.$t("errors.cantLeaveProgramAfterGroupAssigned")
-          )
-        } else {
-          await this.leaveProgram(program.slug)
-          return this.showMessage(this.$t("success.leftProgramSuccessfully"))
-        }
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
   },
 
   data() {
     return {
+      notJoinedText: SERVER.consumerProgramJoinStatus.notJoined,
       PROGRAMS_CHECKBOX_FILTERS,
       TAGS,
       recentlyScrolled: false,
       isProgramOpen: true,
       statusToText: {
-        PENDING_GROUP_ASSIGNMENT: this.$t("program.pendingGroupAssignment"),
-        JOINED: this.$t("auth.registered"),
-        NOT_JOINED: this.$t("auth.notRegistered"),
+        [SERVER.consumerProgramJoinStatus.pendingGroupAssignment]: this.$t(
+          "program.pendingGroupAssignment"
+        ),
+        [SERVER.consumerProgramJoinStatus.joined]: this.$t(
+          "program.inTheProgramAndAssignedToGroup"
+        ),
+        [SERVER.consumerProgramJoinStatus.notJoined]:
+          this.$t("auth.notRegistered"),
+      },
+      statusToColor: {
+        [SERVER.consumerProgramJoinStatus.pendingGroupAssignment]: "orange",
+        [SERVER.consumerProgramJoinStatus.joined]: "success",
+        [SERVER.consumerProgramJoinStatus.notJoined]: "",
       },
     }
   },

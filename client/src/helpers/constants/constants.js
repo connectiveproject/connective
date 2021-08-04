@@ -203,6 +203,11 @@ export const SERVER = {
   eventOrderReccurence: {
     oneTime: "ONE_TIME",
     weekly: "WEEKLY"
+  },
+  consumerProgramJoinStatus: {
+    joined: "JOINED",
+    notJoined: "NOT_JOINED",
+    pendingGroupAssignment: "PENDING_GROUP_ASSIGNMENT",
   }
 }
 

@@ -85,6 +85,7 @@
     "available": "זמין",
     "forProgramDetails": "לפרטי התוכנית",
     "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
+    "inTheProgramAndAssignedToGroup": "בתוכנית ומשוייך לקבוצה",
     "hereYouCanSeeAllTheProgramsListedUnderYou": "כאן ניתן לצפות בכלל התוכניות הנמצאות תחתיך",
     "toProgramPage": "לעמוד התוכנית",
     "programName": "שם תוכנית",
@@ -147,6 +148,8 @@
   },
 
   "userActions": {
+    "leave": "עזיבה",
+    "join": "הצטרפות",
     "confirm": "אישור",
     "deny": "דחייה",
     "cancel": "ביטול",
@@ -211,7 +214,7 @@
   },
 
   "success": {
-    "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
+    "joinRequestSentSuccessfully": "בקשת הצטרפות נשלחה בהצלחה",
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
     "joinRequestSentAndIsWaitingForAdminApproval": "בקשת הצטרפות נשלחה ומחכה לאישור מנהל קונקטיב",
     "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",

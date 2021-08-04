@@ -15,11 +15,11 @@
         :key="group.id"
       >
         <info-card
-          hide-star
           hide-button
           :title="group.name"
           :imgUrl="group.activityLogo"
           :button-text="$t('myActivity.forGroupDetails')"
+          :img-clickable="false"
         >
           <template v-slot:subtitle>
             {{ group.activityName }}

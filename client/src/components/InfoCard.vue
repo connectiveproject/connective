@@ -12,32 +12,34 @@
     <v-img
       :height="imgHeight"
       :src="imgUrl"
-      @click="$emit('click')"
-      class="cursor-pointer"
+      @click="imgClickable && $emit('click')"
+      :class="{ 'cursor-pointer': imgClickable }"
     />
     <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
       <!-- if slot's text overflow, consider using the trim filter on parent  -->
       <slot></slot>
     </v-card-text>
-    <v-card-actions class="absolute-bottom actions">
+    <v-card-actions class="absolute-bottom actions justify-center">
       <v-btn
         text
-        id="info-button"
+        id="primary-button"
         data-testid="info-btn"
         v-if="!hideButton"
         :color="buttonColor"
-        class="subtitle-1 font-weight-bold absolute-center"
+        class="subtitle-1 font-weight-bold"
         v-text="buttonText"
         @click="$emit('click')"
       />
-      <v-icon
-        v-if="!hideStar"
-        @click="onStarClick"
-        :color="value ? buttonColor : 'grey'"
+      <v-btn
+        text
+        id="secondary-button"
+        v-if="secondaryButtonText"
+        @click="$emit('secondary-click')"
+        class="subtitle-1 font-weight-bold"
         :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
-      >
-        {{ value ? "mdi-check-bold" : "mdi-check" }}
-      </v-icon>
+        :color="secondaryButtonColor"
+        v-text="secondaryButtonText"
+      />
     </v-card-actions>
   </v-card>
 </template>
@@ -48,14 +50,13 @@ import i18n from "../plugins/i18n"
 
 export default {
   props: {
-    // whether starred or not
-    value: {
-      type: Boolean,
-      required: false,
-    },
     imgUrl: {
       type: String,
       default: INFO_CARD_IMAGE,
+    },
+    imgClickable: {
+      type: Boolean,
+      default: true,
     },
     title: {
       type: String,
@@ -73,10 +74,6 @@ export default {
       type: String,
       default: "195",
     },
-    hideStar: {
-      type: Boolean,
-      default: false,
-    },
     hideButton: {
       type: Boolean,
       default: false,
@@ -85,21 +82,24 @@ export default {
       type: String,
       default: "orange",
     },
+    secondaryButtonColor: {
+      type: String,
+      default: "orange",
+    },
     buttonText: {
       type: String,
       default: i18n.tc("general.additionalInfo", 1),
     },
-  },
-
-  methods: {
-    onStarClick() {
-      this.$emit("input", !this.value)
+    secondaryButtonText: {
+      type: String,
+      default: "",
     },
   },
 }
 </script>
 <style scoped>
-#info-button {
+#primary-button,
+#secondary-button {
   letter-spacing: 1.7px !important;
 }
 .actions {

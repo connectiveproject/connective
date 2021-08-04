@@ -31,12 +31,12 @@
             :key="consumer.id"
           >
             <info-card
-              hide-star
               hide-button
               img-height="0"
               :img-url="null"
               :title="consumer.name"
               :button-text="$t('myActivity.toThePersonalPage')"
+              :img-clickable="false"
               @click="
                 $router.push({
                   name: 'ConsumerDetail',

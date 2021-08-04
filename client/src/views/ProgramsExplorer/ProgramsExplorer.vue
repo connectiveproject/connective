@@ -45,19 +45,21 @@
             :key="program.id"
           >
             <info-card
-              v-model="program.isOrdered"
-              :imgUrl="program.logo"
+              :img-url="program.logo"
               :title="program.name"
               :button-text="$t('program.forProgramDetails')"
-              @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
+              :secondary-button-text="
+                program.isOrdered
+                  ? $t('userActions.leave')
+                  : $t('userActions.join')
+              "
+              @secondary-click="onOrderClick(program)"
             >
               <template v-slot:subtitle>
                 <span> {{ $t("general.status") }}: </span>
-                <span
-                  :class="`${getCardSubtitleColor(program.orderStatus)}--text`"
-                >
-                  {{ getCardSubtitle(program.orderStatus) }}
+                <span :class="`${statusToColor[program.orderStatus]}--text`">
+                  {{ statusToText[program.orderStatus] }}
                 </span>
               </template>
               {{ program.description | trimText(70) }}
@@ -73,6 +75,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex"
+import debounce from "lodash/debounce"
 import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
@@ -131,47 +134,26 @@ export default {
       }
     },
 
-    getCardSubtitleColor(orderStatus) {
-      if (orderStatus === SERVER.programOrderStatus.cancelled) {
-        return "error"
-      }
-      if (orderStatus === SERVER.programOrderStatus.approved) {
-        return "success"
-      }
-      if (orderStatus === SERVER.programOrderStatus.pendingAdminApproval) {
-        return "orange"
-      }
-    },
-
-    getCardSubtitle(orderStatus) {
-      if (orderStatus === SERVER.programOrderStatus.cancelled) {
-        return this.$t("program.requestCancelled")
-      }
-      if (orderStatus === SERVER.programOrderStatus.approved) {
-        return this.$t("program.requestApproved")
-      }
-      if (orderStatus === SERVER.programOrderStatus.pendingAdminApproval) {
-        return this.$t("program.pendingAdminApproval")
-      }
-      return this.$t("program.available")
-    },
-
-    async onStarChange(program, isStarred) {
-      // (dis)request a program and change order status accordingly
-      try {
-        if (isStarred) {
-          await this.requestProgram(program)
-          this.showMessage(
-            this.$t("success.joinRequestSentAndIsWaitingForAdminApproval")
-          )
-        } else {
-          await this.disRequestProgram(program)
-          this.showMessage(this.$t("success.programParticipationCancelled"))
+    onOrderClick: debounce(
+      async function (program) {
+        // (dis)request a program and change order status accordingly
+        try {
+          if (program.isOrdered) {
+            await this.disRequestProgram(program)
+            this.showMessage(this.$t("success.programParticipationCancelled"))
+          } else {
+            await this.requestProgram(program)
+            this.showMessage(
+              this.$t("success.joinRequestSentAndIsWaitingForAdminApproval")
+            )
+          }
+        } catch (err) {
+          this.showMessage(Api.utils.parseResponseError(err))
         }
-      } catch (err) {
-        this.showMessage(Api.utils.parseResponseError(err))
-      }
-    },
+      },
+      500,
+      { leading: true, trailing: false }
+    ),
 
     requestProgram(program) {
       if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
@@ -200,6 +182,22 @@ export default {
       TAGS,
       recentlyScrolled: false,
       isProgramOpen: true,
+      statusToText: {
+        [SERVER.programOrderStatus.cancelled]: this.$t(
+          "program.requestCancelled"
+        ),
+        [SERVER.programOrderStatus.approved]: this.$t(
+          "program.requestApproved"
+        ),
+        [SERVER.programOrderStatus.pendingAdminApproval]: this.$t(
+          "program.pendingAdminApproval"
+        ),
+      },
+      statusToColor: {
+        [SERVER.programOrderStatus.cancelled]: "error",
+        [SERVER.programOrderStatus.approved]: "success",
+        [SERVER.programOrderStatus.pendingAdminApproval]: "orange",
+      },
     }
   },
 

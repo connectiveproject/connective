@@ -32,11 +32,10 @@
         :key="program.id"
       >
         <info-card
-          :hideStar="true"
           :title="program.name"
-          :imgUrl="program.logo"
-          :buttonText="$t('program.toProgramPage')"
-          buttonColor="primary"
+          :img-url="program.logo"
+          :button-text="$t('program.toProgramPage')"
+          button-color="primary"
           @click="
             $router.push({
               name: 'VendorDetailProgram',

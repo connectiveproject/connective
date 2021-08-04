@@ -36,7 +36,6 @@
         :key="group.id"
       >
         <info-card
-          :hideStar="true"
           :title="group.name"
           :imgUrl="group.activityLogo"
           :buttonText="$t('myActivity.forGroupDetails')"
