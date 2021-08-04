@@ -53,7 +53,12 @@
               @click="openProgram(program.slug)"
             >
               <template v-slot:subtitle>
-                {{ getCardSubtitle(program.orderStatus) }}
+                <span> {{ $t("general.status") }}: </span>
+                <span
+                  :class="`${getCardSubtitleColor(program.orderStatus)}--text`"
+                >
+                  {{ getCardSubtitle(program.orderStatus) }}
+                </span>
               </template>
               {{ program.description | trimText(70) }}
             </info-card>
@@ -126,13 +131,29 @@ export default {
       }
     },
 
-    getCardSubtitle(orderStatus) {
-      const prefix = this.$t("general.status")
-      let status = this.$t("program.available")
-      if (orderStatus) {
-        status = this.$t(`program.${orderStatus}`)
+    getCardSubtitleColor(orderStatus) {
+      if (orderStatus === SERVER.programOrderStatus.cancelled) {
+        return "error"
       }
-      return `${prefix}: ${status}`
+      if (orderStatus === SERVER.programOrderStatus.approved) {
+        return "success"
+      }
+      if (orderStatus === SERVER.programOrderStatus.pendingAdminApproval) {
+        return "orange"
+      }
+    },
+
+    getCardSubtitle(orderStatus) {
+      if (orderStatus === SERVER.programOrderStatus.cancelled) {
+        return this.$t("program.requestCancelled")
+      }
+      if (orderStatus === SERVER.programOrderStatus.approved) {
+        return this.$t("program.requestApproved")
+      }
+      if (orderStatus === SERVER.programOrderStatus.pendingAdminApproval) {
+        return this.$t("program.pendingAdminApproval")
+      }
+      return this.$t("program.available")
     },
 
     async onStarChange(program, isStarred) {
