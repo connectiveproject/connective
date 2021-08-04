@@ -122,6 +122,10 @@ const DOMAIN_SELECT_ITEMS = [
     text: i18n.t("programFilters.field"),
     value: "FIELD",
   },
+  {
+    text: i18n.t("programFilters.other"),
+    value: "OTHER",
+  },
 ]
 
 export const VENDOR_PROGRAM_FIELDS = [

@@ -25,6 +25,10 @@ export const PROGRAMS_CHECKBOX_FILTERS = [
         label: i18n.t("programFilters.field"),
         value: "FIELD",
       },
+      {
+        label: i18n.t("programFilters.other"),
+        value: "OTHER",
+      },
     ],
   },
   {
