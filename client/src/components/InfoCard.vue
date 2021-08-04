@@ -1,11 +1,20 @@
 <template>
-  <v-card class="mx-auto card overflow-hidden" elevation="1" :width="width" :height="height">
+  <v-card
+    class="mx-auto card overflow-hidden"
+    elevation="1"
+    :width="width"
+    :height="height"
+  >
     <v-card-title v-text="title" class="pa-2 font-weight-bold" />
-    <v-card-subtitle
-      v-text="subtitle"
-      class="px-2 pt-2 pb-1 subtitle-1"
+    <v-card-subtitle class="px-2 pt-2 pb-1 subtitle-1">
+      <slot name="subtitle"></slot>
+    </v-card-subtitle>
+    <v-img
+      :height="imgHeight"
+      :src="imgUrl"
+      @click="$emit('click')"
+      class="cursor-pointer"
     />
-    <v-img :height="imgHeight" :src="imgUrl" @click="$emit('click')" class="cursor-pointer" />
     <v-card-text class="text--primary pt-3 px-2 subtitle-1 body">
       <!-- if slot's text overflow, consider using the trim filter on parent  -->
       <slot></slot>
@@ -51,10 +60,6 @@ export default {
     title: {
       type: String,
       required: true,
-    },
-    subtitle: {
-      type: String,
-      required: false,
     },
     height: {
       type: String,

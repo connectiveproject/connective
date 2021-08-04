@@ -16,7 +16,10 @@ const Template = args => ({
     @input="action('input')()"
     v-model="args.starred"
     v-bind="args">
-    {{ args.defaultSlot | trimText(70) }}
+      <template v-slot:subtitle>
+        {{ args.subtitle }}
+      </template>
+      {{ args.defaultSlot | trimText(70) }}
     </info-card>
     `,
 })

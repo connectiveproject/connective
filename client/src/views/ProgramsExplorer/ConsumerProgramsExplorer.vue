@@ -47,11 +47,13 @@
               :value="program.isConsumerJoined"
               :imgUrl="program.logo"
               :title="program.name"
-              :subtitle="getCardSubtitle(program.consumerJoinStatus)"
               :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             >
+              <template v-slot:subtitle>
+                {{ getCardSubtitle(program.consumerJoinStatus) }}
+              </template>
               {{ program.description | trimText(70) }}
             </info-card>
           </v-col>

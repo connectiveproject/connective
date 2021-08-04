@@ -27,10 +27,7 @@
           "
         />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
-        <pagination-chip-group
-          class="tags-selection"
-          :chips="TAGS"
-        />
+        <pagination-chip-group class="tags-selection" :chips="TAGS" />
         <div class="text-center pt-10 overline">
           {{ totalPrograms }} {{ $t("program.programsFound") }}
         </div>
@@ -51,11 +48,13 @@
               v-model="program.isOrdered"
               :imgUrl="program.logo"
               :title="program.name"
-              :subtitle="getCardSubtitle(program.orderStatus)"
               :button-text="$t('program.forProgramDetails')"
               @input="e => onStarChange(program, e)"
               @click="openProgram(program.slug)"
             >
+              <template v-slot:subtitle>
+                {{ getCardSubtitle(program.orderStatus) }}
+              </template>
               {{ program.description | trimText(70) }}
             </info-card>
           </v-col>
@@ -141,7 +140,9 @@ export default {
       try {
         if (isStarred) {
           await this.requestProgram(program)
-          this.showMessage(this.$t("success.programJoinRequestSent"))
+          this.showMessage(
+            this.$t("success.joinRequestSentAndIsWaitingForAdminApproval")
+          )
         } else {
           await this.disRequestProgram(program)
           this.showMessage(this.$t("success.programParticipationCancelled"))

@@ -212,7 +212,7 @@
   "success": {
     "joinedProgramSuccessfully": "הצטרפת לתוכנית בהצלחה",
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
-    "programJoinRequestSent": "בקשת הצטרפות לתוכנית נשלחה",
+    "joinRequestSentAndIsWaitingForAdminApproval": "בקשת הצטרפות נשלחה ומחכה לאישור מנהל קונקטיב",
     "programParticipationCancelled": "ההשתתפות בתוכנית בוטלה",
     "programDeletedSuccessfully": "התוכנית נמחקה בהצלחה",
     "mediaUploadedSuccessfully": "המדיה הועלתה בהצלחה",

@@ -34,7 +34,6 @@
         <info-card
           :hideStar="true"
           :title="program.name"
-          :subtitle="program.domain ? $t(`programFilters.${camelCase(program.domain)}`) : $t('errors.domainUnspecified')"
           :imgUrl="program.logo"
           :buttonText="$t('program.toProgramPage')"
           buttonColor="primary"
@@ -45,6 +44,13 @@
             })
           "
         >
+          <template v-slot:subtitle>
+            {{
+              program.domain
+                ? $t(`programFilters.${camelCase(program.domain)}`)
+                : $t("errors.domainUnspecified")
+            }}
+          </template>
           {{ program.description | trimText(70) }}
         </info-card>
       </v-col>
@@ -73,6 +79,6 @@ export default {
   },
   methods: {
     camelCase,
-  }
+  },
 }
 </script>
