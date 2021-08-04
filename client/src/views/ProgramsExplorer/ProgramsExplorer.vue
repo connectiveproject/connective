@@ -192,6 +192,9 @@ export default {
         [SERVER.programOrderStatus.pendingAdminApproval]: this.$t(
           "program.pendingAdminApproval"
         ),
+        [SERVER.programOrderStatus.notOrdered]: this.$t(
+          "program.available"
+        ),
       },
       statusToColor: {
         [SERVER.programOrderStatus.cancelled]: "error",

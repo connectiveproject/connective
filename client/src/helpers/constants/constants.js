@@ -188,6 +188,7 @@ export const SERVER = {
     cancelled: "CANCELLED",
     pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
     approved: "APPROVED",
+    notOrdered: "NOT_ORDERED",
   },
   programGroupTypes: {
     standard: "DEFAULT",
