@@ -77,7 +77,7 @@ export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
 export const ISRAELI_PHONE_REGEX_PATTERN =
-  "^0(([23489]{1}\\d{7})|[5]{1}\\d{8})$"
+  "^0(([23489]{1}\\d{7})|[57]{1}\\d{8})$"
 export const EMAIL_REGEX_PATTERN =
   '^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$'
 export const WEBSITE_REGEX_PATTERN =
