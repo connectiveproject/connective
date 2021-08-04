@@ -6,7 +6,7 @@
         tag="form"
         v-slot="{ invalid }"
         @submit.prevent="onSubmit"
-        :class="{ 'w-75': !$vuetify.breakpoint.mobile }"
+        :class="{ 'w-85': !$vuetify.breakpoint.mobile }"
       >
         <radio-group
           class="pa-0"

@@ -36,7 +36,7 @@ const event = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async getEventList({ commit, state }, { benchmarkDate, override }) {
+    async getEventList({ commit, state, rootGetters }, { benchmarkDate, override }) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
       const mutation = override ? "SET_EVENTS_LIST" : "ADD_EVENTS_TO_LIST"
@@ -44,6 +44,7 @@ const event = {
       const startDateString = Utils.dateToApiString(startDate)
       const endDateString = Utils.dateToApiString(endDate)
       const params = {
+        ...rootGetters["pagination/apiParams"],
         start_time__gte: startDateString,
         start_time__lte: endDateString,
       }

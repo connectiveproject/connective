@@ -64,7 +64,6 @@ import CoordinatorEventOrderStatus from "../views/CoordinatorEventOrderStatus"
 
 Vue.use(VueRouter)
 
-
 const routes = [
   {
     path: "/",
@@ -167,11 +166,13 @@ const routes = [
                 path: "my-events",
                 name: "ConsumerMyEvents",
                 component: ConsumerMyEvents,
+                beforeEnter: removePagination,
               },
               {
                 path: "events-pending-feedbacks",
                 name: "ConsumerPendingEventsFeedback",
                 component: ConsumerPendingEventsFeedback,
+                beforeEnter: removePagination,
               },
               {
                 path: "event-feedback/:slug",
@@ -202,7 +203,7 @@ const routes = [
             path: "event-feed-view",
             name: "CoordinatorEventFeedView",
             component: EventFeedView,
-            beforeEnter: flushPagination
+            beforeEnter: flushPagination,
           },
           {
             path: "schoolDetails",
@@ -265,6 +266,7 @@ const routes = [
                 path: "my-events",
                 name: "MyEvents",
                 component: MyEvents,
+                beforeEnter: removePagination,
               },
               {
                 path: "student-list",
@@ -338,6 +340,7 @@ const routes = [
             path: "unsummarized-events",
             name: "InstructorUnsummarizedEvents",
             component: InstructorUnsummarizedEvents,
+            beforeEnter: removePagination,
           },
           {
             path: "event-summary/:slug",
@@ -349,7 +352,7 @@ const routes = [
             path: "event-feed-view",
             name: "InstructorEventFeedView",
             component: EventFeedView,
-            beforeEnter: flushPagination
+            beforeEnter: flushPagination,
           },
         ],
       },

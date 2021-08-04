@@ -107,7 +107,7 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
             ).status
 
         except ObjectDoesNotExist:
-            return None
+            return "NOT_ORDERED"
 
     def get_is_ordered(self, obj):
         user = self.context["request"].user
