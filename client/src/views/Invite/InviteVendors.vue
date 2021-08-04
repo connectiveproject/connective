@@ -41,8 +41,9 @@
           <v-btn
             @click="addVendor"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
-            text
             v-text="$t('invite.inviteUser')"
+            color="primary"
+            outlined
           />
           <v-spacer></v-spacer>
           <div class="pl-2">
