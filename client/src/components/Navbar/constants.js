@@ -4,21 +4,29 @@ import store from "../../vuex/store"
 
 const coordinatorButtons = [
   {
+    text: i18n.t("myActivity.activeGroups"),
+    componentName: "MyGroups",
+  },
+  {
     id: "program-explorer-navbar-btn",
     text: i18n.tc("general.program", 1),
-    // icon: "mdi-handshake",
     componentName: "ProgramsExplorer",
   },
   {
-    id: "my-activity-navbar-btn",
-    text: i18n.tc("myActivity.myActivity"),
-    // icon: "mdi-drawing",
-    componentName: "MyActivity",
+    text: i18n.t("events.eventsSummary"),
+    componentName: "CoordinatorEventFeedView",
   },
   {
-    text: i18n.t("events.eventsSummary"),
-    // icon: "mdi-comment-quote",
-    componentName: "CoordinatorEventFeedView",
+    text: i18n.t("events.eventsBoard"),
+    componentName: "MyEvents",
+  },
+  {
+    text: i18n.t("myActivity.students"),
+    componentName: "ConsumerList",
+  },
+  {
+    text: i18n.t("myActivity.statistics"),
+    componentName: "CoordinatorStatistics",
   },
 ]
 

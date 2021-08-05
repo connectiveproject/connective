@@ -1,39 +1,27 @@
 <template>
   <v-toolbar dark prominent :src="bg">
-    <!-- <v-tooltip v-for="btn in buttons" :key="btn.id" bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          :data-testid="btn.id"
-          icon
-          v-bind="attrs"
-          v-on="on"
-          @click="btn.onClick"
-        >
-          <v-icon v-text="btn.icon" />
-        </v-btn>
-      </template>
-      <span> {{ btn.text() }} </span>
-    </v-tooltip> -->
     <v-toolbar-title
+      class="px-md-6"
       :class="{ absolute: $vuetify.breakpoint.mobile }"
       v-text="$t('general.connective')"
     />
-    <v-spacer></v-spacer>
-    <account-menu
-      :avatar-options="profile.profilePicture"
-      :name="userDetails.name"
-      :email="userDetails.email"
-      :buttons="accountButtons"
-    />
+    <v-spacer />
+    <div class="px-md-6 align-self-center">
+      <account-menu
+        :avatar-options="profile.profilePicture"
+        :name="userDetails.name"
+        :email="userDetails.email"
+        :buttons="accountButtons"
+      />
+    </div>
     <template v-slot:extension>
-      <route-tabs :tabs="buttons" color="primary" />
+      <route-tabs :tabs="buttons" color="primary" class="px-md-6" />
     </template>
   </v-toolbar>
 </template>
 
 <script>
 import { mapState } from "vuex"
-import store from "../../vuex/store"
 import { BACKGROUNDS } from "../../helpers/constants/images"
 import { userToButtons, userToAccountButtons } from "./constants"
 import AccountMenu from "../AccountMenu"
@@ -51,13 +39,6 @@ export default {
         )
       },
     },
-  },
-  async beforeRouteEnter(to, from, next) {
-    await Promise.all([
-      store.dispatch("coordinator/getProfile"),
-      store.dispatch("user/getUserDetails"),
-    ])
-    next()
   },
   data() {
     return {

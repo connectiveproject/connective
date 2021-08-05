@@ -1,7 +1,7 @@
 <template>
   <v-menu v-model="menu" offset-x>
     <template v-slot:activator="{ on, attrs }">
-      <v-sheet icon v-bind="attrs" v-on="on">
+      <v-sheet color="transparent" icon v-bind="attrs" v-on="on">
         <avatar
           v-bind="attrs"
           v-on="on"

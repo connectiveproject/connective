@@ -1,6 +1,6 @@
 <template>
-  <div class="w-100">
-    <v-row class="pt-10 ml-0">
+  <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
+    <v-row>
       <v-col cols="3" class="d-none right-pane white-bg">
         <pagination-checkbox-group
           v-for="filter in CONSUMER_LIST_CHECKBOX_FILTERS"

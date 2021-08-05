@@ -95,8 +95,12 @@ export function PopulateConsumerData(to, from, next) {
   next()
 }
 
-export function PopulateCoordinatorData(to, from, next) {
-  store.dispatch("school/getSchoolDetails")
+export async function PopulateCoordinatorData(to, from, next) {
+  await Promise.all([
+    store.dispatch("school/getSchoolDetails"),
+    store.dispatch("coordinator/getProfile"),
+    store.dispatch("user/getUserDetails"),
+  ])
   next()
 }
 

@@ -18,7 +18,6 @@ import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
 import VendorDashboard from "../layouts/VendorDashboard"
-import MyActivity from "../layouts/MyActivity/MyActivity"
 import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
 import CoordinatorRegister from "../views/Register/CoordinatorRegister"
@@ -249,37 +248,26 @@ const routes = [
             ],
           },
           {
-            path: "my-activity",
-            component: MyActivity,
-            children: [
-              {
-                path: "",
-                name: "MyActivity",
-                redirect: { name: "MyGroups" },
-              },
-              {
-                path: "my-groups",
-                name: "MyGroups",
-                component: MyGroups,
-              },
-              {
-                path: "my-events",
-                name: "MyEvents",
-                component: MyEvents,
-                beforeEnter: removePagination,
-              },
-              {
-                path: "student-list",
-                name: "ConsumerList",
-                component: ConsumerList,
-                beforeEnter: flushPagination,
-              },
-              {
-                path: "statistics",
-                name: "CoordinatorStatistics",
-                component: CoordinatorStatistics,
-              },
-            ],
+            path: "my-groups",
+            name: "MyGroups",
+            component: MyGroups,
+          },
+          {
+            path: "my-events",
+            name: "MyEvents",
+            component: MyEvents,
+            beforeEnter: removePagination,
+          },
+          {
+            path: "student-list",
+            name: "ConsumerList",
+            component: ConsumerList,
+            beforeEnter: flushPagination,
+          },
+          {
+            path: "statistics",
+            name: "CoordinatorStatistics",
+            component: CoordinatorStatistics,
           },
           {
             path: "detail-group/:groupSlug",
