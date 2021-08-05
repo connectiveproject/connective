@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dark prominent :src="bg">
-    <v-tooltip v-for="btn in buttons" :key="btn.id" bottom>
+    <!-- <v-tooltip v-for="btn in buttons" :key="btn.id" bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           :data-testid="btn.id"
@@ -9,87 +9,38 @@
           v-on="on"
           @click="btn.onClick"
         >
-          <v-icon>{{ btn.icon }}</v-icon>
+          <v-icon v-text="btn.icon" />
         </v-btn>
       </template>
       <span> {{ btn.text() }} </span>
-    </v-tooltip>
-    <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">
-      {{ $t("general.connective") }}
-    </v-toolbar-title>
-    <v-spacer />
-    <v-menu v-model="menu" offset-x>
-      <template v-slot:activator="{ on, attrs }">
-        <v-sheet icon v-bind="attrs" v-on="on">
-          <avatar
-            v-bind="attrs"
-            v-on="on"
-            style="width: 75px"
-            :avatar-options="profile.profilePicture"
-            class="cursor-pointer"
-          />
-        </v-sheet>
-      </template>
-
-      <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <avatar
-                :avatar-options="profile.profilePicture"
-              />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title v-text="userDetails.name" />
-              <v-list-item-subtitle v-text="userDetails.email" />
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="message" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable messages</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="hints" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable hints</v-list-item-title>
-          </v-list-item>
-        </v-list>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="menu = false"> Cancel </v-btn>
-          <v-btn color="primary" text @click="menu = false"> Save </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
+    </v-tooltip> -->
+    <v-toolbar-title
+      :class="{ absolute: $vuetify.breakpoint.mobile }"
+      v-text="$t('general.connective')"
+    />
+    <v-spacer></v-spacer>
+    <account-menu
+      :avatar-options="profile.profilePicture"
+      :name="userDetails.name"
+      :email="userDetails.email"
+      :buttons="accountButtons"
+    />
+    <template v-slot:extension>
+      <route-tabs :tabs="buttons" color="primary" />
+    </template>
   </v-toolbar>
 </template>
 
 <script>
 import { mapState } from "vuex"
 import store from "../../vuex/store"
-import Avatar from "../Avatar/Avatar"
 import { BACKGROUNDS } from "../../helpers/constants/images"
-import { userToButtons } from "./constants"
+import { userToButtons, userToAccountButtons } from "./constants"
+import AccountMenu from "../AccountMenu"
+import RouteTabs from "../RouteTabs"
 
 export default {
-  components: { Avatar },
+  components: { AccountMenu, RouteTabs },
   props: {
     userType: {
       type: String,
@@ -102,20 +53,17 @@ export default {
     },
   },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("coordinator/getProfile")
-    await store.dispatch("user/getUserDetails")
+    await Promise.all([
+      store.dispatch("coordinator/getProfile"),
+      store.dispatch("user/getUserDetails"),
+    ])
     next()
   },
-
   data() {
     return {
       bg: BACKGROUNDS.navbar,
       buttons: userToButtons[this.userType],
-
-      fav: true,
-      menu: false,
-      message: false,
-      hints: true,
+      accountButtons: userToAccountButtons[this.userType],
     }
   },
   computed: {

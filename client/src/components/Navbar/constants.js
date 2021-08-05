@@ -4,46 +4,22 @@ import store from "../../vuex/store"
 
 const coordinatorButtons = [
   {
-    id: "logout-navbar-btn",
-    text: () => i18n.t("auth.logout"),
-    icon: "mdi-export",
-    onClick: () => store.dispatch("auth/logout"),
-  },
-  {
-    id: "profile-navbar-btn",
-    text: () => i18n.t("general.profile"),
-    icon: "mdi-account",
-    onClick: () => Vue.$router.push({ name: "CoordinatorProfile" }),
-  },
-  {
-    id: "school-detail-navbar-btn",
-    text: () => i18n.tc("general.school", 0),
-    icon: "mdi-home",
-    onClick: () => Vue.$router.push({ name: "SchoolDetails" }),
-  },
-  {
-    id: "user-invite-navbar-btn",
-    text: () => i18n.t("invite.usersInvitation"),
-    icon: "mdi-account-multiple-plus",
-    onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
-  },
-  {
     id: "program-explorer-navbar-btn",
-    text: () => i18n.tc("general.program", 1),
-    icon: "mdi-handshake",
-    onClick: () => Vue.$router.push({ name: "ProgramsExplorer" }),
+    text: i18n.tc("general.program", 1),
+    // icon: "mdi-handshake",
+    componentName: "ProgramsExplorer",
   },
   {
     id: "my-activity-navbar-btn",
-    text: () => i18n.tc("myActivity.myActivity"),
-    icon: "mdi-drawing",
-    onClick: () => Vue.$router.push({ name: "MyActivity" }),
+    text: i18n.tc("myActivity.myActivity"),
+    // icon: "mdi-drawing",
+    componentName: "MyActivity",
   },
   {
-    text: () => i18n.t("events.eventsSummary"),
-    icon: "mdi-comment-quote",
-    onClick: () => Vue.$router.push({ name: "CoordinatorEventFeedView" }),
-  }
+    text: i18n.t("events.eventsSummary"),
+    // icon: "mdi-comment-quote",
+    componentName: "CoordinatorEventFeedView",
+  },
 ]
 
 const consumerButtons = [
@@ -132,9 +108,40 @@ const vendorButtons = [
   },
 ]
 
+const coordinatorAccountButtons = [
+  {
+    id: "profile-navbar-btn",
+    text: () => i18n.t("general.profile"),
+    icon: "mdi-account",
+    onClick: () => Vue.$router.push({ name: "CoordinatorProfile" }),
+  },
+  {
+    id: "school-detail-navbar-btn",
+    text: () => i18n.tc("general.school", 0),
+    icon: "mdi-home",
+    onClick: () => Vue.$router.push({ name: "SchoolDetails" }),
+  },
+  {
+    id: "user-invite-navbar-btn",
+    text: () => i18n.t("invite.usersInvitation"),
+    icon: "mdi-account-multiple-plus",
+    onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
+  },
+  {
+    id: "logout-navbar-btn",
+    text: () => i18n.t("auth.logout"),
+    icon: "mdi-export",
+    onClick: () => store.dispatch("auth/logout"),
+  },
+]
+
 export const userToButtons = {
   consumer: consumerButtons,
   coordinator: coordinatorButtons,
   instructor: instructorButtons,
   vendor: vendorButtons,
+}
+
+export const userToAccountButtons = {
+  coordinator: coordinatorAccountButtons,
 }
