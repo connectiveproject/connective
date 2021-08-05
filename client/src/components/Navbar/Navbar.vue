@@ -1,33 +1,34 @@
 <template>
   <v-toolbar dark prominent :src="bg">
-    <v-tooltip v-for="btn in buttons" :key="btn.id" bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn :data-testid="btn.id" icon v-bind="attrs" v-on="on" @click="btn.onClick">
-          <v-icon>{{ btn.icon }}</v-icon>
-        </v-btn>
-      </template>
-      <span> {{ btn.text() }} </span>
-    </v-tooltip>
-    <v-toolbar-title :class="{ absolute: $vuetify.breakpoint.mobile }">
-      {{ $t("general.connective") }}
-    </v-toolbar-title>
+    <v-toolbar-title
+      class="px-md-6"
+      :class="{ absolute: $vuetify.breakpoint.mobile }"
+      v-text="$t('general.connective')"
+    />
     <v-spacer />
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn large icon v-bind="attrs" v-on="on" @click="$router.go(-1)">
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn>
-      </template>
-      <span v-text="$t('general.toThePreviousPage')" />
-    </v-tooltip>
+    <div class="px-md-6 align-self-center">
+      <account-menu
+        :avatar-options="profile.profilePicture"
+        :name="userDetails.name"
+        :email="userDetails.email"
+        :buttons="accountButtons"
+      />
+    </div>
+    <template v-slot:extension>
+      <route-tabs :tabs="tabs" color="primary" class="px-md-6" />
+    </template>
   </v-toolbar>
 </template>
 
 <script>
+import { mapState } from "vuex"
 import { BACKGROUNDS } from "../../helpers/constants/images"
-import { userToButtons } from "./constants"
+import { userToTabs, userToAccountButtons } from "./constants"
+import AccountMenu from "../AccountMenu"
+import RouteTabs from "../RouteTabs"
 
 export default {
+  components: { AccountMenu, RouteTabs },
   props: {
     userType: {
       type: String,
@@ -42,8 +43,15 @@ export default {
   data() {
     return {
       bg: BACKGROUNDS.navbar,
-      buttons: userToButtons[this.userType],
+      tabs: userToTabs[this.userType],
+      accountButtons: userToAccountButtons[this.userType],
     }
+  },
+  computed: {
+    ...mapState("user", ["userDetails"]),
+    profile() {
+      return this.$store.state[this.userType].profile
+    },
   },
 }
 </script>

@@ -2,13 +2,12 @@
   <v-menu v-model="menu" offset-x>
     <template v-slot:activator="{ on, attrs }">
       <v-sheet color="transparent" icon v-bind="attrs" v-on="on">
-        <avatar
-          v-bind="attrs"
-          v-on="on"
-          style="width: 75px"
-          :avatar-options="avatarOptions"
-          class="cursor-pointer"
-        />
+          <avatar
+            v-bind="attrs"
+            v-on="on"
+            class="avatar cursor-pointer"
+            :avatar-options="avatarOptions"
+          />
       </v-sheet>
     </template>
     <v-card>
@@ -36,7 +35,7 @@
               <v-icon color="primary" v-text="btn.icon" />
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="btn.text()" />
+              <v-list-item-title v-text="btn.text" />
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -64,7 +63,7 @@ export default {
       required: true,
     },
     buttons: {
-      // [ { text: function, icon: string, onClick: function } ]
+      // [ { text: string, icon: string, onClick: function } ]
       type: Array,
       required: true,
     },
@@ -76,3 +75,12 @@ export default {
   },
 }
 </script>
+<style scoped>
+.avatar {
+  transition: transform 0.3s;
+  width: 75px;
+}
+.avatar:hover {
+  transform: scale(1.1);
+}
+</style>

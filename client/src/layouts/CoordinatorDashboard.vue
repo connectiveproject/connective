@@ -1,17 +1,15 @@
 <template>
   <div :style="style">
-    <coordinator-navbar user-type="coordinator"/>
-    <router-view/>
+    <navbar user-type="coordinator" />
+    <router-view />
   </div>
 </template>
 <script>
 import { BACKGROUNDS } from "../helpers/constants/images"
-import CoordinatorNavbar from "../components/Navbar/CoordinatorNavbar"
+import Navbar from "../components/Navbar/Navbar"
 
 export default {
-  components: {
-    CoordinatorNavbar,
-  },
+  components: { Navbar },
   data() {
     return {
       style: {
