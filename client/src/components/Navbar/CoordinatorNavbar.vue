@@ -18,10 +18,7 @@
       {{ $t("general.connective") }}
     </v-toolbar-title>
     <v-spacer />
-    <v-menu
-      v-model="menu"
-      offset-x
-    >
+    <v-menu v-model="menu" offset-x>
       <template v-slot:activator="{ on, attrs }">
         <v-sheet icon v-bind="attrs" v-on="on">
           <avatar
@@ -38,12 +35,14 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <avatar
+                :avatar-options="profile.profilePicture"
+              />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-text="name" />
-              <v-list-item-subtitle v-text="email" />
+              <v-list-item-title v-text="userDetails.name" />
+              <v-list-item-subtitle v-text="userDetails.email" />
             </v-list-item-content>
 
             <v-list-item-action>
@@ -84,6 +83,7 @@
 
 <script>
 import { mapState } from "vuex"
+import store from "../../vuex/store"
 import Avatar from "../Avatar/Avatar"
 import { BACKGROUNDS } from "../../helpers/constants/images"
 import { userToButtons } from "./constants"
@@ -101,6 +101,12 @@ export default {
       },
     },
   },
+  async beforeRouteEnter(to, from, next) {
+    await store.dispatch("coordinator/getProfile")
+    await store.dispatch("user/getUserDetails")
+    next()
+  },
+
   data() {
     return {
       bg: BACKGROUNDS.navbar,
@@ -114,7 +120,7 @@ export default {
   },
   computed: {
     ...mapState("coordinator", ["profile"]),
-    ...mapState("user", ["name", "email"]),
+    ...mapState("user", ["userDetails"]),
   },
 }
 </script>
