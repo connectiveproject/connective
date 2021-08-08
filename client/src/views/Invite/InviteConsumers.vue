@@ -80,15 +80,13 @@
           </div>
         </v-card-actions>
       </v-card>
-
       <v-file-input
         id="csvImportInput"
         class="d-none"
         type="file"
         accept=".csv"
         v-model="csvFile"
-      >
-      </v-file-input>
+      />
       <add-student-dialog
         v-model="isDialogActive"
         :title="dialogTitle"

@@ -126,8 +126,10 @@
         color="primary"
         class="mx-auto mt-9 mb-6 px-8"
         elevation="3"
-        v-text="$t('userActions.save')"
-      />
+        :loading="submitting"
+      >
+        {{ $t("userActions.save") }}
+      </v-btn>
     </form>
     <modal
       redirectComponentName="InstructorUnsummarizedEvents"
@@ -184,6 +186,7 @@ export default {
     return {
       CONFIDENTIAL_WATERMARK,
       event: {},
+      submitting: false,
       addPost: true,
       tributeOptions: {
         trigger: "@",
@@ -207,17 +210,13 @@ export default {
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("instructorEvent", [
-      "updateEvent",
-    ]),
-    ...mapActions("eventFeedPost", [
-      "createFeedPost",
-      "createPostImages",
-    ]),
+    ...mapActions("instructorEvent", ["updateEvent"]),
+    ...mapActions("eventFeedPost", ["createFeedPost", "createPostImages"]),
     parseDate: Utils.ApiStringToReadableDate,
     onSubmit: debounce(
       async function () {
         try {
+          this.submitting = true
           if (this.addPost) {
             await Promise.all([this.createSummary(), this.createPost()])
           } else {
@@ -227,6 +226,7 @@ export default {
         } catch (err) {
           const message = Api.utils.parseResponseError(err)
           this.showMessage(message)
+          this.submitting = false
         }
       },
       500,
@@ -307,7 +307,7 @@ div.tribute-container > ul > li {
 
   @keyframes bounce-in {
     0% {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
     50% {
       transform: scale(1.1);
