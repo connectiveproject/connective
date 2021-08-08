@@ -31,7 +31,11 @@
       :title="$t('myActivity.location')"
       :text="event.locationsName || $t('errors.empty')"
     />
-    <form class="mt-16 form" @submit.prevent="onSubmit">
+    <validation-observer
+      tag="form"
+      class="mt-16 form"
+      @submit.prevent="onSubmit"
+    >
       <v-card style="background: #feece5">
         <v-row style="padding: 30px">
           <v-col>
@@ -102,37 +106,44 @@
         />
         <v-row class="my-2">
           <v-col cols="12">
-            <v-tribute :options="tributeOptions">
-              <v-textarea
-                required
-                outlined
-                v-model="feedContent"
-                persistent-hint
-                :hint="$t('events.use@toTagStudents')"
-                :label="$t('events.eventFeedShareContent')"
-              >
-              </v-textarea>
-            </v-tribute>
+            <validation-provider v-slot="{ errors }" rules="required">
+              <v-tribute :options="tributeOptions">
+                <v-textarea
+                  outlined
+                  v-model="feedContent"
+                  persistent-hint
+                  :hint="$t('events.use@toTagStudents')"
+                  :label="$t('events.eventFeedShareContent')"
+                  :error-messages="errors"
+                >
+                </v-textarea>
+              </v-tribute>
+            </validation-provider>
           </v-col>
           <v-col>
-            <v-file-input
-              ref="fileInput"
-              v-model="images"
-              accept="image/*"
-              outlined
-              multiple
-              append-icon="mdi-paperclip"
-              prepend-icon=""
-              persistent-hint
-              :hint="$t('userActions.holdCtrlKeyToUploadMultipleMediaFiles')"
-              :label="$t('userActions.addImagesAndVideos')"
-              @change="compressImages"
-              @click:append="$refs.fileInput.$el.querySelector('input').click()"
-            >
-              <template v-slot:selection="{ text }">
-                <v-chip small label color="primary" v-text="text" />
-              </template>
-            </v-file-input>
+            <validation-provider v-slot="{ errors }" rules="size:12000">
+              <v-file-input
+                ref="fileInput"
+                v-model="images"
+                accept="image/*"
+                outlined
+                multiple
+                append-icon="mdi-paperclip"
+                prepend-icon=""
+                persistent-hint
+                :error-messages="errors"
+                :hint="$t('userActions.holdCtrlKeyToUploadMultipleMediaFiles')"
+                :label="$t('userActions.addImagesAndVideos')"
+                @change="compressImages"
+                @click:append="
+                  $refs.fileInput.$el.querySelector('input').click()
+                "
+              >
+                <template v-slot:selection="{ text }">
+                  <v-chip small label color="primary" v-text="text" />
+                </template>
+              </v-file-input>
+            </validation-provider>
             <v-img v-for="url in imageUrls" :key="url" :src="url" />
           </v-col>
         </v-row>
@@ -156,7 +167,7 @@
           @click="$router.push({ name: 'InstructorUnsummarizedEvents' })"
         />
       </v-card-actions>
-    </form>
+    </validation-observer>
     <modal
       redirectComponentName="InstructorUnsummarizedEvents"
       v-show="isModalOpen"
@@ -167,6 +178,7 @@
 </template>
 
 <script>
+import { ValidationObserver, ValidationProvider } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "../vuex/store"
@@ -179,6 +191,8 @@ import Modal from "../components/Modal"
 
 export default {
   components: {
+    ValidationObserver,
+    ValidationProvider,
     TitleToText,
     Modal,
     VTribute,

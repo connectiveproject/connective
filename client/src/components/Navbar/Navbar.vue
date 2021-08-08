@@ -23,7 +23,7 @@
 <script>
 import { mapState } from "vuex"
 import { BACKGROUNDS } from "../../helpers/constants/images"
-import { userToTabs, userToAccountButtons } from "./constants"
+import { userToTabs, userToAccountButtons } from "./config"
 import AccountMenu from "../AccountMenu"
 import RouteTabs from "../RouteTabs"
 
