@@ -106,9 +106,9 @@ export default {
     return {
       img: CREATE_EVENT,
       startDate: "",
-      startTime: "00:00",
+      startTime: "12:00",
       endDate: "",
-      endTime: "00:00",
+      endTime: "12:00",
       selectedGroup: "",
       location: "",
       recurrence: SERVER.eventOrderReccurence.oneTime,
