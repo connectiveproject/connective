@@ -4,8 +4,17 @@
     max-width="800"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
   >
-    <v-card-title v-text="$t('events.eventSummary')" class="px-0" />
-    <v-card-subtitle v-text="event.activityName" class="px-0 pt-3 pb-10" />
+    <v-card-title v-text="$t('events.eventSummary')" class="px-0 pb-0" />
+    <a
+      target="_blank"
+      class="d-block mb-4 w-fit-content"
+      :class="{ 'cursor-initial': !event.activityWebsite }"
+      :href="event.activityWebsite"
+    >
+      <v-card-subtitle v-text="event.activityName" class="px-0">
+        {{ event.activityName }}
+      </v-card-subtitle>
+    </a>
     <title-to-text
       :title="$t('groups.groupName')"
       :text="event.schoolGroupName || $t('errors.unavailable')"
@@ -37,9 +46,11 @@
               <v-textarea
                 autofocus
                 outlined
-                :label="$t('events.summaryGeneralNotes')"
                 v-model="summaryGeneralNotes"
                 class="my-6"
+                persistent-hint
+                :hint="$t('events.use@toTagStudents')"
+                :label="$t('events.summaryGeneralNotes')"
               >
               </v-textarea>
             </v-tribute>
@@ -93,10 +104,12 @@
           <v-col cols="12">
             <v-tribute :options="tributeOptions">
               <v-textarea
-                outlined
-                :label="$t('events.eventFeedShareContent')"
-                v-model="feedContent"
                 required
+                outlined
+                v-model="feedContent"
+                persistent-hint
+                :hint="$t('events.use@toTagStudents')"
+                :label="$t('events.eventFeedShareContent')"
               >
               </v-textarea>
             </v-tribute>
@@ -196,8 +209,7 @@ export default {
         trigger: "@",
         values: [],
         positionMenu: true,
-        // TODO: add noMatchTemplate
-        // noMatchTemplate: "<li>השם לא נמצא</li>",
+        noMatchTemplate: `<li>${this.$t("errors.nameNotFound")}</li>`,
         menuContainer: document.querySelector(".menu-container"),
       },
       consumerchoices: [],

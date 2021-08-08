@@ -107,6 +107,10 @@ letter-spacing-2 {
   cursor: pointer;
 }
 
+.cursor-initial {
+  cursor: initial !important;
+}
+
 .glow-animation {
   animation-name: glow-animation;
   animation-duration: 2.5s;

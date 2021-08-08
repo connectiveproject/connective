@@ -264,7 +264,8 @@
     "domainUnspecified": "מרחב לא צויין",
     "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
     "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו",
-    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה"
+    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה",
+    "nameNotFound": "השם לא נמצא"
   },
 
   "myActivity": {
@@ -320,7 +321,8 @@
     "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים",
     "eventsStatus": "סטטוס מפגשים",
     "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
-    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר"
+    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
+    "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים"
   },
 
   "groups": {
