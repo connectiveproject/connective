@@ -103,14 +103,18 @@
           </v-col>
           <v-col>
             <v-file-input
+              ref="fileInput"
               v-model="images"
               accept="image/*"
               outlined
               multiple
               append-icon="mdi-paperclip"
               prepend-icon=""
-              :label="$t('userActions.addMedia')"
+              persistent-hint
+              :hint="$t('userActions.holdCtrlKeyToUploadMultipleMediaFiles')"
+              :label="$t('userActions.addImagesAndVideos')"
               @change="compressImages"
+              @click:append="$refs.fileInput.$el.querySelector('input').click()"
             >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary" v-text="text" />

@@ -19,6 +19,7 @@
               :rules="mediaType === 'image' && 'required|size:5000'"
             >
               <v-file-input
+                ref="fileInput"
                 append-icon="mdi-camera"
                 :prepend-icon="null"
                 type="file"
@@ -28,6 +29,7 @@
                 :label="$t('program.imageUpload')"
                 :error-messages="errors"
                 clearable
+                @click:append="$refs.fileInput.$el.querySelector('input').click()"
               />
             </validation-provider>
             <validation-provider
