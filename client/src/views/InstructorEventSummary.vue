@@ -110,7 +110,7 @@
               append-icon="mdi-paperclip"
               prepend-icon=""
               :label="$t('userActions.addMedia')"
-              @change="previewImage"
+              @change="compressImages"
             >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary" v-text="text" />
@@ -204,15 +204,29 @@ export default {
       summaryChildrenBehavior: 10,
       modalMsg: this.$t("general.detailsSuccessfullyUpdated"),
       isModalOpen: false,
-      imageUrls: [],
       images: [],
+      compressedImages: [],
     }
+  },
+  computed: {
+    imageUrls() {
+      let urls = []
+      this.compressedImages.map(
+        image => (urls = [...urls, URL.createObjectURL(image)])
+      )
+      return urls
+    },
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("instructorEvent", ["updateEvent"]),
     ...mapActions("eventFeedPost", ["createFeedPost", "createPostImages"]),
     parseDate: Utils.ApiStringToReadableDate,
+    async compressImages() {
+      this.compressedImages = await Promise.all(
+        this.images.map(async image => Utils.compressImageFile(image))
+      )
+    },
     onSubmit: debounce(
       async function () {
         try {
@@ -255,15 +269,6 @@ export default {
             Utils.objectToFormData({ image_url: image, post: post.slug })
           )
         )
-      )
-    },
-    previewImage() {
-      if (!this.images.length) {
-        this.imageUrls = []
-      }
-      this.images.map(
-        image =>
-          (this.imageUrls = [...this.imageUrls, URL.createObjectURL(image)])
       )
     },
   },

@@ -1,3 +1,4 @@
+import Compressor from "compressorjs"
 import moment from "moment"
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
@@ -158,6 +159,16 @@ const utils = {
       return website
     }
     return `https://${website}`
+  },
+
+  compressImageFile(img, quality = 0.8) {
+    return new Promise((resolve, reject) => {
+      new Compressor(img, {
+        quality: quality,
+        success: resolve,
+        error: reject,
+      })
+    })
   },
 }
 
