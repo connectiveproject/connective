@@ -161,14 +161,16 @@ const utils = {
     return `https://${website}`
   },
 
-  compressImageFile(img, quality = 0.8) {
-    return new Promise((resolve, reject) => {
+  async compressImageFile(img, quality = 0.8) {
+    const compressed = await new Promise((resolve, reject) => {
       new Compressor(img, {
-        quality: quality,
+        quality,
         success: resolve,
         error: reject,
       })
     })
+    // convert blob to file if needed
+    return new File([compressed], compressed.name)
   },
 }
 

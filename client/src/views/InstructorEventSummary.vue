@@ -263,8 +263,10 @@ export default {
       }
       const post = await this.createFeedPost(feedPostData)
       // TODO: send them as one payload (BE supports it)
+      console.log(this.compressedImages)
+      debugger
       return Promise.all(
-        this.images.map(image =>
+        this.compressedImages.map(image =>
           this.createPostImages(
             Utils.objectToFormData({ image_url: image, post: post.slug })
           )
