@@ -4,8 +4,17 @@
     max-width="800"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
   >
-    <v-card-title v-text="$t('events.eventSummary')" class="px-0" />
-    <v-card-subtitle v-text="event.activityName" class="px-0 pt-3 pb-10" />
+    <v-card-title v-text="$t('events.eventSummary')" class="px-0 pb-0" />
+    <a
+      target="_blank"
+      class="d-block mb-4 w-fit-content"
+      :class="{ 'cursor-initial': !event.activityWebsite }"
+      :href="event.activityWebsite"
+    >
+      <v-card-subtitle v-text="event.activityName" class="px-0">
+        {{ event.activityName }}
+      </v-card-subtitle>
+    </a>
     <title-to-text
       :title="$t('groups.groupName')"
       :text="event.schoolGroupName || $t('errors.unavailable')"
@@ -26,7 +35,7 @@
       <v-card style="background: #feece5">
         <v-row style="padding: 30px">
           <v-col>
-            <img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
+            <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
           </v-col>
           <v-card-text
             v-text="`${$t('posts.thisPostIsNotVisibleForStudents')}.`"
@@ -35,10 +44,13 @@
           <v-col cols="12">
             <v-tribute :options="tributeOptions">
               <v-textarea
+                autofocus
                 outlined
-                :label="$t('events.summaryGeneralNotes')"
                 v-model="summaryGeneralNotes"
                 class="my-6"
+                persistent-hint
+                :hint="$t('events.use@toTagStudents')"
+                :label="$t('events.summaryGeneralNotes')"
               >
               </v-textarea>
             </v-tribute>
@@ -92,24 +104,30 @@
           <v-col cols="12">
             <v-tribute :options="tributeOptions">
               <v-textarea
-                outlined
-                :label="$t('events.eventFeedShareContent')"
-                v-model="feedContent"
                 required
+                outlined
+                v-model="feedContent"
+                persistent-hint
+                :hint="$t('events.use@toTagStudents')"
+                :label="$t('events.eventFeedShareContent')"
               >
               </v-textarea>
             </v-tribute>
           </v-col>
           <v-col>
             <v-file-input
+              ref="fileInput"
               v-model="images"
               accept="image/*"
               outlined
               multiple
               append-icon="mdi-paperclip"
               prepend-icon=""
-              :label="$t('userActions.addMedia')"
-              @change="previewImage"
+              persistent-hint
+              :hint="$t('userActions.holdCtrlKeyToUploadMultipleMediaFiles')"
+              :label="$t('userActions.addImagesAndVideos')"
+              @change="compressImages"
+              @click:append="$refs.fileInput.$el.querySelector('input').click()"
             >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary" v-text="text" />
@@ -119,14 +137,25 @@
           </v-col>
         </v-row>
       </v-card>
-      <v-btn
-        large
-        type="submit"
-        color="primary"
-        class="mx-auto mt-9 mb-6 px-8"
-        elevation="3"
-        v-text="$t('userActions.save')"
-      />
+      <v-card-actions class="mt-9 mb-6">
+        <v-btn
+          large
+          type="submit"
+          color="primary"
+          elevation="3"
+          :loading="submitting"
+        >
+          {{ $t("userActions.save") }}
+        </v-btn>
+        <v-btn
+          large
+          class="mx-3 white--text"
+          color="primary"
+          outlined
+          v-text="$t('userActions.back')"
+          @click="$router.push({ name: 'InstructorUnsummarizedEvents' })"
+        />
+      </v-card-actions>
     </form>
     <modal
       redirectComponentName="InstructorUnsummarizedEvents"
@@ -183,13 +212,13 @@ export default {
     return {
       CONFIDENTIAL_WATERMARK,
       event: {},
+      submitting: false,
       addPost: true,
       tributeOptions: {
         trigger: "@",
         values: [],
         positionMenu: true,
-        // TODO: add noMatchTemplate
-        // noMatchTemplate: "<li>השם לא נמצא</li>",
+        noMatchTemplate: `<li>${this.$t("errors.nameNotFound")}</li>`,
         menuContainer: document.querySelector(".menu-container"),
       },
       consumerchoices: [],
@@ -200,23 +229,33 @@ export default {
       summaryChildrenBehavior: 10,
       modalMsg: this.$t("general.detailsSuccessfullyUpdated"),
       isModalOpen: false,
-      imageUrls: [],
       images: [],
+      compressedImages: [],
     }
+  },
+  computed: {
+    imageUrls() {
+      let urls = []
+      this.compressedImages.map(
+        image => (urls = [...urls, URL.createObjectURL(image)])
+      )
+      return urls
+    },
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("instructorEvent", [
-      "updateEvent",
-    ]),
-    ...mapActions("eventFeedPost", [
-      "createFeedPost",
-      "createPostImages",
-    ]),
+    ...mapActions("instructorEvent", ["updateEvent"]),
+    ...mapActions("eventFeedPost", ["createFeedPost", "createPostImages"]),
     parseDate: Utils.ApiStringToReadableDate,
+    async compressImages() {
+      this.compressedImages = await Promise.all(
+        this.images.map(async image => Utils.compressImageFile(image))
+      )
+    },
     onSubmit: debounce(
       async function () {
         try {
+          this.submitting = true
           if (this.addPost) {
             await Promise.all([this.createSummary(), this.createPost()])
           } else {
@@ -226,6 +265,7 @@ export default {
         } catch (err) {
           const message = Api.utils.parseResponseError(err)
           this.showMessage(message)
+          this.submitting = false
         }
       },
       500,
@@ -249,20 +289,11 @@ export default {
       const post = await this.createFeedPost(feedPostData)
       // TODO: send them as one payload (BE supports it)
       return Promise.all(
-        this.images.map(image =>
+        this.compressedImages.map(image =>
           this.createPostImages(
             Utils.objectToFormData({ image_url: image, post: post.slug })
           )
         )
-      )
-    },
-    previewImage() {
-      if (!this.images.length) {
-        this.imageUrls = []
-      }
-      this.images.map(
-        image =>
-          (this.imageUrls = [...this.imageUrls, URL.createObjectURL(image)])
       )
     },
   },
@@ -306,7 +337,7 @@ div.tribute-container > ul > li {
 
   @keyframes bounce-in {
     0% {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
     50% {
       transform: scale(1.1);

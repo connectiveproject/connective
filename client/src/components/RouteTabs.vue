@@ -1,5 +1,5 @@
 <template>
-  <v-tabs color="grey darken-4" class="pb-10">
+  <v-tabs :color="color" class="pb-10">
     <v-tab
       v-for="tab in tabs"
       :key="tab.id"
@@ -17,6 +17,10 @@ export default {
       type: Array,
       required: true,
     },
+    color: {
+      type: String,
+      default: "grey darken-4"
+    }
   },
 }
 </script>

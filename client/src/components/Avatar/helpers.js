@@ -193,5 +193,5 @@ export const defaultAvatarOptions = {
   skinColor: "Brown",
   graphicType: "Diamond",
   hairColor: "Brown",
-  clotheColor: "random",
+  clotheColor: "White",
 }

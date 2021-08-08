@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="my-15 mx-auto px-sm-10 py-sm-10"
+    class="mx-3 my-15 mx-md-auto px-sm-10 py-sm-10"
     max-width="1000"
     :min-height="$vuetify.breakpoint.mobile ? 350 : 500"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"

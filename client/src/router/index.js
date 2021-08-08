@@ -9,8 +9,10 @@ import {
   removePagination,
   flushPagination,
   flushToken,
-  PopulateConsumerData,
-  PopulateCoordinatorData,
+  populateConsumerData,
+  populateCoordinatorData,
+  populateInstructorData,
+  populateVendorData,
   fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome"
@@ -18,8 +20,6 @@ import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
 import VendorDashboard from "../layouts/VendorDashboard"
-import MyActivity from "../layouts/MyActivity/MyActivity"
-import ConsumerMyActivity from "../layouts/MyActivity/ConsumerMyActivity"
 import Login from "../views/Login"
 import CoordinatorRegister from "../views/Register/CoordinatorRegister"
 import VendorRegister from "../views/Register/VendorRegister"
@@ -121,7 +121,7 @@ const routes = [
       {
         path: "student-dashboard",
         component: StudentDashboard,
-        beforeEnter: PopulateConsumerData,
+        beforeEnter: populateConsumerData,
         children: [
           {
             path: "",
@@ -149,45 +149,34 @@ const routes = [
             ],
           },
           {
-            path: "my-activity",
-            component: ConsumerMyActivity,
-            children: [
-              {
-                path: "",
-                name: "ConsumerMyActivity",
-                redirect: { name: "ConsumerMyGroups" },
-              },
-              {
-                path: "my-groups",
-                name: "ConsumerMyGroups",
-                component: ConsumerMyGroups,
-              },
-              {
-                path: "my-events",
-                name: "ConsumerMyEvents",
-                component: ConsumerMyEvents,
-                beforeEnter: removePagination,
-              },
-              {
-                path: "events-pending-feedbacks",
-                name: "ConsumerPendingEventsFeedback",
-                component: ConsumerPendingEventsFeedback,
-                beforeEnter: removePagination,
-              },
-              {
-                path: "event-feedback/:slug",
-                name: "ConsumerEventFeedback",
-                component: ConsumerEventFeedback,
-                props: true,
-              },
-            ],
+            path: "my-groups",
+            name: "ConsumerMyGroups",
+            component: ConsumerMyGroups,
+          },
+          {
+            path: "my-events",
+            name: "ConsumerMyEvents",
+            component: ConsumerMyEvents,
+            beforeEnter: removePagination,
+          },
+          {
+            path: "events-pending-feedbacks",
+            name: "ConsumerPendingEventsFeedback",
+            component: ConsumerPendingEventsFeedback,
+            beforeEnter: removePagination,
+          },
+          {
+            path: "event-feedback/:slug",
+            name: "ConsumerEventFeedback",
+            component: ConsumerEventFeedback,
+            props: true,
           },
         ],
       },
       {
         path: "coordinator-dashboard",
         component: CoordinatorDashboard,
-        beforeEnter: PopulateCoordinatorData,
+        beforeEnter: populateCoordinatorData,
         children: [
           {
             path: "",
@@ -249,37 +238,26 @@ const routes = [
             ],
           },
           {
-            path: "my-activity",
-            component: MyActivity,
-            children: [
-              {
-                path: "",
-                name: "MyActivity",
-                redirect: { name: "MyGroups" },
-              },
-              {
-                path: "my-groups",
-                name: "MyGroups",
-                component: MyGroups,
-              },
-              {
-                path: "my-events",
-                name: "MyEvents",
-                component: MyEvents,
-                beforeEnter: removePagination,
-              },
-              {
-                path: "student-list",
-                name: "ConsumerList",
-                component: ConsumerList,
-                beforeEnter: flushPagination,
-              },
-              {
-                path: "statistics",
-                name: "CoordinatorStatistics",
-                component: CoordinatorStatistics,
-              },
-            ],
+            path: "my-groups",
+            name: "MyGroups",
+            component: MyGroups,
+          },
+          {
+            path: "my-events",
+            name: "MyEvents",
+            component: MyEvents,
+            beforeEnter: removePagination,
+          },
+          {
+            path: "student-list",
+            name: "ConsumerList",
+            component: ConsumerList,
+            beforeEnter: flushPagination,
+          },
+          {
+            path: "statistics",
+            name: "CoordinatorStatistics",
+            component: CoordinatorStatistics,
           },
           {
             path: "detail-group/:groupSlug",
@@ -325,6 +303,7 @@ const routes = [
       {
         path: "instructor-dashboard",
         component: InstructorDashboard,
+        beforeEnter: populateInstructorData,
         children: [
           {
             path: "",
@@ -359,6 +338,7 @@ const routes = [
       {
         path: "vendor-dashboard",
         component: VendorDashboard,
+        beforeEnter: populateVendorData,
         children: [
           {
             path: "",

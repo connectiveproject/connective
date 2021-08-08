@@ -29,7 +29,7 @@
           show-select
           multi-sort
           v-bind.sync="tableProps"
-          v-model="selectedRows"
+          :no-data-text="$t('invite.clickTheButtonBelowToInviteUsers!')"
         >
           <template v-slot:item.actions="{ item }">
             <v-icon size="20" class="mr-2" @click="editCoordinator(item)">
@@ -40,6 +40,7 @@
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
             @click="addCoordinator"
+            class="glow-animation"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
             v-text="$t('invite.inviteStaffMember')"
             color="primary"

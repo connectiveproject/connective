@@ -106,3 +106,24 @@ letter-spacing-2 {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.cursor-initial {
+  cursor: initial !important;
+}
+
+.glow-animation {
+  animation-name: glow-animation;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes glow-animation {
+  65% {
+    box-shadow: 0 0 9px;
+    background-color: white;
+  }
+}
+
+.line-height-1-7 {
+  line-height: 1.7 !important;
+}

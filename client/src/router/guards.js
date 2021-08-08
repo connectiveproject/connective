@@ -89,14 +89,36 @@ export function flushToken(to, from, next) {
   next()
 }
 
-export function PopulateConsumerData(to, from, next) {
-  store.dispatch("user/getUserDetails")
-  store.dispatch("consumer/getProfile")
+export async function populateConsumerData(to, from, next) {
+  await Promise.all([
+    store.dispatch("user/getUserDetails"),
+    store.dispatch("consumer/getProfile"),
+  ])
   next()
 }
 
-export function PopulateCoordinatorData(to, from, next) {
-  store.dispatch("school/getSchoolDetails")
+export async function populateCoordinatorData(to, from, next) {
+  await Promise.all([
+    store.dispatch("school/getSchoolDetails"),
+    store.dispatch("coordinator/getProfile"),
+    store.dispatch("user/getUserDetails"),
+  ])
+  next()
+}
+
+export async function populateInstructorData(to, from, next) {
+  await Promise.all([
+    store.dispatch("instructor/getProfile"),
+    store.dispatch("user/getUserDetails"),
+  ])
+  next()
+}
+
+export async function populateVendorData(to, from, next) {
+  await Promise.all([
+    store.dispatch("vendor/getProfile"),
+    store.dispatch("user/getUserDetails"),
+  ])
   next()
 }
 

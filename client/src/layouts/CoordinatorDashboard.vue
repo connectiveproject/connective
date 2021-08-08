@@ -1,7 +1,7 @@
 <template>
   <div :style="style">
-    <navbar user-type="coordinator"/>
-    <router-view/>
+    <navbar user-type="coordinator" />
+    <router-view />
   </div>
 </template>
 <script>
@@ -9,9 +9,7 @@ import { BACKGROUNDS } from "../helpers/constants/images"
 import Navbar from "../components/Navbar/Navbar"
 
 export default {
-  components: {
-    Navbar,
-  },
+  components: { Navbar },
   data() {
     return {
       style: {

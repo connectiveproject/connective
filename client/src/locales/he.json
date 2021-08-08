@@ -144,7 +144,8 @@
     "inviteUser": "הזמנת משתמש",
     "removeUser": "הסרת משתמש",
     "consumersHasBeenInvitedToJoinThePlatform": "תלמידים הוזמנו להצטרף לפלטפורמה",
-    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה"
+    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה",
+    "clickTheButtonBelowToInviteUsers!": "לחצו על הכפתור מטה להזמנת משתמשים!"
   },
 
   "userActions": {
@@ -166,12 +167,13 @@
     "delete": "מחיקה",
     "finish": "סיום",
     "toHomepage": "לדף הבית",
-    "addMedia": "הוספת מדיה",
+    "addImagesAndVideos": "הוספת תמונות וסרטונים",
     "addPost": "הוספת פוסט",
     "addPublicPost": "הוספת פוסט פומבי",
     "addEvents": "הוספת מפגשים",
     "timeChoose": "בחירת שעה",
-    "dateChoose": "בחירת תאריך"
+    "dateChoose": "בחירת תאריך",
+    "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה"
   },
 
   "grades": {
@@ -194,6 +196,7 @@
     "reEnterPassword": "סיסמה חוזרת",
     "newPassword": "סיסמה חדשה",
     "chooseNewPassword": "בחרו סיסמה חדשה",
+    "chooseAPasswordYouWillRemember": "בחרו סיסמה שתזכרו",
     "login": "התחברות",
     "logout": "התנתקות",
     "registration": "הרשמה",
@@ -261,7 +264,8 @@
     "domainUnspecified": "מרחב לא צויין",
     "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
     "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו",
-    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה"
+    "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה",
+    "nameNotFound": "השם לא נמצא"
   },
 
   "myActivity": {
@@ -317,7 +321,8 @@
     "attention!ThisActionWillDeleteAllRelatedEvents": "שימו לב! פעולה זו תמחק את כלל האירועים המקושרים",
     "eventsStatus": "סטטוס מפגשים",
     "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
-    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר"
+    "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
+    "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים"
   },
 
   "groups": {

@@ -1,3 +1,4 @@
+import Compressor from "compressorjs"
 import moment from "moment"
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
@@ -150,6 +151,26 @@ const utils = {
       }
     }
     return fd
+  },
+
+  addWebsiteScheme(website) {
+    // add https scheme to website
+    if (website.toLowerCase().startsWith("http")) {
+      return website
+    }
+    return `https://${website}`
+  },
+
+  async compressImageFile(img, quality = 0.8) {
+    const compressed = await new Promise((resolve, reject) => {
+      new Compressor(img, {
+        quality,
+        success: resolve,
+        error: reject,
+      })
+    })
+    // convert blob to file if needed
+    return new File([compressed], compressed.name)
   },
 }
 
