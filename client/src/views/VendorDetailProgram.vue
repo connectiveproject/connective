@@ -123,8 +123,13 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
-        const activityWebsiteUrl = Utils.addWebsiteScheme(this.program.activityWebsiteUrl)
-        const data = Utils.objectToFormData({ ...this.program, activityWebsiteUrl })
+        const activityWebsiteUrl = Utils.addWebsiteScheme(
+          this.program.activityWebsiteUrl
+        )
+        const data = Utils.objectToFormData({
+          ...this.program,
+          activityWebsiteUrl,
+        })
         if (!this.program.logo || isString(this.program.logo)) {
           // if logo not uploaded
           data.delete("logo")
