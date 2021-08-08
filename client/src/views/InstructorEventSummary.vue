@@ -137,16 +137,25 @@
           </v-col>
         </v-row>
       </v-card>
-      <v-btn
-        large
-        type="submit"
-        color="primary"
-        class="mx-auto mt-9 mb-6 px-8"
-        elevation="3"
-        :loading="submitting"
-      >
-        {{ $t("userActions.save") }}
-      </v-btn>
+      <v-card-actions class="mt-9 mb-6">
+        <v-btn
+          large
+          type="submit"
+          color="primary"
+          elevation="3"
+          :loading="submitting"
+        >
+          {{ $t("userActions.save") }}
+        </v-btn>
+        <v-btn
+          large
+          class="mx-3 white--text"
+          color="primary"
+          outlined
+          v-text="$t('userActions.back')"
+          @click="$router.push({ name: 'InstructorUnsummarizedEvents' })"
+        />
+      </v-card-actions>
     </form>
     <modal
       redirectComponentName="InstructorUnsummarizedEvents"
