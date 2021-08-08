@@ -54,7 +54,7 @@
                 class="my-6"
                 persistent-hint
                 :hint="$t('events.use@toTagStudents')"
-                :label="$t('events.summaryGeneralNotes')"
+                :label="$t('events.summaryGeneralNotes-unusualEventsStudentsBehaviorEtc')"
               >
               </v-textarea>
             </v-tribute>
@@ -113,7 +113,7 @@
                   v-model="feedContent"
                   persistent-hint
                   :hint="$t('events.use@toTagStudents')"
-                  :label="$t('events.eventFeedShareContent')"
+                  :label="$t('events.postContent')"
                   :error-messages="errors"
                 >
                 </v-textarea>
