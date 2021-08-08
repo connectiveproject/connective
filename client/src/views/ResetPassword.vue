@@ -39,14 +39,14 @@
               name="passwordConfirmation"
               :label="$t('auth.reEnterPassword')"
             />
-            <div class="overline line-height-1-7">
+            <div class="overline line-height-1-7 pt-3">
               * {{ $t("auth.chooseAPasswordYouWillRemember") }}.
             </div>
             <div class="overline line-height-1-7 pt-2">
               * {{ $t("errors.strongPassHint") }}.
             </div>
           </validation-provider>
-          <div class="mx-auto d-flex justify-center mt-12">
+          <div class="mx-auto d-flex justify-center mt-9">
             <v-btn
               class="ml-3 white--text"
               type="submit"
