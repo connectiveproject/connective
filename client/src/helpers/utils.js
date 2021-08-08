@@ -151,6 +151,14 @@ const utils = {
     }
     return fd
   },
+
+  addWebsiteScheme(website) {
+    // add https scheme to website
+    if (website.toLowerCase().startsWith("http")) {
+      return website
+    }
+    return `https://${website}`
+  },
 }
 
 export default utils

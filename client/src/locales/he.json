@@ -144,7 +144,8 @@
     "inviteUser": "הזמנת משתמש",
     "removeUser": "הסרת משתמש",
     "consumersHasBeenInvitedToJoinThePlatform": "תלמידים הוזמנו להצטרף לפלטפורמה",
-    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה"
+    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה",
+    "clickTheButtonBelowToInviteUsers!": "לחצו על הכפתור מטה להזמנת משתמשים!"
   },
 
   "userActions": {

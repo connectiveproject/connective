@@ -45,6 +45,7 @@
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
+import Utils from "../helpers/utils"
 import store from "../vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
@@ -184,8 +185,8 @@ export default {
       data.append("school_code", this.textFields.schoolCode.value)
       data.append("description", this.textFields.description.value)
       data.append("contact_phone", this.textFields.contactPhone.value)
-      data.append("website", this.textFields.website.value)
       data.append("grade_levels", JSON.stringify(this.textFields.grades.value))
+      data.append("website", Utils.addWebsiteScheme(this.textFields.website.value))
       if (this.profilePicFile) {
         data.append("profilePicture", this.profilePicFile)
       }

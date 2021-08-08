@@ -30,6 +30,7 @@
           multi-sort
           v-bind.sync="tableProps"
           v-model="selectedRows"
+          :no-data-text="$t('invite.clickTheButtonBelowToInviteUsers!')"
         >
           <template v-slot:item.actions="{ item }">
             <v-icon size="20" class="mr-2" @click="editStudent(item)">
@@ -43,6 +44,7 @@
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
             @click="addStudent"
+            class="glow-animation"
             :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
             color="primary"
             outlined

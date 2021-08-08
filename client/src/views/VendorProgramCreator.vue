@@ -66,14 +66,15 @@ export default {
     ...mapActions("vendorProgram", ["createProgram"]),
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
-      const data = this.fields.reduce(
-        (accum, f) => ({ ...accum, [f.name]: f.value }),
-        { tags: [], logo: this.logo }
-      )
       try {
-        const program = await this.createProgram(
-          Utils.objectToFormData(data)
+        const data = this.fields.reduce(
+          (accum, f) => ({ ...accum, [f.name]: f.value }),
+          { tags: [], logo: this.logo }
         )
+        data.activityWebsiteUrl = Utils.addWebsiteScheme(
+          data.activityWebsiteUrl
+        )
+        const program = await this.createProgram(Utils.objectToFormData(data))
         this.showMessage(this.$t("success.programCreatedSuccessfully"))
         this.$router.push({
           name: "VendorProgramMediaUpload",

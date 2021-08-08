@@ -13,16 +13,16 @@ const coordinatorTabs = [
     componentName: "ProgramsExplorer",
   },
   {
-    text: i18n.t("events.eventsSummary"),
-    componentName: "CoordinatorEventFeedView",
-  },
-  {
     text: i18n.t("events.eventsBoard"),
     componentName: "MyEvents",
   },
   {
     text: i18n.t("myActivity.students"),
     componentName: "ConsumerList",
+  },
+  {
+    text: i18n.t("posts.myFeed"),
+    componentName: "CoordinatorEventFeedView",
   },
   {
     text: i18n.t("myActivity.statistics"),
