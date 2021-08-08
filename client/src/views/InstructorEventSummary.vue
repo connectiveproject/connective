@@ -26,7 +26,7 @@
       <v-card style="background: #feece5">
         <v-row style="padding: 30px">
           <v-col>
-            <img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
+            <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
           </v-col>
           <v-card-text
             v-text="`${$t('posts.thisPostIsNotVisibleForStudents')}.`"
@@ -35,6 +35,7 @@
           <v-col cols="12">
             <v-tribute :options="tributeOptions">
               <v-textarea
+                autofocus
                 outlined
                 :label="$t('events.summaryGeneralNotes')"
                 v-model="summaryGeneralNotes"

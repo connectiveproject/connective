@@ -109,13 +109,13 @@ letter-spacing-2 {
 
 .glow-animation {
   animation-name: glow-animation;
-  animation-duration: 2s;
+  animation-duration: 2.5s;
   animation-iteration-count: infinite;
 }
 
 @keyframes glow-animation {
-  50% {
-    box-shadow: 0 0 8px;
+  65% {
+    box-shadow: 0 0 9px;
     background-color: white;
   }
 }

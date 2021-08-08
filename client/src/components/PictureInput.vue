@@ -25,9 +25,9 @@
         </validation-provider>
         <v-btn
           @click="triggerPicUpload()"
-          v-show="hover"
+          v-show="hover || (persistUploadButton && !picFile)"
           color="blue-grey"
-          class="pic-btn ma-2 white--text"
+          class="pic-btn ma-2 white--text scale-animation"
           fab
         >
           <v-icon dark>mdi-cloud-upload</v-icon>
@@ -52,6 +52,11 @@ export default {
       type: String,
       required: false,
       default: JPG_DOCUMENT,
+    },
+    persistUploadButton: {
+      // show upload btn if img not uploaded (and not just on hover)
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -90,6 +95,11 @@ $dark-strong: rgba(0, 0, 0, 0.75);
 $dark-light: rgba(0, 0, 0, 0.2);
 
 .pic-btn {
+  animation-name: float-animation;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  opacity: 0.9;
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -98,6 +108,12 @@ $dark-light: rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0px 0px 26px 200px $dark-light;
   -moz-box-shadow: 0px 0px 26px 200px $dark-light;
   box-shadow: 0px 0px 26px 200px $dark-light;
+}
+
+@keyframes float-animation {
+  50% {
+    transform: translate(-50%, -60%);
+  }
 }
 
 .error-msg {

@@ -16,6 +16,7 @@
         />
       </div>
       <picture-input
+        persist-upload-button
         class="my-10 mx-auto align-self-center mx-lg-16"
         :placeholderPicUrl="CAMERA_ROUNDED_DRAWING"
         @fileUpload="setLogo"
