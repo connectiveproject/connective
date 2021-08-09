@@ -77,6 +77,7 @@
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import debounce from "lodash/debounce"
+import Api from "../api"
 import Modal from "../components/Modal"
 
 export default {
@@ -85,7 +86,6 @@ export default {
     ValidationObserver,
     Modal,
   },
-
   props: {
     uid: {
       type: String,
@@ -126,7 +126,12 @@ export default {
     ),
     handleSubmitSuccess({ email }) {
       // login after reset pass
-      this.login({ email, password: this.password })
+      try {
+        this.showMessage(this.$t("auth.registrationSucceeded"))
+        this.login({ email, password: this.password })
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
     },
     handleSubmitError(msg) {
       try {

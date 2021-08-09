@@ -47,7 +47,7 @@ User = get_user_model()
 
 class PassResetConfirmView(PasswordResetConfirmView):
     """
-    return the email after reset
+    return the email to the client after password reset
     """
 
     def post(self, request, *args, **kwargs):
