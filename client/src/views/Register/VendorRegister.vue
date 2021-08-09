@@ -118,7 +118,7 @@ export default {
               userDetails: { name: this.registrationInfo.name },
             }))
           ]
-          this.modalRedirectComponentName = "VendorProfile"
+          this.modalRedirectComponentName = "VendorProgramList"
           this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
         } catch (err) {
           const message = Api.utils.parseResponseError(err)

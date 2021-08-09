@@ -343,7 +343,7 @@ const routes = [
           {
             path: "",
             name: "VendorDashboard",
-            redirect: { name: "VendorProfile" },
+            redirect: { name: "VendorProgramList" },
           },
           {
             path: "profile",
