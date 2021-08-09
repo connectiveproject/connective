@@ -52,7 +52,7 @@
             @click="$router.push({ name: tab.componentName })"
           >
             <v-list-item-icon>
-              <v-icon v-text="tab.icon" />
+              <v-icon v-text="tab.icon" color="primary" />
             </v-list-item-icon>
             <v-list-item-title> {{ tab.text }} </v-list-item-title>
           </v-list-item>
