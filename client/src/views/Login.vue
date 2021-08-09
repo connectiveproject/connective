@@ -15,12 +15,12 @@
           >
             <v-text-field
               data-testid="email-input"
+              autofocus
               class="mt-2"
               v-model="email"
               :error-messages="errors"
               :label="$t('general.email')"
-              required
-            ></v-text-field>
+            />
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
@@ -37,7 +37,7 @@
               name="password"
               :label="$t('auth.password')"
               @click:append="showPass = !showPass"
-            ></v-text-field>
+            />
           </validation-provider>
 
           <div class="mx-auto d-flex justify-center mt-8 mb-4">

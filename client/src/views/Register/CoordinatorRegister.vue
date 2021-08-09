@@ -17,10 +17,10 @@
           <validation-provider v-slot="{ errors }" name="name" rules="required">
             <v-text-field
               v-model="registrationInfo.name"
+              autofocus
               data-testid="name"
               :error-messages="errors"
               :label="$t('general.name')"
-              required
             ></v-text-field>
           </validation-provider>
 

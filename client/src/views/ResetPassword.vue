@@ -15,6 +15,7 @@
             rules="required|strongPass"
           >
             <v-text-field
+              autofocus
               class="mt-5"
               v-model="password"
               :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"

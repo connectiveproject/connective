@@ -17,6 +17,7 @@
       >
         <validation-provider v-slot="{ errors }" name="name" rules="required">
           <v-text-field
+            autofocus
             class="mt-5"
             v-model="registrationInfo.name"
             :error-messages="errors"

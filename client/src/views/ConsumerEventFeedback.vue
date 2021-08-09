@@ -23,6 +23,7 @@
       :text="event.locationsName || $t('errors.empty')"
     />
     <form-card
+      focus
       elevation="0"
       v-model="form"
       @valid="isFormValid = true"
