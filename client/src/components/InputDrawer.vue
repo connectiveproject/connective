@@ -28,17 +28,30 @@
               v-show="isDrawerOpen()"
               class="mt-5"
               :data-testid="uniqueName"
+              :autofocus="drawerOpened"
               :value="value"
               :error-messages="errors"
               @input="$emit('input', $event)"
             >
             </v-text-field>
+            <v-textarea
+              v-if="type === 'textarea'"
+              v-show="isDrawerOpen()"
+              class="mt-5"
+              :data-testid="uniqueName"
+              :autofocus="drawerOpened"
+              :value="value"
+              :error-messages="errors"
+              @input="$emit('input', $event)"
+            >
+            </v-textarea>
             <v-select
               v-if="type === 'select'"
               v-show="isDrawerOpen()"
               chips
               deletable-chips
               class="mt-5"
+              :autofocus="focus"
               :data-testid="uniqueName"
               :value="value"
               :error-messages="errors"

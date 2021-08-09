@@ -390,7 +390,7 @@
 
   "status": {
     "cancelled": "בוטל",
-    "pendingApproval": "ממתין לאישור",
+    "pendingVendorApproval": "ממתין לאישור מנהל עמותה",
     "approved": "אושר",
     "denied": "נדחה"
   }

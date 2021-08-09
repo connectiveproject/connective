@@ -111,6 +111,7 @@ export default {
           label: this.$t("general.description"),
           rules: "",
           value: "",
+          type: "textarea",
         },
         contactPhone: {
           uniqueName: "contactPhone",

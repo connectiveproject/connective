@@ -137,7 +137,8 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "description",
     label: i18n.t("program.programDescription"),
-    rules: "required",
+    rules: "required|max:550",
+    type: "textarea",
   },
   {
     name: "targetAudience",
@@ -158,7 +159,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "activityWebsiteUrl",
     label: i18n.t("general.website"),
-    rules: "required|website",
+    rules: "required|website|max:750",
   },
   {
     name: "activityEmail",
@@ -168,7 +169,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "contactName",
     label: i18n.t("program.contactName"),
-    rules: "required",
+    rules: "required|max:60",
   },
   {
     name: "phoneNumber",
@@ -197,19 +198,25 @@ export const SERVER = {
   },
   eventOrderStatus: {
     cancelled: "CANCELLED",
-    pendingApproval: "PENDING_APPROVAL",
+    pendingVendorApproval: "PENDING_APPROVAL",
     approved: "APPROVED",
     denied: "DENIED",
   },
   eventOrderReccurence: {
     oneTime: "ONE_TIME",
-    weekly: "WEEKLY"
+    weekly: "WEEKLY",
   },
   consumerProgramJoinStatus: {
     joined: "JOINED",
     notJoined: "NOT_JOINED",
     pendingGroupAssignment: "PENDING_GROUP_ASSIGNMENT",
-  }
+  },
+  domains: {
+    scienceAndTech: "SCIENCE_AND_TECH",
+    extremeSports: "EXTREME_SPORTS",
+    field: "FIELD",
+    other: "OTHER",
+  },
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"
