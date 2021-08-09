@@ -14,6 +14,8 @@ import {
   ISRAELI_PHONE_REGEX_PATTERN,
   WEBSITE_REGEX_PATTERN,
   YOUTUBE_URL_REGEX_PATTERN,
+  HEBREW_REGEX_PATTERN,
+  ARABIC_REGEX_PATTERN,
 } from "./constants/constants"
 
 extend("required", {
@@ -99,4 +101,20 @@ extend("afterStartDate", {
     return endDateObj.isAfter(startDateObj)
   },
   message: i18n.tc("errors.endTimeShouldBeLaterThanStartTime"),
+})
+
+extend("noHebrew", {
+  message: i18n.tc("errors.hebrewLettersAreNotAllowed"),
+  validate: value => {
+    let hebrewRegex = new RegExp(HEBREW_REGEX_PATTERN)
+    return !hebrewRegex.test(value)
+  },
+})
+
+extend("noArabic", {
+  message: i18n.tc("errors.arabicLettersAreNotAllowed"),
+  validate: value => {
+    let arabicRegex = new RegExp(ARABIC_REGEX_PATTERN)
+    return !arabicRegex.test(value)
+  },
 })

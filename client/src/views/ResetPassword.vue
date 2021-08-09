@@ -12,7 +12,7 @@
           <validation-provider
             v-slot="{ errors }"
             name="password"
-            rules="required|strongPass"
+            rules="required|noHebrew|noArabic|strongPass"
           >
             <v-text-field
               autofocus

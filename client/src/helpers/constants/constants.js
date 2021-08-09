@@ -92,6 +92,10 @@ export const YOUTUBE_URL_REGEX_PATTERN =
   /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 export const YOUTUBE_ID_REGEX_PATTERN =
   /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+
+export const HEBREW_REGEX_PATTERN = /[\u0590-\u05FF]/
+export const ARABIC_REGEX_PATTERN = /[\u0621-\u064A]/
+
 export const ZIP_CODE_VALIDATION_RULE = "numeric|digits:7"
 
 export const SCHOOL_GRADES_ITEMS = [
