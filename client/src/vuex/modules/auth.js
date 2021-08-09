@@ -36,8 +36,9 @@ const auth = {
         Vue.$router.push({ path: "/" })
       }
     },
-    resetPassword(ctx, { uid, token, pass, passConfirm, idNumber }) {
-      return Api.auth.resetPassword(uid, token, pass, passConfirm, idNumber)
+    async resetPassword(ctx, { uid, token, pass, passConfirm, idNumber }) {
+      const res = await Api.auth.resetPassword(uid, token, pass, passConfirm, idNumber)
+      return res.data
     },
   },
 }

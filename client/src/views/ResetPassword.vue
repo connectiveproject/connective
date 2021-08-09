@@ -108,7 +108,8 @@ export default {
   }),
 
   methods: {
-    ...mapActions("auth", ["resetPassword"]),
+    ...mapActions("auth", ["resetPassword", "login"]),
+    ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
         this.resetPassword({
@@ -123,9 +124,9 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    handleSubmitSuccess() {
-      this.modalRedirectUrl = "/"
-      this.popupMsg = this.$t("auth.registrationSucceeded") + "!"
+    handleSubmitSuccess({ email }) {
+      // login after reset pass
+      this.login({ email, password: this.password })
     },
     handleSubmitError(msg) {
       try {
