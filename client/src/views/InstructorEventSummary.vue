@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="my-15 mx-auto px-16 py-10"
+    class="my-md-15 mx-auto px-4 px-md-16 py-10"
     max-width="800"
     :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
   >
@@ -37,7 +37,7 @@
       @submit.prevent="onSubmit"
     >
       <v-card style="background: #feece5">
-        <v-row style="padding: 30px">
+        <v-row no-gutters style="padding: 30px">
           <v-col>
             <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
           </v-col>
@@ -104,7 +104,7 @@
           class="px-0"
           v-text="`${$t('posts.thisPostWillBeVisibleForEveryone')}.`"
         />
-        <v-row class="my-2">
+        <v-row no-gutters class="my-2">
           <v-col cols="12">
             <validation-provider v-slot="{ errors }" rules="required">
               <v-tribute :options="tributeOptions">
