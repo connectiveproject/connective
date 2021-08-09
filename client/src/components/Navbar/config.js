@@ -6,27 +6,33 @@ const coordinatorTabs = [
   {
     text: i18n.t("myActivity.activeGroups"),
     componentName: "MyGroups",
+    icon: "mdi-home-group",
   },
   {
     id: "program-explorer-navbar-tab",
     text: i18n.tc("general.program", 1),
     componentName: "ProgramsExplorer",
+    icon: "mdi-handshake",
   },
   {
     text: i18n.t("events.eventsBoard"),
     componentName: "MyEvents",
+    icon: "mdi-calendar-heart",
   },
   {
     text: i18n.t("myActivity.students"),
     componentName: "ConsumerList",
+    icon: "mdi-account-group",
   },
   {
     text: i18n.t("posts.myFeed"),
     componentName: "CoordinatorEventFeedView",
+    icon: "mdi-comment-quote",
   },
   {
     text: i18n.t("myActivity.statistics"),
     componentName: "CoordinatorStatistics",
+    icon: "mdi-chart-areaspline",
   },
 ]
 
@@ -35,18 +41,22 @@ const consumerTabs = [
     id: "program-explorer-navbar-tab",
     text: i18n.tc("general.program", 1),
     componentName: "ConsumerProgramsExplorer",
+    icon: "mdi-handshake",
   },
   {
     text: i18n.t("myActivity.activeGroups"),
     componentName: "ConsumerMyGroups",
+    icon: "mdi-home-group",
   },
   {
     text: i18n.t("events.eventsBoard"),
     componentName: "ConsumerMyEvents",
+    icon: "mdi-calendar-heart",
   },
   {
     text: i18n.t("events.eventsFeedback"),
     componentName: "ConsumerPendingEventsFeedback",
+    icon: "mdi-file-document-edit",
   },
 ]
 
@@ -55,10 +65,12 @@ const instructorTabs = [
     id: "events-summary-navbar-tab",
     text: i18n.t("events.eventsSummary"),
     componentName: "InstructorUnsummarizedEvents",
+    icon: "mdi-file-document-edit",
   },
   {
     text: i18n.t("posts.myFeed"),
     componentName: "InstructorEventFeedView",
+    icon: "mdi-comment-quote",
   },
 ]
 
@@ -67,11 +79,13 @@ const vendorTabs = [
     id: "my-programs-navbar-tab",
     text: i18n.t("myActivity.myPrograms"),
     componentName: "VendorProgramList",
+    icon: "mdi-handshake",
   },
   {
     id: "events-approve-navbar-tab",
     text: i18n.t("events.requestsForEvents"),
     componentName: "VendorEventsApprove",
+    icon: "mdi-email-newsletter",
   },
 ]
 
