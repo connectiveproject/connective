@@ -133,7 +133,7 @@ export default {
             this.showMessage(this.$t("success.userDetailsUpdatedSuccessfully"))
           } else {
             await this.addInstructor(this.formInput)
-            this.showMessage(this.$t("success.userWasInvitedSuccessfully"))
+            this.showMessage(this.$t("success.anInvitationWasSentToTheSpecifiedEmailAddress"))
           }
           this.$emit("save", this.formInput)
           this.close()

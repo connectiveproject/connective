@@ -143,8 +143,8 @@
     "inviteInstructor": "הזמנת מדריך",
     "inviteUser": "הזמנת משתמש",
     "removeUser": "הסרת משתמש",
-    "consumersHasBeenInvitedToJoinThePlatform": "תלמידים הוזמנו להצטרף לפלטפורמה",
-    "coordinatorsHasBeenInvitedToJoinThePlatform": "אנשי סגל הוזמנו להצטרף לפלטפורמה",
+    "consumersHasBeenInvitedViaEmailToJoinThePlatform": "תלמידים הוזמנו דרך המייל להצטרף לפלטפורמה",
+    "coordinatorsHasBeenInvitedViaEmailToJoinThePlatform": "אנשי סגל הוזמנו דרך המייל להצטרף לפלטפורמה",
     "clickTheButtonBelowToInviteUsers!": "לחצו על הכפתור מטה להזמנת משתמשים!"
   },
 
@@ -226,7 +226,8 @@
     "mediaDeletedSuccessfully": "המדיה נמחקה בהצלחה",
     "programCreatedSuccessfully": "התוכנית נוצרה בהצלחה",
     "userDetailsUpdatedSuccessfully": "פרטי המשתמש עודכנו בהצלחה",
-    "userWasInvitedSuccessfully": "המשתמש הוזמן בהצלחה",
+    "anInvitationWasSentToTheSpecifiedEmailAddress": "נשלחה הזמנה לכתובת המייל המבוקשת",
+    "anInvitationWasSentToTheSpecifiedEmailAddresses": "נשלחו הזמנות לכתובות המייל שצויינו",
     "userDeletedSuccessfully": "המשתמש נמחק בהצלחה",
     "orderCreatedAndWaitingForOrganizationApproval": "ההזמנת נוצרה בהצלחה ומחכה לאישור עמותה",
     "eventSuccessfullyApproved": "האירוע/ים אושר/ו בהצלחה",

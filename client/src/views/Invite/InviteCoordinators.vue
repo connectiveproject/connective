@@ -204,7 +204,7 @@ export default {
         this.tableProps.options.page = 1
         this.getCoordinators()
         this.popupMsg = `${added.length} ${this.$t(
-          "invite.coordinatorsHasBeenInvitedToJoinThePlatform"
+          "invite.coordinatorsHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
         this.csvFile = null
       } catch (err) {
