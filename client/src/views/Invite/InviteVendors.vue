@@ -41,8 +41,10 @@
         <v-card-actions class="grey lighten-5 mt-3">
           <v-btn
             @click="addVendor"
-            class="glow-animation"
-            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
+            :class="{
+              'glow-animation': !wasInviteBtnClicked,
+              'abs-center': $vuetify.breakpoint.smAndUp,
+            }"
             v-text="$t('invite.inviteUser')"
             color="primary"
             outlined
@@ -119,6 +121,7 @@ export default {
     return {
       searchFilter: "",
       selectedRows: [],
+      wasInviteBtnClicked: false,
       tableProps: {
         items: [],
         itemKey: "email",
@@ -238,6 +241,7 @@ export default {
     },
 
     addVendor() {
+      this.wasInviteBtnClicked = true
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true
