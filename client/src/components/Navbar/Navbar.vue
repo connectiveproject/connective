@@ -23,42 +23,13 @@
         <route-tabs :tabs="tabs" color="primary" class="px-md-6" />
       </template>
     </v-toolbar>
-
-    <v-navigation-drawer
+    <navbar-drawer
       v-if="$vuetify.breakpoint.mobile"
       v-model="mobileDrawer"
-      disable-resize-watcher
-      disable-route-watcher
-      app right
-    >
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title v-text="$t('general.connective')" />
-            <v-list-item-subtitle v-text="$t('general.navigationMenu')" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-
-      <v-list nav dense>
-        <v-list-item-group
-          v-model="group"
-          active-class=""
-        >
-          <v-list-item
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="$router.push({ name: tab.componentName })"
-          >
-            <v-list-item-icon>
-              <v-icon v-text="tab.icon" color="primary" />
-            </v-list-item-icon>
-            <v-list-item-title> {{ tab.text }} </v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
+      :nav-items="tabs"
+      :title="$t('general.connective')"
+      :subtitle="$t('general.navigationMenu')"
+    />
   </div>
 </template>
 
@@ -68,9 +39,10 @@ import { BACKGROUNDS } from "../../helpers/constants/images"
 import { userToTabs, userToAccountButtons } from "./config"
 import AccountMenu from "../AccountMenu"
 import RouteTabs from "../RouteTabs"
+import NavbarDrawer from "./NavbarDrawer"
 
 export default {
-  components: { AccountMenu, RouteTabs },
+  components: { AccountMenu, RouteTabs, NavbarDrawer },
   props: {
     userType: {
       type: String,
@@ -84,7 +56,6 @@ export default {
   },
   data() {
     return {
-      group: null,
       mobileDrawer: false,
       bg: BACKGROUNDS.navbar,
       tabs: userToTabs[this.userType],
