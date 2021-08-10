@@ -41,7 +41,7 @@
             {{ $t(`gender.${item.profile.gender.toLowerCase()}`) }}
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             @click="addStudent"
             :class="{
@@ -112,11 +112,11 @@ import Modal from "../../components/Modal"
 import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
 
 export default {
+  name: "InviteConsumers",
   components: {
     Modal,
     AddStudentDialog,
   },
-
   data() {
     return {
       searchFilter: "",

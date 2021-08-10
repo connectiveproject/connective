@@ -39,7 +39,7 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             data-testid="invite-instructor-btn"
             v-text="$t('invite.inviteInstructor')"
@@ -119,7 +119,6 @@ export default {
     Modal,
     AddInstructorDialog,
   },
-
   data() {
     return {
       searchFilter: "",

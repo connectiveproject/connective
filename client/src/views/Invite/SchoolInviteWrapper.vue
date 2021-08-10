@@ -1,6 +1,6 @@
 <template>
   <div class="pa-10">
-    <route-tabs :tabs="tabs" />
+    <route-tabs :tabs="tabs" introjs="tabs" />
     <v-row>
       <v-col class="mx-auto" sm="11" lg="9">
         <router-view />
@@ -19,9 +19,12 @@
 
 <script>
 import RouteTabs from "../../components/RouteTabs"
+import introjsMixin from "../../mixins/introJs/introjsMixin"
 
 export default {
+  name: "SchoolInviteWrapper",
   components: { RouteTabs },
+  mixins: [introjsMixin],
   data() {
     return {
       tabs: [

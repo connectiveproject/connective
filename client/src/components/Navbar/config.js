@@ -111,9 +111,9 @@ const coordinatorAccountButtons = [
   },
   {
     id: "help-navbar-btn",
-    text: i18n.t("general.help"),
+    text: i18n.t("general.pageExplanation"),
     icon: "mdi-help-rhombus",
-    onClick: () => EventBus.$emit("startIntro"),
+    onClick: () => EventBus.$emit("triggerIntro"),
   },
   {
     id: "logout-navbar-btn",
@@ -131,6 +131,12 @@ const consumerAccountButtons = [
     onClick: () => Vue.$router.push({ name: "ConsumerProfile" }),
   },
   {
+    id: "help-navbar-btn",
+    text: i18n.t("general.pageExplanation"),
+    icon: "mdi-help-rhombus",
+    onClick: () => EventBus.$emit("triggerIntro"),
+  },
+  {
     id: "logout-navbar-btn",
     text: i18n.t("auth.logout"),
     icon: "mdi-export",
@@ -144,6 +150,12 @@ const instructorAccountButtons = [
     text: i18n.t("general.profile"),
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "InstructorProfile" }),
+  },
+  {
+    id: "help-navbar-btn",
+    text: i18n.t("general.pageExplanation"),
+    icon: "mdi-help-rhombus",
+    onClick: () => EventBus.$emit("triggerIntro"),
   },
   {
     id: "logout-navbar-btn",
@@ -165,6 +177,12 @@ const vendorAccountButtons = [
     text: i18n.t("invite.usersInvitation"),
     icon: "mdi-account-multiple-plus",
     onClick: () => Vue.$router.push({ name: "OrganizationInviteWrapper" }),
+  },
+  {
+    id: "help-navbar-btn",
+    text: i18n.t("general.pageExplanation"),
+    icon: "mdi-help-rhombus",
+    onClick: () => EventBus.$emit("triggerIntro"),
   },
   {
     id: "logout-navbar-btn",

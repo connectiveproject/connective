@@ -19,8 +19,9 @@
       <div class="d-flex justify-space-between flex-wrap">
         <div class="pb-7">
           <h1
+            introjs="title"
             v-text="$t('program.programsExplorer')"
-            class="introjs-title card-demo pb-6"
+            class="card-demo pb-6"
           />
           <h3
             v-text="
@@ -31,13 +32,14 @@
           />
         </div>
         <v-btn
-          class="introjs-advanced-search mx-auto mx-md-0 primary mt-10 mt-md-0"
+          introjs="advanced-search"
+          class="mx-auto mx-md-0 primary mt-10 mt-md-0"
           v-text="$t('general.advancedSearch')"
           :block="$vuetify.breakpoint.mobile"
           @click="filterDrawer = true"
         />
       </div>
-      <div class="introjs-search">
+      <div introjs="search">
         <pagination-search-bar class="search-bar mx-auto pt-6" />
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>

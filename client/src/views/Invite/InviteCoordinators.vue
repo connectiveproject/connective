@@ -37,7 +37,7 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             @click="addCoordinator"
             :class="{
@@ -107,11 +107,11 @@ import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
 
 export default {
+  name: "InviteCoordinators",
   components: {
     Modal,
     AddCoordinatorDialog,
   },
-
   data() {
     return {
       searchFilter: "",

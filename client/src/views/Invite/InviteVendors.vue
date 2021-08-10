@@ -38,7 +38,7 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             @click="addVendor"
             :class="{
