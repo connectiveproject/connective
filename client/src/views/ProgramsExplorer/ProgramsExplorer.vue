@@ -1,73 +1,67 @@
 <template>
   <div>
-    <v-row class="pt-10 ml-0">
-      <v-col
-        cols="4"
-        md="3"
-        class="right-pane white-bg"
-        :class="{ 'pr-10': !$vuetify.breakpoint.mobile }"
-      >
-        <pagination-checkbox-group
-          v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
-          :key="filter.id"
-          :name="filter.name"
-          :title="filter.readableName"
-          :items="filter.options"
-          class="checkbox-group"
-          :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
-        />
-      </v-col>
-      <v-col cols="8" md="9" :class="{ 'px-10': !$vuetify.breakpoint.mobile }">
-        <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
-        <h3
-          v-text="
-            $t(
-              'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
-            )
-          "
-        />
-        <pagination-search-bar class="search-bar mx-auto pt-16" />
-        <pagination-chip-group class="tags-selection" :chips="TAGS" />
-        <div class="text-center pt-10 overline">
-          {{ totalPrograms }} {{ $t("program.programsFound") }}
+    <v-navigation-drawer temporary right v-model="filterDrawer" fixed>
+      <pagination-checkbox-group
+        v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
+        :key="filter.id"
+        :name="filter.name"
+        :title="filter.readableName"
+        :items="filter.options"
+        class="checkbox-group"
+        :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
+      />
+    </v-navigation-drawer>
+    <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
+      <div class="d-flex justify-space-between flex-wrap">
+        <div class="pb-7">
+          <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
+          <h3
+            v-text="
+              $t(
+                'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
+              )
+            "
+          />
         </div>
-        <v-row
-          dense
-          justify="space-between"
-          class="cards-wrapper mx-auto py-10"
+        <v-btn class="mx-auto mx-md-0 primary" @click="filterDrawer = true"> סינון מתקדם</v-btn>
+      </div>
+      <pagination-search-bar class="search-bar mx-auto pt-16" />
+      <pagination-chip-group class="tags-selection" :chips="TAGS" />
+      <div class="text-center pt-10 overline">
+        {{ totalPrograms }} {{ $t("program.programsFound") }}
+      </div>
+      <v-row dense justify="space-between" class="cards-wrapper mx-auto py-10">
+        <v-col
+          cols="12"
+          sm="6"
+          lg="4"
+          class="py-10"
+          v-for="program in programsList"
+          :key="program.id"
         >
-          <v-col
-            cols="12"
-            sm="6"
-            lg="4"
-            class="py-10"
-            v-for="program in programsList"
-            :key="program.id"
+          <info-card
+            :img-url="program.logo"
+            :title="program.name"
+            :button-text="$t('program.forProgramDetails')"
+            @click="openProgram(program.slug)"
+            :secondary-button-text="
+              program.isOrdered
+                ? $t('userActions.leave')
+                : $t('userActions.join')
+            "
+            @secondary-click="onOrderClick(program)"
           >
-            <info-card
-              :img-url="program.logo"
-              :title="program.name"
-              :button-text="$t('program.forProgramDetails')"
-              @click="openProgram(program.slug)"
-              :secondary-button-text="
-                program.isOrdered
-                  ? $t('userActions.leave')
-                  : $t('userActions.join')
-              "
-              @secondary-click="onOrderClick(program)"
-            >
-              <template v-slot:subtitle>
-                <span> {{ $t("general.status") }}: </span>
-                <span :class="`${statusToColor[program.orderStatus]}--text`">
-                  {{ statusToText[program.orderStatus] }}
-                </span>
-              </template>
-              {{ program.description | trimText(70) }}
-            </info-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+            <template v-slot:subtitle>
+              <span> {{ $t("general.status") }}: </span>
+              <span :class="`${statusToColor[program.orderStatus]}--text`">
+                {{ statusToText[program.orderStatus] }}
+              </span>
+            </template>
+            {{ program.description | trimText(70) }}
+          </info-card>
+        </v-col>
+      </v-row>
+    </div>
     <router-view v-model="isProgramOpen" />
     <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
@@ -180,6 +174,7 @@ export default {
     return {
       PROGRAMS_CHECKBOX_FILTERS,
       TAGS,
+      filterDrawer: false,
       recentlyScrolled: false,
       isProgramOpen: true,
       statusToText: {
@@ -192,9 +187,7 @@ export default {
         [SERVER.programOrderStatus.pendingAdminApproval]: this.$t(
           "program.pendingAdminApproval"
         ),
-        [SERVER.programOrderStatus.notOrdered]: this.$t(
-          "program.available"
-        ),
+        [SERVER.programOrderStatus.notOrdered]: this.$t("program.available"),
       },
       statusToColor: {
         [SERVER.programOrderStatus.cancelled]: "error",
