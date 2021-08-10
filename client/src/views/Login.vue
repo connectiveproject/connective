@@ -67,7 +67,6 @@ import { ValidationObserver, ValidationProvider } from "vee-validate"
 import Modal from "../components/Modal"
 
 export default {
-  name: "Login",
   components: {
     ValidationProvider,
     ValidationObserver,

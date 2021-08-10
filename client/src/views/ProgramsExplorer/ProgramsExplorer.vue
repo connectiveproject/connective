@@ -18,7 +18,16 @@
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="d-flex justify-space-between flex-wrap">
         <div class="pb-7">
-          <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
+          <h1
+            v-text="$t('program.programsExplorer')"
+            class="pb-6"
+            :data-title="$t('חוקר התוכניות')"
+            :data-intro="
+              $t(
+                'בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית להטמעה בבית הספר'
+              )
+            "
+          />
           <h3
             v-text="
               $t(
@@ -29,13 +38,18 @@
         </div>
         <v-btn
           class="mx-auto mx-md-0 primary mt-10 mt-md-0"
-          :block="$vuetify.breakpoint.mobile"
           v-text="$t('general.advancedSearch')"
+          :data-intro="$t('ניתן לבצע סינון חכם')"
+          :block="$vuetify.breakpoint.mobile"
           @click="filterDrawer = true"
         />
       </div>
-      <pagination-search-bar class="search-bar mx-auto pt-6" />
-      <pagination-chip-group class="tags-selection" :chips="TAGS" />
+      <div
+        :data-intro="$t('ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית')"
+      >
+        <pagination-search-bar class="search-bar mx-auto pt-6" />
+        <pagination-chip-group class="tags-selection" :chips="TAGS" />
+      </div>
       <div class="text-center pt-10 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
       </div>
@@ -80,6 +94,7 @@
 import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
 import Api from "../../api"
+import introjsMixin from "../../mixins/introjsMixin"
 import InfoCard from "../../components/InfoCard"
 import SideDrawer from "../../components/SideDrawer"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
@@ -98,12 +113,11 @@ export default {
     PaginationChipGroup,
     EndOfPageDetector,
   },
-
+  mixins: [introjsMixin],
   computed: {
     ...mapState("program", ["programsList", "totalPrograms"]),
     ...mapGetters("school", ["schoolSlug"]),
   },
-
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("pagination", ["incrementPage", "updatePagination"]),
@@ -180,7 +194,6 @@ export default {
       })
     },
   },
-
   data() {
     return {
       PROGRAMS_CHECKBOX_FILTERS,
@@ -207,7 +220,6 @@ export default {
       },
     }
   },
-
   watch: {
     "$store.state.pagination": {
       // re-fetch if pagination changed

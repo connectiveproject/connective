@@ -1,4 +1,5 @@
 import Vue from "vue"
+import EventBus from "../../helpers/eventBus"
 import i18n from "../../plugins/i18n"
 import store from "../../vuex/store"
 
@@ -107,6 +108,12 @@ const coordinatorAccountButtons = [
     text: i18n.t("invite.usersInvitation"),
     icon: "mdi-account-multiple-plus",
     onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
+  },
+  {
+    id: "help-navbar-btn",
+    text: i18n.t("general.help"),
+    icon: "mdi-help-rhombus",
+    onClick: () => EventBus.$emit("startIntro"),
   },
   {
     id: "logout-navbar-btn",
