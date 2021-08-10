@@ -18,6 +18,7 @@ import RouteTabs from "../../components/RouteTabs"
 import introjsMixin from "../../mixins/introJs/introjsMixin"
 
 export default {
+  name: "OrganizationInviteWrapper",
   components: { RouteTabs },
   mixins: [introjsMixin],
   data() {

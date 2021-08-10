@@ -22,14 +22,17 @@
           <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         </div>
         <v-btn
+          introjs="advanced-search"
           class="mx-auto mx-md-0 primary mt-10 mt-md-0"
           :block="$vuetify.breakpoint.mobile"
           v-text="$t('general.advancedSearch')"
           @click="filterDrawer = true"
         />
       </div>
-      <pagination-search-bar class="search-bar mx-auto pt-6" />
-      <pagination-chip-group class="tags-selection" :chips="TAGS" />
+      <div introjs="search">
+        <pagination-search-bar class="search-bar mx-auto pt-6" />
+        <pagination-chip-group class="tags-selection" :chips="TAGS" />
+      </div>
       <div class="text-center pt-10 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
       </div>
@@ -84,8 +87,10 @@ import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
+import introjsMixin from "../../mixins/introJs/introjsMixin"
 
 export default {
+  name: "ConsumerProgramsExplorer",
   components: {
     PaginationCheckboxGroup,
     PaginationChipGroup,
@@ -94,7 +99,7 @@ export default {
     PaginationSearchBar,
     EndOfPageDetector,
   },
-
+  mixins: [introjsMixin],
   computed: {
     ...mapState("consumerProgram", ["programsList", "totalPrograms"]),
     ...mapGetters("school", ["schoolSlug"]),

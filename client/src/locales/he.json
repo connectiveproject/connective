@@ -253,6 +253,7 @@
     "maxLengthExceeded": "חריגה ממספר התווים המקסימלי",
     "tokenExpired": "פג תוקף החיבור. נא התחברו מחדש.",
     "oops": "אופס",
+    "noAvailableExplanation": "לא קיים הסבר זמין",
     "incorrectNumberOfDigits": "מספר הספרות שהוקש שגוי",
     "missingCityForID": "חסרה עיר לתעודת זהות",
     "missingColumnsOrValues": "חסרים ערכים או עמודות",

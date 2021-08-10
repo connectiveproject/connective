@@ -19,7 +19,6 @@
       <div class="d-flex justify-space-between flex-wrap">
         <div class="pb-7">
           <h1
-            introjs="title"
             v-text="$t('program.programsExplorer')"
             class="card-demo pb-6"
           />
@@ -87,7 +86,6 @@
 import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
 import Api from "../../api"
-import introjsMixin from "../../mixins/introJs/introjsMixin"
 import InfoCard from "../../components/InfoCard"
 import SideDrawer from "../../components/SideDrawer"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
@@ -96,6 +94,7 @@ import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { SERVER } from "../../helpers/constants/constants"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
+import introjsMixin from "../../mixins/introJs/introjsMixin"
 
 export default {
   name: "ProgramsExplorer",

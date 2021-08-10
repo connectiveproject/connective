@@ -11,6 +11,7 @@
       v-text="$t('events.clickAnEventToGiveFeedbackSoWeCanImproveTogether!')"
     />
     <click-list
+      introjs="click-list"
       v-if="formattedEvents.length"
       v-model="selected"
       class="my-12"
@@ -30,8 +31,12 @@
 import store from "../vuex/store"
 import moment from "moment"
 import ClickList from "../components/ClickList"
+import introjsMixin from "../mixins/introJs/introjsMixin"
+
 export default {
+  name: "ConsumerPendingEventsFeedback",
   components: { ClickList },
+  mixins: [introjsMixin],
   async beforeRouteEnter(to, from, next) {
     const events = await store.dispatch("consumerEvent/getPastEvents", 60)
     next(vm => (vm.eventsToFeedback = events.filter(e => !e.hasFeedback)))
