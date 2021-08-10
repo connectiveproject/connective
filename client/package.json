@@ -23,6 +23,7 @@
     "chartjs-plugin-datalabels": "^2.0.0-rc.1",
     "compressorjs": "^1.0.7",
     "core-js": "^3.6.5",
+    "intro.js": "^4.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
