@@ -158,7 +158,7 @@ const utils = {
     if (website.toLowerCase().startsWith("http")) {
       return website
     }
-    return `https://${website}`
+    return `http://${website}`
   },
 
   async compressImageFile(img, quality = 0.8) {

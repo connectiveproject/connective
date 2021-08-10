@@ -2,7 +2,10 @@ import csv
 import io
 import os
 
+from allauth.account.utils import url_str_to_user_pk as uid_decoder
+from dj_rest_auth.views import PasswordResetConfirmView
 from django.contrib.auth import get_user_model
+from django.utils.encoding import force_text
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
@@ -40,6 +43,21 @@ from .serializers import (
 )
 
 User = get_user_model()
+
+
+class PassResetConfirmView(PasswordResetConfirmView):
+    """
+    return the email to the client after password reset
+    """
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        # get and return the correlating email address
+        pk = force_text(uid_decoder(request.data["uid"]))
+        email = User.objects.get(pk=pk).email
+        return Response({"email": email})
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

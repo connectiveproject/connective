@@ -39,12 +39,14 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
-            class="glow-animation"
             data-testid="invite-instructor-btn"
             v-text="$t('invite.inviteInstructor')"
-            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
+            :class="{
+              'glow-animation': !wasInviteBtnClicked,
+              'abs-center': $vuetify.breakpoint.smAndUp,
+            }"
             @click="addInstructor"
             color="primary"
             outlined
@@ -117,11 +119,11 @@ export default {
     Modal,
     AddInstructorDialog,
   },
-
   data() {
     return {
       searchFilter: "",
       selectedRows: [],
+      wasInviteBtnClicked: false,
       tableProps: {
         items: [],
         itemKey: "email",
@@ -241,6 +243,7 @@ export default {
     },
 
     addInstructor() {
+      this.wasInviteBtnClicked = true
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true

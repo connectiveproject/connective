@@ -2,13 +2,13 @@
   <v-container fluid class="overline">
     <h3 v-text="title" class="pb-7" />
     <v-row class="justify-start">
-      <v-col cols="12" md="6" v-for="item in items" :key="item.id">
+      <v-col cols="6" v-for="item in items" :key="item.id">
         <v-checkbox
           v-model="selected"
           :label="item.label"
           :value="item.value"
           class="text-right my-n2"
-        ></v-checkbox>
+        />
       </v-col>
     </v-row>
   </v-container>

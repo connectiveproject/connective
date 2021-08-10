@@ -41,11 +41,13 @@
             {{ $t(`gender.${item.profile.gender.toLowerCase()}`) }}
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             @click="addStudent"
-            class="glow-animation"
-            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
+            :class="{
+              'glow-animation': !wasInviteBtnClicked,
+              'abs-center': $vuetify.breakpoint.smAndUp,
+            }"
             color="primary"
             outlined
           >
@@ -110,15 +112,16 @@ import Modal from "../../components/Modal"
 import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
 
 export default {
+  name: "InviteConsumers",
   components: {
     Modal,
     AddStudentDialog,
   },
-
   data() {
     return {
       searchFilter: "",
       selectedRows: [],
+      wasInviteBtnClicked: false,
       tableProps: {
         items: [],
         itemKey: "email",
@@ -212,7 +215,7 @@ export default {
         this.tableProps.options.page = 1
         this.getStudents()
         this.popupMsg = `${added.length} ${this.$t(
-          "invite.consumersHasBeenInvitedToJoinThePlatform"
+          "invite.consumersHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
         this.csvFile = null
       } catch (err) {
@@ -249,6 +252,7 @@ export default {
     },
 
     addStudent() {
+      this.wasInviteBtnClicked = true
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true

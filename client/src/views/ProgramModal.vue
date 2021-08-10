@@ -11,7 +11,9 @@
           />
           <title-to-text
             v-if="program.targetAudience.length"
-            :text="program.targetAudience.map(num => $t(`grades.${num}`)).join(', ')"
+            :text="
+              program.targetAudience.map(num => $t(`grades.${num}`)).join(', ')
+            "
             :title="$t('program.targetAudience')"
           />
           <title-to-text
@@ -31,14 +33,17 @@
           />
           <title-to-text
             v-if="program.domain"
-            :text="program.domain"
+            :text="
+              $t(
+                `programFilters.${Object.keys(SERVER.domains).find(
+                  key => SERVER.domains[key] === program.domain
+                )}`
+              )
+            "
             :title="$t('program.domain')"
           />
         </v-card-text>
-        <carousel
-          v-if="mediaList.length"
-          :media-list="mediaList"
-        />
+        <carousel v-if="mediaList.length" :media-list="mediaList" />
         <v-card-actions class="py-6">
           <v-btn
             large
@@ -55,6 +60,7 @@
 </template>
 
 <script>
+import { SERVER } from "../helpers/constants/constants"
 import TitleToText from "../components/TitleToText"
 import Carousel from "../components/Carousel"
 
@@ -79,6 +85,11 @@ export default {
     close() {
       this.$emit("input", false)
     },
+  },
+  data() {
+    return {
+      SERVER,
+    }
   },
 }
 </script>

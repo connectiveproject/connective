@@ -1,6 +1,6 @@
 <template>
   <div>
-    <route-tabs :tabs="tabs" />
+    <route-tabs :tabs="tabs" introjs="tabs" />
     <router-view />
     <div class="overline text-center">
       *
@@ -15,9 +15,11 @@
 
 <script>
 import RouteTabs from "../../components/RouteTabs"
+import introjsMixin from "../../mixins/introJs/introjsMixin"
 
 export default {
   components: { RouteTabs },
+  mixins: [introjsMixin],
   data() {
     return {
       tabs: [

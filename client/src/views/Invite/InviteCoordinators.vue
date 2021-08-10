@@ -37,11 +37,13 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-card-actions class="grey lighten-5 mt-3">
+        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
           <v-btn
             @click="addCoordinator"
-            class="glow-animation"
-            :class="{ 'abs-center': $vuetify.breakpoint.smAndUp }"
+            :class="{
+              'glow-animation': !wasInviteBtnClicked,
+              'abs-center': $vuetify.breakpoint.smAndUp,
+            }"
             v-text="$t('invite.inviteStaffMember')"
             color="primary"
             outlined
@@ -105,15 +107,16 @@ import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
 
 export default {
+  name: "InviteCoordinators",
   components: {
     Modal,
     AddCoordinatorDialog,
   },
-
   data() {
     return {
       searchFilter: "",
       selectedRows: [],
+      wasInviteBtnClicked: false,
       tableProps: {
         items: [],
         itemKey: "email",
@@ -201,7 +204,7 @@ export default {
         this.tableProps.options.page = 1
         this.getCoordinators()
         this.popupMsg = `${added.length} ${this.$t(
-          "invite.coordinatorsHasBeenInvitedToJoinThePlatform"
+          "invite.coordinatorsHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
         this.csvFile = null
       } catch (err) {
@@ -237,6 +240,7 @@ export default {
     },
 
     addCoordinator() {
+      this.wasInviteBtnClicked = true
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true

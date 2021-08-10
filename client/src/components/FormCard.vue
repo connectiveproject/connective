@@ -23,8 +23,21 @@
                 :error-messages="errors"
                 :value="field.value"
                 :items="field.choices"
-                @input="input => updateField(i, input)"
                 :multiple="field.multiselect"
+                :autofocus="focus && i === 0"
+                @input="input => updateField(i, input)"
+              />
+              <v-textarea
+                v-else-if="field.type && field.type === 'textarea'"
+                class="mx-2"
+                auto-grow
+                rows="1"
+                :data-testid="field.name"
+                :label="field.label"
+                :error-messages="errors"
+                :value="field.value"
+                :autofocus="focus && i === 0"
+                @input="input => updateField(i, input)"
               />
               <v-text-field
                 v-else
@@ -33,6 +46,7 @@
                 :label="field.label"
                 :error-messages="errors"
                 :value="field.value"
+                :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
               />
             </validation-provider>
@@ -63,6 +77,10 @@ export default {
     elevation: {
       type: [Number, String],
       default: 2,
+    },
+    focus: {
+      type: Boolean,
+      default: false,
     },
   },
 

@@ -1,6 +1,7 @@
 <template>
   <div>
     <form-card
+      focus
       v-model="fields"
       elevation="0"
       class="w-75 mx-auto"

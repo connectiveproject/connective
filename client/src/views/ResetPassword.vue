@@ -12,9 +12,10 @@
           <validation-provider
             v-slot="{ errors }"
             name="password"
-            rules="required|strongPass"
+            rules="required|noHebrew|noArabic|strongPass"
           >
             <v-text-field
+              autofocus
               class="mt-5"
               v-model="password"
               :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -76,6 +77,7 @@
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import debounce from "lodash/debounce"
+import Api from "../api"
 import Modal from "../components/Modal"
 
 export default {
@@ -84,7 +86,6 @@ export default {
     ValidationObserver,
     Modal,
   },
-
   props: {
     uid: {
       type: String,
@@ -107,7 +108,8 @@ export default {
   }),
 
   methods: {
-    ...mapActions("auth", ["resetPassword"]),
+    ...mapActions("auth", ["resetPassword", "login"]),
+    ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
         this.resetPassword({
@@ -122,9 +124,14 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    handleSubmitSuccess() {
-      this.modalRedirectUrl = "/"
-      this.popupMsg = this.$t("auth.registrationSucceeded") + "!"
+    handleSubmitSuccess({ email }) {
+      // login after reset pass
+      try {
+        this.showMessage(this.$t("auth.registrationSucceeded"))
+        this.login({ email, password: this.password })
+      } catch (err) {
+        this.showMessage(Api.utils.parseResponseError(err))
+      }
     },
     handleSubmitError(msg) {
       try {

@@ -16,7 +16,6 @@
           <v-list-item-avatar>
             <avatar :avatar-options="avatarOptions" />
           </v-list-item-avatar>
-
           <v-list-item-content>
             <v-list-item-title v-text="name" />
             <v-list-item-subtitle v-text="email" />
