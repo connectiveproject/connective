@@ -1,8 +1,6 @@
 <template>
   <div>
-
     <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
-    <a href='http://example.com/' data-intro='Hello step one!'>asdadsaddsa</a>
       <v-card-title
         id="letter-spacing-2"
         class="text-h4 justify-center mb-3 font-weight-bold"
@@ -63,21 +61,17 @@
   </div>
 </template>
 <script>
-import introJs from "intro.js"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import Modal from "../components/Modal"
 
 export default {
+  name: "Login",
   components: {
     ValidationProvider,
     ValidationObserver,
     Modal,
-  },
-
-  mounted() {
-    introJs().start()
   },
 
   data: () => ({

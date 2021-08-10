@@ -6,14 +6,16 @@ import vuetify from "./plugins/vuetify"
 import i18n from "./plugins/i18n"
 import cookies from "./plugins/cookies"
 import Api from "./api"
+import introjsMixin from "./mixins/introJs/introjsMixin"
 import "./helpers/validators"
 import "intro.js/introjs.css"
 import "nprogress/nprogress.css"
 import "./styles/main.scss"
 import "./filters"
 
-Vue.config.productionTip = false
 Vue.use(cookies)
+Vue.mixin(introjsMixin)
+Vue.config.productionTip = false
 Api.config.initAxiosSettings()
 
 new Vue({
