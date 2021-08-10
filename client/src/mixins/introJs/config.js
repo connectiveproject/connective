@@ -1,3 +1,5 @@
+import i18n from "../../plugins/i18n"
+
 export default {
   noIntroMsg: [
     {
@@ -5,19 +7,22 @@ export default {
       intro: "No helper here.... 👋",
     },
   ],
-  Login: [
+  ProgramsExplorer: [
     {
-      title: "Welcome",
-      intro: "Hello World! 👋",
+      title: i18n.t("חוקר התוכניות"),
+      intro: i18n.t(
+        "בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית להטמעה בבית הספר"
+      ),
     },
     {
-      element: document.querySelector(".card-demo"),
-      intro: "This step focuses on an image",
+      title: "סינון",
+      element: document.querySelector(".introjs-advanced-search"),
+      intro: i18n.t("ניתן לבצע סינון חכם"),
     },
     {
-      title: "Farewell!",
-      element: document.querySelector(".card__image"),
-      intro: "And this is our final step!",
+      title: "חיפוש",
+      element: document.querySelector(".introjs-search"),
+      intro: i18n.t("ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית"),
     },
   ],
 }

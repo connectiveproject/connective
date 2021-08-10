@@ -1,15 +1,17 @@
 import EventBus from "../../helpers/eventBus"
 import introJs from "intro.js"
-import Config from "./config"
 
 export default {
   mounted() {
-    const componentName = this.$options.name
-    EventBus.$on("startIntro", () => {
-      if (Config[componentName]) {
-        return introJs().setOptions({ steps: Config[componentName] }).start()
+    EventBus.$on("startIntro", async () => {
+      const configModule = await import("./config")
+      const componentSteps = configModule.default[this.$options.name]
+      if (componentSteps) {
+        return introJs().setOptions({ steps: componentSteps }).start()
       }
-      return introJs().setOptions({ steps: "noIntroMsg" }).start()
+      return introJs()
+        .setOptions({ steps: configModule.default.noIntroMsg })
+        .start()
     })
   },
   methods: {

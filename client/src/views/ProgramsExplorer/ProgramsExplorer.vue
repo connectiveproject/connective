@@ -20,13 +20,7 @@
         <div class="pb-7">
           <h1
             v-text="$t('program.programsExplorer')"
-            class="pb-6"
-            :data-title="$t('חוקר התוכניות')"
-            :data-intro="
-              $t(
-                'בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית להטמעה בבית הספר'
-              )
-            "
+            class="introjs-title card-demo pb-6"
           />
           <h3
             v-text="
@@ -37,16 +31,13 @@
           />
         </div>
         <v-btn
-          class="mx-auto mx-md-0 primary mt-10 mt-md-0"
+          class="introjs-advanced-search mx-auto mx-md-0 primary mt-10 mt-md-0"
           v-text="$t('general.advancedSearch')"
-          :data-intro="$t('ניתן לבצע סינון חכם')"
           :block="$vuetify.breakpoint.mobile"
           @click="filterDrawer = true"
         />
       </div>
-      <div
-        :data-intro="$t('ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית')"
-      >
+      <div class="introjs-search">
         <pagination-search-bar class="search-bar mx-auto pt-6" />
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
@@ -94,7 +85,7 @@
 import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
 import Api from "../../api"
-import introjsMixin from "../../mixins/introjsMixin"
+import introjsMixin from "../../mixins/introJs/introjsMixin"
 import InfoCard from "../../components/InfoCard"
 import SideDrawer from "../../components/SideDrawer"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
@@ -105,6 +96,7 @@ import { SERVER } from "../../helpers/constants/constants"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 
 export default {
+  name: "ProgramsExplorer",
   components: {
     InfoCard,
     SideDrawer,
