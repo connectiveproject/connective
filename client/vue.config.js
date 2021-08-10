@@ -5,6 +5,9 @@ function createBackendUrl() {
     }
     return "http://localhost:8000/api"
   }
+  if (process.env.NODE_ENV === "sandbox") {
+    return "https://young-fortress-53072.herokuapp.com/api"
+  }
   return "https://calm-hamlet-63949.herokuapp.com/api"
 }
 
