@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-navigation-drawer temporary right v-model="filterDrawer" fixed>
+    <side-drawer
+      v-model="filterDrawer"
+      :title="$t('filter.programsFiltering')"
+      :subtitle="$t('filter.clickToFilter')"
+    >
       <pagination-checkbox-group
         v-for="filter in PROGRAMS_CHECKBOX_FILTERS"
         :key="filter.id"
@@ -10,7 +14,7 @@
         class="checkbox-group"
         :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
       />
-    </v-navigation-drawer>
+    </side-drawer>
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="d-flex justify-space-between flex-wrap">
         <div class="pb-7">
@@ -24,12 +28,13 @@
           />
         </div>
         <v-btn
-          class="mx-auto mx-md-0 primary"
-          @click="filterDrawer = true"
+          class="mx-auto mx-md-0 primary mt-10 mt-md-0"
+          :block="$vuetify.breakpoint.mobile"
           v-text="$t('general.advancedSearch')"
+          @click="filterDrawer = true"
         />
       </div>
-      <pagination-search-bar class="search-bar mx-auto pt-16" />
+      <pagination-search-bar class="search-bar mx-auto pt-6" />
       <pagination-chip-group class="tags-selection" :chips="TAGS" />
       <div class="text-center pt-10 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -76,6 +81,7 @@ import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
 import Api from "../../api"
 import InfoCard from "../../components/InfoCard"
+import SideDrawer from "../../components/SideDrawer"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
 import PaginationChipGroup from "../../components/PaginationChipGroup"
@@ -86,6 +92,7 @@ import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 export default {
   components: {
     InfoCard,
+    SideDrawer,
     PaginationCheckboxGroup,
     PaginationSearchBar,
     PaginationChipGroup,

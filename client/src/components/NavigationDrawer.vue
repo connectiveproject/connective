@@ -1,22 +1,11 @@
 <template>
-  <v-navigation-drawer
+  <side-drawer
+    v-bind="$attrs"
+    :title="title"
+    :subtitle="subtitle"
     :value="value"
     @input="$emit('input', $event)"
-    disable-resize-watcher
-    disable-route-watcher
-    app
-    right
   >
-    <v-list>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title v-text="title" />
-          <v-list-item-subtitle v-text="subtitle" />
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <v-divider />
-
     <v-list nav dense>
       <v-list-item-group>
         <v-list-item
@@ -32,11 +21,15 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </v-navigation-drawer>
+  </side-drawer>
 </template>
 
 <script>
+import SideDrawer from "./SideDrawer"
+
 export default {
+  inheritAttrs: false,
+  components: { SideDrawer },
   props: {
     value: {
       type: Boolean,
@@ -53,7 +46,7 @@ export default {
     },
     subtitle: {
       type: String,
-      required: true,
+      default: "",
     },
   },
 }

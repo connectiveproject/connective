@@ -536,5 +536,9 @@
     "PastelYellow": "צהוב פסטל",
     "Pink": "ורוד",
     "White": "לבן"
+  },
+  "filter": {
+    "programsFiltering": "סינון תוכניות",
+    "clickToFilter": "לחצו לביצוע סינון"
   }
 }

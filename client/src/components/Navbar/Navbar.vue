@@ -23,12 +23,14 @@
         <route-tabs :tabs="tabs" color="primary" class="px-md-6" />
       </template>
     </v-toolbar>
-    <navbar-drawer
+    <navigation-drawer
       v-if="$vuetify.breakpoint.mobile"
       v-model="mobileDrawer"
       :nav-items="tabs"
       :title="$t('general.connective')"
       :subtitle="$t('general.navigationMenu')"
+      disable-resize-watcher
+      disable-route-watcher
     />
   </div>
 </template>
@@ -39,10 +41,10 @@ import { BACKGROUNDS } from "../../helpers/constants/images"
 import { userToTabs, userToAccountButtons } from "./config"
 import AccountMenu from "../AccountMenu"
 import RouteTabs from "../RouteTabs"
-import NavbarDrawer from "./NavbarDrawer"
+import NavigationDrawer from "../NavigationDrawer"
 
 export default {
-  components: { AccountMenu, RouteTabs, NavbarDrawer },
+  components: { AccountMenu, RouteTabs, NavigationDrawer },
   props: {
     userType: {
       type: String,
