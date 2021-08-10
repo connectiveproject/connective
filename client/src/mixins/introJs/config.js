@@ -1,4 +1,10 @@
 export default {
+  noIntroMsg: [
+    {
+      title: "Sorry!",
+      intro: "No helper here.... 👋",
+    },
+  ],
   Login: [
     {
       title: "Welcome",
