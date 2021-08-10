@@ -23,7 +23,11 @@
             "
           />
         </div>
-        <v-btn class="mx-auto mx-md-0 primary" @click="filterDrawer = true"> סינון מתקדם</v-btn>
+        <v-btn
+          class="mx-auto mx-md-0 primary"
+          @click="filterDrawer = true"
+          v-text="$t('general.advancedSearch')"
+        />
       </div>
       <pagination-search-bar class="search-bar mx-auto pt-16" />
       <pagination-chip-group class="tags-selection" :chips="TAGS" />
