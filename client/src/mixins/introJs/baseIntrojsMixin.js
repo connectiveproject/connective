@@ -5,31 +5,11 @@ steps to adding introjs to example.vue file:
 3. add the introjs attribute value to ./config file
 */
 import introJs from "intro.js"
-import { mapActions } from "vuex"
 import { config, buttonLabels } from "./config"
 
 export default {
-  mounted() {
-    this.incrementSubscription()
-    this.unsubscribeIntrojs = this.$store.subscribeAction(action => {
-      if (action.type === "introjs/triggerIntro") {
-        this.startIntro()
-      }
-    })
-  },
-  beforeDestroy() {
-    this.decrementSubscription()
-    this.unsubscribeIntrojs()
-  },
-  data() {
-    return { unsubscribeIntrojs: null }
-  },
   methods: {
-    ...mapActions("introjs", [
-      "incrementSubscription",
-      "decrementSubscription",
-    ]),
-    async startIntro() {
+    startIntro() {
       if (config[this.$options.name]) {
         const componentSteps = this.componentconfigToSteps(
           config[this.$options.name]
@@ -37,6 +17,8 @@ export default {
         return introJs()
           .setOptions({
             ...buttonLabels,
+            showProgress: true,
+            showBullets: false,
             steps: componentSteps,
           })
           .start()

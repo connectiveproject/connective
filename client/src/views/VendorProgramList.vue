@@ -65,14 +65,14 @@ import { mapState } from "vuex"
 import camelCase from "lodash/camelCase"
 import store from "../vuex/store"
 import InfoCard from "../components/InfoCard"
-import introjsMixin from "../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "VendorProgramList",
   components: {
     InfoCard,
   },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorProgram/getProgramList")
     next()

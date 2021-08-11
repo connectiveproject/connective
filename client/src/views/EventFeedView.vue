@@ -27,12 +27,12 @@ import store from "../vuex/store"
 import Utils from "../helpers/utils"
 import Post from "../components/Post"
 import EndOfPageDetector from "../components/EndOfPageDetector"
-import introjsMixin from "../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "EventFeedView",
   components: { Post, EndOfPageDetector },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     const posts = await store.dispatch("eventFeedPost/getFeedPosts")
     next(vm => (vm.posts = posts))

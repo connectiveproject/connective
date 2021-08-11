@@ -87,7 +87,7 @@ import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationChipGroup from "../../components/PaginationChipGroup"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
-import introjsMixin from "../../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "ConsumerProgramsExplorer",
@@ -99,7 +99,7 @@ export default {
     PaginationSearchBar,
     EndOfPageDetector,
   },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   computed: {
     ...mapState("consumerProgram", ["programsList", "totalPrograms"]),
     ...mapGetters("school", ["schoolSlug"]),

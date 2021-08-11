@@ -15,12 +15,12 @@
 
 <script>
 import RouteTabs from "../../components/RouteTabs"
-import introjsMixin from "../../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "OrganizationInviteWrapper",
   components: { RouteTabs },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   data() {
     return {
       tabs: [

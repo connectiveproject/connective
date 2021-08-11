@@ -78,7 +78,7 @@ import EndOfPageDetector from "../../components/EndOfPageDetector"
 import InfoCard from "../../components/InfoCard"
 import TitleToText from "../../components/TitleToText.vue"
 import { SERVER } from "../../helpers/constants/constants"
-import introjsMixin from "../../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "MyGroups",
@@ -87,7 +87,7 @@ export default {
     InfoCard,
     TitleToText,
   },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
     await store.dispatch("programGroup/getGroupList", {

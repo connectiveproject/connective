@@ -12,6 +12,86 @@ export const config = {
       intro: "No helper here.... 👋",
     },
   ],
+  VendorDashboard: [
+    {
+      title: i18n.t("ברוכים הבאים!"),
+      intro: i18n.t(
+        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו לשווק את התוכניות שברשותכם, להתחיל שיתופי פעולה עם בתי ספר ועוד."
+      ),
+    },
+    {
+      title: i18n.t("אווטר"),
+      selector: "navbar-account-menu",
+      intro: i18n.t(
+        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+      ),
+    },
+    {
+      title: i18n.t("ניווט"),
+      selector: "navigation",
+      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+    },
+  ],
+  CoordinatorDashboard: [
+    {
+      title: i18n.t("ברוכים הבאים!"),
+      intro: i18n.t(
+        "ברוכים הבאים לקונקטיב! באמצעות הפלטפורמה תוכלו להטמיע תוכניות חדשות בבית הספר, לעקוב אחר הקבוצות והמפגשים ועוד."
+      ),
+    },
+    {
+      title: i18n.t("אווטר"),
+      selector: "navbar-account-menu",
+      intro: i18n.t(
+        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+      ),
+    },
+    {
+      title: i18n.t("ניווט"),
+      selector: "navigation",
+      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+    },
+  ],
+  ConsumerDashboard: [
+    {
+      title: i18n.t("ברוכים הבאים!"),
+      intro: i18n.t(
+        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו להצטרף לתוכניות הפועלות בבית הספר, לראות חדשות ועדכונים ועוד!"
+      ),
+    },
+    {
+      title: i18n.t("אווטר"),
+      selector: "navbar-account-menu",
+      intro: i18n.t(
+        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+      ),
+    },
+    {
+      title: i18n.t("ניווט"),
+      selector: "navigation",
+      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+    },
+  ],
+  InstructorDashboard: [
+    {
+      title: i18n.t("ברוכים הבאים!"),
+      intro: i18n.t(
+        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו לעקוב אחר מצב התלמידים בפעילויות השונות, לסכם את השיעורים ועוד."
+      ),
+    },
+    {
+      title: i18n.t("אווטר"),
+      selector: "navbar-account-menu",
+      intro: i18n.t(
+        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+      ),
+    },
+    {
+      title: i18n.t("ניווט"),
+      selector: "navigation",
+      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+    },
+  ],
   VendorProgramList: [
     {
       title: i18n.t("התוכניות שלי"),
@@ -186,11 +266,15 @@ export const config = {
   MyGroups: [
     {
       title: i18n.t("הקבוצות שלי"),
-      intro: i18n.t("בחלק זה ניתן לצפות בקבוצות הפועלות בבית הספר. תחת כל פעילות עשויות להתקיים מספר קבוצות במקביל. לדוגמה - תוכנית מצויינות עם קבוצות גיל שונות."),
+      intro: i18n.t(
+        "בחלק זה ניתן לצפות בקבוצות הפועלות בבית הספר. תחת כל פעילות עשויות להתקיים מספר קבוצות במקביל. לדוגמה - תוכנית מצויינות עם קבוצות גיל שונות."
+      ),
     },
     {
       title: i18n.t("הקבוצות שלי"),
-      intro: i18n.t("בלחיצה על כפתור זה ניתן לייצר קבוצות חדשות תחת פעילויות שאושרו לבית הספר."),
+      intro: i18n.t(
+        "בלחיצה על כפתור זה ניתן לייצר קבוצות חדשות תחת פעילויות שאושרו לבית הספר."
+      ),
       selector: "add-btn",
     },
   ],

@@ -192,7 +192,7 @@ import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
 import VTribute from "../components/VTribute"
 import TitleToText from "../components/TitleToText"
 import Modal from "../components/Modal"
-import introjsMixin from "../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "InstructorEventSummary",
@@ -203,7 +203,7 @@ export default {
     Modal,
     VTribute,
   },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   props: {
     slug: {
       type: String,

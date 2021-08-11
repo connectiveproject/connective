@@ -31,12 +31,12 @@
 import store from "../vuex/store"
 import moment from "moment"
 import ClickList from "../components/ClickList"
-import introjsMixin from "../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "ConsumerPendingEventsFeedback",
   components: { ClickList },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     const events = await store.dispatch("consumerEvent/getPastEvents", 60)
     next(vm => (vm.eventsToFeedback = events.filter(e => !e.hasFeedback)))

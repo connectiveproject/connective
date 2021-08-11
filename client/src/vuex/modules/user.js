@@ -7,6 +7,7 @@ function getDefaultState() {
       slug: null,
       name: null,
       email: null,
+      isSignupComplete: null,
       // e.g., COORDINATOR
       userType: null,
     },

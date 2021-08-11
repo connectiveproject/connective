@@ -43,7 +43,7 @@ import { ValidationObserver } from "vee-validate"
 import Modal from "../../components/Modal"
 import InputDrawer from "../../components/InputDrawer"
 import EditableAvatar from "../../components/Avatar/EditableAvatar"
-import introjsMixin from "../../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "VendorProfile",
@@ -53,7 +53,7 @@ export default {
     InputDrawer,
     EditableAvatar,
   },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     try {
       // fetch profile data before load

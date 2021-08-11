@@ -31,12 +31,12 @@ import store from "../vuex/store"
 import moment from "moment"
 import { mapState } from "vuex"
 import ClickList from "../components/ClickList"
-import introjsMixin from "../mixins/introJs/introjsMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "InstructorUnsummarizedEvents",
   components: { ClickList },
-  mixins: [introjsMixin],
+  mixins: [introjsSubscribeMixin],
   data() {
     return {
       selected: [],
