@@ -39,6 +39,7 @@ class TestUserViewSet:
             "name": user.name,
             "url": f"http://testserver/api/users/{user.username}/",
             "user_type": user.user_type,
+            "is_signup_complete": False,
         }
 
 
