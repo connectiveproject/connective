@@ -272,7 +272,8 @@
     "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה",
     "nameNotFound": "השם לא נמצא",
     "hebrewLettersAreNotAllowed": "אין להקליד אותיות בעברית",
-    "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית"
+    "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית",
+    "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה"
   },
 
   "myActivity": {

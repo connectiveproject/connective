@@ -1,5 +1,4 @@
 import Vue from "vue"
-import EventBus from "../../helpers/eventBus"
 import i18n from "../../plugins/i18n"
 import store from "../../vuex/store"
 
@@ -113,7 +112,7 @@ const coordinatorAccountButtons = [
     id: "help-navbar-btn",
     text: i18n.t("general.pageExplanation"),
     icon: "mdi-help-rhombus",
-    onClick: () => EventBus.$emit("triggerIntro"),
+    onClick: () => store.dispatch("introjs/triggerIntro"),
   },
   {
     id: "logout-navbar-btn",
@@ -134,7 +133,7 @@ const consumerAccountButtons = [
     id: "help-navbar-btn",
     text: i18n.t("general.pageExplanation"),
     icon: "mdi-help-rhombus",
-    onClick: () => EventBus.$emit("triggerIntro"),
+    onClick: () => store.dispatch("introjs/triggerIntro"),
   },
   {
     id: "logout-navbar-btn",
@@ -155,7 +154,7 @@ const instructorAccountButtons = [
     id: "help-navbar-btn",
     text: i18n.t("general.pageExplanation"),
     icon: "mdi-help-rhombus",
-    onClick: () => EventBus.$emit("triggerIntro"),
+    onClick: () => store.dispatch("introjs/triggerIntro"),
   },
   {
     id: "logout-navbar-btn",
@@ -182,7 +181,7 @@ const vendorAccountButtons = [
     id: "help-navbar-btn",
     text: i18n.t("general.pageExplanation"),
     icon: "mdi-help-rhombus",
-    onClick: () => EventBus.$emit("triggerIntro"),
+    onClick: () => store.dispatch("introjs/triggerIntro"),
   },
   {
     id: "logout-navbar-btn",

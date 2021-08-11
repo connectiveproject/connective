@@ -4,21 +4,31 @@ steps to adding introjs to example.vue file:
 2. add introjs attributes to elements in example.vue (e.g., <div introjs="example-attr"></div> )
 3. add the introjs attribute value to ./config file
 */
-import { config, buttonLabels } from "./config"
-import EventBus from "../../helpers/eventBus"
 import introJs from "intro.js"
+import { mapActions } from "vuex"
+import { config, buttonLabels } from "./config"
 
 export default {
   mounted() {
-    EventBus.$on("triggerIntro", this.startIntro)
+    this.incrementSubscription()
+    this.unsubscribeIntrojs = this.$store.subscribeAction(action => {
+      if (action.type === "introjs/triggerIntro") {
+        this.startIntro()
+      }
+    })
   },
   beforeDestroy() {
-    EventBus.$off("triggerIntro")
+    this.decrementSubscription()
+    this.unsubscribeIntrojs()
+  },
+  data() {
+    return { unsubscribeIntrojs: null }
   },
   methods: {
-    triggerIntro() {
-      EventBus.$emit("triggerIntro")
-    },
+    ...mapActions("introjs", [
+      "incrementSubscription",
+      "decrementSubscription",
+    ]),
     async startIntro() {
       if (config[this.$options.name]) {
         const componentSteps = this.componentconfigToSteps(

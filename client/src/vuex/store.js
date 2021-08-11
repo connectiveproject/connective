@@ -14,6 +14,7 @@ import vendorProgram from "./modules/vendorProgram"
 import pagination from "./modules/pagination"
 import loading from "./modules/loading"
 import snackbar from "./modules/snackbar"
+import introjs from "./modules/introjs"
 import programGroup from "./modules/programGroup"
 import consumerProgramGroup from "./modules/consumerProgramGroup"
 import instructorProgramGroup from "./modules/instructorProgramGroup"
@@ -40,6 +41,7 @@ const store = new Vuex.Store({
     vendorProgram,
     loading,
     snackbar,
+    introjs,
     pagination,
     programGroup,
     consumerProgramGroup,
@@ -55,7 +57,7 @@ const store = new Vuex.Store({
       // flush all modules
       const modules = Object.getOwnPropertyNames(this._modulesNamespaceMap)
       for (const m of modules) {
-        if (!["loading/", "snackbar/"].includes(m)) {
+        if (!["loading/", "snackbar/", "introjs/"].includes(m)) {
           dispatch(`${m}flushState`)
         }
       }
