@@ -10,6 +10,7 @@
       class="pb-12"
     />
     <actions-table
+      introjs="actions-table"
       class="mb-10"
       :headers="headers"
       :items="readableEventOrders"
@@ -48,9 +49,12 @@ import { SERVER } from "../helpers/constants/constants"
 import ActionsTable from "../components/ActionsTable"
 import ModalApprove from "../components/ModalApprove"
 import FormDialog from "../components/FormDialog"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "VendorEventsApprove",
   components: { ActionsTable, ModalApprove, FormDialog },
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorEvent/getEventOrders")
     next()

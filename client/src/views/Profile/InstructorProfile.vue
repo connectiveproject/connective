@@ -23,13 +23,15 @@
 import TitleToText from "../../components/TitleToText"
 import EditableAvatar from "../../components/Avatar/EditableAvatar"
 import { mapActions } from "vuex"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "InstructorProfile",
   components: {
     TitleToText,
     EditableAvatar,
   },
-
+  mixins: [introjsSubscribeMixin],
   async mounted() {
     // get user details
     const [userDetails, userProfile] = await Promise.all([

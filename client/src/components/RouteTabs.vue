@@ -1,6 +1,7 @@
 <template>
   <v-tabs :color="color" class="pb-10">
     <v-tab
+      introjs="navigation"
       v-for="tab in tabs"
       :key="tab.id"
       :to="{ name: tab.componentName }"

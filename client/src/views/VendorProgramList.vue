@@ -10,6 +10,7 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-btn
+          introjs="program-create-btn"
           data-testid="program-create-btn"
           tile
           large
@@ -64,11 +65,14 @@ import { mapState } from "vuex"
 import camelCase from "lodash/camelCase"
 import store from "../vuex/store"
 import InfoCard from "../components/InfoCard"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "VendorProgramList",
   components: {
     InfoCard,
   },
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorProgram/getProgramList")
     next()

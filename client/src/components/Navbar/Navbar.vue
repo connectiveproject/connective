@@ -3,6 +3,7 @@
     <v-toolbar dark prominent :src="bg">
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.mobile"
+        introjs="navigation"
         @click="mobileDrawer = true"
       />
       <v-toolbar-title
@@ -11,7 +12,7 @@
         v-text="$t('general.connective')"
       />
       <v-spacer />
-      <div class="px-md-6 align-self-center">
+      <div class="px-md-6 align-self-center" introjs="navbar-account-menu">
         <account-menu
           :avatar-options="profile.profilePicture"
           :name="userDetails.name"
@@ -20,7 +21,11 @@
         />
       </div>
       <template v-if="!$vuetify.breakpoint.mobile" v-slot:extension>
-        <route-tabs :tabs="tabs" color="primary" class="px-md-6" />
+        <route-tabs
+          :tabs="tabs"
+          color="primary"
+          class="px-6"
+        />
       </template>
     </v-toolbar>
     <navigation-drawer

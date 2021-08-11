@@ -36,7 +36,7 @@
       class="mt-16 form"
       @submit.prevent="onSubmit"
     >
-      <v-card style="background: #feece5">
+      <v-card introjs="confidential" style="background: #feece5">
         <v-row no-gutters style="padding: 30px">
           <v-col>
             <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
@@ -54,7 +54,11 @@
                 class="my-6"
                 persistent-hint
                 :hint="$t('events.use@toTagStudents')"
-                :label="$t('events.summaryGeneralNotes-unusualEventsStudentsBehaviorEtc')"
+                :label="
+                  $t(
+                    'events.summaryGeneralNotes-unusualEventsStudentsBehaviorEtc'
+                  )
+                "
               >
               </v-textarea>
             </v-tribute>
@@ -98,7 +102,7 @@
         v-model="addPost"
         :label="$t('userActions.addPublicPost')"
       />
-      <v-card elevation="0" v-if="addPost">
+      <v-card introjs="public" elevation="0" v-if="addPost">
         <v-card-title class="px-0" v-text="$t('userActions.addPost')" />
         <v-card-subtitle
           class="px-0"
@@ -188,8 +192,10 @@ import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
 import VTribute from "../components/VTribute"
 import TitleToText from "../components/TitleToText"
 import Modal from "../components/Modal"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "InstructorEventSummary",
   components: {
     ValidationObserver,
     ValidationProvider,
@@ -197,6 +203,7 @@ export default {
     Modal,
     VTribute,
   },
+  mixins: [introjsSubscribeMixin],
   props: {
     slug: {
       type: String,

@@ -14,6 +14,7 @@
       v-text="$t('events.clickAnEventToSummarizeIt')"
     />
     <click-list
+      introjs="click-list"
       v-if="formattedEvents.length"
       v-model="selected"
       class="my-12"
@@ -30,8 +31,12 @@ import store from "../vuex/store"
 import moment from "moment"
 import { mapState } from "vuex"
 import ClickList from "../components/ClickList"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+
 export default {
+  name: "InstructorUnsummarizedEvents",
   components: { ClickList },
+  mixins: [introjsSubscribeMixin],
   data() {
     return {
       selected: [],

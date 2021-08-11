@@ -7,6 +7,7 @@
     />
     <actions-calendar
       v-model="value"
+      introjs="events-calendar"
       first-interval="5"
       interval-count="19"
       :displayType.sync="chosenDisplayType"
@@ -36,12 +37,15 @@ import moment from "moment"
 import ActionsCalendar from "../../components/ActionsCalendar"
 import DetailModal from "../../components/DetailModal"
 import Utils from "../../helpers/utils"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "ConsumerMyEvents",
   components: {
     DetailModal,
     ActionsCalendar,
   },
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("consumerEvent/getEventList", {
       benchmarkDate: moment(),

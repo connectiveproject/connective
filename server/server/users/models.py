@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import CharField, EmailField, TextChoices
+from django.db.models import BooleanField, CharField, EmailField, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -32,6 +32,7 @@ class User(AbstractUser):
     email = EmailField(unique=True)
     username = CharField(max_length=40, default=random_slug, unique=True)
     slug = CharField(max_length=40, default=random_slug, unique=True)
+    is_signup_complete = BooleanField(default=False)
 
     def get_absolute_url(self):
         """Get url for user's detail view.

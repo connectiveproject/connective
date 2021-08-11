@@ -253,6 +253,7 @@
     "maxLengthExceeded": "חריגה ממספר התווים המקסימלי",
     "tokenExpired": "פג תוקף החיבור. נא התחברו מחדש.",
     "oops": "אופס",
+    "noAvailableExplanation": "לא קיים הסבר זמין",
     "incorrectNumberOfDigits": "מספר הספרות שהוקש שגוי",
     "missingCityForID": "חסרה עיר לתעודת זהות",
     "missingColumnsOrValues": "חסרים ערכים או עמודות",
@@ -271,7 +272,8 @@
     "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה",
     "nameNotFound": "השם לא נמצא",
     "hebrewLettersAreNotAllowed": "אין להקליד אותיות בעברית",
-    "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית"
+    "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית",
+    "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה"
   },
 
   "myActivity": {

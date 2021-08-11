@@ -10,10 +10,11 @@
 </template>
 <script>
 import Navbar from "../components/Navbar/Navbar"
+import introjsFirstTimeTourMixin from "../mixins/introJs/introjsFirstTimeTourMixin"
 
 export default {
-  components: {
-    Navbar,
-  },
+  name: "VendorDashboard",
+  components: { Navbar },
+  mixins: [introjsFirstTimeTourMixin],
 }
 </script>

@@ -7,9 +7,12 @@
 <script>
 import { BACKGROUNDS } from "../helpers/constants/images"
 import Navbar from "../components/Navbar/Navbar"
+import introjsFirstTimeTourMixin from "../mixins/introJs/introjsFirstTimeTourMixin"
 
 export default {
+  name: "CoordinatorDashboard",
   components: { Navbar },
+  mixins: [introjsFirstTimeTourMixin],
   data() {
     return {
       style: {

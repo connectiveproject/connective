@@ -14,6 +14,7 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-btn
+          introjs="add-btn"
           tile
           large
           class="d-block mx-auto"
@@ -77,13 +78,16 @@ import EndOfPageDetector from "../../components/EndOfPageDetector"
 import InfoCard from "../../components/InfoCard"
 import TitleToText from "../../components/TitleToText.vue"
 import { SERVER } from "../../helpers/constants/constants"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
+  name: "MyGroups",
   components: {
     EndOfPageDetector,
     InfoCard,
     TitleToText,
   },
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
     await store.dispatch("programGroup/getGroupList", {
