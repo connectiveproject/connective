@@ -2,7 +2,7 @@
   <v-card
     class="my-15 mx-auto px-16 py-10"
     max-width="800"
-    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    :elevation="$vuetify.breakpoint.xs ? 0 : 3"
   >
     <v-card-title v-text="$t('events.eventFeedback')" class="px-0" />
     <v-card-subtitle v-text="event.activityName" class="px-0 pt-3 pb-10" />

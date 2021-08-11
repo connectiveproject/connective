@@ -11,7 +11,7 @@
       :label="bubbleChartLabel"
     />
     <doughnut
-      style="width: 450px;"
+      :style="$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 450px;'"
       class="mx-auto my-10"
       :data="doughnutChartData"
       :labels="doughnutChartLabels"

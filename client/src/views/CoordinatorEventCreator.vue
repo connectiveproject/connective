@@ -1,12 +1,12 @@
 <template>
-  <v-row class="pa-16" justify="space-around" align="center" no-gutters>
-    <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.mobile }">
+  <v-row class="pa-5 pa-sm-10 pa-md-16" justify="space-around" align="center" no-gutters>
+    <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.xs }">
       <h1 class="pb-8" v-text="$t('events.eventsCreation')" />
       <validation-observer
         tag="form"
         v-slot="{ invalid }"
         @submit.prevent="onSubmit"
-        :class="{ 'w-85': !$vuetify.breakpoint.mobile }"
+        :class="{ 'w-85': !$vuetify.breakpoint.xs }"
       >
         <radio-group
           class="pa-0"
@@ -69,7 +69,7 @@
         />
       </validation-observer>
     </v-col>
-    <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.mobile">
+    <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.xs">
       <v-img style="border-radius: 10px" :src="img" />
     </v-col>
   </v-row>

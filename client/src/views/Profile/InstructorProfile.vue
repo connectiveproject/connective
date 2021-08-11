@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="wrapper mt-15 mx-auto px-10 py-10"
-    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    :elevation="$vuetify.breakpoint.xs ? 0 : 3"
     v-if="userAttributes"
   >
     <h1 class="mb-10">{{ $t("general.myProfile") }}</h1>

@@ -47,7 +47,12 @@ export default {
 .calendar::v-deep {
   .v-calendar-daily__head {
     margin-right: 0 !important;
+    .v-calendar-daily_head-day .v-calendar-daily_head-day-label button {
+      margin-right: -14px;
+      margin-left: -14px;
+    }
   }
+
   .v-calendar-daily__scroll-area {
     overflow-y: unset;
   }

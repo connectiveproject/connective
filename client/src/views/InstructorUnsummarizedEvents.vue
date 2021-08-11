@@ -2,8 +2,8 @@
   <v-card
     class="my-15 mx-auto px-sm-10 py-sm-10"
     max-width="1000"
-    :min-height="$vuetify.breakpoint.mobile ? 350 : 500"
-    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    :min-height="$vuetify.breakpoint.xs ? 350 : 500"
+    :elevation="$vuetify.breakpoint.xs ? 0 : 3"
   >
     <v-card-title
       class="text-sm-h4"

@@ -15,7 +15,7 @@
       <v-btn
         tile
         large
-        :class="{ 'd-block mx-auto': $vuetify.breakpoint.mobile }"
+        :class="{ 'd-block mx-auto': $vuetify.breakpoint.xs }"
         color="success"
         @click="$router.push({ name: 'CoordinatorEventCreator' })"
       >

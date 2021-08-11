@@ -2,7 +2,7 @@
   <v-card
     class="my-md-15 mx-auto px-4 px-md-16 py-10"
     max-width="800"
-    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    :elevation="$vuetify.breakpoint.xs ? 0 : 3"
   >
     <v-card-title v-text="$t('events.eventSummary')" class="px-0 pb-0" />
     <a

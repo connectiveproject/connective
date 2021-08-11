@@ -11,7 +11,7 @@
           class="checkbox-group"
         />
       </v-col>
-      <v-col cols="12" :class="{ 'px-10': !$vuetify.breakpoint.mobile }">
+      <v-col cols="12" :class="{ 'px-10': !$vuetify.breakpoint.xs }">
         <h1 v-text="$t('myActivity.studentsDisplay')" class="pb-6" />
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
