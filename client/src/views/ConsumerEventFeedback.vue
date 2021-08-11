@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="my-15 mx-auto px-16 py-10"
+    class="my-2 my-sm-15 mx-auto px-3 px-sm-16 py-10"
     max-width="800"
     :elevation="$vuetify.breakpoint.xs ? 0 : 3"
   >
@@ -71,15 +71,17 @@ export default {
           name: "generalNotes",
           rules: "required|max:400",
           label: this.$t(
-            "events.summarizeYourExperienceInTheEventAndWriteWhatYouLearned"
+            "events.summarizeYourExperienceAndWriteWhatYouLearned"
           ),
           value: "",
+          type: "textarea",
         },
         {
           name: "secondaryNotes",
           rules: "required|max:400",
           label: this.$t("events.writeProsAndCons"),
           value: "",
+          type: "textarea",
         },
         {
           name: "generalRating",
@@ -95,7 +97,7 @@ export default {
           type: "select",
           choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
           label: this.$t(
-            "events.chooseHowLikelyYouAreToRecommendThisActivityToAFriend"
+            "events.howLikelyYouAreToRecommendThisActivityToAFriend"
           ),
           value: "",
         },

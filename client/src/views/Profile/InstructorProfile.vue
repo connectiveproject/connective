@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="wrapper mt-15 mx-auto px-10 py-10"
+    class="wrapper mt-15 mx-auto px-5 px-sm-10 py-10"
     :elevation="$vuetify.breakpoint.xs ? 0 : 3"
     v-if="userAttributes"
   >
@@ -69,6 +69,6 @@ export default {
   max-width: 600px;
 }
 .avatar {
-  width: 300px;
+  width: 280px;
 }
 </style>

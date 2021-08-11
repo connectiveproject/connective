@@ -91,9 +91,6 @@ import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "ConsumerProgramsExplorer",
-  mounted() {
-    console.log(this.$vuetify.breakpoint.xs)
-  },
   components: {
     PaginationCheckboxGroup,
     PaginationChipGroup,
