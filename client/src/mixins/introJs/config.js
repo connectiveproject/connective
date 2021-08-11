@@ -52,7 +52,7 @@ export const config = {
       intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
     },
   ],
-  ConsumerDashboard: [
+  StudentDashboard: [
     {
       title: i18n.t("ברוכים הבאים!"),
       intro: i18n.t(
@@ -226,8 +226,13 @@ export const config = {
   ],
   ConsumerMyEvents: [
     {
-      title: i18n.t("errors.oops"),
-      intro: i18n.t("errors.noAvailableExplanation"),
+      title: i18n.t("המפגשים שלי"),
+      intro: i18n.t("בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות אליהן נרשמת."),
+    },
+    {
+      title: i18n.t("המפגשים שלי"),
+      intro: i18n.t("ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."),
+      selector: "events-calendar",
     },
   ],
   ConsumerPendingEventsFeedback: [
@@ -280,8 +285,18 @@ export const config = {
   ],
   MyEvents: [
     {
-      title: i18n.t("errors.oops"),
-      intro: i18n.t("errors.noAvailableExplanation"),
+      title: i18n.t("המפגשים שלי"),
+      intro: i18n.t("בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות השונות."),
+    },
+    {
+      title: i18n.t("המפגשים שלי"),
+      intro: i18n.t("ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."),
+      selector: "events-calendar",
+    },
+    {
+      title: i18n.t("המפגשים שלי"),
+      intro: i18n.t("בלחיצה על כפתור זה ניתן להתבונן בסטטוס בקשות המפגשים, כמו גם ליצור בקשה חדשה."),
+      selector: "events-table-button",
     },
   ],
   ConsumerList: [
