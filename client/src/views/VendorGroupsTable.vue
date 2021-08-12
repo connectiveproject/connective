@@ -88,6 +88,7 @@ export default {
       headers: [
         { text: this.$t("groups.groupName"), value: "name" },
         { text: this.$t("program.programName"), value: "activityName" },
+        { text: this.$t("general.schoolName"), value: "schoolName" },
         {
           text: this.$t("myActivity.studentsNumberInGroup"),
           value: "totalConsumers",

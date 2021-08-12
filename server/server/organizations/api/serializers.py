@@ -279,6 +279,10 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     activity_order = serializers.SlugRelatedField(
         queryset=SchoolActivityOrder.objects.all(), slug_field="slug"
     )
+    school_name = serializers.CharField(
+        source="activity_order.school.name",
+        read_only=True,
+    )
 
     class Meta:
         model = SchoolActivityGroup
@@ -293,6 +297,7 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "group_type",
             "instructor",
             "instructor_name",
+            "school_name",
         ]
 
 
