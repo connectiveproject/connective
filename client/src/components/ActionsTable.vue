@@ -18,11 +18,12 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              :color="actionOneIconColor"
+              introjs="actions-table-icon-one"
               size="20"
               class="mx-3"
               v-bind="attrs"
               v-on="on"
+              :color="actionOneIconColor"
               @click="$emit('action-one-click', item)"
             >
               {{ actionOneIcon }}
@@ -34,11 +35,11 @@
         <v-tooltip bottom v-if="totalActions >= 2">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              :color="actionTwoIconColor"
               size="20"
               class="mx-3"
               v-bind="attrs"
               v-on="on"
+              :color="actionTwoIconColor"
               @click="$emit('action-two-click', item)"
             >
               {{ actionTwoIcon }}

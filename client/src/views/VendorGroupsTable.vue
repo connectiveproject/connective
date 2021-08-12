@@ -1,16 +1,17 @@
 <template>
   <div>
-    <h1 class="pb-4" v-text="$t('groups.vendorgroups')" />
-    <h2 v-text="$t('edit me subtitle')" class="pb-12" />
+    <h1 class="pb-4" v-text="$t('myActivity.myGroups')" />
+    <h2
+      v-text="$t('groups.browseYourGroupsAndAssignInstructors')"
+      class="pb-12"
+    />
     <actions-table
       introjs="actions-table"
       class="mb-10"
-      actions-title="shibutz madrih"
+      :actions-title="$t('groups.instructorAssignment')"
       action-one-icon="mdi-account-edit"
       action-one-icon-color="primary"
-      :action-one-icon-tooltip="`${$t('CHANGE MEEEE')} / ${$t(
-        'userActions.cancel'
-      )}`"
+      :action-one-icon-tooltip="$t('groups.instructorAssignment')"
       :totalActions="1"
       :headers="headers"
       :items="readableGroupList"
@@ -18,8 +19,8 @@
     />
     <form-dialog
       v-model="isDialogOpen"
-      :title="$tc('general.chooseinstruvtir', 0)"
-      :subtitle="`${$t('events.attention!change meeeee')}.`"
+      :title="$t('groups.instructorAssignment')"
+      :subtitle="$t('groups.chooseInstructorForTheGroup')"
       :input-fields="assignInstructorDialogFields"
       @save="assignInstructor"
     />
@@ -31,17 +32,16 @@ import { mapState, mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Api from "../api"
-// import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
 import ActionsTable from "../components/ActionsTable"
-// import ModalApprove from "../components/ModalApprove"
 import FormDialog from "../components/FormDialog"
-// import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+import { trimText } from "../filters"
 
 export default {
   name: "VendorGroupsTable",
   components: { ActionsTable, FormDialog },
-  // mixins: [introjsSubscribeMixin],
+  mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorProgramGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
@@ -63,7 +63,7 @@ export default {
         {
           name: "instructor",
           rule: "required",
-          label: this.$t("instructooooooor"),
+          label: this.$t("general.instructor"),
           value: "",
           type: "select",
           choices: this.instructorList,
@@ -74,6 +74,7 @@ export default {
     readableGroupList() {
       return this.groupList.map(group => ({
         ...group,
+        description: trimText(group.description, 45),
         totalConsumers: group.consumers.length,
       }))
     },
@@ -86,10 +87,13 @@ export default {
       isDenyFormDialogActive: false,
       headers: [
         { text: this.$t("groups.groupName"), value: "name" },
-        { text: this.$t("groups.activityName"), value: "activityName" },
-        { text: this.$t("groups.totalConsumers"), value: "totalConsumers" },
-        { text: this.$t("groups.description"), value: "description" }, // trim
-        { text: this.$t("groups.instructor"), value: "instructorName" },
+        { text: this.$t("program.programName"), value: "activityName" },
+        {
+          text: this.$t("myActivity.studentsNumberInGroup"),
+          value: "totalConsumers",
+        },
+        { text: this.$t("myActivity.groupDescription"), value: "description" },
+        { text: this.$t("general.instructor"), value: "instructorName" },
       ],
     }
   },
@@ -105,12 +109,13 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-
     async assignInstructor({ instructor }) {
       try {
         const groupSlug = this.groupForInstructorAssignment.slug
         await this.updateGroup({ groupSlug, data: { instructor } })
-        this.showMessage("ADDED!!")
+        this.showMessage(
+          this.$t("success.instructorAssignedToGroupSuccessfully")
+        )
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }

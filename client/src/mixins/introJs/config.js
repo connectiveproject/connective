@@ -414,4 +414,15 @@ export const config = {
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
+  VendorGroupsTable: [
+    {
+      title: i18n.t("myActivity.myGroups"),
+      intro: i18n.t("בעמוד זה ניתן לצפות בכלל הקבוצות שבבעלות העמותה ולשבץ מדריכים בהתאם"),
+    },
+    {
+      title: i18n.t("myActivity.myGroups"),
+      selector: "actions-table-icon-one",
+      intro: i18n.t("בלחיצה כאן ניתן לשבץ מדריך לקבוצה"),
+    },
+  ]
 }

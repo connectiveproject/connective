@@ -236,7 +236,8 @@
     "eventSuccessfullyApproved": "האירוע/ים אושר/ו בהצלחה",
     "eventDenied": "האירוע/ים נדחה/ו",
     "allRelatedEventsHaveBeenCancelled": "כלל האירועים המקושרים בוטלו",
-    "eventOrderAndEventsSuccessfullyDeleted": "הזמנת  האירוע בוטלה וכלל האירועים המקושרים נמחקו"
+    "eventOrderAndEventsSuccessfullyDeleted": "הזמנת  האירוע בוטלה וכלל האירועים המקושרים נמחקו",
+    "instructorAssignedToGroupSuccessfully": "המדריך שובץ לקבוצה בהצלחה"
   },
 
   "errors": {
@@ -347,7 +348,10 @@
     "editAndViewTheGroupDetails": "ערכו וצפו בפרטי הקבוצה",
     "viewAndEditStudents": "צפייה ועריכת תלמידים",
     "numberOfStudentsSignedInToThisGroup": "מספר תלמידים רשומים לקבוצה זו",
-    "parentGroup": "קבוצת אם"
+    "parentGroup": "קבוצת אם",
+    "instructorAssignment": "שיבוץ מדריך",
+    "chooseInstructorForTheGroup": "בחרו מדריך לקבוצה",
+    "browseYourGroupsAndAssignInstructors": "צפו בקבוצות שלכם ושבצו מדריכים"
   },
 
   "time": {

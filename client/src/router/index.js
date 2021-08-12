@@ -361,6 +361,7 @@ const routes = [
             path: "my-groups",
             name: "VendorGroupsTable",
             component: VendorGroupsTable,
+            beforeEnter: removePagination,
           },
           {
             path: "my-programs",
