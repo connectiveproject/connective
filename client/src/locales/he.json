@@ -275,7 +275,8 @@
     "hebrewLettersAreNotAllowed": "אין להקליד אותיות בעברית",
     "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית",
     "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה",
-    "theDatesShouldBeCloserToEachOther": "על התאריכים להיות קרובים יותר זה לזה"
+    "theDatesShouldBeCloserToEachOther": "על התאריכים להיות קרובים יותר זה לזה",
+    "noGroupsFound": "לא נמצאו קבוצות"
   },
 
   "myActivity": {

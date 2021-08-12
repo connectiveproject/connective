@@ -15,6 +15,7 @@
       :totalActions="1"
       :headers="headers"
       :items="readableGroupList"
+      :no-data-text="$t('errors.noGroupsFound')"
       @action-one-click="triggerInstructorAssignModal"
     />
     <form-dialog

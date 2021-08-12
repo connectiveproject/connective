@@ -13,6 +13,7 @@
       :headers="tableHeaders"
       :items="items"
       :search="searchFilter"
+      :no-data-text="noDataText"
     >
       <template v-slot:item.actions="{ item }">
         <v-tooltip bottom>
@@ -57,6 +58,10 @@ import i18n from "../plugins/i18n"
 
 export default {
   props: {
+    noDataText: {
+      type: String,
+      required: false,
+    },
     actionsTitle: {
       type: String,
       default: "",
