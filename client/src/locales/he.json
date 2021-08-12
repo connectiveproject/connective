@@ -556,5 +556,15 @@
   "filter": {
     "programsFiltering": "סינון תוכניות",
     "clickToFilter": "לחצו לביצוע סינון"
+  },
+  "introjs": {
+    "welcome!": "ברוכים הבאים!",
+    "welcomeToConnective!InThePlatformYouWouldBeAbleToIntroduceYourProgramsCollaborateWithSchoolsEtc":"ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו לשווק את התוכניות שברשותכם, להתחיל שיתופי פעולה עם בתי ספר ועוד.",
+    "avatar": "אווטר",
+    "byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages": "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר.",
+    "navigation": "ניווט",
+    "clickToNavigateToTheDifferentPages":"בלחיצה ניתן לנווט לעמודים השונים",
+    "welcomeToConnective!InThePlatformYouWouldBeAbleToConsumeNewActivitiesToYourSchoolMonitorGroupsAndEventsEtc":"ברוכים הבאים לקונקטיב! באמצעות הפלטפורמה תוכלו להטמיע תוכניות חדשות בבית הספר, לעקוב אחר הקבוצות והמפגשים ועוד.",
+    "welcomeToConnective!InThePlatformYouWouldBeAbleToJoinTheActiveProgramsInYourSchoolViewUpdatesAndNewsEtc": "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו להצטרף לתוכניות הפועלות בבית הספר, לראות חדשות ועדכונים ועוד!"
   }
 }

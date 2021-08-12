@@ -14,62 +14,62 @@ export const config = {
   ],
   VendorDashboard: [
     {
-      title: i18n.t("ברוכים הבאים!"),
+      title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
-        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו לשווק את התוכניות שברשותכם, להתחיל שיתופי פעולה עם בתי ספר ועוד."
+        "introjs.welcomeToConnective!InThePlatformYouWouldBeAbleToIntroduceYourProgramsCollaborateWithSchoolsEtc"
       ),
     },
     {
-      title: i18n.t("אווטר"),
+      title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
-      title: i18n.t("ניווט"),
+      title: i18n.t("introjs.navigation"),
       selector: "navigation",
       intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
     },
   ],
   CoordinatorDashboard: [
     {
-      title: i18n.t("ברוכים הבאים!"),
+      title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
-        "ברוכים הבאים לקונקטיב! באמצעות הפלטפורמה תוכלו להטמיע תוכניות חדשות בבית הספר, לעקוב אחר הקבוצות והמפגשים ועוד."
+        "introjs.welcomeToConnective!InThePlatformYouWouldBeAbleToConsumeNewActivitiesToYourSchoolMonitorGroupsAndEventsEtc"
       ),
     },
     {
-      title: i18n.t("אווטר"),
+      title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
-      title: i18n.t("ניווט"),
+      title: i18n.t("introjs.navigation"),
       selector: "navigation",
-      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+      intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
   StudentDashboard: [
     {
-      title: i18n.t("ברוכים הבאים!"),
+      title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
-        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו להצטרף לתוכניות הפועלות בבית הספר, לראות חדשות ועדכונים ועוד!"
+        "introjs.welcomeToConnective!InThePlatformYouWouldBeAbleToJoinTheActiveProgramsInYourSchoolViewUpdatesAndNewsEtc"
       ),
     },
     {
-      title: i18n.t("אווטר"),
+      title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
-      title: i18n.t("ניווט"),
+      title: i18n.t("introjs.navigation"),
       selector: "navigation",
-      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+      intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
   InstructorDashboard: [
@@ -227,11 +227,15 @@ export const config = {
   ConsumerMyEvents: [
     {
       title: i18n.t("המפגשים שלי"),
-      intro: i18n.t("בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות אליהן נרשמת."),
+      intro: i18n.t(
+        "בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות אליהן נרשמת."
+      ),
     },
     {
       title: i18n.t("המפגשים שלי"),
-      intro: i18n.t("ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."),
+      intro: i18n.t(
+        "ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."
+      ),
       selector: "events-calendar",
     },
   ],
@@ -290,12 +294,16 @@ export const config = {
     },
     {
       title: i18n.t("המפגשים שלי"),
-      intro: i18n.t("ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."),
+      intro: i18n.t(
+        "ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."
+      ),
       selector: "events-calendar",
     },
     {
       title: i18n.t("המפגשים שלי"),
-      intro: i18n.t("בלחיצה על כפתור זה ניתן להתבונן בסטטוס בקשות המפגשים, כמו גם ליצור בקשה חדשה."),
+      intro: i18n.t(
+        "בלחיצה על כפתור זה ניתן להתבונן בסטטוס בקשות המפגשים, כמו גם ליצור בקשה חדשה."
+      ),
       selector: "events-table-button",
     },
   ],
@@ -417,12 +425,14 @@ export const config = {
   VendorGroupsTable: [
     {
       title: i18n.t("myActivity.myGroups"),
-      intro: i18n.t("בעמוד זה ניתן לצפות בכלל הקבוצות שבבעלות העמותה ולשבץ מדריכים בהתאם"),
+      intro: i18n.t(
+        "בעמוד זה ניתן לצפות בכלל הקבוצות שבבעלות העמותה ולשבץ מדריכים בהתאם"
+      ),
     },
     {
       title: i18n.t("myActivity.myGroups"),
       selector: "actions-table-icon-one",
       intro: i18n.t("בלחיצה כאן ניתן לשבץ מדריך לקבוצה"),
     },
-  ]
+  ],
 }
