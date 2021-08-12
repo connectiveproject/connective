@@ -74,40 +74,40 @@ export const config = {
   ],
   InstructorDashboard: [
     {
-      title: i18n.t("ברוכים הבאים!"),
+      title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
-        "ברוכים הבאים לקונקטיב! בפלטפורמה תוכלו לעקוב אחר מצב התלמידים בפעילויות השונות, לסכם את השיעורים ועוד."
+        "introjs.welcomeToConnective!InThePlatformYouWouldBeAbleToKeepTrackOfTheStudentsStatusSummarizeEventsEtc"
       ),
     },
     {
-      title: i18n.t("אווטר"),
+      title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "בלחיצה על תמונת האווטר תוכלו לבצע פעילויות משתמש ולקבל הסבר על העמודים השונים באתר."
+        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
-      title: i18n.t("ניווט"),
+      title: i18n.t("introjs.navigation"),
       selector: "navigation",
-      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+      intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
   VendorProgramList: [
     {
-      title: i18n.t("התוכניות שלי"),
+      title: i18n.t("introjs.myPrograms"),
       intro: i18n.t(
-        "בעמוד זה ניתן לצפות בתוכניות הקיימות תחתיכם ולהוסיף תוכניות חדשות"
+        "introjs.inThisPageYouCanViewTheExistingProgramsAndAddNewOnes"
       ),
     },
     {
-      title: i18n.t("הוספה"),
+      title: i18n.t("introjs.add"),
       selector: "program-create-btn",
-      intro: i18n.t("בלחיצה על כפתור זה ניתן להוסיף תוכניות חדשות"),
+      intro: i18n.t("introjs.clickTheButtonToAddNewPrograms"),
     },
   ],
   VendorEventsApprove: [
     {
-      title: i18n.t("סטטוס מפגשים"),
+      title: i18n.t("introjs.eventsStatus"),
       selector: "actions-table",
       intro: i18n.t(
         "בטבלה ניתן לראות אילו בתי ספר ביקשו להטמיע את התוכניות בתוכנית לימודיהם. ניתן לאשר ולדחות את הבקשה באמצעות הכפתורים בצד הטבלה."
@@ -116,106 +116,112 @@ export const config = {
   ],
   SchoolInviteWrapper: [
     {
-      title: i18n.t("הזמנת משתמשים"),
-      intro: i18n.t("בעמוד זה ניתן להזמין ולמחוק משתמשים מן הפלטפורמה"),
-    },
-    {
-      title: i18n.t("הזמנת משתמשים"),
-      selector: "tabs",
-      intro: i18n.t("ניתן לבחור בתצוגת תלמידים ובתצוגת אנשי סגל."),
-    },
-    {
-      title: "הזמנה",
-      selector: "table-actions",
+      title: i18n.t("introjs.inviteUsers"),
       intro: i18n.t(
-        "לחצו על כפתור ההזמנה על מנת להזמין משתמש חדש. המשתמש יקבל הזמנה למערכת דרך תיבת המייל שצויינה."
+        "introjs.inThisPageYouCanInviteAndDeleteUsersForThePlatform"
       ),
     },
     {
-      title: "מחיקה והעלאה",
+      title: i18n.t("introjs.inviteUsers"),
+      selector: "tabs",
+      intro: i18n.t("introjs.youCanInviteStudentsAndStaffSeperately"),
+    },
+    {
+      title: i18n.t("introjs.inviteUsers"),
       selector: "table-actions",
       intro: i18n.t(
-        "ניתן לבצע פעולות נוספות - מחיקת משתמשים (לאחר סימונם בטבלה) והזמנת רשימת משתמשים באמצעות העלאת קובץ אקסל. נמליץ לייצא קובץ לדוגמה ולמלאו."
+        "introjs.clickTheInviteButtonToInviteNewUser-TheUserWillReceiveInviteThroughTheSpecifiedEmail"
+      ),
+    },
+    {
+      title: i18n.t("introjs.inviteUsers"),
+      selector: "table-actions",
+      intro: i18n.t(
+        "introjs.additionalActionsAreAvailable-selectAndDeleteUsersInviteViaExcelUpload-WeRecommendExportingExcelFileFillingItAndUpload"
       ),
     },
   ],
   OrganizationInviteWrapper: [
     {
-      title: i18n.t("הזמנת משתמשים"),
-      intro: i18n.t("בעמוד זה ניתן להזמין ולמחוק משתמשים מן הפלטפורמה"),
-    },
-    {
-      title: i18n.t("הזמנת משתמשים"),
-      selector: "tabs",
-      intro: i18n.t("ניתן לבחור בתצוגת תלמידים ובתצוגת אנשי סגל."),
-    },
-    {
-      title: "הזמנה",
-      selector: "table-actions",
+      title: i18n.t("introjs.inviteUsers"),
       intro: i18n.t(
-        "לחצו על כפתור ההזמנה על מנת להזמין משתמש חדש. המשתמש יקבל הזמנה למערכת דרך תיבת המייל שצויינה."
+        "introjs.inThisPageYouCanInviteAndDeleteUsersForThePlatform"
       ),
     },
     {
-      title: "מחיקה והעלאה",
+      title: i18n.t("introjs.inviteUsers"),
+      selector: "tabs",
+      intro: i18n.t("introjs.youCanInviteInstructorsAndVendorsSeperately"),
+    },
+    {
+      title: i18n.t("introjs.inviteUsers"),
       selector: "table-actions",
       intro: i18n.t(
-        "ניתן לבצע פעולות נוספות - מחיקת משתמשים (לאחר סימונם בטבלה) והזמנת רשימת משתמשים באמצעות העלאת קובץ אקסל. נמליץ לייצא קובץ לדוגמה ולמלאו."
+        "introjs.clickTheInviteButtonToInviteNewUser-TheUserWillReceiveInviteThroughTheSpecifiedEmail"
+      ),
+    },
+    {
+      title: i18n.t("introjs.inviteUsers"),
+      selector: "table-actions",
+      intro: i18n.t(
+        "introjs.additionalActionsAreAvailable-selectAndDeleteUsersInviteViaExcelUpload-WeRecommendExportingExcelFileFillingItAndUpload"
       ),
     },
   ],
   ConsumerProgramsExplorer: [
     {
-      title: i18n.t("חוקר התוכניות"),
+      title: i18n.t("introjs.programExplorer"),
       intro: i18n.t(
-        "בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית אליה תרצו להשתבץ."
+        "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseAProgramToJoin"
       ),
     },
     {
-      title: "חיפוש",
+      title: i18n.t("introjs.search"),
       selector: "search",
-      intro: i18n.t("ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית"),
+      intro: i18n.t("introjs.searchUsingKeywordsForExampleProgramName"),
     },
     {
-      title: "סינון",
+      title: i18n.t("introjs.filter"),
       selector: "advanced-search",
-      intro: i18n.t("ניתן לבצע סינון חכם"),
+      intro: i18n.t("introjs.smartFilteringIsAvailable"),
     },
     {
-      title: i18n.t("בחירת תוכנית"),
+      title: i18n.t("introjs.choosingProgram"),
       intro: i18n.t(
-        "לאחר עיון בתוכניות, ניתן לבחור תוכנית להצטרפות. הבקשה תמתין סגל בית הספר ולאחריה יתבצע שיבוץ לקבוצה"
+        "introjs.afterBrowsingTheCatalogYouCanChooseAProgramToJoin-requestWillBeSentToTheSchoolStaffAndYouWillBeAssignedToGroupAfterApproval"
       ),
     },
   ],
   ProgramsExplorer: [
     {
-      title: i18n.t("חוקר התוכניות"),
+      title: i18n.t("introjs.programExplorer"),
       intro: i18n.t(
-        "בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית להטמעה בבית הספר"
+        "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseProgramsForYourSchool"
       ),
     },
     {
-      title: "חיפוש",
+      title: i18n.t("introjs.search"),
       selector: "search",
-      intro: i18n.t("ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית"),
+      intro: i18n.t("introjs.searchUsingKeywordsForExampleProgramName"),
     },
     {
-      title: "סינון",
+      title: i18n.t("introjs.filter"),
       selector: "advanced-search",
-      intro: i18n.t("ניתן לבצע סינון חכם"),
+      intro: i18n.t("introjs.smartFilteringIsAvailable"),
     },
     {
-      title: i18n.t("בחירת תוכנית"),
+      title: i18n.t("introjs.choosingProgram"),
       intro: i18n.t(
-        "לאחר עיון בתוכניות, ניתן לבחור תוכנית להצטרפות, קרי להטמעה בבית הספר. הבקשה תמתין לאישור מנהל מערכת"
+        "introjs.afterBrowsingTheCatalogYouCanChooseAProgramToJoinTo-RequestWillBeSentToThePlatformAdministrators"
       ),
     },
   ],
   ConsumerProfile: [
     {
-      title: i18n.t("הפרופיל שלי"),
-      intro: i18n.t("בעמוד זה ניתן לצפות בפרטי הפרופיל ולערוך את תמונת האווטר"),
+      title: i18n.t("introjs.myProfile"),
+      intro: i18n.t(
+        "introjs.inThisPageYouCanViewYourProfileAndEditTheAvatarImage"
+      ),
     },
   ],
   ConsumerMyGroups: [
