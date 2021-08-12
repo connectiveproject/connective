@@ -170,7 +170,7 @@
     "delete": "מחיקה",
     "finish": "סיום",
     "toHomepage": "לדף הבית",
-    "addImagesAndVideos": "הוספת תמונות וסרטונים",
+    "addImages": "הוספת תמונות",
     "addPost": "הוספת פוסט",
     "addPublicPost": "הוספת פוסט פומבי",
     "addEvents": "הוספת מפגשים",
@@ -273,7 +273,8 @@
     "nameNotFound": "השם לא נמצא",
     "hebrewLettersAreNotAllowed": "אין להקליד אותיות בעברית",
     "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית",
-    "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה"
+    "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה",
+    "theDatesShouldBeCloserToEachOther": "על התאריכים להיות קרובים יותר זה לזה"
   },
 
   "myActivity": {
@@ -330,7 +331,9 @@
     "eventsStatus": "סטטוס מפגשים",
     "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
     "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
-    "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים"
+    "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים",
+    "inCaseOfWeeklyEventsSpecifyTheEndDateOfTheFirstEventInTheSeries": "במקרה של אירועים חוזרים, פרטו את תאריך הסיום של המפגש הראשון",
+    "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו אירועים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון"
   },
 
   "groups": {
@@ -378,7 +381,11 @@
     "daily": "יומי",
     "oneTime": "חד פעמי",
     "weeklyForYear": "שבועי למשך שנה",
-    "recurrence": "חזרתיות"
+    "recurrence": "חזרתיות",
+    "eventStartDate": "תאריך תחילת המפגש",
+    "eventEndDate": "תאריך סיום המפגש",
+    "eventStartTime": "שעת תחילת המפגש",
+    "eventEndTime": "שעת סיום המפגש"
   },
 
   "posts": {

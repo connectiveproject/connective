@@ -129,7 +129,7 @@
               <v-file-input
                 ref="fileInput"
                 v-model="images"
-                accept="image/*"
+                accept=".gif,.jpg,.jpeg,.png"
                 outlined
                 multiple
                 append-icon="mdi-paperclip"
@@ -137,7 +137,7 @@
                 persistent-hint
                 :error-messages="errors"
                 :hint="$t('userActions.holdCtrlKeyToUploadMultipleMediaFiles')"
-                :label="$t('userActions.addImagesAndVideos')"
+                :label="$t('userActions.addImages')"
                 @change="compressImages"
                 @click:append="
                   $refs.fileInput.$el.querySelector('input').click()
@@ -232,6 +232,7 @@ export default {
   data() {
     return {
       CONFIDENTIAL_WATERMARK,
+      imgCompressionPromise: null,
       event: {},
       submitting: false,
       addPost: true,
@@ -256,8 +257,9 @@ export default {
   },
   computed: {
     imageUrls() {
+      console.log(this.compressedImages.length)
       let urls = []
-      this.compressedImages.map(
+      this.images.map(
         image => (urls = [...urls, URL.createObjectURL(image)])
       )
       return urls
@@ -268,8 +270,8 @@ export default {
     ...mapActions("instructorEvent", ["updateEvent"]),
     ...mapActions("eventFeedPost", ["createFeedPost", "createPostImages"]),
     parseDate: Utils.ApiStringToReadableDate,
-    async compressImages() {
-      this.compressedImages = await Promise.all(
+    compressImages() {
+      this.imgCompressionPromise = Promise.all(
         this.images.map(async image => Utils.compressImageFile(image))
       )
     },
@@ -277,6 +279,7 @@ export default {
       async function () {
         try {
           this.submitting = true
+          this.compressedImages = await this.imgCompressionPromise
           if (this.addPost) {
             await Promise.all([this.createSummary(), this.createPost()])
           } else {
