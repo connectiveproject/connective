@@ -56,6 +56,10 @@ import i18n from "../plugins/i18n"
 
 export default {
   props: {
+    actionsTitle: {
+      type: String,
+      default: "",
+    },
     totalActions: {
       type: Number,
       default: 2
@@ -104,7 +108,7 @@ export default {
 
   computed: {
     tableHeaders() {
-      return [...this.headers, { text: "", value: "actions", sortable: false }]
+      return [...this.headers, { text: this.actionsTitle, value: "actions", sortable: false }]
     },
   },
 }

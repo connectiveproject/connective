@@ -16,6 +16,7 @@ import loading from "./modules/loading"
 import snackbar from "./modules/snackbar"
 import introjs from "./modules/introjs"
 import programGroup from "./modules/programGroup"
+import vendorProgramGroup from "./modules/vendorProgramGroup"
 import consumerProgramGroup from "./modules/consumerProgramGroup"
 import instructorProgramGroup from "./modules/instructorProgramGroup"
 import event from "./modules/event"
@@ -44,6 +45,7 @@ const store = new Vuex.Store({
     introjs,
     pagination,
     programGroup,
+    vendorProgramGroup,
     consumerProgramGroup,
     instructorProgramGroup,
     event,

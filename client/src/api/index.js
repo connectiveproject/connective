@@ -12,6 +12,7 @@ import program from "./program"
 import consumerProgram from "./consumerProgram"
 import vendorProgram from "./vendorProgram"
 import programGroup from "./programGroup"
+import vendorProgramGroup from "./vendorProgramGroup"
 import consumerProgramGroup from "./consumerProgramGroup"
 import instructorProgramGroup from "./instructorProgramGroup"
 import event from "./event"
@@ -32,9 +33,10 @@ export default {
   vendor,
   config,
   program,
+  vendorProgram,
   consumerProgram,
   programGroup,
-  vendorProgram,
+  vendorProgramGroup,
   consumerProgramGroup,
   instructorProgramGroup,
   event,

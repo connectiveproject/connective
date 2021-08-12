@@ -216,7 +216,7 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
 class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        AllowCoordinator | AllowConsumerReadOnly | AllowInstructorReadOnly
+        AllowCoordinator | AllowVendor | AllowConsumerReadOnly | AllowInstructorReadOnly
     ]
     serializer_class = SchoolActivityGroupSerializer
     queryset = SchoolActivityOrder.objects.all()
@@ -230,6 +230,11 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
         if user.user_type == get_user_model().Types.INSTRUCTOR:
             return SchoolActivityGroup.objects.filter(instructor=user)
+
+        if user.user_type == get_user_model().Types.VENDOR:
+            return SchoolActivityGroup.objects.filter(
+                activity_order__activity__in=user.organization_member.organization.activities.all(),
+            )
 
         return SchoolActivityGroup.objects.filter(
             activity_order__in=user.school_member.school.school_activity_orders.all(),

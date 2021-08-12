@@ -82,6 +82,12 @@ const vendorTabs = [
     icon: "mdi-handshake",
   },
   {
+    id: "events-groups-navbar-tab",
+    text: i18n.t("myActivity.activeGroups"),
+    componentName: "VendorGroupsTable",
+    icon: "mdi-home-group",
+  },
+  {
     id: "events-approve-navbar-tab",
     text: i18n.t("events.requestsForEvents"),
     componentName: "VendorEventsApprove",

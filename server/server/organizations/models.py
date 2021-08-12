@@ -110,7 +110,11 @@ class Activity(models.Model):
     target_audience = models.JSONField()
     domain = models.CharField(max_length=55, null=True, choices=Domain.choices)
     originization = models.ForeignKey(
-        Organization, on_delete=models.SET_NULL, null=True, blank=True
+        Organization,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="activities",
     )
     activity_website_url = models.URLField(max_length=750, null=True, blank=True)
     activity_email = models.EmailField(null=True, blank=True)

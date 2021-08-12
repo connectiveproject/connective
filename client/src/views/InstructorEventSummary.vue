@@ -257,7 +257,6 @@ export default {
   },
   computed: {
     imageUrls() {
-      console.log(this.compressedImages.length)
       let urls = []
       this.images.map(
         image => (urls = [...urls, URL.createObjectURL(image)])
