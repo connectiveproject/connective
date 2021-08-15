@@ -34,10 +34,11 @@
     <validation-observer
       tag="form"
       class="mt-16 form"
+      v-slot="{ invalid }"
       @submit.prevent="onSubmit"
     >
       <v-card introjs="confidential" style="background: #feece5">
-        <v-row no-gutters style="padding: 30px">
+        <v-row no-gutters justify="space-between" class="pt-16 px-2 px-sm-9 pb-5" >
           <v-col>
             <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
           </v-col>
@@ -63,7 +64,7 @@
               </v-textarea>
             </v-tribute>
           </v-col>
-          <v-col cols="12" sm="12" lg="6">
+          <v-col cols="12" sm="12" lg="5">
             <v-select
               outlined
               :items="consumerchoices"
@@ -74,7 +75,7 @@
               dense
             />
           </v-col>
-          <v-col cols="12" sm="12" lg="6">
+          <v-col cols="12" sm="12" lg="5">
             <v-select
               outlined
               :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
@@ -84,7 +85,7 @@
               class="my-6"
             />
           </v-col>
-          <v-col cols="12" sm="12" lg="6">
+          <v-col cols="12" sm="12" lg="5">
             <v-select
               outlined
               :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
@@ -159,6 +160,7 @@
           color="primary"
           elevation="3"
           :loading="submitting"
+          :disabled="invalid"
         >
           {{ $t("userActions.save") }}
         </v-btn>
