@@ -120,7 +120,7 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     onApproveClick: debounce(
       async function (order) {
-        if (order.status !== SERVER.eventOrderStatus.pendingApproval) {
+        if (order.status !== SERVER.eventOrderStatus.pendingVendorApproval) {
           return this.showMessage(
             this.$t("errors.cantApproveEventsThatArentPendingApproval")
           )
@@ -171,7 +171,8 @@ export default {
         return this.cancelOrder({ ...this.orderToReject, statusReason })
       }
       if (
-        this.orderToReject.status === SERVER.eventOrderStatus.pendingApproval
+        this.orderToReject.status ===
+        SERVER.eventOrderStatus.pendingVendorApproval
       ) {
         return this.denyOrder({ ...this.orderToReject, statusReason })
       }
