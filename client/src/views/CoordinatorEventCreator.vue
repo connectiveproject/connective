@@ -122,13 +122,19 @@ export default {
     })
     next()
   },
+  props: {
+    groupSlug: {
+      type: String,
+      required: false,
+    },
+  },
   data() {
     return {
       img: CREATE_EVENT,
       eventDate: "",
       startTime: "12:00",
       endTime: "12:00",
-      selectedGroup: "",
+      selectedGroup: this.groupSlug,
       location: "",
       recurrence: SERVER.eventOrderReccurence.oneTime,
       recurrenceChoices: [

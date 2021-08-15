@@ -176,7 +176,8 @@
     "addEvents": "הוספת מפגשים",
     "timeChoose": "בחירת שעה",
     "dateChoose": "בחירת תאריך",
-    "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה"
+    "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה",
+    "deleteGroup": "מחיקת קבוצה"
   },
 
   "grades": {

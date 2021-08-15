@@ -273,6 +273,7 @@ const routes = [
             path: "event-creator",
             name: "CoordinatorEventCreator",
             component: CoordinatorEventCreator,
+            props: true,
           },
           {
             path: "group-editor",
