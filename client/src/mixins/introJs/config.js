@@ -43,7 +43,7 @@ export const config = {
       title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
+        "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
@@ -63,7 +63,7 @@ export const config = {
       title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
+        "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
@@ -83,7 +83,7 @@ export const config = {
       title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
+        "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {

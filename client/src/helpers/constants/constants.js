@@ -184,7 +184,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "logo",
-    label: i18n.t("general.logo"),
+    label: i18n.t("program.logo"),
     rules: "required|size:5000",
     type: "file",
     attrs: { appendIcon: "mdi-camera", prependIcon: null, accept: "image/*", clearable: true },

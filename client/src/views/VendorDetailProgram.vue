@@ -81,7 +81,6 @@
 <script>
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
-import omit from "lodash/omit"
 import Utils from "../helpers/utils"
 import Api from "../api"
 import store from "../vuex/store"
@@ -114,7 +113,7 @@ export default {
   data() {
     return {
       CAMERA_ROUNDED_DRAWING,
-      programFields: omit(VENDOR_PROGRAM_FIELDS, "logo"),
+      programFields: VENDOR_PROGRAM_FIELDS.filter(field => field.name !== "logo"),
       isModalOpen: false,
       program: null,
       logo: null,
