@@ -40,7 +40,7 @@
         </div>
       </v-col>
       <v-col cols="12" lg="5" class="px-10">
-        <sticky-note v-if="!$vuetify.breakpoint.mobile">
+        <sticky-note v-if="!$vuetify.breakpoint.xs">
           <b>{{ this.$t("general.didYouKnow?") }}</b>
           <div
             class="pt-5 sticky-span"

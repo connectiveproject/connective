@@ -100,7 +100,18 @@ extend("afterStartDate", {
     const endDateObj = moment(`${endDate}T${endTime}`)
     return endDateObj.isAfter(startDateObj)
   },
-  message: i18n.tc("errors.endTimeShouldBeLaterThanStartTime"),
+  message: i18n.t("errors.endTimeShouldBeLaterThanStartTime"),
+})
+
+extend("maxDaysDelta", {
+  // this date come after another date by maximum number of days
+  params: ["date2", "daysDelta"],
+  validate(date, { date2, daysDelta }) {
+    const dateObj = moment(date)
+    const date2Obj = moment(date2)
+    return dateObj.diff(date2Obj, "days") <= daysDelta
+  },
+  message: i18n.t("errors.theDatesShouldBeCloserToEachOther"),
 })
 
 extend("noHebrew", {

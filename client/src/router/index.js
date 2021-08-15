@@ -56,6 +56,7 @@ import CreateGroup from "../views/CreateGroup"
 import AssignGroupConsumers from "../views/AssignGroupConsumers"
 import GroupDetail from "../views/GroupDetail"
 import VendorProgramList from "../views/VendorProgramList"
+import VendorGroupsTable from "../views/VendorGroupsTable"
 import VendorDetailProgram from "../views/VendorDetailProgram"
 import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
 import VendorProgramCreator from "../views/VendorProgramCreator"
@@ -354,6 +355,12 @@ const routes = [
             path: "events-approve",
             name: "VendorEventsApprove",
             component: VendorEventsApprove,
+            beforeEnter: removePagination,
+          },
+          {
+            path: "my-groups",
+            name: "VendorGroupsTable",
+            component: VendorGroupsTable,
             beforeEnter: removePagination,
           },
           {

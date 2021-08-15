@@ -211,6 +211,52 @@ const avatarCategories = {
       text: i18n.t("avatar.MoustacheMagnum"),
     },
   ],
+  facialHairColor: [
+    {
+      value: "random",
+      text: i18n.t("avatar.random"),
+    },
+    {
+      value: "Auburn",
+      text: i18n.t("avatar.Auburn"),
+    },
+    {
+      value: "Black",
+      text: i18n.t("avatar.Black"),
+    },
+    {
+      value: "Blonde",
+      text: i18n.t("avatar.Blonde"),
+    },
+    {
+      value: "BlondeGolden",
+      text: i18n.t("avatar.BlondeGolden"),
+    },
+    {
+      value: "Brown",
+      text: i18n.t("avatar.Brown"),
+    },
+    {
+      value: "BrownDark",
+      text: i18n.t("avatar.BrownDark"),
+    },
+    {
+      value: "PastelPink",
+      text: i18n.t("avatar.PastelPink"),
+    },
+    {
+      value: "Platinum",
+      text: i18n.t("avatar.Platinum"),
+    },
+    {
+      value: "Red",
+      text: i18n.t("avatar.Red"),
+    },
+    {
+      value: "SilverGray",
+      text: i18n.t("avatar.SilverGray"),
+    },
+  ],
   clotheType: [
     {
       value: "random",
@@ -610,6 +656,7 @@ export const defaultAvatarOptions = {
   topType: "Hat",
   accessoriesType: "Prescription02",
   facialHairType: "Blank",
+  facialHairColor: "random",
   clotheType: "CollarSweater",
   eyeType: "Default",
   eyebrowType: "Default",

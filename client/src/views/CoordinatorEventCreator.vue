@@ -1,59 +1,92 @@
 <template>
-  <v-row class="pa-16" justify="space-around" align="center" no-gutters>
-    <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.mobile }">
+  <v-row
+    class="pa-5 pa-sm-10 pa-md-16"
+    justify="space-around"
+    align="center"
+    no-gutters
+  >
+    <v-col sm="11" lg="6" :class="{ 'pr-16': !$vuetify.breakpoint.xs }">
       <h1 class="pb-8" v-text="$t('events.eventsCreation')" />
       <validation-observer
         tag="form"
         v-slot="{ invalid }"
         @submit.prevent="onSubmit"
-        :class="{ 'w-85': !$vuetify.breakpoint.mobile }"
+        :class="{ 'w-85': !$vuetify.breakpoint.xs }"
       >
         <radio-group
-          class="pa-0"
+          class="pa-0 mb-8"
           v-model="recurrence"
+          :hint="$t('events.byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent')"
+          persistent-hint
           :title="`${$t('time.recurrence')}:`"
           :choices="recurrenceChoices"
-          row
         />
-        <validation-provider v-slot="{ errors }" rules="required" name="startDate">
-          <date-input
-            v-model="startDate"
-            :label="$t('time.startDate')"
-            :error-messages="errors"
-          />
-        </validation-provider>
-        <validation-provider v-slot="{ errors }" rules="required" name="startTime">
-          <time-input
-            v-model="startTime"
-            :label="$t('time.startTime')"
-            :error-messages="errors"
-          />
-        </validation-provider>
-        <validation-provider v-slot="{ errors }" rules="required" name="endDate">
-          <date-input
-            v-model="endDate"
-            :label="$t('time.endDate')"
-            :error-messages="errors"
-          />
-        </validation-provider>
-        <validation-provider v-slot="{ errors }" rules="required|afterStartDate:@startDate,@startTime,@endDate">
-          <time-input
-            v-model="endTime"
-            :label="$t('time.endTime')"
-            :error-messages="errors"
-          />
-        </validation-provider>
         <validation-provider v-slot="{ errors }" rules="required">
           <v-select
             v-model="selectedGroup"
+            class="mb-3"
             :items="schoolGroups"
             :label="$t('groups.parentGroup')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required"
+          name="startDate"
+        >
+          <date-input
+            v-model="startDate"
+            text-field-classes="mb-3"
+            :label="$t('time.eventStartDate')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required"
+          name="startTime"
+        >
+          <time-input
+            v-model="startTime"
+            text-field-classes="mb-3"
+            :label="$t('time.eventStartTime')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required|maxDaysDelta:@startDate,7"
+          name="endDate"
+        >
+          <date-input
+            v-model="endDate"
+            text-field-classes="mb-5"
+            persistent-hint
+            :hint="
+              $t(
+                'events.inCaseOfWeeklyEventsSpecifyTheEndDateOfTheFirstEventInTheSeries'
+              )
+            "
+            :label="$t('time.eventEndDate')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required|afterStartDate:@startDate,@startTime,@endDate"
+        >
+          <time-input
+            v-model="endTime"
+            text-field-classes="mb-3"
+            :label="$t('time.eventEndTime')"
             :error-messages="errors"
           />
         </validation-provider>
         <validation-provider v-slot="{ errors }" rules="required">
           <v-text-field
             v-model="location"
+            class="mb-3"
             :label="$t('myActivity.location')"
             append-icon="mdi-map-marker"
             :error-messages="errors"
@@ -69,7 +102,7 @@
         />
       </validation-observer>
     </v-col>
-    <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.mobile">
+    <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.xs">
       <v-img style="border-radius: 10px" :src="img" />
     </v-col>
   </v-row>

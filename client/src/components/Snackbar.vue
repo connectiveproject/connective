@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-snackbar v-model="show">
+    <v-snackbar :class="{ 'snackbar-width': $vuetify.breakpoint.mobile }" v-model="show">
       {{ text }}
       <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" color="cyan" @click="show = false">
+        <v-btn dark text v-bind="attrs" color="primary" @click="show = false">
           {{ $t("userActions.close") }}
         </v-btn>
       </template>
@@ -29,3 +29,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.snackbar-width::v-deep .v-snack__wrapper {
+  width: 310px !important;
+  min-width: 310px !important;
+}
+</style>

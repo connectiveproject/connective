@@ -13,6 +13,7 @@
         :value="value"
         @input="e => $emit('input', e)"
         :label="label"
+        :class="textFieldClasses"
         append-icon="mdi-calendar"
         readonly
         v-bind="{ ...attrs, ...$attrs }"
@@ -50,6 +51,10 @@ export default {
       type: String,
       default: i18n.t("userActions.dateChoose"),
     },
+    textFieldClasses: {
+      type: String,
+      default: ""
+    }
   },
   data: () => ({
     modal: false,

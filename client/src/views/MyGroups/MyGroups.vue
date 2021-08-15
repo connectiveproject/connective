@@ -1,8 +1,8 @@
 <template>
   <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
     <v-row>
-      <v-col cols="12" md="8">
-        <h1 v-text="$t('myActivity.myGroups')" class="mb-5" />
+      <v-col cols="12" md="8" :class="{ 'text-center px-0': $vuetify.breakpoint.xs }">
+        <h1 v-text="$t('myActivity.myGroups')" class="px-0 mb-5" />
         <h2
           v-text="
             $t(
@@ -20,6 +20,7 @@
           class="d-block mx-auto"
           color="success"
           data-testid="create-group"
+          :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'GroupEditor' })"
         >
           {{ $tc("userActions.add", 1) }}

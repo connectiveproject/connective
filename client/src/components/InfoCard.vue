@@ -36,7 +36,7 @@
         v-if="secondaryButtonText"
         @click="$emit('secondary-click')"
         class="subtitle-1 font-weight-bold"
-        :class="{ 'mx-2': !$vuetify.breakpoint.mobile }"
+        :class="{ 'mx-2': !$vuetify.breakpoint.xs }"
         :color="secondaryButtonColor"
         v-text="secondaryButtonText"
       />

@@ -1,7 +1,11 @@
 <template>
   <div class="">
     <v-row>
-      <v-col cols="12" md="8">
+      <v-col
+        cols="12"
+        md="8"
+        :class="{ 'text-center px-0': $vuetify.breakpoint.xs }"
+      >
         <h1 v-text="$t('myActivity.myPrograms')" class="mb-5" />
         <h2
           v-text="$t('program.hereYouCanSeeAllTheProgramsListedUnderYou')"
@@ -16,6 +20,7 @@
           large
           class="d-block mx-auto"
           color="success"
+          :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'VendorProgramCreator' })"
         >
           {{ $tc("userActions.add", 1) }}

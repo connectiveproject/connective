@@ -2,7 +2,7 @@
   <v-card :elevation="elevation">
     <v-card-text>
       <validation-observer ref="observer">
-        <v-row>
+        <v-row no-gutters>
           <v-col
             v-for="(field, i) in value"
             :key="i"

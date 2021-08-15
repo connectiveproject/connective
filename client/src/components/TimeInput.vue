@@ -13,6 +13,7 @@
         :value="value"
         @input="e => $emit('input', e)"
         :label="label"
+        :class="textFieldClasses"
         append-icon="mdi-clock-time-four-outline"
         readonly
         v-bind="{ ...attrs, ...$attrs }"
@@ -26,7 +27,7 @@
       color="primary"
       full-width
       format="24hr"
-      :landscape="!$vuetify.breakpoint.mobile"
+      :landscape="!$vuetify.breakpoint.xs"
       scrollable
     >
       <v-spacer />
@@ -59,6 +60,10 @@ export default {
       type: String,
       default: i18n.t("userActions.timeChoose"),
     },
+    textFieldClasses: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {

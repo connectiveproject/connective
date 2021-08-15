@@ -12,11 +12,11 @@
         :title="filter.readableName"
         :items="filter.options"
         class="checkbox-group"
-        :class="{ 'checkbox-small': $vuetify.breakpoint.mobile }"
+        :class="{ 'checkbox-small': $vuetify.breakpoint.xs }"
       />
     </side-drawer>
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
-      <div class="d-flex justify-space-between flex-wrap">
+      <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
           <h1
             v-text="$t('program.programsExplorer')"
@@ -34,7 +34,7 @@
           introjs="advanced-search"
           class="mx-auto mx-md-0 primary mt-10 mt-md-0"
           v-text="$t('general.advancedSearch')"
-          :block="$vuetify.breakpoint.mobile"
+          :block="$vuetify.breakpoint.xs"
           @click="filterDrawer = true"
         />
       </div>

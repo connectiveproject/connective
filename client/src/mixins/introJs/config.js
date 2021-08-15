@@ -378,7 +378,7 @@ export const config = {
       title: i18n.t("פומבי"),
       selector: "public",
       intro: i18n.t(
-        "בחלק זה ניתן לייצר פוסט/פרסום פומבי בו יוכלו תלמידים וסגל לצפות. חלק זה מגביר את זיקת התלמיד לפעילות. ניתן להעלות תמונות, סרטונים ועוד."
+        "בחלק זה ניתן לייצר פוסט/פרסום פומבי בו יוכלו תלמידים וסגל לצפות. חלק זה מגביר את זיקת התלמיד לפעילות. ניתן להעלות תמונות, להוסיף תיאור ועוד."
       ),
     },
   ],
@@ -414,4 +414,15 @@ export const config = {
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
+  VendorGroupsTable: [
+    {
+      title: i18n.t("myActivity.myGroups"),
+      intro: i18n.t("בעמוד זה ניתן לצפות בכלל הקבוצות שבבעלות העמותה ולשבץ מדריכים בהתאם"),
+    },
+    {
+      title: i18n.t("myActivity.myGroups"),
+      selector: "actions-table-icon-one",
+      intro: i18n.t("בלחיצה כאן ניתן לשבץ מדריך לקבוצה"),
+    },
+  ]
 }

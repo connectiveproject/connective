@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       value: "",
-      chosenDisplayType: this.$vuetify.breakpoint.mobile ? "4day" : "week",
+      chosenDisplayType: this.$vuetify.breakpoint.xs ? "4day" : "week",
       clickedEvent: null,
       isModalOpen: false,
     }

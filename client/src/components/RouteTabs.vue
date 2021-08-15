@@ -1,5 +1,5 @@
 <template>
-  <v-tabs :color="color" class="pb-10">
+  <v-tabs :color="color" class="pb-10" show-arrows>
     <v-tab
       introjs="navigation"
       v-for="tab in tabs"

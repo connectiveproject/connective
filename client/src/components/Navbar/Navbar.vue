@@ -2,13 +2,13 @@
   <div>
     <v-toolbar dark prominent :src="bg">
       <v-app-bar-nav-icon
-        v-if="$vuetify.breakpoint.mobile"
+        v-if="$vuetify.breakpoint.xs"
         introjs="navigation"
         @click="mobileDrawer = true"
       />
       <v-toolbar-title
         class="px-md-6"
-        :class="{ absolute: $vuetify.breakpoint.mobile }"
+        :class="{ absolute: $vuetify.breakpoint.xs }"
         v-text="$t('general.connective')"
       />
       <v-spacer />
@@ -20,7 +20,7 @@
           :buttons="accountButtons"
         />
       </div>
-      <template v-if="!$vuetify.breakpoint.mobile" v-slot:extension>
+      <template v-if="!$vuetify.breakpoint.xs" v-slot:extension>
         <route-tabs
           :tabs="tabs"
           color="primary"
@@ -29,7 +29,7 @@
       </template>
     </v-toolbar>
     <navigation-drawer
-      v-if="$vuetify.breakpoint.mobile"
+      v-if="$vuetify.breakpoint.xs"
       v-model="mobileDrawer"
       :nav-items="tabs"
       :title="$t('general.connective')"

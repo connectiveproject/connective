@@ -1,6 +1,6 @@
 <template>
   <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
-    <div class="d-flex mb-5 justify-space-between">
+    <div class="d-flex flex-wrap mb-10 justify-space-between">
       <div>
         <h1 v-text="$t('events.eventsBoard')" />
         <h2
@@ -14,6 +14,7 @@
         introjs="events-table-button"
         class="d-block"
         color="primary"
+        :block="$vuetify.breakpoint.xs"
         @click="$router.push({ name: 'CoordinatorEventOrderStatus' })"
         v-text="$t('events.createAndOrderEvents')"
       />
@@ -81,7 +82,7 @@ export default {
   data() {
     return {
       value: "",
-      chosenDisplayType: this.$vuetify.breakpoint.mobile ? "4day" : "week",
+      chosenDisplayType: this.$vuetify.breakpoint.xs ? "4day" : "week",
       clickedEvent: null,
       isModalOpen: false,
     }

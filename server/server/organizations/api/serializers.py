@@ -10,6 +10,7 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School
+from server.users.models import Instructor
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -263,6 +264,10 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
         source="instructor.name",
         read_only=True,
     )
+    instructor = serializers.SlugRelatedField(
+        queryset=Instructor.objects.all(),
+        slug_field="slug",
+    )
     activity_logo = serializers.ImageField(
         source="activity_order.activity.logo",
         read_only=True,
@@ -273,6 +278,10 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     )
     activity_order = serializers.SlugRelatedField(
         queryset=SchoolActivityOrder.objects.all(), slug_field="slug"
+    )
+    school_name = serializers.CharField(
+        source="activity_order.school.name",
+        read_only=True,
     )
 
     class Meta:
@@ -288,6 +297,7 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "group_type",
             "instructor",
             "instructor_name",
+            "school_name",
         ]
 
 

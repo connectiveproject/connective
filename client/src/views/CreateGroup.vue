@@ -4,7 +4,8 @@
       focus
       v-model="fields"
       elevation="0"
-      class="w-75 mx-auto"
+      class="mx-auto"
+      :class="{ 'w-75': $vuetify.breakpoint.smAndUp }"
       @valid="isFormValid = true"
       @invalid="isFormValid = false"
     />

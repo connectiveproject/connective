@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-sheet tile height="70" class="d-flex mx-auto" max-width="500">
-      <v-toolbar flat>
+    <v-sheet tile class="d-flex mx-auto py-6" max-width="500">
+      <div class="d-flex flex-wrap justify-center">
         <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -13,19 +13,20 @@
           outlined
           hide-details
           class="ma-2"
+          :class="{ action: $vuetify.breakpoint.xs }"
           :label="$t('general.display')"
         />
         <v-btn icon class="ma-2" @click="$refs.calendar.next()">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
-          outlined
-          color="grey darken-1"
+          color="primary"
           class="ma-2"
+          :class="{ action: $vuetify.breakpoint.xs }"
           @click="e => $emit('input', '')"
           v-text="$t('time.today')"
         />
-      </v-toolbar>
+      </div>
     </v-sheet>
     <calendar
       ref="calendar"
@@ -86,3 +87,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.action {
+  width: 150px;
+}
+</style>

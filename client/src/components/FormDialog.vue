@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="600px" v-model="value" persistent>
+  <v-dialog max-width="600px" class="dialog" v-model="value" persistent>
     <v-card>
       <v-card-title class="headline pt-13 justify-center" v-text="title" />
       <v-card-subtitle
@@ -8,7 +8,7 @@
         v-if="subtitle"
       />
       <validation-observer v-slot="{ invalid }" ref="observer">
-        <form class="w-75 mx-auto" @submit.prevent="save">
+        <form class="w-85 mx-auto" @submit.prevent="save">
           <v-card-text>
             <v-row>
               <v-col

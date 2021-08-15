@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-10">
+  <div class="pa-3 pa-sm-10">
     <route-tabs :tabs="tabs" introjs="tabs" />
     <v-row>
       <v-col class="mx-auto" sm="11" lg="9">

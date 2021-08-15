@@ -13,16 +13,18 @@
       :headers="tableHeaders"
       :items="items"
       :search="searchFilter"
+      :no-data-text="noDataText"
     >
       <template v-slot:item.actions="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              :color="actionOneIconColor"
+              introjs="actions-table-icon-one"
               size="20"
               class="mx-3"
               v-bind="attrs"
               v-on="on"
+              :color="actionOneIconColor"
               @click="$emit('action-one-click', item)"
             >
               {{ actionOneIcon }}
@@ -34,11 +36,11 @@
         <v-tooltip bottom v-if="totalActions >= 2">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              :color="actionTwoIconColor"
               size="20"
               class="mx-3"
               v-bind="attrs"
               v-on="on"
+              :color="actionTwoIconColor"
               @click="$emit('action-two-click', item)"
             >
               {{ actionTwoIcon }}
@@ -56,6 +58,14 @@ import i18n from "../plugins/i18n"
 
 export default {
   props: {
+    noDataText: {
+      type: String,
+      required: false,
+    },
+    actionsTitle: {
+      type: String,
+      default: "",
+    },
     totalActions: {
       type: Number,
       default: 2
@@ -104,7 +114,7 @@ export default {
 
   computed: {
     tableHeaders() {
-      return [...this.headers, { text: "", value: "actions", sortable: false }]
+      return [...this.headers, { text: this.actionsTitle, value: "actions", sortable: false }]
     },
   },
 }
