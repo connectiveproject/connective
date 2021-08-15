@@ -46,15 +46,18 @@ export async function checkRegistrationStatus(to, from, next) {
   })
 }
 
-export function loginOrFlushStore(to, from, next) {
+export function flushState(to, from, next) {
   // if logged in already, redirect to dashboard
   // else flush state (relevant on logouts)
+  store.dispatch("flushState")
+  next()
+}
+
+export function loginIfAuthenticated(to, from, next) {
   if (store.state.auth.isAuthenticated) {
-    next({ name: "Dashboard", params: { lang: i18n.locale } })
-  } else {
-    store.dispatch("flushState")
-    next()
+    return next({ name: "Dashboard", params: { lang: i18n.locale } })
   }
+  next()
 }
 
 export async function initPrograms(to, from, next) {

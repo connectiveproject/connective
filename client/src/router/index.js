@@ -3,7 +3,8 @@ import VueRouter from "vue-router"
 import i18n from "../plugins/i18n"
 import {
   checkRegistrationStatus,
-  loginOrFlushStore,
+  flushState,
+  loginIfAuthenticated,
   initPrograms,
   initConsumerPrograms,
   flushPagination,
@@ -81,6 +82,7 @@ const routes = [
         path: "welcome",
         name: "Welcome",
         component: Welcome,
+        beforeEnter: loginIfAuthenticated,
         children: [
           {
             path: "school-staff-register",
@@ -104,7 +106,7 @@ const routes = [
             path: "login",
             name: "Login",
             component: Login,
-            beforeEnter: loginOrFlushStore,
+            beforeEnter: flushState,
           },
         ],
       },

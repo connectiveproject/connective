@@ -1,7 +1,10 @@
 <template>
   <div>
-    <v-sheet tile class="d-flex mx-auto py-6" max-width="500">
-      <div class="d-flex flex-wrap justify-center">
+    <v-sheet
+      tile
+      class="d-flex relative mx-auto py-6 align-center justify-center flex-wrap"
+    >
+      <div class="d-flex flex-wrap align-center justify-center actions">
         <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -21,12 +24,17 @@
         </v-btn>
         <v-btn
           color="primary"
-          class="ma-2"
+          class="my-2 mx-5"
           :class="{ action: $vuetify.breakpoint.xs }"
           @click="e => $emit('input', '')"
           v-text="$t('time.today')"
         />
       </div>
+      <div
+        :class="{ 'absolute-left': $vuetify.breakpoint.mdAndUp }"
+        class="text--center text-h5 font-weight-bold"
+        v-text="title"
+      />
     </v-sheet>
     <calendar
       ref="calendar"
@@ -34,13 +42,14 @@
       v-on="$listeners"
       :type="displayType"
       :value="value"
-      @input="e => $emit('input', e)"
+      @input="$emit('input', $event)"
+      @change="setTitle"
     />
   </div>
 </template>
 
 <script>
-import Calendar from "./Calendar.vue"
+import Calendar from "./Calendar"
 export default {
   components: { Calendar },
   inheritAttrs: false,
@@ -59,12 +68,16 @@ export default {
     },
   },
   methods: {
+    setTitle() {
+      this.title = this.$refs.calendar.$refs.calendar.title
+    },
     onDisplayTypeChange(e) {
       this.$emit("update:displayType", e)
     },
   },
   data() {
     return {
+      title: "",
       displayTypes: [
         {
           text: this.$t("time.monthly"),
@@ -90,5 +103,8 @@ export default {
 <style scoped>
 .action {
   width: 150px;
+}
+.actions {
+  max-width: 500px;
 }
 </style>
