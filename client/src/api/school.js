@@ -26,7 +26,7 @@ const school = {
     return axios.put(`${UPDATE_SCHOOL_DETAILS_API_URL}${schoolSlug}/`, data)
   },
 
-  getStudentList(params) {
+  getStudentList(params = {}) {
     // :Object params: query params
     return axios.get(GET_SCHOOL_STUDENTS_LIST_API_URL, { params })
   },
@@ -42,7 +42,7 @@ const school = {
     return axios.post(ADD_SCHOOL_COORDINATORS_BULK_API_URL, formData)
   },
 
-  getCoordinatorsExportFile(params) {
+  getCoordinatorsExportFile(params = {}) {
     // :Object params: query params
     return axios.get(GET_SCHOOL_COORDINATORS_EXPORT_FILE_API_URL, { params })
   },
@@ -54,7 +54,7 @@ const school = {
     return axios.post(ADD_SCHOOL_STUDENTS_BULK_API_URL, formData)
   },
 
-  getStudentsExportFile(params) {
+  getStudentsExportFile(params = {}) {
     // :Object params: query params
     return axios.get(GET_SCHOOL_STUDENTS_EXPORT_FILE_API_URL, { params })
   },
@@ -72,7 +72,7 @@ const school = {
     )
   },
 
-  getCoordinatorList(params) {
+  getCoordinatorList(params = {}) {
     // :Object params: query params
     return axios.get(GET_SCHOOL_COORDINATORS_LIST_API_URL, { params })
   },

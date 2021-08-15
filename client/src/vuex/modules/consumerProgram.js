@@ -44,9 +44,12 @@ const consumerProgram = {
       let res = await Api.consumerProgram.getProgramMediaList(programSlug)
       return res.data.results
     },
-    async getProgramsList({ commit, state, rootGetters }, override = true) {
+    async getProgramsList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the programs list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       const mutation = override ? "SET_PROGRAM_LIST" : "ADD_PROGRAMS_TO_LIST"
       let res = await Api.consumerProgram.getProgramsList(params)
       commit(mutation, res.data.results)

@@ -54,9 +54,12 @@ const organization = {
       }
       return state.details
     },
-    async getInstructorList({ commit, state, rootGetters }, override = true) {
+    async getInstructorList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       const mutation = override
         ? "SET_INSTRUCTOR_LIST"
         : "ADD_INSTRUCTORS_TO_LIST"
@@ -77,9 +80,12 @@ const organization = {
     editInstructor(ctx, { slug, instructor }) {
       return Api.organization.editInstructor(slug, instructor)
     },
-    async getVendorList({ commit, state, rootGetters }, override = true) {
+    async getVendorList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       const mutation = override ? "SET_VENDOR_LIST" : "ADD_VENDORS_TO_LIST"
       let res = await Api.organization.getVendorList(params)
       commit(mutation, res.data.results)

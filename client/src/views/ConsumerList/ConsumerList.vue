@@ -82,7 +82,10 @@ export default {
 
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
-    await store.dispatch("school/getStudentList", true)
+    await store.dispatch("school/getStudentList", {
+      override: true,
+      usePagination: true,
+    })
     next()
   },
 
@@ -106,12 +109,12 @@ export default {
         this.recentlyScrolled = false
         if (this.totalStudents > this.studentList.length) {
           // add new if there are items left to fetch. do not override.
-          this.getStudentList(false)
+          this.getStudentList({ override: false, usePagination: true })
         }
       } else {
         // fetch & ovrride programs list
         this.updatePagination({ page: 1 })
-        this.getStudentList(true)
+        this.getStudentList({ override: true, usePagination: true })
       }
     },
   },

@@ -118,6 +118,7 @@ export default {
     await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,
+      usePagination: false,
     })
     next()
   },

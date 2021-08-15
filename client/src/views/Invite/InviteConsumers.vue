@@ -204,7 +204,10 @@ export default {
         sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getStudentList()
+      this.tableProps.items = await this.getStudentList({
+        override: true,
+        usePagination: true,
+      })
       this.tableProps.serverItemsLength = this.$store.state.school.totalStudents
       this.tableProps.loading = false
     },
@@ -260,7 +263,7 @@ export default {
 
     exportCSV: debounce(
       function () {
-        this.getStudentsExportFile()
+        this.getStudentsExportFile({ usePagination: true })
       },
       500,
       { leading: true, trailing: false }

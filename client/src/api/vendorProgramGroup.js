@@ -5,7 +5,7 @@ import {
 } from "../helpers/constants/constants"
 
 const vendorProgramGroup = {
-  getGroupList(params) {
+  getGroupList(params = {}) {
     return axios.get(GET_VENDOR_PROGRAM_GROUPS_API_URL, { params })
   },
   updateGroup(groupSlug, data) {

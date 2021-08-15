@@ -5,7 +5,7 @@ function getDefaultState() {
     programsList: [],
     approvedOrdersList: [],
     totalPrograms: null,
-    topConsumerRequestsStats: []
+    topConsumerRequestsStats: [],
   }
 }
 
@@ -56,9 +56,12 @@ const program = {
       let res = await Api.program.getProgramMediaList(slug)
       return res.data.results
     },
-    async getProgramsList({ commit, state, rootGetters }, override = true) {
+    async getProgramsList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the programs list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       const mutation = override ? "SET_PROGRAM_LIST" : "ADD_PROGRAMS_TO_LIST"
       let res = await Api.program.getProgramsList(params)
       commit(mutation, res.data.results)
@@ -112,7 +115,7 @@ const program = {
       const res = await Api.program.getTopConsumerRequestsStats()
       commit("SET_TOP_CONSUMER_REQUESTS_STATS", res.data)
       return res.data
-    }
+    },
   },
 }
 

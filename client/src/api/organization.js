@@ -11,7 +11,7 @@ import {
 } from "../helpers/constants/constants"
 
 const organization = {
-  getInstructorList(params) {
+  getInstructorList(params = {}) {
     // :Object params: query params
     return axios.get(GET_ORGANIZATION_INSTRUCTORS_LIST_API_URL, { params })
   },
@@ -33,7 +33,7 @@ const organization = {
     )
   },
 
-  getVendorList(params) {
+  getVendorList(params = {}) {
     // :Object params: query params
     return axios.get(GET_ORGANIZATION_VENDORS_LIST_API_URL, { params })
   },

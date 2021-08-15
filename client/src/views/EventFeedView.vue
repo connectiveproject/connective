@@ -1,10 +1,7 @@
 <template>
   <div class="relative px-3 mt-8 px-lg-16 mx-lg-16 mt-lg-16">
     <h1 v-text="$t('posts.myFeed')" class="mb-5" />
-    <h2
-      v-text="$t('posts.viewUpdatesAndPostsInRealTime!')"
-      class="pb-12"
-    />
+    <h2 v-text="$t('posts.viewUpdatesAndPostsInRealTime!')" class="pb-12" />
     <v-row justify="center" v-for="post in posts" :key="post.slug" no-gutters>
       <v-col cols="12" md="5" lg="4">
         <post
@@ -34,7 +31,10 @@ export default {
   components: { Post, EndOfPageDetector },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    const posts = await store.dispatch("eventFeedPost/getFeedPosts")
+    const posts = await store.dispatch("eventFeedPost/getFeedPosts", {
+      override: true,
+      usePagination: true,
+    })
     next(vm => (vm.posts = posts))
   },
   methods: {
@@ -44,7 +44,7 @@ export default {
     onEndOfPage() {
       this.incrementPage()
       if (this.totalFeedPosts > this.posts.length) {
-        this.getFeedPosts(false)
+        this.getFeedPosts({ override: false, usePagination: true })
       }
     },
   },

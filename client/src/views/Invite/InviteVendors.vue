@@ -197,7 +197,7 @@ export default {
         sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getVendorList()
+      this.tableProps.items = await this.getVendorList({ override: true, usePagination: true })
       this.tableProps.serverItemsLength =
         this.$store.state.organization.totalVendors
       this.tableProps.loading = false
@@ -210,7 +210,8 @@ export default {
         this.getVendors()
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = "this action is not supported"
+        this.csvFile = null
       }
     },
 

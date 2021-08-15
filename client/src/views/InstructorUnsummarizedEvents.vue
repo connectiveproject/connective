@@ -22,7 +22,11 @@
       :items="formattedEvents"
       @input="onEventClick"
     />
-    <div v-else class="text-center text-md-h6 absolute-center text-body-1" v-text="$t('events.eventsToSummarizeWereNotFound')" />
+    <div
+      v-else
+      class="text-center text-md-h6 absolute-center text-body-1"
+      v-text="$t('events.eventsToSummarizeWereNotFound')"
+    />
   </v-card>
 </template>
 
@@ -44,7 +48,11 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("instructorEvent/getPastEvents", { daysAgo: 60, unsummarizedOnly: true })
+    await store.dispatch("instructorEvent/getPastEvents", {
+      daysAgo: 60,
+      unsummarizedOnly: true,
+      usePagination: false,
+    })
     next()
   },
   computed: {

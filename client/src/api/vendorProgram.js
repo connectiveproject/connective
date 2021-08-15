@@ -30,7 +30,7 @@ const vendorProgram = {
   createProgramMedia(data) {
     return axios.post(CREATE_PROGRAM_MEDIA_API_URL, data)
   },
-  getProgramList(params = null) {
+  getProgramList(params = {}) {
     // :Object params: query params
     if (params) {
       return axios.get(GET_VENDOR_PROGRAM_LIST_API_URL, { params })

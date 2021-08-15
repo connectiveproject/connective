@@ -50,6 +50,7 @@ export default {
     await store.dispatch("consumerEvent/getEventList", {
       benchmarkDate: moment(),
       override: true,
+      usePagination: false,
     })
     next()
   },
@@ -62,7 +63,7 @@ export default {
     fetchEvents(benchmarkDay) {
       // :Object benchmarkDay: the date object to fetch "around" (e.g., )
       const benchmarkDate = moment(benchmarkDay.date)
-      this.getEventList({ benchmarkDate, override: true })
+      this.getEventList({ benchmarkDate, override: true, usePagination: false })
     },
   },
   data() {

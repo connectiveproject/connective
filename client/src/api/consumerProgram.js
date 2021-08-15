@@ -19,7 +19,7 @@ const consumerProgram = {
       },
     })
   },
-  getProgramsList(params) {
+  getProgramsList(params = {}) {
     // :Object params: query params
     return axios.get(GET_CONSUMER_PROGRAM_LIST_API_URL, { params })
   },

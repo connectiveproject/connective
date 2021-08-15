@@ -14,7 +14,7 @@ const instructorEvent = {
     if (!slug) throw "updateEvent: received empty slug"
     return axios.patch(`${UPDATE_INSTRUCTOR_EVENT_API_URL}${slug}/`, data)
   },
-  getEventList(params) {
+  getEventList(params = {}) {
     return axios.get(GET_INSTRUCTOR_EVENT_LIST_API_URL, { params })
   },
 }

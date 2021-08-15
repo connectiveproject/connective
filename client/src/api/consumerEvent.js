@@ -10,7 +10,7 @@ const consumerEvent = {
     if (!slug) throw "getEvent: received empty slug"
     return axios.get(`${GET_CONSUMER_EVENT_API_URL}${slug}/`)
   },
-  getEventList(params) {
+  getEventList(params = {}) {
     return axios.get(GET_CONSUMER_EVENT_LIST_API_URL, { params })
   },
   createEventFeedback(data) {

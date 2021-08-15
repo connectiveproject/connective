@@ -47,11 +47,12 @@ export default {
     await store.dispatch("vendorProgramGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,
+      usePagination: false,
     })
     next()
   },
   async mounted() {
-    const instructors = await this.getInstructorList()
+    const instructors = await this.getInstructorList({ usePagination: false })
     this.instructorList = instructors.map(instructor => ({
       value: instructor.slug,
       text: instructor.name,
