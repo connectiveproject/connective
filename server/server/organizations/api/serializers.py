@@ -267,6 +267,7 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     instructor = serializers.SlugRelatedField(
         queryset=Instructor.objects.all(),
         slug_field="slug",
+        required=False,
     )
     activity_logo = serializers.ImageField(
         source="activity_order.activity.logo",

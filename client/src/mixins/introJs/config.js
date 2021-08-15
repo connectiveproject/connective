@@ -23,13 +23,13 @@ export const config = {
       title: i18n.t("introjs.avatar"),
       selector: "navbar-account-menu",
       intro: i18n.t(
-        "intro.js.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
+        "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
     },
     {
       title: i18n.t("introjs.navigation"),
       selector: "navigation",
-      intro: i18n.t("בלחיצה ניתן לנווט לעמודים השונים בממשק."),
+      intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
   CoordinatorDashboard: [
@@ -110,7 +110,7 @@ export const config = {
       title: i18n.t("introjs.eventsStatus"),
       selector: "actions-table",
       intro: i18n.t(
-        "בטבלה ניתן לראות אילו בתי ספר ביקשו להטמיע את התוכניות בתוכנית לימודיהם. ניתן לאשר ולדחות את הבקשה באמצעות הכפתורים בצד הטבלה."
+        "introjs.inThisTableYouCanSeeWhichSchoolsRequestedYourPrograms-YouMayAcceptAndRejectTheRequestsUsingTheTableSideButtons"
       ),
     },
   ],
@@ -232,24 +232,24 @@ export const config = {
   ],
   ConsumerMyEvents: [
     {
-      title: i18n.t("המפגשים שלי"),
+      title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
-        "בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות אליהן נרשמת."
+        "introjs.inThisPageYouCanViewTheWeeklyEventsOfTheGroupsYouRegisteredTo"
       ),
     },
     {
-      title: i18n.t("המפגשים שלי"),
+      title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
-        "ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."
+        "introjs.youCanViewTheEventsByDate-YouCanAlsoViewAdditionalInfoByClickingOnEvent"
       ),
       selector: "events-calendar",
     },
   ],
   ConsumerPendingEventsFeedback: [
     {
-      title: i18n.t("מישוב מפגשים"),
+      title: i18n.t("introjs.eventsFeedback"),
       intro: i18n.t(
-        "בעמוד זה ניתן למלא פידבק על הפעילויות השונות על מנת שנוכל להשתפר יחדיו"
+        "introjs.inThisPageYouCanFillFeedbackOnTheDifferentActivitiesSoWeCanImproveTogether"
       ),
       selector: "click-list",
     },
@@ -262,8 +262,10 @@ export const config = {
   ],
   CoordinatorProfile: [
     {
-      title: i18n.t("הפרופיל שלי"),
-      intro: i18n.t("בעמוד זה ניתן לערוך את פרטי הפרופיל ואת תמונת האווטר"),
+      title: i18n.t("introjs.myProfile"),
+      intro: i18n.t(
+        "introjs.inThisPageYouCanEditYourProfileInfoAndAvatarImage"
+      ),
     },
   ],
   SchoolDetails: [
@@ -280,35 +282,37 @@ export const config = {
   ],
   MyGroups: [
     {
-      title: i18n.t("הקבוצות שלי"),
+      title: i18n.t("introjs.myGroups"),
       intro: i18n.t(
-        "בחלק זה ניתן לצפות בקבוצות הפועלות בבית הספר. תחת כל פעילות עשויות להתקיים מספר קבוצות במקביל. לדוגמה - תוכנית מצויינות עם קבוצות גיל שונות."
+        "introjs.inThisSectionYouCanViewTheRunningGroupsInYourSchool-EachProgramMayContainMoreThanOneGroup-forExampleExcellencyProgramWithSeveralAgeGroups"
       ),
     },
     {
-      title: i18n.t("הקבוצות שלי"),
+      title: i18n.t("introjs.myGroups"),
       intro: i18n.t(
-        "בלחיצה על כפתור זה ניתן לייצר קבוצות חדשות תחת פעילויות שאושרו לבית הספר."
+        "introjs.clickThisButtonToCreateNewGroupsForApprovedPrograms"
       ),
       selector: "add-btn",
     },
   ],
   MyEvents: [
     {
-      title: i18n.t("המפגשים שלי"),
-      intro: i18n.t("בעמוד זה ניתן לצפות במפגשים השבועיים של הקבוצות השונות."),
+      title: i18n.t("introjs.myEvents"),
+      intro: i18n.t(
+        "introjs.inThisPageYouCanViewWeeklyEventsOfTheDifferentGroups"
+      ),
     },
     {
-      title: i18n.t("המפגשים שלי"),
+      title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
-        "ניתן להתבונן במפגשים לפי תאריך, כאשר בלחיצה על מפגש ספציפי, ייפתח פירוט."
+        "introjs.youCanViewTheEventsByDate-YouCanAlsoViewAdditionalInfoByClickingOnEvent"
       ),
       selector: "events-calendar",
     },
     {
-      title: i18n.t("המפגשים שלי"),
+      title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
-        "בלחיצה על כפתור זה ניתן להתבונן בסטטוס בקשות המפגשים, כמו גם ליצור בקשה חדשה."
+        "introjs.clickThisButtonToViewTheEventsRequestsStatusAndCreateNewRequests"
       ),
       selector: "events-table-button",
     },
@@ -363,51 +367,53 @@ export const config = {
   ],
   InstructorProfile: [
     {
-      title: i18n.t("הפרופיל שלי"),
-      intro: i18n.t("בעמוד זה ניתן לצפות בפרטי הפרופיל ולערוך את תמונת האווטר"),
+      title: i18n.t("introjs.myProfile"),
+      intro: i18n.t(
+        "introjs.inThisPageYouCanViewYourProfileAndEditTheAvatarImage"
+      ),
     },
   ],
   InstructorUnsummarizedEvents: [
     {
-      title: i18n.t("סיכום מפגשים"),
+      title: i18n.t("introjs.eventsSummary"),
       intro: i18n.t(
-        "בעמוד זה ניתן לבצע סיכומי מפגשים, מילוי נוכחות, כתיבת הערות ופרסום פוסטים פומביים"
+        "introjs.inThisPageYouMaySummarizeEventsFillInAttendanceWriteEventNotesAndPostPublicPosts"
       ),
       selector: "click-list",
     },
   ],
   InstructorEventSummary: [
     {
-      title: i18n.t("סיכום מפגש"),
-      intro: i18n.t("כאן ניתן לסכם מפגש עבר"),
+      title: i18n.t("introjs.eventSummary"),
+      intro: i18n.t("introjs.hereYouMaySummarizeAnEvent"),
     },
     {
-      title: i18n.t("חסוי"),
+      title: i18n.t("introjs.confidential"),
       selector: "confidential",
       intro: i18n.t(
-        "חלק זה הוא החלק החסוי שאינו משוקף לתלמידים. ניתן למלא נוכחות, אירועים חריגים ומרכזיים שקרו ועוד."
+        "introjs.thisSectionIsConfidentialAndStudentsCanNotSeeIt-YouCanFillInAttendanceUnusualIssuesEtc"
       ),
     },
     {
-      title: i18n.t("פומבי"),
+      title: i18n.t("introjs.public"),
       selector: "public",
       intro: i18n.t(
-        "בחלק זה ניתן לייצר פוסט/פרסום פומבי בו יוכלו תלמידים וסגל לצפות. חלק זה מגביר את זיקת התלמיד לפעילות. ניתן להעלות תמונות, להוסיף תיאור ועוד."
+        "introjs.hereYouCanCreateAPublicPostWhichWillBeAvailableForStudentsAndStaff-ThisPartEnhancesStudentsEngagement-YouMayUploadImagesAddDescriptionEtc"
       ),
     },
   ],
   EventFeedView: [
     {
-      title: i18n.t("הפיד שלי"),
-      intro: i18n.t(
-        "בעמוד זה ניתן לצפות בפוסטים ובפרסומים מן הפעילויות השונות"
-      ),
+      title: i18n.t("introjs.myFeed"),
+      intro: i18n.t("introjs.hereYouMayViewPostsFromTheDifferentActivities"),
     },
   ],
   VendorProfile: [
     {
-      title: i18n.t("הפרופיל שלי"),
-      intro: i18n.t("בעמוד זה ניתן לערוך את פרטי הפרופיל ואת תמונת האווטר"),
+      title: i18n.t("introjs.myProfile"),
+      intro: i18n.t(
+        "introjs.inThisPageYouCanEditYourProfileInfoAndAvatarImage"
+      ),
     },
   ],
   VendorDetailProgram: [
@@ -430,15 +436,15 @@ export const config = {
   ],
   VendorGroupsTable: [
     {
-      title: i18n.t("myActivity.myGroups"),
+      title: i18n.t("introjs.myGroups"),
       intro: i18n.t(
-        "בעמוד זה ניתן לצפות בכלל הקבוצות שבבעלות העמותה ולשבץ מדריכים בהתאם"
+        "introjs.hereYouMayViewAllTheGroupsAndAssignInstructorsAccordingly"
       ),
     },
     {
-      title: i18n.t("myActivity.myGroups"),
+      title: i18n.t("introjs.myGroups"),
       selector: "actions-table-icon-one",
-      intro: i18n.t("בלחיצה כאן ניתן לשבץ מדריך לקבוצה"),
+      intro: i18n.t("introjs.clickTheButtonOnTheSideOfEachTableRowToAssignInstructorToTheGroup"),
     },
   ],
 }
