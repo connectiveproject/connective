@@ -308,11 +308,16 @@ class ConsumerRequestDataSerializer(serializers.ModelSerializer):
         source="activity_order.activity.name",
         read_only=True,
     )
+    activity_order = serializers.CharField(
+        source="activity_order.slug",
+        read_only=True,
+    )
     consumer_requests = serializers.IntegerField()
 
     class Meta:
         model = SchoolActivityGroup
         fields = [
             "activity_name",
+            "activity_order",
             "consumer_requests",
         ]

@@ -25,7 +25,6 @@
                 :value="field.value"
                 :items="field.choices"
                 :multiple="field.multiselect"
-                :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
               />
               <v-textarea

@@ -177,7 +177,8 @@
     "timeChoose": "בחירת שעה",
     "dateChoose": "בחירת תאריך",
     "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה",
-    "deleteGroup": "מחיקת קבוצה"
+    "deleteGroup": "מחיקת קבוצה",
+    "addStudents": "הוספת תלמידים"
   },
 
   "grades": {
@@ -300,8 +301,10 @@
     "groupsFound": "קבוצות נמצאו",
     "students": "תלמידים",
     "studentsDisplay": "תצוגת תלמידים",
+    "hereYouCanSeeTheListOfAllStudents": "כאן ניתן לראות את רשימת כלל התלמידים",
     "studentsFound": "תלמידים נמצאו",
-    "toThePersonalPage": "לעמוד האישי"
+    "toThePersonalPage": "לעמוד האישי",
+    "studentsPendingAssignment": "תלמידים ממתינים לשיבוץ"
   },
 
   "events": {

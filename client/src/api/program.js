@@ -46,8 +46,8 @@ const program = {
   getOrdersList(params = {}) {
     return axios.get(GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL, { params })
   },
-  getTopConsumerRequestsStats() {
-    return axios.get(GET_TOP_CONSUMER_REQUESTS_STATS_API_URL)
+  getTopConsumerRequestsStats(params = {}) {
+    return axios.get(GET_TOP_CONSUMER_REQUESTS_STATS_API_URL, { params })
   }
 }
 

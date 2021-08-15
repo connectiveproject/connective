@@ -6,6 +6,7 @@ export const CAROUSEL_PLACEHOLDER = require("@/assets/img/optimized/children-boo
 export const LAZY_IMAGE_PLACEHOLDER = require("@/assets/img/optimized/drew-beamer-kUHfMW8awpE-unsplash.webp") // https://unsplash.com/photos/kUHfMW8awpE
 export const CONFIDENTIAL_WATERMARK = require("@/assets/img/optimized/confidential.svg") // contributed by Omri from VisibleRisk
 export const CREATE_EVENT = require("@/assets/img/optimized/Artboard 10.svg")
+export const CREATE_GROUP = require("@/assets/img/optimized/Artboard 12.svg")
 export const BACKGROUNDS = {
   error: require("@/assets/img/optimized/surprised.webp"), // unsplash.com/photos/qDY9ahp0Mto
   welcome: require("@/assets/video/hashalem-optimized.mp4"),
