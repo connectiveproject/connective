@@ -18,6 +18,7 @@
               <v-select
                 v-if="field.type && field.type === 'select'"
                 class="mx-2"
+                v-bind="field.attrs"
                 :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"
@@ -30,6 +31,7 @@
               <v-textarea
                 v-else-if="field.type && field.type === 'textarea'"
                 class="mx-2"
+                v-bind="field.attrs"
                 auto-grow
                 rows="1"
                 :data-testid="field.name"
@@ -39,9 +41,20 @@
                 :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
               />
+              <v-file-input
+                v-else-if="field.type && field.type === 'file'"
+                class="mx-2"
+                v-bind="field.attrs"
+                :data-testid="field.name"
+                :label="field.label"
+                :error-messages="errors"
+                :value="field.value"
+                @change="input => updateField(i, input)"
+              />
               <v-text-field
                 v-else
                 class="mx-2"
+                v-bind="field.attrs"
                 :data-testid="field.name"
                 :label="field.label"
                 :error-messages="errors"

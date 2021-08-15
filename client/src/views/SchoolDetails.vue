@@ -20,8 +20,8 @@
           <v-col cols="12" sm="12" lg="3">
             <picture-input
               class="mx-auto"
+              v-model="profilePicFile"
               :placeholderPicUrl="placeholderPicUrl"
-              @fileUpload="setPicture"
             />
           </v-col>
         </v-row>
@@ -212,10 +212,6 @@ export default {
           this.popupMsg = this.$t("errors.genericError")
         }
       }
-    },
-
-    setPicture(file) {
-      this.profilePicFile = file
     },
   },
 }

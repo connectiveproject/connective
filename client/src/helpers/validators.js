@@ -88,6 +88,19 @@ extend("youtubeUrl", {
   },
 })
 
+extend("afterStartTime", {
+  // should be attached to end-time
+  // check if end time is greater than start time
+  params: ["startTime"],
+  validate(endTime, { startTime }) {
+    if (!startTime) return true
+    const startTimeObj = moment(startTime, "HH:mm")
+    const endTimeObj = moment(endTime, "HH:mm")
+    return endTimeObj.isAfter(startTimeObj)
+  },
+  message: i18n.t("errors.endTimeShouldBeLaterThanStartTime"),
+})
+
 extend("afterStartDate", {
   // should be attached to end-time
   // check if end-time + end-date is after start-time + start-date

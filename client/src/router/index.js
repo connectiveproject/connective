@@ -270,6 +270,7 @@ const routes = [
             path: "event-order-status",
             name: "CoordinatorEventOrderStatus",
             component: CoordinatorEventOrderStatus,
+            beforeEnter: removePagination,
           },
           {
             path: "event-creator",

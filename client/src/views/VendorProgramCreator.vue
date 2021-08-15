@@ -16,10 +16,11 @@
         />
       </div>
       <picture-input
+        v-model="logoField.value"
         persist-upload-button
         class="my-10 mx-auto align-self-center mx-lg-16"
         :placeholderPicUrl="CAMERA_ROUNDED_DRAWING"
-        @fileUpload="setLogo"
+        rules="size:5000"
       />
     </div>
     <div class="text-center text-lg-start mt-16 mb-8">
@@ -28,7 +29,7 @@
         large
         v-text="$t('userActions.save')"
         class="white--text primary"
-        :disabled="!(isFormValid && logo)"
+        :disabled="!isFormValid"
         @click="onSubmit"
       />
       <v-btn
@@ -56,11 +57,12 @@ import PictureInput from "../components/PictureInput"
 export default {
   components: { FormCard, PictureInput },
   data() {
+    const fields = cloneDeep(VENDOR_PROGRAM_FIELDS)
     return {
       CAMERA_ROUNDED_DRAWING,
-      fields: cloneDeep(VENDOR_PROGRAM_FIELDS),
+      fields,
       isFormValid: false,
-      logo: null,
+      logoField: fields.filter(field => field.name === "logo")[0],
     }
   },
   methods: {
@@ -70,7 +72,7 @@ export default {
       try {
         const data = this.fields.reduce(
           (accum, f) => ({ ...accum, [f.name]: f.value }),
-          { tags: [], logo: this.logo }
+          { tags: [] }
         )
         data.activityWebsiteUrl = Utils.addWebsiteScheme(
           data.activityWebsiteUrl
@@ -85,9 +87,6 @@ export default {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)
       }
-    },
-    setLogo(e) {
-      this.logo = e
     },
   },
 }

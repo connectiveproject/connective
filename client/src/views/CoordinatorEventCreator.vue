@@ -16,7 +16,11 @@
         <radio-group
           class="pa-0 mb-8"
           v-model="recurrence"
-          :hint="$t('events.byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent')"
+          :hint="
+            $t(
+              'events.byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent'
+            )
+          "
           persistent-hint
           :title="`${$t('time.recurrence')}:`"
           :choices="recurrenceChoices"
@@ -33,12 +37,12 @@
         <validation-provider
           v-slot="{ errors }"
           rules="required"
-          name="startDate"
+          name="eventDate"
         >
           <date-input
-            v-model="startDate"
+            v-model="eventDate"
             text-field-classes="mb-3"
-            :label="$t('time.eventStartDate')"
+            :label="$t('time.eventDate')"
             :error-messages="errors"
           />
         </validation-provider>
@@ -56,25 +60,7 @@
         </validation-provider>
         <validation-provider
           v-slot="{ errors }"
-          rules="required|maxDaysDelta:@startDate,7"
-          name="endDate"
-        >
-          <date-input
-            v-model="endDate"
-            text-field-classes="mb-5"
-            persistent-hint
-            :hint="
-              $t(
-                'events.inCaseOfWeeklyEventsSpecifyTheEndDateOfTheFirstEventInTheSeries'
-              )
-            "
-            :label="$t('time.eventEndDate')"
-            :error-messages="errors"
-          />
-        </validation-provider>
-        <validation-provider
-          v-slot="{ errors }"
-          rules="required|afterStartDate:@startDate,@startTime,@endDate"
+          rules="required|afterStartTime:@startTime"
         >
           <time-input
             v-model="endTime"
@@ -138,9 +124,8 @@ export default {
   data() {
     return {
       img: CREATE_EVENT,
-      startDate: "",
+      eventDate: "",
       startTime: "12:00",
-      endDate: "",
       endTime: "12:00",
       selectedGroup: "",
       location: "",
@@ -151,7 +136,7 @@ export default {
           value: SERVER.eventOrderReccurence.oneTime,
         },
         {
-          label: this.$t("time.weeklyForYear"),
+          label: this.$t("time.weeklyFor52Weeks"),
           value: SERVER.eventOrderReccurence.weekly,
         },
       ],
@@ -162,10 +147,10 @@ export default {
     ...mapActions("event", ["createEventOrder"]),
     async onSubmit() {
       const startTime = Utils.dateToApiString(
-        moment(`${this.startDate}T${this.startTime}`)
+        moment(`${this.eventDate}T${this.startTime}`)
       )
       const endTime = Utils.dateToApiString(
-        moment(`${this.endDate}T${this.endTime}`)
+        moment(`${this.eventDate}T${this.endTime}`)
       )
       const eventOrder = {
         startTime,

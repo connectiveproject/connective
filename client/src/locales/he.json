@@ -334,7 +334,6 @@
     "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
     "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
     "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים",
-    "inCaseOfWeeklyEventsSpecifyTheEndDateOfTheFirstEventInTheSeries": "במקרה של אירועים חוזרים, פרטו את תאריך הסיום של המפגש הראשון",
     "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו אירועים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון"
   },
 
@@ -385,9 +384,9 @@
     "halfWeekly": "חצי שבועי",
     "daily": "יומי",
     "oneTime": "חד פעמי",
-    "weeklyForYear": "שבועי למשך שנה",
+    "weeklyFor52Weeks": "שבועי למשך 52 שבועות",
     "recurrence": "חזרתיות",
-    "eventStartDate": "תאריך תחילת המפגש",
+    "eventDate": "תאריך המפגש",
     "eventEndDate": "תאריך סיום המפגש",
     "eventStartTime": "שעת תחילת המפגש",
     "eventEndTime": "שעת סיום המפגש"
