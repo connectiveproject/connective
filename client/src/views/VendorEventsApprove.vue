@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class="pb-4" v-text="$t('events.eventsStatus')" />
+    <h1 class="pb-4" v-text="$t('events.requestsForEvents')" />
     <h2
       v-text="
         $t(
-          'events.viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents'
+          'events.approveOrDenyEventsRequestsFromSchoolGroups'
         )
       "
       class="pb-12"
@@ -24,7 +24,7 @@
     <modal-approve v-model="isModalOpen" @approve="approveOrder">
       {{
         this.$t(
-          "confirm.AreYouSureYouWantToApproveThisRequest?ThisActionWillStartCollaborationWithTheSchoolAndCreateTheRelevantEvents"
+          "confirm.AreYouSureYouWantToApproveThisRequest?ThisActionWillAddTheEventsToTheGroupSchedule"
         )
       }}
     </modal-approve>

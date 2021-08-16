@@ -2,7 +2,7 @@
   <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
     <h1 v-text="$t('myActivity.statistics')" class="mb-5" />
     <h2
-      v-text="$t('myActivity.advancedViewOfAllYourActivities')"
+      v-text="$t('general.thisIsAnExperimentalFeature-feedbacksAreMostWelcome')"
       class="pb-12"
     />
     <bubble-chart

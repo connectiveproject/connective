@@ -3,7 +3,7 @@
     <h1 class="mb-5" v-text="$t('invite.inviteStaff')" />
     <h2
       class="pb-12"
-      v-text="$t('invite.clickOnInviteStaffButtonToInviteNewStaffMember')"
+      v-text="$t('invite.clickOnInviteStaffButtonToInviteNewStaffMemberViaEmail')"
     />
     <div class="mx-auto d-flex justify-center mt-10">
       <v-card elevation="3" class="mb-15">

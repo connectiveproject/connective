@@ -5,19 +5,34 @@
         <h1 v-text="$t('events.eventsCalendar')" />
         <h2
           v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
-          class="pb-12"
+          class="pb-10"
         />
       </div>
-      <v-btn
-        tile
-        large
-        introjs="events-table-button"
-        class="d-block"
-        color="primary"
-        :block="$vuetify.breakpoint.xs"
-        @click="$router.push({ name: 'CoordinatorEventOrderStatus' })"
-        v-text="$t('events.createAndOrderEvents')"
-      />
+      <div :class="{ 'w-100': $vuetify.breakpoint.xs }">
+        <v-btn
+          tile
+          large
+          class="mx-0 mx-sm-4 my-3"
+          introjs="events-table-button"
+          color="primary"
+          :block="$vuetify.breakpoint.xs"
+          :to="{ name: 'CoordinatorEventCreator' }"
+        >
+          {{ $t("events.newEvent") }}
+          <v-icon right> mdi-plus </v-icon>
+        </v-btn>
+        <v-btn
+          tile
+          large
+          outlined
+          class="mx-0 mx-sm-4 my-3"
+          introjs="events-table-button"
+          color="primary"
+          :block="$vuetify.breakpoint.xs"
+          :to="{ name: 'CoordinatorEventOrderStatus' }"
+          v-text="$t('events.eventsTable')"
+        />
+      </div>
     </div>
     <actions-calendar
       v-model="value"

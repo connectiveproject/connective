@@ -89,7 +89,7 @@ export default {
         },
         street: {
           uniqueName: "street",
-          label: this.$t("general.street"),
+          label: this.$t("general.streetAndNumber"),
           rules: "required",
           value: "",
         },

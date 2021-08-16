@@ -138,6 +138,7 @@ export default {
           await this.createProgramMedia(data)
           this.mediaList = await this.getProgramMediaList(this.programSlug)
           this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
+          this.currentMediaIndex = this.mediaList.length - 1
         } catch (err) {
           this.showMessage(Api.utils.parseResponseError(err))
         }

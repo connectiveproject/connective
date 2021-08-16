@@ -7,7 +7,7 @@
   >
     <v-card-title
       class="text-sm-h4"
-      v-text="$t('events.unsummarizedPastEvents')"
+      v-text="$t('events.eventsPendingSummary')"
     />
     <v-card-subtitle
       class="text-md-h6 pt-3"

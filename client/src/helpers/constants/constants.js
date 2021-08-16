@@ -169,7 +169,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "activityEmail",
-    label: i18n.t("general.email"),
+    label: i18n.t("program.emailToGetInTouch"),
     rules: "required|email",
   },
   {

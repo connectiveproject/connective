@@ -61,14 +61,16 @@
           type="button"
           color="primary"
           outlined
-          v-text="$t('general.media')"
           @click="
             $router.push({
               name: 'VendorProgramMediaUpload',
               params: { programSlug },
             })
           "
-        />
+        >
+          {{ $t("userActions.addMedia") }}
+          <v-icon right> mdi-plus </v-icon>
+        </v-btn>
       </div>
     </validation-observer>
 
@@ -113,7 +115,9 @@ export default {
   data() {
     return {
       CAMERA_ROUNDED_DRAWING,
-      programFields: VENDOR_PROGRAM_FIELDS.filter(field => field.name !== "logo"),
+      programFields: VENDOR_PROGRAM_FIELDS.filter(
+        field => field.name !== "logo"
+      ),
       isModalOpen: false,
       program: null,
       logo: null,

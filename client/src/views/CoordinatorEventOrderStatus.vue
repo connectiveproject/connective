@@ -2,11 +2,11 @@
   <div class="w-75 mx-auto">
     <div class="d-flex justify-space-between py-10 flex-wrap">
       <div>
-        <h1 class="pb-4" v-text="$t('events.eventsStatus')" />
+        <h1 class="pb-4" v-text="$t('events.requestsForEvents')" />
         <h2
           v-text="
             $t(
-              'events.viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents'
+              'events.approveOrDenyEventsRequestsFromSchoolGroups'
             )
           "
           class="pb-12"

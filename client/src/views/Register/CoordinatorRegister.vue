@@ -127,7 +127,7 @@
               data-testid="street"
               v-model="registrationInfo.schoolStreet"
               :error-messages="errors"
-              :label="$t('general.street')"
+              :label="$t('general.streetAndNumber')"
               required
             ></v-text-field>
           </validation-provider>
@@ -234,7 +234,7 @@
             {{ registrationInfo.schoolCity }}</v-card-text
           >
           <v-card-text
-            ><b>{{ $t("general.street") }}:</b>
+            ><b>{{ $t("general.streetAndNumber") }}:</b>
             {{ registrationInfo.schoolStreet }}</v-card-text
           >
           <v-card-text

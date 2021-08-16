@@ -23,7 +23,7 @@
           :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'VendorProgramCreator' })"
         >
-          {{ $tc("userActions.add", 1) }}
+          {{ $t("program.newProgram") }}
           <v-icon right> mdi-plus </v-icon>
         </v-btn>
       </v-col>

@@ -17,6 +17,7 @@
             >
               <v-select
                 v-if="field.type && field.type === 'select'"
+                :ref="field.name"
                 class="mx-2"
                 v-bind="field.attrs"
                 :data-testid="field.name"
@@ -26,9 +27,11 @@
                 :items="field.choices"
                 :multiple="field.multiselect"
                 @input="input => updateField(i, input)"
+                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
               />
               <v-textarea
                 v-else-if="field.type && field.type === 'textarea'"
+                :ref="field.name"
                 class="mx-2"
                 v-bind="field.attrs"
                 auto-grow
@@ -39,9 +42,11 @@
                 :value="field.value"
                 :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
+                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
               />
               <v-file-input
                 v-else-if="field.type && field.type === 'file'"
+                :ref="field.name"
                 class="mx-2"
                 v-bind="field.attrs"
                 :data-testid="field.name"
@@ -49,9 +54,11 @@
                 :error-messages="errors"
                 :value="field.value"
                 @change="input => updateField(i, input)"
+                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
               />
               <v-text-field
                 v-else
+                :ref="field.name"
                 class="mx-2"
                 v-bind="field.attrs"
                 :data-testid="field.name"
@@ -60,6 +67,7 @@
                 :value="field.value"
                 :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
+                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
               />
             </validation-provider>
           </v-col>
