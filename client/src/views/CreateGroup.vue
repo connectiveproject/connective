@@ -9,11 +9,20 @@
         @invalid="isFormValid = false"
       />
       <v-btn
+        large
         class="white--text primary mt-10"
         data-testid="submit-button"
         :disabled="!isFormValid"
         @click="onSubmit"
         v-text="$t('userActions.save')"
+      />
+      <v-btn
+        large
+        outlined
+        class="mt-10 mr-4"
+        color="primary"
+        @click="$router.go(-1)"
+        v-text="$t('userActions.back')"
       />
     </v-col>
     <v-col sm="11" lg="6" v-if="!$vuetify.breakpoint.xs">

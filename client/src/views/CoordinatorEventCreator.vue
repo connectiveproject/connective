@@ -80,11 +80,19 @@
         </validation-provider>
         <v-btn
           type="submit"
-          class="mt-4"
+          class="mt-4 ml-4"
           color="primary"
           large
           v-text="$t('userActions.save')"
           :disabled="invalid"
+        />
+        <v-btn
+          class="mt-4 mr-4"
+          color="primary"
+          outlined
+          large
+          v-text="$t('userActions.back')"
+          @click="$router.go(-1)"
         />
       </validation-observer>
     </v-col>
