@@ -19,7 +19,7 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
             )
 
         events_to_create = []
-        for i in range(0, 54):
+        for i in range(0, 52):
             start_time = instance.start_time + timedelta(days=i * 7)
             end_time = instance.end_time + timedelta(days=i * 7)
             events_to_create.append(

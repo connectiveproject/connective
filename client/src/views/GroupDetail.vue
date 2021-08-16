@@ -7,16 +7,29 @@
             <h1 v-text="$t('groups.groupPage')" class="mb-5" />
             <h2 v-text="$t('groups.editAndViewTheGroupDetails')" class="" />
           </div>
-          <v-btn
-            tile
-            large
-            color="error"
-            class="mx-auto mx-sm-0 d-block my-10 my-sm-0"
-            @click="isModalOpen = true"
-          >
-            {{ $t("userActions.delete") }}
-            <v-icon right> mdi-close </v-icon>
-          </v-btn>
+          <div>
+            <v-btn
+              tile
+              large
+              color="success"
+              class="mx-2"
+              :to="{ name: 'CoordinatorEventCreator', params: { groupSlug } }"
+            >
+              {{ $t("userActions.addEvents") }}
+              <v-icon right> mdi-plus </v-icon>
+            </v-btn>
+
+            <v-btn
+              tile
+              large
+              color="error"
+              class="mx-2"
+              @click="isModalOpen = true"
+            >
+              {{ $t("userActions.deleteGroup") }}
+              <v-icon right> mdi-close </v-icon>
+            </v-btn>
+          </div>
         </div>
 
         <validation-observer

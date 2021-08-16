@@ -3,10 +3,10 @@ import VueRouter from "vue-router"
 import i18n from "../plugins/i18n"
 import {
   checkRegistrationStatus,
-  loginOrFlushStore,
+  flushState,
+  loginIfAuthenticated,
   initPrograms,
   initConsumerPrograms,
-  removePagination,
   flushPagination,
   flushToken,
   populateConsumerData,
@@ -82,6 +82,7 @@ const routes = [
         path: "welcome",
         name: "Welcome",
         component: Welcome,
+        beforeEnter: loginIfAuthenticated,
         children: [
           {
             path: "school-staff-register",
@@ -105,7 +106,7 @@ const routes = [
             path: "login",
             name: "Login",
             component: Login,
-            beforeEnter: loginOrFlushStore,
+            beforeEnter: flushState,
           },
         ],
       },
@@ -158,13 +159,11 @@ const routes = [
             path: "my-events",
             name: "ConsumerMyEvents",
             component: ConsumerMyEvents,
-            beforeEnter: removePagination,
           },
           {
             path: "events-pending-feedbacks",
             name: "ConsumerPendingEventsFeedback",
             component: ConsumerPendingEventsFeedback,
-            beforeEnter: removePagination,
           },
           {
             path: "event-feedback/:slug",
@@ -247,7 +246,6 @@ const routes = [
             path: "my-events",
             name: "MyEvents",
             component: MyEvents,
-            beforeEnter: removePagination,
           },
           {
             path: "student-list",
@@ -275,7 +273,7 @@ const routes = [
             path: "event-creator",
             name: "CoordinatorEventCreator",
             component: CoordinatorEventCreator,
-            beforeEnter: removePagination,
+            props: true,
           },
           {
             path: "group-editor",
@@ -320,7 +318,6 @@ const routes = [
             path: "unsummarized-events",
             name: "InstructorUnsummarizedEvents",
             component: InstructorUnsummarizedEvents,
-            beforeEnter: removePagination,
           },
           {
             path: "event-summary/:slug",
@@ -355,13 +352,11 @@ const routes = [
             path: "events-approve",
             name: "VendorEventsApprove",
             component: VendorEventsApprove,
-            beforeEnter: removePagination,
           },
           {
             path: "my-groups",
             name: "VendorGroupsTable",
             component: VendorGroupsTable,
-            beforeEnter: removePagination,
           },
           {
             path: "my-programs",

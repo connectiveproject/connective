@@ -30,11 +30,11 @@ const consumerProgramGroup = {
     },
     async getGroupList(
       { commit, state, rootGetters },
-      { groupType, override }
+      { groupType, override, usePagination }
     ) {
       // :str groupType: which group type to fetch (if empty, fetch all groups)
       // :boolean override: whether to override the groups list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       if (groupType) {
         params.group_type = groupType
       }

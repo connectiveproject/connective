@@ -192,7 +192,10 @@ export default {
         sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getCoordinatorList()
+      this.tableProps.items = await this.getCoordinatorList({
+        override: true,
+        usePagination: true,
+      })
       this.tableProps.serverItemsLength =
         this.$store.state.school.totalCoordinators
       this.tableProps.loading = false
@@ -248,7 +251,7 @@ export default {
 
     exportCSV: debounce(
       function () {
-        this.getCoordinatorsExportFile()
+        this.getCoordinatorsExportFile({ usePagination: true })
       },
       500,
       { leading: true, trailing: false }

@@ -38,7 +38,7 @@ export default {
   components: { ClickList },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    const events = await store.dispatch("consumerEvent/getPastEvents", 60)
+    const events = await store.dispatch("consumerEvent/getPastEvents", { daysAgo: 60, usePagination: false })
     next(vm => (vm.eventsToFeedback = events.filter(e => !e.hasFeedback)))
   },
   data() {

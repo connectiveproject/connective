@@ -21,7 +21,7 @@ const program = {
       },
     })
   },
-  getProgramsList(params) {
+  getProgramsList(params = {}) {
     // :Object params: query params
     return axios.get(GET_PROGRAM_LIST_API_URL, { params })
   },
@@ -43,11 +43,11 @@ const program = {
       school: schoolSlug
     })
   },
-  getOrdersList(params) {
+  getOrdersList(params = {}) {
     return axios.get(GET_SCHOOL_PROGRAM_ORDERS_LIST_API_URL, { params })
   },
-  getTopConsumerRequestsStats() {
-    return axios.get(GET_TOP_CONSUMER_REQUESTS_STATS_API_URL)
+  getTopConsumerRequestsStats(params = {}) {
+    return axios.get(GET_TOP_CONSUMER_REQUESTS_STATS_API_URL, { params })
   }
 }
 

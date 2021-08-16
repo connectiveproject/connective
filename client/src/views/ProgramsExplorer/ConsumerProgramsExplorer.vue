@@ -130,12 +130,12 @@ export default {
         this.recentlyScrolled = false
         if (this.totalPrograms > this.programsList.length) {
           // add new programs if there are items left to fetch. do not override.
-          this.getProgramsList(false)
+          this.getProgramsList({ override: false, usePagination: true })
         }
       } else {
         // fetch & override programs list
         this.updatePagination({ page: 1 })
-        this.getProgramsList(true)
+        this.getProgramsList({ override: true, usePagination: true })
       }
     },
 

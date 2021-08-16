@@ -6,14 +6,15 @@
           slim
           v-slot="{ errors }"
           name="picUpload"
-          rules="size:5000"
+          :rules="rules"
         >
           <v-file-input
             :id="inputId"
             class="d-none"
             type="file"
             accept="image/*"
-            v-model="picFile"
+            :value="value"
+            @change="$emit('input', $event)"
           >
           </v-file-input>
           <div
@@ -25,7 +26,7 @@
         </validation-provider>
         <v-btn
           @click="triggerPicUpload()"
-          v-show="hover || (persistUploadButton && !picFile)"
+          v-show="hover || (persistUploadButton && !value)"
           color="blue-grey"
           class="pic-btn ma-2 white--text scale-animation"
           fab
@@ -48,6 +49,12 @@ export default {
   },
 
   props: {
+    value: {
+      required: true,
+      validator(imageFile) {
+        return imageFile instanceof File || [null, undefined].includes(imageFile)
+      },
+    },
     placeholderPicUrl: {
       type: String,
       required: false,
@@ -58,11 +65,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    rules: {
+      type: String,
+      default: "size:5000",
+    }
   },
 
   data() {
     return {
-      picFile: undefined,
       inputId: `${this._uid}_picUpload`,
     }
   },
@@ -74,15 +84,15 @@ export default {
   },
 
   watch: {
-    picFile: function () {
-      this.$emit("fileUpload", this.picFile)
+    value: function () {
+      this.$emit("fileUpload", this.value)
     },
   },
 
   computed: {
     picSource() {
-      if (this.picFile) {
-        return Utils.uploadedFileToUrl(this.picFile)
+      if (this.value) {
+        return Utils.uploadedFileToUrl(this.value)
       } else {
         return this.placeholderPicUrl
       }

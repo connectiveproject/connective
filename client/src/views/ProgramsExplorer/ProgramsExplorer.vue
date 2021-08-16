@@ -18,10 +18,7 @@
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
-          <h1
-            v-text="$t('program.programsExplorer')"
-            class="card-demo pb-6"
-          />
+          <h1 v-text="$t('program.programsExplorer')" class="card-demo pb-6" />
           <h3
             v-text="
               $t(
@@ -137,12 +134,12 @@ export default {
         this.recentlyScrolled = false
         if (this.totalPrograms > this.programsList.length) {
           // add new programs if there are items left to fetch. do not override.
-          this.getProgramsList(false)
+          this.getProgramsList({ override: false, usePagination: true })
         }
       } else {
         // fetch & override programs list
         this.updatePagination({ page: 1 })
-        this.getProgramsList(true)
+        this.getProgramsList({ override: true, usePagination: true })
       }
     },
 

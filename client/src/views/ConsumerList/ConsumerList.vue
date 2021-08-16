@@ -11,8 +11,25 @@
           class="checkbox-group"
         />
       </v-col>
-      <v-col cols="12" :class="{ 'px-10': !$vuetify.breakpoint.xs }">
-        <h1 v-text="$t('myActivity.studentsDisplay')" class="pb-6" />
+      <v-col :class="{ 'px-10': !$vuetify.breakpoint.xs }">
+        <div class="d-flex flex-wrap mb-10 justify-space-between">
+          <div>
+            <h1 v-text="$t('myActivity.studentsDisplay')" />
+            <h2
+              v-text="$t('myActivity.hereYouCanSeeTheListOfAllStudents')"
+              class="pb-12"
+            />
+          </div>
+          <v-btn
+            large
+            color="primary"
+            :block="$vuetify.breakpoint.xs"
+            :to="{ name: 'InviteConsumers' }"
+          >
+            {{ $t("userActions.addStudents") }}
+            <v-icon right> mdi-plus </v-icon>
+          </v-btn>
+        </div>
         <pagination-search-bar class="search-bar mx-auto pt-16" />
         <div class="text-center pt-10 overline">
           {{ totalStudents }} {{ $t("myActivity.studentsFound") }}
@@ -82,7 +99,10 @@ export default {
 
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
-    await store.dispatch("school/getStudentList", true)
+    await store.dispatch("school/getStudentList", {
+      override: true,
+      usePagination: true,
+    })
     next()
   },
 
@@ -106,12 +126,12 @@ export default {
         this.recentlyScrolled = false
         if (this.totalStudents > this.studentList.length) {
           // add new if there are items left to fetch. do not override.
-          this.getStudentList(false)
+          this.getStudentList({ override: false, usePagination: true })
         }
       } else {
         // fetch & ovrride programs list
         this.updatePagination({ page: 1 })
-        this.getStudentList(true)
+        this.getStudentList({ override: true, usePagination: true })
       }
     },
   },

@@ -27,7 +27,7 @@
           </div>
 
           <input-drawer
-            v-for="field in VENDOR_PROGRAM_FIELDS"
+            v-for="field in programFields"
             v-model="program[field.name]"
             :key="field.id"
             :unique-name="field.name"
@@ -41,8 +41,8 @@
         <v-col cols="12" lg="5" class="px-10" align-self="center">
           <picture-input
             class="mx-auto"
-            :placeholderPicUrl="logoPlaceholder"
-            @fileUpload="setLogo"
+            v-model="logo"
+            :placeholderPicUrl="program.logo || CAMERA_ROUNDED_DRAWING"
           />
         </v-col>
       </v-row>
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import isString from "lodash/isString"
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
@@ -113,9 +112,11 @@ export default {
   },
   data() {
     return {
-      VENDOR_PROGRAM_FIELDS,
+      CAMERA_ROUNDED_DRAWING,
+      programFields: VENDOR_PROGRAM_FIELDS.filter(field => field.name !== "logo"),
       isModalOpen: false,
       program: null,
+      logo: null,
     }
   },
   methods: {
@@ -130,9 +131,8 @@ export default {
           ...this.program,
           activityWebsiteUrl,
         })
-        if (!this.program.logo || isString(this.program.logo)) {
-          // if logo not uploaded
-          data.delete("logo")
+        if (this.logo) {
+          data.set("logo", this.logo)
         }
         await this.updateProgram({
           programSlug: this.programSlug,
@@ -152,14 +152,6 @@ export default {
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
-    },
-    setLogo(e) {
-      this.program.logo = e
-    },
-  },
-  computed: {
-    logoPlaceholder() {
-      return (this.program && this.program.logo) || CAMERA_ROUNDED_DRAWING
     },
   },
 }

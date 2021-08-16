@@ -182,6 +182,14 @@ export const VENDOR_PROGRAM_FIELDS = [
     label: i18n.t("general.phoneNumber"),
     rules: "required|numeric|phoneNumberIsrael",
   },
+  {
+    name: "logo",
+    label: i18n.t("program.logo"),
+    rules: "required|size:5000",
+    type: "file",
+    attrs: { appendIcon: "mdi-camera", prependIcon: null, accept: "image/*", clearable: true },
+    value: undefined,
+  },
 ]
 
 export const SERVER = {

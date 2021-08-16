@@ -199,7 +199,10 @@ export default {
         sortDesc: this.tableProps.options.sortDesc,
       }
       this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getInstructorList()
+      this.tableProps.items = await this.getInstructorList({
+        override: true,
+        usePagination: true,
+      })
       this.tableProps.serverItemsLength =
         this.$store.state.organization.totalInstructors
       this.tableProps.loading = false
@@ -212,7 +215,8 @@ export default {
         this.getInstructors()
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
       } catch {
-        this.popupMsg = this.$t("errors.genericError")
+        this.popupMsg = "this action is not supported"
+        this.csvFile = null
       }
     },
 

@@ -15,7 +15,7 @@ function getDefaultState() {
       website: null,
       profilePicture: null,
       gradeLevels: [],
-      lastUpdatedBy: null
+      lastUpdatedBy: null,
     },
     studentList: [],
     totalStudents: 0,
@@ -74,24 +74,27 @@ const school = {
       commit("SET_DETAILS", res.data)
       return state.details
     },
-    async getStudentList({ commit, state, rootGetters }, override = true) {
+    async getStudentList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       const mutation = override ? "SET_STUDENT_LIST" : "ADD_STUDENTS_TO_LIST"
       let res = await Api.school.getStudentList(params)
       commit(mutation, res.data.results)
       commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
-    getStudentsExportFile({ rootGetters }) {
-      const params = rootGetters["pagination/apiParams"]
+    getStudentsExportFile({ rootGetters }, { usePagination }) {
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       Api.school.getStudentsExportFile(params).then(res => {
         Utils.downloadTextAsFile("students.csv", res.request.response)
         return res
       })
     },
-    getCoordinatorsExportFile({ rootGetters }) {
-      const params = rootGetters["pagination/apiParams"]
+    getCoordinatorsExportFile({ rootGetters }, { usePagination }) {
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       Api.school.getCoordinatorsExportFile(params).then(res => {
         Utils.downloadTextAsFile("principals.csv", res.request.response)
         return res
@@ -110,10 +113,15 @@ const school = {
     editStudent(ctx, { slug, student }) {
       return Api.school.editStudent(slug, student)
     },
-    async getCoordinatorList({ commit, state, rootGetters }, override = true) {
+    async getCoordinatorList(
+      { commit, state, rootGetters },
+      { override, usePagination }
+    ) {
       // :boolean override: whether to override the list or not (i.e., extend)
-      const params = rootGetters["pagination/apiParams"]
-      const mutation = override ? "SET_COORDINATOR_LIST" : "ADD_COORDINATORS_TO_LIST"
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      const mutation = override
+        ? "SET_COORDINATOR_LIST"
+        : "ADD_COORDINATORS_TO_LIST"
       let res = await Api.school.getCoordinatorList(params)
       commit(mutation, res.data.results)
       commit("SET_COORDINATORS_TOTAL", res.data.count)

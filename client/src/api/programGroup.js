@@ -13,7 +13,7 @@ const programGroup = {
     if (!groupSlug) throw "getGroup: received empty slug"
     return axios.get(`${GET_PROGRAM_GROUPS_API_URL}${groupSlug}/`)
   },
-  getGroupList(params) {
+  getGroupList(params = {}) {
     return axios.get(GET_PROGRAM_GROUPS_API_URL, { params })
   },
   createGroup(data) {

@@ -278,10 +278,16 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         """
         requests to each activity, based on container_only consumers
         """
+        top = request.query_params.get("top")
+        if top and top.isdigit():
+            top = int(top)
+        else:
+            top = 10
+
         qs = (
             self.get_queryset()
             .filter(group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY)
             .annotate(consumer_requests=Count("consumers"))
-            .order_by("-consumer_requests")[:10]
+            .order_by("-consumer_requests")[:top]
         )
         return Response(ConsumerRequestDataSerializer(qs, many=True).data)

@@ -176,7 +176,9 @@
     "addEvents": "הוספת מפגשים",
     "timeChoose": "בחירת שעה",
     "dateChoose": "בחירת תאריך",
-    "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה"
+    "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה",
+    "deleteGroup": "מחיקת קבוצה",
+    "addStudents": "הוספת תלמידים"
   },
 
   "grades": {
@@ -299,8 +301,10 @@
     "groupsFound": "קבוצות נמצאו",
     "students": "תלמידים",
     "studentsDisplay": "תצוגת תלמידים",
+    "hereYouCanSeeTheListOfAllStudents": "כאן ניתן לראות את רשימת כלל התלמידים",
     "studentsFound": "תלמידים נמצאו",
-    "toThePersonalPage": "לעמוד האישי"
+    "toThePersonalPage": "לעמוד האישי",
+    "studentsPendingAssignment": "תלמידים ממתינים לשיבוץ"
   },
 
   "events": {
@@ -334,7 +338,6 @@
     "viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents": "צפו בסטטוס אירועים שנוצרו אל מול העמותות השונות וצרו אירועים חדשים",
     "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
     "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים",
-    "inCaseOfWeeklyEventsSpecifyTheEndDateOfTheFirstEventInTheSeries": "במקרה של אירועים חוזרים, פרטו את תאריך הסיום של המפגש הראשון",
     "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו אירועים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון"
   },
 
@@ -385,9 +388,9 @@
     "halfWeekly": "חצי שבועי",
     "daily": "יומי",
     "oneTime": "חד פעמי",
-    "weeklyForYear": "שבועי למשך שנה",
+    "weeklyFor52Weeks": "שבועי למשך 52 שבועות",
     "recurrence": "חזרתיות",
-    "eventStartDate": "תאריך תחילת המפגש",
+    "eventDate": "תאריך המפגש",
     "eventEndDate": "תאריך סיום המפגש",
     "eventStartTime": "שעת תחילת המפגש",
     "eventEndTime": "שעת סיום המפגש"

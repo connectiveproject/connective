@@ -46,22 +46,25 @@ export async function checkRegistrationStatus(to, from, next) {
   })
 }
 
-export function loginOrFlushStore(to, from, next) {
+export function flushState(to, from, next) {
   // if logged in already, redirect to dashboard
   // else flush state (relevant on logouts)
+  store.dispatch("flushState")
+  next()
+}
+
+export function loginIfAuthenticated(to, from, next) {
   if (store.state.auth.isAuthenticated) {
-    next({ name: "Dashboard", params: { lang: i18n.locale } })
-  } else {
-    store.dispatch("flushState")
-    next()
+    return next({ name: "Dashboard", params: { lang: i18n.locale } })
   }
+  next()
 }
 
 export async function initPrograms(to, from, next) {
   // set pagination config & fetch initial program list from server
   store.dispatch("pagination/flushState")
   await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
-  await store.dispatch("program/getProgramsList")
+  await store.dispatch("program/getProgramsList", { usePagination: true })
   next()
 }
 
@@ -69,13 +72,9 @@ export async function initConsumerPrograms(to, from, next) {
   // set pagination config & fetch initial program list from server
   store.dispatch("pagination/flushState")
   await store.dispatch("pagination/updatePagination", { itemsPerPage: 6 })
-  await store.dispatch("consumerProgram/getProgramsList")
-  next()
-}
-
-export async function removePagination(to, from, next) {
-  await store.dispatch("pagination/flushState")
-  await store.dispatch("pagination/updatePagination", { itemsPerPage: 99999 })
+  await store.dispatch("consumerProgram/getProgramsList", {
+    usePagination: true,
+  })
   next()
 }
 

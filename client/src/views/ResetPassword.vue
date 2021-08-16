@@ -47,17 +47,24 @@
               * {{ $t("errors.strongPassHint") }}.
             </div>
           </validation-provider>
-          <div class="mx-auto d-flex justify-center mt-9">
             <v-btn
-              class="ml-3 white--text"
+              class="white--text mt-6"
               type="submit"
               color="primary"
               elevation="3"
+              v-text="$t('auth.finishRegistration')"
               :disabled="invalid"
-            >
-              {{ $t("auth.finishRegistration") }}
-            </v-btn>
-          </div>
+              block
+            />
+            <v-btn
+              outlined
+              block
+              to="/"
+              class="mt-4"
+              color="primary"
+              elevation="3"
+              v-text="$t('general.homepage')"
+            />
         </form>
       </validation-observer>
     </v-card>

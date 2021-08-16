@@ -34,7 +34,7 @@ class EventOrder(models.Model):
     )
     school_group = models.ForeignKey(
         SchoolActivityGroup,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
     )
     locations_name = models.CharField(

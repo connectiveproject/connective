@@ -113,14 +113,14 @@ class TestEventOrderSignals:
             start_time=today,
             end_time=tomorrow,
         )
-        events_count_55 = Event.objects.filter(
+        events_count_53 = Event.objects.filter(
             event_order__in=[order_pending_approval, order_onetime, order_weekly]
         ).count()
 
         # cancel orders:
         order_onetime.status = EventOrder.Status.CANCELLED
         order_onetime.save()
-        events_count_54 = Event.objects.filter(
+        events_count_52 = Event.objects.filter(
             event_order__in=[order_pending_approval, order_onetime, order_weekly]
         ).count()
 
@@ -132,8 +132,8 @@ class TestEventOrderSignals:
 
         assert events_count_0 == 0
         assert events_count_1 == 1
-        assert events_count_54 == 54
-        assert events_count_55 == 55
+        assert events_count_52 == 52
+        assert events_count_53 == 53
 
 
 class TestEventOrderView:

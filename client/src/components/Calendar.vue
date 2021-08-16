@@ -7,7 +7,8 @@
     :weekday-format="translateWeekdays"
     :month-format="translateMonths"
     :value="value"
-    @input="e => $emit('input', e)"
+    @input="$emit('input', $event)"
+    @change="$emit('titleChange', $event)"
   />
 </template>
 
