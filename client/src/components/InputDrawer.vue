@@ -51,7 +51,7 @@
               chips
               deletable-chips
               class="mt-5"
-              :autofocus="focus"
+              :autofocus="drawerOpened"
               :data-testid="uniqueName"
               :value="value"
               :error-messages="errors"
@@ -91,7 +91,7 @@ export default {
       required: false,
       default: "text",
       validator: value => {
-        return ["text", "select"].includes(value)
+        return ["text", "textarea", "select"].includes(value)
       },
     },
     uniqueName: {

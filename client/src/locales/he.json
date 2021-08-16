@@ -78,14 +78,14 @@
     "contactName": "איש קשר",
     "contactPhone": "טלפון איש קשר",
     "logo": "לוגו",
-    "domain": "מרחב",
+    "domain": "תחום",
     "targetAudience": "קהל יעד",
     "richMedia": "מדיה",
     "organization": "ארגון אב",
     "pendingAdminApproval": "ממתין לאישור מנהל",
     "requestApproved": "הבקשה אושרה",
     "requestCancelled": "הבקשה בוטלה",
-    "available": "זמין",
+    "canBeOrdered": "ניתן להזמין",
     "forProgramDetails": "לפרטי התוכנית",
     "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
     "inTheProgramAndAssignedToGroup": "בתוכנית ומשוייך לקבוצה",
@@ -178,7 +178,8 @@
     "dateChoose": "בחירת תאריך",
     "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה",
     "deleteGroup": "מחיקת קבוצה",
-    "addStudents": "הוספת תלמידים"
+    "addStudents": "הוספת תלמידים",
+    "denyOrApprove": "דחייה או אישור"
   },
 
   "grades": {
@@ -269,7 +270,7 @@
     "cantLeaveProgramAfterGroupAssigned": "לא ניתן לעזוב את התוכנית לאחר שיבוץ לקבוצה",
     "uploadLimitIsFive": "אין להעלות יותר מחמישה פריטים",
     "invalidYoutubeUrl": "כתובת יוטיוב אינה תקינה",
-    "domainUnspecified": "מרחב לא צויין",
+    "domainUnspecified": "תחום לא צויין",
     "cantApproveEventsThatArentPendingApproval": "לא ניתן לאשר אירועים שאינם מחכים לאישור",
     "cantRejectAlreadyCancelledOrDeniedEvents": "לא ניתן לדחות אירועים שכבר בוטלו או נדחו",
     "endTimeShouldBeLaterThanStartTime": "על זמן הסיום להיות מאוחר מזמן ההתחלה",

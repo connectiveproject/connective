@@ -16,38 +16,39 @@
       :no-data-text="noDataText"
     >
       <template v-slot:item.actions="{ item }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              introjs="actions-table-icon-one"
-              size="20"
-              class="mx-3"
-              v-bind="attrs"
-              v-on="on"
-              :color="actionOneIconColor"
-              @click="$emit('action-one-click', item)"
-            >
-              {{ actionOneIcon }}
-            </v-icon>
-          </template>
-          <span>{{ actionOneIconTooltip }}</span>
-        </v-tooltip>
-
-        <v-tooltip bottom v-if="totalActions >= 2">
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              size="20"
-              class="mx-3"
-              v-bind="attrs"
-              v-on="on"
-              :color="actionTwoIconColor"
-              @click="$emit('action-two-click', item)"
-            >
-              {{ actionTwoIcon }}
-            </v-icon>
-          </template>
-          <span>{{ actionTwoIconTooltip }}</span>
-        </v-tooltip>
+        <div class="d-flex">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                introjs="actions-table-icon-one"
+                size="20"
+                class="mx-3"
+                v-bind="attrs"
+                v-on="on"
+                :color="actionOneIconColor"
+                @click="$emit('action-one-click', item)"
+              >
+                {{ actionOneIcon }}
+              </v-icon>
+            </template>
+            <span>{{ actionOneIconTooltip }}</span>
+          </v-tooltip>
+          <v-tooltip bottom v-if="totalActions >= 2">
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                size="20"
+                class="mx-3"
+                v-bind="attrs"
+                v-on="on"
+                :color="actionTwoIconColor"
+                @click="$emit('action-two-click', item)"
+              >
+                {{ actionTwoIcon }}
+              </v-icon>
+            </template>
+            <span>{{ actionTwoIconTooltip }}</span>
+          </v-tooltip>
+        </div>
       </template>
     </v-data-table>
   </v-card>
@@ -68,7 +69,7 @@ export default {
     },
     totalActions: {
       type: Number,
-      default: 2
+      default: 2,
     },
     actionOneIcon: {
       type: String,
@@ -114,7 +115,10 @@ export default {
 
   computed: {
     tableHeaders() {
-      return [...this.headers, { text: this.actionsTitle, value: "actions", sortable: false }]
+      return [
+        ...this.headers,
+        { text: this.actionsTitle, value: "actions", sortable: false },
+      ]
     },
   },
 }

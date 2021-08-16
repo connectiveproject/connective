@@ -14,6 +14,7 @@
       class="mb-10"
       :headers="headers"
       :items="readableEventOrders"
+      :actions-title="$t('userActions.denyOrApprove')"
       :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
         'userActions.cancel'
       )}`"

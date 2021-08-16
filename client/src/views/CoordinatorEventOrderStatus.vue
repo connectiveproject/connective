@@ -27,6 +27,7 @@
       :headers="headers"
       :items="readableEventOrders"
       :total-actions="1"
+      :actions-title="$t('userActions.delete')"
       :action-one-icon-tooltip="$t('userActions.delete')"
       action-one-icon="mdi-delete"
       action-one-icon-color="red darken-1"

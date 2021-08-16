@@ -25,6 +25,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -45,6 +48,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -65,6 +71,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -85,6 +94,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -444,7 +456,9 @@ export const config = {
     {
       title: i18n.t("introjs.myGroups"),
       selector: "actions-table-icon-one",
-      intro: i18n.t("introjs.clickTheButtonOnTheSideOfEachTableRowToAssignInstructorToTheGroup"),
+      intro: i18n.t(
+        "introjs.clickTheButtonOnTheSideOfEachTableRowToAssignInstructorToTheGroup"
+      ),
     },
   ],
 }
