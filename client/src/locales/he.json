@@ -1,6 +1,7 @@
 {
   "general": {
     "connective": "קונקטיב",
+    "welcomeToConnective": "ברוכים הבאים לקונקטיב",
     "email": "כתובת מייל",
     "phoneNumber": "מספר טלפון",
     "homepage": "דף הבית",
@@ -24,7 +25,6 @@
     "description": "תיאור",
     "website": "אתר",
     "detailsSuccessfullyUpdated": "הפרטים עודכנו בהצלחה",
-    "pleaseFillAllDetailsBelow": "נא מלאו את הפרטים שבהמשך",
     "loading": "בטעינה...",
     "student": "תלמיד",
     "vendor": "מנהל תוכנית",
@@ -68,8 +68,8 @@
   },
 
   "program": {
-    "programsExplorer": "חוקר התוכניות",
-    "findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!": "מצאו תוכניות שמתאימות לחזון הפדגוגי של בית הספר והתחילו לשתף פעולה!",
+    "programCatalog": "קטלוג התוכניות",
+    "chooseAProgramThatSuitsYourSchool!": "בחרו את התוכנית שמתאימה לבית הספר שלכם!",
     "searchAndFindTheProgramsYouLike!": "חפשו ומצאו את התוכניות שאתם אוהבים!",
     "tagsLabel": "תגיות",
     "programsFound": "תוכניות נמצאו",
@@ -86,7 +86,6 @@
     "requestApproved": "הבקשה אושרה",
     "requestCancelled": "הבקשה בוטלה",
     "canBeOrdered": "ניתן להזמין",
-    "forProgramDetails": "לפרטי התוכנית",
     "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
     "inTheProgramAndAssignedToGroup": "בתוכנית ומשוייך לקבוצה",
     "hereYouCanSeeAllTheProgramsListedUnderYou": "כאן ניתן לצפות בכלל התוכניות הנמצאות תחתיך",
@@ -129,9 +128,9 @@
     "inviteStudents": "הזמנת תלמידים",
     "invitationStatus": "סטטוס הזמנה",
     "usersInvitation": "הזמנות משתמשים",
-    "inviteStudentsToPlatformAndKeepTrackOfTheirStatus": "הזמינו תלמידים לפלטפורמה ועקבו אחר הסטטוס שלהם",
+    "clickOnInviteStudentButtonToInviteNewStudent": "לחצו על כפתור 'הזמנת תלמיד' להזמנת תלמיד חדש",
     "invitingUserOrChangingExistingEmailWillSendAnInviteToTheInviteesMailbox": "הזמנת משתמש או שינוי כתובת מייל קיימת ישלחו הזמנה לתיבת המייל של המוזמנ/ת",
-    "inviteTheSchoolStaffToJoinThePlatform": "הזמינו את סגל בית הספר להצטרף לפלטפורמה",
+    "clickOnInviteStaffButtonToInviteNewStaffMember": "לחצו על כפתור 'הזמנת סגל' להזמנת איש סגל חדש",
     "pendingRecipientApproval": "מחכה לאישור הנמען",
     "removeStaffMember": "הסרת איש סגל",
     "editStaffMember": "עריכת איש סגל",
@@ -173,13 +172,13 @@
     "addImages": "הוספת תמונות",
     "addPost": "הוספת פוסט",
     "addPublicPost": "הוספת פוסט פומבי",
-    "addEvents": "הוספת מפגשים",
     "timeChoose": "בחירת שעה",
     "dateChoose": "בחירת תאריך",
     "holdCtrlKeyToUploadMultipleMediaFiles": "החזיקו את לחצן הקונטרול (ctrl) להעלאת מספר קבצי מדיה",
     "deleteGroup": "מחיקת קבוצה",
     "addStudents": "הוספת תלמידים",
-    "denyOrApprove": "דחייה או אישור"
+    "denyOrApprove": "דחייה או אישור",
+    "addStudentsToGroup": "הוספת תלמידים לקבוצה"
   },
 
   "grades": {
@@ -203,6 +202,7 @@
     "newPassword": "סיסמה חדשה",
     "chooseNewPassword": "בחרו סיסמה חדשה",
     "chooseAPasswordYouWillRemember": "בחרו סיסמה שתזכרו",
+    "toStartPleaseChooseNewPassword": "על מנת להתחיל נא בחרו סיסמה חדשה",
     "login": "התחברות",
     "logout": "התנתקות",
     "registration": "הרשמה",
@@ -309,6 +309,7 @@
   },
 
   "events": {
+    "newEvent": "מפגש חדש",
     "requestsForEvents": "בקשות לאירועים",
     "eventsSummary": "סיכום אירועים",
     "eventSummary": "סיכום אירוע",
@@ -322,7 +323,7 @@
     "summaryGeneralRating": "דירוג כולל",
     "summaryChildrenBehavior": "התנהגות המשתתפים",
     "attendance": "נוכחות",
-    "eventsBoard": "לוח המפגשים",
+    "eventsCalendar": "יומן המפגשים",
     "eventFeedback": "מישוב מפגש",
     "eventsFeedback": "מישוב מפגשים",
     "clickAnEventToGiveFeedbackSoWeCanImproveTogether!": "לחצו על מפגש על מנת לתת משוב, כדי שנוכל להשתפר יחדיו!",
@@ -343,6 +344,7 @@
   },
 
   "groups": {
+    "newGroup": "קבוצה חדשה",
     "groupsCreation": "יצירת קבוצה",
     "groupName": "שם הקבוצה",
     "parentProgram": "תוכנית אם",
@@ -583,7 +585,7 @@
     "youCanInviteInstructorsAndVendorsSeperately": "ניתן להזמין מדריכים ומנהלי עמותה בנפרד",
     "clickTheInviteButtonToInviteNewUser-TheUserWillReceiveInviteThroughTheSpecifiedEmail": "לחצו על כפתור ההזמנה על מנת להזמין משתמש חדש. המשתמש יקבל הזמנה למערכת דרך תיבת המייל שצויינה.",
     "additionalActionsAreAvailable-selectAndDeleteUsersInviteViaExcelUpload-WeRecommendExportingExcelFileFillingItAndUpload": "ניתן לבצע פעולות נוספות - מחיקת משתמשים (לאחר סימונם בטבלה) והזמנת רשימת משתמשים באמצעות העלאת קובץ אקסל. נמליץ לייצא קובץ לדוגמה ולמלאו.",
-    "programExplorer": "חוקר התוכניות",
+    "programCatalog": "קטלוג התוכניות",
     "inThisPageYouCanBrowseTheProgramCatalogAndChooseAProgramToJoin": "בעמוד זה ניתן לעיין בקטלוג התוכניות ולבחור תוכנית אליה תרצו להשתבץ",
     "search": "חיפוש",
     "searchUsingKeywordsForExampleProgramName": "ניתן לחפש על פי מילות מפתח. לדוגמה - לפי שם התוכנית",

@@ -75,6 +75,7 @@ export default {
         name: "description",
         rules: "required",
         label: i18n.t("general.description"),
+        type: "textarea",
       },
     ]
     next(vm => (vm.fields = fields))

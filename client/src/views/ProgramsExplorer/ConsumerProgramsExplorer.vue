@@ -18,7 +18,7 @@
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
-          <h1 v-text="$t('program.programsExplorer')" class="pb-6" />
+          <h1 v-text="$t('program.programCatalog')" class="pb-6" />
           <h3 v-text="$t('program.searchAndFindTheProgramsYouLike!')" />
         </div>
         <v-btn
@@ -48,7 +48,7 @@
           <info-card
             :img-url="program.logo"
             :title="program.name"
-            :button-text="$t('program.forProgramDetails')"
+            :button-text="$tc('general.additionalInfo', 0)"
             :secondary-button-text="
               program.consumerJoinStatus === notJoinedText
                 ? $t('userActions.join')

@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper mt-15 mx-auto px-3">
-    <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
-    <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
+    <h1 class="mb-12">{{ $t("general.myProfile") }}</h1>
     <validation-observer v-slot="{ invalid }">
       <form @submit.prevent="submitProfile">
         <v-row>

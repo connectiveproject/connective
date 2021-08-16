@@ -182,7 +182,7 @@ export const config = {
   ],
   ConsumerProgramsExplorer: [
     {
-      title: i18n.t("introjs.programExplorer"),
+      title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
         "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseAProgramToJoin"
       ),
@@ -206,7 +206,7 @@ export const config = {
   ],
   ProgramsExplorer: [
     {
-      title: i18n.t("introjs.programExplorer"),
+      title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
         "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseProgramsForYourSchool"
       ),

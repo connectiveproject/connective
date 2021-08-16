@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 v-text="$t('userActions.addStudentsToGroup')" />
     <table-rows-to-chips
       class="my-14"
       chipsLabelHeader="name"

@@ -15,7 +15,7 @@ const coordinatorTabs = [
     icon: "mdi-handshake",
   },
   {
-    text: i18n.t("events.eventsBoard"),
+    text: i18n.t("events.eventsCalendar"),
     componentName: "MyEvents",
     icon: "mdi-calendar-heart",
   },
@@ -49,7 +49,7 @@ const consumerTabs = [
     icon: "mdi-home-group",
   },
   {
-    text: i18n.t("events.eventsBoard"),
+    text: i18n.t("events.eventsCalendar"),
     componentName: "ConsumerMyEvents",
     icon: "mdi-calendar-heart",
   },

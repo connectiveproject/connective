@@ -23,7 +23,7 @@
           :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'GroupEditor' })"
         >
-          {{ $tc("userActions.add", 1) }}
+          {{ $t("groups.newGroup") }}
           <v-icon right> mdi-plus </v-icon>
         </v-btn>
       </v-col>

@@ -19,7 +19,7 @@
         color="success"
         @click="$router.push({ name: 'CoordinatorEventCreator' })"
       >
-        {{ $tc("userActions.addEvents", 1) }}
+        {{ $t("events.newEvent") }}
         <v-icon right> mdi-plus </v-icon>
       </v-btn>
     </div>
