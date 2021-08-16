@@ -98,7 +98,7 @@
         </v-row>
       </v-card>
 
-      <v-checkbox
+      <v-simple-checkbox
         class="mt-16"
         v-model="addPost"
         :label="$t('userActions.addPublicPost')"

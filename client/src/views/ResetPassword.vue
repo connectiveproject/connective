@@ -40,31 +40,48 @@
               name="passwordConfirmation"
               :label="$t('auth.reEnterPassword')"
             />
-            <div class="overline line-height-1-7 pt-3">
-              * {{ $t("auth.chooseAPasswordYouWillRemember") }}.
-            </div>
-            <div class="overline line-height-1-7 pt-2">
-              * {{ $t("errors.strongPassHint") }}.
-            </div>
           </validation-provider>
-            <v-btn
-              class="white--text mt-6"
-              type="submit"
-              color="primary"
-              elevation="3"
-              v-text="$t('auth.finishRegistration')"
-              :disabled="invalid"
-              block
+          <validation-provider
+            v-slot="{ errors }"
+            name="passwordConfirmation"
+            :rules="{ required: { allowFalse: false } }"
+          >
+            <v-checkbox
+              class="mt-2"
+              v-model="isToaAgreed"
+              :error-messages="errors"
+              :label="
+                $t(
+                  'auth.iAcceptPersonalDataSaveAndCollectionProvidedByMeAndOtherPlatformUsers'
+                )
+              "
             />
-            <v-btn
-              outlined
-              block
-              to="/"
-              class="mt-4"
-              color="primary"
-              elevation="3"
-              v-text="$t('general.homepage')"
-            />
+          </validation-provider>
+
+          <div class="overline line-height-1-7 pt-3">
+            * {{ $t("auth.chooseAPasswordYouWillRemember") }}.
+          </div>
+          <div class="overline line-height-1-7 pt-2">
+            * {{ $t("errors.strongPassHint") }}.
+          </div>
+          <v-btn
+            class="white--text mt-6"
+            type="submit"
+            color="primary"
+            elevation="3"
+            v-text="$t('auth.finishRegistration')"
+            :disabled="invalid"
+            block
+          />
+          <v-btn
+            outlined
+            block
+            to="/"
+            class="mt-4"
+            color="primary"
+            elevation="3"
+            v-text="$t('general.homepage')"
+          />
         </form>
       </validation-observer>
     </v-card>
@@ -105,6 +122,7 @@ export default {
   },
 
   data: () => ({
+    isToaAgreed: false,
     showPass: false,
     popupMsg: "",
     identityNumber: "",

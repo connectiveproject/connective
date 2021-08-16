@@ -218,7 +218,8 @@
     "detailsCompletion": "השלמת פרטים",
     "detailsConfirmation": "אישור פרטים",
     "registered": "רשומ/ה",
-    "notRegistered": "לא רשומ/ה"
+    "notRegistered": "לא רשומ/ה",
+    "iAcceptPersonalDataSaveAndCollectionProvidedByMeAndOtherPlatformUsers":  "אני מאשר/ת שמירה ואיסוף של מידע"
   },
 
   "success": {
