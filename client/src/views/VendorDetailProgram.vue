@@ -135,6 +135,7 @@ export default {
           ...this.program,
           activityWebsiteUrl,
         })
+        data.delete("logo")
         if (this.logo) {
           data.set("logo", this.logo)
         }
