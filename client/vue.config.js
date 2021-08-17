@@ -1,3 +1,5 @@
+const path = require("path")
+
 function createBackendUrl() {
   if (process.env.NODE_ENV === "development") {
     if (process.env.GITPOD_WORKSPACE_URL) {
@@ -22,6 +24,17 @@ module.exports = {
     index: {
       entry: "src-2/main.js",
       title: "Connective",
+    },
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        "@": [
+          path.resolve(__dirname, "src-2/"),
+          path.resolve(__dirname, "src/"),
+        ],
+  
+      },
     },
   },
   pluginOptions: {
