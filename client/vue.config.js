@@ -20,7 +20,7 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   pages: {
     index: {
-      entry: "src/main.js",
+      entry: "src-2/main.js",
       title: "Connective",
     },
   },
