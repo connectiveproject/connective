@@ -30,6 +30,7 @@ class OrganizationMemberTabularInline(admin.TabularInline):
 class SchoolActivityOrderAdmin(admin.ModelAdmin):
     list_display = ["school", "activity", "created_at", "updated_at", "status"]
     search_fields = ["school__name", "activity__name"]
+    list_filter = ["status"]
     actions = [approve_order]
 
 
@@ -50,6 +51,8 @@ class SchoolActivityGroupAdmin(admin.ModelAdmin):
         "instructor",
         "activity_order",
     ]
+    list_filter = ["group_type"]
+    search_fields = ["name"]
 
     def school(self, obj):
         return obj.activity_order.school
