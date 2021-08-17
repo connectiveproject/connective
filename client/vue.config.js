@@ -1,4 +1,5 @@
 const path = require("path")
+const AliasPlugin = require("enhanced-resolve/lib/AliasPlugin")
 
 function createBackendUrl() {
   if (process.env.NODE_ENV === "development") {
@@ -28,13 +29,21 @@ module.exports = {
   },
   configureWebpack: {
     resolve: {
-      alias: {
-        "@": [
-          path.resolve(__dirname, "src-2/"),
-          path.resolve(__dirname, "src/"),
-        ],
-  
-      },
+      plugins: [
+        new AliasPlugin(
+          "described-resolve",
+          [
+            {
+              name: "@",
+              alias: [
+                path.resolve(__dirname, "src-2/"),
+                path.resolve(__dirname, "src/"),
+              ],
+            },
+          ],
+          "resolve"
+        ),
+      ],
     },
   },
   pluginOptions: {
