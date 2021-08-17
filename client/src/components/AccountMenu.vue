@@ -8,7 +8,7 @@
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon :class="{ rotate: menu }" size="60" dark>
+        <v-icon :class="{ rotate: menu }" size="55" dark>
           mdi-menu-down
         </v-icon>
         <avatar
