@@ -1,6 +1,4 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
-import i18n from "../../src/plugins/i18n"
+import i18n from "../plugins/i18n"
 import {
   checkRegistrationStatus,
   flushState,
@@ -14,59 +12,56 @@ import {
   populateInstructorData,
   populateVendorData,
   fetchProgramDetails,
-} from "../../src/router/guards"
-import Welcome from "../../src/layouts/Welcome"
-import CoordinatorDashboard from "../../src/layouts/CoordinatorDashboard"
-import StudentDashboard from "../../src/layouts/StudentDashboard"
-import InstructorDashboard from "../../src/layouts/InstructorDashboard"
-import VendorDashboard from "../../src/layouts/VendorDashboard"
-import Login from "../../src/views/Login"
-import CoordinatorRegister from "../../src/views/Register/CoordinatorRegister"
-import VendorRegister from "../../src/views/Register/VendorRegister"
-import CoordinatorProfile from "../../src/views/Profile/CoordinatorProfile"
-import ConsumerProfile from "../../src/views/Profile/ConsumerProfile"
-import InstructorProfile from "../../src/views/Profile/InstructorProfile"
-import VendorProfile from "../../src/views/Profile/VendorProfile"
-import SchoolDetails from "../../src/views/SchoolDetails"
-import EventFeedView from "../../src/views/EventFeedView"
-import ProgramsExplorer from "../views/ProgramsExplorer"
-// import ProgramsExplorer from "../../src/views/ProgramsExplorer/ProgramsExplorer"
-import ConsumerProgramsExplorer from "../../src/views/ProgramsExplorer/ConsumerProgramsExplorer"
-import SchoolInviteWrapper from "../../src/views/Invite/SchoolInviteWrapper"
-import OrganizationInviteWrapper from "../../src/views/Invite/OrganizationInviteWrapper"
-import InviteConsumers from "../../src/views/Invite/InviteConsumers"
-import InviteCoordinators from "../../src/views/Invite/InviteCoordinators"
-import InviteInstructors from "../../src/views/Invite/InviteInstructors"
-import InviteVendors from "../../src/views/Invite/InviteVendors"
-import ResetPassword from "../../src/views/ResetPassword"
-import GenericError from "../../src/views/Error"
-import ProgramModal from "../../src/views/ProgramModal"
-import MyGroups from "../../src/views/MyGroups/MyGroups"
-import ConsumerMyGroups from "../../src/views/MyGroups/ConsumerMyGroups"
-import MyEvents from "../../src/views/MyEvents/MyEvents"
-import CoordinatorEventCreator from "../../src/views/CoordinatorEventCreator"
-import ConsumerList from "../../src/views/ConsumerList/ConsumerList"
-import ConsumerMyEvents from "../../src/views/MyEvents/ConsumerMyEvents"
-import ConsumerPendingEventsFeedback from "../../src/views/ConsumerPendingEventsFeedback"
-import ConsumerEventFeedback from "../../src/views/ConsumerEventFeedback"
-import CoordinatorStatistics from "../../src/views/CoordinatorStatistics"
-import InstructorUnsummarizedEvents from "../../src/views/InstructorUnsummarizedEvents"
-import InstructorEventSummary from "../../src/views/InstructorEventSummary"
-import GroupEditor from "../../src/views/GroupEditor"
-import CreateGroup from "../../src/views/CreateGroup"
-import AssignGroupConsumers from "../../src/views/AssignGroupConsumers"
-import GroupDetail from "../../src/views/GroupDetail"
-import VendorProgramList from "../../src/views/VendorProgramList"
-import VendorGroupsTable from "../../src/views/VendorGroupsTable"
-import VendorDetailProgram from "../../src/views/VendorDetailProgram"
-import VendorProgramMediaUpload from "../../src/views/VendorProgramMediaUpload"
-import VendorProgramCreator from "../../src/views/VendorProgramCreator"
-import VendorEventsApprove from "../../src/views/VendorEventsApprove"
-import CoordinatorEventOrderStatus from "../../src/views/CoordinatorEventOrderStatus"
+} from "./guards"
+import Welcome from "../layouts/Welcome"
+import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
+import StudentDashboard from "../layouts/StudentDashboard"
+import InstructorDashboard from "../layouts/InstructorDashboard"
+import VendorDashboard from "../layouts/VendorDashboard"
+import Login from "../views/Login"
+import CoordinatorRegister from "../views/Register/CoordinatorRegister"
+import VendorRegister from "../views/Register/VendorRegister"
+import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
+import ConsumerProfile from "../views/Profile/ConsumerProfile"
+import InstructorProfile from "../views/Profile/InstructorProfile"
+import VendorProfile from "../views/Profile/VendorProfile"
+import SchoolDetails from "../views/SchoolDetails"
+import EventFeedView from "../views/EventFeedView"
+import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
+import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
+import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
+import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
+import InviteConsumers from "../views/Invite/InviteConsumers"
+import InviteCoordinators from "../views/Invite/InviteCoordinators"
+import InviteInstructors from "../views/Invite/InviteInstructors"
+import InviteVendors from "../views/Invite/InviteVendors"
+import ResetPassword from "../views/ResetPassword"
+import GenericError from "../views/Error"
+import ProgramModal from "../views/ProgramModal"
+import MyGroups from "../views/MyGroups/MyGroups"
+import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
+import MyEvents from "../views/MyEvents/MyEvents"
+import CoordinatorEventCreator from "../views/CoordinatorEventCreator"
+import ConsumerList from "../views/ConsumerList/ConsumerList"
+import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
+import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
+import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
+import CoordinatorStatistics from "../views/CoordinatorStatistics"
+import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
+import InstructorEventSummary from "../views/InstructorEventSummary"
+import GroupEditor from "../views/GroupEditor"
+import CreateGroup from "../views/CreateGroup"
+import AssignGroupConsumers from "../views/AssignGroupConsumers"
+import GroupDetail from "../views/GroupDetail"
+import VendorProgramList from "../views/VendorProgramList"
+import VendorGroupsTable from "../views/VendorGroupsTable"
+import VendorDetailProgram from "../views/VendorDetailProgram"
+import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
+import VendorProgramCreator from "../views/VendorProgramCreator"
+import VendorEventsApprove from "../views/VendorEventsApprove"
+import CoordinatorEventOrderStatus from "../views/CoordinatorEventOrderStatus"
 
-Vue.use(VueRouter)
-
-export const routes = [
+export default [
   {
     path: "/",
     redirect: `/${i18n.locale}/welcome/login`,
@@ -419,13 +414,3 @@ export const routes = [
     redirect: "/",
   },
 ]
-
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-})
-
-// make accessible across modules, to avoid Vue.use(VueRouter) reuse
-Vue.$router = router
-export default router
