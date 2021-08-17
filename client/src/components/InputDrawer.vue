@@ -51,7 +51,6 @@
               chips
               deletable-chips
               class="mt-5"
-              :autofocus="drawerOpened"
               :data-testid="uniqueName"
               :value="value"
               :error-messages="errors"

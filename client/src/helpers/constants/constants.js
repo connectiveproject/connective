@@ -113,6 +113,8 @@ export const SCHOOL_GRADES_ITEMS = [
   { value: 10, text: i18n.t("grades.10") },
   { value: 11, text: i18n.t("grades.11") },
   { value: 12, text: i18n.t("grades.12") },
+  { value: 13, text: i18n.t("grades.13") },
+  { value: 14, text: i18n.t("grades.14") },
 ]
 
 const DOMAIN_SELECT_ITEMS = [
