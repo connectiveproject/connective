@@ -4,6 +4,7 @@
     height="350"
     class="mt-6 mx-auto rounded-lg grey darken-3"
     show-arrows-on-hover
+    :hide-delimiters="hideDelimiters"
     hide-delimiter-background
     delimiter-icon="mdi-minus"
     @change="e => $emit('input', e)"
@@ -38,6 +39,10 @@ export default {
       // format: [ { mediaType: "image/video", videoUrl: "", imageUrl: ""} ]
       type: Array,
       required: true,
+    },
+    hideDelimiters: {
+      type: Boolean,
+      default: true,
     },
   },
   methods: {

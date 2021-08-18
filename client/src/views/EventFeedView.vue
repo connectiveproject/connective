@@ -14,6 +14,9 @@
         />
       </v-col>
     </v-row>
+    <div v-if="!posts.length" class="text-center overline">
+      0 {{ $t("posts.postsFound") }}
+    </div>
     <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>

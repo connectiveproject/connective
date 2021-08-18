@@ -33,10 +33,10 @@
         <pagination-search-bar class="search-bar mx-auto pt-6" />
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
-      <div class="text-center pt-10 overline">
+      <div class="text-center pt-3 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
       </div>
-      <v-row dense justify="space-between" class="cards-wrapper mx-auto py-10">
+      <v-row dense justify="space-between" class="cards-wrapper mx-auto py-3">
         <v-col
           cols="12"
           sm="6"

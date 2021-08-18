@@ -52,9 +52,11 @@
           type="submit"
           color="primary"
           elevation="3"
-          v-text="$t('userActions.save')"
           :disabled="invalid"
-        />
+          :loading="loading"
+        >
+          {{ $t("userActions.save") }}
+        </v-btn>
         <v-btn
           class="mx-2 white--text"
           elevation="3"
@@ -121,6 +123,7 @@ export default {
       isModalOpen: false,
       program: null,
       logo: null,
+      loading: false,
     }
   },
   methods: {
@@ -128,6 +131,7 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
+        this.loading = true
         const activityWebsiteUrl = Utils.addWebsiteScheme(
           this.program.activityWebsiteUrl
         )
@@ -145,8 +149,10 @@ export default {
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
         this.$router.push({ name: "VendorProgramList" })
+        this.loading = false
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
+        this.loading = false
       }
     },
     async handleDelete() {
