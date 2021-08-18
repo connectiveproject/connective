@@ -76,10 +76,11 @@ export default {
   },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 700 })
     await store.dispatch("event/getEventList", {
       benchmarkDate: moment(),
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },
@@ -92,7 +93,7 @@ export default {
     fetchEvents(benchmarkDay) {
       // :Object benchmarkDay: the date object to fetch "around" (e.g., )
       const benchmarkDate = moment(benchmarkDay.date)
-      this.getEventList({ benchmarkDate, override: true, usePagination: false })
+      this.getEventList({ benchmarkDate, override: true, usePagination: true })
     },
   },
   data() {

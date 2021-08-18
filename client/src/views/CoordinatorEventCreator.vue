@@ -123,10 +123,11 @@ export default {
     ValidationProvider,
   },
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
     await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },

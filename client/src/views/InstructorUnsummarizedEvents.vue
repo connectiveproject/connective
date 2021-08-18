@@ -48,10 +48,11 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 50 })
     await store.dispatch("instructorEvent/getPastEvents", {
       daysAgo: 60,
       unsummarizedOnly: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },

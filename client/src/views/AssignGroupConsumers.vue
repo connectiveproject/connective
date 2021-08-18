@@ -52,28 +52,21 @@ export default {
       "programGroup/getGroup",
       to.params.groupSlug
     )
-    const containerGroups = await store.dispatch(
-      "programGroup/getGroupsByFilter",
-      {
-        group_type: SERVER.programGroupTypes.containerOnly,
-        activity_order__slug: group.activityOrder,
-      }
-    )
-    const groupSlugs = [...containerGroups, group].map(g => g.slug)
-    const [availableConsumers, selectedConsumers] = await Promise.all([
-      store.dispatch("programGroup/getConsumers", {
-        groupSlugs,
-        usePagination: true,
-      }),
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
+    const [selectedConsumers, containerGroups] = await Promise.all([
       store.dispatch("programGroup/getConsumers", {
         groupSlugs: [to.params.groupSlug],
-        usePagination: false,
+        usePagination: true,
+      }),
+      store.dispatch("programGroup/getGroupsByFilter", {
+        group_type: SERVER.programGroupTypes.containerOnly,
+        activity_order__slug: group.activityOrder,
       }),
     ])
+
     next(vm => {
-      vm.availableConsumers = availableConsumers
       vm.selectedConsumers = selectedConsumers
-      vm.containerGroup = containerGroups[0]
+      vm.containerGroupSlug = containerGroups[0].slug
     })
   },
   data() {
@@ -82,7 +75,7 @@ export default {
       btnLoading: false,
       selectedConsumers: [],
       availableConsumers: [],
-      containerGroup: null,
+      containerGroupSlug: null,
       tableHeaders: [
         { text: this.$t("general.name"), value: "name" },
         { text: this.$t("general.email"), value: "email" },
@@ -95,7 +88,7 @@ export default {
     async getAvailableConsumers() {
       try {
         this.loading = true
-        const groupSlugs = [this.containerGroup.slug, this.groupSlug]
+        const groupSlugs = [this.containerGroupSlug, this.groupSlug]
         this.availableConsumers = await this.getConsumers({
           groupSlugs,
           usePagination: true,

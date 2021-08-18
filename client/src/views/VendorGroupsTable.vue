@@ -51,17 +51,25 @@ export default {
       override: true,
       usePagination: true,
     })
+
+    // change pagination only for the following query
+    const itemsPerPage = store.state.pagination.itemsPerPage
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
+    await store.dispatch("organization/getInstructorList", {
+      usePagination: true,
+    })
+    await store.dispatch("pagination/updatePagination", { itemsPerPage })
     next()
-  },
-  async mounted() {
-    const instructors = await this.getInstructorList({ usePagination: false })
-    this.instructorList = instructors.map(instructor => ({
-      value: instructor.slug,
-      text: instructor.name,
-    }))
   },
   computed: {
     ...mapState("vendorProgramGroup", ["groupList"]),
+    ...mapState("organization", ["instructorList"]),
+    instrcutors() {
+      return this.instructorList.map(instructor => ({
+        value: instructor.slug,
+        text: instructor.name,
+      }))
+    },
     assignInstructorDialogFields() {
       return [
         {
@@ -70,7 +78,7 @@ export default {
           label: this.$t("general.instructor"),
           value: "",
           type: "select",
-          choices: this.instructorList,
+          choices: this.instrcutors,
         },
       ]
     },
@@ -86,7 +94,6 @@ export default {
   data() {
     return {
       loading: false,
-      instructorList: ["loading..."],
       groupForInstructorAssignment: null,
       isDialogOpen: false,
       isDenyFormDialogActive: false,
@@ -106,7 +113,6 @@ export default {
   methods: {
     ...mapActions("vendorProgramGroup", ["updateGroup", "getGroupList"]),
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("organization", ["getInstructorList"]),
     triggerInstructorAssignModal: debounce(
       async function (group) {
         this.groupForInstructorAssignment = group

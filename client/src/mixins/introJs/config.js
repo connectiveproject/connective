@@ -119,7 +119,7 @@ export const config = {
   ],
   VendorEventsApprove: [
     {
-      title: i18n.t("introjs.eventsStatus"),
+      title: i18n.t("introjs.requestsForEvents"),
       selector: "actions-table",
       intro: i18n.t(
         "introjs.inThisTableYouCanSeeWhichSchoolsRequestedYourPrograms-YouMayAcceptAndRejectTheRequestsUsingTheTableSideButtons"
