@@ -221,6 +221,18 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = SchoolActivityGroupSerializer
     filterset_fields = ["group_type", "activity_order__slug"]
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
+    search_fields = [
+        "name",
+        "description",
+        "instructor__name",
+        "activity_order__school__name",
+        "activity_order__activity__name",
+    ]
     lookup_field = "slug"
 
     def get_queryset(self):

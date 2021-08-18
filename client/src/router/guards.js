@@ -78,8 +78,8 @@ export async function initConsumerPrograms(to, from, next) {
   next()
 }
 
-export function flushPagination(to, from, next) {
-  store.dispatch("pagination/flushState")
+export async function flushPagination(to, from, next) {
+  await store.dispatch("pagination/flushState")
   next()
 }
 

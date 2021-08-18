@@ -63,10 +63,9 @@ export default {
         activity_order__slug: group.activityOrder,
       }),
     ])
-
     next(vm => {
       vm.selectedConsumers = selectedConsumers
-      vm.containerGroupSlug = containerGroups[0].slug
+      vm.containerGroupSlugs = containerGroups.map(g => g.slug)
     })
   },
   data() {
@@ -75,7 +74,7 @@ export default {
       btnLoading: false,
       selectedConsumers: [],
       availableConsumers: [],
-      containerGroupSlug: null,
+      containerGroupSlugs: null,
       tableHeaders: [
         { text: this.$t("general.name"), value: "name" },
         { text: this.$t("general.email"), value: "email" },
@@ -88,7 +87,7 @@ export default {
     async getAvailableConsumers() {
       try {
         this.loading = true
-        const groupSlugs = [this.containerGroupSlug, this.groupSlug]
+        const groupSlugs = [...this.containerGroupSlugs, this.groupSlug]
         this.availableConsumers = await this.getConsumers({
           groupSlugs,
           usePagination: true,

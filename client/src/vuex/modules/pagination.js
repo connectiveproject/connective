@@ -54,7 +54,7 @@ function getDefaultState() {
     // [true, false, ...]
     sortDesc: [],
     tagFilters: [],
-    totalServerItems: null,
+    totalServerItems: 10,
   }
 }
 

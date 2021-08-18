@@ -192,7 +192,6 @@ const routes = [
             path: "event-feed-view",
             name: "CoordinatorEventFeedView",
             component: EventFeedView,
-            beforeEnter: flushPagination,
           },
           {
             path: "schoolDetails",
@@ -212,13 +211,11 @@ const routes = [
                 path: "invite-students",
                 name: "InviteConsumers",
                 component: InviteConsumers,
-                beforeEnter: flushPagination,
               },
               {
                 path: "invite-staff",
                 name: "InviteCoordinators",
                 component: InviteCoordinators,
-                beforeEnter: flushPagination,
               },
             ],
           },
@@ -251,7 +248,6 @@ const routes = [
             path: "student-list",
             name: "ConsumerList",
             component: ConsumerList,
-            beforeEnter: flushPagination,
           },
           {
             path: "statistics",
@@ -329,7 +325,6 @@ const routes = [
             path: "event-feed-view",
             name: "InstructorEventFeedView",
             component: EventFeedView,
-            beforeEnter: flushPagination,
           },
         ],
       },
@@ -393,13 +388,11 @@ const routes = [
                 path: "invite-instructors",
                 name: "InviteInstructors",
                 component: InviteInstructors,
-                beforeEnter: flushPagination,
               },
               {
                 path: "invite-vendors",
                 name: "InviteVendors",
                 component: InviteVendors,
-                beforeEnter: flushPagination,
               },
             ],
           },
@@ -424,6 +417,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 })
+
+router.beforeEach(flushPagination)
+
 
 // make accessible across modules, to avoid Vue.use(VueRouter) reuse
 Vue.$router = router

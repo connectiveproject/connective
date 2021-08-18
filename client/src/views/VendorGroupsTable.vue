@@ -46,12 +46,6 @@ export default {
   components: { PaginationActionsTable, FormDialog },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("vendorProgramGroup/getGroupList", {
-      groupType: SERVER.programGroupTypes.standard,
-      override: true,
-      usePagination: true,
-    })
-
     // change pagination only for the following query
     const itemsPerPage = store.state.pagination.itemsPerPage
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
@@ -99,14 +93,23 @@ export default {
       isDenyFormDialogActive: false,
       headers: [
         { text: this.$t("groups.groupName"), value: "name" },
-        { text: this.$t("program.programName"), value: "activityName" },
-        { text: this.$t("general.schoolName"), value: "schoolName" },
+        {
+          text: this.$t("program.programName"),
+          value: "activityName",
+          sortable: false,
+        },
+        { text: this.$t("general.schoolName"), value: "schoolName", sortable: false, },
         {
           text: this.$t("myActivity.studentsNumberInGroup"),
           value: "totalConsumers",
+          sortable: false,
         },
         { text: this.$t("myActivity.groupDescription"), value: "description" },
-        { text: this.$t("general.instructor"), value: "instructorName" },
+        {
+          text: this.$t("general.instructor"),
+          value: "instructorName",
+          sortable: false,
+        },
       ],
     }
   },

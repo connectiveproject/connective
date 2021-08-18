@@ -286,9 +286,10 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     )
 
     consumers = serializers.SlugRelatedField(
-        many=True,
         queryset=Consumer.objects.all(),
         slug_field="slug",
+        many=True,
+        required=False,
     )
 
     class Meta:
