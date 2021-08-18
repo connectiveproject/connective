@@ -5,7 +5,6 @@
     :headers="tableHeaders"
     :items="items"
     :no-data-text="noDataText"
-    :total-server-items="totalServerItems"
     :loading="loading"
     :loading-text="loadingText"
     @paginate="$emit('paginate')"
@@ -99,10 +98,6 @@ export default {
     },
     items: {
       type: Array,
-      required: true,
-    },
-    totalServerItems: {
-      type: Number,
       required: true,
     },
     loading: {

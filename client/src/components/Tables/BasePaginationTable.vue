@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
+import { mapActions, mapState } from "vuex"
 import i18n from "../../plugins/i18n"
 
 export default {
@@ -43,11 +43,6 @@ export default {
     items: {
       // v-data-table items (i.e., table rows)
       type: Array,
-      required: true,
-    },
-    totalServerItems: {
-      // received from server via count field
-      type: Number,
       required: true,
     },
     loading: {
@@ -84,6 +79,9 @@ export default {
       await this.updatePagination({ searchFilter: this.searchFilter })
       this.$emit("paginate")
     },
+  },
+  computed: {
+    ...mapState("pagination", "totalServerItems"),
   },
 }
 </script>
