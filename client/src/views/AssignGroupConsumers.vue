@@ -8,15 +8,17 @@
       :headers="tableHeaders"
       :items="availableConsumers"
       :loading="loading"
-
+      @paginate="getAvailableConsumers"
     />
     <div class="mx-auto mt-10 text-center">
       <v-btn
         class="mx-3 white--text primary"
         data-testid="submit-button"
+        :loading="btnLoading"
         @click="onSubmit"
-        v-text="$t('userActions.save')"
-      />
+      >
+        {{ $t("userActions.save") }}
+      </v-btn>
       <v-btn
         class="mx-3 white--text"
         color="primary"
@@ -50,10 +52,6 @@ export default {
       "programGroup/getGroup",
       to.params.groupSlug
     )
-    const groupConsumers = await store.dispatch(
-      "programGroup/getConsumers",
-      to.params.groupSlug
-    )
     const containerGroups = await store.dispatch(
       "programGroup/getGroupsByFilter",
       {
@@ -61,22 +59,27 @@ export default {
         activity_order__slug: group.activityOrder,
       }
     )
-    let unassignedConsumers = []
-    if (containerGroups.length) {
-      unassignedConsumers = await store.dispatch(
-        "programGroup/getConsumers",
-        containerGroups[0].slug
-      )
-    }
+    const groupSlugs = [...containerGroups, group].map(g => g.slug)
+    const [availableConsumers, selectedConsumers] = await Promise.all([
+      store.dispatch("programGroup/getConsumers", {
+        groupSlugs,
+        usePagination: true,
+      }),
+      store.dispatch("programGroup/getConsumers", {
+        groupSlugs: [to.params.groupSlug],
+        usePagination: false,
+      }),
+    ])
     next(vm => {
-      vm.selectedConsumers = groupConsumers
-      vm.availableConsumers = [...groupConsumers, ...unassignedConsumers]
+      vm.availableConsumers = availableConsumers
+      vm.selectedConsumers = selectedConsumers
       vm.containerGroup = containerGroups[0]
     })
   },
   data() {
     return {
       loading: false,
+      btnLoading: false,
       selectedConsumers: [],
       availableConsumers: [],
       containerGroup: null,
@@ -87,20 +90,33 @@ export default {
     }
   },
   methods: {
-    ...mapActions("programGroup", ["updateGroupConsumers"]),
+    ...mapActions("programGroup", ["updateGroupConsumers", "getConsumers"]),
     ...mapActions("snackbar", ["showMessage"]),
+    async getAvailableConsumers() {
+      try {
+        this.loading = true
+        const groupSlugs = [this.containerGroup.slug, this.groupSlug]
+        this.availableConsumers = await this.getConsumers({
+          groupSlugs,
+          usePagination: true,
+        })
+        this.loading = false
+      } catch (err) {
+        return this.showMessage(Api.utils.parseResponseError(err))
+      }
+    },
     onSubmit: debounce(
       async function () {
+        this.btnLoading = true
         const consumerSlugs = this.selectedConsumers.map(c => c.slug)
-        if (this.containerGroup) {
-          try {
-            await this.updateGroupConsumers({
-              groupSlug: this.groupSlug,
-              consumerSlugs,
-            })
-          } catch (err) {
-            return this.showMessage(Api.utils.parseResponseError(err))
-          }
+        try {
+          await this.updateGroupConsumers({
+            groupSlug: this.groupSlug,
+            consumerSlugs,
+          })
+        } catch (err) {
+          this.btnLoading = false
+          return this.showMessage(Api.utils.parseResponseError(err))
         }
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
         this.$router.push({

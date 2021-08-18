@@ -64,10 +64,19 @@ const programGroup = {
     deleteGroup(ctx, groupSlug) {
       return Api.programGroup.deleteGroup(groupSlug)
     },
-    async getConsumers(ctx, groupSlug) {
+    async getConsumers(
+      { dispatch, rootGetters },
+      { groupSlugs, usePagination }
+    ) {
       // get all consumers under a group
-      // :str groupSlug: slug to fetch consumers by
-      let res = await Api.programGroup.getConsumers(groupSlug)
+      // :array groupSlug: array of group slugs to fetch consumers by
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      let res = await Api.programGroup.getConsumers(groupSlugs, params)
+      if (usePagination) {
+        dispatch("pagination/setTotalServerItems", res.data.count, {
+          root: true,
+        })
+      }
       return res.data.results
     },
     async updateGroupConsumers(ctx, { groupSlug, consumerSlugs }) {

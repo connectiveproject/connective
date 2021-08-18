@@ -219,7 +219,7 @@ export default {
     )
     const consumers = await store.dispatch(
       "instructorProgramGroup/getConsumers",
-      event.schoolGroup
+      [event.schoolGroup]
     )
     next(vm => {
       vm.event = event

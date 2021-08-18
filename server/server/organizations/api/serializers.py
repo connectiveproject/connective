@@ -10,7 +10,7 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School
-from server.users.models import Instructor
+from server.users.models import Consumer, Instructor
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -283,6 +283,12 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     school_name = serializers.CharField(
         source="activity_order.school.name",
         read_only=True,
+    )
+
+    consumers = serializers.SlugRelatedField(
+        many=True,
+        queryset=Consumer.objects.all(),
+        slug_field="slug",
     )
 
     class Meta:

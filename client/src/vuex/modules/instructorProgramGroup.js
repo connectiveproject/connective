@@ -15,10 +15,10 @@ const instructorProgramGroup = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async getConsumers(ctx, groupSlug) {
+    async getConsumers(ctx, groupSlugs) {
       // get all consumers under a group
-      // :str groupSlug: slug to fetch consumers by
-      let res = await Api.instructorProgramGroup.getConsumers(groupSlug)
+      // :array groupSlugs: array of group slugs to fetch consumers by
+      let res = await Api.instructorProgramGroup.getConsumers(groupSlugs)
       return res.data.results
     },
   },

@@ -12,7 +12,7 @@
         size="20"
         class="mr-2"
         @click="toggleRowSelect(item)"
-        color="green darken-2"
+        color="primary darken-3"
       >
         {{ isSelected(item) ? "mdi-check" : "mdi-plus" }}
       </v-icon>
