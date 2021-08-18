@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import FormDialog from "./FormDialog"
-import Modal from "./Modal"
+import FormDialog from "../FormDialog"
+import Modal from "../Modal"
 import isEqual from "lodash/isEqual"
 import cloneDeep from "lodash/cloneDeep"
 

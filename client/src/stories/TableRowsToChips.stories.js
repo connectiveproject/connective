@@ -17,6 +17,7 @@ const Template = args => ({
       :items="args.items"
       :headers="args.headers"
       :chips-label-header="args.chipsLabelHeader"
+      :pagination="false"
       @input="action('input')()"
       >
     </table-rows-to-chips>
