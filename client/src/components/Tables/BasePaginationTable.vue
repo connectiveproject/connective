@@ -17,7 +17,7 @@
       :headers="headers"
       :items="items"
       :loading="loading"
-      :loadingText="loadingText"
+      :loading-text="loadingText"
       :server-items-length="totalServerItems"
       @update:options="paginate"
     >
@@ -81,7 +81,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("pagination", "totalServerItems"),
+    ...mapState("pagination", ["totalServerItems"]),
   },
 }
 </script>

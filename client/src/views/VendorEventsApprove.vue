@@ -9,9 +9,10 @@
       "
       class="pb-12"
     />
-    <actions-table
+    <pagination-actions-table
       introjs="actions-table"
       class="mb-10"
+      :loading="loading"
       :headers="headers"
       :items="readableEventOrders"
       :actions-title="$t('userActions.denyOrApprove')"
@@ -20,6 +21,7 @@
       )}`"
       @action-one-click="onApproveClick"
       @action-two-click="onRejectClick"
+      @paginate="getOrders"
     />
     <modal-approve v-model="isModalOpen" @approve="approveOrder">
       {{
@@ -47,17 +49,17 @@ import store from "../vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
-import ActionsTable from "../components/ActionsTable"
+import PaginationActionsTable from "../components/Tables/PaginationActionsTable"
 import ModalApprove from "../components/ModalApprove"
 import FormDialog from "../components/FormDialog"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "VendorEventsApprove",
-  components: { ActionsTable, ModalApprove, FormDialog },
+  components: { PaginationActionsTable, ModalApprove, FormDialog },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("vendorEvent/getEventOrders")
+    await store.dispatch("vendorEvent/getEventOrders", { override: true, usePagination: true })
     next()
   },
   computed: {
@@ -88,6 +90,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       orderToApprove: null,
       orderToReject: null,
       isModalOpen: false,
@@ -117,8 +120,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("vendorEvent", ["updateEventOrder"]),
+    ...mapActions("vendorEvent", ["updateEventOrder", "getEventOrders"]),
     ...mapActions("snackbar", ["showMessage"]),
+    async getOrders() {
+      this.loading = true
+      await this.getEventOrders({ override: true, usePagination: true })
+      this.loading = false
+    },
     onApproveClick: debounce(
       async function (order) {
         if (order.status !== SERVER.eventOrderStatus.pendingVendorApproval) {

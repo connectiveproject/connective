@@ -6,7 +6,6 @@
     :items="items"
     :no-data-text="noDataText"
     :loading="loading"
-    :loading-text="loadingText"
     @paginate="$emit('paginate')"
   >
     <template v-slot:item.actions="{ item }">

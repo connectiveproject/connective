@@ -23,7 +23,6 @@
       :loading="loading"
       :headers="headers"
       :items="readableEventOrders"
-      :totalServerItems="totalOrders"
       :total-actions="1"
       :actions-title="$t('userActions.delete')"
       :action-one-icon-tooltip="$t('userActions.delete')"
@@ -63,7 +62,7 @@ export default {
     next()
   },
   computed: {
-    ...mapState("event", ["eventOrders", "totalOrders"]),
+    ...mapState("event", ["eventOrders"]),
     readableEventOrders() {
       return this.eventOrders.map(order => {
         const readableStartTime = Utils.ApiStringToReadableDate(order.startTime)
