@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <v-card class="pt-3" :elevation="elevation">
     <v-text-field
+      v-if="!hideSearch"
       v-model="searchFilter"
       append-icon="mdi-magnify"
       :label="$t('userActions.search')"
@@ -12,14 +13,19 @@
     />
     <v-data-table
       multi-sort
-      @update:options="paginate"
+      v-bind="$attrs"
       :headers="headers"
       :items="items"
       :loading="loading"
       :loadingText="loadingText"
       :server-items-length="totalServerItems"
-    />
-  </div>
+      @update:options="paginate"
+    >
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -27,6 +33,7 @@ import { mapActions } from "vuex"
 import i18n from "../../plugins/i18n"
 
 export default {
+  inheritAttrs: false,
   props: {
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
@@ -35,10 +42,6 @@ export default {
     },
     items: {
       // v-data-table items (i.e., table rows)
-      type: Array,
-      required: true,
-    },
-    selectedRows: {
       type: Array,
       required: true,
     },
@@ -55,6 +58,14 @@ export default {
       type: String,
       default: i18n.t("general.loading"),
     },
+    hideSearch: {
+      type: Boolean,
+      default: false,
+    },
+    elevation: {
+      type: String,
+      default: "2",
+    },
   },
   data() {
     return {
@@ -64,13 +75,13 @@ export default {
   },
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
-    paginate(options) {
-      this.updatePagination(options)
+    async paginate(options) {
+      await this.updatePagination(options)
       this.$emit("paginate")
     },
-    onSearch() {
+    async onSearch() {
       this.options.page = 1
-      this.updatePagination({ searchFilter: this.searchFilter })
+      await this.updatePagination({ searchFilter: this.searchFilter })
       this.$emit("paginate")
     },
   },

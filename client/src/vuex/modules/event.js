@@ -6,6 +6,7 @@ function getDefaultState() {
     eventList: [],
     totalEvents: null,
     eventOrders: [],
+    totalOrders: null,
   }
 }
 
@@ -27,6 +28,12 @@ const event = {
     },
     SET_EVENT_ORDERS(state, orders) {
       state.eventOrders = orders
+    },
+    ADD_EVENT_ORDERS(state, orders) {
+      state.eventOrders.push(...orders)
+    },
+    SET_ORDERS_TOTAL(state, total) {
+      state.totalOrders = total
     },
     DELETE_EVENT_ORDER(state, slug) {
       state.eventOrders = state.eventOrders.filter(order => order.slug !== slug)
@@ -62,9 +69,12 @@ const event = {
       const res = await Api.event.createEventOrder(data)
       return res.data
     },
-    async getEventOrders({ commit }) {
-      const res = await Api.event.getEventOrders()
-      commit("SET_EVENT_ORDERS", res.data.results)
+    async getEventOrders({ commit, rootGetters }, { override, usePagination }) {
+      const mutation = override ? "SET_EVENT_ORDERS" : "ADD_EVENT_ORDERS"
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      const res = await Api.event.getEventOrders(params)
+      commit(mutation, res.data.results)
+      commit("SET_ORDERS_TOTAL", res.data.count)
       return res.data.results
     },
     async deleteEventOrder({ commit }, slug) {

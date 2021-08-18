@@ -4,11 +4,7 @@
       <div>
         <h1 class="pb-4" v-text="$t('events.requestsForEvents')" />
         <h2
-          v-text="
-            $t(
-              'events.approveOrDenyEventsRequestsFromSchoolGroups'
-            )
-          "
+          v-text="$t('events.approveOrDenyEventsRequestsFromSchoolGroups')"
           class="pb-12"
         />
       </div>
@@ -23,15 +19,18 @@
         <v-icon right> mdi-plus </v-icon>
       </v-btn>
     </div>
-    <actions-table
+    <pagination-actions-table
+      :loading="loading"
       :headers="headers"
       :items="readableEventOrders"
+      :totalServerItems="totalOrders"
       :total-actions="1"
       :actions-title="$t('userActions.delete')"
       :action-one-icon-tooltip="$t('userActions.delete')"
       action-one-icon="mdi-delete"
       action-one-icon-color="red darken-1"
       @action-one-click="onDeleteClick"
+      @paginate="getOrders"
       class="mb-16"
     />
     <modal-approve v-model="isModalOpen" @approve="deleteOrder">
@@ -51,17 +50,20 @@ import store from "../vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
-import ActionsTable from "../components/ActionsTable"
+import PaginationActionsTable from "../components/Tables/PaginationActionsTable"
 import ModalApprove from "../components/ModalApprove"
 
 export default {
-  components: { ActionsTable, ModalApprove },
+  components: { PaginationActionsTable, ModalApprove },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("event/getEventOrders")
+    await store.dispatch("event/getEventOrders", {
+      override: true,
+      userPagination: true,
+    })
     next()
   },
   computed: {
-    ...mapState("event", ["eventOrders"]),
+    ...mapState("event", ["eventOrders", "totalOrders"]),
     readableEventOrders() {
       return this.eventOrders.map(order => {
         const readableStartTime = Utils.ApiStringToReadableDate(order.startTime)
@@ -88,6 +90,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       orderToDelete: null,
       isModalOpen: false,
       headers: [
@@ -107,8 +110,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("event", ["deleteEventOrder"]),
+    ...mapActions("event", ["deleteEventOrder", "getEventOrders"]),
     ...mapActions("snackbar", ["showMessage"]),
+    async getOrders() {
+      this.loading = true
+      await this.getEventOrders({ override: true, usePagination: true })
+      this.loading = false
+    },
     onDeleteClick: debounce(
       function (order) {
         this.orderToDelete = order
@@ -124,6 +132,7 @@ export default {
         this.showMessage(
           this.$t("success.eventOrderAndEventsSuccessfullyDeleted")
         )
+        this.getOrders()
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
