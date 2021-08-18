@@ -5,17 +5,19 @@
       v-text="$t('groups.browseYourGroupsAndAssignInstructors')"
       class="pb-12"
     />
-    <actions-table
+    <pagination-actions-table
       introjs="actions-table"
       class="mb-10"
-      :actions-title="$t('groups.instructorAssignment')"
       action-one-icon="mdi-account-edit"
       action-one-icon-color="primary"
+      :loading="loading"
+      :actions-title="$t('groups.instructorAssignment')"
       :action-one-icon-tooltip="$t('groups.instructorAssignment')"
       :totalActions="1"
       :headers="headers"
       :items="readableGroupList"
       :no-data-text="$t('errors.noGroupsFound')"
+      @paginate="getGroups"
       @action-one-click="triggerInstructorAssignModal"
     />
     <form-dialog
@@ -34,20 +36,20 @@ import debounce from "lodash/debounce"
 import store from "../vuex/store"
 import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"
-import ActionsTable from "../components/ActionsTable"
+import PaginationActionsTable from "../components/Tables/PaginationActionsTable"
 import FormDialog from "../components/FormDialog"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 import { trimText } from "../filters"
 
 export default {
   name: "VendorGroupsTable",
-  components: { ActionsTable, FormDialog },
+  components: { PaginationActionsTable, FormDialog },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("vendorProgramGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },
@@ -83,6 +85,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       instructorList: ["loading..."],
       groupForInstructorAssignment: null,
       isDialogOpen: false,
@@ -101,7 +104,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("vendorProgramGroup", ["updateGroup"]),
+    ...mapActions("vendorProgramGroup", ["updateGroup", "getGroupList"]),
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("organization", ["getInstructorList"]),
     triggerInstructorAssignModal: debounce(
@@ -112,6 +115,16 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
+    async getGroups() {
+      this.loading = true
+      await this.getGroupList({
+        groupType: SERVER.programGroupTypes.standard,
+        override: true,
+        usePagination: true,
+      })
+
+      this.loading = false
+    },
     async assignInstructor({ instructor }) {
       try {
         const groupSlug = this.groupForInstructorAssignment.slug
