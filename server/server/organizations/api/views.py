@@ -16,6 +16,7 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.users.api.serializers import UserSerializer
+from server.users.models import Consumer
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -219,7 +220,6 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         AllowCoordinator | AllowVendor | AllowConsumerReadOnly | AllowInstructorReadOnly
     ]
     serializer_class = SchoolActivityGroupSerializer
-    queryset = SchoolActivityOrder.objects.all()
     filterset_fields = ["group_type", "activity_order__slug"]
     lookup_field = "slug"
 
@@ -240,13 +240,26 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             activity_order__in=user.school_member.school.school_activity_orders.all(),
         )
 
-    @action(detail=True, methods=["GET"])
-    def group_consumers(self, request, slug=None):
-        serializer = UserSerializer(
-            self.get_object().consumers,
-            context={"request": request},
-            many=True,
-        )
+    @action(detail=False, methods=["GET"])
+    def group_consumers(self, request):
+        slugs = request.query_params.get("slugs")
+        if not slugs:
+            return Response(
+                "group slugs must be specified", status=status.HTTP_400_BAD_REQUEST
+            )
+
+        queryset = Consumer.objects.filter(activity_groups__slug__in=slugs.split(","))
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            # if pagination is allowed in the project
+            serializer = UserSerializer(
+                page,
+                context={"request": request},
+                many=True,
+            )
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=True, methods=["PATCH"])

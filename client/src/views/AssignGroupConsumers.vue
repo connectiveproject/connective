@@ -3,10 +3,12 @@
     <h2 v-text="$t('userActions.addStudentsToGroup')" />
     <table-rows-to-chips
       class="my-14"
-      chipsLabelHeader="name"
+      chips-label-header="name"
       v-model="selectedConsumers"
       :headers="tableHeaders"
       :items="availableConsumers"
+      :loading="loading"
+
     />
     <div class="mx-auto mt-10 text-center">
       <v-btn
@@ -74,6 +76,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       selectedConsumers: [],
       availableConsumers: [],
       containerGroup: null,

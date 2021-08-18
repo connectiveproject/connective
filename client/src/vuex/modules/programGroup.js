@@ -68,7 +68,7 @@ const programGroup = {
       // get all consumers under a group
       // :str groupSlug: slug to fetch consumers by
       let res = await Api.programGroup.getConsumers(groupSlug)
-      return res.data
+      return res.data.results
     },
     async updateGroupConsumers(ctx, { groupSlug, consumerSlugs }) {
       // override group consumers and move the removed ones to container only

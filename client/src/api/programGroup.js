@@ -29,9 +29,9 @@ const programGroup = {
   },
   getConsumers(groupSlug) {
     if (!groupSlug) throw "getConsumers: received empty slug"
-    return axios.get(
-      `${GET_PROGRAM_GROUP_CONSUMERS_API_URL}${groupSlug}/group_consumers/`
-    )
+    return axios.get(GET_PROGRAM_GROUP_CONSUMERS_API_URL, {
+      params: { slugs: groupSlug },
+    })
   },
   updateGroupConsumers(groupSlug, consumerSlugs) {
     if (!groupSlug) {

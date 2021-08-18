@@ -4,8 +4,8 @@
       v-if="pagination"
       v-bind="$props"
       :value="selectedRows"
-      @paginate="$emit('paginate')"
       @input="$emit('input', $event)"
+      @paginate="$emit('paginate')"
     />
     <select-table
       v-else
@@ -35,6 +35,10 @@ export default {
     prop: "selectedRows",
   },
   props: {
+    pagination: {
+      type: Boolean,
+      default: true,
+    },
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
       type: Array,
@@ -48,15 +52,6 @@ export default {
     selectedRows: {
       type: Array,
       required: true,
-    },
-    pagination: {
-      type: Boolean,
-      default: false,
-    },
-    totalServerItems: {
-      // received from server via count field (relevant in pagination mode only)
-      type: Number,
-      required: false,
     },
     loading: {
       type: Boolean,

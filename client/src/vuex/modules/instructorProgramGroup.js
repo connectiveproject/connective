@@ -19,7 +19,7 @@ const instructorProgramGroup = {
       // get all consumers under a group
       // :str groupSlug: slug to fetch consumers by
       let res = await Api.instructorProgramGroup.getConsumers(groupSlug)
-      return res.data
+      return res.data.results
     },
   },
 }
