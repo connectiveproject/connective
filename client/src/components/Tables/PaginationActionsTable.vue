@@ -114,8 +114,3 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.search-bar {
-  max-width: 450px !important;
-}
-</style>

@@ -3,27 +3,26 @@
     <pagination-select-table
       v-if="pagination"
       v-bind="$props"
-      @paginate="$emit('paginate')"
       :value="selectedRows"
-      @input="e => $emit('input', e)"
+      @paginate="$emit('paginate')"
+      @input="$emit('input', $event)"
     />
     <select-table
       v-else
       v-bind="$props"
       :value="selectedRows"
-      @input="e => $emit('input', e)"
+      @input="$emit('input', $event)"
     />
-
-    <chip-container :labels="getChipLabels()" icon="mdi-account-circle">{{
-      $t("general.chosen")
-    }}</chip-container>
+    <chip-container :labels="getChipLabels()" icon="mdi-account-circle">
+      {{ $t("general.chosen") }}
+    </chip-container>
   </div>
 </template>
 
 <script>
 // wrapper for the select table (add rows to chips bucket)
 import SelectTable from "./SelectTable"
-import PaginationSelectTable from "./PaginationSelectTable"
+import PaginationSelectTable from "./Tables/PaginationSelectTable"
 import ChipContainer from "./ChipContainer"
 
 export default {
@@ -48,7 +47,7 @@ export default {
     },
     selectedRows: {
       type: Array,
-      required: true
+      required: true,
     },
     pagination: {
       type: Boolean,
