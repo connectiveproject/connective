@@ -2,15 +2,12 @@
   <div>
     <h1 class="pb-4" v-text="$t('events.requestsForEvents')" />
     <h2
-      v-text="
-        $t(
-          'events.approveOrDenyEventsRequestsFromSchoolGroups'
-        )
-      "
+      v-text="$t('events.approveOrDenyEventsRequestsFromSchoolGroups')"
       class="pb-12"
     />
     <pagination-actions-table
       introjs="actions-table"
+      disable-sort
       class="mb-10"
       :loading="loading"
       :headers="headers"
@@ -59,7 +56,10 @@ export default {
   components: { PaginationActionsTable, ModalApprove, FormDialog },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("vendorEvent/getEventOrders", { override: true, usePagination: true })
+    await store.dispatch("vendorEvent/getEventOrders", {
+      override: true,
+      usePagination: true,
+    })
     next()
   },
   computed: {
@@ -108,10 +108,22 @@ export default {
         { text: this.$t("general.schoolName"), value: "schoolName" },
         { text: this.$t("program.programName"), value: "activityName" },
         { text: this.$t("myActivity.location"), value: "locationsName" },
-        { text: this.$t("time.startDate"), value: "readableStartTime" },
-        { text: this.$t("time.endDate"), value: "readableEndTime" },
-        { text: this.$t("time.recurrence"), value: "readableRecurrence" },
-        { text: this.$t("general.status"), value: "readableStatus" },
+        {
+          text: this.$t("time.startDate"),
+          value: "readableStartTime",
+        },
+        {
+          text: this.$t("time.endDate"),
+          value: "readableEndTime",
+        },
+        {
+          text: this.$t("time.recurrence"),
+          value: "readableRecurrence",
+        },
+        {
+          text: this.$t("general.status"),
+          value: "readableStatus",
+        },
         {
           text: this.$t("events.reasonForDenyOrCancellation"),
           value: "statusReason",

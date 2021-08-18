@@ -1,7 +1,6 @@
 <template>
   <base-pagination-table
-    multi-sort
-    v-bind="$props"
+    v-bind="$attrs"
     :headers="tableHeaders"
     :items="items"
     :loading="loading"
@@ -27,8 +26,13 @@ import BasePaginationTable from "./BasePaginationTable"
 
 export default {
   components: { BasePaginationTable },
-  model: { prop: "selectedRows" },
+  inheritAttrs: false,
   props: {
+    // selected rows
+    value: {
+      type: Array,
+      required: true,
+    },
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
       type: Array,
@@ -36,10 +40,6 @@ export default {
     },
     items: {
       // v-data-table items (i.e., table rows)
-      type: Array,
-      required: true,
-    },
-    selectedRows: {
       type: Array,
       required: true,
     },
@@ -60,19 +60,19 @@ export default {
     toggleRowSelect(item) {
       // add or remove from selected rows and emit correlating events
       if (!this.isSelected(item)) {
-        this.$emit("input", [...this.selectedRows, item])
+        this.$emit("input", [...this.value, item])
         this.$emit("select", item)
         return
       }
       this.$emit(
         "input",
-        this.selectedRows.filter(row => !isEqual(row, item))
+        this.value.filter(row => !isEqual(row, item))
       )
       this.$emit("diselect", item)
     },
     isSelected(row) {
       // includes won't work due to re-fetch issues
-      return this.selectedRows.filter(selected => isEqual(selected, row)).length
+      return this.value.filter(selected => isEqual(selected, row)).length
     },
   },
 }

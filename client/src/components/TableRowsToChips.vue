@@ -1,15 +1,18 @@
 <template>
   <div>
     <pagination-select-table
-      v-if="pagination"
-      v-bind="$props"
+      v-if="usePagination"
+      v-bind="$attrs"
+      :headers="headers"
+      :items="items"
+      :loading="loading"
       :value="selectedRows"
       @input="$emit('input', $event)"
       @paginate="$emit('paginate')"
     />
     <select-table
       v-else
-      v-bind="$props"
+      v-bind="{ ...$props, ...$attrs }"
       :value="selectedRows"
       @input="$emit('input', $event)"
     />
@@ -31,11 +34,12 @@ export default {
     PaginationSelectTable,
     ChipContainer,
   },
+  inheritAttrs: false,
   model: {
     prop: "selectedRows",
   },
   props: {
-    pagination: {
+    usePagination: {
       type: Boolean,
       default: true,
     },

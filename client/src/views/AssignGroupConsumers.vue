@@ -3,6 +3,8 @@
     <h2 v-text="$t('userActions.addStudentsToGroup')" />
     <table-rows-to-chips
       class="my-14"
+      hide-search
+      disable-sort
       chips-label-header="name"
       v-model="selectedConsumers"
       :headers="tableHeaders"
