@@ -1,11 +1,13 @@
 <template>
   <base-pagination-table
     multi-sort
-    v-bind="$props"
+    v-bind="{ ...$props, ...$attrs }"
     :headers="tableHeaders"
     :items="items"
     :no-data-text="noDataText"
     :loading="loading"
+    :value="value"
+    @input="$emit('input', $event)"
     @paginate="$emit('paginate')"
   >
     <template v-slot:item.actions="{ item }">
@@ -51,8 +53,14 @@ import i18n from "../../plugins/i18n"
 import BasePaginationTable from "./BasePaginationTable"
 
 export default {
+  inheritAttrs: false,
   components: { BasePaginationTable },
   props: {
+    value: {
+      // selected rows. relevant only when using show-select
+      type: Array,
+      default: () => [],
+    },
     noDataText: {
       type: String,
       required: false,
@@ -89,6 +97,11 @@ export default {
       type: String,
       default: i18n.t("userActions.deny"),
     },
+    actionsFirst: {
+      // align actions as the first column
+      type: Boolean,
+      default: false
+    },
 
     /* pagination table related */
     headers: {
@@ -106,6 +119,12 @@ export default {
   },
   computed: {
     tableHeaders() {
+      if (this.actionsFirst) {
+        return [
+          { text: this.actionsTitle, value: "actions", sortable: false },
+          ...this.headers,
+        ]
+      }
       return [
         ...this.headers,
         { text: this.actionsTitle, value: "actions", sortable: false },

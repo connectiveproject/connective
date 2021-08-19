@@ -3,11 +3,11 @@
     <v-text-field
       v-if="!hideSearch"
       v-model="searchFilter"
+      class="search-bar px-10 mt-5 mb-8 mx-auto"
       append-icon="mdi-magnify"
-      :label="$t('userActions.search')"
       single-line
       hide-details
-      class="search-bar px-10 mt-5 mb-8 mx-auto"
+      :label="$t('userActions.search')"
       @click:append="onSearch"
       @keyup.enter="onSearch"
     />
@@ -19,6 +19,8 @@
       :loading="loading"
       :loading-text="loadingText"
       :server-items-length="totalServerItems"
+      :value="value"
+      @input="$emit('input', $event)"
       @update:options="paginate"
     >
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -35,6 +37,11 @@ import i18n from "../../plugins/i18n"
 export default {
   inheritAttrs: false,
   props: {
+    value: {
+      // selected rows. relevant only when using show-select
+      type: Array,
+      default: () => [],
+    },
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
       type: Array,
