@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils import timezone
 
-from server.events.models import EventOrder
+from server.events.models import Event, EventOrder
 from server.organizations.models import (
     Activity,
     Organization,
@@ -233,20 +233,33 @@ class Command(BaseCommand):
 
         today = datetime.now(tz=timezone.utc).replace(microsecond=0, second=0, minute=0)
         event_orders = []
-        for i in range(20):
+        events = []
+        for i in range(-10, 20):
+            event_data = {
+                "school_group": group_one,
+                "locations_name": "חדר 202",
+                "start_time": today + timedelta(days=i * 7),
+                "end_time": today + timedelta(days=i * 7) + timedelta(hours=1.5),
+            }
+
             event_orders.append(
                 EventOrder(
                     slug=self.test_random_slug(),
                     status=EventOrder.Status.APPROVED,
-                    school_group=group_one,
-                    locations_name="חדר 202",
-                    start_time=today + timedelta(days=i * 7),
-                    end_time=today + timedelta(days=i * 7) + timedelta(hours=1.5),
+                    **event_data,
                 )
             )
-
-        EventOrder.objects.bulk_create(event_orders)
+            events.append(
+                Event(
+                    slug=self.test_random_slug(),
+                    event_order=event_orders[-1],
+                    **event_data,
+                )
+            )
+        Event.objects.bulk_create(events)
         self.stdout.write(self.style.SUCCESS("Successfully created EventOrders"))
+        EventOrder.objects.bulk_create(event_orders)
+        self.stdout.write(self.style.SUCCESS("Successfully created Events"))
 
     def delete_model_test_entities(self, model):
         items = model.objects.filter(slug__startswith="test_")
@@ -264,6 +277,7 @@ class Command(BaseCommand):
             self.style.SUCCESS(f"{total_users} users deleted successfully")
         )
 
+        self.delete_model_test_entities(Event)
         self.delete_model_test_entities(EventOrder)
         self.delete_model_test_entities(SchoolActivityGroup)
         self.delete_model_test_entities(SchoolActivityOrder)
