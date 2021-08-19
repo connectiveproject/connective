@@ -10,6 +10,9 @@
     @input="$emit('input', $event)"
     @paginate="$emit('paginate')"
   >
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+      <slot :name="slot" v-bind="scope" />
+    </template>
     <template v-slot:item.actions="{ item }">
       <div class="d-flex">
         <v-tooltip bottom>
@@ -100,7 +103,7 @@ export default {
     actionsFirst: {
       // align actions as the first column
       type: Boolean,
-      default: false
+      default: false,
     },
 
     /* pagination table related */

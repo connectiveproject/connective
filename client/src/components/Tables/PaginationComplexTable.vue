@@ -8,7 +8,11 @@
       @paginate="$emit('paginate')"
       @action-one-click="$emit('action-one-click', $event)"
       @action-two-click="$emit('action-two-click', $event)"
-    />
+    >
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </pagination-actions-table>
     <v-card-actions
       introjs="table-actions"
       class="relative grey lighten-5 mt-3"

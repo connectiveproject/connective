@@ -23,6 +23,7 @@
         :action-one-icon-tooltip="$tc('userActions.edit', 2)"
         :footerBtnOneText="$t('invite.inviteStaffMember')"
         :footerBtnTwoText="$t('invite.removeStaffMember')"
+        :footer-btn-two-disabled="!selectedRows.length"
         @paginate="getCoordinators"
         @action-one-click="editCoordinator($event)"
         @footer-btn-one-click="addCoordinator"
