@@ -54,7 +54,7 @@ const event = {
         start_time__lte: endDateString,
       }
       if (usePagination) {
-        params = [...params, ...rootGetters["pagination/apiParams"]]
+        params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
       let res = await Api.event.getEventList(params)
       commit(mutation, res.data.results)
