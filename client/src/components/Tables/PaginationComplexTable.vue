@@ -18,23 +18,25 @@
       class="relative grey lighten-5 mt-3"
     >
       <v-btn
-        @click="onBtnOneClick"
+        outlined
+        data-testid="table-footer-btn-one"
+        v-text="footerBtnOneText"
+        :color="footerBtnOneColor"
         :class="{
           'glow-animation': !wasBtnOneClicked,
           'absolute-center': $vuetify.breakpoint.smAndUp,
         }"
-        v-text="footerBtnOneText"
-        :color="footerBtnOneColor"
-        outlined
+        @click="onBtnOneClick"
       />
       <v-spacer />
       <div class="pl-2">
         <v-btn
           text
-          :color="footerBtnTwoColor"
+          data-testid="table-footer-btn-two"
           v-text="footerBtnTwoText"
-          @click="$emit('footer-btn-two-click', $event)"
+          :color="footerBtnTwoColor"
           :disabled="footerBtnTwoDisabled"
+          @click="$emit('footer-btn-two-click', $event)"
         />
         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp && !hideFooterIcons">
           <template v-slot:activator="{ on, attrs }">

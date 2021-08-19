@@ -18,13 +18,13 @@ describe("vendor invite & delete users", () => {
   });
 
   it("should invite an instructor", () => {
-    cy.get('[data-testid="invite-instructor-btn"]').click();
+    // invite btn
+    cy.get('[data-testid="table-footer-btn-one"]').click();
     cy.get('[data-testid="instructor-dialog-name-input"]').type("סלים שיידי");
     cy.get('[data-testid="instructor-dialog-email-input"]').type(randomEmail);
     cy.get("form").submit();
-    cy.get('[data-testid="invite-instructor-search-field"]').type(
-      `${randomEmail}{enter}`
-    );
+
+    cy.get('[data-testid="table-searchbar"]').type(`${randomEmail}{enter}`);
     cy.contains(randomEmail);
     cy.contains("סלים שיידי");
 
@@ -35,11 +35,9 @@ describe("vendor invite & delete users", () => {
   });
 
   it("should delete an instructor", () => {
-    cy.get('[data-testid="invite-instructor-search-field"]').type(
-      `${randomEmail}{enter}`
-    );
+    cy.get('[data-testid="table-searchbar"]').type(`${randomEmail}{enter}`);
     cy.get(".v-simple-checkbox").should("have.length", 2).last().click();
-    cy.get('[data-testid="delete-instructor-btn"]').click();
+    cy.get('[data-testid="table-footer-btn-one"]').click();
     cy.contains(randomEmail).should("not.exist");
   });
 });

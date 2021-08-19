@@ -3,6 +3,7 @@
     <v-text-field
       v-if="!hideSearch"
       v-model="searchFilter"
+      data-testid="table-searchbar"
       class="search-bar px-10 mt-5 mb-8 mx-auto"
       append-icon="mdi-magnify"
       single-line
