@@ -12,7 +12,7 @@
         v-text="$t('general.connective')"
       />
       <v-spacer />
-      <div class="px-md-6 align-self-center" introjs="navbar-account-menu">
+      <div class="px-md-6 align-self-center" introjs="navbar-account-menu" data-testid="navbar-account-menu">
         <account-menu
           :avatar-options="profile.profilePicture"
           :name="userDetails.name"
