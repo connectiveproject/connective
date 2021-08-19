@@ -12,7 +12,7 @@ describe("vendor invite & delete users", () => {
     cy.get('[data-testid="password-input"]').type("Aa123456789");
     cy.get("form").submit();
     cy.url().should("contain", "dashboard");
-    cy.get('[data-testid="navbar-account-menu"]').children[0].click();
+    cy.get('[data-testid="navbar-account-menu"]').children().first().click();
     cy.get('[data-testid="user-invite-navbar-btn"]').click();
     cy.url().should("contain", "invite");
   });
