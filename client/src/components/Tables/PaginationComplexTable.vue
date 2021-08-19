@@ -36,7 +36,7 @@
           @click="$emit('footer-btn-two-click', $event)"
           :disabled="footerBtnTwoDisabled"
         />
-        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp && !hideFooterIcons">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" @click="triggerUpload">
               <v-icon :color="footerIconsColor">{{ footerUploadIcon }}</v-icon>
@@ -44,7 +44,7 @@
           </template>
           <span class="px-3">{{ footerUploadIconTooltip }} CSV</span>
         </v-tooltip>
-        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp && !hideFooterIcons">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
@@ -122,6 +122,10 @@ export default {
     footerIconsColor: {
       type: String,
       default: "primary",
+    },
+    hideFooterIcons: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

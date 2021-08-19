@@ -3,7 +3,7 @@
     <h1 class="mb-5" v-text="$t('invite.inviteVendors')" />
     <h2
       class="pb-12"
-      v-text="$t('invite.inviteAdditionalVendorsToJoinThePlatform')"
+      v-text="$t('invite.clickOnInviteUserButtonToInviteAdditionalVendorsViaEmail')"
     />
     <div class="mx-auto d-flex justify-center mt-10 mb-3">
       <pagination-complex-table
@@ -13,6 +13,7 @@
         item-key="email"
         action-one-icon="mdi-pencil"
         action-one-icon-color="grey darken-2"
+        hide-footer-icons
         :headers="headers"
         :items="items"
         :loading="loading"
@@ -112,7 +113,7 @@ export default {
         const added = await this.addVendorsBulk(file)
         this.getVendors()
         this.popupMsg = `${added.length} ${this.$t(
-          "invite.VendorsHasBeenInvitedViaEmailToJoinThePlatform"
+          "invite.vendorsHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
       } catch (err) {
         this.popupMsg = Api.utils.parseResponseError(err)
