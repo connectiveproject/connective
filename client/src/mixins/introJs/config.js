@@ -172,13 +172,6 @@ export const config = {
         "introjs.clickTheInviteButtonToInviteNewUser-TheUserWillReceiveInviteThroughTheSpecifiedEmail"
       ),
     },
-    {
-      title: i18n.t("introjs.inviteUsers"),
-      selector: "table-actions",
-      intro: i18n.t(
-        "introjs.additionalActionsAreAvailable-selectAndDeleteUsersInviteViaExcelUpload-WeRecommendExportingExcelFileFillingItAndUpload"
-      ),
-    },
   ],
   ConsumerProgramsExplorer: [
     {
