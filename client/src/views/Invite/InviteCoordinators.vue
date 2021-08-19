@@ -14,7 +14,7 @@
         v-model="selectedRows"
         item-key="email"
         action-one-icon="mdi-pencil"
-        action-one-icon-color="grey"
+        action-one-icon-color="grey darken-2"
         :headers="headers"
         :items="items"
         :loading="loading"
@@ -119,10 +119,6 @@ export default {
       } catch (err) {
         this.popupMsg = Api.utils.parseResponseError(err)
       }
-    },
-
-    triggerCSVUpload() {
-      document.getElementById("csvImportInput").click()
     },
 
     handleDeleteRequest: debounce(
