@@ -37,7 +37,7 @@ describe("vendor invite & delete users", () => {
   it("should delete an instructor", () => {
     cy.get('[data-testid="table-searchbar"]').type(`${randomEmail}{enter}`);
     cy.get(".v-simple-checkbox").should("have.length", 2).last().click();
-    cy.get('[data-testid="table-footer-btn-one"]').click();
+    cy.get('[data-testid="table-footer-btn-two"]').click();
     cy.contains(randomEmail).should("not.exist");
   });
 });
