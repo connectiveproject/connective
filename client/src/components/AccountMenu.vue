@@ -37,7 +37,7 @@
           <v-list-item
             v-for="btn in buttons"
             :key="btn.id"
-            :id="btn.id"
+            :data-testid="btn.id"
             @click="btn.onClick"
           >
             <v-list-item-icon>
