@@ -1,6 +1,6 @@
 <template>
-  <v-dialog data-testid="form-dialog" max-width="600px" class="dialog" v-model="value" persistent>
-    <v-card>
+  <v-dialog max-width="600px" class="dialog" v-model="value" persistent>
+    <v-card data-testid="form-dialog">
       <v-card-title class="headline pt-13 justify-center" v-text="title" />
       <v-card-subtitle
         class="text-subtitle-1 pt-5 text-center"

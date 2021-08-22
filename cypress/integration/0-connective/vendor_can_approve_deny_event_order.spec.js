@@ -39,7 +39,7 @@ describe("vendor approve/deny event order", () => {
         .first()
         .click();
       cy.get('[data-testid="form-dialog"')
-        .get("input")
+        .find("input")
         .type(`${rejectionString}{enter}`);
       cy.wait(500);
 
