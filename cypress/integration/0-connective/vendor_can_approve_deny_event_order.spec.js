@@ -28,6 +28,7 @@ describe("vendor approve/deny event order", () => {
         .first()
         .click();
       cy.get('[data-testid="modal-approve-yes"]').click();
+      cy.wait(500)
 
       // check pending approval requests are lower now
       cy.get(`td:contains(${pendingApprovalString})`)
