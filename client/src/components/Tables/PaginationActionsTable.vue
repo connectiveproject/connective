@@ -18,6 +18,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
+              data-testid="actions-table-action-one"
               introjs="actions-table-icon-one"
               size="20"
               class="mx-3"
@@ -34,6 +35,7 @@
         <v-tooltip bottom v-if="totalActions >= 2">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
+              data-testid="actions-table-action-two"
               size="20"
               class="mx-3"
               v-bind="attrs"

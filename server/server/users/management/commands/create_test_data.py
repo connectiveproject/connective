@@ -245,6 +245,14 @@ class Command(BaseCommand):
             event_orders.append(
                 EventOrder(
                     slug=self.test_random_slug(),
+                    status=EventOrder.Status.PENDING_APPROVAL,
+                    **event_data,
+                )
+            )
+
+            event_orders.append(
+                EventOrder(
+                    slug=self.test_random_slug(),
                     status=EventOrder.Status.APPROVED,
                     **event_data,
                 )
@@ -256,6 +264,7 @@ class Command(BaseCommand):
                     **event_data,
                 )
             )
+
         Event.objects.bulk_create(events)
         self.stdout.write(self.style.SUCCESS("Successfully created EventOrders"))
         EventOrder.objects.bulk_create(event_orders)
