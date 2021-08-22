@@ -38,9 +38,8 @@ describe("vendor approve/deny event order", () => {
         .find('[data-testid="actions-table-action-two"]')
         .first()
         .click();
-      cy.get('[data-testid="form-dialog"')
-        .find("input")
-        .type(`${rejectionString}{enter}`);
+      cy.get('[data-testid="form-dialog"').find("input").type(rejectionString);
+      cy.get("form").submit();
       cy.wait(500);
 
       cy.get(`td:contains(${pendingApprovalString})`)
