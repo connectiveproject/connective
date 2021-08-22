@@ -14,7 +14,7 @@ describe("vendor approve/deny event order", () => {
   it("should approve an event order", () => {
     const pendingApprovalString = "ממתין לאישור מנהל עמותה";
     const originalPendingApprovalCount = cy
-      .contains(pendingApprovalString)
+      .get(`td:contains(${pendingApprovalString})`)
       .count();
     const actions = cy.get('[data-testid="actions-table-action-one"]');
     for (const action of actions) {
@@ -25,7 +25,10 @@ describe("vendor approve/deny event order", () => {
       }
       break;
     }
-    const newPendingApprovalCount = cy.contains(pendingApprovalString).count();
+
+    const newPendingApprovalCount = cy
+      .get(`td:contains(${pendingApprovalString})`)
+      .count();
     expect(newPendingApprovalCount).to.have.lengthOf(
       originalPendingApprovalCount - 1
     );
