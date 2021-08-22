@@ -16,19 +16,16 @@ describe("vendor approve/deny event order", () => {
     const originalPendingApprovalCount = cy.get(
       `td:contains(${pendingApprovalString})`
     ).length;
-    const actions = cy.get('[data-testid="actions-table-action-one"]');
-    for (const action of actions) {
-      action.click();
-      const approveButtons = cy.$('[data-testid="modal-approve-yes"]');
-      if (approveButtons.length) {
-        approveButtons[0].click();
-      }
-      break;
-    }
+
+    cy.get(`tr:contains(${pendingApprovalString})`)
+      .find('[data-testid="actions-table-action-one"]')
+      .click();
+    cy.get('[data-testid="modal-approve-yes"]').click();
 
     const newPendingApprovalCount = cy.get(
       `td:contains(${pendingApprovalString})`
     ).length;
+
     expect(newPendingApprovalCount).to.have.lengthOf(
       originalPendingApprovalCount - 1
     );
