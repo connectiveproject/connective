@@ -23,6 +23,7 @@ describe("vendor approve/deny event order", () => {
       // approve one request
       cy.get(`tr:contains(${pendingApprovalString})`)
         .find('[data-testid="actions-table-action-one"]')
+        .first()
         .click();
       cy.get('[data-testid="modal-approve-yes"]').click();
 
