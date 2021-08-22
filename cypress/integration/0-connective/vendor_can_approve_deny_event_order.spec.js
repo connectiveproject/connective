@@ -9,6 +9,7 @@ describe("vendor approve/deny event order", () => {
     cy.url().should("contain", "dashboard");
     cy.get('[data-testid="events-approve-navbar-tab"]').click();
     cy.url().should("contain", "events-approve");
+    cy.wait(1000)
   });
 
   it("should approve an event order", () => {
@@ -21,6 +22,7 @@ describe("vendor approve/deny event order", () => {
       const initialPendingApprovalCount = $els.length;
 
       // approve one request
+
       cy.get(`tr:contains(${pendingApprovalString})`)
         .find('[data-testid="actions-table-action-one"]')
         .first()
