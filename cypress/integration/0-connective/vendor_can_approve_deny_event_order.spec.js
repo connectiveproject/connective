@@ -13,22 +13,32 @@ describe("vendor approve/deny event order", () => {
 
   it("should approve an event order", () => {
     const pendingApprovalString = "ממתין לאישור מנהל עמותה";
-    const originalPendingApprovalCount = cy.get(
-      `td:contains(${pendingApprovalString})`
-    ).length;
+    // const initialPendingApprovalCount = cy.get(
+    //   `td:contains(${pendingApprovalString})`
+    // ).length;
 
-    cy.get(`tr:contains(${pendingApprovalString})`)
-      .find('[data-testid="actions-table-action-one"]')
-      .click();
-    cy.get('[data-testid="modal-approve-yes"]').click();
+    cy.get(`td:contains(${pendingApprovalString})`).then(($els) => {
+      const initialPendingApprovalCount = $els.length;
 
-    const newPendingApprovalCount = cy.get(
-      `td:contains(${pendingApprovalString})`
-    ).length;
+      // approve one request
+      cy.get(`tr:contains(${pendingApprovalString})`)
+        .find('[data-testid="actions-table-action-one"]')
+        .click();
+      cy.get('[data-testid="modal-approve-yes"]').click();
 
-    expect(newPendingApprovalCount).to.have.lengthOf(
-      originalPendingApprovalCount - 1
-    );
+      // check pending approval requests are lower now
+      cy.get(`td:contains(${pendingApprovalString})`)
+        .its("length")
+        .should("be.lt", initialPendingApprovalCount);
+    });
+
+    // const newPendingApprovalCount = cy.get(
+    //   `td:contains(${pendingApprovalString})`
+    // ).length;
+
+    // expect(newPendingApprovalCount).to.have.lengthOf(
+    //   initialPendingApprovalCount - 1
+    // );
   });
 
   // it("should reject an event order", () => {});
