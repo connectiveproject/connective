@@ -1,7 +1,7 @@
 {
   "env": {
-    "clientUrl": "https://8080-magenta-crawdad-6t1m12a4.ws-eu14.gitpod.io",
+    "clientUrl": "https://8080-magenta-crawdad-6t1m12a4.ws-eu16.gitpod.io",
     "_comment": "leave mailboxUrl empty if not available",
-    "mailboxUrl": "https://8025-magenta-crawdad-6t1m12a4.ws-eu14.gitpod.io"
+    "mailboxUrl": "https://8025-magenta-crawdad-6t1m12a4.ws-eu16.gitpod.io"
   }
 }
