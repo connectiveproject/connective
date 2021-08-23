@@ -4,9 +4,12 @@ from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
 from server.schools.models import School
-from server.users.models import Consumer, Instructor, User
+from server.users.models import Consumer, Instructor
 from server.utils.model_fields import random_slug
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class SchoolActivityGroupManager(models.Manager):
     def get_activity_container_only_group(self, activity_group):

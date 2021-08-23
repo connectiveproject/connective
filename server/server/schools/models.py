@@ -3,9 +3,11 @@ import uuid
 
 from django.db import models
 
-from server.users.models import User
 from server.utils.model_fields import PhoneNumberField
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def random_slug():
     return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]  # noqa
