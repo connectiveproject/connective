@@ -302,6 +302,14 @@ export default {
       required: true,
     },
   },
+  beforeRouteEnter(to, from, next) {
+    // ensure prop is passed from router (won't be passed on refresh)
+    if (to.params.shouldEditSchool !== undefined) {
+      next()
+    } else {
+      next("/")
+    }
+  },
   data() {
     return {
       SCHOOL_GRADES_ITEMS,
