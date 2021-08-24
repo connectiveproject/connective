@@ -25,6 +25,9 @@ export async function checkRegistrationStatus(to, from, next) {
     return
   }
   const userDetails = await store.dispatch("user/getUserDetails")
+  if (userDetails.userType === SERVER.userTypes.supervisor) {
+    return next({ name: "SupervisorDashboard", params: { lang: i18n.locale } })
+  }
   if (userDetails.userType === SERVER.userTypes.consumer) {
     return next({ name: "StudentDashboard", params: { lang: i18n.locale } })
   } else if (userDetails.userType === SERVER.userTypes.instructor) {
@@ -119,6 +122,13 @@ export async function populateVendorData(to, from, next) {
     store.dispatch("user/getUserDetails"),
   ])
   next()
+}
+
+export async function populateSupervisorData(to, from, next) {
+  await Promise.all([
+    store.dispatch("supervisor/getProfile"),
+    store.dispatch("user/getUserDetails"),
+  ])  
 }
 
 export async function fetchProgramDetails(to, from, next) {

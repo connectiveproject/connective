@@ -197,11 +197,34 @@ const vendorAccountButtons = [
   },
 ]
 
+const supervisorAccountButtons = [
+  {
+    id: "profile-navbar-btn",
+    text: i18n.t("general.profile"),
+    icon: "mdi-account",
+    onClick: () => Vue.$router.push({ name: "SupervisorProfile" }),
+  },
+  {
+    id: "help-navbar-btn",
+    text: i18n.t("general.pageExplanation"),
+    icon: "mdi-help-rhombus",
+    onClick: () => store.dispatch("introjs/triggerIntro"),
+  },
+  {
+    id: "logout-navbar-btn",
+    text: i18n.t("auth.logout"),
+    icon: "mdi-export",
+    onClick: () => store.dispatch("auth/logout"),
+  },
+]
+
+
 export const userToTabs = {
   consumer: consumerTabs,
   coordinator: coordinatorTabs,
   instructor: instructorTabs,
   vendor: vendorTabs,
+  supervisor: []
 }
 
 export const userToAccountButtons = {
@@ -209,4 +232,5 @@ export const userToAccountButtons = {
   coordinator: coordinatorAccountButtons,
   instructor: instructorAccountButtons,
   vendor: vendorAccountButtons,
+  supervisor: supervisorAccountButtons,
 }

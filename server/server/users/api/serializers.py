@@ -15,6 +15,9 @@ from ..models import (
     InstructorProfile,
     Vendor,
     VendorProfile,
+    Supervisor,
+    SupervisorProfile,
+
 )
 
 User = get_user_model()
@@ -67,6 +70,20 @@ class VendorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorProfile
         fields = ["slug", "gender", "profile_picture", "phone_number"]
+
+
+class SupervisorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = SupervisorProfile
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
 
 
 class ManageConsumersSerializer(serializers.ModelSerializer):

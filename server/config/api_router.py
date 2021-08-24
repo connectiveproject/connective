@@ -30,6 +30,7 @@ from server.users.api.views import (
     ManageVendorsViewSet,
     UserViewSet,
     VendorProfileViewSet,
+    SupervisorProfileViewSet,
 )
 
 if settings.DEBUG:
@@ -54,6 +55,7 @@ router.register(
     basename="instructors_profiles",
 )
 router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_profiles")
+router.register("supervisors_profiles", SupervisorProfileViewSet, basename="supervisors_profiles")
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")

@@ -13,6 +13,7 @@ import {
   populateCoordinatorData,
   populateInstructorData,
   populateVendorData,
+  populateSupervisorData,
   fetchProgramDetails,
 } from "./guards"
 import Welcome from "../layouts/Welcome"
@@ -20,6 +21,7 @@ import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"
 import InstructorDashboard from "../layouts/InstructorDashboard"
 import VendorDashboard from "../layouts/VendorDashboard"
+import SupervisorDashboard from "../layouts/SupervisorDashboard"
 import Login from "../views/Login"
 import CoordinatorRegister from "../views/Register/CoordinatorRegister"
 import VendorRegister from "../views/Register/VendorRegister"
@@ -27,6 +29,7 @@ import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
 import ConsumerProfile from "../views/Profile/ConsumerProfile"
 import InstructorProfile from "../views/Profile/InstructorProfile"
 import VendorProfile from "../views/Profile/VendorProfile"
+import SupervisorProfile from "../views/Profile/SupervisorProfile"
 import SchoolDetails from "../views/SchoolDetails"
 import EventFeedView from "../views/EventFeedView"
 import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
@@ -119,6 +122,23 @@ const routes = [
           },
         },
         beforeEnter: checkRegistrationStatus,
+      },
+      {
+        path: "supervisor-dashboard",
+        component: SupervisorDashboard,
+        beforeEnter: populateSupervisorData,
+        children: [
+          {
+            path: "",
+            name: "SupervisorDashboard",
+            redirect: { name: "SupervisorProfile" },
+          },
+          {
+            path: "profile",
+            name: "SupervisorProfile",
+            component: SupervisorProfile,
+          },
+        ],
       },
       {
         path: "student-dashboard",

@@ -7,11 +7,13 @@ export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_pr
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
 export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/`
+export const UPDATE_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
+export const GET_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
 export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me/`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
@@ -187,7 +189,12 @@ export const VENDOR_PROGRAM_FIELDS = [
     label: i18n.t("program.logo"),
     rules: "required|size:5000",
     type: "file",
-    attrs: { appendIcon: "mdi-camera", prependIcon: null, accept: "image/*", clearable: true },
+    attrs: {
+      appendIcon: "mdi-camera",
+      prependIcon: null,
+      accept: "image/*",
+      clearable: true,
+    },
     value: undefined,
   },
 ]
@@ -198,6 +205,7 @@ export const SERVER = {
     consumer: "CONSUMER", // i.e., students
     instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR",
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

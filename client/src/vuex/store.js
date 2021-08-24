@@ -6,6 +6,7 @@ import consumer from "./modules/consumer"
 import coordinator from "./modules/coordinator"
 import instructor from "./modules/instructor"
 import vendor from "./modules/vendor"
+import supervisor from "./modules/supervisor"
 import school from "./modules/school"
 import organization from "./modules/organization"
 import program from "./modules/program"
@@ -35,6 +36,7 @@ const store = new Vuex.Store({
     coordinator,
     instructor,
     vendor,
+    supervisor,
     school,
     organization,
     program,

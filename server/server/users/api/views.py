@@ -17,6 +17,7 @@ from server.utils.permission_classes import (
     AllowCoordinator,
     AllowInstructor,
     AllowVendor,
+    AllowSupervisor,
 )
 
 from ..models import (
@@ -28,12 +29,15 @@ from ..models import (
     InstructorProfile,
     Vendor,
     VendorProfile,
+    Supervisor,
+    SupervisorProfile,
 )
 from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
     InstructorProfileSerializer,
+    SupervisorProfileSerializer,
     ManageConsumersSerializer,
     ManageCoordinatorsSerializer,
     ManageInstructorsSerializer,
@@ -126,6 +130,20 @@ class VendorProfileViewSet(ModelViewSet):
     def me(self, request):
         serializer = VendorProfileSerializer(
             request.user.vendorprofile, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class SupervisorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowSupervisor]
+    serializer_class = SupervisorProfileSerializer
+    queryset = SupervisorProfile.objects.all()
+    lookup_field = "user__slug"
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        serializer = SupervisorProfileSerializer(
+            request.user.supervisorprofile, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
