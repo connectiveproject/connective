@@ -128,7 +128,8 @@ export async function populateSupervisorData(to, from, next) {
   await Promise.all([
     store.dispatch("supervisor/getProfile"),
     store.dispatch("user/getUserDetails"),
-  ])  
+  ])
+  next()
 }
 
 export async function fetchProgramDetails(to, from, next) {

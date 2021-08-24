@@ -1,7 +1,7 @@
 <template>
   <v-card
-    class="wrapper mt-15 mx-auto px-10 py-10"
-    :elevation="$vuetify.breakpoint.mobile ? 0 : 3"
+    class="wrapper mt-15 mx-auto px-5 px-sm-10 py-10"
+    :elevation="$vuetify.breakpoint.xs ? 0 : 3"
     v-if="userAttributes"
   >
     <h1 class="mb-10">{{ $t("general.myProfile") }}</h1>
@@ -11,7 +11,7 @@
       :title="$t(`general.${attrName}`)"
       :text="attrValue"
     />
-    <avatar
+    <editable-avatar
       class="mx-auto avatar mt-16"
       v-model="profilePicture"
       @input="updateProfilePicture"
@@ -21,13 +21,17 @@
 
 <script>
 import TitleToText from "../../components/TitleToText"
-import Avatar from "../../components/Avatar/Avatar"
+import EditableAvatar from "../../components/Avatar/EditableAvatar"
 import { mapActions } from "vuex"
+import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
+
 export default {
+  name: "SupervisorProfile",
   components: {
     TitleToText,
-    Avatar,
+    EditableAvatar,
   },
+  mixins: [introjsSubscribeMixin],
   async mounted() {
     // get user details
     const [userDetails, userProfile] = await Promise.all([
@@ -63,6 +67,6 @@ export default {
   max-width: 600px;
 }
 .avatar {
-  width: 300px;
+  width: 280px;
 }
 </style>
