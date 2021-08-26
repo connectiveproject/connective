@@ -25,7 +25,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import i18n from "../plugins/i18n"
 import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"

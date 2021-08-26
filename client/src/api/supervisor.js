@@ -2,7 +2,7 @@ import axios from "axios"
 import {
   GET_SUPERVISOR_PROFILE_API_URL,
   UPDATE_SUPERVISOR_PROFILE_API_URL,
-} from "../helpers/constants/constants"
+} from "@/helpers/constants/constants"
 
 const supervisor = {
   getProfile() {

@@ -283,7 +283,7 @@
   </div>
 </template>
 <script>
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import debounce from "lodash/debounce"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"

@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { mapActions, mapState } from "vuex"
 import { trimText } from "../../filters"
 import EndOfPageDetector from "../../components/EndOfPageDetector"

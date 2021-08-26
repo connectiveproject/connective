@@ -68,7 +68,7 @@
 <script>
 import { mapState } from "vuex"
 import camelCase from "lodash/camelCase"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import InfoCard from "../components/InfoCard"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 

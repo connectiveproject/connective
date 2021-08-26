@@ -80,7 +80,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex"
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import InfoCard from "../../components/InfoCard"
 import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
 import PaginationSearchBar from "../../components/PaginationSearchBar"

@@ -1,7 +1,7 @@
 import Vue from "vue"
 import axios from "axios"
 import Utils from "../helpers/utils"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import { TOKEN_COOKIE_NAME } from "../helpers/constants/constants"
 
 function addTokenHeader(token) {

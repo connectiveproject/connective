@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import moment from "moment"
 import ClickList from "../components/ClickList"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"

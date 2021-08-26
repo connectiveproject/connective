@@ -1,6 +1,6 @@
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
-const SERVER_URL = process.env.VUE_APP_BACKEND_URL
+export const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
@@ -201,11 +201,11 @@ export const VENDOR_PROGRAM_FIELDS = [
 
 export const SERVER = {
   userTypes: {
-    coordinator: "Coordinator", // i.e., principals
-    consumer: "Consumer", // i.e., students
-    instructor: "Instructor", // i.e., guide
-    vendor: "Vendor", // i.e., organization managers
-    supervisor: "Supervisor",
+    coordinator: "COORDINATOR", // i.e., principals
+    consumer: "CONSUMER", // i.e., students
+    instructor: "INSTRUCTOR", // i.e., guide
+    vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR",
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

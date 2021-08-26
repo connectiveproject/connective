@@ -42,11 +42,11 @@
 
 <script>
 import { mapState } from "vuex"
-import { BACKGROUNDS } from "../../helpers/constants/images"
-import { userToTabs, userToAccountButtons } from "./config"
-import AccountMenu from "../AccountMenu"
-import RouteTabs from "../RouteTabs"
-import NavigationDrawer from "../NavigationDrawer"
+import { BACKGROUNDS } from "@/helpers/constants/images"
+import { userToTabs, userToAccountButtons } from "@/components/Navbar/config"
+import AccountMenu from "@/components/AccountMenu"
+import RouteTabs from "@/components/RouteTabs"
+import NavigationDrawer from "@/components/NavigationDrawer"
 
 export default {
   components: { AccountMenu, RouteTabs, NavigationDrawer },

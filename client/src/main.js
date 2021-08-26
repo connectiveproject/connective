@@ -1,7 +1,7 @@
 import Vue from "vue"
 import App from "./App.vue"
 import router from "./router"
-import store from "./vuex/store"
+import store from "@/vuex/store"
 import vuetify from "./plugins/vuetify"
 import i18n from "./plugins/i18n"
 import cookies from "./plugins/cookies"
@@ -16,6 +16,8 @@ import "./filters"
 Vue.use(cookies)
 Vue.config.productionTip = false
 Api.config.initAxiosSettings()
+
+console.log(store)
 
 new Vue({
   vuetify,

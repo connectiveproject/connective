@@ -38,7 +38,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { ValidationObserver } from "vee-validate"
 import Modal from "../../components/Modal"
 import InputDrawer from "../../components/InputDrawer"

@@ -187,7 +187,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"

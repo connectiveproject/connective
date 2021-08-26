@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { mapState, mapActions } from "vuex"
 import moment from "moment"
 import ActionsCalendar from "../../components/ActionsCalendar"

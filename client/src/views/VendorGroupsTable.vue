@@ -31,7 +31,7 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Api from "../api"
 import { SERVER } from "../helpers/constants/constants"
 import ActionsTable from "../components/ActionsTable"

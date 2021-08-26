@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import moment from "moment"
 import { mapState } from "vuex"
 import ClickList from "../components/ClickList"

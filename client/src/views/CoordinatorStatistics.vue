@@ -21,7 +21,7 @@
 
 <script>
 import { mapState } from "vuex"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import BubbleChart from "../components/Charts/BubbleChart"
 import Doughnut from "../components/Charts/Doughnut"
 export default {
