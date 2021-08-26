@@ -4,12 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
 from server.schools.models import School
-from server.users.models import Consumer, Instructor
 from server.utils.model_fields import random_slug
 
 from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 class SchoolActivityGroupManager(models.Manager):
     def get_activity_container_only_group(self, activity_group):
@@ -196,7 +193,7 @@ class ActivityMedia(models.Model):
 
 class OrganizationMember(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="organization_member"
+        "users.User", on_delete=models.CASCADE, related_name="organization_member"
     )
     organization = models.ForeignKey(
         Organization,
@@ -223,14 +220,14 @@ class SchoolActivityOrder(models.Model):
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     requested_by = models.ForeignKey(
-        User,
+        "users.User",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="requested_orders",
     )
     last_updated_by = models.ForeignKey(
-        User,
+        "users.User",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -267,7 +264,7 @@ class SchoolActivityGroup(models.Model):
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(
-        Consumer,
+        "users.Consumer",
         related_name="activity_groups",
         blank=True,
     )
@@ -278,7 +275,7 @@ class SchoolActivityGroup(models.Model):
         default=GroupTypes.DEFAULT,
     )
     instructor = models.ForeignKey(
-        Instructor,
+        "users.Instructor",
         on_delete=models.SET_NULL,
         related_name="managed_activity_groups",
         null=True,

@@ -4,9 +4,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
-from server.users.models import Consumer
 from server.utils.model_fields import random_slug
 
+from django.apps import apps
 
 class EventOrder(models.Model):
     class Status(models.TextChoices):
@@ -66,7 +66,7 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     consumers = models.ManyToManyField(
-        Consumer,
+        "users.Consumer",
         blank=True,
     )
     school_group = models.ForeignKey(
@@ -126,7 +126,7 @@ class ConsumerEventFeedback(models.Model):
         on_delete=models.CASCADE,
     )
     consumer = models.ForeignKey(
-        Consumer,
+        "users.Consumer",
         on_delete=models.SET_NULL,
         null=True,
         blank=False,

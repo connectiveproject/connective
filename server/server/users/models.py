@@ -1,27 +1,45 @@
+from typing import Type
+
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import BooleanField, CharField, EmailField, TextChoices
+from django.db.models.base import ModelBase
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from server.utils.model_fields import random_slug
 
 
-class User(AbstractUser):
+
+class UserRegistrator(ModelBase):
+    def __new__(cls, name, bases, attrs):
+        """
+        add all user types to enum and set base user type for each subclass
+        """
+        if name == "User":
+          newcls = super().__new__(cls, name, bases, attrs)
+          newcls.Types = TextChoices("Types", { name.upper(): (name.upper(), name) })
+          newcls.base_user_type = name.upper()
+          return newcls
+
+        all_types = { name.upper(): (name.upper(), name) }
+        all_types.update({ t.name: (t.value, t.value.capitalize()) for t in bases[0].Types })
+        bases[0].Types = TextChoices("Types", all_types)
+        newcls = super().__new__(cls, name, bases, attrs)
+        newcls.base_user_type = name.upper()
+        return newcls
+
+
+class User(AbstractUser, metaclass=UserRegistrator):
     """Default user for server."""
-
     class Types(TextChoices):
-        CONSUMER = "CONSUMER", "Consumer"
-        COORDINATOR = "COORDINATOR", "Coordinator"
-        VENDOR = "VENDOR", "Vendor"
-        INSTRUCTOR = "INSTRUCTOR", "Instructor"
-        SUPERVISOR = "SUPERVISOR", "Supervisor"
+        pass
 
-    base_user_type = Types.CONSUMER
+    base_user_type = None
 
     user_type = CharField(
-        _("Type"), max_length=50, choices=Types.choices, default=base_user_type
+        _("Type"), max_length=50, choices=Types, default=base_user_type
     )
 
     #: First and last name do not cover name patterns around the globe
@@ -61,7 +79,7 @@ class ConsumerManager(BaseUserManager):
             super()
             .get_queryset(*args, **kwargs)
             .filter(
-                user_type=User.Types.CONSUMER,
+                user_type="CONSUMER",
             )
         )
 
@@ -72,7 +90,7 @@ class CoordinatorManager(BaseUserManager):
             super()
             .get_queryset(*args, **kwargs)
             .filter(
-                user_type=User.Types.COORDINATOR,
+                user_type="COORDINATOR",
             )
         )
 
@@ -83,7 +101,7 @@ class SupervisorManager(BaseUserManager):
             super()
             .get_queryset(*args, **kwargs)
             .filter(
-                user_type=User.Types.SUPERVISOR,
+                user_type="SUPERVISOR",
             )
         )
 
@@ -94,7 +112,7 @@ class VendorManager(BaseUserManager):
             super()
             .get_queryset(*args, **kwargs)
             .filter(
-                user_type=User.Types.VENDOR,
+                user_type="VENDOR",
             )
         )
 
@@ -105,13 +123,13 @@ class InstructorManager(BaseUserManager):
             super()
             .get_queryset(*args, **kwargs)
             .filter(
-                user_type=User.Types.INSTRUCTOR,
+                user_type="INSTRUCTOR",
             )
         )
 
 
 class Consumer(User):
-    base_user_type = User.Types.CONSUMER
+    base_user_type = None
     objects = ConsumerManager()
 
     class Meta:
@@ -124,7 +142,7 @@ class Consumer(User):
 
 
 class Coordinator(User):
-    base_user_type = User.Types.COORDINATOR
+    base_user_type = None
     objects = CoordinatorManager()
 
     class Meta:
@@ -137,7 +155,7 @@ class Coordinator(User):
 
 
 class Vendor(User):
-    base_user_type = User.Types.VENDOR
+    base_user_type = None
     objects = VendorManager()
 
     class Meta:
@@ -150,7 +168,7 @@ class Vendor(User):
 
 
 class Instructor(User):
-    base_user_type = User.Types.INSTRUCTOR
+    base_user_type = None
     objects = InstructorManager()
 
     class Meta:
@@ -163,7 +181,7 @@ class Instructor(User):
 
 
 class Supervisor(User):
-    base_user_type = User.Types.SUPERVISOR
+    base_user_type = None
     objects = SupervisorManager()
 
     class Meta:

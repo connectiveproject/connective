@@ -120,7 +120,7 @@ class Command(BaseCommand):
             Supervisor,
             f"{entitiesPrefix}supervisor@example.com",
             "Aa123456789",
-            "ישראל ישראלי",
+            "שמעון יצחק",
         )
 
         vendor = self.create_user(

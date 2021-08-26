@@ -9,19 +9,22 @@ from server.users.forms import UserChangeForm
 from server.users.helpers import send_user_invite
 
 from .models import (
-    Consumer,
     ConsumerProfile,
-    Coordinator,
     CoordinatorProfile,
-    Instructor,
     InstructorProfile,
-    Supervisor,
     SupervisorProfile,
-    Vendor,
     VendorProfile,
 )
 
 User = get_user_model()
+
+from django.apps import apps
+Vendor = apps.get_model("users.Vendor")
+Consumer = apps.get_model("users.Consumer")
+Coordinator = apps.get_model("users.Coordinator")
+Instructor = apps.get_model("users.Instructor")
+Supervisor = apps.get_model("users.Supervisor")
+
 
 
 def send_invite(self, request, queryset):

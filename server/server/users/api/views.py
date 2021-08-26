@@ -20,18 +20,7 @@ from server.utils.permission_classes import (
     AllowSupervisor,
 )
 
-from ..models import (
-    Consumer,
-    ConsumerProfile,
-    Coordinator,
-    CoordinatorProfile,
-    Instructor,
-    InstructorProfile,
-    Vendor,
-    VendorProfile,
-    Supervisor,
-    SupervisorProfile,
-)
+
 from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
@@ -45,6 +34,19 @@ from .serializers import (
     UserSerializer,
     VendorProfileSerializer,
 )
+
+from django.apps import apps
+Coordinator = apps.get_model("users.Coordinator")
+Consumer = apps.get_model("users.Consumer")
+Instructor = apps.get_model("users.Instructor")
+Vendor = apps.get_model("users.Vendor")
+Supervisor = apps.get_model("users.Supervisor")
+
+ConsumerProfile = apps.get_model("users.ConsumerProfile")
+CoordinatorProfile = apps.get_model("users.CoordinatorProfile")
+InstructorProfile = apps.get_model("users.InstructorProfile")
+VendorProfile = apps.get_model("users.VendorProfile")
+SupervisorProfile = apps.get_model("users.SupervisorProfile")
 
 User = get_user_model()
 

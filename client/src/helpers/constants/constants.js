@@ -201,11 +201,11 @@ export const VENDOR_PROGRAM_FIELDS = [
 
 export const SERVER = {
   userTypes: {
-    coordinator: "COORDINATOR", // i.e., principals
-    consumer: "CONSUMER", // i.e., students
-    instructor: "INSTRUCTOR", // i.e., guide
-    vendor: "VENDOR", // i.e., organization managers
-    supervisor: "SUPERVISOR",
+    coordinator: "Coordinator", // i.e., principals
+    consumer: "Consumer", // i.e., students
+    instructor: "Instructor", // i.e., guide
+    vendor: "Vendor", // i.e., organization managers
+    supervisor: "Supervisor",
   },
   programOrderStatus: {
     cancelled: "CANCELLED",

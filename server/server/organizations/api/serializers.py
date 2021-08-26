@@ -10,8 +10,9 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School
-from server.users.models import Instructor
 
+from django.apps import apps
+Instructor = apps.get_model("users.Instructor")
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:

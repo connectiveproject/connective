@@ -3,24 +3,19 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import (
-    Consumer,
     ConsumerProfile,
-    Coordinator,
     CoordinatorProfile,
-    Instructor,
     InstructorProfile,
-    Supervisor,
     SupervisorProfile,
-    Vendor,
     VendorProfile,
 )
+from django.apps import apps
 
-
-@receiver(post_save, sender=Consumer)
-@receiver(post_save, sender=Coordinator)
-@receiver(post_save, sender=Instructor)
-@receiver(post_save, sender=Vendor)
-@receiver(post_save, sender=Supervisor)
+@receiver(post_save, sender=apps.get_model("users.Consumer"))
+@receiver(post_save, sender=apps.get_model("users.Coordinator"))
+@receiver(post_save, sender=apps.get_model("users.Instructor"))
+@receiver(post_save, sender=apps.get_model("users.Vendor"))
+@receiver(post_save, sender=apps.get_model("users.Supervisor"))
 def update_user_profile(sender, instance, created, **kwargs):
     user_type_to_profile = {
         get_user_model().Types.COORDINATOR: CoordinatorProfile,
