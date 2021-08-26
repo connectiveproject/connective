@@ -26,7 +26,6 @@ Instructor = apps.get_model("users.Instructor")
 Supervisor = apps.get_model("users.Supervisor")
 
 
-
 def send_invite(self, request, queryset):
     for user in queryset:
         send_user_invite(user.email)
@@ -39,7 +38,7 @@ send_invite.short_description = "Invite user"
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
-        (_("Account info"), {"fields": ("slug", "email", "password", "user_type")}),
+        (_("Account info"), {"fields": ("slug", "email", "password")}),
         (_("Personal info"), {"fields": ("name",)}),
         (
             _("Permissions"),
