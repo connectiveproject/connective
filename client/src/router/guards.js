@@ -87,8 +87,8 @@ export default {
     next()
   },
 
-  flushPagination(to, from, next) {
-    store.dispatch("pagination/flushState")
+  async flushPagination(to, from, next) {
+    await store.dispatch("pagination/flushState")
     next()
   },
 

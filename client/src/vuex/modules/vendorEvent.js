@@ -27,11 +27,19 @@ const vendorEvent = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async getEventOrders({ commit }) {
-      const res = await Api.vendorEvent.getEventOrders()
-      commit("SET_EVENT_ORDERS", res.data.results)
+    async getEventOrders(
+      { commit, dispatch, rootGetters },
+      { override, usePagination }
+    ) {
+      const mutation = override ? "SET_EVENT_ORDERS" : "ADD_EVENT_ORDERS"
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      const res = await Api.vendorEvent.getEventOrders(params)
+      commit(mutation, res.data.results)
+      dispatch("pagination/setTotalServerItems", res.data.count, { root: true })
       return res.data.results
     },
+
+
     async updateEventOrder({ commit }, { slug, data }) {
       const res = await Api.vendorEvent.updateEventOrder(slug, data)
       commit("UPDATE_EVENT_ORDER", res.data)

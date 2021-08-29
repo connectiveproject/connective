@@ -91,7 +91,11 @@ router.register(
     ManageSchoolActivityViewSet,
     basename="manage_school_activity",
 )
-router.register("school_activity_group", SchoolActivityGroupViewSet)
+router.register(
+    "school_activity_group",
+    SchoolActivityGroupViewSet,
+    basename="school_activity_group",
+)
 router.register("events", EventViewSet, basename="events")
 router.register("event_order", EventOrderViewSet, basename="event_order")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")

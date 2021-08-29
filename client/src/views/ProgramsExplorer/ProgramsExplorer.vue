@@ -18,11 +18,11 @@
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
-          <h1 v-text="$t('program.programsExplorer')" class="card-demo pb-6" />
+          <h1 v-text="$t('program.programCatalog')" class="card-demo pb-6" />
           <h3
             v-text="
               $t(
-                'program.findForProgramsThatFitTheSchoolPedagogicalApproachAndStartCollaborating!'
+                'program.chooseAProgramThatSuitsYourSchool!'
               )
             "
           />
@@ -39,10 +39,10 @@
         <pagination-search-bar class="search-bar mx-auto pt-6" />
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
-      <div class="text-center pt-10 overline">
+      <div class="text-center pt-3 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
       </div>
-      <v-row dense justify="space-between" class="cards-wrapper mx-auto py-10">
+      <v-row dense justify="space-between" class="cards-wrapper mx-auto py-3">
         <v-col
           cols="12"
           sm="6"
@@ -54,7 +54,7 @@
           <info-card
             :img-url="program.logo"
             :title="program.name"
-            :button-text="$t('program.forProgramDetails')"
+            :button-text="$tc('general.additionalInfo', 0)"
             @click="openProgram(program.slug)"
             :secondary-button-text="
               program.isOrdered
@@ -201,7 +201,7 @@ export default {
         [SERVER.programOrderStatus.pendingAdminApproval]: this.$t(
           "program.pendingAdminApproval"
         ),
-        [SERVER.programOrderStatus.notOrdered]: this.$t("program.available"),
+        [SERVER.programOrderStatus.notOrdered]: this.$t("program.canBeOrdered"),
         [SERVER.programOrderStatus.denied]: this.$t("program.requestDenied"),
       },
       statusToColor: {

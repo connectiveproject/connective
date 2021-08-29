@@ -1,24 +1,24 @@
 <template>
-  <v-card class="pt-4">
-    <v-text-field
-      v-model="searchFilter"
-      append-icon="mdi-magnify"
-      :label="$t('userActions.search')"
-      single-line
-      hide-details
-      class="search-bar px-10 mt-5 mb-8 mx-auto"
-    />
-    <v-data-table
-      multi-sort
-      :headers="tableHeaders"
-      :items="items"
-      :search="searchFilter"
-      :no-data-text="noDataText"
-    >
-      <template v-slot:item.actions="{ item }">
+  <base-pagination-table
+    multi-sort
+    v-bind="{ ...$props, ...$attrs }"
+    :headers="tableHeaders"
+    :items="items"
+    :no-data-text="noDataText"
+    :loading="loading"
+    :value="value"
+    @input="$emit('input', $event)"
+    @paginate="$emit('paginate')"
+  >
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+      <slot :name="slot" v-bind="scope" />
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <div class="d-flex">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
+              data-testid="actions-table-action-one"
               introjs="actions-table-icon-one"
               size="20"
               class="mx-3"
@@ -32,10 +32,10 @@
           </template>
           <span>{{ actionOneIconTooltip }}</span>
         </v-tooltip>
-
         <v-tooltip bottom v-if="totalActions >= 2">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
+              data-testid="actions-table-action-two"
               size="20"
               class="mx-3"
               v-bind="attrs"
@@ -48,16 +48,24 @@
           </template>
           <span>{{ actionTwoIconTooltip }}</span>
         </v-tooltip>
-      </template>
-    </v-data-table>
-  </v-card>
+      </div>
+    </template>
+  </base-pagination-table>
 </template>
 
 <script>
-import i18n from "../plugins/i18n"
+import i18n from "../../plugins/i18n"
+import BasePaginationTable from "./BasePaginationTable"
 
 export default {
+  inheritAttrs: false,
+  components: { BasePaginationTable },
   props: {
+    value: {
+      // selected rows. relevant only when using show-select
+      type: Array,
+      default: () => [],
+    },
     noDataText: {
       type: String,
       required: false,
@@ -68,7 +76,7 @@ export default {
     },
     totalActions: {
       type: Number,
-      default: 2
+      default: 2,
     },
     actionOneIcon: {
       type: String,
@@ -94,33 +102,39 @@ export default {
       type: String,
       default: i18n.t("userActions.deny"),
     },
+    actionsFirst: {
+      // align actions as the first column
+      type: Boolean,
+      default: false,
+    },
+
+    /* pagination table related */
     headers: {
-      // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
       type: Array,
       required: true,
     },
     items: {
-      // v-data-table items (i.e., table rows)
       type: Array,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
-
-  data() {
-    return {
-      searchFilter: "",
-    }
-  },
-
   computed: {
     tableHeaders() {
-      return [...this.headers, { text: this.actionsTitle, value: "actions", sortable: false }]
+      if (this.actionsFirst) {
+        return [
+          { text: this.actionsTitle, value: "actions", sortable: false },
+          ...this.headers,
+        ]
+      }
+      return [
+        ...this.headers,
+        { text: this.actionsTitle, value: "actions", sortable: false },
+      ]
     },
   },
 }
 </script>
-<style lang="scss" scoped>
-.search-bar {
-  max-width: 450px !important;
-}
-</style>

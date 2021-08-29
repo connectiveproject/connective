@@ -4,6 +4,7 @@
       introjs="navigation"
       v-for="tab in tabs"
       :key="tab.id"
+      :data-testid="tab.id"
       :to="{ name: tab.componentName }"
       v-text="tab.text"
     />

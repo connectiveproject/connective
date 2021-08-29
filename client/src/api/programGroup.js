@@ -27,11 +27,11 @@ const programGroup = {
     if (!groupSlug) throw "deleteGroup: received empty slug"
     return axios.delete(`${DELETE_PROGRAM_GROUP_API_URL}${groupSlug}/`)
   },
-  getConsumers(groupSlug) {
-    if (!groupSlug) throw "getConsumers: received empty slug"
-    return axios.get(
-      `${GET_PROGRAM_GROUP_CONSUMERS_API_URL}${groupSlug}/group_consumers/`
-    )
+  getConsumers(groupSlugs, params) {
+    if (!groupSlugs) throw "getConsumers: received empty slug"
+    return axios.get(GET_PROGRAM_GROUP_CONSUMERS_API_URL, {
+      params: { ...params, slugs: groupSlugs.join(",") },
+    })
   },
   updateGroupConsumers(groupSlug, consumerSlugs) {
     if (!groupSlug) {

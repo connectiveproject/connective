@@ -14,14 +14,19 @@ export default {
         const componentSteps = this.componentconfigToSteps(
           config[this.$options.name]
         )
-        return introJs()
-          .setOptions({
-            ...buttonLabels,
-            showProgress: true,
-            showBullets: false,
-            steps: componentSteps,
-          })
-          .start()
+        const intro = introJs().setOptions({
+          ...buttonLabels,
+          showProgress: true,
+          showBullets: false,
+          steps: componentSteps,
+        })
+        intro.onbeforechange(function () {
+          const action = this._introItems[this._currentStep].preStepAction
+          if (action) {
+            action()
+          }
+        })
+        return intro.start()
       }
       return introJs()
         .setOptions({ ...buttonLabels, steps: config.noIntroMsg })

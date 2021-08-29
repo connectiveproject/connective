@@ -15,7 +15,7 @@
               class="mx-2"
               :to="{ name: 'CoordinatorEventCreator', params: { groupSlug } }"
             >
-              {{ $t("userActions.addEvents") }}
+              {{ $t("events.newEvent") }}
               <v-icon right> mdi-plus </v-icon>
             </v-btn>
 

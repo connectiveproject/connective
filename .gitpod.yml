@@ -9,6 +9,9 @@ ports:
     visibility: public
   - port: 8025
     onOpen: open-preview
+    visibility: public
+  - port: 8080
+    visibility: public
   # PostgreSQL server
   - port: 5432
     onOpen: ignore

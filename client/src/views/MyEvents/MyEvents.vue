@@ -2,22 +2,37 @@
   <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
     <div class="d-flex flex-wrap mb-10 justify-space-between">
       <div>
-        <h1 v-text="$t('events.eventsBoard')" />
+        <h1 v-text="$t('events.eventsCalendar')" />
         <h2
           v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
-          class="pb-12"
+          class="pb-10"
         />
       </div>
-      <v-btn
-        tile
-        large
-        introjs="events-table-button"
-        class="d-block"
-        color="primary"
-        :block="$vuetify.breakpoint.xs"
-        @click="$router.push({ name: 'CoordinatorEventOrderStatus' })"
-        v-text="$t('events.createAndOrderEvents')"
-      />
+      <div :class="{ 'w-100': $vuetify.breakpoint.xs }">
+        <v-btn
+          tile
+          large
+          class="mx-0 mx-sm-4 my-3"
+          introjs="events-table-button"
+          color="primary"
+          :block="$vuetify.breakpoint.xs"
+          :to="{ name: 'CoordinatorEventCreator' }"
+        >
+          {{ $t("events.newEvent") }}
+          <v-icon right> mdi-plus </v-icon>
+        </v-btn>
+        <v-btn
+          tile
+          large
+          outlined
+          class="mx-0 mx-sm-4 my-3"
+          introjs="events-table-button"
+          color="primary"
+          :block="$vuetify.breakpoint.xs"
+          :to="{ name: 'CoordinatorEventOrderStatus' }"
+          v-text="$t('events.eventsTable')"
+        />
+      </div>
     </div>
     <actions-calendar
       v-model="value"
@@ -61,10 +76,11 @@ export default {
   },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 700 })
     await store.dispatch("event/getEventList", {
       benchmarkDate: moment(),
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },
@@ -77,7 +93,7 @@ export default {
     fetchEvents(benchmarkDay) {
       // :Object benchmarkDay: the date object to fetch "around" (e.g., )
       const benchmarkDate = moment(benchmarkDay.date)
-      this.getEventList({ benchmarkDate, override: true, usePagination: false })
+      this.getEventList({ benchmarkDate, override: true, usePagination: true })
     },
   },
   data() {

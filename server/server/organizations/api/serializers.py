@@ -13,6 +13,7 @@ from server.schools.models import School
 
 from django.apps import apps
 Instructor = apps.get_model("users.Instructor")
+Consumer = apps.get_model("users.Consumer")
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -284,6 +285,13 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     school_name = serializers.CharField(
         source="activity_order.school.name",
         read_only=True,
+    )
+
+    consumers = serializers.SlugRelatedField(
+        queryset=Consumer.objects.all(),
+        slug_field="slug",
+        many=True,
+        required=False,
     )
 
     class Meta:

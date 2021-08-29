@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
-      <v-card-title class="text-h4 justify-center mb-6">{{
-        $t("general.connective")
+      <v-card-title class="text-h5 justify-center mb-6">{{
+        $t("general.welcomeToConnective")
       }}</v-card-title>
       <v-card-subtitle class="text-h6 text-center mb-8">{{
-        $t("auth.chooseNewPassword")
+        $t("auth.toStartPleaseChooseNewPassword")
       }}</v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
         <form @submit.prevent="onSubmit">

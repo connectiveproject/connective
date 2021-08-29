@@ -42,6 +42,8 @@ ACTIVITY_PAYLOADS = [
         רצים בשדות ולומדים על טבע ועל עצמנו דרך הרגליים""",
         "contact_name": "ליאור רוטשטיין",
         "phone_number": "0521234567",
+        "activity_website_url": "https://schooly-run.tiff.org.il",
+        "activity_email": "running-on@gmail.com",
     },
     {
         "name": "שחמט לכל ילד",
@@ -51,6 +53,8 @@ ACTIVITY_PAYLOADS = [
         אנו חורטים על דגלינו התפתחות חשיבה עצמאית ומסוגלת בקרב תלמידינו.""",
         "contact_name": "דוד כהן",
         "phone_number": "0521234567",
+        "activity_website_url": "https://schooly-chess.tiff.org.il",
+        "activity_email": "school-chess@gmail.com",
     },
 ]
 

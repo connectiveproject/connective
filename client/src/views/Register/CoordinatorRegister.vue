@@ -127,7 +127,7 @@
               data-testid="street"
               v-model="registrationInfo.schoolStreet"
               :error-messages="errors"
-              :label="$t('general.street')"
+              :label="$t('general.streetAndNumber')"
               required
             ></v-text-field>
           </validation-provider>
@@ -234,7 +234,7 @@
             {{ registrationInfo.schoolCity }}</v-card-text
           >
           <v-card-text
-            ><b>{{ $t("general.street") }}:</b>
+            ><b>{{ $t("general.streetAndNumber") }}:</b>
             {{ registrationInfo.schoolStreet }}</v-card-text
           >
           <v-card-text
@@ -301,6 +301,14 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    // ensure prop is passed from router (won't be passed on refresh)
+    if (to.params.shouldEditSchool !== undefined) {
+      next()
+    } else {
+      next("/")
+    }
   },
   data() {
     return {

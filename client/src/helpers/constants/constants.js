@@ -58,8 +58,8 @@ export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activit
 export const GET_VENDOR_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_VENDOR_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
-export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
-export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
+export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const CREATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const UPDATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
@@ -115,6 +115,8 @@ export const SCHOOL_GRADES_ITEMS = [
   { value: 10, text: i18n.t("grades.10") },
   { value: 11, text: i18n.t("grades.11") },
   { value: 12, text: i18n.t("grades.12") },
+  { value: 13, text: i18n.t("grades.13") },
+  { value: 14, text: i18n.t("grades.14") },
 ]
 
 const DOMAIN_SELECT_ITEMS = [
@@ -171,7 +173,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "activityEmail",
-    label: i18n.t("general.email"),
+    label: i18n.t("program.emailToGetInTouch"),
     rules: "required|email",
   },
   {

@@ -54,6 +54,7 @@ function getDefaultState() {
     // [true, false, ...]
     sortDesc: [],
     tagFilters: [],
+    totalServerItems: 10,
   }
 }
 
@@ -81,6 +82,9 @@ const pagination = {
     REMOVE_FIELD_FILTER(state, fieldName) {
       Vue.delete(state.fieldFilters, fieldName)
     },
+    SET_TOTAL_SERVER_ITEMS(state, total) {
+      state.totalServerItems = total
+    },
   },
   getters: {
     apiParams: paginationToApiParams,
@@ -100,6 +104,9 @@ const pagination = {
     },
     removeFieldFilter({ commit }, fieldName) {
       commit("REMOVE_FIELD_FILTER", fieldName)
+    },
+    setTotalServerItems({ commit }, total) {
+      commit("SET_TOTAL_SERVER_ITEMS", total)
     },
   },
 }

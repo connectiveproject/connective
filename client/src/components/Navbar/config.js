@@ -4,7 +4,7 @@ import store from "@/vuex/store"
 
 const coordinatorTabs = [
   {
-    text: i18n.t("myActivity.activeGroups"),
+    text: i18n.t("myActivity.myGroups"),
     componentName: "MyGroups",
     icon: "mdi-home-group",
   },
@@ -15,7 +15,7 @@ const coordinatorTabs = [
     icon: "mdi-handshake",
   },
   {
-    text: i18n.t("events.eventsBoard"),
+    text: i18n.t("events.eventsCalendar"),
     componentName: "MyEvents",
     icon: "mdi-calendar-heart",
   },
@@ -44,12 +44,12 @@ const consumerTabs = [
     icon: "mdi-handshake",
   },
   {
-    text: i18n.t("myActivity.activeGroups"),
+    text: i18n.t("myActivity.myGroups"),
     componentName: "ConsumerMyGroups",
     icon: "mdi-home-group",
   },
   {
-    text: i18n.t("events.eventsBoard"),
+    text: i18n.t("events.eventsCalendar"),
     componentName: "ConsumerMyEvents",
     icon: "mdi-calendar-heart",
   },
@@ -83,7 +83,7 @@ const vendorTabs = [
   },
   {
     id: "events-groups-navbar-tab",
-    text: i18n.t("myActivity.activeGroups"),
+    text: i18n.t("myActivity.myGroups"),
     componentName: "VendorGroupsTable",
     icon: "mdi-home-group",
   },

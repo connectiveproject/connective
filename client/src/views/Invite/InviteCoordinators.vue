@@ -1,89 +1,36 @@
 <template>
-  <div class="wrapper mx-auto mt-16">
+  <div class="w-90 mx-auto mt-16">
     <h1 class="mb-5" v-text="$t('invite.inviteStaff')" />
     <h2
       class="pb-12"
-      v-text="$t('invite.inviteTheSchoolStaffToJoinThePlatform')"
+      v-text="
+        $t('invite.clickOnInviteStaffButtonToInviteNewStaffMemberViaEmail')
+      "
     />
-    <div class="mx-auto d-flex justify-center mt-10">
-      <v-card elevation="3" class="mb-15">
-        <v-card-title>
-          <v-text-field
-            v-model="searchFilter"
-            append-icon="mdi-magnify"
-            :label="$t('userActions.search')"
-            single-line
-            hide-details
-            class="px-10 mt-5 mb-8"
-            @click:append="
-              tableProps.options.page = 1
-              getCoordinators()
-            "
-            @keyup.enter="
-              tableProps.options.page = 1
-              getCoordinators()
-            "
-          />
-        </v-card-title>
-        <v-data-table
-          show-select
-          multi-sort
-          v-bind.sync="tableProps"
-          :no-data-text="$t('invite.clickTheButtonBelowToInviteUsers!')"
-        >
-          <template v-slot:item.actions="{ item }">
-            <v-icon size="20" class="mr-2" @click="editCoordinator(item)">
-              mdi-pencil
-            </v-icon>
-          </template>
-        </v-data-table>
-        <v-card-actions introjs="table-actions" class="grey lighten-5 mt-3">
-          <v-btn
-            @click="addCoordinator"
-            :class="{
-              'glow-animation': !wasInviteBtnClicked,
-              'abs-center': $vuetify.breakpoint.smAndUp,
-            }"
-            v-text="$t('invite.inviteStaffMember')"
-            color="primary"
-            outlined
-          />
-          <v-spacer></v-spacer>
-          <div class="pl-2">
-            <v-btn
-              text
-              color="error"
-              @click="handleDeleteRequest"
-              :disabled="!selectedRows.length"
-              v-text="$t('invite.removeStaffMember')"
-            />
-            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn @click="triggerCSVUpload" icon v-bind="attrs" v-on="on">
-                  <v-icon color="primary">mdi-file-upload</v-icon>
-                </v-btn>
-              </template>
-              <span class="px-3">{{ $t("userActions.import") }} CSV</span>
-            </v-tooltip>
-            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn @click="exportCSV" icon v-bind="attrs" v-on="on">
-                  <v-icon color="primary">mdi-file-download-outline</v-icon>
-                </v-btn>
-              </template>
-              <span class="px-3">{{ $t("userActions.export") }}</span>
-            </v-tooltip>
-          </div>
-        </v-card-actions>
-      </v-card>
-      <v-file-input
-        id="csvImportInput"
-        class="d-none"
-        type="file"
-        accept=".csv"
-        v-model="csvFile"
-      >
-      </v-file-input>
+    <div class="mx-auto d-flex justify-center mt-10 mb-3">
+      <pagination-complex-table
+        show-select
+        actions-first
+        v-model="selectedRows"
+        item-key="email"
+        action-one-icon="mdi-pencil"
+        action-one-icon-color="grey darken-2"
+        :headers="headers"
+        :items="items"
+        :loading="loading"
+        :totalActions="1"
+        :no-data-text="$t('invite.clickTheButtonBelowToInviteUsers!')"
+        :action-one-icon-tooltip="$tc('userActions.edit', 2)"
+        :footerBtnOneText="$t('invite.inviteStaffMember')"
+        :footerBtnTwoText="$t('invite.removeStaffMember')"
+        :footer-btn-two-disabled="!selectedRows.length"
+        @paginate="getCoordinators"
+        @action-one-click="editCoordinator($event)"
+        @footer-btn-one-click="addCoordinator"
+        @footer-btn-two-click="handleDeleteRequest"
+        @file-upload="importCSV"
+        @file-download-request="exportCSV"
+      />
       <add-coordinator-dialog
         v-model="isDialogActive"
         :title="dialogTitle"
@@ -105,38 +52,26 @@ import Api from "../../api"
 import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
+import PaginationComplexTable from "../../components/Tables/PaginationComplexTable"
 
 export default {
   name: "InviteCoordinators",
   components: {
     Modal,
     AddCoordinatorDialog,
+    PaginationComplexTable,
   },
   data() {
     return {
-      searchFilter: "",
+      loading: false,
+      items: [],
       selectedRows: [],
-      wasInviteBtnClicked: false,
-      tableProps: {
-        items: [],
-        itemKey: "email",
-        loading: false,
-        loadingText: this.$t("general.loading"),
-        serverItemsLength: this.$store.state.school.totalCoordinators,
-        page: 1,
-        pageCount: undefined,
-        options: {},
-        headers: [
-          { text: "", value: "actions", sortable: false },
-          { text: this.$t("general.name"), value: "name" },
-          { text: this.$t("general.email"), value: "email" },
-        ],
-      },
-
-      csvFile: null,
+      headers: [
+        { text: this.$t("general.name"), value: "name" },
+        { text: this.$t("general.email"), value: "email" },
+      ],
       isDialogActive: false,
       popupMsg: "",
-
       dialogCoordinator: {
         name: "",
         email: "",
@@ -155,22 +90,6 @@ export default {
     },
   },
 
-  watch: {
-    csvFile() {
-      if (this.csvFile) {
-        // on upload, run the import chain
-        this.importCSV()
-      }
-    },
-    "tableProps.options": {
-      // re-fetch data on user request (e.g., sort, next page)
-      deep: true,
-      handler() {
-        this.getCoordinators()
-      },
-    },
-  },
-
   methods: {
     ...mapActions("pagination", ["updatePagination"]),
     ...mapActions("snackbar", ["showMessage"]),
@@ -183,41 +102,24 @@ export default {
     translateStatus,
 
     async getCoordinators() {
-      this.tableProps.loading = true
-      let paginationOptions = {
-        itemsPerPage: this.tableProps.options.itemsPerPage,
-        page: this.tableProps.options.page,
-        searchFilter: this.searchFilter,
-        sortBy: this.tableProps.options.sortBy,
-        sortDesc: this.tableProps.options.sortDesc,
-      }
-      this.updatePagination(paginationOptions)
-      this.tableProps.items = await this.getCoordinatorList({
+      this.loading = true
+      this.items = await this.getCoordinatorList({
         override: true,
         usePagination: true,
       })
-      this.tableProps.serverItemsLength =
-        this.$store.state.school.totalCoordinators
-      this.tableProps.loading = false
+      this.loading = false
     },
 
-    async importCSV() {
+    async importCSV(file) {
       try {
-        const added = await this.addCoordinatorsBulk(this.csvFile)
-        this.tableProps.options.page = 1
+        const added = await this.addCoordinatorsBulk(file)
         this.getCoordinators()
         this.popupMsg = `${added.length} ${this.$t(
           "invite.coordinatorsHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
-        this.csvFile = null
       } catch (err) {
         this.popupMsg = Api.utils.parseResponseError(err)
-        this.csvFile = null
       }
-    },
-
-    triggerCSVUpload() {
-      document.getElementById("csvImportInput").click()
     },
 
     handleDeleteRequest: debounce(
@@ -243,7 +145,6 @@ export default {
     },
 
     addCoordinator() {
-      this.wasInviteBtnClicked = true
       this.dialogSlug = null
       this.dialogMode = "create"
       this.isDialogActive = true
@@ -259,15 +160,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.wrapper {
-  width: 90%;
-}
-
-.abs-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-</style>

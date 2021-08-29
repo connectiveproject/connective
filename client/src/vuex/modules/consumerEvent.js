@@ -69,7 +69,7 @@ const consumerEvent = {
         start_time__lte: endDateString,
       }
       if (usePagination) {
-        params = [ ...params, ...rootGetters["pagination/apiParams"]]
+        params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
       let res = await Api.consumerEvent.getEventList(params)
       return res.data.results

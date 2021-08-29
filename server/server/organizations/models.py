@@ -8,6 +8,7 @@ from server.utils.model_fields import random_slug
 
 from django.contrib.auth import get_user_model
 
+
 class SchoolActivityGroupManager(models.Manager):
     def get_activity_container_only_group(self, activity_group):
         container_only_groups = self.filter(
@@ -245,6 +246,10 @@ class SchoolActivityOrder(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status_reason = models.CharField(
+        max_length=250,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.activity} | {self.school} | {self.status} | {self.pk}"
