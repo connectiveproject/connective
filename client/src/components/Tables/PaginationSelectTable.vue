@@ -56,7 +56,6 @@ export default {
   },
 
   methods: {
-    ...mapActions("pagination", ["updatePagination"]),
     toggleRowSelect(item) {
       // add or remove from selected rows and emit correlating events
       if (!this.isSelected(item)) {

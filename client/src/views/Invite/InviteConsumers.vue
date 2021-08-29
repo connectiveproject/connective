@@ -107,7 +107,6 @@ export default {
   },
 
   methods: {
-    ...mapActions("pagination", ["updatePagination"]),
     ...mapActions("snackbar", ["showMessage"]),
     ...mapActions("school", [
       "getStudentList",
