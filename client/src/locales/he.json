@@ -86,6 +86,7 @@
     "requestApproved": "הבקשה אושרה",
     "requestCancelled": "הבקשה בוטלה",
     "available": "זמין",
+    "requestDenied": "הבקשה נדחתה",
     "forProgramDetails": "לפרטי התוכנית",
     "pendingGroupAssignment": "מחכה לשיבוץ לקבוצה",
     "inTheProgramAndAssignedToGroup": "בתוכנית ומשוייך לקבוצה",

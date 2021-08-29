@@ -55,9 +55,7 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["coordinator", "consumer", "instructor", "vendor", "supervisor"].includes(
-          value
-        )
+        return Object.keys({ ...userToTabs, ...userToAccountButtons }).includes(value)
       },
     },
   },

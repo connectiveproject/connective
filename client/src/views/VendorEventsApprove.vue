@@ -137,7 +137,7 @@ export default {
         if (
           [
             SERVER.eventOrderStatus.cancelled,
-            SERVER.eventOrderStatus.cancelled,
+            SERVER.eventOrderStatus.denied,
           ].includes(order.status)
         ) {
           return this.showMessage(

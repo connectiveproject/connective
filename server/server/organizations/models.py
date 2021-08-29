@@ -215,6 +215,7 @@ class SchoolActivityOrder(models.Model):
         CANCELLED = "CANCELLED", "Cancelled"
         PENDING_ADMIN_APPROVAL = "PENDING_ADMIN_APPROVAL", "Pending Admin Approval"
         APPROVED = "APPROVED", "Approved"
+        DENIED = "DENIED", "Denied"
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 

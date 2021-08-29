@@ -212,6 +212,7 @@ export const SERVER = {
     pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
     approved: "APPROVED",
     notOrdered: "NOT_ORDERED",
+    denied: "DENIED",
   },
   programGroupTypes: {
     standard: "DEFAULT",

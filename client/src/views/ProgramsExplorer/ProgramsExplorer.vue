@@ -165,7 +165,7 @@ export default {
     ),
 
     requestProgram(program) {
-      if (program.orderStatus === SERVER.programOrderStatus.cancelled) {
+      if ([SERVER.programOrderStatus.cancelled, SERVER.programOrderStatus.denied].includes(program.orderStatus)) {
         return this.reCreateProgramOrder({
           schoolSlug: this.schoolSlug,
           programSlug: program.slug,
@@ -202,9 +202,11 @@ export default {
           "program.pendingAdminApproval"
         ),
         [SERVER.programOrderStatus.notOrdered]: this.$t("program.available"),
+        [SERVER.programOrderStatus.denied]: this.$t("program.requestDenied"),
       },
       statusToColor: {
         [SERVER.programOrderStatus.cancelled]: "error",
+        [SERVER.programOrderStatus.denied]: "error",
         [SERVER.programOrderStatus.approved]: "success",
         [SERVER.programOrderStatus.pendingAdminApproval]: "orange",
       },
