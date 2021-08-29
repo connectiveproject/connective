@@ -1,7 +1,5 @@
 import i18n from "../plugins/i18n"
 import guards from "@/router/guards"
-console.log(guards)
-
 import Welcome from "../layouts/Welcome"
 import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
 import StudentDashboard from "../layouts/StudentDashboard"

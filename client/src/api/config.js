@@ -1,8 +1,8 @@
 import Vue from "vue"
 import axios from "axios"
-import Utils from "../helpers/utils"
+import Utils from "@/helpers/utils"
 import store from "@/vuex/store"
-import { TOKEN_COOKIE_NAME } from "../helpers/constants/constants"
+import { TOKEN_COOKIE_NAME } from "@/helpers/constants/constants"
 
 function addTokenHeader(token) {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`

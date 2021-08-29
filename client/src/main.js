@@ -17,8 +17,6 @@ Vue.use(cookies)
 Vue.config.productionTip = false
 Api.config.initAxiosSettings()
 
-console.log(store)
-
 new Vue({
   vuetify,
   router,
