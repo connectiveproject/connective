@@ -16,6 +16,8 @@ Instructor = apps.get_model("users.Instructor")
 Consumer = apps.get_model("users.Consumer")
 
 class OrganizationSerializer(serializers.ModelSerializer):
+    slug = serializers.SlugField(read_only=True)
+    
     class Meta:
         model = Organization
         fields = [
