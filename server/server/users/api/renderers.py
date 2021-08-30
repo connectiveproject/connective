@@ -1,38 +1,23 @@
-from rest_framework_csv.renderers import CSVRenderer
+from server.utils.renderers import GenericCSVRenderer
 
+class UsersCSVRenderer(GenericCSVRenderer):
+    fields = ["name", "email", "gender"]
 
-class UsersCSVRenderer(CSVRenderer):
-    results_field = "results"
-    delete_fields = ["slug"]
-
-    def delete_keys_from_dict(self, dict_del, lst_keys):
+    def render(self, data, media_type=None, renderer_context=None, writer_opts=None):
         """
-        recursively delete keys from dict
+        flatten profile nested fields
         """
-        for k in lst_keys:
-            try:
-                del dict_del[k]
-            except KeyError:
-                pass
-        for v in dict_del.values():
-            if isinstance(v, dict):
-                self.delete_keys_from_dict(v, lst_keys)
-
-        return dict_del
-
-    def render(self, data, media_type=None, renderer_context=None):
-        if not isinstance(data, list):
-            data = data.get("results", [])
-            # Delete nested fields from objects.
-            data = [self.delete_keys_from_dict(obj, self.delete_fields) for obj in data]
-            # TODO: Refactor, this is magic that convert profile to gender only
-            data = [
+        results = data.get(self.results_field, [])
+        if results:
+            results = [
                 {
                     **{k: v for k, v in obj.items() if k != "profile"},
                     **(
                         {"gender": obj["profile"]["gender"]} if "profile" in obj else {}
                     ),
                 }
-                for obj in data
+                for obj in results
             ]
-        return super(UsersCSVRenderer, self).render(data, media_type, renderer_context)
+            # re-assign the results
+            data[self.results_field] = results
+        return super().render(data, media_type, renderer_context)
