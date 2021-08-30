@@ -63,7 +63,8 @@ export default {
   },
 
   loginIfAuthenticated(to, from, next) {
-    if (store.state.auth.isAuthenticated) {
+    console.log(store.state.user.userDetails.isSignupComplete)
+    if (store.state.user.userDetails.isSignupComplete) {
       return next({ name: "Dashboard", params: { lang: i18n.locale } })
     }
     next()
@@ -89,11 +90,6 @@ export default {
 
   async flushPagination(to, from, next) {
     await store.dispatch("pagination/flushState")
-    next()
-  },
-
-  flushToken(to, from, next) {
-    store.dispatch("auth/logout", false)
     next()
   },
 

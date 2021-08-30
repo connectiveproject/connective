@@ -29,9 +29,9 @@ const auth = {
       commit("SET_AUTH", true)
       Vue.$router.push({ name: "Dashboard" })
     },
-    logout({ commit }, redirect = true) {
+    async logout({ dispatch }, redirect = true) {
       Api.config.removeToken()
-      commit("SET_AUTH", false)
+      await dispatch("flushState", null, { root: true })
       if (redirect) {
         Vue.$router.push({ path: "/" })
       }

@@ -85,7 +85,6 @@ export default [
             path: "reset-password/:uid/:token",
             name: "ResetPassword",
             component: ResetPassword,
-            beforeEnter: guards.flushToken,
             props: true,
           },
           {
