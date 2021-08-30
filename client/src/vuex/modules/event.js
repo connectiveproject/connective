@@ -41,7 +41,7 @@ const event = {
     },
     async getEventList(
       { commit, state, rootGetters },
-      { benchmarkDate, override, usePagination }
+      { benchmarkDate, override = true, usePagination = true }
     ) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
@@ -67,7 +67,7 @@ const event = {
     },
     async getEventOrders(
       { commit, dispatch, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       const mutation = override ? "SET_EVENT_ORDERS" : "ADD_EVENT_ORDERS"
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}

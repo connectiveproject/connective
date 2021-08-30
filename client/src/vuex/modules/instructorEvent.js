@@ -36,7 +36,7 @@ const instructorEvent = {
     },
     async getPastEvents(
       { commit, state, rootGetters },
-      { daysAgo, unsummarizedOnly, usePagination }
+      { daysAgo, unsummarizedOnly, usePagination = true }
     ) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(

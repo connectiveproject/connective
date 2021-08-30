@@ -76,7 +76,7 @@ const school = {
     },
     async getStudentList(
       { commit, state, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       // :boolean override: whether to override the list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
@@ -86,14 +86,14 @@ const school = {
       commit("SET_STUDENTS_TOTAL", res.data.count)
       return state.studentList
     },
-    getStudentsExportFile({ rootGetters }, { usePagination }) {
+    getStudentsExportFile({ rootGetters }, { usePagination = true }) {
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       Api.school.getStudentsExportFile(params).then(res => {
         Utils.downloadTextAsFile("students.csv", res.request.response)
         return res
       })
     },
-    getCoordinatorsExportFile({ rootGetters }, { usePagination }) {
+    getCoordinatorsExportFile({ rootGetters }, { usePagination = true }) {
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       Api.school.getCoordinatorsExportFile(params).then(res => {
         Utils.downloadTextAsFile("principals.csv", res.request.response)
@@ -115,7 +115,7 @@ const school = {
     },
     async getCoordinatorList(
       { commit, state, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       // :boolean override: whether to override the list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}

@@ -46,7 +46,7 @@ const consumerProgram = {
     },
     async getProgramsList(
       { commit, state, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       // :boolean override: whether to override the programs list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}

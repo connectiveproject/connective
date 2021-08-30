@@ -35,7 +35,7 @@ const programGroup = {
 
     async getGroupList(
       { commit, state, rootGetters },
-      { groupType, override, usePagination }
+      { groupType, override = true, usePagination = true }
     ) {
       // :str groupType: which group type to fetch (if empty, fetch all groups)
       // :boolean override: whether to override the groups list or not (i.e., extend)
@@ -66,7 +66,7 @@ const programGroup = {
     },
     async getConsumers(
       { dispatch, rootGetters },
-      { groupSlugs, usePagination }
+      { groupSlugs, usePagination = true }
     ) {
       // get all consumers under a group
       // :array groupSlug: array of group slugs to fetch consumers by

@@ -56,7 +56,7 @@ const organization = {
     },
     async getInstructorList(
       { commit, state, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       // :boolean override: whether to override the list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
@@ -82,7 +82,7 @@ const organization = {
     },
     async getVendorList(
       { commit, state, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       // :boolean override: whether to override the list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}

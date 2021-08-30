@@ -27,7 +27,7 @@ class GenericCSVRenderer(CSVRenderer):
         if not self.fields:
             raise ImproperlyConfigured("fields attribute must be specified")
         results = data.get(self.results_field, [])
+        # Delete nested fields from objects
         if results:
-            # Delete nested fields from objects.
             data = [self.delete_keys_from_dict(obj, self.fields) for obj in results]
         return super().render(data, media_type, renderer_context)

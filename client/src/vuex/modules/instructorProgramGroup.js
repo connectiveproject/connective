@@ -17,7 +17,7 @@ const instructorProgramGroup = {
     },
     async getConsumers(
       { dispatch, rootGetters },
-      { groupSlugs, usePagination }
+      { groupSlugs, usePagination = true }
     ) {
       // get all consumers under a group
       // :array groupSlug: array of group slugs to fetch consumers by

@@ -30,7 +30,7 @@ const eventFeedPost = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async getFeedPosts({ commit, rootGetters }, { override, usePagination } ) {
+    async getFeedPosts({ commit, rootGetters }, { override = true, usePagination = true } ) {
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
       let res = await Api.eventFeedPost.getFeedPosts(params)
       const mutation = override

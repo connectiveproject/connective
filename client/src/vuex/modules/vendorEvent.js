@@ -29,7 +29,7 @@ const vendorEvent = {
     },
     async getEventOrders(
       { commit, dispatch, rootGetters },
-      { override, usePagination }
+      { override = true, usePagination = true }
     ) {
       const mutation = override ? "SET_EVENT_ORDERS" : "ADD_EVENT_ORDERS"
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
