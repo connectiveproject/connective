@@ -8,8 +8,8 @@ export const buttonLabels = {
 export const config = {
   noIntroMsg: [
     {
-      title: "Sorry!",
-      intro: "No helper here.... 👋",
+      title: i18n.t("general.message"),
+      intro: i18n.t("errors.explanationForThisPageDoesNotExist"),
     },
   ],
   VendorDashboard: [
