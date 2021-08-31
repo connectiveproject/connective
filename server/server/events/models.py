@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from server.organizations.models import SchoolActivityGroup
 from server.utils.model_fields import random_slug
 
-from django.apps import apps
 
 class EventOrder(models.Model):
     class Status(models.TextChoices):

@@ -15,7 +15,7 @@ from server.users.models import Consumer, Instructor
 
 class OrganizationSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
-    
+
     class Meta:
         model = Organization
         fields = [

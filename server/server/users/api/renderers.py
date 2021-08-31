@@ -1,5 +1,6 @@
 from server.utils.renderers import GenericCSVRenderer
 
+
 class UsersCSVRenderer(GenericCSVRenderer):
     fields = ["name", "email", "gender"]
 

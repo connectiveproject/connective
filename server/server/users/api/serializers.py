@@ -6,18 +6,18 @@ from server.organizations.models import OrganizationMember
 from server.schools.models import SchoolMember
 from server.users.models import (
     Consumer,
-    Vendor,
-    Coordinator,
-    Instructor,
-    Supervisor,
     ConsumerProfile,
-    VendorProfile,
+    Coordinator,
     CoordinatorProfile,
+    Instructor,
     InstructorProfile,
     SupervisorProfile,
+    Vendor,
+    VendorProfile,
 )
 
 from ..helpers import send_user_invite
+
 User = get_user_model()
 
 

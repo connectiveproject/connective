@@ -12,41 +12,39 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from server.users.models import (
+    Consumer,
+    ConsumerProfile,
+    Coordinator,
+    CoordinatorProfile,
+    Instructor,
+    InstructorProfile,
+    SupervisorProfile,
+    Vendor,
+    VendorProfile,
+)
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowCoordinator,
     AllowInstructor,
-    AllowVendor,
     AllowSupervisor,
+    AllowVendor,
 )
-
 
 from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
     InstructorProfileSerializer,
-    SupervisorProfileSerializer,
     ManageConsumersSerializer,
     ManageCoordinatorsSerializer,
     ManageInstructorsSerializer,
     ManageVendorsSerializer,
+    SupervisorProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
 
-from server.users.models import (
-    Consumer,
-    Vendor,
-    Coordinator,
-    Instructor,
-    Supervisor,
-    ConsumerProfile,
-    VendorProfile,
-    CoordinatorProfile,
-    InstructorProfile,
-    SupervisorProfile,
-)
 User = get_user_model()
 
 
