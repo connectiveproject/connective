@@ -3,69 +3,62 @@ import i18n from "@/plugins/i18n"
 import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
 
-async function isStaffRegistered() {
-  // check if staff completed registration
-  let userDetails = await store.dispatch("user/getUserDetails")
-  let profile = await store.dispatch(
-    `${userDetails.userType.toLowerCase()}/getProfile`
-  )
-  return [profile.phoneNumber, userDetails.name].every(item => !!item)
-}
-
-async function isSchoolFilled() {
-  // check if school details already filled by a coordinator
+async function shouldCoordEditSchool() {
+  // check if coord should edit school, by checking if other user already did
   const schoolDetails = await store.dispatch("school/getSchoolDetails")
-  return schoolDetails.lastUpdatedBy
+  return !schoolDetails.lastUpdatedBy
 }
 
 export default {
   async checkRegistrationStatus(to, from, next) {
     // redirect based on user type & registration status
+    const params = { lang: i18n.locale }
+    const isSignupComplete = store.state.user.userDetails.isSignupComplete
+    const userToRoute = {
+      [SERVER.userTypes.supervisor]: () =>
+        next({ name: "SupervisorDashboard", params }),
+
+      [SERVER.userTypes.consumer]: () =>
+        next({ name: "StudentDashboard", params }),
+
+      [SERVER.userTypes.instructor]: () =>
+        next({ name: "InstructorDashboard", params }),
+
+      [SERVER.userTypes.vendor]: async () => {
+        if (isSignupComplete) {
+          return next({ name: "VendorDashboard", params })
+        }
+        next({ name: "VendorRegister", params })
+      },
+
+      [SERVER.userTypes.coordinator]: async () => {
+        if (isSignupComplete) {
+          return next({ name: "MyGroups", params })
+        }
+        const shouldEditSchool = await shouldCoordEditSchool()
+        return next({
+          name: "CoordinatorRegister",
+          params: { ...params, shouldEditSchool },
+        })
+      },
+    }
+
     if (!store.state.auth.isAuthenticated) {
       return next("/")
     }
     const userDetails = await store.dispatch("user/getUserDetails")
-    if (userDetails.userType === SERVER.userTypes.supervisor) {
-      return next({
-        name: "SupervisorDashboard",
-        params: { lang: i18n.locale },
-      })
-    }
-    if (userDetails.userType === SERVER.userTypes.consumer) {
-      return next({ name: "StudentDashboard", params: { lang: i18n.locale } })
-    } else if (userDetails.userType === SERVER.userTypes.instructor) {
-      return next({
-        name: "InstructorDashboard",
-        params: { lang: i18n.locale },
-      })
-    } else if (userDetails.userType === SERVER.userTypes.vendor) {
-      if (await isStaffRegistered()) {
-        return next({ name: "VendorDashboard", params: { lang: i18n.locale } })
-      }
-      return next({ name: "VendorRegister", params: { lang: i18n.locale } })
-    }
-    // coord
-    const shouldEditSchool = !(await isSchoolFilled())
-    if (!shouldEditSchool && (await isStaffRegistered())) {
-      return next({ name: "MyGroups", params: { lang: i18n.locale } })
-    }
-    return next({
-      name: "CoordinatorRegister",
-      params: { lang: i18n.locale, shouldEditSchool },
-    })
+    userToRoute[userDetails.userType]()
   },
 
-  flushState(to, from, next) {
-    // if logged in already, redirect to dashboard
-    // else flush state (relevant on logouts)
-    store.dispatch("flushState")
-    next()
-  },
-
-  loginIfAuthenticated(to, from, next) {
-    console.log(store.state.user.userDetails.isSignupComplete)
-    if (store.state.user.userDetails.isSignupComplete) {
+  loginIfSignupComplete(to, from, next) {
+    // login if finished registration process
+    const isSignupComplete = store.state.user.userDetails.isSignupComplete
+    if (isSignupComplete) {
       return next({ name: "Dashboard", params: { lang: i18n.locale } })
+    }
+    if (isSignupComplete === null) {
+      // if unknown, redirect to login page
+      return next("/")
     }
     next()
   },
