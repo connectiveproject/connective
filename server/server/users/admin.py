@@ -9,16 +9,16 @@ from server.users.forms import UserChangeForm
 from server.users.helpers import send_user_invite
 
 from .models import (
-    ConsumerProfile,
-    CoordinatorProfile,
-    InstructorProfile,
-    SupervisorProfile,
-    VendorProfile,
     Consumer,
-    Vendor,
+    ConsumerProfile,
     Coordinator,
+    CoordinatorProfile,
     Instructor,
+    InstructorProfile,
     Supervisor,
+    SupervisorProfile,
+    Vendor,
+    VendorProfile,
 )
 
 User = get_user_model()

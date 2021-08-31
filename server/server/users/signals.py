@@ -3,17 +3,18 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import (
-    ConsumerProfile,
-    CoordinatorProfile,
-    InstructorProfile,
-    SupervisorProfile,
-    VendorProfile,
     Consumer,
+    ConsumerProfile,
     Coordinator,
+    CoordinatorProfile,
     Instructor,
-    Vendor,
+    InstructorProfile,
     Supervisor,
+    SupervisorProfile,
+    Vendor,
+    VendorProfile,
 )
+
 
 @receiver(post_save, sender=Consumer)
 @receiver(post_save, sender=Coordinator)

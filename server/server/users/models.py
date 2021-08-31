@@ -1,5 +1,3 @@
-from typing import Type
-
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
