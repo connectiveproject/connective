@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
 import isEqual from "lodash/isEqual"
 import BasePaginationTable from "./BasePaginationTable"
 
