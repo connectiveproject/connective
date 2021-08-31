@@ -5,15 +5,15 @@ describe("auth", () => {
     cy.visit(Cypress.env("clientUrl"))
   })
 
-  it("should login as a consumer", () => {
+  it("should login as a coordinator", () => {
     cy.get('[data-testid="email-input"]').type("test-coord@example.com")
     cy.get('[data-testid="password-input"]').type("Aa123456789")
     cy.get("form").submit()
     cy.url().should("contain", "dashboard")
   })
 
-  it("should login as a coord for the first time & finish registration", () => {
-    cy.get('[data-testid="email-input"]').type("test-coord@example.com")
+  it("should login as a coordinator for the first time & finish registration", () => {
+    cy.get('[data-testid="email-input"]').type("test-signup-coord@example.com")
     cy.get('[data-testid="password-input"]').type("Aa123456789")
     cy.get("form").submit()
     // page 1

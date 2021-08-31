@@ -54,13 +54,14 @@ class Command(BaseCommand):
                 self.style.WARNING("Dev admin already exists. Skipping...")
             )
 
-    def create_user(self, user_model, email, password, name):
+    def create_user(self, user_model, email, password, name, is_signup_complete):
         try:
             user = user_model.objects.create(
                 username=self.test_random_slug(),
                 email=email,
                 password=password,
                 name=name,
+                is_signup_complete=is_signup_complete,
             )
             user.set_password(user.password)
             user.save()
@@ -74,7 +75,7 @@ class Command(BaseCommand):
                 self.style.WARNING(f"{email} already exists. Skipping...")
             )
 
-    def create_all(self, entitiesPrefix=""):
+    def create_all(self, entitiesPrefix="", is_user_signup_complete=True):
         self.create_admin(f"{entitiesPrefix}admin@example.com")
 
         consumers = []
@@ -85,6 +86,7 @@ class Command(BaseCommand):
                 f"{entitiesPrefix}consumer-{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
+                is_user_signup_complete,
             )
             if user:
                 user.profile.gender = user.profile.Gender.MALE
@@ -98,6 +100,7 @@ class Command(BaseCommand):
                 f"{entitiesPrefix}consumer-1{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
+                is_user_signup_complete,
             )
             if user:
                 user.profile.gender = user.profile.Gender.FEMALE
@@ -119,6 +122,7 @@ class Command(BaseCommand):
             f"{entitiesPrefix}coord@example.com",
             "Aa123456789",
             "דוד כהן",
+            is_user_signup_complete,
         )
 
         instructor = self.create_user(
@@ -126,6 +130,7 @@ class Command(BaseCommand):
             f"{entitiesPrefix}instructor@example.com",
             "Aa123456789",
             "דן יוסופוב",
+            is_user_signup_complete,
         )
 
         self.create_user(
@@ -133,6 +138,7 @@ class Command(BaseCommand):
             f"{entitiesPrefix}supervisor@example.com",
             "Aa123456789",
             "שמעון יצחק",
+            is_user_signup_complete,
         )
 
         vendor = self.create_user(
@@ -140,6 +146,7 @@ class Command(BaseCommand):
             f"{entitiesPrefix}vendor@example.com",
             "Aa123456789",
             "משי בר אל",
+            is_user_signup_complete,
         )
 
         if not (len(consumers) and coord and instructor and vendor):
@@ -300,3 +307,4 @@ class Command(BaseCommand):
 
         self.create_all()
         self.create_all(entitiesPrefix="test-")
+        self.create_all(entitiesPrefix="test-signup-", is_user_signup_complete=False)
