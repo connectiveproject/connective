@@ -4,22 +4,20 @@ from rest_framework.validators import UniqueValidator
 
 from server.organizations.models import OrganizationMember
 from server.schools.models import SchoolMember
+from server.users.models import (
+    Consumer,
+    Vendor,
+    Coordinator,
+    Instructor,
+    Supervisor,
+    ConsumerProfile,
+    VendorProfile,
+    CoordinatorProfile,
+    InstructorProfile,
+    SupervisorProfile,
+)
 
 from ..helpers import send_user_invite
-from django.apps import apps
-
-Coordinator = apps.get_model("users.Coordinator")
-Consumer = apps.get_model("users.Consumer")
-Instructor = apps.get_model("users.Instructor")
-Vendor = apps.get_model("users.Vendor")
-Supervisor = apps.get_model("users.Supervisor")
-
-ConsumerProfile = apps.get_model("users.ConsumerProfile")
-CoordinatorProfile = apps.get_model("users.CoordinatorProfile")
-InstructorProfile = apps.get_model("users.InstructorProfile")
-VendorProfile = apps.get_model("users.VendorProfile")
-SupervisorProfile = apps.get_model("users.SupervisorProfile")
-
 User = get_user_model()
 
 

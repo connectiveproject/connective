@@ -8,14 +8,18 @@ from .models import (
     InstructorProfile,
     SupervisorProfile,
     VendorProfile,
+    Consumer,
+    Coordinator,
+    Instructor,
+    Vendor,
+    Supervisor,
 )
-from django.apps import apps
 
-@receiver(post_save, sender=apps.get_model("users.Consumer"))
-@receiver(post_save, sender=apps.get_model("users.Coordinator"))
-@receiver(post_save, sender=apps.get_model("users.Instructor"))
-@receiver(post_save, sender=apps.get_model("users.Vendor"))
-@receiver(post_save, sender=apps.get_model("users.Supervisor"))
+@receiver(post_save, sender=Consumer)
+@receiver(post_save, sender=Coordinator)
+@receiver(post_save, sender=Instructor)
+@receiver(post_save, sender=Vendor)
+@receiver(post_save, sender=Supervisor)
 def update_user_profile(sender, instance, created, **kwargs):
     user_type_to_profile = {
         get_user_model().Types.COORDINATOR: CoordinatorProfile,

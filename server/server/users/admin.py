@@ -14,16 +14,14 @@ from .models import (
     InstructorProfile,
     SupervisorProfile,
     VendorProfile,
+    Consumer,
+    Vendor,
+    Coordinator,
+    Instructor,
+    Supervisor,
 )
 
 User = get_user_model()
-
-from django.apps import apps
-Vendor = apps.get_model("users.Vendor")
-Consumer = apps.get_model("users.Consumer")
-Coordinator = apps.get_model("users.Coordinator")
-Instructor = apps.get_model("users.Instructor")
-Supervisor = apps.get_model("users.Supervisor")
 
 
 def send_invite(self, request, queryset):

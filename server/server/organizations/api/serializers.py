@@ -10,10 +10,8 @@ from server.organizations.models import (
     SchoolActivityOrder,
 )
 from server.schools.models import School
+from server.users.models import Consumer, Instructor
 
-from django.apps import apps
-Instructor = apps.get_model("users.Instructor")
-Consumer = apps.get_model("users.Consumer")
 
 class OrganizationSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)

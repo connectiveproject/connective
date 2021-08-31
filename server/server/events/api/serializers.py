@@ -2,10 +2,8 @@ from rest_framework import serializers
 
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityGroup
+from server.users.models import Consumer
 
-from django.apps import apps
-
-Consumer = apps.get_model("users.Consumer")
 
 class EventOrderSerializer(serializers.ModelSerializer):
     school_group = serializers.SlugRelatedField(

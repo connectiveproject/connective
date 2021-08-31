@@ -2,9 +2,7 @@ from rest_framework import serializers
 
 from server.events.models import Event
 from server.posts.models import Post, PostImage
-
-from django.apps import apps
-InstructorProfile = apps.get_model("users.InstructorProfile")
+from server.users.models import InstructorProfile
 
 
 class PostImageSerializer(serializers.ModelSerializer):
