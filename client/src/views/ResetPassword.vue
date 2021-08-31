@@ -47,24 +47,54 @@
               * {{ $t("errors.strongPassHint") }}.
             </div>
           </validation-provider>
-            <v-btn
-              class="white--text mt-6"
-              type="submit"
+          <validation-provider
+            v-slot="{ errors }"
+            name="toa"
+            :rules="{ required: { allowFalse: false } }"
+          >
+            <v-checkbox
+              v-model="isTermAgreed"
+              name="toa"
               color="primary"
-              elevation="3"
-              v-text="$t('auth.finishRegistration')"
-              :disabled="invalid"
-              block
-            />
-            <v-btn
-              outlined
-              block
-              to="/"
-              class="mt-4"
-              color="primary"
-              elevation="3"
-              v-text="$t('general.homepage')"
-            />
+              :error-messages="errors"
+            >
+                  <template v-slot:label>
+                    <div>
+                      {{ $t("general.iAcceptThe") }}
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                          <a
+                            target="_blank"
+                            @click.stop="isTermsModalOpen = true"
+                            v-on="on"
+                          >
+                            {{ $t("termsOfUse.termsOfUse") }}
+                          </a>
+                        </template>
+                        {{ $t("userActions.clickToRead") }}
+                      </v-tooltip>
+                    </div>
+                  </template>
+                </v-checkbox>
+          </validation-provider>
+          <v-btn
+            class="white--text mt-6"
+            type="submit"
+            color="primary"
+            elevation="3"
+            v-text="$t('auth.finishRegistration')"
+            :disabled="invalid"
+            block
+          />
+          <v-btn
+            outlined
+            block
+            to="/"
+            class="mt-4"
+            color="primary"
+            elevation="3"
+            v-text="$t('general.homepage')"
+          />
         </form>
       </validation-observer>
     </v-card>
@@ -78,20 +108,23 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
+    <detail-modal title="termsOfUse.termsOfUse" v-model="isTermsModalOpen" v-text="$t('termsOfUse.termsOfUseText')" />
   </div>
 </template>
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import debounce from "lodash/debounce"
-import Api from "../api"
-import Modal from "../components/Modal"
+import Api from "@/api"
+import Modal from "@/components/Modal"
+import DetailModal from "@/components/DetailModal"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
     Modal,
+    DetailModal,
   },
   props: {
     uid: {
@@ -105,11 +138,13 @@ export default {
   },
 
   data: () => ({
+    isTermsModalOpen: false,
     showPass: false,
     popupMsg: "",
     identityNumber: "",
     password: "",
     passwordConfirmation: "",
+    isTermAgreed: false,
     // for redirection to login screen on success
     modalRedirectUrl: "",
   }),
