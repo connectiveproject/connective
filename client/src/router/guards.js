@@ -50,6 +50,13 @@ export default {
     userToRoute[userDetails.userType]()
   },
 
+  loginIfAuthenticated(to, from, next) {
+    if (store.state.auth.isAuthenticated) {
+      return next({ name: "Dashboard", params: { lang: i18n.locale } })
+    }
+    next()
+  },
+
   loginIfSignupComplete(to, from, next) {
     // login if finished registration process
     const isSignupComplete = store.state.user.userDetails.isSignupComplete
