@@ -1,12 +1,19 @@
 <template>
   <div>
     <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
-      <v-card-title class="text-h5 justify-center mb-6">{{
-        $t("general.welcomeToConnective")
-      }}</v-card-title>
-      <v-card-subtitle class="text-h6 text-center mb-8">{{
-        $t("auth.toStartPleaseChooseNewPassword")
-      }}</v-card-subtitle>
+      <v-card-title class="text-h5 justify-center mb-6">
+        {{
+          mode === "init"
+          ? $t("general.welcomeToConnective")
+          : $t("auth.passwordReset")
+        }}
+      </v-card-title>
+      <v-card-subtitle
+        v-if="mode === init"
+        class="text-h6 text-center mb-8"
+      >
+        {{ $t("auth.toStartPleaseChooseNewPassword") }}
+      </v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
         <form @submit.prevent="onSubmit">
           <validation-provider
@@ -48,6 +55,7 @@
             </div>
           </validation-provider>
           <validation-provider
+            v-if="mode === 'init'"
             v-slot="{ errors }"
             name="tou"
             :rules="{ required: { allowFalse: false } }"
@@ -131,6 +139,12 @@ export default {
     DetailModal,
   },
   props: {
+    mode: {
+      type: String,
+      validator(value) {
+        return ["init", "recover"].includes(value)
+      }
+    },
     uid: {
       type: String,
       required: true,
@@ -176,8 +190,10 @@ export default {
       try {
         this.showMessage(this.$t("auth.registrationSucceeded"))
         await this.login({ email, password: this.password, redirect: false })
-        const userDetails = await this.getUserDetails()
-        await this.updateUserDetails({ slug: userDetails.slug, userDetails: { isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted } })
+        if (this.mode === "init") {
+          const userDetails = await this.getUserDetails()
+          await this.updateUserDetails({ slug: userDetails.slug, userDetails: { isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted } })
+        }
         this.$router.push({ name: "Dashboard" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))

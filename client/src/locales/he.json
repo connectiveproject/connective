@@ -49,7 +49,8 @@
     "advancedSearch": "סינון מתקדם",
     "pageExplanation": "הסבר עמוד",
     "thisIsAnExperimentalFeature-feedbacksAreMostWelcome": "חלק זה נמצא בהרצה. נשמח לשמוע פידבקים",
-    "iAcceptThe": "אני מאשר/ת את"
+    "iAcceptThe": "אני מאשר/ת את",
+    "forgotYourPassword?": "שכחת את הסיסמה?"
   },
 
   "confirm": {
@@ -229,7 +230,9 @@
     "detailsCompletion": "השלמת פרטים",
     "detailsConfirmation": "אישור פרטים",
     "registered": "רשומ/ה",
-    "notRegistered": "לא רשומ/ה"
+    "notRegistered": "לא רשומ/ה",
+    "passwordReset": "איפוס סיסמה",
+    "reset": "איפוס"
   },
 
   "success": {
@@ -250,7 +253,8 @@
     "eventDenied": "המפגש/ים נדחה/ו",
     "allRelatedEventsHaveBeenCancelled": "כלל המפגשים המקושרים בוטלו",
     "eventOrderAndEventsSuccessfullyDeleted": "הזמנת  המפגש בוטלה וכלל המפגשים המקושרים נמחקו",
-    "instructorAssignedToGroupSuccessfully": "המדריך שובץ לקבוצה בהצלחה"
+    "instructorAssignedToGroupSuccessfully": "המדריך שובץ לקבוצה בהצלחה",
+    "passwordResetEmailWasSentToYourInbox": "מייל לאיפוס סיסמה נשלח לתיבת המייל שלך"
   },
 
   "errors": {
@@ -289,7 +293,8 @@
     "arabicLettersAreNotAllowed": "אין להקליד אותיות בערבית",
     "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה",
     "theDatesShouldBeCloserToEachOther": "על התאריכים להיות קרובים יותר זה לזה",
-    "noGroupsFound": "לא נמצאו קבוצות"
+    "noGroupsFound": "לא נמצאו קבוצות",
+    "emailAddressNotFound": "כתובת המייל לא נמצאה"
   },
 
   "myActivity": {

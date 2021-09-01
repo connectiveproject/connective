@@ -39,6 +39,7 @@
               @click:append="showPass = !showPass"
             />
           </validation-provider>
+          <router-link :to="{ name: 'RecoverPassword' }">{{ $t("general.forgotYourPassword?") }}</router-link>
 
           <div class="mx-auto d-flex justify-center mt-8 mb-4">
             <v-btn
