@@ -14,13 +14,16 @@
         />
       </v-col>
     </v-row>
+    <div v-if="!posts.length" class="text-center overline">
+      0 {{ $t("posts.postsFound") }}
+    </div>
     <end-of-page-detector @end-of-page="onEndOfPage" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Utils from "../helpers/utils"
 import Post from "../components/Post"
 import EndOfPageDetector from "../components/EndOfPageDetector"

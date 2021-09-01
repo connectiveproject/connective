@@ -28,6 +28,9 @@ const event = {
     SET_EVENT_ORDERS(state, orders) {
       state.eventOrders = orders
     },
+    ADD_EVENT_ORDERS(state, orders) {
+      state.eventOrders.push(...orders)
+    },
     DELETE_EVENT_ORDER(state, slug) {
       state.eventOrders = state.eventOrders.filter(order => order.slug !== slug)
     },
@@ -38,7 +41,7 @@ const event = {
     },
     async getEventList(
       { commit, state, rootGetters },
-      { benchmarkDate, override, usePagination }
+      { benchmarkDate, override = true, usePagination = true }
     ) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
@@ -51,7 +54,7 @@ const event = {
         start_time__lte: endDateString,
       }
       if (usePagination) {
-        params = [...params, ...rootGetters["pagination/apiParams"]]
+        params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
       let res = await Api.event.getEventList(params)
       commit(mutation, res.data.results)
@@ -62,9 +65,15 @@ const event = {
       const res = await Api.event.createEventOrder(data)
       return res.data
     },
-    async getEventOrders({ commit }) {
-      const res = await Api.event.getEventOrders()
-      commit("SET_EVENT_ORDERS", res.data.results)
+    async getEventOrders(
+      { commit, dispatch, rootGetters },
+      { override = true, usePagination = true }
+    ) {
+      const mutation = override ? "SET_EVENT_ORDERS" : "ADD_EVENT_ORDERS"
+      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      const res = await Api.event.getEventOrders(params)
+      commit(mutation, res.data.results)
+      dispatch("pagination/setTotalServerItems", res.data.count, { root: true })
       return res.data.results
     },
     async deleteEventOrder({ commit }, slug) {

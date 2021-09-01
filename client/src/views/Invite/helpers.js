@@ -1,37 +1,8 @@
-import i18n from "../../plugins/i18n"
 import Utils from "../../helpers/utils"
-import {
-  ISRAELI_PHONE_REGEX_PATTERN,
-  EMAIL_REGEX_PATTERN,
-} from "../../helpers/constants/constants"
 
 export function exportCSV(studentsArray) {
   let csvData = Utils.arrayToCsvFormat(studentsArray)
   Utils.downloadTextAsFile("invitations.csv", csvData)
-}
-
-export function validateStudentsArray(arr) {
-  // validate students array
-  // return empty string on success, error string on error
-  let obj = arr[0]
-  if (
-    !obj.identityNumber ||
-    !obj.firstName ||
-    !obj.city ||
-    !obj.phoneNumber ||
-    !obj.email
-  ) {
-    return i18n.t("errors.missingColumnsOrValues")
-  }
-  for (let student of arr) {
-    if (!new RegExp(ISRAELI_PHONE_REGEX_PATTERN).test(student.phoneNumber)) {
-      return `${i18n.t("errors.invalidPhoneNumber")} - ${student.phoneNumber}`
-    }
-    if (!new RegExp(EMAIL_REGEX_PATTERN).test(student.email)) {
-      return `${i18n.t("errors.invalidEmail")} ${student.email}`
-    }
-  }
-  return ""
 }
 
 export function translateStatus(status) {

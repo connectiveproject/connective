@@ -23,7 +23,7 @@
           :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'VendorProgramCreator' })"
         >
-          {{ $tc("userActions.add", 1) }}
+          {{ $t("program.newProgram") }}
           <v-icon right> mdi-plus </v-icon>
         </v-btn>
       </v-col>
@@ -68,7 +68,7 @@
 <script>
 import { mapState } from "vuex"
 import camelCase from "lodash/camelCase"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import InfoCard from "../components/InfoCard"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 

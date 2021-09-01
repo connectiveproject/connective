@@ -7,7 +7,7 @@
   >
     <v-card-title
       class="text-sm-h4"
-      v-text="$t('events.unsummarizedPastEvents')"
+      v-text="$t('events.eventsPendingSummary')"
     />
     <v-card-subtitle
       class="text-md-h6 pt-3"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import moment from "moment"
 import { mapState } from "vuex"
 import ClickList from "../components/ClickList"
@@ -48,10 +48,11 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 50 })
     await store.dispatch("instructorEvent/getPastEvents", {
       daysAgo: 60,
       unsummarizedOnly: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },

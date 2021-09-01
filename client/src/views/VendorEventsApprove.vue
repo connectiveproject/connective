@@ -1,29 +1,29 @@
 <template>
   <div>
-    <h1 class="pb-4" v-text="$t('events.eventsStatus')" />
+    <h1 class="pb-4" v-text="$t('events.requestsForEvents')" />
     <h2
-      v-text="
-        $t(
-          'events.viewCreatedEventsStatusWithRespectToTheDifferentOrganizationsAndCreateNewEvents'
-        )
-      "
+      v-text="$t('events.approveOrDenyEventsRequestsFromSchoolGroups')"
       class="pb-12"
     />
-    <actions-table
+    <pagination-actions-table
       introjs="actions-table"
+      disable-sort
       class="mb-10"
+      :loading="loading"
       :headers="headers"
       :items="readableEventOrders"
+      :actions-title="$t('userActions.denyOrApprove')"
       :action-two-icon-tooltip="`${$t('userActions.deny')} / ${$t(
         'userActions.cancel'
       )}`"
       @action-one-click="onApproveClick"
       @action-two-click="onRejectClick"
+      @paginate="getOrders"
     />
     <modal-approve v-model="isModalOpen" @approve="approveOrder">
       {{
         this.$t(
-          "confirm.AreYouSureYouWantToApproveThisRequest?ThisActionWillStartCollaborationWithTheSchoolAndCreateTheRelevantEvents"
+          "confirm.AreYouSureYouWantToApproveThisRequest?ThisActionWillAddTheEventsToTheGroupSchedule"
         )
       }}
     </modal-approve>
@@ -42,21 +42,24 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
-import ActionsTable from "../components/ActionsTable"
+import PaginationActionsTable from "../components/Tables/PaginationActionsTable"
 import ModalApprove from "../components/ModalApprove"
 import FormDialog from "../components/FormDialog"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "VendorEventsApprove",
-  components: { ActionsTable, ModalApprove, FormDialog },
+  components: { PaginationActionsTable, ModalApprove, FormDialog },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("vendorEvent/getEventOrders")
+    await store.dispatch("vendorEvent/getEventOrders", {
+      override: true,
+      usePagination: true,
+    })
     next()
   },
   computed: {
@@ -87,6 +90,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       orderToApprove: null,
       orderToReject: null,
       isModalOpen: false,
@@ -104,10 +108,22 @@ export default {
         { text: this.$t("general.schoolName"), value: "schoolName" },
         { text: this.$t("program.programName"), value: "activityName" },
         { text: this.$t("myActivity.location"), value: "locationsName" },
-        { text: this.$t("time.startDate"), value: "readableStartTime" },
-        { text: this.$t("time.endDate"), value: "readableEndTime" },
-        { text: this.$t("time.recurrence"), value: "readableRecurrence" },
-        { text: this.$t("general.status"), value: "readableStatus" },
+        {
+          text: this.$t("time.startDate"),
+          value: "readableStartTime",
+        },
+        {
+          text: this.$t("time.endDate"),
+          value: "readableEndTime",
+        },
+        {
+          text: this.$t("time.recurrence"),
+          value: "readableRecurrence",
+        },
+        {
+          text: this.$t("general.status"),
+          value: "readableStatus",
+        },
         {
           text: this.$t("events.reasonForDenyOrCancellation"),
           value: "statusReason",
@@ -116,8 +132,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("vendorEvent", ["updateEventOrder"]),
+    ...mapActions("vendorEvent", ["updateEventOrder", "getEventOrders"]),
     ...mapActions("snackbar", ["showMessage"]),
+    async getOrders() {
+      this.loading = true
+      await this.getEventOrders({ override: true, usePagination: true })
+      this.loading = false
+    },
     onApproveClick: debounce(
       async function (order) {
         if (order.status !== SERVER.eventOrderStatus.pendingVendorApproval) {
@@ -137,7 +158,7 @@ export default {
         if (
           [
             SERVER.eventOrderStatus.cancelled,
-            SERVER.eventOrderStatus.cancelled,
+            SERVER.eventOrderStatus.denied,
           ].includes(order.status)
         ) {
           return this.showMessage(

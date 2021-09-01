@@ -83,6 +83,14 @@ export const PROGRAMS_CHECKBOX_FILTERS = [
         label: i18n.t("grades.12"),
         value: "12",
       },
+      {
+        label: i18n.t("grades.13"),
+        value: "13",
+      },
+      {
+        label: i18n.t("grades.14"),
+        value: "14",
+      },
     ],
   },
   // {

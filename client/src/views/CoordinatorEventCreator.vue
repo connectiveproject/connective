@@ -80,11 +80,19 @@
         </validation-provider>
         <v-btn
           type="submit"
-          class="mt-4"
+          class="mt-4 ml-4"
           color="primary"
           large
           v-text="$t('userActions.save')"
           :disabled="invalid"
+        />
+        <v-btn
+          class="mt-4 mr-4"
+          color="primary"
+          outlined
+          large
+          v-text="$t('userActions.back')"
+          @click="$router.go(-1)"
         />
       </validation-observer>
     </v-col>
@@ -98,7 +106,7 @@
 import moment from "moment"
 import { mapActions, mapState } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { SERVER } from "../helpers/constants/constants"
@@ -115,10 +123,11 @@ export default {
     ValidationProvider,
   },
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
     await store.dispatch("programGroup/getGroupList", {
       groupType: SERVER.programGroupTypes.standard,
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },

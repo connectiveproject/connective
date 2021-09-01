@@ -36,7 +36,7 @@ send_invite.short_description = "Invite user"
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
-        (_("Account info"), {"fields": ("slug", "email", "password", "user_type")}),
+        (_("Account info"), {"fields": ("slug", "email", "password")}),
         (_("Personal info"), {"fields": ("name",)}),
         (
             _("Permissions"),
@@ -56,7 +56,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
     )
 
-    list_display = ["email", "slug"]
+    list_display = ["email", "slug", "date_joined"]
     search_fields = ["email"]
     actions = [send_invite]
 

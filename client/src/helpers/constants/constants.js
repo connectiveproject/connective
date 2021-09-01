@@ -1,17 +1,19 @@
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
-const SERVER_URL = process.env.VUE_APP_BACKEND_URL
+export const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
 export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
 export const UPDATE_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/`
+export const UPDATE_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisors_profiles/`
 export const UPDATE_USER_API_URL = `${SERVER_URL}/users/`
 export const GET_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/me/`
 export const GET_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/me/`
 export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/me/`
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
+export const GET_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
 export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me/`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
@@ -56,8 +58,8 @@ export const GET_CONSUMER_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activit
 export const GET_VENDOR_PROGRAM_GROUPS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
 export const UPDATE_VENDOR_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activity_group/`
-export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
-export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/`
+export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
+export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const CREATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const UPDATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
@@ -113,6 +115,8 @@ export const SCHOOL_GRADES_ITEMS = [
   { value: 10, text: i18n.t("grades.10") },
   { value: 11, text: i18n.t("grades.11") },
   { value: 12, text: i18n.t("grades.12") },
+  { value: 13, text: i18n.t("grades.13") },
+  { value: 14, text: i18n.t("grades.14") },
 ]
 
 const DOMAIN_SELECT_ITEMS = [
@@ -169,7 +173,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "activityEmail",
-    label: i18n.t("general.email"),
+    label: i18n.t("program.emailToGetInTouch"),
     rules: "required|email",
   },
   {
@@ -187,7 +191,12 @@ export const VENDOR_PROGRAM_FIELDS = [
     label: i18n.t("program.logo"),
     rules: "required|size:5000",
     type: "file",
-    attrs: { appendIcon: "mdi-camera", prependIcon: null, accept: "image/*", clearable: true },
+    attrs: {
+      appendIcon: "mdi-camera",
+      prependIcon: null,
+      accept: "image/*",
+      clearable: true,
+    },
     value: undefined,
   },
 ]
@@ -198,12 +207,14 @@ export const SERVER = {
     consumer: "CONSUMER", // i.e., students
     instructor: "INSTRUCTOR", // i.e., guide
     vendor: "VENDOR", // i.e., organization managers
+    supervisor: "SUPERVISOR",
   },
   programOrderStatus: {
     cancelled: "CANCELLED",
     pendingAdminApproval: "PENDING_ADMIN_APPROVAL",
     approved: "APPROVED",
     notOrdered: "NOT_ORDERED",
+    denied: "DENIED",
   },
   programGroupTypes: {
     standard: "DEFAULT",

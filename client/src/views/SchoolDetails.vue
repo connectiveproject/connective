@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper mt-15 mx-auto px-3">
-    <h1 class="mb-5">{{ $tc("general.schoolDetails", 0) }}</h1>
-    <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
+    <h1 class="mb-12">{{ $tc("general.schoolDetails", 0) }}</h1>
     <validation-observer v-slot="{ invalid }">
       <form @submit.prevent="submitSchoolDetails">
         <v-row>
@@ -46,7 +45,7 @@ import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import Utils from "../helpers/utils"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Modal from "../components/Modal"
 import InputDrawer from "../components/InputDrawer"
 import PictureInput from "../components/PictureInput"
@@ -90,7 +89,7 @@ export default {
         },
         street: {
           uniqueName: "street",
-          label: this.$t("general.street"),
+          label: this.$t("general.streetAndNumber"),
           rules: "required",
           value: "",
         },

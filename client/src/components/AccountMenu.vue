@@ -1,13 +1,22 @@
 <template>
   <v-menu v-model="menu" offset-x>
     <template v-slot:activator="{ on, attrs }">
-      <v-sheet color="transparent" icon v-bind="attrs" v-on="on">
-          <avatar
-            v-bind="attrs"
-            v-on="on"
-            class="avatar cursor-pointer"
-            :avatar-options="avatarOptions"
-          />
+      <v-sheet
+        class="d-flex justify-space-between avatar-wrapper"
+        color="transparent"
+        icon
+        v-bind="attrs"
+        v-on="on"
+      >
+        <v-icon :class="{ rotate: menu }" size="55" dark>
+          mdi-menu-down
+        </v-icon>
+        <avatar
+          v-bind="attrs"
+          v-on="on"
+          class="avatar cursor-pointer"
+          :avatar-options="avatarOptions"
+        />
       </v-sheet>
     </template>
     <v-card>
@@ -28,6 +37,7 @@
           <v-list-item
             v-for="btn in buttons"
             :key="btn.id"
+            :data-testid="btn.id"
             @click="btn.onClick"
           >
             <v-list-item-icon>
@@ -76,10 +86,15 @@ export default {
 </script>
 <style scoped>
 .avatar {
-  transition: transform 0.3s;
-  width: 75px;
+  width: 80px;
 }
-.avatar:hover {
+.avatar-wrapper {
+  transition: transform 0.3s;
+}
+.avatar-wrapper:hover {
   transform: scale(1.1);
+}
+.rotate {
+  transform: rotate(-180deg);
 }
 </style>

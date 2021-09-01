@@ -12,23 +12,25 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from server.utils.permission_classes import (
-    AllowConsumer,
-    AllowCoordinator,
-    AllowInstructor,
-    AllowVendor,
-)
-
-from ..models import (
+from server.users.models import (
     Consumer,
     ConsumerProfile,
     Coordinator,
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
+from server.utils.permission_classes import (
+    AllowConsumer,
+    AllowCoordinator,
+    AllowInstructor,
+    AllowSupervisor,
+    AllowVendor,
+)
+
 from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
@@ -38,6 +40,7 @@ from .serializers import (
     ManageCoordinatorsSerializer,
     ManageInstructorsSerializer,
     ManageVendorsSerializer,
+    SupervisorProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -126,6 +129,20 @@ class VendorProfileViewSet(ModelViewSet):
     def me(self, request):
         serializer = VendorProfileSerializer(
             request.user.vendorprofile, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class SupervisorProfileViewSet(ModelViewSet):
+    permission_classes = [AllowSupervisor]
+    serializer_class = SupervisorProfileSerializer
+    queryset = SupervisorProfile.objects.all()
+    lookup_field = "user__slug"
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        serializer = SupervisorProfileSerializer(
+            request.user.supervisorprofile, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 

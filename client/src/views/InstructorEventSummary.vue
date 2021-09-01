@@ -38,7 +38,11 @@
       @submit.prevent="onSubmit"
     >
       <v-card introjs="confidential" style="background: #feece5">
-        <v-row no-gutters justify="space-between" class="pt-16 px-2 px-sm-9 pb-5" >
+        <v-row
+          no-gutters
+          justify="space-between"
+          class="pt-16 px-2 px-sm-9 pb-5"
+        >
           <v-col>
             <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
           </v-col>
@@ -187,7 +191,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
@@ -217,9 +221,13 @@ export default {
       "instructorEvent/getEvent",
       to.params.slug
     )
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
     const consumers = await store.dispatch(
       "instructorProgramGroup/getConsumers",
-      event.schoolGroup
+      {
+        groupSlugs: [event.schoolGroup],
+        usePagination: true,
+      }
     )
     next(vm => {
       vm.event = event
@@ -260,9 +268,7 @@ export default {
   computed: {
     imageUrls() {
       let urls = []
-      this.images.map(
-        image => (urls = [...urls, URL.createObjectURL(image)])
-      )
+      this.images.map(image => (urls = [...urls, URL.createObjectURL(image)]))
       return urls
     },
   },

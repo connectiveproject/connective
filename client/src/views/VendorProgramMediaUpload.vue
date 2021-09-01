@@ -73,7 +73,7 @@ import debounce from "lodash/debounce"
 import Api from "../api"
 import Utils from "../helpers/utils"
 import { CAROUSEL_PLACEHOLDER } from "../helpers/constants/images"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import ModalApprove from "../components/ModalApprove"
 import Carousel from "../components/Carousel"
 import StickyNote from "../components/StickyNote"
@@ -138,6 +138,7 @@ export default {
           await this.createProgramMedia(data)
           this.mediaList = await this.getProgramMediaList(this.programSlug)
           this.showMessage(this.$t("success.mediaUploadedSuccessfully"))
+          this.currentMediaIndex = this.mediaList.length - 1
         } catch (err) {
           this.showMessage(Api.utils.parseResponseError(err))
         }

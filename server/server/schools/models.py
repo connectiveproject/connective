@@ -1,10 +1,12 @@
 import random
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.db import models
 
-from server.users.models import User
 from server.utils.model_fields import PhoneNumberField
+
+User = get_user_model()
 
 
 def random_slug():

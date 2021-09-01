@@ -1,29 +1,31 @@
 <template>
   <div>
     <pagination-select-table
-      v-if="pagination"
-      v-bind="$props"
-      @paginate="$emit('paginate')"
+      v-if="usePagination"
+      v-bind="$attrs"
+      :headers="headers"
+      :items="items"
+      :loading="loading"
       :value="selectedRows"
-      @input="e => $emit('input', e)"
+      @input="$emit('input', $event)"
+      @paginate="$emit('paginate')"
     />
     <select-table
       v-else
-      v-bind="$props"
+      v-bind="{ ...$props, ...$attrs }"
       :value="selectedRows"
-      @input="e => $emit('input', e)"
+      @input="$emit('input', $event)"
     />
-
-    <chip-container :labels="getChipLabels()" icon="mdi-account-circle">{{
-      $t("general.chosen")
-    }}</chip-container>
+    <chip-container :labels="getChipLabels()" icon="mdi-account-circle">
+      {{ $t("general.chosen") }}
+    </chip-container>
   </div>
 </template>
 
 <script>
 // wrapper for the select table (add rows to chips bucket)
 import SelectTable from "./SelectTable"
-import PaginationSelectTable from "./PaginationSelectTable"
+import PaginationSelectTable from "./Tables/PaginationSelectTable"
 import ChipContainer from "./ChipContainer"
 
 export default {
@@ -32,10 +34,15 @@ export default {
     PaginationSelectTable,
     ChipContainer,
   },
+  inheritAttrs: false,
   model: {
     prop: "selectedRows",
   },
   props: {
+    usePagination: {
+      type: Boolean,
+      default: true,
+    },
     headers: {
       // v-data-table headers. e.g., [ { text: 'Calories', value: 'calories' }, ... ]
       type: Array,
@@ -48,16 +55,7 @@ export default {
     },
     selectedRows: {
       type: Array,
-      required: true
-    },
-    pagination: {
-      type: Boolean,
-      default: false,
-    },
-    totalServerItems: {
-      // received from server via count field (relevant in pagination mode only)
-      type: Number,
-      required: false,
+      required: true,
     },
     loading: {
       type: Boolean,

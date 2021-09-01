@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils import timezone
 
-from server.events.models import Event
+from server.events.models import Event, EventOrder
 from server.organizations.models import (
     Activity,
     Organization,
@@ -15,6 +15,7 @@ from server.organizations.models import (
 )
 from server.schools.models import School, SchoolMember
 from server.users.models import Consumer, Coordinator, Instructor, Supervisor, Vendor
+from server.utils.model_fields import random_slug
 
 from .constants import (
     ACTIVITY_PAYLOADS,
@@ -30,13 +31,19 @@ class Command(BaseCommand):
     help = "Creates test users for development"
 
     def add_arguments(self, parser):
-        "parser.add_argument('some_number', nargs='+', type=int)"
-        pass
+        parser.add_argument(
+            "--delete",
+            action="store_true",
+            help="delete all the test users",
+        )
+
+    def test_random_slug(self):
+        return f"test_{random_slug()[5:]}"
 
     def create_admin(self, email):
         try:
             user = get_user_model().objects.create_superuser(
-                "admin", email, "Aa123456789"
+                self.test_random_slug(), email, "Aa123456789"
             )
             self.stdout.write(
                 self.style.SUCCESS(f"Successfully created user with {user.email}")
@@ -47,9 +54,15 @@ class Command(BaseCommand):
                 self.style.WARNING("Dev admin already exists. Skipping...")
             )
 
-    def create_user(self, user_model, email, password, name):
+    def create_user(self, user_model, email, password, name, is_signup_complete):
         try:
-            user = user_model.objects.create(email=email, password=password, name=name)
+            user = user_model.objects.create(
+                username=self.test_random_slug(),
+                email=email,
+                password=password,
+                name=name,
+                is_signup_complete=is_signup_complete,
+            )
             user.set_password(user.password)
             user.save()
             self.stdout.write(
@@ -62,7 +75,7 @@ class Command(BaseCommand):
                 self.style.WARNING(f"{email} already exists. Skipping...")
             )
 
-    def create_all(self, entitiesPrefix=""):
+    def create_all(self, entitiesPrefix="", is_user_signup_complete=True):
         self.create_admin(f"{entitiesPrefix}admin@example.com")
 
         consumers = []
@@ -73,6 +86,7 @@ class Command(BaseCommand):
                 f"{entitiesPrefix}consumer-{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
+                is_user_signup_complete,
             )
             if user:
                 user.profile.gender = user.profile.Gender.MALE
@@ -86,6 +100,7 @@ class Command(BaseCommand):
                 f"{entitiesPrefix}consumer-1{i}@example.com",
                 "Aa123456789",
                 f"{first_name} {last_name}",
+                is_user_signup_complete,
             )
             if user:
                 user.profile.gender = user.profile.Gender.FEMALE
@@ -107,6 +122,7 @@ class Command(BaseCommand):
             f"{entitiesPrefix}coord@example.com",
             "Aa123456789",
             "דוד כהן",
+            is_user_signup_complete,
         )
 
         instructor = self.create_user(
@@ -114,13 +130,15 @@ class Command(BaseCommand):
             f"{entitiesPrefix}instructor@example.com",
             "Aa123456789",
             "דן יוסופוב",
+            is_user_signup_complete,
         )
 
         self.create_user(
             Supervisor,
             f"{entitiesPrefix}supervisor@example.com",
             "Aa123456789",
-            "ישראל ישראלי",
+            "שמעון יצחק",
+            is_user_signup_complete,
         )
 
         vendor = self.create_user(
@@ -128,21 +146,24 @@ class Command(BaseCommand):
             f"{entitiesPrefix}vendor@example.com",
             "Aa123456789",
             "משי בר אל",
+            is_user_signup_complete,
         )
 
         if not (len(consumers) and coord and instructor and vendor):
             return self.stdout.write(
                 self.style.ERROR(
-                    "Users creation failed - already exist.\n\
-You may flush all db using: `python manage.py flush`\n\
-USE WITH CAUTION - THIS DELETES EVERYTHING"
+                    """Users creation failed - already exist.
+                    use --delete option to delete the users and re-run"""
                 )
             )
 
-        org = Organization.objects.create(**ORGANIZATION_PAYLOAD)
+        org = Organization.objects.create(
+            slug=self.test_random_slug(),
+            **ORGANIZATION_PAYLOAD,
+        )
         self.stdout.write(self.style.SUCCESS("Successfully created Organization"))
 
-        school = School.objects.create(**SCHOOL_PAYLOAD)
+        school = School.objects.create(slug=self.test_random_slug(), **SCHOOL_PAYLOAD)
         self.stdout.write(self.style.SUCCESS("Successfully created School"))
 
         OrganizationMember.objects.bulk_create(
@@ -165,18 +186,24 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
 
         activity_one, activity_two = Activity.objects.bulk_create(
             map(
-                lambda activity: Activity(**activity, originization=org),
+                lambda activity: Activity(
+                    slug=self.test_random_slug(),
+                    originization=org,
+                    **activity,
+                ),
                 ACTIVITY_PAYLOADS,
             )
         )
         self.stdout.write(self.style.SUCCESS("Successfully created Activities"))
 
         activity_order_one = SchoolActivityOrder.objects.create(
+            slug=self.test_random_slug(),
             school=school,
             activity=activity_one,
             status=SchoolActivityOrder.Status.APPROVED,
         )
         SchoolActivityOrder.objects.create(
+            slug=self.test_random_slug(),
             school=school,
             activity=activity_two,
             status=SchoolActivityOrder.Status.PENDING_ADMIN_APPROVAL,
@@ -184,18 +211,21 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
         self.stdout.write(self.style.SUCCESS("Successfully created ActivityOrders"))
 
         group_one = SchoolActivityGroup.objects.create(
+            slug=self.test_random_slug(),
             activity_order=activity_order_one,
             name="Group One",
             description="Group One Description",
             instructor=instructor,
         )
         group_two = SchoolActivityGroup.objects.create(
+            slug=self.test_random_slug(),
             activity_order=activity_order_one,
             name="Container Only",
             description="Container Only",
             group_type=SchoolActivityGroup.GroupTypes.CONTAINER_ONLY,
         )
         SchoolActivityGroup.objects.create(
+            slug=self.test_random_slug(),
             activity_order=activity_order_one,
             name="Cancelled Group",
             description="Cancelled Group",
@@ -209,20 +239,72 @@ USE WITH CAUTION - THIS DELETES EVERYTHING"
         )
 
         today = datetime.now(tz=timezone.utc).replace(microsecond=0, second=0, minute=0)
+        event_orders = []
         events = []
-        for i in range(20):
+        for i in range(-10, 20):
+            event_data = {
+                "school_group": group_one,
+                "locations_name": "חדר 202",
+                "start_time": today + timedelta(days=i * 7),
+                "end_time": today + timedelta(days=i * 7) + timedelta(hours=1.5),
+            }
+
+            event_orders.append(
+                EventOrder(
+                    slug=self.test_random_slug(),
+                    status=EventOrder.Status.PENDING_APPROVAL,
+                    **event_data,
+                )
+            )
+
+            event_orders.append(
+                EventOrder(
+                    slug=self.test_random_slug(),
+                    status=EventOrder.Status.APPROVED,
+                    **event_data,
+                )
+            )
             events.append(
                 Event(
-                    school_group=group_one,
-                    locations_name="חדר 202",
-                    start_time=today + timedelta(days=i * 7),
-                    end_time=today + timedelta(days=i * 7) + timedelta(hours=1.5),
+                    slug=self.test_random_slug(),
+                    event_order=event_orders[-1],
+                    **event_data,
                 )
             )
 
         Event.objects.bulk_create(events)
+        self.stdout.write(self.style.SUCCESS("Successfully created EventOrders"))
+        EventOrder.objects.bulk_create(event_orders)
         self.stdout.write(self.style.SUCCESS("Successfully created Events"))
 
+    def delete_model_test_entities(self, model):
+        items = model.objects.filter(slug__startswith="test_")
+        count = items.count()
+        items.delete()
+        self.stdout.write(
+            self.style.SUCCESS(f"{count} {model.__name__} items deleted successfully")
+        )
+
+    def delete_all(self):
+        users = get_user_model().objects.filter(username__startswith="test_")
+        total_users = users.count()
+        users.delete()
+        self.stdout.write(
+            self.style.SUCCESS(f"{total_users} users deleted successfully")
+        )
+
+        self.delete_model_test_entities(Event)
+        self.delete_model_test_entities(EventOrder)
+        self.delete_model_test_entities(SchoolActivityGroup)
+        self.delete_model_test_entities(SchoolActivityOrder)
+        self.delete_model_test_entities(Activity)
+        self.delete_model_test_entities(School)
+        self.delete_model_test_entities(Organization)
+
     def handle(self, *args, **options):
+        if options["delete"]:
+            return self.delete_all()
+
         self.create_all()
         self.create_all(entitiesPrefix="test-")
+        self.create_all(entitiesPrefix="test-signup-", is_user_signup_complete=False)

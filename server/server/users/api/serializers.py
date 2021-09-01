@@ -4,18 +4,19 @@ from rest_framework.validators import UniqueValidator
 
 from server.organizations.models import OrganizationMember
 from server.schools.models import SchoolMember
-
-from ..helpers import send_user_invite
-from ..models import (
+from server.users.models import (
     Consumer,
     ConsumerProfile,
     Coordinator,
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    SupervisorProfile,
     Vendor,
     VendorProfile,
 )
+
+from ..helpers import send_user_invite
 
 User = get_user_model()
 
@@ -67,6 +68,20 @@ class VendorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorProfile
         fields = ["slug", "gender", "profile_picture", "phone_number"]
+
+
+class SupervisorProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = SupervisorProfile
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
 
 
 class ManageConsumersSerializer(serializers.ModelSerializer):

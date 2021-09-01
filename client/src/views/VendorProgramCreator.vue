@@ -27,11 +27,13 @@
       <v-btn
         data-testid="save-btn"
         large
-        v-text="$t('userActions.save')"
         class="white--text primary"
         :disabled="!isFormValid"
+        :loading="loading"
         @click="onSubmit"
-      />
+      >
+        {{ $t("userActions.save") }}
+      </v-btn>
       <v-btn
         class="mx-3 white--text"
         color="primary"
@@ -61,6 +63,7 @@ export default {
     return {
       CAMERA_ROUNDED_DRAWING,
       fields,
+      loading: false,
       isFormValid: false,
       logoField: fields.filter(field => field.name === "logo")[0],
     }
@@ -70,6 +73,7 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
+        this.loading = true
         const data = this.fields.reduce(
           (accum, f) => ({ ...accum, [f.name]: f.value }),
           { tags: [] }
@@ -86,6 +90,7 @@ export default {
       } catch (err) {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)
+        this.loading = false
       }
     },
   },

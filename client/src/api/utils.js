@@ -1,4 +1,5 @@
 import isArray from "lodash/isArray"
+import isString from "lodash/isString"
 import i18n from "../plugins/i18n"
 
 const utils = {
@@ -13,7 +14,11 @@ const utils = {
           errors = response.data[0]
         }
         const firstError = Object.entries(errors)[0]
-        return `${firstError[0]} - ${firstError[1]}`
+        if (isString(firstError[1])) {
+          return `${firstError[0]} - ${firstError[1]}`
+        }
+        const nestedError = Object.entries(firstError[1])
+        return `${firstError[0]} - ${nestedError[0]}`
       }
       return i18n.t("errors.genericError")
     } catch (err) {

@@ -26,7 +26,7 @@ class Post(models.Model):
         blank=False,
         null=True,
     )
-    post_content = models.TextField()
+    post_content = models.TextField(max_length=300)
 
 
 class PostImage(models.Model):

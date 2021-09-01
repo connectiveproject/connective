@@ -52,23 +52,27 @@
           type="submit"
           color="primary"
           elevation="3"
-          v-text="$t('userActions.save')"
           :disabled="invalid"
-        />
+          :loading="loading"
+        >
+          {{ $t("userActions.save") }}
+        </v-btn>
         <v-btn
           class="mx-2 white--text"
           elevation="3"
           type="button"
           color="primary"
           outlined
-          v-text="$t('general.media')"
           @click="
             $router.push({
               name: 'VendorProgramMediaUpload',
               params: { programSlug },
             })
           "
-        />
+        >
+          {{ $t("userActions.addMedia") }}
+          <v-icon right> mdi-plus </v-icon>
+        </v-btn>
       </div>
     </validation-observer>
 
@@ -83,7 +87,7 @@ import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
 import Utils from "../helpers/utils"
 import Api from "../api"
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import { CAMERA_ROUNDED_DRAWING } from "../helpers/constants/images"
 import { VENDOR_PROGRAM_FIELDS } from "../helpers/constants/constants"
 import inputDrawer from "../components/InputDrawer"
@@ -113,10 +117,13 @@ export default {
   data() {
     return {
       CAMERA_ROUNDED_DRAWING,
-      programFields: VENDOR_PROGRAM_FIELDS.filter(field => field.name !== "logo"),
+      programFields: VENDOR_PROGRAM_FIELDS.filter(
+        field => field.name !== "logo"
+      ),
       isModalOpen: false,
       program: null,
       logo: null,
+      loading: false,
     }
   },
   methods: {
@@ -124,6 +131,7 @@ export default {
     ...mapActions("snackbar", ["showMessage"]),
     async onSubmit() {
       try {
+        this.loading = true
         const activityWebsiteUrl = Utils.addWebsiteScheme(
           this.program.activityWebsiteUrl
         )
@@ -131,6 +139,7 @@ export default {
           ...this.program,
           activityWebsiteUrl,
         })
+        data.delete("logo")
         if (this.logo) {
           data.set("logo", this.logo)
         }
@@ -140,8 +149,10 @@ export default {
         })
         this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
         this.$router.push({ name: "VendorProgramList" })
+        this.loading = false
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
+        this.loading = false
       }
     },
     async handleDelete() {

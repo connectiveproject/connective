@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import store from "../vuex/store"
+import store from "@/vuex/store"
 import moment from "moment"
 import ClickList from "../components/ClickList"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
@@ -38,7 +38,8 @@ export default {
   components: { ClickList },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    const events = await store.dispatch("consumerEvent/getPastEvents", { daysAgo: 60, usePagination: false })
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 100 })
+    const events = await store.dispatch("consumerEvent/getPastEvents", { daysAgo: 60, usePagination: true })
     next(vm => (vm.eventsToFeedback = events.filter(e => !e.hasFeedback)))
   },
   data() {

@@ -3,7 +3,6 @@ import Api from "../../api"
 function getDefaultState() {
   return {
     groupList: [],
-    totalGroups: null,
   }
 }
 
@@ -20,9 +19,6 @@ const vendorProgramGroup = {
     SET_GROUPS_LIST(state, groupList) {
       state.groupList = groupList
     },
-    SET_GROUPS_TOTAL(state, total) {
-      state.totalGroups = total
-    },
     UPDATE_GROUP_IN_LIST(state, group) {
       const filteredGroup = state.groupList.filter(
         g => g.slug === group.slug
@@ -35,8 +31,8 @@ const vendorProgramGroup = {
       commit("FLUSH_STATE")
     },
     async getGroupList(
-      { commit, state, rootGetters },
-      { groupType, override, usePagination }
+      { commit, state, dispatch, rootGetters },
+      { groupType, override = true, usePagination = true }
     ) {
       // :str groupType: which group type to fetch (if empty, fetch all groups)
       // :boolean override: whether to override the groups list or not (i.e., extend)
@@ -47,7 +43,7 @@ const vendorProgramGroup = {
       const mutation = override ? "SET_GROUPS_LIST" : "ADD_GROUPS_TO_LIST"
       let res = await Api.vendorProgramGroup.getGroupList(params)
       commit(mutation, res.data.results)
-      commit("SET_GROUPS_TOTAL", res.data.count)
+      dispatch("pagination/setTotalServerItems", res.data.count, { root: true })
       return state.groupList
     },
     async updateGroup({ commit }, { groupSlug, data }) {

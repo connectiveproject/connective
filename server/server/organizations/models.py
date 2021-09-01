@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
 from server.schools.models import School
-from server.users.models import Consumer, Instructor, User
 from server.utils.model_fields import random_slug
 
 
@@ -193,7 +192,7 @@ class ActivityMedia(models.Model):
 
 class OrganizationMember(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="organization_member"
+        "users.User", on_delete=models.CASCADE, related_name="organization_member"
     )
     organization = models.ForeignKey(
         Organization,
@@ -215,19 +214,20 @@ class SchoolActivityOrder(models.Model):
         CANCELLED = "CANCELLED", "Cancelled"
         PENDING_ADMIN_APPROVAL = "PENDING_ADMIN_APPROVAL", "Pending Admin Approval"
         APPROVED = "APPROVED", "Approved"
+        DENIED = "DENIED", "Denied"
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     requested_by = models.ForeignKey(
-        User,
+        "users.User",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="requested_orders",
     )
     last_updated_by = models.ForeignKey(
-        User,
+        "users.User",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -244,6 +244,10 @@ class SchoolActivityOrder(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status_reason = models.CharField(
+        max_length=250,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.activity} | {self.school} | {self.status} | {self.pk}"
@@ -264,7 +268,7 @@ class SchoolActivityGroup(models.Model):
     name = models.CharField(_("name"), max_length=50)
     description = models.CharField(_("description"), max_length=550)
     consumers = models.ManyToManyField(
-        Consumer,
+        "users.Consumer",
         related_name="activity_groups",
         blank=True,
     )
@@ -275,7 +279,7 @@ class SchoolActivityGroup(models.Model):
         default=GroupTypes.DEFAULT,
     )
     instructor = models.ForeignKey(
-        Instructor,
+        "users.Instructor",
         on_delete=models.SET_NULL,
         related_name="managed_activity_groups",
         null=True,

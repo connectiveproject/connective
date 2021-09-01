@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper mx-auto">
-    <h1 class="mb-5">{{ $t("general.myProfile") }}</h1>
-    <h2 class="pb-12">{{ $t("general.pleaseFillAllDetailsBelow") }}</h2>
+    <h1 class="mb-12">{{ $t("general.myProfile") }}</h1>
     <validation-observer v-slot="{ invalid }">
       <form @submit.prevent="submitProfile">
         <v-row>
@@ -38,7 +37,7 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { ValidationObserver } from "vee-validate"
 import Modal from "../../components/Modal"
 import InputDrawer from "../../components/InputDrawer"

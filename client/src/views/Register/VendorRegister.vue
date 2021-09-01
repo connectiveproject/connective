@@ -73,7 +73,7 @@
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import Modal from "../../components/Modal"
 import Api from "../../api"
 

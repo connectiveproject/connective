@@ -16,7 +16,8 @@
             />
             <validation-provider
               v-slot="{ errors }"
-              :rules="mediaType === 'image' && 'required|size:5000'"
+              v-show="mediaType === 'image'"
+              :rules="mediaType === 'image' ? 'required|size:5000' : ''"
             >
               <v-file-input
                 ref="fileInput"
@@ -25,7 +26,6 @@
                 type="file"
                 accept="image/*"
                 v-model="image"
-                :disabled="mediaType === 'video'"
                 :label="$t('program.imageUpload')"
                 :error-messages="errors"
                 clearable
@@ -34,12 +34,12 @@
             </validation-provider>
             <validation-provider
               v-slot="{ errors }"
-              :rules="mediaType === 'video' && 'required|youtubeUrl'"
+              v-show="mediaType === 'video'"
+              :rules="mediaType === 'video' ? 'required|youtubeUrl' : ''"
             >
               <v-text-field
                 append-icon="mdi-video"
                 v-model="videoUrl"
-                :disabled="mediaType === 'image'"
                 :label="$t('program.youtubeVideoUrl')"
                 :error-messages="errors"
                 clearable
@@ -50,13 +50,13 @@
             <v-btn
               text
               large
-              color="success"
+              color="primary"
               v-text="$t('userActions.save')"
               :disabled="invalid"
               data-testid="save-btn"
               @click="upload"
             />
-            <v-btn large v-text="$t('userActions.close')" text @click="close" />
+            <v-btn large v-text="$t('userActions.cancel')" color="primary" text @click="close" />
           </v-card-actions>
         </validation-observer>
       </v-card>

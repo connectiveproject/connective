@@ -51,7 +51,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-
         if user.user_type == get_user_model().Types.CONSUMER:
             return Post.objects.filter(event__school_group__consumers=user)
         elif user.user_type == get_user_model().Types.INSTRUCTOR:

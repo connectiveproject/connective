@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, viewsets
 
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.utils.permission_classes import (
@@ -22,6 +23,18 @@ class EventOrderViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator | AllowVendor]
     serializer_class = EventOrderSerializer
     lookup_field = "slug"
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
+    search_fields = [
+        "status",
+        "status_reason",
+        "school_group__name",
+        "school_group__activity_order__school__name",
+        "school_group__activity_order__activity__name",
+    ]
 
     def get_queryset(self):
         user = self.request.user

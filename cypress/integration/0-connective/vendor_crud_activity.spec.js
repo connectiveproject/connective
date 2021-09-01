@@ -7,7 +7,7 @@ describe("crud activity", () => {
     cy.get('[data-testid="password-input"]').type("Aa123456789");
     cy.get("form").submit();
     cy.url().should("contain", "dashboard");
-    cy.get('[data-testid="my-programs-navbar-btn"]').click();
+    cy.get('[data-testid="my-programs-navbar-tab"]').click();
     cy.url().should("contain", "my-programs");
   });
 

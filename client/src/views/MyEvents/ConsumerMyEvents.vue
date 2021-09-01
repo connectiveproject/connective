@@ -1,6 +1,6 @@
 <template>
   <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
-    <h1 v-text="$t('events.eventsBoard')" class="mb-5" />
+    <h1 v-text="$t('events.eventsCalendar')" class="mb-5" />
     <h2
       v-text="$t('myActivity.hereYouCanSeeAllThePlannedEvents')"
       class="pb-12"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { mapState, mapActions } from "vuex"
 import moment from "moment"
 import ActionsCalendar from "../../components/ActionsCalendar"
@@ -47,10 +47,11 @@ export default {
   },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
+    await store.dispatch("pagination/updatePagination", { itemsPerPage: 700 })
     await store.dispatch("consumerEvent/getEventList", {
       benchmarkDate: moment(),
       override: true,
-      usePagination: false,
+      usePagination: true,
     })
     next()
   },
@@ -63,7 +64,7 @@ export default {
     fetchEvents(benchmarkDay) {
       // :Object benchmarkDay: the date object to fetch "around" (e.g., )
       const benchmarkDate = moment(benchmarkDay.date)
-      this.getEventList({ benchmarkDate, override: true, usePagination: false })
+      this.getEventList({ benchmarkDate, override: true, usePagination: true })
     },
   },
   data() {

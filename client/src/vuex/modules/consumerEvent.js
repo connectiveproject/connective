@@ -37,7 +37,7 @@ const consumerEvent = {
 
     async getEventList(
       { commit, state, rootGetters },
-      { benchmarkDate, override, usePagination }
+      { benchmarkDate, override = true, usePagination = true }
     ) {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
@@ -58,7 +58,7 @@ const consumerEvent = {
       return state.eventList
     },
 
-    async getPastEvents({ rootGetters }, { daysAgo, usePagination }) {
+    async getPastEvents({ rootGetters }, { daysAgo, usePagination = true }) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(
         Utils.addDaysToToday(-daysAgo)
@@ -69,7 +69,7 @@ const consumerEvent = {
         start_time__lte: endDateString,
       }
       if (usePagination) {
-        params = [ ...params, ...rootGetters["pagination/apiParams"]]
+        params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
       let res = await Api.consumerEvent.getEventList(params)
       return res.data.results

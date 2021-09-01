@@ -23,7 +23,7 @@
           :block="$vuetify.breakpoint.xs"
           @click="$router.push({ name: 'GroupEditor' })"
         >
-          {{ $tc("userActions.add", 1) }}
+          {{ $t("groups.newGroup") }}
           <v-icon right> mdi-plus </v-icon>
         </v-btn>
       </v-col>
@@ -72,7 +72,7 @@
   </div>
 </template>
 <script>
-import store from "../../vuex/store"
+import store from "@/vuex/store"
 import { mapActions, mapState } from "vuex"
 import { trimText } from "../../filters"
 import EndOfPageDetector from "../../components/EndOfPageDetector"

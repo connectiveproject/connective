@@ -8,8 +8,8 @@ export const buttonLabels = {
 export const config = {
   noIntroMsg: [
     {
-      title: "Sorry!",
-      intro: "No helper here.... 👋",
+      title: i18n.t("general.message"),
+      intro: i18n.t("errors.explanationForThisPageDoesNotExist"),
     },
   ],
   VendorDashboard: [
@@ -25,6 +25,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -45,6 +48,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -65,6 +71,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -85,6 +94,9 @@ export const config = {
       intro: i18n.t(
         "introjs.byClickingTheAvatarYouCanPerformUserActionsAndGetExplanationsForTheDifferentPages"
       ),
+      preStepAction() {
+        document.querySelector(`[introjs="navbar-account-menu"]`).children[0].click()
+      },
     },
     {
       title: i18n.t("introjs.navigation"),
@@ -107,7 +119,7 @@ export const config = {
   ],
   VendorEventsApprove: [
     {
-      title: i18n.t("introjs.eventsStatus"),
+      title: i18n.t("introjs.requestsForEvents"),
       selector: "actions-table",
       intro: i18n.t(
         "introjs.inThisTableYouCanSeeWhichSchoolsRequestedYourPrograms-YouMayAcceptAndRejectTheRequestsUsingTheTableSideButtons"
@@ -160,17 +172,10 @@ export const config = {
         "introjs.clickTheInviteButtonToInviteNewUser-TheUserWillReceiveInviteThroughTheSpecifiedEmail"
       ),
     },
-    {
-      title: i18n.t("introjs.inviteUsers"),
-      selector: "table-actions",
-      intro: i18n.t(
-        "introjs.additionalActionsAreAvailable-selectAndDeleteUsersInviteViaExcelUpload-WeRecommendExportingExcelFileFillingItAndUpload"
-      ),
-    },
   ],
   ConsumerProgramsExplorer: [
     {
-      title: i18n.t("introjs.programExplorer"),
+      title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
         "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseAProgramToJoin"
       ),
@@ -194,7 +199,7 @@ export const config = {
   ],
   ProgramsExplorer: [
     {
-      title: i18n.t("introjs.programExplorer"),
+      title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
         "introjs.inThisPageYouCanBrowseTheProgramCatalogAndChooseProgramsForYourSchool"
       ),
@@ -444,7 +449,9 @@ export const config = {
     {
       title: i18n.t("introjs.myGroups"),
       selector: "actions-table-icon-one",
-      intro: i18n.t("introjs.clickTheButtonOnTheSideOfEachTableRowToAssignInstructorToTheGroup"),
+      intro: i18n.t(
+        "introjs.clickTheButtonOnTheSideOfEachTableRowToAssignInstructorToTheGroup"
+      ),
     },
   ],
 }

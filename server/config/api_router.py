@@ -28,6 +28,7 @@ from server.users.api.views import (
     ManageCoordinatorsViewSet,
     ManageInstructorsViewSet,
     ManageVendorsViewSet,
+    SupervisorProfileViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -54,6 +55,11 @@ router.register(
     basename="instructors_profiles",
 )
 router.register("vendors_profiles", VendorProfileViewSet, basename="vendors_profiles")
+router.register(
+    "supervisors_profiles",
+    SupervisorProfileViewSet,
+    basename="supervisors_profiles",
+)
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
@@ -89,7 +95,11 @@ router.register(
     ManageSchoolActivityViewSet,
     basename="manage_school_activity",
 )
-router.register("school_activity_group", SchoolActivityGroupViewSet)
+router.register(
+    "school_activity_group",
+    SchoolActivityGroupViewSet,
+    basename="school_activity_group",
+)
 router.register("events", EventViewSet, basename="events")
 router.register("event_order", EventOrderViewSet, basename="event_order")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")
