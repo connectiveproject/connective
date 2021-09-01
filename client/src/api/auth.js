@@ -19,8 +19,8 @@ const auth = {
     return axios.post(url, data)
   },
 
-  createPasswordRecoveryRequest(email) {
-    return axios.post(CREATE_PASSWORD_RECOVERY_REQUEST_API_URL, { email })
+  createPasswordRecoveryRequest(email, recaptchaResponse) {
+    return axios.post(CREATE_PASSWORD_RECOVERY_REQUEST_API_URL, { email, recaptchaResponse })
   }
 }
 

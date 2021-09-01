@@ -1,37 +1,63 @@
 <template>
   <div>
-    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
+    <v-card class="absolute-center py-12 px-7" width="350" elevation="16">
       <v-card-title
         class="text-h4 justify-center mb-3 font-weight-bold"
         v-text="$t('auth.passwordReset')"
       />
-      <validation-observer tag="form" ref="observer" @submit.prevent="submit" v-slot="{ invalid }">
-          <validation-provider
-            v-slot="{ errors }"
-            name="email"
-            rules="required|email"
-          >
-            <v-text-field
-              autofocus
-              class="mt-2"
-              v-model="email"
-              :error-messages="errors"
-              :label="$t('general.email')"
-            />
-          </validation-provider>
+      <validation-observer
+        tag="form"
+        ref="observer"
+        @submit.prevent="submit"
+        v-slot="{ invalid }"
+      >
+        <validation-provider
+          v-slot="{ errors }"
+          name="email"
+          rules="required|email"
+        >
+          <v-text-field
+            autofocus
+            class="mt-2"
+            v-model="email"
+            :error-messages="errors"
+            :label="$t('general.email')"
+          />
+        </validation-provider>
 
-          <div class="mx-auto d-flex justify-center mt-8 mb-4">
-            <v-btn
-              class="white--text"
-              type="submit"
-              color="primary"
-              elevation="3"
-              :disabled="invalid"
-              block
-            >
-              {{ $t("auth.reset") }}
-            </v-btn>
-          </div>
+        <div class="recaptcha-wrapper">
+          <vue-recaptcha
+            class="recaptcha"
+            ref="recaptcha"
+            @verify="onCaptchaVerified"
+            @expired="onCaptchaExpired"
+            :loadRecaptchaScript="true"
+            sitekey="6LfNaDscAAAAAB6psjQwNmNl_1ZG3OJswmSks0hz"
+          />
+        </div>
+
+        <div class="mx-auto d-flex justify-center flex-wrap mt-8 mb-4">
+          <v-btn
+            class="white--text mb-4"
+            type="submit"
+            color="primary"
+            elevation="3"
+            block
+            :disabled="invalid || !recaptchaResponse"
+          >
+            {{ $t("auth.reset") }}
+          </v-btn>
+          <v-btn
+            outlined
+            type="submit"
+            color="primary"
+            elevation="3"
+            to="/"
+            block
+          >
+            {{ $t("userActions.back") }}
+          </v-btn>
+        </div>
       </validation-observer>
     </v-card>
   </div>
@@ -40,16 +66,18 @@
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import VueRecaptcha from "vue-recaptcha"
 import Api from "@/api"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    VueRecaptcha,
   },
 
   data() {
-    return { email: "" }
+    return { email: "", recaptchaResponse: "" }
   },
 
   methods: {
@@ -58,8 +86,13 @@ export default {
     submit: debounce(
       async function () {
         try {
-          await this.createPasswordRecoveryRequest(this.email)
-          this.showMessage(this.$t("success.passwordResetEmailWasSentToYourInbox"))
+          await this.createPasswordRecoveryRequest({
+            email: this.email,
+            recaptchaResponse: this.recaptchaResponse,
+          })
+          this.showMessage(
+            this.$t("success.passwordResetEmailWasSentToYourInbox")
+          )
           this.$router.push("/")
         } catch (err) {
           const parsedError = Api.utils.parseResponseError(err)
@@ -72,6 +105,50 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
+    // onCaptchaVerified(recaptchaToken) {
+    onCaptchaVerified(recaptchaResponse) {
+      this.recaptchaResponse = recaptchaResponse
+    },
+    onCaptchaExpired() {
+      this.$refs.recaptcha.reset()
+    },
   },
 }
 </script>
+<style scoped>
+/* .recaptcha {
+  transform: scale(0.8);
+  transform-origin: 0 0;
+} */
+
+/* .recaptcha {
+    position: relative;
+    width: 100%;
+    background: #f9f9f9;
+    overflow: hidden;
+}
+
+.recaptcha::v-deep * {
+    float: right;
+    right: 0;
+    margin: -2px -2px -10px;
+}
+
+.recaptcha::after{
+    display: block;
+    content: "";
+    position: absolute;
+    left:0;
+    right:150px;
+    top: 0;
+    bottom:0;
+    background-color: #f9f9f9;
+    clear: both;
+} */
+.recaptcha {
+  transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+}
+</style>

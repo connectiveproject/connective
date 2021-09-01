@@ -4,14 +4,11 @@
       <v-card-title class="text-h5 justify-center mb-6">
         {{
           mode === "init"
-          ? $t("general.welcomeToConnective")
-          : $t("auth.passwordReset")
+            ? $t("general.welcomeToConnective")
+            : $t("auth.passwordReset")
         }}
       </v-card-title>
-      <v-card-subtitle
-        v-if="mode === init"
-        class="text-h6 text-center mb-8"
-      >
+      <v-card-subtitle v-if="mode === init" class="text-h6 text-center mb-8">
         {{ $t("auth.toStartPleaseChooseNewPassword") }}
       </v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
@@ -66,24 +63,24 @@
               color="primary"
               :error-messages="errors"
             >
-                  <template v-slot:label>
-                    <div>
-                      {{ $t("general.iAcceptThe") }}
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <a
-                            target="_blank"
-                            @click.stop="isTermsModalOpen = true"
-                            v-on="on"
-                          >
-                            {{ $t("termsOfUse.termsOfUse") }}
-                          </a>
-                        </template>
-                        {{ $t("userActions.clickToRead") }}
-                      </v-tooltip>
-                    </div>
-                  </template>
-                </v-checkbox>
+              <template v-slot:label>
+                <div>
+                  {{ $t("general.iAcceptThe") }}
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <a
+                        target="_blank"
+                        @click.stop="isTermsModalOpen = true"
+                        v-on="on"
+                      >
+                        {{ $t("termsOfUse.termsOfUse") }}
+                      </a>
+                    </template>
+                    {{ $t("userActions.clickToRead") }}
+                  </v-tooltip>
+                </div>
+              </template>
+            </v-checkbox>
           </validation-provider>
           <v-btn
             class="white--text mt-6"
@@ -116,11 +113,15 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
-    <detail-modal min-width="300" :title="$t('termsOfUse.termsOfUse')" v-model="isTermsModalOpen">
+    <detail-modal
+      min-width="300"
+      :title="$t('termsOfUse.termsOfUse')"
+      v-model="isTermsModalOpen"
+    >
       <div class="terms-of-use-text mt-8">
-        {{ $t('termsOfUse.termsOfUseText') }}
+        {{ $t("termsOfUse.termsOfUseText") }}
       </div>
-      </detail-modal>
+    </detail-modal>
   </div>
 </template>
 <script>
@@ -143,7 +144,7 @@ export default {
       type: String,
       validator(value) {
         return ["init", "recover"].includes(value)
-      }
+      },
     },
     uid: {
       type: String,
@@ -192,7 +193,12 @@ export default {
         await this.login({ email, password: this.password, redirect: false })
         if (this.mode === "init") {
           const userDetails = await this.getUserDetails()
-          await this.updateUserDetails({ slug: userDetails.slug, userDetails: { isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted } })
+          await this.updateUserDetails({
+            slug: userDetails.slug,
+            userDetails: {
+              isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted,
+            },
+          })
         }
         this.$router.push({ name: "Dashboard" })
       } catch (err) {
@@ -229,6 +235,6 @@ export default {
 </script>
 <style scoped>
 .terms-of-use-text {
-    white-space: pre-line;
+  white-space: pre-line;
 }
 </style>
