@@ -49,12 +49,12 @@
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="toa"
+            name="tou"
             :rules="{ required: { allowFalse: false } }"
           >
             <v-checkbox
-              v-model="isTermAgreed"
-              name="toa"
+              v-model="isTermsOfUseAgreementAccepted"
+              name="tou"
               color="primary"
               :error-messages="errors"
             >
@@ -108,7 +108,11 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
-    <detail-modal title="termsOfUse.termsOfUse" v-model="isTermsModalOpen" v-text="$t('termsOfUse.termsOfUseText')" />
+    <detail-modal min-width="300" :title="$t('termsOfUse.termsOfUse')" v-model="isTermsModalOpen">
+      <div class="terms-of-use-text mt-8">
+        {{ $t('termsOfUse.termsOfUseText') }}
+      </div>
+      </detail-modal>
   </div>
 </template>
 <script>
@@ -144,13 +148,14 @@ export default {
     identityNumber: "",
     password: "",
     passwordConfirmation: "",
-    isTermAgreed: false,
+    isTermsOfUseAgreementAccepted: false,
     // for redirection to login screen on success
     modalRedirectUrl: "",
   }),
 
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
+    ...mapActions("user", ["getUserDetails", "updateUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
@@ -166,11 +171,14 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    handleSubmitSuccess({ email }) {
+    async handleSubmitSuccess({ email }) {
       // login after reset pass
       try {
         this.showMessage(this.$t("auth.registrationSucceeded"))
-        this.login({ email, password: this.password })
+        await this.login({ email, password: this.password, redirect: false })
+        const userDetails = await this.getUserDetails()
+        await this.updateUserDetails({ slug: userDetails.slug, userDetails: { isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted } })
+        this.$router.push({ name: "Dashboard" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
@@ -203,3 +211,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.terms-of-use-text {
+    white-space: pre-line;
+}
+</style>

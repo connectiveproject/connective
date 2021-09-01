@@ -43,6 +43,7 @@ class User(AbstractUser, metaclass=UserRegistrator):
     username = CharField(max_length=40, default=random_slug, unique=True)
     slug = CharField(max_length=40, default=random_slug, unique=True)
     is_signup_complete = BooleanField(default=False)
+    is_terms_of_use_agreement_accepted = BooleanField(default=False)
 
     def get_absolute_url(self):
         """Get url for user's detail view.

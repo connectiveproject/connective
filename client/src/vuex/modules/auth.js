@@ -23,11 +23,13 @@ const auth = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async login({ commit }, { email, password }) {
+    async login({ commit }, { email, password, redirect = true }) {
       let res = await Api.auth.login(email, password)
       Api.config.setToken(res.data.key)
       commit("SET_AUTH", true)
-      Vue.$router.push({ name: "Dashboard" })
+      if (redirect) {
+        Vue.$router.push({ name: "Dashboard" })
+      }
     },
     async logout({ dispatch }, redirect = true) {
       Api.config.removeToken()
