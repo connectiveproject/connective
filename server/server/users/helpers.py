@@ -1,8 +1,12 @@
+import logging
+
 import requests
+from django.conf import settings
 
 from server.users.forms import RecoverPasswordForm, SendInviteForm
+from server.utils.logging.constants import CAPTCHA
 
-RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
+logger = logging.getLogger(__name__)
 
 
 def send_user_invite(email):
@@ -26,22 +30,24 @@ def get_client_ip(request):
     return request.META.get("REMOTE_ADDR")
 
 
-secret_key = ""  # Preferably from settings.py // console.log(move)
-
-
 def is_recaptcha_token_valid(token, request=None):
-    """
-    TODO: move to celery
-    """
-    if not token:
+    try:
+        if not settings.SHOULD_VALIDATE_RECAPTCHA:
+            return True
+
+        if not token:
+            return False
+
+        data = {
+            "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            "response": token,
+        }
+        if request:
+            data["remoteip"] = get_client_ip(request)
+
+        response = requests.post(settings.RECAPTCHA_VALIDATION_URL, data)
+        return response.json()["success"]
+
+    except Exception:
+        logger.exception(CAPTCHA)
         return False
-
-    data = {
-        "secret": secret_key,
-        "response": token,
-    }
-    if request:
-        data["remoteip"] = get_client_ip(request)
-
-    response = requests.post(RECAPTCHA_VALIDATION_URL, data)
-    return response.json()["success"]
