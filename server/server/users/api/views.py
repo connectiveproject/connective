@@ -2,7 +2,6 @@ import csv
 import io
 import os
 
-import requests
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import PasswordResetConfirmView
 from django.contrib.auth import get_user_model
@@ -14,7 +13,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from server.users.helpers import send_password_recovery
+from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     Consumer,
     ConsumerProfile,
@@ -66,21 +65,6 @@ class PassResetConfirmView(PasswordResetConfirmView):
         return Response({"email": email})
 
 
-############################################
-
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0]
-    else:
-        ip = request.META.get("REMOTE_ADDR")
-    return ip
-
-
-secret_key = ""  # Preferably from settings.py
-
-
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -99,24 +83,13 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         """
         send password recovery email if requested email exists
         """
-        r = requests.post(
-            "https://www.google.com/recaptcha/api/siteverify",
-            data={
-                "secret": secret_key,
-                "response": request.data.get("recaptcha_response", ""),
-                # console.log("add empty response handling")
-                "remoteip": get_client_ip(self.request),  # Optional
-            },
-        )
-
-        if not r.json()["success"]:
-            # Handle the submission, with confidence!
+        token = request.data.get("recaptcha_token", None)
+        if not is_recaptcha_token_valid(token, request):
             return Response(
-                data={"error": "ReCAPTCHA not verified."},
+                data={"error": "ReCAPTCHA could not be verified"},
                 status=status.HTTP_406_NOT_ACCEPTABLE,
             )
 
-        # Successfuly validated
         email = request.data.get("email", None)
         if not email:
             return Response(

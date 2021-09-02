@@ -30,7 +30,7 @@
             class="recaptcha"
             ref="recaptcha"
             @verify="onCaptchaVerified"
-            @expired="onCaptchaExpired"
+            @expired="resetCaptcha"
             :loadRecaptchaScript="true"
             sitekey="6LfNaDscAAAAAB6psjQwNmNl_1ZG3OJswmSks0hz"
           />
@@ -43,7 +43,7 @@
             color="primary"
             elevation="3"
             block
-            :disabled="invalid || !recaptchaResponse"
+            :disabled="invalid || !recaptchaToken"
           >
             {{ $t("auth.reset") }}
           </v-btn>
@@ -77,7 +77,7 @@ export default {
   },
 
   data() {
-    return { email: "", recaptchaResponse: "" }
+    return { email: "", recaptchaToken: "" }
   },
 
   methods: {
@@ -88,13 +88,14 @@ export default {
         try {
           await this.createPasswordRecoveryRequest({
             email: this.email,
-            recaptchaResponse: this.recaptchaResponse,
+            recaptchaToken: this.recaptchaToken,
           })
           this.showMessage(
             this.$t("success.passwordResetEmailWasSentToYourInbox")
           )
           this.$router.push("/")
         } catch (err) {
+          this.resetCaptcha()
           const parsedError = Api.utils.parseResponseError(err)
           if (parsedError.startsWith("email")) {
             return this.showMessage(this.$t("errors.emailAddressNotFound"))
@@ -105,12 +106,12 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    // onCaptchaVerified(recaptchaToken) {
-    onCaptchaVerified(recaptchaResponse) {
-      this.recaptchaResponse = recaptchaResponse
+    onCaptchaVerified(recaptchaToken) {
+      this.recaptchaToken = recaptchaToken
     },
-    onCaptchaExpired() {
+    resetCaptcha() {
       this.$refs.recaptcha.reset()
+      this.recaptchaToken = ""
     },
   },
 }

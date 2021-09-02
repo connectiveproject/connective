@@ -42,8 +42,8 @@ const auth = {
       const res = await Api.auth.resetPassword(uid, token, pass, passConfirm, idNumber)
       return res.data
     },
-    createPasswordRecoveryRequest(ctx, { email, recaptchaResponse }) {
-      return Api.auth.createPasswordRecoveryRequest(email, recaptchaResponse)
+    createPasswordRecoveryRequest(ctx, { email, recaptchaToken }) {
+      return Api.auth.createPasswordRecoveryRequest(email, recaptchaToken)
     }
   },
 }
