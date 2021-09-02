@@ -275,3 +275,7 @@ class InstructorProfile(BaseProfile):
             )
         ],
     )
+
+
+class TermsOfUse(models.Model):
+    terms_of_use_text = models.TextField(blank=True)

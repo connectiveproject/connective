@@ -23,6 +23,7 @@ from server.users.models import (
     Instructor,
     InstructorProfile,
     SupervisorProfile,
+    TermsOfUse,
     Vendor,
     VendorProfile,
 )
@@ -44,6 +45,7 @@ from .serializers import (
     ManageInstructorsSerializer,
     ManageVendorsSerializer,
     SupervisorProfileSerializer,
+    TermsOfUseSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -360,3 +362,9 @@ class ManageInstructorsViewSet(ModelViewSet):
         return Instructor.objects.filter(
             organization_member__organization=self.request.user.organization_member.organization
         )
+
+
+class TermsOfUseViewSet(ListModelMixin, GenericViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = TermsOfUseSerializer
+    queryset = TermsOfUse.objects.all()

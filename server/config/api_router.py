@@ -29,6 +29,7 @@ from server.users.api.views import (
     ManageInstructorsViewSet,
     ManageVendorsViewSet,
     SupervisorProfileViewSet,
+    TermsOfUseViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -60,6 +61,7 @@ router.register(
     SupervisorProfileViewSet,
     basename="supervisors_profiles",
 )
+router.register("terms_of_use", TermsOfUseViewSet)
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")
