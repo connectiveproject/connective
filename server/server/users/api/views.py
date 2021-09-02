@@ -5,11 +5,12 @@ import os
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import PasswordResetConfirmView
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.encoding import force_text
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
@@ -77,6 +78,12 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     def me(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    @action(detail=False, methods=["PATCH"], permission_classes=[IsAuthenticated])
+    def accept_terms_of_use(self, request):
+        request.user.terms_of_use_acceptance_date = timezone.now()
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=["POST"], permission_classes=[AllowAny])
     def recover_password(self, request):

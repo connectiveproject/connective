@@ -31,7 +31,6 @@ class UserSerializer(serializers.ModelSerializer):
             "url",
             "user_type",
             "is_signup_complete",
-            "is_terms_of_use_agreement_accepted",
         ]
         read_only_fields = ["slug", "url", "user_type"]
 

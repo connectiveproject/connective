@@ -1,5 +1,5 @@
-import Api from "../../api"
-import { SERVER } from "../../helpers/constants/constants"
+import Api from "@/api"
+import { SERVER } from "@/helpers/constants/constants"
 
 function getDefaultState() {
   return {
@@ -46,6 +46,9 @@ const user = {
       let res = await Api.user.updateUserDetails(slug, userDetails)
       commit("SET_USER_DETAILS", res.data)
       return state.userDetails
+    },
+    updateTermsOfUseAcceptance() {
+      return Api.user.updateTermsOfUseAcceptance()
     },
   },
 }

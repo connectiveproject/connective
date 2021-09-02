@@ -8,7 +8,7 @@
             : $t("auth.passwordReset")
         }}
       </v-card-title>
-      <v-card-subtitle v-if="mode === init" class="text-h6 text-center mb-8">
+      <v-card-subtitle v-if="mode === 'init'" class="text-h6 text-center mb-8">
         {{ $t("auth.toStartPleaseChooseNewPassword") }}
       </v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
@@ -170,7 +170,7 @@ export default {
 
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
-    ...mapActions("user", ["getUserDetails", "updateUserDetails"]),
+    ...mapActions("user", ["getUserDetails", "updateTermsOfUseAcceptance"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
@@ -192,13 +192,7 @@ export default {
         this.showMessage(this.$t("auth.registrationSucceeded"))
         await this.login({ email, password: this.password, redirect: false })
         if (this.mode === "init") {
-          const userDetails = await this.getUserDetails()
-          await this.updateUserDetails({
-            slug: userDetails.slug,
-            userDetails: {
-              isTermsOfUseAgreementAccepted: this.isTermsOfUseAgreementAccepted,
-            },
-          })
+          await this.updateTermsOfUseAcceptance()
         }
         this.$router.push({ name: "Dashboard" })
       } catch (err) {
