@@ -38,7 +38,7 @@ describe("auth", () => {
     const email = "test-consumer-10@example.com"
     cy.get('[data-testid="forgot-pass-btn"]').click()
     cy.get('[data-testid="email-input"]').type(email)
-    cy.get("#rc-anchor-container", 8000).click()
+    cy.get("#rc-anchor-container", { timeout: 8000 }).click()
     cy.wait(500) // eslint-disable-line
     cy.get("form").submit()
     cy.url().should("contain", "login")
