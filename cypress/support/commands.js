@@ -26,7 +26,7 @@
 import "cypress-file-upload"
 
 Cypress.Commands.add("confirmCaptcha", function () {
-    cy.get("#recaptcha *> iframe", { timeout: 8000 })
+    cy.get(".recaptcha *> iframe", { timeout: 8000 })
     .then($iframe => {
       const $body = $iframe.contents().find("body")
       cy.wrap($body)
