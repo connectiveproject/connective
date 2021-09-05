@@ -1,4 +1,5 @@
 {
+  "chromeWebSecurity": false,
   "env": {
     "clientUrl": "https://8080-amaranth-cattle-rtf69lmo.ws-eu16.gitpod.io",
     "_comment": "leave mailboxUrl empty if not available",
