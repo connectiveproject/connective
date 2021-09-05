@@ -25,7 +25,7 @@
           />
         </validation-provider>
 
-        <div class="recaptcha-wrapper">
+        <div class="pt-3">
           <vue-recaptcha
             class="recaptcha"
             ref="recaptcha"
@@ -117,35 +117,6 @@ export default {
 }
 </script>
 <style scoped>
-/* .recaptcha {
-  transform: scale(0.8);
-  transform-origin: 0 0;
-} */
-
-/* .recaptcha {
-    position: relative;
-    width: 100%;
-    background: #f9f9f9;
-    overflow: hidden;
-}
-
-.recaptcha::v-deep * {
-    float: right;
-    right: 0;
-    margin: -2px -2px -10px;
-}
-
-.recaptcha::after{
-    display: block;
-    content: "";
-    position: absolute;
-    left:0;
-    right:150px;
-    top: 0;
-    bottom:0;
-    background-color: #f9f9f9;
-    clear: both;
-} */
 .recaptcha {
   transform: scale(0.9);
   -webkit-transform: scale(0.9);
