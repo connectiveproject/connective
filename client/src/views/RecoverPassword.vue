@@ -29,10 +29,10 @@
           <vue-recaptcha
             class="recaptcha"
             ref="recaptcha"
+            loadRecaptchaScript
             @verify="onCaptchaVerified"
             @expired="resetCaptcha"
-            :loadRecaptchaScript="true"
-            sitekey="6LfNaDscAAAAAB6psjQwNmNl_1ZG3OJswmSks0hz"
+            :sitekey="RECAPTCHA_SITE_KEY"
           />
         </div>
 
@@ -64,6 +64,7 @@
 </template>
 <script>
 import { mapActions } from "vuex"
+import { RECAPTCHA_SITE_KEY } from "@/helpers/constants/constants"
 import debounce from "lodash/debounce"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import VueRecaptcha from "vue-recaptcha"
@@ -77,7 +78,7 @@ export default {
   },
 
   data() {
-    return { email: "", recaptchaToken: "" }
+    return { email: "", recaptchaToken: "", RECAPTCHA_SITE_KEY }
   },
 
   methods: {

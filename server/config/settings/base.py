@@ -337,6 +337,8 @@ JAZZMIN_SETTINGS = {
 TAGGIT_CASE_INSENSITIVE = True
 
 # https://www.google.com/u/2/recaptcha/admin/create
+# https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
-GOOGLE_RECAPTCHA_SECRET_KEY = env("GOOGLE_RECAPTCHA_SECRET_KEY", default="")
-SHOULD_VALIDATE_RECAPTCHA = env.bool("SHOULD_VALIDATE_RECAPTCHA", default=True)
+GOOGLE_RECAPTCHA_SECRET_KEY = env(
+    "GOOGLE_RECAPTCHA_SECRET_KEY", default="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+)

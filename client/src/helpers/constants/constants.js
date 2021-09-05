@@ -1,5 +1,6 @@
 import i18n from "@/plugins/i18n"
 
+export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 export const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`

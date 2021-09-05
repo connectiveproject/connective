@@ -32,9 +32,6 @@ def get_client_ip(request):
 
 def is_recaptcha_token_valid(token, request=None):
     try:
-        if not settings.SHOULD_VALIDATE_RECAPTCHA:
-            return True
-
         if not token:
             return False
 
