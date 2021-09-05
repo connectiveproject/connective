@@ -26,12 +26,12 @@
 import "cypress-file-upload"
 
 Cypress.Commands.add("confirmCaptcha", function () {
-  cy.get("iframe", { timeout: 8000 })
-    .first()
-    .then(recaptchaIframe => {
-      const body = recaptchaIframe.contents()
-      console.log(body)
-      console.log(recaptchaIframe)
-      cy.wrap(body).find("#rc-anchor-container").should("be.visible").click()
+    cy.get("#recaptcha *> iframe", { timeout: 8000 })
+    .then($iframe => {
+      const $body = $iframe.contents().find("body")
+      cy.wrap($body)
+        .find(".recaptcha-checkbox-border")
+        .should("be.visible")
+        .click()
     })
 })
