@@ -12,7 +12,6 @@ from server.users.models import (
     Instructor,
     InstructorProfile,
     SupervisorProfile,
-    TermsOfUse,
     Vendor,
     VendorProfile,
 )
@@ -267,10 +266,3 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
             send_user_invite(validated_data["email"])
 
         return instance
-
-
-class TermsOfUseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TermsOfUse
-        fields = ["terms_of_use_text"]
-        read_only_fields = ["terms_of_use_text"]

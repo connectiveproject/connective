@@ -23,7 +23,6 @@ from server.users.models import (
     Instructor,
     InstructorProfile,
     SupervisorProfile,
-    TermsOfUse,
     Vendor,
     VendorProfile,
 )
@@ -45,7 +44,6 @@ from .serializers import (
     ManageInstructorsSerializer,
     ManageVendorsSerializer,
     SupervisorProfileSerializer,
-    TermsOfUseSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -81,12 +79,6 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    @action(detail=False, methods=["PATCH"], permission_classes=[IsAuthenticated])
-    def accept_terms_of_use(self, request):
-        request.user.terms_of_use_acceptance_date = timezone.now()
-        request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
     @action(detail=False, methods=["POST"], permission_classes=[AllowAny])
     def recover_password(self, request):
         """
@@ -114,6 +106,12 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
             {"email": ["email does not exist"]},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    @action(detail=False, methods=["PATCH"], permission_classes=[IsAuthenticated])
+    def accept_terms_of_use(self, request):
+        request.user.terms_of_use_acceptance_date = timezone.now()
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ConsumerProfileViewSet(ModelViewSet):
@@ -362,9 +360,3 @@ class ManageInstructorsViewSet(ModelViewSet):
         return Instructor.objects.filter(
             organization_member__organization=self.request.user.organization_member.organization
         )
-
-
-class TermsOfUseViewSet(ListModelMixin, GenericViewSet):
-    permission_classes = [AllowAny]
-    serializer_class = TermsOfUseSerializer
-    queryset = TermsOfUse.objects.all()

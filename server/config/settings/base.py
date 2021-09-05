@@ -89,6 +89,7 @@ LOCAL_APPS = [
     "server.organizations.apps.OrganizationsConfig",
     "server.events.apps.EventsConfig",
     "server.posts.apps.PostsConfig",
+    "server.termsofuse.apps.TermsofuseConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

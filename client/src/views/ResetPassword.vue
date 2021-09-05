@@ -119,7 +119,7 @@
       v-model="isTermsModalOpen"
     >
       <div class="terms-of-use-text mt-8">
-        {{ $t("termsOfUse.termsOfUseText") }}
+        {{ termsOfUseText }}
       </div>
     </detail-modal>
   </div>
@@ -164,13 +164,20 @@ export default {
     password: "",
     passwordConfirmation: "",
     isTermsOfUseAgreementAccepted: false,
+    termsOfUseText: "",
     // for redirection to login screen on success
     modalRedirectUrl: "",
   }),
 
+  async mounted() {
+    const texts = await this.getTermsOfUseTexts()
+    this.termsOfUseText = texts[0].documentText
+  },
+
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
-    ...mapActions("user", ["getUserDetails", "updateTermsOfUseAcceptance"]),
+    ...mapActions("termsOfUse", ["getTermsOfUseTexts", "updateTermsOfUseAcceptance"]),
+    ...mapActions("user", ["getUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {

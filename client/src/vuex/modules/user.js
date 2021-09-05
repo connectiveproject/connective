@@ -47,9 +47,6 @@ const user = {
       commit("SET_USER_DETAILS", res.data)
       return state.userDetails
     },
-    updateTermsOfUseAcceptance() {
-      return Api.user.updateTermsOfUseAcceptance()
-    },
   },
 }
 
