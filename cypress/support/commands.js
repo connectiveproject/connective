@@ -23,4 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import "cypress-file-upload";
+import "cypress-file-upload"
+
+Cypress.Commands.add("confirmCaptcha", function () {
+  cy.get("iframe")
+    .first()
+    .then(recaptchaIframe => {
+      const body = recaptchaIframe.contents()
+      cy.wrap(body).find(".recaptcha-checkbox-border").should("be.visible").click()
+    })
+})
