@@ -26,15 +26,11 @@
 import "cypress-file-upload"
 
 Cypress.Commands.add("confirmCaptcha", function () {
-    Cypress.config('chromeWebSecurity', false);
     cy.get("iframe")
     .then($iframe => {
-      const $body = $iframe.contents().find("body")
-      console.log($body)
-
-
-      cy.wrap($body)
-        .find(".recaptcha-checkbox-border")
-        .click({ force: true })
+        const $body = $iframe.contents().find("body")
+        cy.wrap($body)
+          .find(".recaptcha-checkbox-border")
+          .click({ force: true })
     })
 })

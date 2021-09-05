@@ -36,8 +36,10 @@ describe("auth", () => {
 
   it("should send password recovery email to consumer", () => {
     const email = "test-consumer-10@example.com"
+    const resetText = "Connective Password Reset"
     cy.get('[data-testid="forgot-pass-btn"]').click()
     cy.get('[data-testid="email-input"]').type(email)
+    cy.wait(500) // eslint-disable-line
     cy.confirmCaptcha()
     cy.wait(500) // eslint-disable-line
     cy.get("form").submit()
@@ -45,6 +47,7 @@ describe("auth", () => {
     if (Cypress.env("mailboxUrl")) {
       cy.visit(Cypress.env("mailboxUrl"))
       cy.contains(email)
+      cy.contains(resetText)
     }
   })
 })
