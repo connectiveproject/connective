@@ -59,6 +59,7 @@
     "css-loader": "^5.2.4",
     "cypress": "^7.7.0",
     "eslint": "^7.26.0",
+    "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-vue": "^6.2.2",
     "flush-promises": "^1.0.2",
     "imagemin": "^7.0.1",

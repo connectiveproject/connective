@@ -33,4 +33,18 @@ describe("auth", () => {
     cy.get('[data-testid="modal-button"]').click()
     cy.url().should("contain", "dashboard")
   })
+
+  it("should send password recovery email to consumer", () => {
+    const email = "test-consumer-10@example.com"
+    cy.get('[data-testid="forgot-pass-btn"]').click()
+    cy.get('[data-testid="email-input"]').type(email)
+    cy.get("#recaptcha-anchor > div.recaptcha-checkbox-border").click()
+    cy.wait(500) // eslint-disable-line
+    cy.get("form").submit()
+    cy.url().should("contain", "login")
+    if (Cypress.env("mailboxUrl")) {
+      cy.visit(Cypress.env("mailboxUrl"))
+      cy.contains(email)
+    }
+  })
 })

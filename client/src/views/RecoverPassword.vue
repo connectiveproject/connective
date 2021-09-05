@@ -18,6 +18,7 @@
         >
           <v-text-field
             autofocus
+            data-testid="email-input"
             class="mt-2"
             v-model="email"
             :error-messages="errors"
