@@ -38,7 +38,7 @@ describe("auth", () => {
     const email = "test-consumer-10@example.com"
     cy.get('[data-testid="forgot-pass-btn"]').click()
     cy.get('[data-testid="email-input"]').type(email)
-    cy.get("#recaptcha-anchor > div.recaptcha-checkbox-border").click()
+    cy.get("#rc-anchor-container").click()
     cy.wait(500) // eslint-disable-line
     cy.get("form").submit()
     cy.url().should("contain", "login")
