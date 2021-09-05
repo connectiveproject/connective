@@ -34,7 +34,7 @@ Cypress.Commands.add("confirmCaptcha", function () {
 
 
       cy.wrap($body)
-        .get(".recaptcha-checkbox-border")
+        .find(".recaptcha-checkbox-border")
         .click({ force: true })
     })
 })
