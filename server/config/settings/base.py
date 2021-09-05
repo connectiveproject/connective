@@ -340,5 +340,6 @@ TAGGIT_CASE_INSENSITIVE = True
 # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
 GOOGLE_RECAPTCHA_SECRET_KEY = env(
-    "GOOGLE_RECAPTCHA_SECRET_KEY", default="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+    "GOOGLE_RECAPTCHA_SECRET_KEY",
+    default="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
 )
