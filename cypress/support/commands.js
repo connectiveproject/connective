@@ -26,6 +26,7 @@
 import "cypress-file-upload"
 
 Cypress.Commands.add("confirmCaptcha", function () {
+    Cypress.config("chromeWebSecurity", false)
     cy.get("iframe")
     .then($iframe => {
         const $body = $iframe.contents().find("body")
