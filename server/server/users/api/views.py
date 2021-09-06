@@ -98,7 +98,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if User.objects.filter(email=email):
+        if User.objects.filter(email=email).exists():
             send_password_recovery(email)
             return Response(status=status.HTTP_204_NO_CONTENT)
 
