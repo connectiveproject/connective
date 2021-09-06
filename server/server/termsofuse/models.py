@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from server.utils.model_fields import random_slug
@@ -12,15 +11,6 @@ class TermsOfUseDocument(models.Model):
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
-    def clean(self):
-        if (
-            not self.is_active
-            and not TermsOfUseDocument.objects.filter(is_active=True)
-            .exclude(slug=self.slug)
-            .exists()
-        ):
-            raise ValidationError("model must contain at least one active document")
 
 
 class TermsOfUsePeriod(models.Model):
