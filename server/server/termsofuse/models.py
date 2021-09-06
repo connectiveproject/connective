@@ -4,7 +4,6 @@ from server.utils.model_fields import random_slug
 
 
 class TermsOfUseDocument(models.Model):
-
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     document_name = models.CharField(blank=True, max_length=50)
     document_text = models.TextField(blank=True)
