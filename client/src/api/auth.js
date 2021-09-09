@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN_API_URL, RESET_PASSWORD_URL } from "../helpers/constants/constants"
+import { LOGIN_API_URL, RESET_PASSWORD_URL, CREATE_PASSWORD_RECOVERY_REQUEST_API_URL } from "../helpers/constants/constants"
 
 const auth = {
   login(email, password) {
@@ -18,6 +18,10 @@ const auth = {
     }
     return axios.post(url, data)
   },
+
+  createPasswordRecoveryRequest(email, recaptchaToken) {
+    return axios.post(CREATE_PASSWORD_RECOVERY_REQUEST_API_URL, { email, recaptchaToken })
+  }
 }
 
 export default auth

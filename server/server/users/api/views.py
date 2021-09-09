@@ -5,13 +5,16 @@ import os
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import PasswordResetConfirmView
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.encoding import force_text
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     Consumer,
     ConsumerProfile,
@@ -75,6 +78,40 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     def me(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    @action(detail=False, methods=["POST"], permission_classes=[AllowAny])
+    def recover_password(self, request):
+        """
+        send password recovery email if requested email exists
+        """
+        token = request.data.get("recaptcha_token", None)
+        if not is_recaptcha_token_valid(token, request):
+            return Response(
+                data={"error": "ReCAPTCHA could not be verified"},
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+            )
+
+        email = request.data.get("email", None)
+        if not email:
+            return Response(
+                {"email": ["email must be specified"]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if User.objects.filter(email=email).exists():
+            send_password_recovery(email)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(
+            {"email": ["email does not exist"]},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    @action(detail=False, methods=["PATCH"], permission_classes=[IsAuthenticated])
+    def accept_terms_of_use(self, request):
+        request.user.terms_of_use_acceptance_date = timezone.now()
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ConsumerProfileViewSet(ModelViewSet):

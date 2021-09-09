@@ -1,5 +1,5 @@
-import Api from "../../api"
-import { SERVER } from "../../helpers/constants/constants"
+import Api from "@/api"
+import { SERVER } from "@/helpers/constants/constants"
 
 function getDefaultState() {
   return {
