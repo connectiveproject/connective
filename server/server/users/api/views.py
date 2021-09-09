@@ -5,7 +5,6 @@ import os
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import PasswordResetConfirmView
 from django.contrib.auth import get_user_model
-from django.utils import timezone
 from django.utils.encoding import force_text
 from rest_framework import filters, status
 from rest_framework.decorators import action
@@ -14,6 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from server.termsofuse.models import TermsOfUseDocument
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     Consumer,
@@ -109,8 +109,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
     @action(detail=False, methods=["PATCH"], permission_classes=[IsAuthenticated])
     def accept_terms_of_use(self, request):
-        request.user.terms_of_use_acceptance_date = timezone.now()
-        request.user.save()
+        TermsOfUseDocument.objects.sign(request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

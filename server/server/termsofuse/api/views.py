@@ -9,4 +9,10 @@ from .serializers import TermsOfUseDocumentSerializer
 class TermsOfUseDocumentViewSet(ListModelMixin, GenericViewSet):
     permission_classes = [AllowAny]
     serializer_class = TermsOfUseDocumentSerializer
-    queryset = TermsOfUseDocument.objects.filter(is_active=True)
+
+    def get_queryset(self):
+        if TermsOfUseDocument.objects.count():
+            return TermsOfUseDocument.objects.filter(
+                slug=TermsOfUseDocument.objects.last().slug
+            )
+        return TermsOfUseDocument.objects.none()

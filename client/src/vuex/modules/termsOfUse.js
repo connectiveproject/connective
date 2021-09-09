@@ -16,8 +16,8 @@ const user = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    async getTermsOfUseTexts() {
-      const res = await Api.termsOfUse.getTermsOfUseTexts()
+    async getTermsOfUseText() {
+      const res = await Api.termsOfUse.getTermsOfUseText()
       return res.data.results
     },
     updateTermsOfUseAcceptance() {

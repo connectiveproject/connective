@@ -61,7 +61,9 @@ router.register(
     SupervisorProfileViewSet,
     basename="supervisors_profiles",
 )
-router.register("terms_of_use_docs", TermsOfUseDocumentViewSet)
+router.register(
+    "terms_of_use_docs", TermsOfUseDocumentViewSet, basename="terms_of_use_docs"
+)
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")

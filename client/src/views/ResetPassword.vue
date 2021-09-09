@@ -66,22 +66,11 @@
               <template v-slot:label>
                 <div>
                   {{ $t("general.iAcceptThe") }}
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <a
-                        target="_blank"
-                        @click.stop="isTermsModalOpen = true"
-                        v-on="on"
-                      >
-                        {{ $t("termsOfUse.termsOfUse") }}
-                      </a>
-                    </template>
-                    {{ $t("userActions.clickToRead") }}
-                  </v-tooltip>
                 </div>
               </template>
             </v-checkbox>
           </validation-provider>
+          <a :href="TERMS_OF_USE_URL" target="_blank">{{ $t("termsOfUse.termsOfUse") }}</a>
           <v-btn
             class="white--text mt-6"
             type="submit"
@@ -113,31 +102,21 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
-    <detail-modal
-      min-width="300"
-      :title="$t('termsOfUse.termsOfUse')"
-      v-model="isTermsModalOpen"
-    >
-      <div class="terms-of-use-text mt-8">
-        {{ termsOfUseText }}
-      </div>
-    </detail-modal>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import { TERMS_OF_USE_URL } from "../helpers/constants/constants"
 import debounce from "lodash/debounce"
 import Api from "@/api"
 import Modal from "@/components/Modal"
-import DetailModal from "@/components/DetailModal"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
     Modal,
-    DetailModal,
   },
   props: {
     mode: {
@@ -157,7 +136,7 @@ export default {
   },
 
   data: () => ({
-    isTermsModalOpen: false,
+    TERMS_OF_USE_URL,
     showPass: false,
     popupMsg: "",
     identityNumber: "",
@@ -170,13 +149,13 @@ export default {
   }),
 
   async mounted() {
-    const texts = await this.getTermsOfUseTexts()
+    const texts = await this.getTermsOfUseText()
     this.termsOfUseText = texts[0].documentText
   },
 
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
-    ...mapActions("termsOfUse", ["getTermsOfUseTexts", "updateTermsOfUseAcceptance"]),
+    ...mapActions("termsOfUse", ["getTermsOfUseText", "updateTermsOfUseAcceptance"]),
     ...mapActions("user", ["getUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
