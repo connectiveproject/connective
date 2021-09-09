@@ -249,3 +249,4 @@ export const SERVER = {
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"
+export const SESSION_IDLE_TIMEOUT_MINUTES = 15

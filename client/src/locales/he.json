@@ -294,7 +294,9 @@
     "explanationForThisPageDoesNotExist": "לא קיים הסבר לעמוד זה",
     "theDatesShouldBeCloserToEachOther": "על התאריכים להיות קרובים יותר זה לזה",
     "noGroupsFound": "לא נמצאו קבוצות",
-    "emailAddressNotFound": "כתובת המייל לא נמצאה"
+    "emailAddressNotFound": "כתובת המייל לא נמצאה",
+    "sessionExpired": "פג תוקף החיבור",
+    "sessionExpiredPleaseLoginAgain": "פג תוקף החיבור. יש להתחבר מחדש."
   },
 
   "myActivity": {
