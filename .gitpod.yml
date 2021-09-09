@@ -43,8 +43,9 @@ tasks:
     command: >
      cd client && 
      yarn storybook
-  - command: >
-      echo welcome
+  - name: Cypress Installation
+    command: >
+      yarn && exit
   - command: >
       echo -e "\e[36mWELCOME CONTRIBUTER!"
 

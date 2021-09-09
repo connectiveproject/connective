@@ -36,9 +36,9 @@ RUN pip install -r temp_requirements/local.txt
 COPY . .
 
 # Cypress dependencies and env vars
-ENV GITPOD_URL="$GITPOD_WORKSPACE_ID${GITPOD_WORKSPACE_CLUSTER_HOST:+.$GITPOD_WORKSPACE_CLUSTER_HOST}"
-RUN echo "export CYPRESS_CLIENT_URL=https://8000-$GITPOD_URL" >> /home/gitpod/.bashrc
-RUN echo "export CYPRESS_MAILBOX_URL=https://8025-$GITPOD_URL" >> /home/gitpod/.bashrc
+ENV FULL_GITPOD_URL="$GITPOD_WORKSPACE_ID${GITPOD_WORKSPACE_CLUSTER_HOST:+.$GITPOD_WORKSPACE_CLUSTER_HOST}"
+RUN echo "export CYPRESS_CLIENT_URL=https://8000-$FULL_GITPOD_URL" >> /home/gitpod/.bashrc
+RUN echo "export CYPRESS_MAILBOX_URL=https://8025-$FULL_GITPOD_URL" >> /home/gitpod/.bashrc
 RUN sudo apt-get update \
  && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
    libgtk2.0-0 \
