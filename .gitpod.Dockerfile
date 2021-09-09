@@ -35,10 +35,10 @@ RUN pip install -r temp_requirements/local.txt
 
 COPY . .
 
-RUN echo "export PIP_USER=false" >> /home/gitpod/.bashrc
-RUN echo "export CELERY_BROKER_URL=redis://localhost:6379/0" >> /home/gitpod/.bashrc
-
-# Install Cypress dependencies.
+# Cypress dependencies and env vars
+ENV GITPOD_URL="$GITPOD_WORKSPACE_ID${GITPOD_WORKSPACE_CLUSTER_HOST:+.$GITPOD_WORKSPACE_CLUSTER_HOST}"
+RUN echo "export CYPRESS_CLIENT_URL=https://8000-$GITPOD_URL" >> /home/gitpod/.bashrc
+RUN echo "export CYPRESS_MAILBOX_URL=https://8025-$GITPOD_URL" >> /home/gitpod/.bashrc
 RUN sudo apt-get update \
  && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
    libgtk2.0-0 \

@@ -2,7 +2,7 @@
 
 describe("auth", () => {
   beforeEach(() => {
-    cy.visit(Cypress.env("clientUrl"))
+    cy.visit(Cypress.env("CLIENT_URL"))
   })
 
   it("should login as a coordinator", () => {
@@ -44,8 +44,8 @@ describe("auth", () => {
     cy.wait(500) // eslint-disable-line
     cy.get("form").submit()
     cy.url().should("contain", "login")
-    if (Cypress.env("mailboxUrl")) {
-      cy.visit(Cypress.env("mailboxUrl"))
+    if (Cypress.env("MAILBOX_URL")) {
+      cy.visit(Cypress.env("MAILBOX_URL"))
       cy.contains(email)
       cy.contains(resetText)
     }
