@@ -47,7 +47,7 @@ tasks:
     init: gp sync-await client-install
     command: >
       yarn &&
-      yarn cy:open --env CLIENT_URL=$(gp url 8080) MAILBOX_URL=$(gp url 8025)
+      yarn cy:open --env CLIENT_URL=$(gp url 8080),MAILBOX_URL=$(gp url 8025)
   - command: >
       echo -e "\e[36mWELCOME CONTRIBUTER!"
 
