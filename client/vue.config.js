@@ -12,8 +12,7 @@ function createBackendBaseUrl() {
 }
 
 process.env.VUE_APP_BACKEND_URL = `${createBackendBaseUrl()}api`
-process.env.TERMS_OF_USE_URL = `${createBackendBaseUrl()}terms_of_use_document`
-console.log(process.env.TERMS_OF_USE_URL)
+
 module.exports = {
   devServer: {
     disableHostCheck: true,
