@@ -43,9 +43,11 @@ tasks:
     command: >
      cd client && 
      yarn storybook
-  - name: Cypress Installation
+  - name: Cypress
+    init: gp sync-await client-install
     command: >
-      yarn && exit
+      yarn &&
+      yarn cy:open --env CLIENT_URL=$(gp url 8080) MAILBOX_URL=$(gp url 8025)
   - command: >
       echo -e "\e[36mWELCOME CONTRIBUTER!"
 
