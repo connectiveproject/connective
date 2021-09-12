@@ -1,8 +1,12 @@
 import i18n from "@/plugins/i18n"
 
+export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 export const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const LOGIN_API_URL = `${SERVER_URL}/auth/login/`
 export const RESET_PASSWORD_URL = `${SERVER_URL}/auth/password-reset/confirm/`
+export const CREATE_PASSWORD_RECOVERY_REQUEST_API_URL = `${SERVER_URL}/users/recover_password/`
+export const UPDATE_TERMS_OF_USE_ACCEPTANCE_API_URL = `${SERVER_URL}/users/accept_terms_of_use/`
+export const GET_TERMS_OF_USE_TEXTS = `${SERVER_URL}/terms_of_use_docs/`
 export const UPDATE_COORDINATOR_PROFILE_API_URL = `${SERVER_URL}/coordinators_profiles/`
 export const UPDATE_CONSUMER_PROFILE_API_URL = `${SERVER_URL}/consumers_profiles/`
 export const UPDATE_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profiles/`
@@ -245,3 +249,4 @@ export const SERVER = {
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"
+export const SESSION_IDLE_TIMEOUT_MINUTES = 15

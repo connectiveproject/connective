@@ -1,7 +1,8 @@
 {
   "env": {
-    "clientUrl": "https://8080-magenta-crawdad-6t1m12a4.ws-eu16.gitpod.io",
-    "_comment": "leave mailboxUrl empty if not available",
-    "mailboxUrl": "https://8025-magenta-crawdad-6t1m12a4.ws-eu16.gitpod.io"
+    "_comment": "override using env vars: https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_",
+    "__comment": "leave MAILBOX_URL empty if not available",
+    "CLIENT_URL": "https://some_client_url.com",
+    "MAILBOX_URL": "https://some_mailbox_url.com"
   }
 }

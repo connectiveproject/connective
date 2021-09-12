@@ -7,7 +7,7 @@ const randomEmail = `${randomStr}@example.com`;
 
 describe("vendor invite & delete users", () => {
   beforeEach(() => {
-    cy.visit(Cypress.env("clientUrl"));
+    cy.visit(Cypress.env("CLIENT_URL"));
     cy.get('[data-testid="email-input"]').type("test-vendor@example.com");
     cy.get('[data-testid="password-input"]').type("Aa123456789");
     cy.get("form").submit();
@@ -28,8 +28,8 @@ describe("vendor invite & delete users", () => {
     cy.contains(randomEmail);
     cy.contains("סלים שיידי");
 
-    if (Cypress.env("mailboxUrl")) {
-      cy.visit(Cypress.env("mailboxUrl"));
+    if (Cypress.env("MAILBOX_URL")) {
+      cy.visit(Cypress.env("MAILBOX_URL"));
       cy.contains(randomEmail);
     }
   });

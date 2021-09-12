@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:latest
+FROM gitpod/workspace-full-vnc
 
 # increment by one to re-run dockerfile commands without cache
 ENV INVALIDATE_CACHE=2
@@ -35,5 +35,17 @@ RUN pip install -r temp_requirements/local.txt
 
 COPY . .
 
-RUN echo "export PIP_USER=false" >> /home/gitpod/.bashrc
-RUN echo "export CELERY_BROKER_URL=redis://localhost:6379/0" >> /home/gitpod/.bashrc
+# Cypress dependencies
+RUN sudo apt-get update \
+ && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+   libgtk2.0-0 \
+   libgtk-3-0 \
+   libnotify-dev \
+   libgconf-2-4 \
+   libnss3 \
+   libxss1 \
+   libasound2 \
+   libxtst6 \
+   xauth \
+   xvfb \
+ && sudo rm -rf /var/lib/apt/lists/*

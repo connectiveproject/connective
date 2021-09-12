@@ -2,7 +2,7 @@
 
 describe("vendor approve/deny event order", () => {
   beforeEach(() => {
-    cy.visit(Cypress.env("clientUrl"));
+    cy.visit(Cypress.env("CLIENT_URL"));
     cy.get('[data-testid="email-input"]').type("test-vendor@example.com");
     cy.get('[data-testid="password-input"]').type("Aa123456789");
     cy.get("form").submit();
