@@ -29,17 +29,12 @@ class UserCreationForm(admin_forms.UserCreationForm):
         }
 
 
-class ResetPasswordGenericMixin:
+class SendInviteForm(ResetPasswordForm):
     """
     used to send an invitation to onboard the platform and reset the password
     """
 
     default_token_generator = EmailAwarePasswordResetTokenGenerator()
-    # override these for customization
-    email_text_filepath = ""
-    email_html_filepath = ""
-    email_title = ""
-    client_uri = ""
 
     def send_email_invite(self, email, uri, uid, token):
         context = {
@@ -47,10 +42,10 @@ class ResetPasswordGenericMixin:
             "uid": uid,
             "token": token,
         }
-        msg_plain = render_to_string(self.email_text_filepath, context)
-        msg_html = render_to_string(self.email_html_filepath, context)
+        msg_plain = render_to_string("users/invite_with_password_reset.txt", context)
+        msg_html = render_to_string("users/invite_with_password_reset.html", context)
         send_mail(
-            self.email_title,
+            "Welcome To Connective!",
             msg_plain,
             None,
             [email],
@@ -62,26 +57,6 @@ class ResetPasswordGenericMixin:
         token_generator = kwargs.get("token_generator", self.default_token_generator)
         for user in self.users:
             temp_key = token_generator.make_token(user)
-            self.send_email_invite(
-                email,
-                self.client_uri,
-                user_pk_to_url_str(user),
-                temp_key,
-            )
+            uri = path.join(settings.CLIENT_BASE_URL, "he/welcome/reset-password")
+            self.send_email_invite(email, uri, user_pk_to_url_str(user), temp_key)
         return self.cleaned_data["email"]
-
-
-class SendInviteForm(ResetPasswordGenericMixin, ResetPasswordForm):
-    email_text_filepath = "users/invite_with_password_reset.txt"
-    email_html_filepath = "users/invite_with_password_reset.html"
-    email_title = "Welcome To Connective!"
-    client_uri = path.join(settings.CLIENT_BASE_URL, "he/welcome/reset-password/init")
-
-
-class RecoverPasswordForm(ResetPasswordGenericMixin, ResetPasswordForm):
-    email_text_filepath = "users/recover_password.txt"
-    email_html_filepath = "users/recover_password.html"
-    email_title = "Connective Password Reset"
-    client_uri = path.join(
-        settings.CLIENT_BASE_URL, "he/welcome/reset-password/recover"
-    )

@@ -56,12 +56,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
     )
 
-    list_display = [
-        "email",
-        "slug",
-        "date_joined",
-        "terms_of_use_acceptance_date",
-    ]
+    list_display = ["email", "slug", "date_joined"]
     search_fields = ["email"]
     actions = [send_invite]
 

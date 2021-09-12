@@ -1,16 +1,12 @@
 <template>
   <div>
     <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
-      <v-card-title class="text-h5 justify-center mb-6">
-        {{
-          mode === "init"
-            ? $t("general.welcomeToConnective")
-            : $t("auth.passwordReset")
-        }}
-      </v-card-title>
-      <v-card-subtitle v-if="mode === 'init'" class="text-h6 text-center mb-8">
-        {{ $t("auth.toStartPleaseChooseNewPassword") }}
-      </v-card-subtitle>
+      <v-card-title class="text-h5 justify-center mb-6">{{
+        $t("general.welcomeToConnective")
+      }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-center mb-8">{{
+        $t("auth.toStartPleaseChooseNewPassword")
+      }}</v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
         <form @submit.prevent="onSubmit">
           <validation-provider
@@ -51,55 +47,24 @@
               * {{ $t("errors.strongPassHint") }}.
             </div>
           </validation-provider>
-          <validation-provider
-            v-if="mode === 'init'"
-            v-slot="{ errors }"
-            name="tou"
-            :rules="{ required: { allowFalse: false } }"
-          >
-            <v-checkbox
-              v-model="isTermsOfUseAgreementAccepted"
-              name="tou"
+            <v-btn
+              class="white--text mt-6"
+              type="submit"
               color="primary"
-              :error-messages="errors"
-            >
-              <template v-slot:label>
-                <div>
-                  {{ $t("general.iAcceptThe") }}
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <a
-                        target="_blank"
-                        @click.stop="isTermsModalOpen = true"
-                        v-on="on"
-                      >
-                        {{ $t("termsOfUse.termsOfUse") }}
-                      </a>
-                    </template>
-                    {{ $t("userActions.clickToRead") }}
-                  </v-tooltip>
-                </div>
-              </template>
-            </v-checkbox>
-          </validation-provider>
-          <v-btn
-            class="white--text mt-6"
-            type="submit"
-            color="primary"
-            elevation="3"
-            v-text="$t('auth.finishRegistration')"
-            :disabled="invalid"
-            block
-          />
-          <v-btn
-            outlined
-            block
-            to="/"
-            class="mt-4"
-            color="primary"
-            elevation="3"
-            v-text="$t('general.homepage')"
-          />
+              elevation="3"
+              v-text="$t('auth.finishRegistration')"
+              :disabled="invalid"
+              block
+            />
+            <v-btn
+              outlined
+              block
+              to="/"
+              class="mt-4"
+              color="primary"
+              elevation="3"
+              v-text="$t('general.homepage')"
+            />
         </form>
       </validation-observer>
     </v-card>
@@ -113,39 +78,22 @@
         {{ $t("general.homepage") }}
       </template>
     </modal>
-    <detail-modal
-      min-width="300"
-      :title="$t('termsOfUse.termsOfUse')"
-      v-model="isTermsModalOpen"
-    >
-      <div class="terms-of-use-text mt-8">
-        {{ termsOfUseText }}
-      </div>
-    </detail-modal>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import debounce from "lodash/debounce"
-import Api from "@/api"
-import Modal from "@/components/Modal"
-import DetailModal from "@/components/DetailModal"
+import Api from "../api"
+import Modal from "../components/Modal"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
     Modal,
-    DetailModal,
   },
   props: {
-    mode: {
-      type: String,
-      validator(value) {
-        return ["init", "recover"].includes(value)
-      },
-    },
     uid: {
       type: String,
       required: true,
@@ -157,27 +105,17 @@ export default {
   },
 
   data: () => ({
-    isTermsModalOpen: false,
     showPass: false,
     popupMsg: "",
     identityNumber: "",
     password: "",
     passwordConfirmation: "",
-    isTermsOfUseAgreementAccepted: false,
-    termsOfUseText: "",
     // for redirection to login screen on success
     modalRedirectUrl: "",
   }),
 
-  async mounted() {
-    const texts = await this.getTermsOfUseTexts()
-    this.termsOfUseText = texts[0].documentText
-  },
-
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
-    ...mapActions("termsOfUse", ["getTermsOfUseTexts", "updateTermsOfUseAcceptance"]),
-    ...mapActions("user", ["getUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
@@ -193,15 +131,11 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    async handleSubmitSuccess({ email }) {
+    handleSubmitSuccess({ email }) {
       // login after reset pass
       try {
         this.showMessage(this.$t("auth.registrationSucceeded"))
-        await this.login({ email, password: this.password, redirect: false })
-        if (this.mode === "init") {
-          await this.updateTermsOfUseAcceptance()
-        }
-        this.$router.push({ name: "Dashboard" })
+        this.login({ email, password: this.password })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
@@ -234,8 +168,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.terms-of-use-text {
-  white-space: pre-line;
-}
-</style>

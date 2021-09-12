@@ -8,11 +8,8 @@
 </template>
 
 <script>
-import Snackbar from "@/components/Snackbar"
-import { onIdle } from "@/plugins/idleVue"
-
+import Snackbar from "./components/Snackbar"
 export default {
   components: { Snackbar },
-  onIdle,
 }
 </script>

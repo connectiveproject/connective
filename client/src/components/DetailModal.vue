@@ -1,7 +1,7 @@
 <template>
   <div v-show="value">
     <v-overlay />
-    <v-card v-bind="$attrs" class="scroll px-7 py-5 fixed-center z-index-5" max-height="700" max-width="344">
+    <v-card v-bind="$attrs" class="px-7 py-5 fixed-center z-index-5" max-width="344">
       <v-card-text>
         <p v-text="topSubtitle" />
         <p class="text-h4 text--primary" v-text="title" />
@@ -24,8 +24,6 @@
 </template>
 
 <script>
-import i18n from "@/plugins/i18n"
-
 export default {
   inheritAttrs: false,
   props: {
@@ -48,7 +46,7 @@ export default {
     },
     buttonText: {
       type: String,
-      default: i18n.t("userActions.close"),
+      default: "Close",
     },
   },
   methods: {

@@ -39,13 +39,6 @@
               @click:append="showPass = !showPass"
             />
           </validation-provider>
-          <router-link
-            data-testid="forgot-pass-btn"
-            class="router-link text-decoration-none"
-            :to="{ name: 'RecoverPassword' }"
-          >
-            {{ $t("general.forgotYourPassword?") }}
-          </router-link>
 
           <div class="mx-auto d-flex justify-center mt-8 mb-4">
             <v-btn
@@ -122,8 +115,5 @@ export default {
 <style lang="scss" scoped>
 #letter-spacing-2 {
   letter-spacing: 2px !important;
-}
-.router-link:hover {
-    text-decoration: underline !important;
 }
 </style>

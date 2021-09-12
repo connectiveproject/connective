@@ -21,7 +21,6 @@ import consumerEvent from "./consumerEvent"
 import instructorEvent from "./instructorEvent"
 import eventFeedPost from "./eventFeedPost"
 import vendorEvent from "./vendorEvent"
-import termsOfUse from "./termsOfUse"
 
 export default {
   utils,
@@ -47,5 +46,4 @@ export default {
   instructorEvent,
   eventFeedPost,
   vendorEvent,
-  termsOfUse,
 }

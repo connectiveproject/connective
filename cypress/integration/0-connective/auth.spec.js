@@ -2,7 +2,7 @@
 
 describe("auth", () => {
   beforeEach(() => {
-    cy.visit(Cypress.env("CLIENT_URL"))
+    cy.visit(Cypress.env("clientUrl"))
   })
 
   it("should login as a coordinator", () => {
@@ -32,22 +32,5 @@ describe("auth", () => {
     cy.get('[data-testid="form-3"]').submit()
     cy.get('[data-testid="modal-button"]').click()
     cy.url().should("contain", "dashboard")
-  })
-
-  it("should send password recovery email to consumer", () => {
-    const email = "test-consumer-10@example.com"
-    const resetText = "Connective Password Reset"
-    cy.get('[data-testid="forgot-pass-btn"]').click()
-    cy.get('[data-testid="email-input"]').type(email)
-    cy.wait(500) // eslint-disable-line
-    cy.confirmCaptcha()
-    cy.wait(500) // eslint-disable-line
-    cy.get("form").submit()
-    cy.url().should("contain", "login")
-    if (Cypress.env("MAILBOX_URL")) {
-      cy.visit(Cypress.env("MAILBOX_URL"))
-      cy.contains(email)
-      cy.contains(resetText)
-    }
   })
 })

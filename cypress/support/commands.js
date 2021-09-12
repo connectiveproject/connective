@@ -23,15 +23,4 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import "cypress-file-upload"
-
-Cypress.Commands.add("confirmCaptcha", function () {
-    Cypress.config("chromeWebSecurity", false)
-    cy.get("iframe")
-    .then($iframe => {
-        const $body = $iframe.contents().find("body")
-        cy.wrap($body)
-          .find(".recaptcha-checkbox-border")
-          .click({ force: true })
-    })
-})
+import "cypress-file-upload";

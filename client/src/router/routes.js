@@ -25,7 +25,6 @@ import InviteCoordinators from "../views/Invite/InviteCoordinators"
 import InviteInstructors from "../views/Invite/InviteInstructors"
 import InviteVendors from "../views/Invite/InviteVendors"
 import ResetPassword from "../views/ResetPassword"
-import RecoverPassword from "../views/RecoverPassword"
 import GenericError from "../views/Error"
 import ProgramModal from "../views/ProgramModal"
 import MyGroups from "../views/MyGroups/MyGroups"
@@ -84,13 +83,7 @@ export default [
             beforeEnter: guards.loginIfSignupComplete,
           },
           {
-            path: "recover-password",
-            name: "RecoverPassword",
-            component: RecoverPassword,
-            beforeEnter: guards.loginIfAuthenticated,
-          },
-          {
-            path: "reset-password/:mode/:uid/:token",
+            path: "reset-password/:uid/:token",
             name: "ResetPassword",
             component: ResetPassword,
             beforeEnter: guards.loginIfAuthenticated,
