@@ -1,12 +1,16 @@
 <template>
   <div>
     <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
-      <v-card-title class="text-h5 justify-center mb-6">{{
-        $t("general.welcomeToConnective")
-      }}</v-card-title>
-      <v-card-subtitle class="text-h6 text-center mb-8">{{
-        $t("auth.toStartPleaseChooseNewPassword")
-      }}</v-card-subtitle>
+      <v-card-title class="text-h5 justify-center mb-6">
+        {{
+          mode === "init"
+            ? $t("general.welcomeToConnective")
+            : $t("auth.passwordReset")
+        }}
+      </v-card-title>
+      <v-card-subtitle v-if="mode === 'init'" class="text-h6 text-center mb-8">
+        {{ $t("auth.toStartPleaseChooseNewPassword") }}
+      </v-card-subtitle>
       <validation-observer v-slot="{ invalid }">
         <form @submit.prevent="onSubmit">
           <validation-provider
@@ -47,24 +51,44 @@
               * {{ $t("errors.strongPassHint") }}.
             </div>
           </validation-provider>
-            <v-btn
-              class="white--text mt-6"
-              type="submit"
+          <validation-provider
+            v-if="mode === 'init'"
+            v-slot="{ errors }"
+            name="tou"
+            :rules="{ required: { allowFalse: false } }"
+          >
+            <v-checkbox
+              v-model="isTermsOfUseAgreementAccepted"
+              name="tou"
               color="primary"
-              elevation="3"
-              v-text="$t('auth.finishRegistration')"
-              :disabled="invalid"
-              block
-            />
-            <v-btn
-              outlined
-              block
-              to="/"
-              class="mt-4"
-              color="primary"
-              elevation="3"
-              v-text="$t('general.homepage')"
-            />
+              :error-messages="errors"
+            >
+              <template v-slot:label>
+                <div>
+                  {{ $t("general.iAcceptThe") }}
+                </div>
+              </template>
+            </v-checkbox>
+          </validation-provider>
+          <a :href="TERMS_OF_USE_URL" target="_blank">{{ $t("termsOfUse.termsOfUse") }}</a>
+          <v-btn
+            class="white--text mt-6"
+            type="submit"
+            color="primary"
+            elevation="3"
+            v-text="$t('auth.finishRegistration')"
+            :disabled="invalid"
+            block
+          />
+          <v-btn
+            outlined
+            block
+            to="/"
+            class="mt-4"
+            color="primary"
+            elevation="3"
+            v-text="$t('general.homepage')"
+          />
         </form>
       </validation-observer>
     </v-card>
@@ -83,9 +107,10 @@
 <script>
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import { TERMS_OF_USE_URL } from "../helpers/constants/constants"
 import debounce from "lodash/debounce"
-import Api from "../api"
-import Modal from "../components/Modal"
+import Api from "@/api"
+import Modal from "@/components/Modal"
 
 export default {
   components: {
@@ -94,6 +119,12 @@ export default {
     Modal,
   },
   props: {
+    mode: {
+      type: String,
+      validator(value) {
+        return ["init", "recover"].includes(value)
+      },
+    },
     uid: {
       type: String,
       required: true,
@@ -105,17 +136,27 @@ export default {
   },
 
   data: () => ({
+    TERMS_OF_USE_URL,
     showPass: false,
     popupMsg: "",
     identityNumber: "",
     password: "",
     passwordConfirmation: "",
+    isTermsOfUseAgreementAccepted: false,
+    termsOfUseText: "",
     // for redirection to login screen on success
     modalRedirectUrl: "",
   }),
 
+  async mounted() {
+    const texts = await this.getTermsOfUseText()
+    this.termsOfUseText = texts[0].documentText
+  },
+
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
+    ...mapActions("termsOfUse", ["getTermsOfUseText", "updateTermsOfUseAcceptance"]),
+    ...mapActions("user", ["getUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
       function () {
@@ -131,11 +172,15 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    handleSubmitSuccess({ email }) {
+    async handleSubmitSuccess({ email }) {
       // login after reset pass
       try {
         this.showMessage(this.$t("auth.registrationSucceeded"))
-        this.login({ email, password: this.password })
+        await this.login({ email, password: this.password, redirect: false })
+        if (this.mode === "init") {
+          await this.updateTermsOfUseAcceptance()
+        }
+        this.$router.push({ name: "Dashboard" })
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
@@ -168,3 +213,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.terms-of-use-text {
+  white-space: pre-line;
+}
+</style>

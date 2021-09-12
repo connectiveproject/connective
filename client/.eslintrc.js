@@ -3,7 +3,8 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ["plugin:vue/essential", "eslint:recommended"],
+  plugins: ["cypress"],
+  extends: ["plugin:vue/essential", "eslint:recommended", "plugin:cypress/recommended"],
   parserOptions: {
     parser: "babel-eslint",
   },
