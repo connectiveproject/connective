@@ -42,5 +42,4 @@ repos:
           additional_dependencies:
           -   babel-eslint@^10.1.0
           -   eslint-plugin-vue@^6.2.2
-          -   eslint-plugin-cypress@^2.11.3
           -   eslint@^7.26.0

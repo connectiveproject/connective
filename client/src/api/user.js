@@ -2,7 +2,7 @@ import axios from "axios"
 import {
   GET_USER_DETAILS_API_URL,
   UPDATE_USER_API_URL,
-} from "@/helpers/constants/constants"
+} from "../helpers/constants/constants"
 
 const user = {
   getUserDetails() {

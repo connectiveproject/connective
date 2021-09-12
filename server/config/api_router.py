@@ -18,7 +18,6 @@ from server.organizations.api.views import (
 )
 from server.posts.api.views import PostImageViewSet, PostViewSet
 from server.schools.api.views import SchoolViewSet
-from server.termsofuse.api.views import TermsOfUseDocumentViewSet
 from server.users.api.views import (
     ConsumerProfileViewSet,
     CoordinatorProfileViewSet,
@@ -61,7 +60,6 @@ router.register(
     SupervisorProfileViewSet,
     basename="supervisors_profiles",
 )
-router.register("terms_of_use_docs", TermsOfUseDocumentViewSet)
 router.register("organizations", OrganizationViewSet, basename="organizations")
 router.register("activity_media", ActivityMediaViewSet, basename="activity_media")
 router.register("activities", ActivityViewSet, basename="activities")

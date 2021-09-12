@@ -25,7 +25,6 @@ import consumerEvent from "./modules/consumerEvent"
 import instructorEvent from "./modules/instructorEvent"
 import eventFeedPost from "./modules/eventFeedPost"
 import vendorEvent from "./modules/vendorEvent"
-import termsOfUse from "./modules/termsOfUse"
 
 Vue.use(Vuex)
 
@@ -56,7 +55,6 @@ const store = new Vuex.Store({
     instructorEvent,
     eventFeedPost,
     vendorEvent,
-    termsOfUse,
   },
   actions: {
     flushState({ dispatch }) {
