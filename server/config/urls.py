@@ -11,7 +11,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from server.users.api.views import PassResetConfirmView
 
-admin.site.__class__ = OTPAdminSite
+if settings.OTP_ENABLED:
+    admin.site.__class__ = OTPAdminSite
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
