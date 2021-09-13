@@ -11,7 +11,7 @@ function createBackendBaseUrl() {
   return "https://calm-hamlet-63949.herokuapp.com/"
 }
 
-process.env.VUE_APP_BACKEND_URL = `${createBackendBaseUrl()}api`
+process.env.VUE_APP_BACKEND_URL = process.env.VUE_APP_BACKEND_URL || `${createBackendBaseUrl()}api`
 
 module.exports = {
   devServer: {
