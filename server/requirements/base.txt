@@ -8,6 +8,7 @@ hiredis==1.1.0  # https://github.com/redis/hiredis-py
 celery==4.4.6  # pyup: < 5.0,!=4.4.7  # https://github.com/celery/celery
 django-celery-beat==2.2.0  # https://github.com/celery/django-celery-beat
 uvicorn[standard]==0.13.4  # https://github.com/encode/uvicorn
+qrcode==7.3 # https://github.com/lincolnloop/python-qrcode
 
 # Django
 # ------------------------------------------------------------------------------
@@ -26,3 +27,4 @@ django-filter==2.4.0 # https://django-filter.readthedocs.io/en/stable/
 django-jazzmin==2.4.7 # https://github.com/farridav/django-jazzmin
 django-taggit==1.5.1 # https://django-taggit.readthedocs.io/
 djangorestframework-csv==2.1.1 # https://github.com/mjumbewu/django-rest-framework-csv
+django-otp==1.0.6 # https://django-otp-official.readthedocs.io/en/stable/

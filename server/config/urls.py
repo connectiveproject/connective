@@ -6,10 +6,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from django_otp.admin import OTPAdminSite
 from rest_framework.authtoken.views import obtain_auth_token
 
 from server.termsofuse.views import terms_of_use_document_view
 from server.users.api.views import PassResetConfirmView
+
+if settings.OTP_ENABLED:
+    admin.site.__class__ = OTPAdminSite
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
