@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django_otp.admin import OTPAdminSite
 from rest_framework.authtoken.views import obtain_auth_token
 
+from server.termsofuse.views import terms_of_use_document_view
 from server.users.api.views import PassResetConfirmView
 
 if settings.OTP_ENABLED:
@@ -16,6 +17,11 @@ if settings.OTP_ENABLED:
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path(
+        "terms_of_use_document/",
+        terms_of_use_document_view,
+        name="terms_of_use_document",
+    ),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
