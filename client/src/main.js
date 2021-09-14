@@ -6,12 +6,11 @@ import vuetify from "@/plugins/vuetify"
 import i18n from "@/plugins/i18n"
 import cookies from "@/plugins/cookies"
 import Api from "@/api"
+import "@/filters"
 import "@/helpers/validators"
 import "intro.js/introjs.css"
 import "intro.js/introjs-rtl.css"
 import "nprogress/nprogress.css"
-import "@/styles/main.scss"
-import "@/filters"
 
 Vue.use(cookies)
 Vue.config.productionTip = false
