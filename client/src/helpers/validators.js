@@ -1,5 +1,5 @@
 import moment from "moment"
-import i18n from "../plugins/i18n"
+import i18n from "@/plugins/i18n"
 import {
   required,
   email,
