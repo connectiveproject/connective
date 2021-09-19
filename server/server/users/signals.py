@@ -1,8 +1,8 @@
-from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
-from django.contrib.auth.signals import user_logged_in
-from django.dispatch import receiver
 import analytics
+from django.contrib.auth import get_user_model
+from django.contrib.auth.signals import user_logged_in
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .models import (
     Consumer,
@@ -38,12 +38,14 @@ def update_user_profile(sender, instance, created, **kwargs):
         )
 
 
-
 @receiver(user_logged_in)
 def post_login(sender, user, request, **kwargs):
-    analytics.identify(user.slug, {
-        "name": user.name,
-        "email": user.email,
-        "user_type": user.user_type,
-    })
+    analytics.identify(
+        user.slug,
+        {
+            "name": user.name,
+            "email": user.email,
+            "user_type": user.user_type,
+        },
+    )
     analytics.track(user.slug, "login")
