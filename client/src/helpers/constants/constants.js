@@ -254,3 +254,10 @@ export const SERVER = {
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"
+export const SEGMENT_EVENTS = {
+  usersInvitedViaTable: "users_invited_via_table",
+  usersInvitedViaImport: "users_invited_via_import",
+  profileEdited: "profile_edited",
+  programOpened: "program_opened",
+  programJoined: "program_joined",
+}

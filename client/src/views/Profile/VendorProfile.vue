@@ -39,6 +39,7 @@ import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "@/vuex/store"
 import { ValidationObserver } from "vee-validate"
+import { SEGMENT_EVENTS } from "@/helpers/constants/constants"
 import Modal from "../../components/Modal"
 import InputDrawer from "../../components/InputDrawer"
 import EditableAvatar from "../../components/Avatar/EditableAvatar"
@@ -134,6 +135,7 @@ export default {
         await this.updateUserDetails({ slug: this.slug, userDetails })
         await this.updateProfile({ slug: this.slug, profile })
         this.popupMsg = this.$t("general.detailsSuccessfullyUpdated")
+        window.analytics.track(SEGMENT_EVENTS.profileEdited)
       } catch (err) {
         if (
           err.response.status === 400 &&

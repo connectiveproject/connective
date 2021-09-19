@@ -55,7 +55,7 @@
                 : $t('userActions.leave')
             "
             @secondary-click="onJoinClick(program)"
-            @click="openProgram(program.slug)"
+            @click="openProgram(program)"
           >
             <template v-slot:subtitle>
               <span> {{ $t("general.status") }}: </span>
@@ -79,7 +79,7 @@
 import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
 import Api from "../../api"
-import { SERVER } from "../../helpers/constants/constants"
+import { SERVER, SEGMENT_EVENTS } from "../../helpers/constants/constants"
 import InfoCard from "../../components/InfoCard"
 import SideDrawer from "../../components/SideDrawer"
 import PaginationSearchBar from "../../components/PaginationSearchBar"
@@ -120,9 +120,16 @@ export default {
       this.incrementPage()
     },
 
-    openProgram(slug) {
+    openProgram(program) {
       this.isProgramOpen = true
-      this.$router.push({ name: "ConsumerProgramModal", params: { slug } })
+      window.analytics.track(SEGMENT_EVENTS.programOpened, {
+        program_slug: program.slug,
+        program_name: program.name,
+      })
+      this.$router.push({
+        name: "ConsumerProgramModal",
+        params: { slug: program.slug },
+      })
     },
 
     async getPrograms() {
@@ -148,6 +155,10 @@ export default {
             SERVER.consumerProgramJoinStatus.notJoined
           ) {
             await this.joinProgram(program.slug)
+            window.analytics.track(SEGMENT_EVENTS.programJoined, {
+              program_slug: program.slug,
+              program_name: program.name,
+            })
             return this.showMessage(
               this.$t("success.joinRequestSentSuccessfully")
             )
