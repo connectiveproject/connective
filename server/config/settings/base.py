@@ -349,3 +349,9 @@ GOOGLE_RECAPTCHA_SECRET_KEY = env(
 )
 
 OTP_ENABLED = env.bool("OTP_ENABLED", True)
+
+
+
+
+import analytics
+analytics.write_key = env("ANALYTICS_WRITE_KEY", default="")
