@@ -40,6 +40,11 @@ const user = {
         let res = await Api.user.getUserDetails()
         commit("SET_USER_DETAILS", res.data)
       }
+      window.analytics.identify(state.userDetails.slug, {
+        name: state.userDetails.name,
+        email: state.userDetails.email,
+        user_type: state.userDetails.userType,
+      })
       return state.userDetails
     },
     async updateUserDetails({ commit, state }, { slug, userDetails }) {

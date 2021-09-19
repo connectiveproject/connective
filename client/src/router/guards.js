@@ -150,4 +150,9 @@ export default {
     to.params.mediaList = mediaList
     next()
   },
+  segmentNotifyPage(to, from, next) {
+    // https://github.com/segmentio/analytics-vue#-step-2-track-page-views-in-an-spa
+    window.analytics.page(to.name)
+    next()
+  }
 }
