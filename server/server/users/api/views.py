@@ -2,8 +2,9 @@ import csv
 import io
 import os
 
+import analytics
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
-from dj_rest_auth.views import PasswordResetConfirmView
+from dj_rest_auth.views import LoginView, PasswordResetConfirmView
 from django.contrib.auth import get_user_model
 from django.utils.encoding import force_text
 from rest_framework import filters, status
@@ -64,6 +65,24 @@ class PassResetConfirmView(PasswordResetConfirmView):
         pk = force_text(uid_decoder(request.data["uid"]))
         email = User.objects.get(pk=pk).email
         return Response({"email": email})
+
+
+class LoginView(LoginView):
+    """add analytics functionality"""
+
+    def login(self):
+        super().login()
+        user = self.user
+        print(user)
+        analytics.identify(
+            user.slug,
+            {
+                "name": user.name,
+                "email": user.email,
+                "user_type": user.user_type,
+            },
+        )
+        analytics.track(user.slug, "app_login")
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
