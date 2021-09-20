@@ -10,7 +10,7 @@ from django_otp.admin import OTPAdminSite
 from rest_framework.authtoken.views import obtain_auth_token
 
 from server.termsofuse.views import terms_of_use_document_view
-from server.users.api.views import PassResetConfirmView
+from server.users.api.views import LoginView, PassResetConfirmView
 
 if settings.OTP_ENABLED:
     admin.site.__class__ = OTPAdminSite
@@ -46,6 +46,11 @@ urlpatterns += [
         "api/auth/password-reset/confirm/<str:uidb64>/<str:token>/",
         PassResetConfirmView.as_view(),
         name="password_reset_confirm",
+    ),
+    path(
+        "api/auth/login/",
+        LoginView.as_view(),
+        name="login",
     ),
     path(
         "api/auth/",

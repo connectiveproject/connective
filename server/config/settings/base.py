@@ -3,6 +3,7 @@ Base settings to build other settings files upon.
 """
 from pathlib import Path
 
+import analytics
 import environ
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
@@ -349,3 +350,6 @@ GOOGLE_RECAPTCHA_SECRET_KEY = env(
 )
 
 OTP_ENABLED = env.bool("OTP_ENABLED", True)
+
+
+analytics.write_key = env("ANALYTICS_WRITE_KEY", default="")
