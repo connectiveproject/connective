@@ -26,7 +26,11 @@ from server.users.models import (
     Vendor,
     VendorProfile,
 )
-from server.utils.analytics_utils import Analytics
+from server.utils.analytics_utils import (
+    EVENT_APP_LOGIN,
+    EVENT_INITIAL_PASSWORD_CREATED,
+    identify_track,
+)
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowCoordinator,
@@ -64,7 +68,7 @@ class PassResetConfirmView(PasswordResetConfirmView):
         # get and return the correlating email address
         pk = force_text(uid_decoder(request.data["uid"]))
         user = User.objects.get(pk=pk)
-        Analytics.identify_track(user, Analytics.EVENT_INITIAL_PASSWORD_CREATED)
+        identify_track(user, EVENT_INITIAL_PASSWORD_CREATED)
         return Response({"email": user.email})
 
 
@@ -74,7 +78,7 @@ class LoginView(LoginView):
     def login(self):
         super().login()
         user = self.user
-        Analytics.identify_track(user, Analytics.EVENT_APP_LOGIN)
+        identify_track(user, EVENT_APP_LOGIN)
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
