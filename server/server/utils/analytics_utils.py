@@ -18,29 +18,26 @@ def identify_track(user, event_name, properties=None):
     return analytics.track(user.slug, event_name, properties)
 
 
-def serializer_create_track(event_name, prop_fields, fields_rename={}):
+def serializer_create_track(event_name, props_fields, fields_rename={}):
     """
-    :list prop_fields: model fields to add as props
+    decorator used for event tracking (analytics) on serializer create() calls
+
+    :string event_name: name of the event to be tracked
+    :list props_fields: model fields to add as props to tracker
+    :dict fields_rename: model fields rename. format: { original_field: new_field, ... }
     """
 
-    def track_deco(func):
-        """
-        decorator used for tracking serializer create() func calls
-        """
-
+    def outer_wrapper(serializer_create):
         def wrapper(self, validated_data):
-            import ipdb
-
-            ipdb.set_trace()
-            result = func(validated_data)
+            result = serializer_create(self, validated_data)
             props = {
                 fields_rename.get(k) or k: v
                 for k, v in validated_data.items()
-                if k in prop_fields
+                if k in props_fields
             }
             analytics.track(self.context["request"].user.slug, event_name, props)
             return result
 
         return wrapper
 
-    return track_deco
+    return outer_wrapper
