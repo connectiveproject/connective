@@ -7,8 +7,8 @@ from server.utils.analytics_utils.constants import (
     EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
 )
 from server.utils.analytics_utils.decorators import (
-    track_admin_create,
-    track_admin_field_update,
+    TrackAdminCreate,
+    TrackAdminFieldUpdate,
 )
 
 from .models import (
@@ -57,7 +57,7 @@ class SchoolActivityOrderAdmin(admin.ModelAdmin):
     list_filter = ["status"]
     actions = [approve_order]
 
-    @track_admin_field_update(
+    @TrackAdminFieldUpdate(
         EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
         ["slug", "activity__slug", "school__slug", "status"],
         field_to_track="status",
@@ -75,7 +75,7 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ["slug", "name", "originization", "tags"]
     search_fields = ["name"]
 
-    @track_admin_create(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
+    @TrackAdminCreate(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
 
@@ -100,7 +100,7 @@ class SchoolActivityGroupAdmin(admin.ModelAdmin):
     def activity(self, obj):
         return obj.activity_order.activity
 
-    @track_admin_create(
+    @TrackAdminCreate(
         EVENT_ACTIVITY_GROUP_CREATED,
         ["slug", "name", "group_type", "activity_order__slug"],
         fields_rename={"activity_order__slug": "activity_order_slug"},

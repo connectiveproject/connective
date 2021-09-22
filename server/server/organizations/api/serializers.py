@@ -17,8 +17,8 @@ from server.utils.analytics_utils.constants import (
     EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
 )
 from server.utils.analytics_utils.decorators import (
-    track_serializer_create,
-    track_serializer_field_update,
+    TrackSerializerCreate,
+    TrackSerializerFieldUpdate,
 )
 
 
@@ -157,7 +157,7 @@ class VendorActivitySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["slug", "originization"]
 
-    @track_serializer_create(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
+    @TrackSerializerCreate(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
     def create(self, validated_data):
         return super().create(validated_data)
 
@@ -273,7 +273,7 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
 
         return data
 
-    @track_serializer_field_update(
+    @TrackSerializerFieldUpdate(
         EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
         ["slug", "activity__slug", "school__slug", "status"],
         field_to_track="status",
@@ -335,7 +335,7 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "school_name",
         ]
 
-    @track_serializer_create(
+    @TrackSerializerCreate(
         EVENT_ACTIVITY_GROUP_CREATED,
         ["slug", "name", "group_type", "activity_order__slug"],
         fields_rename={"activity_order__slug": "activity_order_slug"},
