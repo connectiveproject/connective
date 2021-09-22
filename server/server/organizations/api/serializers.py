@@ -11,6 +11,7 @@ from server.organizations.models import (
 )
 from server.schools.models import School
 from server.users.models import Consumer, Instructor
+from server.utils.analytics_utils import EVENT_ACTIVITY_CREATED, serializer_create_track
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -147,6 +148,10 @@ class VendorActivitySerializer(serializers.ModelSerializer):
             "tags",
         ]
         read_only_fields = ["slug", "originization"]
+
+    @serializer_create_track(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 
 class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
