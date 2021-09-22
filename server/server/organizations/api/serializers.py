@@ -11,7 +11,12 @@ from server.organizations.models import (
 )
 from server.schools.models import School
 from server.users.models import Consumer, Instructor
-from server.utils.analytics_utils import EVENT_ACTIVITY_CREATED, serializer_create_track
+from server.utils.analytics_utils import (
+    EVENT_ACTIVITY_CREATED,
+    EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
+    track_serializer_create,
+    track_serializer_field_update,
+)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -149,7 +154,7 @@ class VendorActivitySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["slug", "originization"]
 
-    @serializer_create_track(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
+    @track_serializer_create(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
     def create(self, validated_data):
         return super().create(validated_data)
 
@@ -264,6 +269,14 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"status": "invalid status"})
 
         return data
+
+    @track_serializer_field_update(
+        EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
+        ["slug", "activity__slug", "school__slug", "status"],
+        field_to_track="status",
+    )
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
 
 
 class SchoolActivityGroupSerializer(serializers.ModelSerializer):
