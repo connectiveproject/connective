@@ -3,7 +3,8 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from server.utils.analytics_utils import EVENT_SESSION_LOGIN, identify_track
+from server.utils.analytics_utils import identify_track
+from server.utils.analytics_utils.constants import EVENT_SESSION_LOGIN
 
 from .models import (
     Consumer,

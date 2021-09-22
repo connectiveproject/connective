@@ -1,0 +1,6 @@
+EVENT_SESSION_LOGIN = "session_login"
+EVENT_APP_LOGIN = "app_login"
+EVENT_INITIAL_PASSWORD_CREATED = "initial_password_created"
+EVENT_ACTIVITY_CREATED = "activity_created"
+EVENT_ACTIVITY_ORDER_STATUS_UPDATED = "activity_order_status_updated"
+EVENT_ACTIVITY_GROUP_CREATED = "activity_group_created"

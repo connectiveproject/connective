@@ -11,9 +11,12 @@ from server.organizations.models import (
 )
 from server.schools.models import School
 from server.users.models import Consumer, Instructor
-from server.utils.analytics_utils import (
+from server.utils.analytics_utils.constants import (
     EVENT_ACTIVITY_CREATED,
+    EVENT_ACTIVITY_GROUP_CREATED,
     EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
+)
+from server.utils.analytics_utils.decorators import (
     track_serializer_create,
     track_serializer_field_update,
 )
@@ -274,6 +277,10 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
         EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
         ["slug", "activity__slug", "school__slug", "status"],
         field_to_track="status",
+        fields_rename={
+            "activity__slug": "activity_slug",
+            "school__slug": "school_slug",
+        },
     )
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
@@ -327,6 +334,14 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "instructor_name",
             "school_name",
         ]
+
+    @track_serializer_create(
+        EVENT_ACTIVITY_GROUP_CREATED,
+        ["slug", "name", "group_type", "activity_order__slug"],
+        fields_rename={"activity_order__slug": "activity_order_slug"},
+    )
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 
 class ConsumerRequestDataSerializer(serializers.ModelSerializer):

@@ -26,10 +26,10 @@ from server.users.models import (
     Vendor,
     VendorProfile,
 )
-from server.utils.analytics_utils import (
+from server.utils.analytics_utils import identify_track
+from server.utils.analytics_utils.constants import (
     EVENT_APP_LOGIN,
     EVENT_INITIAL_PASSWORD_CREATED,
-    identify_track,
 )
 from server.utils.permission_classes import (
     AllowConsumer,
