@@ -21,8 +21,6 @@ import {
 
 configure({
   defaultMessage(field, values) {
-    // override the field name
-    values._field_ = i18n.t(`validation.${field}`)
     return i18n.t(`validation.${values._rule_}`, values)
   }
 })
