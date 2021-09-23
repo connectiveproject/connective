@@ -48,7 +48,7 @@
               * {{ $t("auth.chooseAPasswordYouWillRemember") }}.
             </div>
             <div class="overline line-height-1-7 pt-2">
-              * {{ $t("errors.strongPassHint") }}.
+              * {{ $t("validation.strongPass") }}.
             </div>
           </validation-provider>
           <validation-provider
