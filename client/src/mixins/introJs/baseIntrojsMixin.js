@@ -11,11 +11,11 @@ export default {
   methods: {
     startIntro() {
       if (config[this.$options.name]) {
-        const componentSteps = this.componentConfigToSteps(
-          config[this.$options.name]()
+        const componentSteps = this.componentconfigToSteps(
+          config[this.$options.name]
         )
         const intro = introJs().setOptions({
-          ...buttonLabels(),
+          ...buttonLabels,
           showProgress: true,
           showBullets: false,
           steps: componentSteps,
@@ -29,10 +29,10 @@ export default {
         return intro.start()
       }
       return introJs()
-        .setOptions({ ...buttonLabels(), steps: config.noIntroMsg })
+        .setOptions({ ...buttonLabels, steps: config.noIntroMsg })
         .start()
     },
-    componentConfigToSteps(config) {
+    componentconfigToSteps(config) {
       // return introJs format steps, based on selector
       return config.map(introObj => {
         if (!introObj.selector) {

@@ -1,19 +1,18 @@
 import i18n from "@/plugins/i18n"
 
-export const buttonLabels = () => ({
+export const buttonLabels = {
   nextLabel: i18n.t("userActions.next"),
   prevLabel: i18n.t("userActions.back"),
   doneLabel: i18n.t("userActions.finish"),
-})
-
+}
 export const config = {
-  noIntroMsg: () => [
+  noIntroMsg: [
     {
       title: i18n.t("general.message"),
       intro: i18n.t("errors.explanationForThisPageDoesNotExist"),
     },
   ],
-  VendorDashboard: () => [
+  VendorDashboard: [
     {
       title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
@@ -36,7 +35,7 @@ export const config = {
       intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
-  CoordinatorDashboard: () => [
+  CoordinatorDashboard: [
     {
       title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
@@ -59,7 +58,7 @@ export const config = {
       intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
-  StudentDashboard: () => [
+  StudentDashboard: [
     {
       title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
@@ -82,7 +81,7 @@ export const config = {
       intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
-  InstructorDashboard: () => [
+  InstructorDashboard: [
     {
       title: i18n.t("introjs.welcome!"),
       intro: i18n.t(
@@ -105,7 +104,7 @@ export const config = {
       intro: i18n.t("introjs.clickToNavigateToTheDifferentPages"),
     },
   ],
-  VendorProgramList: () => [
+  VendorProgramList: [
     {
       title: i18n.t("introjs.myPrograms"),
       intro: i18n.t(
@@ -118,7 +117,7 @@ export const config = {
       intro: i18n.t("introjs.clickTheButtonToAddNewPrograms"),
     },
   ],
-  VendorEventsApprove: () => [
+  VendorEventsApprove: [
     {
       title: i18n.t("introjs.requestsForEvents"),
       selector: "actions-table",
@@ -127,7 +126,7 @@ export const config = {
       ),
     },
   ],
-  SchoolInviteWrapper: () => [
+  SchoolInviteWrapper: [
     {
       title: i18n.t("introjs.inviteUsers"),
       intro: i18n.t(
@@ -154,7 +153,7 @@ export const config = {
       ),
     },
   ],
-  OrganizationInviteWrapper: () => [
+  OrganizationInviteWrapper: [
     {
       title: i18n.t("introjs.inviteUsers"),
       intro: i18n.t(
@@ -174,7 +173,7 @@ export const config = {
       ),
     },
   ],
-  ConsumerProgramsExplorer: () => [
+  ConsumerProgramsExplorer: [
     {
       title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
@@ -198,7 +197,7 @@ export const config = {
       ),
     },
   ],
-  ProgramsExplorer: () => [
+  ProgramsExplorer: [
     {
       title: i18n.t("introjs.programCatalog"),
       intro: i18n.t(
@@ -222,7 +221,7 @@ export const config = {
       ),
     },
   ],
-  ConsumerProfile: () => [
+  ConsumerProfile: [
     {
       title: i18n.t("introjs.myProfile"),
       intro: i18n.t(
@@ -230,13 +229,13 @@ export const config = {
       ),
     },
   ],
-  ConsumerMyGroups: () => [
+  ConsumerMyGroups: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  ConsumerMyEvents: () => [
+  ConsumerMyEvents: [
     {
       title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
@@ -251,7 +250,7 @@ export const config = {
       selector: "events-calendar",
     },
   ],
-  ConsumerPendingEventsFeedback: () => [
+  ConsumerPendingEventsFeedback: [
     {
       title: i18n.t("introjs.eventsFeedback"),
       intro: i18n.t(
@@ -260,13 +259,13 @@ export const config = {
       selector: "click-list",
     },
   ],
-  ConsumerEventFeedback: () => [
+  ConsumerEventFeedback: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  CoordinatorProfile: () => [
+  CoordinatorProfile: [
     {
       title: i18n.t("introjs.myProfile"),
       intro: i18n.t(
@@ -274,19 +273,19 @@ export const config = {
       ),
     },
   ],
-  SchoolDetails: () => [
+  SchoolDetails: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  ProgramModal: () => [
+  ProgramModal: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  MyGroups: () => [
+  MyGroups: [
     {
       title: i18n.t("introjs.myGroups"),
       intro: i18n.t(
@@ -301,7 +300,7 @@ export const config = {
       selector: "add-btn",
     },
   ],
-  MyEvents: () => [
+  MyEvents: [
     {
       title: i18n.t("introjs.myEvents"),
       intro: i18n.t(
@@ -323,55 +322,55 @@ export const config = {
       selector: "events-table-button",
     },
   ],
-  ConsumerList: () => [
+  ConsumerList: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  CoordinatorStatistics: () => [
+  CoordinatorStatistics: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  GroupDetail: () => [
+  GroupDetail: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  CoordinatorEventOrderStatus: () => [
+  CoordinatorEventOrderStatus: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  CoordinatorEventCreator: () => [
+  CoordinatorEventCreator: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  GroupEditor: () => [
+  GroupEditor: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  CreateGroup: () => [
+  CreateGroup: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  AssignGroupConsumers: () => [
+  AssignGroupConsumers: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  InstructorProfile: () => [
+  InstructorProfile: [
     {
       title: i18n.t("introjs.myProfile"),
       intro: i18n.t(
@@ -379,7 +378,7 @@ export const config = {
       ),
     },
   ],
-  InstructorUnsummarizedEvents: () => [
+  InstructorUnsummarizedEvents: [
     {
       title: i18n.t("introjs.eventsSummary"),
       intro: i18n.t(
@@ -388,7 +387,7 @@ export const config = {
       selector: "click-list",
     },
   ],
-  InstructorEventSummary: () => [
+  InstructorEventSummary: [
     {
       title: i18n.t("introjs.eventSummary"),
       intro: i18n.t("introjs.hereYouMaySummarizeAnEvent"),
@@ -408,13 +407,13 @@ export const config = {
       ),
     },
   ],
-  EventFeedView: () => [
+  EventFeedView: [
     {
       title: i18n.t("introjs.myFeed"),
       intro: i18n.t("introjs.hereYouMayViewPostsFromTheDifferentActivities"),
     },
   ],
-  VendorProfile: () => [
+  VendorProfile: [
     {
       title: i18n.t("introjs.myProfile"),
       intro: i18n.t(
@@ -422,25 +421,25 @@ export const config = {
       ),
     },
   ],
-  VendorDetailProgram: () => [
+  VendorDetailProgram: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  VendorProgramCreator: () => [
+  VendorProgramCreator: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  VendorProgramMediaUpload: () => [
+  VendorProgramMediaUpload: [
     {
       title: i18n.t("errors.oops"),
       intro: i18n.t("errors.noAvailableExplanation"),
     },
   ],
-  VendorGroupsTable: () => [
+  VendorGroupsTable: [
     {
       title: i18n.t("introjs.myGroups"),
       intro: i18n.t(

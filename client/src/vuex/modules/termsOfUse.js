@@ -4,7 +4,7 @@ function getDefaultState() {
   return {}
 }
 
-const user = {
+const termsOfUse = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
@@ -26,4 +26,4 @@ const user = {
   },
 }
 
-export default user
+export default termsOfUse
