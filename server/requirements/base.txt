@@ -28,3 +28,4 @@ django-jazzmin==2.4.7 # https://github.com/farridav/django-jazzmin
 django-taggit==1.5.1 # https://django-taggit.readthedocs.io/
 djangorestframework-csv==2.1.1 # https://github.com/mjumbewu/django-rest-framework-csv
 django-otp==1.0.6 # https://django-otp-official.readthedocs.io/en/stable/
+analytics-python==1.4.0 # https://segment.com/docs/connections/sources/catalog/libraries/server/python/quickstart/

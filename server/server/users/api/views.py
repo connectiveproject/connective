@@ -3,7 +3,7 @@ import io
 import os
 
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
-from dj_rest_auth.views import PasswordResetConfirmView
+from dj_rest_auth.views import LoginView, PasswordResetConfirmView
 from django.contrib.auth import get_user_model
 from django.utils.encoding import force_text
 from rest_framework import filters, status
@@ -25,6 +25,11 @@ from server.users.models import (
     SupervisorProfile,
     Vendor,
     VendorProfile,
+)
+from server.utils.analytics_utils import (
+    EVENT_APP_LOGIN,
+    EVENT_INITIAL_PASSWORD_CREATED,
+    identify_track,
 )
 from server.utils.permission_classes import (
     AllowConsumer,
@@ -62,8 +67,18 @@ class PassResetConfirmView(PasswordResetConfirmView):
         serializer.save()
         # get and return the correlating email address
         pk = force_text(uid_decoder(request.data["uid"]))
-        email = User.objects.get(pk=pk).email
-        return Response({"email": email})
+        user = User.objects.get(pk=pk)
+        identify_track(user, EVENT_INITIAL_PASSWORD_CREATED)
+        return Response({"email": user.email})
+
+
+class LoginView(LoginView):
+    """add analytics functionality"""
+
+    def login(self):
+        super().login()
+        user = self.user
+        identify_track(user, EVENT_APP_LOGIN)
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

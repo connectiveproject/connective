@@ -12,6 +12,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(guards.flushPagination)
+router.beforeEach(guards.segmentNotifyPage)
 
 
 // make accessible across modules, to avoid Vue.use(VueRouter) reuse

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { SEGMENT_EVENTS } from "@/helpers/constants/constants"
 import TitleToText from "../../components/TitleToText"
 import EditableAvatar from "../../components/Avatar/EditableAvatar"
 import { mapActions } from "vuex"
@@ -58,6 +59,7 @@ export default {
     },
     updateProfilePicture(profilePicture) {
       this.updateProfile({ slug: this.slug, profile: { profilePicture } })
+      window.analytics.track(SEGMENT_EVENTS.profileEdited)
     },
   },
 }

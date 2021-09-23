@@ -1,6 +1,9 @@
+from allauth.account.signals import user_logged_in
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from server.utils.analytics_utils import EVENT_SESSION_LOGIN, identify_track
 
 from .models import (
     Consumer,
@@ -34,3 +37,8 @@ def update_user_profile(sender, instance, created, **kwargs):
         user_type_to_profile[instance.user_type].objects.create(
             user=instance,
         )
+
+
+@receiver(user_logged_in)
+def post_login(sender, user, request, **kwargs):
+    identify_track(user, EVENT_SESSION_LOGIN)
