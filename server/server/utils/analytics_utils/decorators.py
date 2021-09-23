@@ -140,4 +140,4 @@ class TrackSerializerFieldUpdate(GenericTrackerMixin):
 track_admin_create = TrackAdminCreate
 track_admin_field_update = TrackAdminFieldUpdate
 track_serializer_create = TrackSerializerCreate
-track_admin_create = TrackSerializerFieldUpdate
+track_serializer_field_update = TrackSerializerFieldUpdate
