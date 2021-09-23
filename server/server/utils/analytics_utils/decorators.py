@@ -54,7 +54,6 @@ class TrackAdminCreate(GenericTrackerMixin):
                 self.set_props(obj)
                 self.user_slug = request.user.slug
                 self.track()
-
             return decorated_func(decorated_self, request, obj, form, change)
 
         return wrapper
@@ -136,3 +135,9 @@ class TrackSerializerFieldUpdate(GenericTrackerMixin):
             return result
 
         return wrapper
+
+
+track_admin_create = TrackAdminCreate
+track_admin_field_update = TrackAdminFieldUpdate
+track_serializer_create = TrackSerializerCreate
+track_admin_create = TrackSerializerFieldUpdate
