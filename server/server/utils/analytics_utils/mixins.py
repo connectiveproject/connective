@@ -1,0 +1,160 @@
+import analytics
+
+from server.utils.helpers import get_nested_obj_attr_value
+
+
+class _BaseTrackerMixin:
+    tracker_on_create_event_name = None
+    tracker_on_field_update_event_name = None
+    tracker_props_fields = None
+    tracker_fields_rename = {}
+
+    _tracker_props = {}
+    _tracker_user_slug = ""
+
+    def __init__(self, *args, **kwargs):
+        if self.tracker_props_fields is None:
+            raise AttributeError(
+                "tracker_props_fields class attribute must be declared"
+            )
+
+        return super().__init__(*args, **kwargs)
+
+    def _tracker_track_creation(self):
+        analytics.track(
+            self._tracker_user_slug,
+            self.tracker_on_create_event_name,
+            self._tracker_props,
+        )
+
+    def _tracker_track_field_update(self):
+        analytics.track(
+            self._tracker_user_slug,
+            self.tracker_on_field_update_event_name,
+            self._tracker_props,
+        )
+
+    def _tracker_set_props(self, post_save_obj):
+        """
+        set the dict of props to send, using the updated/created django object
+        """
+        for field_name in self.tracker_props_fields:
+            field_value = get_nested_obj_attr_value(
+                post_save_obj, field_name, seperator="__"
+            )
+            self._tracker_props[
+                self.tracker_fields_rename.get(field_name) or field_name
+            ] = field_value
+
+
+class _BaseCreateTrackerMixin:
+    """
+    should be used in conjunction with base tracker mixin
+    """
+
+    def __init__(self, *args, **kwargs):
+        if self.tracker_on_create_event_name is None:
+            raise AttributeError(
+                "tracker_on_create_event_name class attribute must be decalred"
+            )
+
+        return super().__init__(*args, **kwargs)
+
+
+class _BaseFieldUpdateTrackerMixin:
+    """
+    should be used in conjunction with base tracker mixin
+    """
+
+    # model field to track if changed. i.e., `track` will be emitted only if the field was updated
+    tracker_field_to_track = None
+
+    def __init__(self, *args, **kwargs):
+        if self.tracker_field_to_track is None:
+            raise AttributeError(
+                "tracker_field_to_track class attribute must be declared"
+            )
+
+        if self.tracker_on_field_update_event_name is None:
+            raise AttributeError(
+                "tracker_on_field_update_event_name class attribute must be decalred"
+            )
+
+        return super().__init__(*args, **kwargs)
+
+
+class TrackAdminCreateMixin(_BaseCreateTrackerMixin, _BaseTrackerMixin):
+    """
+    mixin used for event tracking (analytics) on admin panel model object creation.
+    should be used with ModelAdmin
+    """
+
+    def save_model(self, request, obj, form, change):
+        """
+        extend ModelAdmin's save_model function
+        [https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.save_model]
+        """
+        if not change:
+            # it's a newly created object - track it
+            self._tracker_set_props(obj)
+            self._tracker_user_slug = request.user.slug
+            self._tracker_track_creation()
+        return super().save_model(request, obj, form, change)
+
+
+class TrackAdminFieldUpdateMixin(_BaseFieldUpdateTrackerMixin, _BaseTrackerMixin):
+    """
+    mixin used for event tracking (analytics) when a model object's specific field is updated from Admin Panel
+    (e.g. track all `status` field changes in a model, made in admin panel).
+    should be used with ModelAdmin
+    """
+
+    def save_model(self, request, obj, form, change):
+        """
+        extend ModelAdmin's save_model function
+        [https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.save_model]
+        """
+        if change and self.tracker_field_to_track in form.changed_data:
+            # field was updated - track the change
+            self._tracker_set_props(obj)
+            self._tracker_user_slug = request.user.slug
+            self._tracker_track_field_update()
+
+        return super().save_model(request, obj, form, change)
+
+
+class TrackSerializerCreateMixin(_BaseCreateTrackerMixin, _BaseTrackerMixin):
+    """
+    mixin used for event tracking (analytics) on serializer create() calls.
+    should be used on a serializer
+    """
+
+    def create(self, validated_data):
+        result = super().create(validated_data)
+        self._tracker_set_props(result)
+        self._tracker_user_slug = self.context["request"].user.slug
+        self._tracker_track_creation()
+        return result
+
+
+class TrackSerializerFieldUpdateMixin(_BaseFieldUpdateTrackerMixin, _BaseTrackerMixin):
+    """
+    mixin used for event tracking (analytics) when a model object's specific field is updated from serializer
+    (e.g. track all `status` field changes in a model from serializer).
+    should be used on a serializer
+    """
+
+    def update(self, instance, validated_data):
+        validated_field = validated_data.get(self.tracker_field_to_track)
+
+        if validated_field is None or validated_field == getattr(
+            instance, self.tracker_field_to_track
+        ):
+            # don't emit tracker if field was not changed
+            return super().update(instance, validated_data)
+
+        result = super().update(instance, validated_data)
+        self._tracker_set_props(result)
+        self._tracker_user_slug = self.context["request"].user.slug
+        self._tracker_track_field_update()
+        return result

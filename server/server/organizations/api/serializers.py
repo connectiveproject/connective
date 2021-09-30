@@ -16,9 +16,9 @@ from server.utils.analytics_utils.constants import (
     EVENT_ACTIVITY_GROUP_CREATED,
     EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
 )
-from server.utils.analytics_utils.decorators import (
-    track_serializer_create,
-    track_serializer_field_update,
+from server.utils.analytics_utils.mixins import (
+    TrackSerializerCreateMixin,
+    TrackSerializerFieldUpdateMixin,
 )
 
 
@@ -136,7 +136,10 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         )
 
 
-class VendorActivitySerializer(serializers.ModelSerializer):
+class VendorActivitySerializer(TrackSerializerCreateMixin, serializers.ModelSerializer):
+    tracker_on_create_event_name = EVENT_ACTIVITY_CREATED
+    tracker_props_fields = ["slug", "name", "domain"]
+
     tags = TagListSerializerField()
 
     class Meta:
@@ -156,10 +159,6 @@ class VendorActivitySerializer(serializers.ModelSerializer):
             "tags",
         ]
         read_only_fields = ["slug", "originization"]
-
-    @track_serializer_create(EVENT_ACTIVITY_CREATED, ["slug", "name", "domain"])
-    def create(self, validated_data):
-        return super().create(validated_data)
 
 
 class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
@@ -221,7 +220,17 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         return False
 
 
-class ManageSchoolActivitySerializer(serializers.ModelSerializer):
+class ManageSchoolActivitySerializer(
+    TrackSerializerFieldUpdateMixin, serializers.ModelSerializer
+):
+    tracker_on_field_update_event_name = EVENT_ACTIVITY_ORDER_STATUS_UPDATED
+    tracker_props_fields = ["slug", "activity__slug", "school__slug", "status"]
+    tracker_field_to_track = "status"
+    tracker_fields_rename = {
+        "activity__slug": "activity_slug",
+        "school__slug": "school_slug",
+    }
+
     school = serializers.SlugRelatedField(
         queryset=School.objects.all(), slug_field="slug"
     )
@@ -273,20 +282,14 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
 
         return data
 
-    @track_serializer_field_update(
-        EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
-        ["slug", "activity__slug", "school__slug", "status"],
-        field_to_track="status",
-        fields_rename={
-            "activity__slug": "activity_slug",
-            "school__slug": "school_slug",
-        },
-    )
-    def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
 
+class SchoolActivityGroupSerializer(
+    TrackSerializerCreateMixin, serializers.ModelSerializer
+):
+    tracker_on_create_event_name = EVENT_ACTIVITY_GROUP_CREATED
+    tracker_props_fields = ["slug", "name", "group_type", "activity_order__slug"]
+    tracker_fields_rename = {"activity_order__slug": "activity_order_slug"}
 
-class SchoolActivityGroupSerializer(serializers.ModelSerializer):
     instructor_name = serializers.CharField(
         source="instructor.name",
         read_only=True,
@@ -334,14 +337,6 @@ class SchoolActivityGroupSerializer(serializers.ModelSerializer):
             "instructor_name",
             "school_name",
         ]
-
-    @track_serializer_create(
-        EVENT_ACTIVITY_GROUP_CREATED,
-        ["slug", "name", "group_type", "activity_order__slug"],
-        fields_rename={"activity_order__slug": "activity_order_slug"},
-    )
-    def create(self, validated_data):
-        return super().create(validated_data)
 
 
 class ConsumerRequestDataSerializer(serializers.ModelSerializer):
