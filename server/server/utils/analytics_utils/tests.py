@@ -11,7 +11,7 @@ from .constants import EVENT_ACTIVITY_GROUP_CREATED, EVENT_ACTIVITY_ORDER_STATUS
 pytestmark = pytest.mark.django_db
 
 
-class TestDecorators:
+class TestTrackerMixins:
     def test_track_serializer_create(self, all_entities):
         """
         check `track` is called on serializer object create, with the correct props

@@ -38,13 +38,16 @@ class _BaseTrackerMixin:
         """
         set the dict of props to send, using the updated/created django object
         """
+        # TODO: understand why pollution between classes occurs and remove next line
+        self._tracker_props = {}
         for field_name in self.tracker_props_fields:
             field_value = get_nested_obj_attr_value(
                 post_save_obj, field_name, seperator="__"
             )
-            self._tracker_props[
+            renamed_field_name = (
                 self.tracker_fields_rename.get(field_name) or field_name
-            ] = field_value
+            )
+            self._tracker_props[renamed_field_name] = field_value
 
 
 class _BaseCreateTrackerMixin:
