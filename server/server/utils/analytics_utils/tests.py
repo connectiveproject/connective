@@ -5,8 +5,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from server.organizations.models import SchoolActivityGroup, SchoolActivityOrder
-
-from .constants import EVENT_ACTIVITY_GROUP_CREATED, EVENT_ACTIVITY_ORDER_STATUS_UPDATED
+from server.utils.analytics_utils import event
 
 pytestmark = pytest.mark.django_db
 
@@ -34,7 +33,7 @@ class TestTrackerMixins:
 
             track_mock.assert_called_with(
                 coord.slug,
-                EVENT_ACTIVITY_GROUP_CREATED,
+                event.ACTIVITY_GROUP_CREATED,
                 {
                     "slug": post_response.data["slug"],
                     "name": post_response.data["name"],
@@ -74,7 +73,7 @@ class TestTrackerMixins:
 
             track_mock.assert_called_once_with(
                 coord.slug,
-                EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
+                event.ACTIVITY_ORDER_STATUS_UPDATED,
                 {
                     "slug": patch_response.data["slug"],
                     "school_slug": school_slug,
@@ -103,7 +102,7 @@ class TestTrackerMixins:
             created_obj = SchoolActivityGroup.objects.get(name=group_data["name"])
             track_mock.assert_called_with(
                 "admin",
-                EVENT_ACTIVITY_GROUP_CREATED,
+                event.ACTIVITY_GROUP_CREATED,
                 {
                     "slug": created_obj.slug,
                     "name": created_obj.name,
@@ -144,7 +143,7 @@ class TestTrackerMixins:
             updated_obj = SchoolActivityOrder.objects.get(slug=order_data["slug"])
             track_mock.assert_called_once_with(
                 "admin",
-                EVENT_ACTIVITY_ORDER_STATUS_UPDATED,
+                event.ACTIVITY_ORDER_STATUS_UPDATED,
                 {
                     "slug": updated_obj.slug,
                     "school_slug": updated_obj.school.slug,

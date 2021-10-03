@@ -3,11 +3,7 @@ from rest_framework import serializers
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityGroup
 from server.users.models import Consumer
-from server.utils.analytics_utils.constants import (
-    EVENT_EVENT_ORDER_CREATED,
-    EVENT_EVENT_ORDER_STATUS_UPDATED,
-    EVENT_EVENT_SUMMARY_CREATED,
-)
+from server.utils.analytics_utils import event
 from server.utils.analytics_utils.mixins import (
     TrackSerializerCreateMixin,
     TrackSerializerFieldUpdateMixin,
@@ -19,8 +15,8 @@ class EventOrderSerializer(
     TrackSerializerFieldUpdateMixin,
     serializers.ModelSerializer,
 ):
-    tracker_on_create_event_name = EVENT_EVENT_ORDER_CREATED
-    tracker_on_field_update_event_name = EVENT_EVENT_ORDER_STATUS_UPDATED
+    tracker_on_create_event_name = event.EVENT_ORDER_CREATED
+    tracker_on_field_update_event_name = event.EVENT_ORDER_STATUS_UPDATED
     tracker_props_fields = [
         "slug",
         "status",
@@ -131,7 +127,7 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
 class EventSerializer(
     TrackSerializerFieldUpdateMixin, EventSerializerMixin, serializers.ModelSerializer
 ):
-    tracker_on_field_update_event_name = EVENT_EVENT_SUMMARY_CREATED
+    tracker_on_field_update_event_name = event.EVENT_SUMMARY_CREATED
     tracker_props_fields = [
         "slug",
         "event_order__slug",

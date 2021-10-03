@@ -18,9 +18,7 @@ from server.organizations.models import (
 )
 from server.users.api.serializers import UserSerializer
 from server.users.models import Consumer
-from server.utils.analytics_utils.constants import (
-    EVENT_ACTIVITY_GROUP_CONSUMER_LIST_CHANGED,
-)
+from server.utils.analytics_utils import event
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -302,7 +300,7 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
         analytics.track(
             request.user.slug,
-            EVENT_ACTIVITY_GROUP_CONSUMER_LIST_CHANGED,
+            event.ACTIVITY_GROUP_CONSUMER_LIST_CHANGED,
             {
                 "slug": slug,
                 "name": current_group.name,
