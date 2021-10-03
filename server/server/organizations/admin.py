@@ -58,7 +58,7 @@ class SchoolActivityOrderAdmin(TrackAdminFieldUpdateMixin, admin.ModelAdmin):
         "activity__slug": "activity_slug",
         "school__slug": "school_slug",
     }
-    tracker_field_to_track = "status"
+    tracker_fields_to_track = ["status"]
 
     list_display = ["school", "activity", "created_at", "updated_at", "status"]
     search_fields = ["school__name", "activity__name"]

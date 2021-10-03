@@ -225,7 +225,7 @@ class ManageSchoolActivitySerializer(
 ):
     tracker_on_field_update_event_name = EVENT_ACTIVITY_ORDER_STATUS_UPDATED
     tracker_props_fields = ["slug", "activity__slug", "school__slug", "status"]
-    tracker_field_to_track = "status"
+    tracker_fields_to_track = ["status"]
     tracker_fields_rename = {
         "activity__slug": "activity_slug",
         "school__slug": "school_slug",

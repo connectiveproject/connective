@@ -7,8 +7,14 @@ def get_nested_obj_attr_value(obj, lookup_str, seperator="__"):
     :string lookup_str: str to look for (e.g., organization__slug)
     :string seperator: seperator to identify the nesting in the lookup string
     """
-    # recursion stop condition
+    if obj is None:
+        return None
+
+    operations = ("COUNT",)
     if seperator not in lookup_str:
+        if lookup_str in operations:
+            return getattr(obj, lookup_str.lower())()
+
         return getattr(obj, lookup_str)
 
     first_lookup_str, remaining_lookup_str = lookup_str.split(seperator, maxsplit=1)

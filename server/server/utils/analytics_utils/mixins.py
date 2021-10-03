@@ -70,12 +70,12 @@ class _BaseFieldUpdateTrackerMixin:
     """
 
     # model field to track if changed. i.e., `track` will be emitted only if the field was updated
-    tracker_field_to_track = None
+    tracker_fields_to_track = None
 
     def __init__(self, *args, **kwargs):
-        if self.tracker_field_to_track is None:
+        if self.tracker_fields_to_track is None:
             raise AttributeError(
-                "tracker_field_to_track class attribute must be declared"
+                "tracker_fields_to_track class attribute must be declared"
             )
 
         if self.tracker_on_field_update_event_name is None:
@@ -117,7 +117,10 @@ class TrackAdminFieldUpdateMixin(_BaseFieldUpdateTrackerMixin, _BaseTrackerMixin
         extend ModelAdmin's save_model function
         [https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.save_model]
         """
-        if change and self.tracker_field_to_track in form.changed_data:
+        if change and any(
+            field_name in form.changed_data
+            for field_name in self.tracker_fields_to_track
+        ):
             # field was updated - track the change
             self._tracker_set_props(obj)
             self._tracker_user_slug = request.user.slug
@@ -147,13 +150,21 @@ class TrackSerializerFieldUpdateMixin(_BaseFieldUpdateTrackerMixin, _BaseTracker
     should be used on a serializer
     """
 
-    def update(self, instance, validated_data):
-        validated_field = validated_data.get(self.tracker_field_to_track)
+    def _tracker_is_tracked_field_updated(self, instance, validated_data):
+        """
+        check if at least one tracked field was updated
 
-        if validated_field is None or validated_field == getattr(
-            instance, self.tracker_field_to_track
-        ):
-            # don't emit tracker if field was not changed
+        params are DRF serializer update's `instance`, `validated_data`:
+        [https://www.django-rest-framework.org/tutorial/1-serialization/#creating-a-serializer-class]
+        """
+        for field_name in self.tracker_fields_to_track:
+            if validated_data.get(field_name) != getattr(instance, field_name):
+                return True
+        return False
+
+    def update(self, instance, validated_data):
+        if not self._tracker_is_tracked_field_updated(instance, validated_data):
+            # don't emit tracker if no tracked field was not changed
             return super().update(instance, validated_data)
 
         result = super().update(instance, validated_data)
