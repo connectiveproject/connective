@@ -9,10 +9,10 @@ class _BaseTrackerMixin:
     tracker_props_fields = None
     tracker_fields_rename = {}
 
-    _tracker_props = {}
-    _tracker_user_slug = ""
-
     def __init__(self, *args, **kwargs):
+        self._tracker_props = {}
+        self._tracker_user_slug = ""
+
         if self.tracker_props_fields is None:
             raise AttributeError(
                 "tracker_props_fields class attribute must be declared"
@@ -38,8 +38,6 @@ class _BaseTrackerMixin:
         """
         set the dict of props to send, using the updated/created django object
         """
-        # TODO: understand why pollution between classes occurs and remove next line
-        self._tracker_props = {}
         for field_name in self.tracker_props_fields:
             field_value = get_nested_obj_attr_value(
                 post_save_obj, field_name, seperator="__"
