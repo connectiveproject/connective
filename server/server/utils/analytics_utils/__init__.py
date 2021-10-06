@@ -13,13 +13,12 @@ EVENT_INITIAL_PASSWORD_CREATED = "initial_password_created"
 
 
 def identify_track(user, event_name, properties=None):
-    traits = (
-        {
-            "name": user.name,
-            "email": user.email,
-            "user_type": user.user_type,
-        },
-    )
+    traits = {
+        "name": user.name,
+        "email": user.email,
+        "user_type": user.user_type,
+    }
+
     if user.user_type in [user.Types.CONSUMER, user.Types.CONSUMER]:
         try:
             traits["school"] = user.school_member.school.name
