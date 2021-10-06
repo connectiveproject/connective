@@ -61,7 +61,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         "slug",
         "date_joined",
     ]
-    search_fields = ["email"]
+    search_fields = ["email", "school_member__school__name"]
     actions = [send_invite]
 
 
