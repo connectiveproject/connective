@@ -9,7 +9,63 @@ async function shouldCoordEditSchool() {
   return !schoolDetails.lastUpdatedBy
 }
 
+/**
+ * return a guard which runs the provided guards one-by-one. useful for Vue Router's `beforeEnter` function
+ * @param {Function[]} guards - guards to run one after another.
+ */
+export function chainGuards(guards) {
+  function runGuards(guards, from, to, finalNext, i) {
+    let guard = guards[i]
+    if (guards.length === i + 1) {
+      // this is the last guard, exit
+      return guard(from, to, finalNext)
+    }
+    guard(from, to, function (nextArg) {
+      // this function replaces `next`, so we can use the argument provided after the guard ran to determine if it passed or failed
+      // if it's empty (i.e., guard passed), we'll go over to the next guard. if not, the guard failed and we redirect to the failure route
+      if (typeof nextArg === "undefined") {
+        return runGuards(guards, from, to, finalNext, i + 1)
+      }
+      finalNext(nextArg)
+    })
+  }
+
+  return function (from, to, next) {
+    runGuards(guards, from, to, next, 0)
+  }
+}
+
 export default {
+  coordOnly(to, from, next) {
+    if (store.getters["user/isCoordinator"]) {
+      return next()
+    }
+    next("/")
+  },
+  vendorOnly(to, from, next) {
+    if (store.getters["user/isVendor"]) {
+      return next()
+    }
+    next("/")
+  },
+  consumerOnly(to, from, next) {
+    if (store.getters["user/isConsumer"]) {
+      return next()
+    }
+    next("/")
+  },
+  instructorOnly(to, from, next) {
+    if (store.getters["user/isInstructor"]) {
+      return next()
+    }
+    next("/")
+  },
+  supervisorOnly(to, from, next) {
+    if (store.getters["user/isSupervisor"]) {
+      return next()
+    }
+    next("/")
+  },
   async checkRegistrationStatus(to, from, next) {
     // redirect based on user type & registration status
     const params = { lang: i18n.locale }
@@ -154,5 +210,5 @@ export default {
     // https://github.com/segmentio/analytics-vue#-step-2-track-page-views-in-an-spa
     window.analytics.page(to.name)
     next()
-  }
+  },
 }
