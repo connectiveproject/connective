@@ -3,10 +3,11 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from config import celery_app  # noqa TODO: check if necessary
 from server.organizations.admin import OrganizationMemberTabularInline
 from server.schools.admin import SchoolMemberTabularInline
 from server.users.forms import UserChangeForm
-from server.users.helpers import send_user_invite
+from server.users.tasks import send_user_invite_task  # noqa TODO: check if necessary
 
 from .models import (
     Consumer,
@@ -25,8 +26,15 @@ User = get_user_model()
 
 
 def send_invite(self, request, queryset):
-    for user in queryset:
-        send_user_invite(user.email)
+    from datetime import datetime
+
+    starttime = datetime.now()
+    print(f"{starttime} starting...")
+    for i in range(1, 1000):
+        for user in queryset:
+            send_user_invite_task.delay(user.email)
+    duration = datetime.now() - starttime
+    print(f"Ended in {duration}")
 
 
 send_invite.short_description = "Invite user"
