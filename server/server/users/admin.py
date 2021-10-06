@@ -68,6 +68,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
 @admin.register(Coordinator, Consumer)
 class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
+    search_fields = ["email", "school_member__school__name"]
 
 
 @admin.register(Instructor, Vendor)
