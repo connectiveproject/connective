@@ -29,6 +29,18 @@ const user = {
     isConsumer(state) {
       return state.userDetails.userType === SERVER.userTypes.consumer
     },
+    isCoordinator(state) {
+      return state.userDetails.userType === SERVER.userTypes.coordinator
+    },
+    isVendor(state) {
+      return state.userDetails.userType === SERVER.userTypes.vendor
+    },
+    isInstructor(state) {
+      return state.userDetails.userType === SERVER.userTypes.instructor
+    },
+    isSupervisor(state) {
+      return state.userDetails.userType === SERVER.userTypes.supervisor
+    },
   },
   actions: {
     flushState({ commit }) {
