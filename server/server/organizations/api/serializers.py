@@ -11,6 +11,11 @@ from server.organizations.models import (
 )
 from server.schools.models import School
 from server.users.models import Consumer, Instructor
+from server.utils.analytics_utils import event
+from server.utils.analytics_utils.mixins import (
+    TrackSerializerCreateMixin,
+    TrackSerializerFieldUpdateMixin,
+)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -127,7 +132,10 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         )
 
 
-class VendorActivitySerializer(serializers.ModelSerializer):
+class VendorActivitySerializer(TrackSerializerCreateMixin, serializers.ModelSerializer):
+    tracker_on_create_event_name = event.ACTIVITY_CREATED
+    tracker_props_fields = ["slug", "name", "domain"]
+
     tags = TagListSerializerField()
 
     class Meta:
@@ -208,7 +216,17 @@ class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         return False
 
 
-class ManageSchoolActivitySerializer(serializers.ModelSerializer):
+class ManageSchoolActivitySerializer(
+    TrackSerializerFieldUpdateMixin, serializers.ModelSerializer
+):
+    tracker_on_field_update_event_name = event.ACTIVITY_ORDER_STATUS_UPDATED
+    tracker_props_fields = ["slug", "activity__slug", "school__slug", "status"]
+    tracker_fields_to_track = ["status"]
+    tracker_fields_rename = {
+        "activity__slug": "activity_slug",
+        "school__slug": "school_slug",
+    }
+
     school = serializers.SlugRelatedField(
         queryset=School.objects.all(), slug_field="slug"
     )
@@ -261,7 +279,13 @@ class ManageSchoolActivitySerializer(serializers.ModelSerializer):
         return data
 
 
-class SchoolActivityGroupSerializer(serializers.ModelSerializer):
+class SchoolActivityGroupSerializer(
+    TrackSerializerCreateMixin, serializers.ModelSerializer
+):
+    tracker_on_create_event_name = event.ACTIVITY_GROUP_CREATED
+    tracker_props_fields = ["slug", "name", "group_type", "activity_order__slug"]
+    tracker_fields_rename = {"activity_order__slug": "activity_order_slug"}
+
     instructor_name = serializers.CharField(
         source="instructor.name",
         read_only=True,

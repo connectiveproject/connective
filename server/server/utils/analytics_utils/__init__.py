@@ -1,9 +1,5 @@
 import analytics
 
-EVENT_SESSION_LOGIN = "session_login"
-EVENT_APP_LOGIN = "app_login"
-EVENT_INITIAL_PASSWORD_CREATED = "initial_password_created"
-
 
 def identify_track(user, event_name, properties=None):
     analytics.identify(

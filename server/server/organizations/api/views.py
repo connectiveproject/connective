@@ -1,5 +1,6 @@
 from contextlib import suppress
 
+import analytics
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
@@ -17,6 +18,7 @@ from server.organizations.models import (
 )
 from server.users.api.serializers import UserSerializer
 from server.users.models import Consumer
+from server.utils.analytics_utils import event
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -296,6 +298,17 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         container_only_group.consumers.remove(*to_add)
         container_only_group.consumers.add(*to_remove)
 
+        analytics.track(
+            request.user.slug,
+            event.ACTIVITY_GROUP_CONSUMER_LIST_CHANGED,
+            {
+                "slug": slug,
+                "name": current_group.name,
+                "group_type": current_group.group_type,
+                "activity_order_slug": current_group.activity_order.slug,
+                "consumers_count": current_group.consumers.count(),
+            },
+        )
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=["GET"])
