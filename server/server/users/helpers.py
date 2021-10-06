@@ -2,18 +2,30 @@ import logging
 
 import requests
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 from server.users.forms import RecoverPasswordForm, SendInviteForm
-from server.utils.logging.constants import CAPTCHA
+from server.utils.logging.constants import CAPTCHA, PROFILE
 
 logger = logging.getLogger(__name__)
 
 
-def send_user_invite(email):
+def send_user_invite(user):
+    email = user.email
     # send invitation to reset password & join the platform
     form = SendInviteForm(data={"email": email})
     if form.is_valid():
         form.save(None)
+        try:
+            profile = user.profile
+            profile.invitation_count = profile.invitation_count + 1
+            profile.last_invite_sent = timezone.now()
+            profile.save()
+        except ObjectDoesNotExist:
+            logger.exception(
+                f"{PROFILE}: cannot fetch profile for user {user}. pk={user.pk}"
+            )
 
 
 def send_password_recovery(email):

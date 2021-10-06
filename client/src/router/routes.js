@@ -1,5 +1,5 @@
 import i18n from "@/plugins/i18n"
-import guards from "@/router/guards"
+import guards, { chainGuards } from "@/router/guards"
 import Welcome from "@/layouts/Welcome"
 import CoordinatorDashboard from "@/layouts/CoordinatorDashboard"
 import StudentDashboard from "@/layouts/StudentDashboard"
@@ -117,7 +117,7 @@ export default [
       {
         path: "supervisor-dashboard",
         component: SupervisorDashboard,
-        beforeEnter: guards.populateSupervisorData,
+        beforeEnter: chainGuards([guards.supervisorOnly, guards.populateSupervisorData]),
         children: [
           {
             path: "",
@@ -134,7 +134,7 @@ export default [
       {
         path: "student-dashboard",
         component: StudentDashboard,
-        beforeEnter: guards.populateConsumerData,
+        beforeEnter: chainGuards([guards.consumerOnly, guards.populateConsumerData]),
         children: [
           {
             path: "",
@@ -187,7 +187,7 @@ export default [
       {
         path: "coordinator-dashboard",
         component: CoordinatorDashboard,
-        beforeEnter: guards.populateCoordinatorData,
+        beforeEnter: chainGuards([guards.coordOnly, guards.populateCoordinatorData]),
         children: [
           {
             path: "",
@@ -309,7 +309,7 @@ export default [
       {
         path: "instructor-dashboard",
         component: InstructorDashboard,
-        beforeEnter: guards.populateInstructorData,
+        beforeEnter: chainGuards([guards.instructorOnly, guards.populateInstructorData]),
         children: [
           {
             path: "",
@@ -342,7 +342,7 @@ export default [
       {
         path: "vendor-dashboard",
         component: VendorDashboard,
-        beforeEnter: guards.populateVendorData,
+        beforeEnter: chainGuards([guards.vendorOnly, guards.populateVendorData]),
         children: [
           {
             path: "",

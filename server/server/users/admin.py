@@ -26,7 +26,7 @@ User = get_user_model()
 
 def send_invite(self, request, queryset):
     for user in queryset:
-        send_user_invite(user.email)
+        send_user_invite(user)
 
 
 send_invite.short_description = "Invite user"
@@ -68,6 +68,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
 @admin.register(Coordinator, Consumer)
 class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
+    search_fields = ["email", "school_member__school__name"]
 
 
 @admin.register(Instructor, Vendor)

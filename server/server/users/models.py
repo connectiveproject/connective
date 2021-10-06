@@ -204,6 +204,10 @@ class BaseProfile(models.Model):
         _("Gender"), max_length=50, choices=Gender.choices, default=base_gender
     )
     profile_picture = models.JSONField(blank=True, null=True, default=dict)
+    invitation_count = models.PositiveIntegerField(default=0)
+    last_invite_sent = models.DateTimeField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
 
     class Meta:
         abstract = True
