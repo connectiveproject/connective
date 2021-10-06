@@ -121,7 +121,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         SchoolMember.objects.create(
             user=consumer, school=self.context["request"].user.school_member.school
         )
-        send_user_invite(validated_data["email"])
+        send_user_invite(consumer)
         return consumer
 
     def update(self, instance, validated_data):
@@ -144,7 +144,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
 
         instance.save()
         if has_email_changed:
-            send_user_invite(validated_data["email"])
+            send_user_invite(instance)
 
         return instance
 
@@ -170,7 +170,7 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         SchoolMember.objects.create(
             user=coordinator, school=self.context["request"].user.school_member.school
         )
-        send_user_invite(validated_data["email"])
+        send_user_invite(coordinator)
         return coordinator
 
     def update(self, instance, validated_data):
@@ -183,7 +183,7 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         instance.save()
 
         if has_email_changed:
-            send_user_invite(validated_data["email"])
+            send_user_invite(instance)
 
         return instance
 
@@ -210,7 +210,7 @@ class ManageVendorsSerializer(serializers.ModelSerializer):
             user=vendor,
             organization=self.context["request"].user.organization_member.organization,
         )
-        send_user_invite(validated_data["email"])
+        send_user_invite(vendor)
         return vendor
 
     def update(self, instance, validated_data):
@@ -223,7 +223,7 @@ class ManageVendorsSerializer(serializers.ModelSerializer):
         instance.save()
 
         if has_email_changed:
-            send_user_invite(validated_data["email"])
+            send_user_invite(instance)
 
         return instance
 
@@ -250,7 +250,7 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
             user=instructor,
             organization=self.context["request"].user.organization_member.organization,
         )
-        send_user_invite(validated_data["email"])
+        send_user_invite(instructor)
         return instructor
 
     def update(self, instance, validated_data):
@@ -263,6 +263,6 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
         instance.save()
 
         if has_email_changed:
-            send_user_invite(validated_data["email"])
+            send_user_invite(instance)
 
         return instance
