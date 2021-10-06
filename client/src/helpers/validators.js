@@ -1,5 +1,5 @@
 import moment from "moment"
-import i18n from "../plugins/i18n"
+import i18n from "@/plugins/i18n"
 import {
   required,
   email,
@@ -8,7 +8,7 @@ import {
   numeric,
   digits,
 } from "vee-validate/dist/rules"
-import { extend } from "vee-validate"
+import { extend, configure } from "vee-validate"
 import {
   PASSWORD_REGEX_PATTERN,
   ISRAELI_PHONE_REGEX_PATTERN,
@@ -18,23 +18,21 @@ import {
   ARABIC_REGEX_PATTERN,
 } from "./constants/constants"
 
-extend("required", {
-  ...required,
-  message: i18n.tc("errors.requiredField"),
+
+configure({
+  defaultMessage(field, values) {
+    return i18n.t(`validation.${values._rule_}`, values)
+  }
 })
 
-extend("email", {
-  ...email,
-  message: i18n.tc("errors.invalidEmail"),
-})
-
-extend("numeric", {
-  ...numeric,
-  message: i18n.tc("errors.NumbersOnlyField"),
-})
+extend("required", required)
+extend("email", email)
+extend("numeric", numeric)
+extend("size", size)
+extend("max", max)
+extend("digits", digits)
 
 extend("strongPass", {
-  message: i18n.tc("errors.strongPassHint"),
   validate: value => {
     let strongRegex = new RegExp(PASSWORD_REGEX_PATTERN)
     return strongRegex.test(value)
@@ -46,11 +44,9 @@ extend("passConfirm", {
   validate(value, { target }) {
     return value === target
   },
-  message: i18n.tc("errors.passwordsMismatch"),
 })
 
 extend("phoneNumberIsrael", {
-  message: i18n.tc("errors.invalidPhoneNumber"),
   validate: value => {
     let strongRegex = new RegExp(ISRAELI_PHONE_REGEX_PATTERN)
     return strongRegex.test(value)
@@ -58,30 +54,13 @@ extend("phoneNumberIsrael", {
 })
 
 extend("website", {
-  message: i18n.tc("errors.invalidWebsiteAddress"),
   validate: value => {
     const regex = new RegExp(WEBSITE_REGEX_PATTERN, "i")
     return regex.test(value)
   },
 })
 
-extend("size", {
-  ...size,
-  message: i18n.tc("errors.fileSizeLimitExceeded"),
-})
-
-extend("max", {
-  ...max,
-  message: i18n.tc("errors.maxLengthExceeded"),
-})
-
-extend("digits", {
-  ...digits,
-  message: i18n.tc("errors.incorrectNumberOfDigits"),
-})
-
 extend("youtubeUrl", {
-  message: i18n.tc("errors.invalidYoutubeUrl"),
   validate: value => {
     const regex = new RegExp(YOUTUBE_URL_REGEX_PATTERN, "i")
     return regex.test(value)
@@ -98,7 +77,6 @@ extend("afterStartTime", {
     const endTimeObj = moment(endTime, "HH:mm")
     return endTimeObj.isAfter(startTimeObj)
   },
-  message: i18n.t("errors.endTimeShouldBeLaterThanStartTime"),
 })
 
 extend("afterStartDate", {
@@ -113,7 +91,6 @@ extend("afterStartDate", {
     const endDateObj = moment(`${endDate}T${endTime}`)
     return endDateObj.isAfter(startDateObj)
   },
-  message: i18n.t("errors.endTimeShouldBeLaterThanStartTime"),
 })
 
 extend("maxDaysDelta", {
@@ -124,11 +101,9 @@ extend("maxDaysDelta", {
     const date2Obj = moment(date2)
     return dateObj.diff(date2Obj, "days") <= daysDelta
   },
-  message: i18n.t("errors.theDatesShouldBeCloserToEachOther"),
 })
 
 extend("noHebrew", {
-  message: i18n.tc("errors.hebrewLettersAreNotAllowed"),
   validate: value => {
     let hebrewRegex = new RegExp(HEBREW_REGEX_PATTERN)
     return !hebrewRegex.test(value)
@@ -136,7 +111,6 @@ extend("noHebrew", {
 })
 
 extend("noArabic", {
-  message: i18n.tc("errors.arabicLettersAreNotAllowed"),
   validate: value => {
     let arabicRegex = new RegExp(ARABIC_REGEX_PATTERN)
     return !arabicRegex.test(value)

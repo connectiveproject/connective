@@ -25,6 +25,13 @@ module.exports = {
       title: "Connective",
     },
   },
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "./src/styles/main.scss";`,
+      },
+    },
+  },
   pluginOptions: {
     i18n: {
       locale: "he",

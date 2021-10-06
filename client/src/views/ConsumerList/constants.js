@@ -1,4 +1,4 @@
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
 export const CONSUMER_LIST_CHECKBOX_FILTERS = [
   {

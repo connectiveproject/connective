@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 import PaginationActionsTable from "./PaginationActionsTable"
 
 export default {

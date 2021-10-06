@@ -46,7 +46,7 @@
 
 <script>
 import { INFO_CARD_IMAGE } from "../helpers/constants/images"
-import i18n from "../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
 export default {
   props: {
