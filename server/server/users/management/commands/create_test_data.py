@@ -196,6 +196,12 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS("Successfully created Activities"))
 
+        if entitiesPrefix == "test-":
+            Activity.objects.bulk_create(self.prepare_activity_for_bulk(org, 200))
+            self.stdout.write(
+                self.style.SUCCESS("Successfully created additional Activities")
+            )
+
         activity_order_one = SchoolActivityOrder.objects.create(
             slug=self.test_random_slug(),
             school=school,
@@ -208,7 +214,10 @@ class Command(BaseCommand):
             activity=activity_two,
             status=SchoolActivityOrder.Status.PENDING_ADMIN_APPROVAL,
         )
-        self.stdout.write(self.style.SUCCESS("Successfully created ActivityOrders"))
+
+        self.stdout.write(
+            self.style.SUCCESS("Successfully created 2 first ActivityOrders")
+        )
 
         group_one = SchoolActivityGroup.objects.create(
             slug=self.test_random_slug(),
@@ -308,3 +317,23 @@ class Command(BaseCommand):
         self.create_all()
         self.create_all(entitiesPrefix="test-")
         self.create_all(entitiesPrefix="test-signup-", is_user_signup_complete=False)
+
+    def prepare_activity_for_bulk(self, org, num_to_create):
+        return [
+            Activity(
+                slug=self.test_random_slug(),
+                originization=org,
+                **{
+                    "name": f"test-{i} ערכים דרך ריצה",
+                    "target_audience": [1, 2, 3, 4, 5, 6],
+                    "domain": "FIELD",
+                    "description": f"""{i}תוכנית ערכים דרך ריצה היא תוכנית ריצת טבע.
+            רצים בשדות ולומדים על טבע ועל עצמנו דרך הרגליים""",
+                    "contact_name": "ליאור רוטשטיין",
+                    "phone_number": "0521234567",
+                    "activity_website_url": "https://schooly-run.tiff.org.il",
+                    "activity_email": f"test-running-{i}@example.com",
+                },
+            )
+            for i in range(num_to_create)
+        ]
