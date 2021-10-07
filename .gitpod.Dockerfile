@@ -1,7 +1,7 @@
 FROM gitpod/workspace-full:latest
 
 # increment by one to re-run dockerfile commands without cache
-ENV INVALIDATE_CACHE=6
+ENV INVALIDATE_CACHE=7
 
 # Install PostgreSQL
 RUN sudo install-packages postgresql-12 postgresql-contrib-12
@@ -37,3 +37,7 @@ COPY . .
 
 RUN echo "export PIP_USER=false" >> /home/gitpod/.bashrc
 RUN echo "export CELERY_BROKER_URL=redis://localhost:6379/0" >> /home/gitpod/.bashrc
+
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+CMD [ "zsh" ]
