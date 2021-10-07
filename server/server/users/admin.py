@@ -60,6 +60,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         "email",
         "slug",
         "date_joined",
+        "is_signup_complete",
     ]
     search_fields = ["email"]
     actions = [send_invite]
