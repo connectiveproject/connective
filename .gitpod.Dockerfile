@@ -38,6 +38,7 @@ COPY . .
 RUN echo "export PIP_USER=false" >> /home/gitpod/.bashrc
 RUN echo "export CELERY_BROKER_URL=redis://localhost:6379/0" >> /home/gitpod/.bashrc
 
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+RUN wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O - | zsh || true
 
 CMD [ "zsh" ]
