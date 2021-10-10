@@ -7,6 +7,7 @@ from config import celery_app  # noqa TODO: check if necessary
 from server.organizations.admin import OrganizationMemberTabularInline
 from server.schools.admin import SchoolMemberTabularInline
 from server.users.forms import UserChangeForm
+from server.users.helpers import send_user_invite
 from server.users.tasks import send_user_invite_task  # noqa TODO: check if necessary
 
 from .models import (
@@ -26,18 +27,19 @@ User = get_user_model()
 
 
 def send_invite(self, request, queryset):
-    from datetime import datetime
-
-    starttime = datetime.now()
-    print(f"{starttime} starting...")
-    for i in range(1, 1000):
-        for user in queryset:
-            send_user_invite_task.delay(user.email)
-    duration = datetime.now() - starttime
-    print(f"Ended in {duration}")
+    for user in queryset:
+        send_user_invite_task.delay(user.email)
 
 
 send_invite.short_description = "Invite user"
+
+
+def send_invite_sync_deprecated(self, request, queryset):
+    for user in queryset:
+        send_user_invite(user.email)
+
+
+send_invite_sync_deprecated.short_description = "Invite user (deprecated)"
 
 
 @admin.register(User, Supervisor)
@@ -70,7 +72,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         "date_joined",
     ]
     search_fields = ["email"]
-    actions = [send_invite]
+    actions = [send_invite, send_invite_sync_deprecated]
 
 
 @admin.register(Coordinator, Consumer)

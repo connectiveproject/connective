@@ -29,5 +29,4 @@ def send_mail_sync(subject, to, content):
 
 @celery_app.task
 def send_user_invite_task(email):
-    print("in send_user_invite_task")
     send_user_invite(email)
