@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 
 from config import celery_app
 from server.users.helpers import send_user_invite
+from server.users.models import USER_TYPE_TO_MODEL
 
 User = get_user_model()
 
@@ -13,20 +14,7 @@ def get_users_count():
     return User.objects.count()
 
 
-# command to run celery worker:
-# celery -A config.celery_app worker
-#
-# conf for activate async calls:
-# settings.CELERY_TASK_ALWAYS_EAGER=False
-#
-# code for submit async call for this function:
-# send_mail.delay('1','2','3')
-#
 @celery_app.task
-def send_mail_sync(subject, to, content):
-    print(f"Subject: {subject}, To: {to}, Content: {content}")
-
-
-@celery_app.task
-def send_user_invite_task(email):
-    send_user_invite(email)
+def send_user_invite_task(user_id, user_type):
+    user = USER_TYPE_TO_MODEL.get(user_type).objects.get(id=user_id)
+    send_user_invite(user)

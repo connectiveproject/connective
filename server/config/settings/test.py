@@ -42,3 +42,5 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 CLIENT_BASE_URL = "http://localhost:8080"
 
 OTP_ENABLED = False
+
+CELERY_TASK_ALWAYS_EAGER = True
