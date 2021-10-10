@@ -28,7 +28,9 @@ tasks:
       cd ..
     command: pg_ctl status | grep PID  || pg_start && cd server && python manage.py runserver 0.0.0.0:8000
   - command: redis-server
-
+  - command: >
+      cd server
+      celery -A config.celery_app worker
   - command: MailHog
   - name: Vue Client
     init: > 
