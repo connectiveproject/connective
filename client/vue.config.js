@@ -12,6 +12,7 @@ function createBackendBaseUrl() {
 }
 
 process.env.VUE_APP_BACKEND_URL = process.env.VUE_APP_BACKEND_URL || `${createBackendBaseUrl()}api`
+process.env.VUE_APP_ANALYTICS_WRITE_KEY = process.env.VUE_APP_ANALYTICS_WRITE_KEY || "G9jJ5vXWzYyqp777CBQA1783LxRJEyWI"
 
 module.exports = {
   devServer: {
@@ -22,6 +23,13 @@ module.exports = {
     index: {
       entry: "src/main.js",
       title: "Connective",
+    },
+  },
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "./src/styles/main.scss";`,
+      },
     },
   },
   pluginOptions: {

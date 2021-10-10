@@ -1,5 +1,5 @@
 import Vue from "vue"
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 import store from "@/vuex/store"
 
 const coordinatorTabs = [

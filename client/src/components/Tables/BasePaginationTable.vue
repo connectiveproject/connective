@@ -33,7 +33,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex"
-import i18n from "../../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
 export default {
   inheritAttrs: false,

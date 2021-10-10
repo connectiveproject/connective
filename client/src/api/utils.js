@@ -1,6 +1,6 @@
 import isArray from "lodash/isArray"
 import isString from "lodash/isString"
-import i18n from "../plugins/i18n"
+import i18n from "@/plugins/i18n"
 
 const utils = {
   parseResponseError(err) {

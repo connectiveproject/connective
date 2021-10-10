@@ -28,7 +28,7 @@ User = get_user_model()
 
 def send_invite(self, request, queryset):
     for user in queryset:
-        send_user_invite_task.delay(user.email)
+        send_user_invite_task.delay(user)
 
 
 send_invite.short_description = "Invite user"
@@ -70,6 +70,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         "email",
         "slug",
         "date_joined",
+        "is_signup_complete",
     ]
     search_fields = ["email"]
     actions = [send_invite, send_invite_sync_deprecated]
@@ -78,6 +79,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
 @admin.register(Coordinator, Consumer)
 class SchoolUserTypesAdmin(BaseUserTypesAdmin):
     inlines = [SchoolMemberTabularInline]
+    search_fields = ["email", "school_member__school__name"]
 
 
 @admin.register(Instructor, Vendor)

@@ -1,55 +1,55 @@
-import i18n from "../plugins/i18n"
-import guards from "@/router/guards"
-import Welcome from "../layouts/Welcome"
-import CoordinatorDashboard from "../layouts/CoordinatorDashboard"
-import StudentDashboard from "../layouts/StudentDashboard"
-import InstructorDashboard from "../layouts/InstructorDashboard"
-import VendorDashboard from "../layouts/VendorDashboard"
-import SupervisorDashboard from "../layouts/SupervisorDashboard"
-import Login from "../views/Login"
-import CoordinatorRegister from "../views/Register/CoordinatorRegister"
-import VendorRegister from "../views/Register/VendorRegister"
-import CoordinatorProfile from "../views/Profile/CoordinatorProfile"
-import ConsumerProfile from "../views/Profile/ConsumerProfile"
-import InstructorProfile from "../views/Profile/InstructorProfile"
-import VendorProfile from "../views/Profile/VendorProfile"
-import SupervisorProfile from "../views/Profile/SupervisorProfile"
-import SchoolDetails from "../views/SchoolDetails"
-import EventFeedView from "../views/EventFeedView"
-import ProgramsExplorer from "../views/ProgramsExplorer/ProgramsExplorer"
-import ConsumerProgramsExplorer from "../views/ProgramsExplorer/ConsumerProgramsExplorer"
-import SchoolInviteWrapper from "../views/Invite/SchoolInviteWrapper"
-import OrganizationInviteWrapper from "../views/Invite/OrganizationInviteWrapper"
-import InviteConsumers from "../views/Invite/InviteConsumers"
-import InviteCoordinators from "../views/Invite/InviteCoordinators"
-import InviteInstructors from "../views/Invite/InviteInstructors"
-import InviteVendors from "../views/Invite/InviteVendors"
-import ResetPassword from "../views/ResetPassword"
-import RecoverPassword from "../views/RecoverPassword"
-import GenericError from "../views/Error"
-import ProgramModal from "../views/ProgramModal"
-import MyGroups from "../views/MyGroups/MyGroups"
-import ConsumerMyGroups from "../views/MyGroups/ConsumerMyGroups"
-import MyEvents from "../views/MyEvents/MyEvents"
-import CoordinatorEventCreator from "../views/CoordinatorEventCreator"
-import ConsumerList from "../views/ConsumerList/ConsumerList"
-import ConsumerMyEvents from "../views/MyEvents/ConsumerMyEvents"
-import ConsumerPendingEventsFeedback from "../views/ConsumerPendingEventsFeedback"
-import ConsumerEventFeedback from "../views/ConsumerEventFeedback"
-import CoordinatorStatistics from "../views/CoordinatorStatistics"
-import InstructorUnsummarizedEvents from "../views/InstructorUnsummarizedEvents"
-import InstructorEventSummary from "../views/InstructorEventSummary"
-import GroupEditor from "../views/GroupEditor"
-import CreateGroup from "../views/CreateGroup"
-import AssignGroupConsumers from "../views/AssignGroupConsumers"
-import GroupDetail from "../views/GroupDetail"
-import VendorProgramList from "../views/VendorProgramList"
-import VendorGroupsTable from "../views/VendorGroupsTable"
-import VendorDetailProgram from "../views/VendorDetailProgram"
-import VendorProgramMediaUpload from "../views/VendorProgramMediaUpload"
-import VendorProgramCreator from "../views/VendorProgramCreator"
-import VendorEventsApprove from "../views/VendorEventsApprove"
-import CoordinatorEventOrderStatus from "../views/CoordinatorEventOrderStatus"
+import i18n from "@/plugins/i18n"
+import guards, { chainGuards } from "@/router/guards"
+import Welcome from "@/layouts/Welcome"
+import CoordinatorDashboard from "@/layouts/CoordinatorDashboard"
+import StudentDashboard from "@/layouts/StudentDashboard"
+import InstructorDashboard from "@/layouts/InstructorDashboard"
+import VendorDashboard from "@/layouts/VendorDashboard"
+import SupervisorDashboard from "@/layouts/SupervisorDashboard"
+import Login from "@/views/Login"
+import CoordinatorRegister from "@/views/Register/CoordinatorRegister"
+import VendorRegister from "@/views/Register/VendorRegister"
+import CoordinatorProfile from "@/views/Profile/CoordinatorProfile"
+import ConsumerProfile from "@/views/Profile/ConsumerProfile"
+import InstructorProfile from "@/views/Profile/InstructorProfile"
+import VendorProfile from "@/views/Profile/VendorProfile"
+import SupervisorProfile from "@/views/Profile/SupervisorProfile"
+import SchoolDetails from "@/views/SchoolDetails"
+import EventFeedView from "@/views/EventFeedView"
+import ProgramsExplorer from "@/views/ProgramsExplorer/ProgramsExplorer"
+import ConsumerProgramsExplorer from "@/views/ProgramsExplorer/ConsumerProgramsExplorer"
+import SchoolInviteWrapper from "@/views/Invite/SchoolInviteWrapper"
+import OrganizationInviteWrapper from "@/views/Invite/OrganizationInviteWrapper"
+import InviteConsumers from "@/views/Invite/InviteConsumers"
+import InviteCoordinators from "@/views/Invite/InviteCoordinators"
+import InviteInstructors from "@/views/Invite/InviteInstructors"
+import InviteVendors from "@/views/Invite/InviteVendors"
+import ResetPassword from "@/views/ResetPassword"
+import RecoverPassword from "@/views/RecoverPassword"
+import GenericError from "@/views/Error"
+import ProgramModal from "@/views/ProgramModal"
+import MyGroups from "@/views/MyGroups/MyGroups"
+import ConsumerMyGroups from "@/views/MyGroups/ConsumerMyGroups"
+import MyEvents from "@/views/MyEvents/MyEvents"
+import CoordinatorEventCreator from "@/views/CoordinatorEventCreator"
+import ConsumerList from "@/views/ConsumerList/ConsumerList"
+import ConsumerMyEvents from "@/views/MyEvents/ConsumerMyEvents"
+import ConsumerPendingEventsFeedback from "@/views/ConsumerPendingEventsFeedback"
+import ConsumerEventFeedback from "@/views/ConsumerEventFeedback"
+import CoordinatorStatistics from "@/views/CoordinatorStatistics"
+import InstructorUnsummarizedEvents from "@/views/InstructorUnsummarizedEvents"
+import InstructorEventSummary from "@/views/InstructorEventSummary"
+import GroupEditor from "@/views/GroupEditor"
+import CreateGroup from "@/views/CreateGroup"
+import AssignGroupConsumers from "@/views/AssignGroupConsumers"
+import GroupDetail from "@/views/GroupDetail"
+import VendorProgramList from "@/views/VendorProgramList"
+import VendorGroupsTable from "@/views/VendorGroupsTable"
+import VendorDetailProgram from "@/views/VendorDetailProgram"
+import VendorProgramMediaUpload from "@/views/VendorProgramMediaUpload"
+import VendorProgramCreator from "@/views/VendorProgramCreator"
+import VendorEventsApprove from "@/views/VendorEventsApprove"
+import CoordinatorEventOrderStatus from "@/views/CoordinatorEventOrderStatus"
 
 
 export default [
@@ -58,7 +58,7 @@ export default [
     redirect: `/${i18n.locale}/welcome/login`,
   },
   {
-    path: "/:lang(he)",
+    path: "/:lang",
     component: {
       render(c) {
         return c("router-view")
@@ -117,7 +117,7 @@ export default [
       {
         path: "supervisor-dashboard",
         component: SupervisorDashboard,
-        beforeEnter: guards.populateSupervisorData,
+        beforeEnter: chainGuards([guards.supervisorOnly, guards.populateSupervisorData]),
         children: [
           {
             path: "",
@@ -134,7 +134,7 @@ export default [
       {
         path: "student-dashboard",
         component: StudentDashboard,
-        beforeEnter: guards.populateConsumerData,
+        beforeEnter: chainGuards([guards.consumerOnly, guards.populateConsumerData]),
         children: [
           {
             path: "",
@@ -187,7 +187,7 @@ export default [
       {
         path: "coordinator-dashboard",
         component: CoordinatorDashboard,
-        beforeEnter: guards.populateCoordinatorData,
+        beforeEnter: chainGuards([guards.coordOnly, guards.populateCoordinatorData]),
         children: [
           {
             path: "",
@@ -309,7 +309,7 @@ export default [
       {
         path: "instructor-dashboard",
         component: InstructorDashboard,
-        beforeEnter: guards.populateInstructorData,
+        beforeEnter: chainGuards([guards.instructorOnly, guards.populateInstructorData]),
         children: [
           {
             path: "",
@@ -342,7 +342,7 @@ export default [
       {
         path: "vendor-dashboard",
         component: VendorDashboard,
-        beforeEnter: guards.populateVendorData,
+        beforeEnter: chainGuards([guards.vendorOnly, guards.populateVendorData]),
         children: [
           {
             path: "",
