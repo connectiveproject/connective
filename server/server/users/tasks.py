@@ -20,5 +20,5 @@ def get_users_count():
 @celery_app.task
 def send_user_invite_task(user_id, user_type):
     logger.info(f"{INVITE_USER} : { user_type} : {user_id}")
-    user = USER_TYPE_TO_MODEL.get(user_type).objects.get(id=user_id)
+    user = USER_TYPE_TO_MODEL[user_type].objects.get(id=user_id)
     send_user_invite(user)
