@@ -11,7 +11,17 @@
       :items="availableConsumers"
       :loading="loading"
       @paginate="getAvailableConsumers"
-    />
+    >
+      <template slot="footer.prepend">
+        <v-btn
+          class="px-5"
+          color="primary"
+          @click="openUnlistedConsumersDialog"
+          v-text="$t('groups.studentsWhichAreNotListed')"
+        />
+      </template>
+    </table-rows-to-chips>
+
     <div class="mx-auto mt-10 text-center">
       <v-btn
         class="mx-3 white--text primary"
@@ -29,6 +39,27 @@
         @click="$router.go(-1)"
       />
     </div>
+    <v-dialog v-model="showUnlistedConsumersDialog" width="500">
+      <pagination-complex-table
+        show-select
+        actions-first
+        v-model="selectedUnlistedConsumers"
+        item-key="slug"
+        action-one-icon-color="grey darken-2"
+        hide-footer-icons
+        :headers="dialogTableHeaders"
+        :items="dialogStudents"
+        :loading="dialogLoading"
+        :totalActions="0"
+        :no-data-text="
+          $t('invite.?????????????????????????????????????????????console.log(')
+        "
+        :footer-btn-one-text="$t('userActions.addStudentsToGroup')"
+        :footer-btn-one-disabled="!selectedUnlistedConsumers.length"
+        @paginate="getDialogStudents"
+        @footer-btn-one-click="addDialogConsumersToGroup"
+      />
+    </v-dialog>
   </div>
 </template>
 
@@ -36,12 +67,13 @@
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "@/vuex/store"
-import Api from "../api"
-import { SERVER } from "../helpers/constants/constants"
-import TableRowsToChips from "../components/TableRowsToChips"
+import Api from "@/api"
+import { SERVER } from "@/helpers/constants/constants"
+import TableRowsToChips from "@/components/TableRowsToChips"
+import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
 
 export default {
-  components: { TableRowsToChips },
+  components: { TableRowsToChips, PaginationComplexTable },
   props: {
     groupSlug: {
       type: String,
@@ -81,10 +113,18 @@ export default {
         { text: this.$t("general.name"), value: "name" },
         { text: this.$t("general.email"), value: "email" },
       ],
+      //////////// console.log("rename and move to a different component")
+      //////////// console.log("check why moving between table pages does not work")
+      showUnlistedConsumersDialog: false,
+      selectedUnlistedConsumers: [],
+      dialogStudents: [],
+      dialogTableHeaders: [{ text: this.$t("general.name"), value: "name" }],
+      dialogLoading: false,
     }
   },
   methods: {
     ...mapActions("programGroup", ["updateGroupConsumers", "getConsumers"]),
+    ...mapActions("school", ["getStudentList"]),
     ...mapActions("snackbar", ["showMessage"]),
     async getAvailableConsumers() {
       try {
@@ -121,6 +161,21 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
+    async openUnlistedConsumersDialog() {
+      await this.getDialogStudents()
+      this.showUnlistedConsumersDialog = true
+    },
+    async getDialogStudents() {
+      this.dialogLoading = true
+      this.dialogStudents = await this.getStudentList({
+        override: true,
+        usePagination: true,
+      })
+      this.dialogLoading = false
+    },
+    addDialogConsumersToGroup() {
+      return
+    }
   },
 }
 </script>

@@ -355,7 +355,8 @@
     "parentGroup": "קבוצת אם",
     "instructorAssignment": "שיבוץ מדריך",
     "chooseInstructorForTheGroup": "בחרו מדריך לקבוצה",
-    "browseYourGroupsAndAssignInstructors": "צפו בקבוצות שלכם ושבצו מדריכים"
+    "browseYourGroupsAndAssignInstructors": "צפו בקבוצות שלכם ושבצו מדריכים",
+    "studentsWhichAreNotListed": "תלמידים שאינם ברשימה"
   },
 
   "time": {

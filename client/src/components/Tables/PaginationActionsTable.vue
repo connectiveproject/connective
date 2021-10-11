@@ -15,7 +15,7 @@
     </template>
     <template v-slot:item.actions="{ item }">
       <div class="d-flex">
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="totalActions >= 1">
           <template v-slot:activator="{ on, attrs }">
             <v-icon
               data-testid="actions-table-action-one"

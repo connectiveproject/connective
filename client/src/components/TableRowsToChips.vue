@@ -9,13 +9,23 @@
       :value="selectedRows"
       @input="$emit('input', $event)"
       @paginate="$emit('paginate')"
-    />
+    >
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+        <!-- use slots directly from parent -->
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </pagination-select-table>
     <select-table
       v-else
       v-bind="{ ...$props, ...$attrs }"
       :value="selectedRows"
       @input="$emit('input', $event)"
-    />
+    >
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+        <!-- use slots directly from parent -->
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </select-table>
     <chip-container :labels="getChipLabels()" icon="mdi-account-circle">
       {{ $t("general.chosen") }}
     </chip-container>
