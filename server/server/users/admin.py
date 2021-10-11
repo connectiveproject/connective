@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
@@ -9,6 +11,7 @@ from server.schools.admin import SchoolMemberTabularInline
 from server.users.forms import UserChangeForm
 from server.users.helpers import send_user_invite
 from server.users.tasks import send_user_invite_task  # noqa TODO: check if necessary
+from server.utils.logging.constants import INVITE_USER
 
 from .models import (
     Consumer,
@@ -23,12 +26,16 @@ from .models import (
     VendorProfile,
 )
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
 def send_invite(self, request, queryset):
     for user in queryset:
-        send_user_invite_task.delay(user.id, type(user).__name__)
+        user_type = type(user).__name__
+        user_id = user.id
+        logger.info(f"{INVITE_USER} submit as task : {user_type} : {user.id}")
+        send_user_invite_task.delay(user_id, user_type)
 
 
 send_invite.short_description = "Invite user"
