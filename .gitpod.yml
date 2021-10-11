@@ -32,7 +32,7 @@ tasks:
     command: >
       cd server &&
       sleep 30 &&
-      celery -A config.celery_app worker
+      celery -A config.celery_app worker --loglevel=INFO
   - command: MailHog
   - name: Vue Client
     init: > 
