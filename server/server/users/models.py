@@ -272,3 +272,12 @@ class InstructorProfile(BaseProfile):
             )
         ],
     )
+
+
+USER_TYPE_TO_MODEL = {
+    "Consumer": Consumer,
+    "Coordinator": Coordinator,
+    "Instructor": Instructor,
+    "Supervisor": Supervisor,
+    "Vendor": Vendor,
+}

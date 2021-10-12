@@ -1,12 +1,17 @@
+import logging
+
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from config import celery_app  # noqa TODO: check if necessary
 from server.organizations.admin import OrganizationMemberTabularInline
 from server.schools.admin import SchoolMemberTabularInline
 from server.users.forms import UserChangeForm
 from server.users.helpers import send_user_invite
+from server.users.tasks import send_user_invite_task  # noqa TODO: check if necessary
+from server.utils.logging.constants import INVITE_USER
 
 from .models import (
     Consumer,
@@ -21,15 +26,27 @@ from .models import (
     VendorProfile,
 )
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
 def send_invite(self, request, queryset):
     for user in queryset:
-        send_user_invite(user)
+        user_type = type(user).__name__
+        user_id = user.id
+        logger.info(f"{INVITE_USER} submit as task : {user_type} : {user.id}")
+        send_user_invite_task.delay(user_id, user_type)
 
 
 send_invite.short_description = "Invite user"
+
+
+def send_invite_sync_deprecated(self, request, queryset):
+    for user in queryset:
+        send_user_invite(user)
+
+
+send_invite_sync_deprecated.short_description = "Invite user (deprecated)"
 
 
 @admin.register(User, Supervisor)
@@ -63,7 +80,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
         "is_signup_complete",
     ]
     search_fields = ["email"]
-    actions = [send_invite]
+    actions = [send_invite, send_invite_sync_deprecated]
 
 
 @admin.register(Coordinator, Consumer)
