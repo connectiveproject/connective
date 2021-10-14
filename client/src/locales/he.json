@@ -356,7 +356,8 @@
     "instructorAssignment": "שיבוץ מדריך",
     "chooseInstructorForTheGroup": "בחרו מדריך לקבוצה",
     "browseYourGroupsAndAssignInstructors": "צפו בקבוצות שלכם ושבצו מדריכים",
-    "studentsWhichAreNotListed": "תלמידים שאינם ברשימה"
+    "allStudents": "כלל התלמידים",
+    "isInThisGroup": "האם נמצא בקבוצה זו"
   },
 
   "time": {

@@ -22,6 +22,7 @@
         data-testid="table-footer-btn-one"
         v-text="footerBtnOneText"
         :color="footerBtnOneColor"
+        :disabled="footerBtnOneDisabled"
         :class="{
           'glow-animation': !wasBtnOneClicked,
           'absolute-center': $vuetify.breakpoint.smAndUp,
@@ -35,7 +36,7 @@
           data-testid="table-footer-btn-two"
           v-text="footerBtnTwoText"
           :color="footerBtnTwoColor"
-          :disabled="footerBtnTwoDisabled"
+          :disabled="footerBtnTwoDisabled || !footerBtnTwoText.length"
           @click="$emit('footer-btn-two-click', $event)"
         />
         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp && !hideFooterIcons">
@@ -92,6 +93,10 @@ export default {
     footerBtnOneColor: {
       type: String,
       default: "primary",
+    },
+    footerBtnOneDisabled: {
+      type: Boolean,
+      default: false,
     },
     footerBtnTwoText: {
       type: String,

@@ -278,7 +278,9 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["PATCH"])
     def update_group_consumers(self, request, slug=None):
-        # receive consumer slugs list, override existing consumers & move the removed to container-only group
+        """
+        receive consumer slugs list, override existing consumers & move the removed to container-only group
+        """
         current_group = self.get_object()
         container_only_group = (
             SchoolActivityGroup.objects.get_activity_container_only_group(current_group)
@@ -290,7 +292,7 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             )
 
         to_remove = current_group.consumers.all().exclude(slug__in=request.data)
-        to_add = container_only_group.consumers.all().filter(slug__in=request.data)
+        to_add = Consumer.objects.filter(slug__in=request.data)
 
         current_group.consumers.remove(*to_remove)
         current_group.consumers.add(*to_add)

@@ -14,10 +14,10 @@
     >
       <template slot="footer.prepend">
         <v-btn
-          class="px-5"
+          class="px-5 my-3 mx-auto mx-sm-4"
           color="primary"
           @click="openUnlistedConsumersDialog"
-          v-text="$t('groups.studentsWhichAreNotListed')"
+          v-text="$t('groups.allStudents')"
         />
       </template>
     </table-rows-to-chips>
@@ -39,7 +39,7 @@
         @click="$router.go(-1)"
       />
     </div>
-    <v-dialog v-model="showUnlistedConsumersDialog" width="500">
+    <v-dialog v-model="showUnlistedConsumersDialog" width="700">
       <pagination-complex-table
         show-select
         actions-first
@@ -51,14 +51,23 @@
         :items="dialogStudents"
         :loading="dialogLoading"
         :totalActions="0"
-        :no-data-text="
-          $t('invite.?????????????????????????????????????????????console.log(')
-        "
         :footer-btn-one-text="$t('userActions.addStudentsToGroup')"
         :footer-btn-one-disabled="!selectedUnlistedConsumers.length"
         @paginate="getDialogStudents"
-        @footer-btn-one-click="addDialogConsumersToGroup"
-      />
+        @footer-btn-one-click="onDialogConsumerAddClick"
+      >
+        <template v-slot:item.isInThisGroup="{ item }">
+          {{ item.isInThisGroup ? $t("general.yes") : $t("general.no") }}
+        </template>
+        <template v-slot:item.data-table-select="{ item, isSelected, select }">
+          <v-checkbox
+            v-if="!item.disabled"
+            :value="isSelected"
+            @change="select($event)"
+          />
+        </template>
+        <template v-slot:header.data-table-select />
+      </pagination-complex-table>
     </v-dialog>
   </div>
 </template>
@@ -102,6 +111,11 @@ export default {
       vm.containerGroupSlugs = containerGroups.map(g => g.slug)
     })
   },
+  computed: {
+    consumerSlugs() {
+      return this.selectedConsumers.map(c => c.slug)
+    },
+  },
   data() {
     return {
       loading: false,
@@ -118,7 +132,14 @@ export default {
       showUnlistedConsumersDialog: false,
       selectedUnlistedConsumers: [],
       dialogStudents: [],
-      dialogTableHeaders: [{ text: this.$t("general.name"), value: "name" }],
+      dialogTableHeaders: [
+        { text: this.$t("general.name"), value: "name" },
+        {
+          text: this.$t("groups.isInThisGroup"),
+          value: "isInThisGroup",
+          sortable: false,
+        },
+      ],
       dialogLoading: false,
     }
   },
@@ -139,20 +160,22 @@ export default {
         return this.showMessage(Api.utils.parseResponseError(err))
       }
     },
+    async addConsumersToGroup(consumerSlugs) {
+      try {
+        await this.updateGroupConsumers({
+          groupSlug: this.groupSlug,
+          consumerSlugs,
+        })
+      } catch (err) {
+        this.btnLoading = false
+        return this.showMessage(Api.utils.parseResponseError(err))
+      }
+      this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+    },
     onSubmit: debounce(
       async function () {
         this.btnLoading = true
-        const consumerSlugs = this.selectedConsumers.map(c => c.slug)
-        try {
-          await this.updateGroupConsumers({
-            groupSlug: this.groupSlug,
-            consumerSlugs,
-          })
-        } catch (err) {
-          this.btnLoading = false
-          return this.showMessage(Api.utils.parseResponseError(err))
-        }
-        this.showMessage(this.$t("general.detailsSuccessfullyUpdated"))
+        await this.addConsumersToGroup(this.consumerSlugs)
         this.$router.push({
           name: "GroupDetail",
           params: { groupSlug: this.groupSlug },
@@ -165,17 +188,40 @@ export default {
       await this.getDialogStudents()
       this.showUnlistedConsumersDialog = true
     },
+    isConsumerSelected(slug) {
+      return (
+        this.selectedConsumers.filter(consumer => consumer.slug === slug)
+          .length > 0
+      )
+    },
     async getDialogStudents() {
       this.dialogLoading = true
-      this.dialogStudents = await this.getStudentList({
+      const studentList = await this.getStudentList({
         override: true,
         usePagination: true,
       })
+      this.dialogStudents = studentList.map(student => {
+        const isSelected = this.isConsumerSelected(student.slug)
+        return {
+          ...student,
+          isInThisGroup: isSelected,
+          disabled: isSelected,
+        }
+      })
       this.dialogLoading = false
     },
-    addDialogConsumersToGroup() {
-      return
-    }
+    async onDialogConsumerAddClick() {
+      this.showUnlistedConsumersDialog = false
+      const slugs = [
+        ...this.selectedUnlistedConsumers.map(c => c.slug),
+        ...this.consumerSlugs,
+      ]
+      this.addConsumersToGroup(slugs)
+      await this.$router.push({
+        name: "GroupDetail",
+        params: { groupSlug: this.groupSlug },
+      })
+    },
   },
 }
 </script>
