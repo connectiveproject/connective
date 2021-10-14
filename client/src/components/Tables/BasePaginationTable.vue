@@ -19,7 +19,9 @@
       :items="items"
       :loading="loading"
       :loading-text="loadingText"
-      :server-items-length="totalServerItems"
+      :server-items-length="
+        useSecondaryPagination ? totalServerItemsSecondary : totalServerItems
+      "
       :value="value"
       @input="$emit('input', $event)"
       @update:options="paginate"
@@ -32,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex"
+import { mapState } from "vuex"
 import i18n from "@/plugins/i18n"
 
 export default {
@@ -69,6 +71,10 @@ export default {
       type: String,
       default: "2",
     },
+    useSecondaryPagination: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -77,7 +83,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions("pagination", ["updatePagination"]),
+    updatePagination(options) {
+      if (this.useSecondaryPagination) {
+        return this.$store.dispatch("pagination2/updatePagination", options)
+      }
+      return this.$store.dispatch("pagination/updatePagination", options)
+    },
     async paginate(options) {
       await this.updatePagination(options)
       this.$emit("paginate")
@@ -90,6 +101,10 @@ export default {
   },
   computed: {
     ...mapState("pagination", ["totalServerItems"]),
+    ...mapState("pagination2", {
+      totalServerItemsSecondary: "totalServerItems",
+    }),
+
   },
 }
 </script>

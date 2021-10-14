@@ -1,5 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import cloneDeep from "lodash/cloneDeep"
 import auth from "./modules/auth"
 import user from "./modules/user"
 import consumer from "./modules/consumer"
@@ -47,6 +48,7 @@ const store = new Vuex.Store({
     snackbar,
     introjs,
     pagination,
+    pagination2: cloneDeep(pagination),
     programGroup,
     vendorProgramGroup,
     consumerProgramGroup,

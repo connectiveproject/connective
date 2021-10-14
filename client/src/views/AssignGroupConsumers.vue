@@ -43,6 +43,7 @@
       <pagination-complex-table
         show-select
         actions-first
+        useSecondaryPagination
         v-model="selectedUnlistedConsumers"
         item-key="slug"
         action-one-icon-color="grey darken-2"
@@ -127,8 +128,6 @@ export default {
         { text: this.$t("general.name"), value: "name" },
         { text: this.$t("general.email"), value: "email" },
       ],
-      //////////// console.log("rename and move to a different component")
-      //////////// console.log("check why moving between table pages does not work")
       showUnlistedConsumersDialog: false,
       selectedUnlistedConsumers: [],
       dialogStudents: [],
@@ -199,6 +198,7 @@ export default {
       const studentList = await this.getStudentList({
         override: true,
         usePagination: true,
+        useSecondPagination: true,
       })
       this.dialogStudents = studentList.map(student => {
         const isSelected = this.isConsumerSelected(student.slug)
