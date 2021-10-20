@@ -75,15 +75,31 @@ const school = {
       return state.details
     },
     async getStudentList(
-      { commit, state, rootGetters },
-      { override = true, usePagination = true }
+      { commit, state, dispatch, rootGetters },
+      { override = true, usePagination = true, useSecondPagination = false }
     ) {
       // :boolean override: whether to override the list or not (i.e., extend)
-      const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      let params = {}
+      if (usePagination) {
+        params = useSecondPagination
+          ? rootGetters["pagination2/apiParams"]
+          : rootGetters["pagination/apiParams"]
+      }
       const mutation = override ? "SET_STUDENT_LIST" : "ADD_STUDENTS_TO_LIST"
       let res = await Api.school.getStudentList(params)
       commit(mutation, res.data.results)
       commit("SET_STUDENTS_TOTAL", res.data.count)
+
+      if (usePagination) {
+        dispatch(
+          useSecondPagination
+            ? "pagination2/setTotalServerItems"
+            : "pagination/setTotalServerItems",
+          res.data.count,
+          { root: true }
+        )
+      }
+
       return state.studentList
     },
     getStudentsExportFile({ rootGetters }, { usePagination = true }) {

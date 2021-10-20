@@ -6,6 +6,10 @@
     :loading="loading"
     @paginate="$emit('paginate')"
   >
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+      <!-- use slots directly from parent -->
+      <slot :name="slot" v-bind="scope" />
+    </template>
     <template v-slot:item.plus="{ item }">
       <v-icon
         size="20"
