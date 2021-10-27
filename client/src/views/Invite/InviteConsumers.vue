@@ -57,7 +57,7 @@ import debounce from "lodash/debounce"
 import Api from "../../api"
 import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
-import AddStudentDialog from "../../components/AddDialog/AddStudentDialog"
+import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
 import PaginationComplexTable from "../../components/Tables/PaginationComplexTable"
 
 export default {
