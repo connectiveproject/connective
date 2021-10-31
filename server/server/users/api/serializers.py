@@ -44,7 +44,7 @@ class ConsumerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumerProfile
-        fields = ["slug", "gender", "profile_picture"]
+        fields = ["slug", "gender", "profile_picture", "phone_number"]
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
