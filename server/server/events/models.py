@@ -100,6 +100,7 @@ class Event(models.Model):
         null=True,
         blank=True,
     )
+    is_canceled = models.BooleanField(default=False)
 
     def clean(self):
         if self.start_time > self.end_time:
