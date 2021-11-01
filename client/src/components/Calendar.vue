@@ -1,7 +1,7 @@
 <template>
   <v-calendar
     ref="calendar"
-    class="text-center calendar"
+    class="text-center"
     v-bind="$attrs"
     v-on="$listeners"
     :weekday-format="translateWeekdays"
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.calendar::v-deep {
+.rtl::v-deep {
   .v-calendar-daily__head {
     margin-right: 0 !important;
     .v-calendar-daily_head-day .v-calendar-daily_head-day-label button {

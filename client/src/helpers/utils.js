@@ -6,7 +6,9 @@ import isArray from "lodash/isArray"
 import {
   YOUTUBE_ID_REGEX_PATTERN,
   YOUTUBE_EMBED_URL,
-} from "./constants/constants"
+  LANGUAGE_TO_RTL,
+} from "@/helpers/constants/constants"
+import i18n from "@/plugins/i18n"
 
 const utils = {
   uploadedFileToUrl(file) {
@@ -171,6 +173,12 @@ const utils = {
     })
     // convert blob to file if needed
     return new File([compressed], compressed.name)
+  },
+  /**
+  * Returns true if current language is RTL, false otherwise
+  */
+  checkRtl() {
+    return LANGUAGE_TO_RTL[i18n.locale]
   },
 }
 

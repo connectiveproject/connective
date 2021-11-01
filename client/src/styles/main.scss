@@ -4,8 +4,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  direction: rtl;
-  font-family: $hebrew-font-family;
 }
 
 html {
@@ -13,10 +11,18 @@ html {
   height: 100%;
 }
 
-.ltr {
+.rtl * {
+  direction: rtl;
+  font-family: $hebrew-font-family;
+}
+
+.ltr * {
   direction: ltr;
   font-family: $english-font-family;
-  text-align: left;
+}
+
+.mirror {
+  transform: rotateY(180deg);
 }
 
 #nprogress .bar {
