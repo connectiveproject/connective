@@ -62,7 +62,7 @@ export default {
       return this.eventList
         .filter(event => !event.hasSummary)
         .map(event => ({
-          action: moment(event.startTime).format("DD.MM.YYYY"),
+          action: `${moment(event.startTime).format("DD.MM.YYYY")} ${event.isCanceled? "(בוטל)" : ""}`, //TODO move to label
           subtitle: event.activityName,
           title: event.schoolGroupName,
         }))

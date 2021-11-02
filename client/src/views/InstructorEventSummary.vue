@@ -37,71 +37,6 @@
       v-slot="{ invalid }"
       @submit.prevent="onSubmit"
     >
-      <v-card introjs="confidential" style="background: #feece5">
-        <v-row
-          no-gutters
-          justify="space-between"
-          class="pt-16 px-2 px-sm-9 pb-5"
-        >
-          <v-col>
-            <v-img :src="CONFIDENTIAL_WATERMARK" alt="confidential" />
-          </v-col>
-          <v-card-text
-            v-text="`${$t('posts.thisPostIsNotVisibleForStudents')}.`"
-          />
-
-          <v-col cols="12">
-            <v-tribute :options="tributeOptions">
-              <v-textarea
-                autofocus
-                outlined
-                v-model="summaryGeneralNotes"
-                class="my-6"
-                persistent-hint
-                :hint="$t('events.use@toTagStudents')"
-                :label="
-                  $t(
-                    'events.summaryGeneralNotes-unusualEventsStudentsBehaviorEtc'
-                  )
-                "
-              >
-              </v-textarea>
-            </v-tribute>
-          </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="consumerchoices"
-              :label="$t('events.attendance')"
-              v-model="attendedConsumers"
-              class="my-6"
-              multiple
-              dense
-            />
-          </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-              v-model="summaryGeneralRating"
-              :label="$t('events.summaryGeneralRating')"
-              dense
-              class="my-6"
-            />
-          </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-              v-model="summaryChildrenBehavior"
-              :label="$t('events.summaryChildrenBehavior')"
-              dense
-              class="my-6"
-            />
-          </v-col>
-        </v-row>
-      </v-card>
-
       <v-checkbox
         class="mt-16"
         v-model="addPost"
@@ -168,6 +103,17 @@
         >
           {{ $t("userActions.save") }}
         </v-btn>
+        <v-btn
+          large
+          :loading="submitting"
+          color="error"
+          @click="$router.push({ name: 'InstructorUnsummarizedEvents' })"
+        >
+          <v-icon left> mdi-delete </v-icon>
+
+          {{ $t("cancel_event") }}
+        </v-btn> <!-- TODO -->
+
         <v-btn
           large
           class="mx-3 white--text"
