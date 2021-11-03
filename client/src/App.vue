@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="checkRtl() ? 'rtl' : 'ltr'">
     <v-app>
       <router-view />
       <snackbar />
@@ -8,8 +8,16 @@
 </template>
 
 <script>
-import Snackbar from "./components/Snackbar"
+import Utils from "@/helpers/utils"
+import Snackbar from "@/components/Snackbar"
+
 export default {
   components: { Snackbar },
+  mounted() {
+    return
+  },
+  methods: {
+    checkRtl: Utils.checkRtl,
+  },
 }
 </script>

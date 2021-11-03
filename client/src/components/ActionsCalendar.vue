@@ -6,7 +6,7 @@
     >
       <div class="d-flex flex-wrap align-center justify-center actions">
         <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
-          <v-icon>mdi-chevron-right</v-icon>
+          <v-icon :class="{ mirror: checkRtl() }">mdi-chevron-left</v-icon>
         </v-btn>
         <v-select
           value="displayType"
@@ -20,7 +20,7 @@
           :label="$t('general.display')"
         />
         <v-btn icon class="ma-2" @click="$refs.calendar.next()">
-          <v-icon>mdi-chevron-left</v-icon>
+          <v-icon :class="{ mirror: checkRtl() }">mdi-chevron-right</v-icon>
         </v-btn>
         <v-btn
           color="primary"
@@ -49,7 +49,9 @@
 </template>
 
 <script>
-import Calendar from "./Calendar"
+import Utils from "@/helpers/utils"
+import Calendar from "@/components/Calendar"
+
 export default {
   components: { Calendar },
   inheritAttrs: false,
@@ -68,6 +70,7 @@ export default {
     },
   },
   methods: {
+    checkRtl: Utils.checkRtl,
     setTitle() {
       this.title = this.$refs.calendar.$refs.calendar.title
     },

@@ -1,8 +1,9 @@
 <template>
   <v-navigation-drawer
+    class="px-2"
     temporary
-    right
     fixed
+    :right="checkRtl()"
     :value="value"
     @input="$emit('input', $event)"
   >
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+import Utils from "@/helpers/utils"
+
 export default {
   props: {
     value: {
@@ -35,5 +38,8 @@ export default {
       default: "",
     },
   },
+  methods: {
+    checkRtl: Utils.checkRtl,
+  }
 }
 </script>
