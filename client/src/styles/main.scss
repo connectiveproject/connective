@@ -19,6 +19,9 @@ html {
 .ltr * {
   direction: ltr;
   font-family: $english-font-family;
+  :first-letter {
+    text-transform: uppercase;
+  }
 }
 
 .mirror {
