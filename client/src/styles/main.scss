@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: $body-font-family;
 }
 
 html {
@@ -13,12 +14,10 @@ html {
 
 .rtl * {
   direction: rtl;
-  font-family: $hebrew-font-family;
 }
 
 .ltr * {
   direction: ltr;
-  font-family: $english-font-family;
   :first-letter {
     text-transform: uppercase;
   }
