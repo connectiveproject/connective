@@ -127,7 +127,10 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 class ConsumerProfileViewSet(ModelViewSet):
     permission_classes = [AllowConsumer]
     serializer_class = ConsumerProfileSerializer
-    queryset = ConsumerProfile.objects.all()
+
+    def get_queryset(self):
+        return ConsumerProfile.objects.filter(user=self.request.user)
+
     lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])

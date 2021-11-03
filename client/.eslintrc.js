@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     semi: ["error", "never"],
     "object-curly-spacing": ["error", "always"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "no-tabs": ["error", { allowIndentationTabs: false }],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "warn",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "warn",

@@ -209,6 +209,17 @@ class BaseProfile(models.Model):
         auto_now=False, auto_now_add=False, null=True, blank=True
     )
 
+    phone_number = models.CharField(
+        blank=True,
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9,15}$",
+                message=_("phone number must be between 9-15 digits"),
+            )
+        ],
+    )
+
     class Meta:
         abstract = True
 
@@ -218,30 +229,10 @@ class BaseProfile(models.Model):
 
 class CoordinatorProfile(BaseProfile):
     job_description = models.CharField(max_length=50, default="")
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
 
 
 class SupervisorProfile(BaseProfile):
     job_description = models.CharField(max_length=50, default="")
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
 
 
 class ConsumerProfile(BaseProfile):
@@ -249,29 +240,11 @@ class ConsumerProfile(BaseProfile):
 
 
 class VendorProfile(BaseProfile):
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
+    pass
 
 
 class InstructorProfile(BaseProfile):
-    phone_number = models.CharField(
-        blank=True,
-        max_length=15,
-        validators=[
-            RegexValidator(
-                regex=r"^\d{9,15}$",
-                message=_("phone number must be between 9-15 digits"),
-            )
-        ],
-    )
+    pass
 
 
 USER_TYPE_TO_MODEL = {
