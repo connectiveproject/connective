@@ -13,9 +13,6 @@ import Snackbar from "@/components/Snackbar"
 
 export default {
   components: { Snackbar },
-  mounted() {
-    return
-  },
   methods: {
     checkRtl: Utils.checkRtl,
   },
