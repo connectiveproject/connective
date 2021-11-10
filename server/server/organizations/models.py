@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
+from server.connective_tags.models import ConnectiveTaggedItem
 from server.schools.models import School
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
@@ -103,7 +104,7 @@ class Activity(get_base_model()):
         FIELD = "FIELD", "Field"
         OTHER = "OTHER", "Other"
 
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(blank=True, through=ConnectiveTaggedItem)
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
