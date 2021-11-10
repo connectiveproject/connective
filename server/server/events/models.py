@@ -4,10 +4,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
+from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
 
-class EventOrder(models.Model):
+class EventOrder(get_base_model()):
     class Status(models.TextChoices):
         CANCELLED = "CANCELLED", "Cancelled"
         PENDING_APPROVAL = "PENDING_APPROVAL", "Pending Approval"
@@ -57,7 +58,7 @@ class EventOrder(models.Model):
             )
 
 
-class Event(models.Model):
+class Event(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     event_order = models.ForeignKey(
         EventOrder, on_delete=models.CASCADE, null=True, related_name="events"
@@ -111,7 +112,7 @@ class Event(models.Model):
         return f"{self.school_group} : {self.start_time} : {self.slug}"
 
 
-class ConsumerEventFeedback(models.Model):
+class ConsumerEventFeedback(get_base_model()):
     class Meta:
         constraints = [
             models.UniqueConstraint(
