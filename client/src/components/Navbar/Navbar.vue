@@ -7,9 +7,16 @@
         @click="mobileDrawer = true"
       />
       <v-toolbar-title
+        v-if="logo.text"
         class="px-md-6"
         :class="{ absolute: $vuetify.breakpoint.xs }"
-        v-text="$t('general.connective')"
+        v-text="logo.logo"
+      />
+      <img
+        v-else
+        class="px-4 py-5 py-sm-10"
+        :width="$vuetify.breakpoint.xs ? '150px' : '250px'"
+        :src="logo.logo"
       />
       <v-spacer />
       <div class="px-md-6 align-self-center" introjs="navbar-account-menu" data-testid="navbar-account-menu">
@@ -42,8 +49,7 @@
 
 <script>
 import { mapState } from "vuex"
-import { BACKGROUNDS } from "@/helpers/constants/images"
-import { userToTabs, userToAccountButtons } from "@/components/Navbar/config"
+import { userToTabs, userToAccountButtons, backgroundImage, logo } from "@/components/Navbar/config"
 import AccountMenu from "@/components/AccountMenu"
 import RouteTabs from "@/components/RouteTabs"
 import NavigationDrawer from "@/components/NavigationDrawer"
@@ -62,9 +68,10 @@ export default {
   data() {
     return {
       mobileDrawer: false,
-      bg: BACKGROUNDS.navbar,
+      bg: backgroundImage,
       tabs: userToTabs[this.userType],
       accountButtons: userToAccountButtons[this.userType],
+      logo,
     }
   },
   computed: {
