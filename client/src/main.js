@@ -15,6 +15,7 @@ import Utils from "@/helpers/utils"
 
 Vue.use(cookies)
 Vue.config.productionTip = false
+
 Api.config.initAxiosSettings()
 
 new Vue({

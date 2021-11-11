@@ -1,8 +1,6 @@
 import Vue from "vue"
 import i18n from "@/plugins/i18n"
 import store from "@/vuex/store"
-import { BACKGROUNDS } from "@/helpers/constants/images"
-
 
 const coordinatorTabs = [
   {
@@ -219,13 +217,6 @@ const supervisorAccountButtons = [
     onClick: () => store.dispatch("auth/logout"),
   },
 ]
-
-
-export const backgroundImage = BACKGROUNDS.navbar
-export const logo = {
-  type: "text",
-  logo: i18n.t("general.connective")
-}
 
 export const userToTabs = {
   consumer: consumerTabs,

@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import Navbar from "../components/Navbar/Navbar"
+import Navbar from "@/components/Navbar/Navbar"
 import introjsFirstTimeTourMixin from "../mixins/introJs/introjsFirstTimeTourMixin"
 
 export default {
