@@ -1,5 +1,4 @@
 import store from "@/vuex/store"
-import i18n from "@/plugins/i18n"
 import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
 
@@ -68,7 +67,7 @@ export default {
   },
   async checkRegistrationStatus(to, from, next) {
     // redirect based on user type & registration status
-    const params = { lang: i18n.locale }
+    const params = to.params
     const isSignupComplete = store.state.user.userDetails.isSignupComplete
     const userToRoute = {
       [SERVER.userTypes.supervisor]: () =>
@@ -108,7 +107,7 @@ export default {
 
   loginIfAuthenticated(to, from, next) {
     if (store.state.auth.isAuthenticated) {
-      return next({ name: "Dashboard", params: { lang: i18n.locale } })
+      return next({ name: "Dashboard", params: to.params })
     }
     next()
   },
@@ -117,7 +116,7 @@ export default {
     // login if finished registration process
     const isSignupComplete = store.state.user.userDetails.isSignupComplete
     if (isSignupComplete) {
-      return next({ name: "Dashboard", params: { lang: i18n.locale } })
+      return next({ name: "Dashboard", params: to.params })
     }
     if (isSignupComplete === null) {
       // if unknown, redirect to login page
