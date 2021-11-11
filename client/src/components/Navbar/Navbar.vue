@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-toolbar dark prominent :src="bg">
+    <v-toolbar dark prominent>
+      <template slot="img">
+        <v-img style="filter: brightness(65%)" :src="bg" height="300" />
+      </template>
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.xs"
         introjs="navigation"

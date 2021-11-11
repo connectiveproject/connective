@@ -39,31 +39,31 @@ export default {
     if (store.getters["user/isCoordinator"]) {
       return next()
     }
-    next("/")
+    next({ name: "Login", params: to.params })
   },
   vendorOnly(to, from, next) {
     if (store.getters["user/isVendor"]) {
       return next()
     }
-    next("/")
+    next({ name: "Login", params: to.params })
   },
   consumerOnly(to, from, next) {
     if (store.getters["user/isConsumer"]) {
       return next()
     }
-    next("/")
+    next({ name: "Login", params: to.params })
   },
   instructorOnly(to, from, next) {
     if (store.getters["user/isInstructor"]) {
       return next()
     }
-    next("/")
+    next({ name: "Login", params: to.params })
   },
   supervisorOnly(to, from, next) {
     if (store.getters["user/isSupervisor"]) {
       return next()
     }
-    next("/")
+    next({ name: "Login", params: to.params })
   },
   async checkRegistrationStatus(to, from, next) {
     // redirect based on user type & registration status
@@ -99,7 +99,7 @@ export default {
     }
 
     if (!store.state.auth.isAuthenticated) {
-      return next("/")
+      next({ name: "Login", params: to.params })
     }
     const userDetails = await store.dispatch("user/getUserDetails")
     userToRoute[userDetails.userType]()
@@ -120,7 +120,7 @@ export default {
     }
     if (isSignupComplete === null) {
       // if unknown, redirect to login page
-      return next("/")
+      next({ name: "Login", params: to.params })
     }
     next()
   },
