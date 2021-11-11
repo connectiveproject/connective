@@ -358,3 +358,5 @@ OTP_ENABLED = env.bool("OTP_ENABLED", True)
 analytics.write_key = env(
     "ANALYTICS_WRITE_KEY", default="bLQ7I4vOgSxUzEYzChAo9jYmKUTncInC"
 )
+
+ADMIN_ADD_USER_FIELDS = ("email", "password1", "password2")
