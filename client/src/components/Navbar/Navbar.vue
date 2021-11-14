@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-toolbar dark prominent :src="bg">
+    <v-toolbar dark prominent>
+      <template slot="img">
+        <v-img style="filter: brightness(65%)" :src="bg" height="300" />
+      </template>
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.xs"
         introjs="navigation"
@@ -47,7 +50,6 @@ import { userToTabs, userToAccountButtons } from "@/components/Navbar/config"
 import AccountMenu from "@/components/AccountMenu"
 import RouteTabs from "@/components/RouteTabs"
 import NavigationDrawer from "@/components/NavigationDrawer"
-
 export default {
   components: { AccountMenu, RouteTabs, NavigationDrawer },
   props: {

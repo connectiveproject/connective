@@ -94,6 +94,7 @@ LOCAL_APPS = [
     "server.events.apps.EventsConfig",
     "server.posts.apps.PostsConfig",
     "server.termsofuse.apps.TermsofuseConfig",
+    "server.connective_tags.apps.ConnectiveTagsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -357,3 +358,5 @@ OTP_ENABLED = env.bool("OTP_ENABLED", True)
 analytics.write_key = env(
     "ANALYTICS_WRITE_KEY", default="bLQ7I4vOgSxUzEYzChAo9jYmKUTncInC"
 )
+
+ADMIN_ADD_USER_FIELDS = ("email", "password1", "password2")

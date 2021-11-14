@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import BooleanField, CharField, EmailField, TextChoices
@@ -6,6 +6,7 @@ from django.db.models.base import ModelBase
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from server.utils.db_utils import get_base_abstract_user_model, get_base_model
 from server.utils.model_fields import random_slug
 
 
@@ -24,7 +25,7 @@ class UserRegistrator(ModelBase):
         return newcls
 
 
-class User(AbstractUser, metaclass=UserRegistrator):
+class User(get_base_abstract_user_model(), metaclass=UserRegistrator):
     """Default user for server."""
 
     Types = models.TextChoices("Types", "USER")
@@ -185,7 +186,7 @@ class Supervisor(User):
         return self.supervisorprofile
 
 
-class BaseProfile(models.Model):
+class BaseProfile(get_base_model()):
     class Gender(TextChoices):
         MALE = "MALE", "Male"
         FEMALE = "FEMALE", "Female"

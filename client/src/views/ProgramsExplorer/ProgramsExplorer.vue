@@ -82,16 +82,16 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex"
 import debounce from "lodash/debounce"
-import Api from "../../api"
-import InfoCard from "../../components/InfoCard"
-import SideDrawer from "../../components/SideDrawer"
-import PaginationCheckboxGroup from "../../components/PaginationCheckboxGroup"
-import PaginationSearchBar from "../../components/PaginationSearchBar"
-import PaginationChipGroup from "../../components/PaginationChipGroup"
-import EndOfPageDetector from "../../components/EndOfPageDetector"
-import { SERVER } from "../../helpers/constants/constants"
+import Api from "@/api"
+import InfoCard from "@/components/InfoCard"
+import SideDrawer from "@/components/SideDrawer"
+import PaginationCheckboxGroup from "@/components/PaginationCheckboxGroup"
+import PaginationSearchBar from "@/components/PaginationSearchBar"
+import PaginationChipGroup from "@/components/PaginationChipGroup"
+import EndOfPageDetector from "@/components/EndOfPageDetector"
+import { SERVER } from "@/helpers/constants/constants"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
-import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
+import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "ProgramsExplorer",

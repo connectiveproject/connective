@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APIClient
 
@@ -29,6 +30,7 @@ class TestTrackerMixins:
                 uri,
                 group_data,
                 format="json",
+                **settings.TEST_API_ADDITIONAL_PARAMS,
             )
 
             track_mock.assert_called_with(
@@ -89,15 +91,19 @@ class TestTrackerMixins:
         with patch("analytics.track") as track_mock:
             uri = reverse("admin:organizations_schoolactivitygroup_add")
             group_data = {
-                "slug": "J123LKASDKAASDK2",
-                "name": "J123LKASDKAASDK2",
-                "description": "group_desciption",
-                "activity_order": all_entities["activity_order"].pk,
-                "group_type": SchoolActivityGroup.GroupTypes.DEFAULT,
+                **settings.TEST_ADDITIONAL_DATA,
+                **{
+                    "slug": "J123LKASDKAASDK2",
+                    "name": "J123LKASDKAASDK2",
+                    "description": "group_desciption",
+                    "activity_order": all_entities["activity_order"].pk,
+                    "group_type": SchoolActivityGroup.GroupTypes.DEFAULT,
+                },
             }
             admin_client.post(
                 uri,
                 data=group_data,
+                **settings.TEST_API_ADDITIONAL_PARAMS,
             )
             created_obj = SchoolActivityGroup.objects.get(name=group_data["name"])
             track_mock.assert_called_with(
@@ -123,21 +129,26 @@ class TestTrackerMixins:
             )
 
             order_data = {
-                "slug": order.slug,
-                "school": order.school.pk,
-                "activity": order.activity.pk,
-                "status": SchoolActivityOrder.Status.CANCELLED,
+                **settings.TEST_ADDITIONAL_DATA,
+                **{
+                    "slug": order.slug,
+                    "school": order.school.pk,
+                    "activity": order.activity.pk,
+                    "status": SchoolActivityOrder.Status.CANCELLED,
+                },
             }
 
             admin_client.post(
                 uri,
                 data=order_data,
+                **settings.TEST_API_ADDITIONAL_PARAMS,
             )
 
             # patch again but don't change the field - should not trigger `track`
             admin_client.post(
                 uri,
                 data=order_data,
+                **settings.TEST_API_ADDITIONAL_PARAMS,
             )
 
             updated_obj = SchoolActivityOrder.objects.get(slug=order_data["slug"])

@@ -7,6 +7,7 @@
 <script>
 import Chart from "chart.js/auto"
 import ChartDataLabels from "chartjs-plugin-datalabels"
+import Utils from "@/helpers/utils"
 
 export default {
   props: {
@@ -92,7 +93,7 @@ export default {
                   return context.raw.label
                 },
               },
-              rtl: true,
+              rtl: Utils.checkRtl(),
             },
           },
         },

@@ -2,6 +2,7 @@ from contextlib import suppress
 from datetime import datetime, timedelta
 
 import pytest
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from rest_framework import status
@@ -50,6 +51,7 @@ class TestEventView:
                 "end_time": today,
                 "consumers": [],
                 "school_group": all_entities["activity_group"].slug,
+                **settings.TEST_API_ADDITIONAL_PARAMS,
             },
             format="json",
         )
@@ -69,11 +71,9 @@ class TestEventView:
         client.force_authenticate(user=coord)
 
         post_response = client.post(
-            self.uri,
-            payload,
-            format="json",
+            self.uri, payload, format="json", **settings.TEST_API_ADDITIONAL_PARAMS
         )
-        get_response = client.get(self.uri)
+        get_response = client.get(self.uri, **settings.TEST_API_ADDITIONAL_PARAMS)
 
         assert post_response.status_code == status.HTTP_201_CREATED
         assert get_response.status_code == status.HTTP_200_OK
@@ -154,8 +154,9 @@ class TestEventOrderView:
             self.uri,
             order_data,
             format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
         )
-        get_response = client.get(self.uri)
+        get_response = client.get(self.uri, **settings.TEST_API_ADDITIONAL_PARAMS)
         assert post_response.status_code == status.HTTP_201_CREATED
         assert get_response.status_code == status.HTTP_200_OK
         assert post_response.data == dict(get_response.data["results"][-1])

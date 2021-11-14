@@ -261,3 +261,6 @@ export const SEGMENT_EVENTS = {
   programOpened: "program_opened",
   programJoined: "program_joined",
 }
+export const LANGUAGE_TO_RTL = {
+  "he": true,
+}
