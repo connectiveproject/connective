@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from django.conf import settings
 from django.test import override_settings
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -21,9 +22,12 @@ class TestManageSchoolProgramsView:
         client = APIClient()
         client.force_authenticate(user=coordinator)
         post_response = client.post(
-            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri,
+            {"school": school.slug, "activity": activity.slug},
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
         )
-        get_response = client.get(self.uri)
+        get_response = client.get(self.uri, **settings.TEST_API_ADDITIONAL_PARAMS)
 
         assert len(get_response.data["results"]) == 1
         assert post_response.status_code == status.HTTP_201_CREATED
@@ -45,12 +49,18 @@ class TestManageSchoolProgramsView:
         client = APIClient()
         client.force_authenticate(user=coordinator)
         post_response = client.post(
-            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri,
+            {"school": school.slug, "activity": activity.slug},
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
         )
 
         SchoolMember.objects.create(school=school1, user=coordinator)
         post_response_2 = client.post(
-            self.uri, {"school": school.slug, "activity": activity.slug}, format="json"
+            self.uri,
+            {"school": school.slug, "activity": activity.slug},
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
         )
         assert (
             status.HTTP_400_BAD_REQUEST
@@ -70,14 +80,20 @@ class TestConsumerActivityView:
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        get_response_before_order = client.get(self.uri)
+        get_response_before_order = client.get(
+            self.uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         order = SchoolActivityOrder.objects.create(activity=activity, school=school)
-        get_response_after_order_creation = client.get(self.uri)
+        get_response_after_order_creation = client.get(
+            self.uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         order.status = SchoolActivityOrder.Status.APPROVED
         order.save()
-        get_response_after_order_approval = client.get(self.uri)
+        get_response_after_order_approval = client.get(
+            self.uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         assert (
             status.HTTP_200_OK
@@ -107,10 +123,14 @@ class TestConsumerActivityView:
 
         client = APIClient()
         client.force_authenticate(user=consumer)
-        response_before_consumer_in_group = client.get(self.uri)
+        response_before_consumer_in_group = client.get(
+            self.uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         activity_group.consumers.add(consumer)
-        response_after_consumer_in_group = client.get(self.uri)
+        response_after_consumer_in_group = client.get(
+            self.uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         assert (
             response_before_consumer_in_group.data["results"][0]["is_consumer_joined"]
@@ -138,7 +158,9 @@ class TestJoinGroupAction:
         client.force_authenticate(user=consumer)
 
         activity_slug = school_activity_order.activity.slug
-        response = client.post(self.uri.format(activity_slug))
+        response = client.post(
+            self.uri.format(activity_slug), **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         assert (
             SchoolActivityGroup.objects.get(
                 activity_order=school_activity_order,
@@ -165,7 +187,9 @@ class TestJoinGroupAction:
         client = APIClient()
         client.force_authenticate(user=consumer)
         activity_slug = school_activity_order.activity.slug
-        response = client.post(self.uri.format(activity_slug))
+        response = client.post(
+            self.uri.format(activity_slug), **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         assert school_activity_group.consumers.first() == consumer
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -181,7 +205,9 @@ class TestJoinGroupAction:
         client = APIClient()
         client.force_authenticate(user=consumer)
         activity_slug = school_activity_order.activity.slug
-        response = client.post(self.uri.format(activity_slug))
+        response = client.post(
+            self.uri.format(activity_slug), **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert response.data == {"non_field_errors": ["user already in a group"]}
 
@@ -202,7 +228,9 @@ class TestLeaveGroupAction:
         client = APIClient()
         client.force_authenticate(user=consumer)
         activity_slug = school_activity_order.activity.slug
-        response = client.post(self.uri.format(activity_slug))
+        response = client.post(
+            self.uri.format(activity_slug), **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not school_activity_group.consumers.all().exists()
         assert (
@@ -233,9 +261,13 @@ class TestVendorActivityView:
         client = APIClient()
         client.force_authenticate(user=vendor)
 
-        post_response = client.post(self.uri, payload, format="json")
+        post_response = client.post(
+            self.uri, payload, format="json", **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         activity_slug = post_response.data["slug"]
-        get_response = client.get(f"{self.uri}{activity_slug}/")
+        get_response = client.get(
+            f"{self.uri}{activity_slug}/", **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         assert post_response.status_code == status.HTTP_201_CREATED
         assert get_response.status_code == status.HTTP_200_OK
