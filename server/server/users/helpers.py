@@ -5,16 +5,15 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
-from server.users.forms import RecoverPasswordForm, SendInviteForm
+from server.utils.factories import get_form_factory
 from server.utils.logging.constants import CAPTCHA, PROFILE
 
 logger = logging.getLogger(__name__)
 
 
 def send_user_invite(user):
-    email = user.email
-    # send invitation to reset password & join the platform
-    form = SendInviteForm(data={"email": email})
+    form_factory = get_form_factory()
+    form = form_factory.create_send_invite_form(user)
     if form.is_valid():
         form.save(None)
         try:
@@ -30,7 +29,8 @@ def send_user_invite(user):
 
 def send_password_recovery(email):
     # send password recovery email
-    form = RecoverPasswordForm(data={"email": email})
+    form_factory = get_form_factory()
+    form = form_factory.create_recover_password_form(email)
     if form.is_valid():
         form.save(None)
 
