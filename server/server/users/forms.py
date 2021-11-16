@@ -85,3 +85,12 @@ class RecoverPasswordForm(ResetPasswordGenericMixin, ResetPasswordForm):
     client_uri = path.join(
         settings.CLIENT_BASE_URL, "he/welcome/reset-password/recover"
     )
+
+
+class ConnectiveFormFactory:
+    def create_send_invite_form(user: User) -> SendInviteForm:
+        email = user.email
+        return SendInviteForm(data={"email": email})
+
+    def create_recover_password_form(email: str) -> RecoverPasswordForm:
+        return RecoverPasswordForm(data={"email": email})
