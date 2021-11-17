@@ -56,7 +56,7 @@
                 : $t("errors.domainUnspecified")
             }}
           </template>
-          {{ program.description | trimText(70) }}
+          {{ program.description | trimText(36) }}
         </info-card>
       </v-col>
     </v-row>

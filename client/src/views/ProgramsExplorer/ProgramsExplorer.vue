@@ -19,13 +19,7 @@
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
           <h1 v-text="$t('program.programCatalog')" class="card-demo pb-6" />
-          <h3
-            v-text="
-              $t(
-                'program.chooseAProgramThatSuitsYourSchool!'
-              )
-            "
-          />
+          <h3 v-text="$t('program.chooseAProgramThatSuitsYourSchool!')" />
         </div>
         <v-btn
           introjs="advanced-search"
@@ -69,7 +63,7 @@
                 {{ statusToText[program.orderStatus] }}
               </span>
             </template>
-            {{ program.description | trimText(70) }}
+            {{ program.description | trimText(36) }}
           </info-card>
         </v-col>
       </v-row>
@@ -165,7 +159,12 @@ export default {
     ),
 
     requestProgram(program) {
-      if ([SERVER.programOrderStatus.cancelled, SERVER.programOrderStatus.denied].includes(program.orderStatus)) {
+      if (
+        [
+          SERVER.programOrderStatus.cancelled,
+          SERVER.programOrderStatus.denied,
+        ].includes(program.orderStatus)
+      ) {
         return this.reCreateProgramOrder({
           schoolSlug: this.schoolSlug,
           programSlug: program.slug,
