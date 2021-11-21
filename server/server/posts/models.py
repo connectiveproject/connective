@@ -2,10 +2,11 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from server.events.models import Event
+from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
 
-class Post(models.Model):
+class Post(get_base_model()):
     slug = models.CharField(
         max_length=40,
         default=random_slug,
@@ -29,7 +30,7 @@ class Post(models.Model):
     post_content = models.TextField(max_length=300)
 
 
-class PostImage(models.Model):
+class PostImage(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     image_url = models.ImageField()
     post = models.ForeignKey(

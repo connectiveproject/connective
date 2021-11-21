@@ -218,7 +218,6 @@ const supervisorAccountButtons = [
   },
 ]
 
-
 export const userToTabs = {
   consumer: consumerTabs,
   coordinator: coordinatorTabs,

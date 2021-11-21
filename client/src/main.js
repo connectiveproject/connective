@@ -10,11 +10,12 @@ import Api from "@/api"
 import "@/filters"
 import "@/helpers/validators"
 import "intro.js/introjs.css"
-import "intro.js/introjs-rtl.css"
 import "nprogress/nprogress.css"
+import Utils from "@/helpers/utils"
 
 Vue.use(cookies)
 Vue.config.productionTip = false
+
 Api.config.initAxiosSettings()
 
 new Vue({
@@ -24,3 +25,7 @@ new Vue({
   i18n,
   render: h => h(App),
 }).$mount("#app")
+
+if (Utils.checkRtl()) {
+  import("intro.js/introjs-rtl.css")
+}

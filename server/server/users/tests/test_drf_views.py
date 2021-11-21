@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from django.conf import settings
 from django.core import mail
 from django.test import RequestFactory, override_settings
 from rest_framework import status
@@ -62,13 +63,22 @@ class TestManageConsumersView:
         client.force_authenticate(coordinator)
 
         # create consumer
-        consumer_post_response = client.post(self.url, create_payload, format="json")
+        consumer_post_response = client.post(
+            self.url,
+            create_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
         consumer_slug = consumer_post_response.data["slug"]
         detail_url = f"{self.url}{consumer_slug}/"
 
         # get created consumer (via list & detailed)
-        consumer_list_get_response = client.get(self.url)
-        consumer_detail_get_response = client.get(detail_url)
+        consumer_list_get_response = client.get(
+            self.url, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
+        consumer_detail_get_response = client.get(
+            detail_url, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         assert (
             consumer_list_get_response.status_code
@@ -102,7 +112,12 @@ class TestManageConsumersView:
 
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
-        client.post(self.url, create_payload, format="json")
+        client.post(
+            self.url,
+            create_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]
@@ -145,13 +160,22 @@ class TestManageCoordinatorsView:
         client.force_authenticate(coordinator)
 
         # create coord
-        coordinator_post_response = client.post(self.url, create_payload, format="json")
+        coordinator_post_response = client.post(
+            self.url,
+            create_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
         coordinator_slug = coordinator_post_response.data["slug"]
         detail_url = f"{self.url}{coordinator_slug}/"
 
         # get created coord (via list & detailed)
-        coordinator_list_get_response = client.get(self.url)
-        coordinator_detail_get_response = client.get(detail_url)
+        coordinator_list_get_response = client.get(
+            self.url, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
+        coordinator_detail_get_response = client.get(
+            detail_url, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         assert (
             coordinator_list_get_response.status_code
@@ -187,7 +211,12 @@ class TestManageCoordinatorsView:
 
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
-        client.post(self.url, create_payload, format="json")
+        client.post(
+            self.url,
+            create_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == create_payload["email"]

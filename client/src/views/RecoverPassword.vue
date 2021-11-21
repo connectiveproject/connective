@@ -53,8 +53,8 @@
             type="submit"
             color="primary"
             elevation="3"
-            to="/"
             block
+            :to="{ name: 'Login' }"
           >
             {{ $t("userActions.back") }}
           </v-btn>
@@ -95,7 +95,7 @@ export default {
           this.showMessage(
             this.$t("success.passwordResetEmailWasSentToYourInbox")
           )
-          this.$router.push("/")
+          this.$router.push({ name: "Login" })
         } catch (err) {
           this.resetCaptcha()
           const parsedError = Api.utils.parseResponseError(err)

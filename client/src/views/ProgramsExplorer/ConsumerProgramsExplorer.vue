@@ -65,7 +65,7 @@
                 {{ statusToText[program.consumerJoinStatus] }}
               </span>
             </template>
-            {{ program.description | trimText(70) }}
+            {{ program.description | trimText(42) }}
           </info-card>
         </v-col>
       </v-row>

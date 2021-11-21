@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from server.utils.db_utils import get_base_model
 from server.utils.model_fields import PhoneNumberField
 
 User = get_user_model()
@@ -13,7 +14,7 @@ def random_slug():
     return uuid.uuid4().hex.upper()[0 : random.randint(10, 22)]  # noqa
 
 
-class School(models.Model):
+class School(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
@@ -37,7 +38,7 @@ class School(models.Model):
         return f"{self.name} | {self.address_city} | {self.slug}"
 
 
-class ImportedSchool(models.Model):
+class ImportedSchool(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
@@ -81,7 +82,7 @@ class ImportedSchool(models.Model):
         return f"{self.name} | {self.address_city} | {self.school_code}"
 
 
-class SchoolMember(models.Model):
+class SchoolMember(get_base_model()):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="school_member"
     )

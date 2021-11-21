@@ -83,11 +83,11 @@
           <v-btn
             outlined
             block
-            to="/"
             class="mt-4"
             color="primary"
             elevation="3"
             v-text="$t('general.homepage')"
+            :to="{ name: 'Login' }"
           />
         </form>
       </validation-observer>

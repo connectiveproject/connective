@@ -1,10 +1,11 @@
 import Vue from "vue"
 import Vuetify from "vuetify/lib/framework"
+import Utils from "@/helpers/utils"
 
 Vue.use(Vuetify)
 
 export default new Vuetify({
-  rtl: true,
+  rtl: Utils.checkRtl(),
   theme: {
     themes: {
       light: {

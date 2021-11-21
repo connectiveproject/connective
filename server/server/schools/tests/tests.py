@@ -1,4 +1,5 @@
 import pytest
+from django.conf import settings
 from rest_framework.test import APIClient
 
 from server.schools.models import School, SchoolMember
@@ -41,7 +42,9 @@ class TestSchoolViewSet:
         client.force_authenticate(user1)
 
         # query API before adding schools
-        list_response_no_schools = client.get("/api/schools/")
+        list_response_no_schools = client.get(
+            "/api/schools/", **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         school1 = School.objects.create(**school1_data)
         school2 = School.objects.create(**school2_data)
@@ -50,7 +53,9 @@ class TestSchoolViewSet:
         SchoolMember.objects.create(user=user2, school=school2)
 
         # query API after adding schools
-        list_response_single_school = client.get("/api/schools/")
+        list_response_single_school = client.get(
+            "/api/schools/", **settings.TEST_API_ADDITIONAL_PARAMS
+        )
 
         # check user can see exactly the schools it should
         assert not list_response_no_schools.data["results"]
@@ -59,7 +64,9 @@ class TestSchoolViewSet:
         # check the data itself from a specific school & school list data
         school1_slug = list_response_single_school.data["results"][0]["slug"]
         school1_data["slug"] = school1_slug
-        detail_response = client.get(f"/api/schools/{school1_slug}/")
+        detail_response = client.get(
+            f"/api/schools/{school1_slug}/", **settings.TEST_API_ADDITIONAL_PARAMS
+        )
         assert (
             school1_data
             == list_response_single_school.data["results"][0]

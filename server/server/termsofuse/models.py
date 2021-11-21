@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
 
@@ -9,7 +10,7 @@ class TermsOfUseDocumentManager(models.Manager):
         return TermsOfUseSignature.objects.create(user=user, document=super().last())
 
 
-class TermsOfUseDocument(models.Model):
+class TermsOfUseDocument(get_base_model()):
 
     objects = TermsOfUseDocumentManager()
 
@@ -19,7 +20,7 @@ class TermsOfUseDocument(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 
-class TermsOfUseSignature(models.Model):
+class TermsOfUseSignature(get_base_model()):
     document = models.ForeignKey(
         TermsOfUseDocument,
         on_delete=models.SET_NULL,

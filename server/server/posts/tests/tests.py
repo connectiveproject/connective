@@ -1,4 +1,5 @@
 import pytest
+from django.conf import settings
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -19,8 +20,9 @@ class TestPostView:
             self.uri,
             post_data,
             format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
         )
-        get_response = client.get(self.uri)
+        get_response = client.get(self.uri, **settings.TEST_API_ADDITIONAL_PARAMS)
 
         assert post_response.status_code == status.HTTP_201_CREATED
         assert get_response.status_code == status.HTTP_200_OK

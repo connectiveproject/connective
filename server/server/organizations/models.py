@@ -3,7 +3,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
+from server.connective_tags.models import ConnectiveTaggedItem
 from server.schools.models import School
+from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
 
@@ -17,7 +19,7 @@ class SchoolActivityGroupManager(models.Manager):
             return container_only_groups[0]
 
 
-class ImportedOrganization(models.Model):
+class ImportedOrganization(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True)
     email = models.EmailField(null=True, blank=True)
@@ -56,7 +58,7 @@ class ImportedOrganization(models.Model):
         return f"{self.name} | {self.organization_number} | {self.slug}"
 
 
-class Organization(models.Model):
+class Organization(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     organization_number = models.CharField(max_length=10, unique=True, null=True)
     email = models.EmailField()
@@ -95,14 +97,14 @@ class Organization(models.Model):
         return f"{self.name} | {self.organization_number} | {self.slug}"
 
 
-class Activity(models.Model):
+class Activity(get_base_model()):
     class Domain(models.TextChoices):
         SCIENCE_AND_TECH = "SCIENCE_AND_TECH", "Science And Tech"
         EXTREME_SPORTS = "EXTREME_SPORTS", "Extreme Sports"
         FIELD = "FIELD", "Field"
         OTHER = "OTHER", "Other"
 
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(blank=True, through=ConnectiveTaggedItem)
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=35)
@@ -138,7 +140,7 @@ class Activity(models.Model):
             return f"{self.name} | {self.slug}"
 
 
-class ImportedActivity(models.Model):
+class ImportedActivity(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     activity_code = models.IntegerField()
     name = models.CharField(max_length=550)
@@ -175,7 +177,7 @@ class ImportedActivity(models.Model):
         return f"{self.name} | {self.slug} | {self.activity_code}"
 
 
-class ActivityMedia(models.Model):
+class ActivityMedia(get_base_model()):
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     name = models.CharField(max_length=40, null=True, blank=True)
     image_url = models.ImageField(blank=True, null=True)
@@ -190,7 +192,7 @@ class ActivityMedia(models.Model):
         return f"{self.name} | {self.slug} | {self.activity.name}"
 
 
-class OrganizationMember(models.Model):
+class OrganizationMember(get_base_model()):
     user = models.OneToOneField(
         "users.User", on_delete=models.CASCADE, related_name="organization_member"
     )
@@ -204,7 +206,7 @@ class OrganizationMember(models.Model):
         return f"{self.user.email} | {self.organization.name}"
 
 
-class SchoolActivityOrder(models.Model):
+class SchoolActivityOrder(get_base_model()):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=["school", "activity"], name="unique_order")
@@ -253,7 +255,7 @@ class SchoolActivityOrder(models.Model):
         return f"{self.activity} | {self.school} | {self.status} | {self.pk}"
 
 
-class SchoolActivityGroup(models.Model):
+class SchoolActivityGroup(get_base_model()):
     class GroupTypes(models.TextChoices):
         CONTAINER_ONLY = "CONTAINER_ONLY", "Container Only"
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"

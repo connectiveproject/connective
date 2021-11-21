@@ -19,7 +19,7 @@
       <v-btn
         large
         outlined
-        class="mt-10 mr-4"
+        class="mt-10 mx-4"
         color="primary"
         @click="$router.go(-1)"
         v-text="$t('userActions.back')"
