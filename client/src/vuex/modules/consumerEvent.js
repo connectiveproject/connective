@@ -58,7 +58,7 @@ const consumerEvent = {
       return state.eventList
     },
 
-    async getPastEvents({ rootGetters }, { daysAgo, usePagination = true }) {
+    async getPastEvents({ rootGetters }, { daysAgo, usePagination = true, ignoreCanceled = false }) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(
         Utils.addDaysToToday(-daysAgo)
@@ -70,6 +70,9 @@ const consumerEvent = {
       }
       if (usePagination) {
         params = { ...params, ...rootGetters["pagination/apiParams"] }
+      }
+      if (ignoreCanceled) {
+        params.is_canceled = false
       }
       let res = await Api.consumerEvent.getEventList(params)
       return res.data.results
