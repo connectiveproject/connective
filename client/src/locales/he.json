@@ -59,7 +59,8 @@
     "AreYouSureYouWantToDeleteThisProgram?": "האם אתם בטוחים שתרצו למחוק תוכנית זו?",
     "thisActionWillDeleteTheMediaYouAreCurrentlyWatching-Proceed?": "פעולה זו תמחק את המדיה בה אתם צופים כרגע. האם תרצו להמשיך?",
     "AreYouSureYouWantToDeleteThisOrder?ThisActionWillDeleteAllRelatedEvents": "האם אתם בטוחים שברצונכם למחוק הזמנה זו? פעולה זו תמחק את כלל המפגשים המקושרים",
-    "AreYouSureYouWantToApproveThisRequest?ThisActionWillAddTheEventsToTheGroupSchedule": "האם אתם בטוחים שתרצו לאשר בקשה זו? פעולה זו תוסיף את המפגשים ליומן של הקבוצה"
+    "AreYouSureYouWantToApproveThisRequest?ThisActionWillAddTheEventsToTheGroupSchedule": "האם אתם בטוחים שתרצו לאשר בקשה זו? פעולה זו תוסיף את המפגשים ליומן של הקבוצה",
+    "AreYouSureYouWantToMarkTheEventAsCanceled": "המפגש סומן כמבוטל. האם תרצו להמשיך?"
   },
 
   "gender": {
@@ -337,8 +338,11 @@
     "approveOrDenyEventsRequestsFromSchoolGroups": "אשרו / דחו בקשות למפגשים שהתקבלו מקבוצות בבתי הספר",
     "viewAndApproveEventRequestsReceivedFromSchools": "צפו ואשרו בקשות למפגשים שהתקבלו מבתי ספר",
     "use@toTagStudents": "השתמשו ב-@ על מנת לבחור תלמידים",
-    "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו מפגשים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון"
-  },
+    "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו מפגשים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון",
+    "eventIsCanceled": "המפגש לא התקיים / בוטל",
+    "eventHappened": "המפגש התקיים",
+    "reasonForCancellation": "סיבת הביטול"
+    },
 
   "groups": {
     "newGroup": "קבוצה חדשה",

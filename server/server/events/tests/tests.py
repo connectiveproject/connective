@@ -41,6 +41,12 @@ class TestEventOrderModel:
 class TestEventView:
     uri = "/api/events/"
 
+    def is_event_exist_in_response(response, event_slug):
+        for event in response.data["results"]:
+            if event["slug"] == event_slug:
+                return True
+        return False
+
     def test_end_time_validator(self, all_entities):
         client = APIClient()
         client.force_authenticate(user=all_entities["coord"])
@@ -80,6 +86,81 @@ class TestEventView:
         assert post_response.data == dict(get_response.data["results"][-1])
         assert post_response.data["consumers"] == payload["consumers"]
         assert post_response.data["school_group"] == payload["school_group"]
+
+    def test_canceled_event(self, all_entities):
+        coord = all_entities["coord"]
+        create_payload = {
+            "start_time": today,
+            "end_time": tomorrow,
+            "consumers": [all_entities["consumer"].slug],
+            "school_group": all_entities["activity_group"].slug,
+        }
+
+        client = APIClient()
+        client.force_authenticate(user=coord)
+
+        post_response = client.post(
+            self.uri,
+            create_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
+        assert post_response.status_code == status.HTTP_201_CREATED
+
+        slug = post_response.data["slug"]
+        single_event_uri = f"{self.uri}{slug}/"
+        get_response = client.get(
+            single_event_uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
+        assert get_response.status_code == status.HTTP_200_OK
+        assert get_response.data["is_canceled"] is False
+
+        get_all_events_uri = self.uri
+        assert TestEventView.is_event_exist_in_response(
+            client.get(get_all_events_uri, **settings.TEST_API_ADDITIONAL_PARAMS), slug
+        )
+        assert TestEventView.is_event_exist_in_response(
+            client.get(
+                get_all_events_uri + "?is_canceled=false",
+                **settings.TEST_API_ADDITIONAL_PARAMS,
+            ),
+            slug,
+        )
+        assert not TestEventView.is_event_exist_in_response(
+            client.get(
+                get_all_events_uri + "?is_canceled=true",
+                **settings.TEST_API_ADDITIONAL_PARAMS,
+            ),
+            slug,
+        )
+        patch_payload = {"is_canceled": True}
+        client.patch(
+            single_event_uri,
+            patch_payload,
+            format="json",
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
+        get_response = client.get(
+            single_event_uri, **settings.TEST_API_ADDITIONAL_PARAMS
+        )
+        assert get_response.data["is_canceled"]
+        assert TestEventView.is_event_exist_in_response(
+            client.get(get_all_events_uri, **settings.TEST_API_ADDITIONAL_PARAMS), slug
+        )
+        assert not TestEventView.is_event_exist_in_response(
+            client.get(
+                get_all_events_uri + "?is_canceled=false",
+                **settings.TEST_API_ADDITIONAL_PARAMS,
+            ),
+            slug,
+        )
+        assert TestEventView.is_event_exist_in_response(
+            client.get(
+                get_all_events_uri + "?is_canceled=true",
+                **settings.TEST_API_ADDITIONAL_PARAMS,
+            ),
+            slug,
+        )
 
 
 class TestEventOrderSignals:

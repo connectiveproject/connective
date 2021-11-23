@@ -52,7 +52,11 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCoordinator | AllowInstructor]
     serializer_class = EventSerializer
     lookup_field = "slug"
-    filterset_fields = {"start_time": ["gte", "lte"], "has_summary": ["exact"]}
+    filterset_fields = {
+        "start_time": ["gte", "lte"],
+        "has_summary": ["exact"],
+        "is_canceled": ["exact"],
+    }
 
     def get_queryset(self):
         user = self.request.user
