@@ -3,10 +3,13 @@ import moment from "moment"
 import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
+import cloneDeep from "lodash/cloneDeep"
+
 import {
   YOUTUBE_ID_REGEX_PATTERN,
   YOUTUBE_EMBED_URL,
   LANGUAGE_TO_RTL,
+  VENDOR_PROGRAM_FIELDS,
 } from "@/helpers/constants/constants"
 import i18n from "@/plugins/i18n"
 
@@ -180,6 +183,22 @@ const utils = {
   checkRtl() {
     return LANGUAGE_TO_RTL[i18n.locale]
   },
+  /**
+  * dynamic translate and return vendor program fields
+  */
+  getVendorProgramFields() {
+    const vendorProgramFields = cloneDeep(VENDOR_PROGRAM_FIELDS)
+    for (const field of vendorProgramFields) {
+      field.label = i18n.t(field.labelKey)
+      if (field.choices) {
+        field.choices = field.choices.map(item => ({
+          text: i18n.t(item.textKey),
+          value: item.value,
+        }))
+      }
+    }
+    return vendorProgramFields
+  }
 }
 
 export default utils
