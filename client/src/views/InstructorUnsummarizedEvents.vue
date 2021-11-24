@@ -53,6 +53,7 @@ export default {
       daysAgo: 60,
       unsummarizedOnly: true,
       usePagination: true,
+      ignoreCanceled: true,
     })
     next()
   },

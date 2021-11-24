@@ -36,7 +36,7 @@ const instructorEvent = {
     },
     async getPastEvents(
       { commit, state, rootGetters },
-      { daysAgo, unsummarizedOnly, usePagination = true }
+      { daysAgo, unsummarizedOnly, usePagination = true, ignoreCanceled = false }
     ) {
       // :Number daysAgo: days ago to get the events from (e.g., 21 means all events 3 weeks ago until today)
       const startDateString = Utils.dateToApiString(
@@ -52,6 +52,9 @@ const instructorEvent = {
       }
       if (unsummarizedOnly) {
         params.has_summary = false
+      }
+      if (ignoreCanceled) {
+        params.is_canceled = false
       }
       let res = await Api.instructorEvent.getEventList(params)
       commit("SET_EVENTS_LIST", res.data.results)

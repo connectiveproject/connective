@@ -37,7 +37,12 @@
       v-slot="{ invalid }"
       @submit.prevent="onSubmit"
     >
-      <v-card introjs="confidential" style="background: #feece5">
+      <v-switch
+        v-model="event.isCanceled"
+        color="error"
+        :label="event.isCanceled ? $t('events.eventIsCanceled') : $t('events.eventHappened')"
+      />
+      <v-card introjs="confidential" style="background: #feece5" v-if="event.isCanceled">
         <v-row
           no-gutters
           justify="space-between"
@@ -51,63 +56,35 @@
           />
 
           <v-col cols="12">
-            <v-tribute :options="tributeOptions">
-              <v-textarea
-                autofocus
-                outlined
-                v-model="summaryGeneralNotes"
-                class="my-6"
-                persistent-hint
-                :hint="$t('events.use@toTagStudents')"
-                :label="
-                  $t(
-                    'events.summaryGeneralNotes-unusualEventsStudentsBehaviorEtc'
-                  )
-                "
-              >
-              </v-textarea>
-            </v-tribute>
+            <validation-provider v-slot="{ errors }" rules="required">
+              <v-tribute :options="tributeOptions">
+                <v-textarea
+                  autofocus
+                  outlined
+                  v-model="summaryGeneralNotes"
+                  :error-messages="errors"
+                  class="my-6"
+                  :label="
+                    $t(
+                      'events.reasonForCancellation'
+                    )
+                  "
+                >
+                </v-textarea>
+              </v-tribute>
+            </validation-provider>
           </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="consumerchoices"
-              :label="$t('events.attendance')"
-              v-model="attendedConsumers"
-              class="my-6"
-              multiple
-              dense
-            />
-          </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-              v-model="summaryGeneralRating"
-              :label="$t('events.summaryGeneralRating')"
-              dense
-              class="my-6"
-            />
-          </v-col>
-          <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-              v-model="summaryChildrenBehavior"
-              :label="$t('events.summaryChildrenBehavior')"
-              dense
-              class="my-6"
-            />
-          </v-col>
+
         </v-row>
       </v-card>
 
       <v-checkbox
+        v-if="!event.isCanceled"
         class="mt-16"
         v-model="addPost"
         :label="$t('userActions.addPublicPost')"
       />
-      <v-card introjs="public" elevation="0" v-if="addPost">
+      <v-card introjs="public" elevation="0" v-if="addPost && !event.isCanceled">
         <v-card-title class="px-0" v-text="$t('userActions.addPost')" />
         <v-card-subtitle
           class="px-0"
@@ -184,6 +161,13 @@
     >
       {{ modalMsg }}
     </modal>
+    <modal-approve v-model="isModalApproveOpen" @approve="updateEventCanceled">
+      {{
+        this.$t(
+          "confirm.AreYouSureYouWantToMarkTheEventAsCanceled"
+        )
+      }}
+    </modal-approve>
   </v-card>
 </template>
 
@@ -198,6 +182,7 @@ import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
 import VTribute from "../components/VTribute"
 import TitleToText from "../components/TitleToText"
 import Modal from "../components/Modal"
+import ModalApprove from "../components/ModalApprove"
 import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
 
 export default {
@@ -207,6 +192,7 @@ export default {
     ValidationProvider,
     TitleToText,
     Modal,
+    ModalApprove,
     VTribute,
   },
   mixins: [introjsSubscribeMixin],
@@ -261,6 +247,7 @@ export default {
       summaryChildrenBehavior: 10,
       modalMsg: this.$t("general.detailsSuccessfullyUpdated"),
       isModalOpen: false,
+      isModalApproveOpen: false,
       images: [],
       compressedImages: [],
     }
@@ -285,6 +272,10 @@ export default {
     onSubmit: debounce(
       async function () {
         try {
+          if (this.event.isCanceled) {
+            this.isModalApproveOpen = true
+            return
+          }
           this.submitting = true
           this.compressedImages = await this.imgCompressionPromise
           if (this.addPost) {
@@ -309,8 +300,25 @@ export default {
         summaryGeneralRating: this.summaryGeneralRating,
         summaryChildrenBehavior: this.summaryChildrenBehavior,
         hasSummary: true,
+        isCanceled: false,
       }
       return this.updateEvent({ slug: this.slug, data })
+    },
+    async updateEventCanceled() {
+      this.submitting = true
+      const data = {
+        isCanceled: true,
+        summaryGeneralNotes: this.summaryGeneralNotes,
+      }
+      try {
+        await this.updateEvent({ slug: this.slug, data })
+        this.$router.push({ name: "InstructorUnsummarizedEvents" })
+      } catch(err) {
+        const message = Api.utils.parseResponseError(err)
+        this.showMessage(message)
+      } finally {
+        this.submitting = false
+      }
     },
     async createPost() {
       const feedPostData = {
