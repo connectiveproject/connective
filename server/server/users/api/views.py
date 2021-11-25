@@ -366,6 +366,7 @@ class UserFileParser:
     def __init__(self, file):
         self.file = file
         self.errors = []
+        self.email_set = set()
         self.parse()
 
     def get_reader(self):
@@ -392,6 +393,11 @@ class UserFileParser:
                 break
             name = row.get("name").strip() if row.get("name") else ""
             email = row.get("email").strip() if row.get("email") else ""
+            gender = (
+                row.get("gender").strip()
+                if row.get("gender")
+                else ConsumerProfile.Gender.UNKNOWN
+            )
             if not name:
                 self.errors.append(
                     {"row": row_index, "error": "invite.nameFieldIsRequired"}
@@ -400,13 +406,19 @@ class UserFileParser:
                 self.errors.append(
                     {"row": row_index, "error": "invite.emailFieldIsInvalid"}
                 )
+            elif email in self.email_set:
+                self.errors.append(
+                    {"row": row_index, "error": "invite.sameEmailAppearMoreThanOnce"}
+                )
             else:
                 self.user_dict_list.append(
                     {
                         "name": name,
                         "email": email,
+                        "profile": {"gender": gender},
                     }
                 )
+                self.email_set.add(email)
 
     def get_errors(self):
         return self.errors
