@@ -68,7 +68,7 @@
       :id="`upload-input-${_uid}`"
       class="d-none"
       type="file"
-      accept=".csv"
+      accept=".csv,.xls,.xlsx"
       v-model="file"
     />
   </v-card>

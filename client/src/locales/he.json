@@ -155,7 +155,13 @@
     "removeUser": "הסרת משתמש",
     "consumersHasBeenInvitedViaEmailToJoinThePlatform": "תלמידים הוזמנו דרך המייל להצטרף לפלטפורמה",
     "coordinatorsHasBeenInvitedViaEmailToJoinThePlatform": "אנשי סגל הוזמנו דרך המייל להצטרף לפלטפורמה",
-    "clickTheButtonBelowToInviteUsers!": "לחצו על הכפתור מטה להזמנת משתמשים!"
+    "clickTheButtonBelowToInviteUsers!": "לחצו על הכפתור מטה להזמנת משתמשים!",
+    "uploadFileErrorTitle": "שגיאה בטעינת קובץ",
+    "uploadFileErrorSummary": "קובץ לא תקין. אנא תקן את השגיאות הבאות ונסה שוב:",
+    "uploadFileErrorUnicode": "הקובץ לא בפורמט UTF-8. יש לשמור את הקובץ בפורמט CSV UTF-8 או Excel",
+    "nameFieldIsRequired": "חסר שם תחת עמודת name",
+    "emailFieldIsInvalid": "כתובת מייל אינה תקינה",
+    "maxRowsPerFileExceeded": "חריגה ממספר השורות המקסימלי. יש להעלות קובץ קטן יותר"
   },
 
   "userActions": {

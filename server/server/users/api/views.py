@@ -1,11 +1,16 @@
 import csv
 import io
+import logging
 import os
 
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import LoginView, PasswordResetConfirmView
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.utils.encoding import force_text
+from pandas import ExcelFile
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
@@ -48,6 +53,8 @@ from .serializers import (
     UserSerializer,
     VendorProfileSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -217,37 +224,25 @@ class ManageConsumersViewSet(ModelViewSet):
 
         request_file = request.FILES["file"]
         _, file_extension = os.path.splitext(request_file.name)
-        if file_extension != ".csv":
+        if file_extension == ".csv":
+            parser = CSVFileParser(request_file)
+        elif file_extension == ".xls" or file_extension == ".xlsx":
+            parser = ExcelFileParser(request_file)
+        else:
             return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+        errors = parser.get_errors()
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-        emails = set()
-        for row in csv.DictReader(
-            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
-        ):
-            name = row.get("name").strip() if row.get("name") else ""
-            email = row.get("email").strip() if row.get("email") else ""
-            gender = (
-                row.get("gender").strip()
-                if row.get("gender")
-                else ConsumerProfile.Gender.UNKNOWN
-            )
-            if email not in emails:
-                emails.add(email)
-                users_to_invite.append(
-                    {
-                        "name": name,
-                        "email": email,
-                        "profile": {"gender": gender},
-                    }
-                )
+        users_from_file = parser.get_user_list()
 
         already_existing_emails = User.objects.filter(
-            email__in=[user["email"] for user in users_to_invite]
+            email__in=[user["email"].lower() for user in users_from_file]
         ).values_list("email", flat=True)
         users_to_invite = [
             user
-            for user in users_to_invite
-            if user["email"] not in already_existing_emails
+            for user in users_from_file
+            if user["email"].lower() not in already_existing_emails
         ]
 
         serializer = ManageConsumersSerializer(
@@ -281,32 +276,24 @@ class ManageCoordinatorsViewSet(ModelViewSet):
 
         request_file = request.FILES["file"]
         _, file_extension = os.path.splitext(request_file.name)
-        if file_extension != ".csv":
+        if file_extension == ".csv":
+            parser = CSVFileParser(request_file)
+        elif file_extension == ".xls" or file_extension == ".xlsx":
+            parser = ExcelFileParser(request_file)
+        else:
             return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+        errors = parser.get_errors()
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-        emails = set()
-        for row in csv.DictReader(
-            io.StringIO(request_file.read().decode(encoding="utf-8-sig"))
-        ):
-            name = row.get("name").strip() if row.get("name") else ""
-            email = row.get("email").strip() if row.get("email") else ""
-            if email not in emails:
-                # add user if email not seem already in the file
-                users_to_invite.append(
-                    {
-                        "name": name,
-                        "email": email,
-                    }
-                )
-                emails.add(email)
+        users_from_file = parser.get_user_list()
 
-        # remove already existing emails
         already_existing_emails = User.objects.filter(
-            email__in=[user["email"] for user in users_to_invite]
+            email__in=[user["email"] for user in users_from_file]
         ).values_list("email", flat=True)
         users_to_invite = [
             user
-            for user in users_to_invite
+            for user in users_from_file
             if user["email"] not in already_existing_emails
         ]
 
@@ -373,3 +360,78 @@ class ManageInstructorsViewSet(ModelViewSet):
         return Instructor.objects.filter(
             organization_member__organization=self.request.user.organization_member.organization
         )
+
+
+class UserFileParser:
+    def __init__(self, file):
+        self.file = file
+        self.errors = []
+        self.parse()
+
+    def get_reader(self):
+        logger.error("Not implemented. Need to use sub-class")
+        return "Not implemented"
+
+    def get_user_list(self):
+        return self.user_dict_list
+
+    def validate_email_format(mail: str) -> bool:
+        try:
+            validate_email(mail)
+            return True
+        except ValidationError:
+            return False
+
+    def parse(self):
+        self.user_dict_list = []
+        row_index: int = 1
+        for row in self.get_reader():
+            row_index += 1
+            if row_index > settings.FILE_UPLOAD_MAX_ROWS:
+                self.errors.append({"error": "invite.maxRowsPerFileExceeded"})
+                break
+            name = row.get("name").strip() if row.get("name") else ""
+            email = row.get("email").strip() if row.get("email") else ""
+            if not name:
+                self.errors.append(
+                    {"row": row_index, "error": "invite.nameFieldIsRequired"}
+                )
+            elif not email or not UserFileParser.validate_email_format(email):
+                self.errors.append(
+                    {"row": row_index, "error": "invite.emailFieldIsInvalid"}
+                )
+            else:
+                self.user_dict_list.append(
+                    {
+                        "name": name,
+                        "email": email,
+                    }
+                )
+
+    def get_errors(self):
+        return self.errors
+
+
+class CSVFileParser(UserFileParser):
+    def __init__(self, file):
+        super().__init__(file)
+
+    def get_reader(self):
+        try:
+            return csv.DictReader(
+                io.StringIO(self.file.read().decode(encoding="utf-8-sig"))
+            )
+        except UnicodeDecodeError as err:
+            self.errors.append({"error": "invite.uploadFileErrorUnicode"})
+            logger.error("Upload file error", err)
+            return []
+
+
+class ExcelFileParser(UserFileParser):
+    def __init__(self, file):
+        super().__init__(file)
+
+    def get_reader(self):
+        xls = ExcelFile(self.file)
+        df = xls.parse(xls.sheet_names[0])
+        return df.to_dict("records")
