@@ -189,7 +189,7 @@ export default {
         const response = err.response
         if (response.status === 400 && Object.keys(response).length) {
           let allErrorsArray = response.data
-          const formattedErrorStr = allErrorsArray.map(errorObj => `${"row" in errorObj ? "שורה " + errorObj.row + ": ": ""}  ${this.$t(errorObj.error)}`).join("\n")
+          const formattedErrorStr = allErrorsArray.map(errorObj => `${"row" in errorObj ? this.$t("invite.uploadFileRowNumber") + " " + errorObj.row + ": ": ""}  ${this.$t(errorObj.error)}`).join("\n")
           return formattedErrorStr
         }
         return this.$t("errors.genericError")

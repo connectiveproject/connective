@@ -162,7 +162,8 @@
     "nameFieldIsRequired": "חסר שם תחת עמודת name",
     "emailFieldIsInvalid": "כתובת מייל אינה תקינה",
     "maxRowsPerFileExceeded": "חריגה ממספר השורות המקסימלי. יש להעלות קובץ קטן יותר",
-    "sameEmailAppearMoreThanOnce": "כתובת המייל מופיעה יותר מפעם אחת בקובץ"
+    "sameEmailAppearMoreThanOnce": "כתובת המייל מופיעה יותר מפעם אחת בקובץ",
+    "uploadFileRowNumber": "שורה"
   },
 
   "userActions": {
