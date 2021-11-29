@@ -89,7 +89,9 @@ class TestEventView:
 
     def get_request_additional_params(query_string):
         settings_params = settings.TEST_API_ADDITIONAL_PARAMS.copy()
-        settings_query_params = settings_params.pop("QUERY_STRING")
+        settings_query_params = ""
+        if "QUERY_STRING" in settings_params:
+            settings_query_params = settings_params.pop("QUERY_STRING")
         query_string_final = f"{query_string}&{settings_query_params}"
         result = {"QUERY_STRING": query_string_final}
         result.update(settings_params)
