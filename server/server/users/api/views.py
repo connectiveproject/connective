@@ -431,7 +431,7 @@ class CSVFileParser(UserFileParser):
     def get_reader(self):
         try:
             return csv.DictReader(
-                io.StringIO(self.file.read().decode(encoding="utf-8-sig"))
+                io.StringIO(self.file.read().decode(encoding="utf-8-sig"), newline=None)
             )
         except UnicodeDecodeError as err:
             self.errors.append({"error": "invite.uploadFileErrorUnicode"})
