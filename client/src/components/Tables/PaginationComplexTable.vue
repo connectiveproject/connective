@@ -45,7 +45,7 @@
               <v-icon :color="footerIconsColor">{{ footerUploadIcon }}</v-icon>
             </v-btn>
           </template>
-          <span class="px-3">{{ footerUploadIconTooltip }} CSV</span>
+          <span class="px-3">{{ footerUploadIconTooltip }} Excel/CSV</span>
         </v-tooltip>
         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp && !hideFooterIcons">
           <template v-slot:activator="{ on, attrs }">
@@ -68,7 +68,7 @@
       :id="`upload-input-${_uid}`"
       class="d-none"
       type="file"
-      accept=".csv"
+      accept=".csv,.xls,.xlsx"
       v-model="file"
     />
   </v-card>

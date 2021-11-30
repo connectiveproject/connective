@@ -5,7 +5,7 @@
         <div class="modal-container">
           <div class="text-h6 font-weight-bold text-center">
             <slot name="header">
-              {{ $t("general.message") }}
+              {{ (title == null) ? $t("general.message") : $t(title) }}
             </slot>
           </div>
 
@@ -40,6 +40,10 @@ export default {
       required: false,
     },
     redirectComponentName: {
+      type: String,
+      required: false,
+    },
+    title: {
       type: String,
       required: false,
     },
