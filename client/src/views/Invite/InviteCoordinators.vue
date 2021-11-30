@@ -39,7 +39,9 @@
         @save="getCoordinators"
       />
       <modal v-show="popupMsg !== ''" @close="popupMsg = ''">
-        {{ popupMsg }}
+        <span style="white-space: pre-line; ">
+          {{ popupMsg }}
+        </span>
       </modal>
     </div>
   </div>
@@ -48,7 +50,6 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import Api from "../../api"
 import { translateStatus } from "./helpers"
 import Modal from "../../components/Modal"
 import AddCoordinatorDialog from "../../components/AddDialog/AddCoordinatorDialog"
@@ -117,7 +118,18 @@ export default {
           "invite.coordinatorsHasBeenInvitedViaEmailToJoinThePlatform"
         )}`
       } catch (err) {
-        this.popupMsg = Api.utils.parseResponseError(err)
+        try {
+          const response = err.response
+          if (response.status === 400 && Object.keys(response).length) {
+            let allErrorsArray = response.data
+            const formattedErrorStr = allErrorsArray.map(errorObj => `${"row" in errorObj ? this.$t("invite.uploadFileRowNumber") + errorObj.row + ": ": ""}  ${this.$t(errorObj.error)}`).join("\n")
+            this.popupMsg = formattedErrorStr
+          } else {
+            this.popupMsg = this.$t("errors.genericError")
+          }
+        } catch (errInCatch) {
+          this.popupMsg =  this.$t("errors.genericError")
+        }
       }
     },
 
