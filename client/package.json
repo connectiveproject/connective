@@ -18,7 +18,7 @@
   "dependencies": {
     "@types/chart.js": "^2.9.32",
     "@vue/cli": "^4.5.11",
-    "axios": "^0.21.2",
+    "axios": "^0.22.0",
     "chart.js": "^3.4.0",
     "chartjs-plugin-datalabels": "^2.0.0-rc.1",
     "compressorjs": "^1.0.7",
