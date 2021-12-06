@@ -44,14 +44,27 @@
         :slug="dialogSlug"
         @save="getStudents"
       />
-      <modal v-show="showInfoModal" @close="popupMsg = ''; showInfoModal=false">
+      <modal
+        v-show="showInfoModal"
+        @close="
+          popupMsg = ''
+          showInfoModal = false
+        "
+      >
         {{ popupMsg }}
       </modal>
 
-      <modal v-show="showErrorModal" @close="popupMsg = ''; showErrorModal=false" title="invite.uploadFileErrorTitle">
+      <modal
+        v-show="showErrorModal"
+        @close="
+          popupMsg = ''
+          showErrorModal = false
+        "
+        title="invite.uploadFileErrorTitle"
+      >
         <div>{{ $t("invite.uploadFileErrorSummary") }}</div>
         <div style="padding-top: 2em">
-          <span style="white-space: pre-line; ">
+          <span style="white-space: pre-line">
             {{ popupMsg }}
           </span>
         </div>
@@ -189,7 +202,28 @@ export default {
         const response = err.response
         if (response.status === 400 && Object.keys(response).length) {
           let allErrorsArray = response.data
-          const formattedErrorStr = allErrorsArray.map(errorObj => `${"row" in errorObj ? this.$t("invite.uploadFileRowNumber") + " " + errorObj.row + ": ": ""}  ${this.$t(errorObj.error)}`).join("\n")
+          const numErrors = allErrorsArray.length
+          let addHasMoreErrorsMessage = false
+          if (numErrors > 6) {
+            allErrorsArray = allErrorsArray.slice(0, 5)
+            addHasMoreErrorsMessage = true
+          }
+          let formattedErrorStr = allErrorsArray
+            .map(
+              errorObj =>
+                `${
+                  "row" in errorObj
+                    ? this.$t("invite.uploadFileRowNumber") +
+                      " " +
+                      errorObj.row +
+                      ": "
+                    : ""
+                }  ${this.$t(errorObj.error)}`
+            )
+            .join("\n")
+          if (addHasMoreErrorsMessage) {
+            formattedErrorStr += `\n\nThere are more ${numErrors - 5} errors`
+          }
           return formattedErrorStr
         }
         return this.$t("errors.genericError")
