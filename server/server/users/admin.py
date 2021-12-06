@@ -55,7 +55,7 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
         (_("Account info"), {"fields": ("slug", "email", "password")}),
-        (_("Personal info"), {"fields": ("name",)}),
+        (_("Personal info"), {"fields": settings.ADMIN_USER_PERSONAL_INFO}),
         (
             _("Permissions"),
             {
