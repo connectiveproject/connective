@@ -360,3 +360,5 @@ analytics.write_key = env(
 )
 
 ADMIN_ADD_USER_FIELDS = ("email", "password1", "password2")
+ADMIN_USER_PERSONAL_INFO = ("name",)
+FILE_UPLOAD_MAX_ROWS = 100

@@ -87,6 +87,16 @@ class TestEventView:
         assert post_response.data["consumers"] == payload["consumers"]
         assert post_response.data["school_group"] == payload["school_group"]
 
+    def get_request_additional_params(query_string):
+        settings_params = settings.TEST_API_ADDITIONAL_PARAMS.copy()
+        settings_query_params = ""
+        if "QUERY_STRING" in settings_params:
+            settings_query_params = settings_params.pop("QUERY_STRING")
+        query_string_final = f"{query_string}&{settings_query_params}"
+        result = {"QUERY_STRING": query_string_final}
+        result.update(settings_params)
+        return result
+
     def test_canceled_event(self, all_entities):
         coord = all_entities["coord"]
         create_payload = {
@@ -121,15 +131,16 @@ class TestEventView:
         )
         assert TestEventView.is_event_exist_in_response(
             client.get(
-                get_all_events_uri + "?is_canceled=false",
-                **settings.TEST_API_ADDITIONAL_PARAMS,
+                get_all_events_uri,
+                **TestEventView.get_request_additional_params("is_canceled=false"),
             ),
             slug,
         )
+
         assert not TestEventView.is_event_exist_in_response(
             client.get(
-                get_all_events_uri + "?is_canceled=true",
-                **settings.TEST_API_ADDITIONAL_PARAMS,
+                get_all_events_uri,
+                **TestEventView.get_request_additional_params("is_canceled=true"),
             ),
             slug,
         )
@@ -149,15 +160,15 @@ class TestEventView:
         )
         assert not TestEventView.is_event_exist_in_response(
             client.get(
-                get_all_events_uri + "?is_canceled=false",
-                **settings.TEST_API_ADDITIONAL_PARAMS,
+                get_all_events_uri,
+                **TestEventView.get_request_additional_params("is_canceled=false"),
             ),
             slug,
         )
         assert TestEventView.is_event_exist_in_response(
             client.get(
-                get_all_events_uri + "?is_canceled=true",
-                **settings.TEST_API_ADDITIONAL_PARAMS,
+                get_all_events_uri,
+                **TestEventView.get_request_additional_params("is_canceled=true"),
             ),
             slug,
         )
