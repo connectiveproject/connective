@@ -8,7 +8,7 @@ import {
   ADD_ORGANIZATION_VENDORS_API_URL,
   DELETE_ORGANIZATION_VENDORS_API_URL,
   EDIT_ORGANIZATION_VENDORS_API_URL,
-} from "../helpers/constants/constants"
+} from "@/helpers/constants/constants"
 
 const organization = {
   getInstructorList(params = {}) {
