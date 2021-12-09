@@ -246,7 +246,14 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
         """
         create user, attach to org, invite user via email
         """
+        profile_data = validated_data.pop("profile", None)
         instructor = Instructor.objects.create(**validated_data)
+
+        if profile_data:
+            profile = InstructorProfile.objects.get(user=instructor)
+            for attr, value in profile_data.items():
+                setattr(profile, attr, value)
+            profile.save()
 
         OrganizationMember.objects.create(
             user=instructor,
@@ -262,6 +269,14 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
 
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
+
+        profile_data = validated_data.pop("profile", None)
+        if profile_data:
+            profile = instance.profile
+            for attr, value in profile_data.items():
+                setattr(profile, attr, value)
+            profile.save()
+
         instance.save()
 
         if has_email_changed:

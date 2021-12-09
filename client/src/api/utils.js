@@ -5,7 +5,10 @@ import i18n from "@/plugins/i18n"
 const utils = {
   parseResponseError(err) {
     // process and return the relevant response message
-    // :object err: error caught from response
+    // :object/str err: error caught from response
+    if (typeof(err) === "string") {
+      return err
+    }
     try {
       const response = err.response
       if (response.status === 400 && Object.keys(response).length) {
