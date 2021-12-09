@@ -67,7 +67,7 @@
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import debounce from "lodash/debounce"
-import Api from "../../api"
+import Api from "@/api"
 
 export default {
   components: {

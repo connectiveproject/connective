@@ -66,7 +66,7 @@ class InstructorProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstructorProfile
-        fields = ["slug", "gender", "profile_picture"]
+        fields = ["slug", "gender", "profile_picture", "phone_number"]
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):
@@ -229,9 +229,11 @@ class ManageVendorsSerializer(serializers.ModelSerializer):
 
 
 class ManageInstructorsSerializer(serializers.ModelSerializer):
+    profile = InstructorProfileSerializer()
+
     class Meta:
         model = Instructor
-        fields = ["slug", "name", "email"]
+        fields = ["slug", "name", "email", "profile"]
         extra_kwargs = {
             "email": {
                 "validators": [
