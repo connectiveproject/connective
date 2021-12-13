@@ -29,6 +29,7 @@
         class="subtitle-1 font-weight-bold"
         v-text="buttonText"
         @click="$emit('click')"
+        :aria-label="`${title} ${buttonText}`"
       />
       <v-btn
         text
@@ -39,6 +40,7 @@
         :class="{ 'mx-2': !$vuetify.breakpoint.xs }"
         :color="secondaryButtonColor"
         v-text="secondaryButtonText"
+        :aria-label="`${title} ${secondaryButtonText}`"
       />
     </v-card-actions>
   </v-card>
