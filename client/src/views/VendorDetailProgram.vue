@@ -85,14 +85,13 @@
 <script>
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
-import Utils from "../helpers/utils"
-import Api from "../api"
+import Utils from "@/helpers/utils"
+import Api from "@/api"
 import store from "@/vuex/store"
-import { CAMERA_ROUNDED_DRAWING } from "../helpers/constants/images"
-import { VENDOR_PROGRAM_FIELDS } from "../helpers/constants/constants"
-import inputDrawer from "../components/InputDrawer"
-import ModalApprove from "../components/ModalApprove"
-import PictureInput from "../components/PictureInput"
+import { CAMERA_ROUNDED_DRAWING } from "@/helpers/constants/images"
+import inputDrawer from "@/components/InputDrawer"
+import ModalApprove from "@/components/ModalApprove"
+import PictureInput from "@/components/PictureInput"
 
 export default {
   components: {
@@ -115,11 +114,10 @@ export default {
     },
   },
   data() {
+    const vendorProgramFields = Utils.getVendorProgramFields()
     return {
       CAMERA_ROUNDED_DRAWING,
-      programFields: VENDOR_PROGRAM_FIELDS.filter(
-        field => field.name !== "logo"
-      ),
+      programFields: vendorProgramFields.filter(field => field.name !== "logo"),
       isModalOpen: false,
       program: null,
       logo: null,

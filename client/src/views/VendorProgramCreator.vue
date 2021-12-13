@@ -47,19 +47,17 @@
 </template>
 
 <script>
-import cloneDeep from "lodash/cloneDeep"
 import { mapActions } from "vuex"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { VENDOR_PROGRAM_FIELDS } from "../helpers/constants/constants"
-import { CAMERA_ROUNDED_DRAWING } from "../helpers/constants/images"
-import FormCard from "../components/FormCard"
-import PictureInput from "../components/PictureInput"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { CAMERA_ROUNDED_DRAWING } from "@/helpers/constants/images"
+import FormCard from "@/components/FormCard"
+import PictureInput from "@/components/PictureInput"
 
 export default {
   components: { FormCard, PictureInput },
   data() {
-    const fields = cloneDeep(VENDOR_PROGRAM_FIELDS)
+    const fields = Utils.getVendorProgramFields()
     return {
       CAMERA_ROUNDED_DRAWING,
       fields,
