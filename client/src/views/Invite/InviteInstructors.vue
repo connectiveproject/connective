@@ -47,11 +47,11 @@
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import Api from "../../api"
+import Api from "@/api"
 import { translateStatus } from "./helpers"
-import Modal from "../../components/Modal"
-import AddInstructorDialog from "../../components/AddDialog/AddInstructorDialog"
-import PaginationComplexTable from "../../components/Tables/PaginationComplexTable"
+import Modal from "@/components/Modal"
+import AddInstructorDialog from "@/components/AddDialog/AddInstructorDialog"
+import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
 
 export default {
   name: "InviteInstructors",
@@ -74,6 +74,7 @@ export default {
       dialogInstructor: {
         name: "",
         email: "",
+        profile: {},
       },
       dialogMode: "create",
       dialogSlug: null,
