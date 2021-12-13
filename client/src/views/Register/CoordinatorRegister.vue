@@ -155,7 +155,7 @@
               data-testid="school-grades"
               v-model="registrationInfo.schoolGrades"
               :error-messages="errors"
-              :items="SCHOOL_GRADES_ITEMS"
+              :items="schoolGradesItems"
               :label="$t('general.schoolGrades')"
               multiple
               chips
@@ -303,8 +303,13 @@ export default {
     },
   },
   data() {
+    const schoolGradesItems = SCHOOL_GRADES_ITEMS.map(item => ({
+      text: this.$t(item.textKey),
+      value: item.value,
+    }))
+
     return {
-      SCHOOL_GRADES_ITEMS,
+      schoolGradesItems,
       modalRedirectComponentName: "",
       slug: null,
       schoolSlug: "",

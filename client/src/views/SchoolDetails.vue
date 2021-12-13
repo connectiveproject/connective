@@ -44,16 +44,16 @@
 import { ValidationObserver } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import Utils from "../helpers/utils"
+import Utils from "@/helpers/utils"
 import store from "@/vuex/store"
-import Modal from "../components/Modal"
-import InputDrawer from "../components/InputDrawer"
-import PictureInput from "../components/PictureInput"
+import Modal from "@/components/Modal"
+import InputDrawer from "@/components/InputDrawer"
+import PictureInput from "@/components/PictureInput"
+import { HOUSE_ROUNDED_DRAWING } from "@/helpers/constants/images"
 import {
   SCHOOL_GRADES_ITEMS,
   ZIP_CODE_VALIDATION_RULE,
-} from "../helpers/constants/constants"
-import { HOUSE_ROUNDED_DRAWING } from "../helpers/constants/images"
+} from "@/helpers/constants/constants"
 
 export default {
   components: {
@@ -73,6 +73,11 @@ export default {
   },
 
   data() {
+    const schoolGradesItems = SCHOOL_GRADES_ITEMS.map(item => ({
+      text: this.$t(item.textKey),
+      value: item.value,
+    }))
+
     return {
       textFields: {
         name: {
@@ -130,7 +135,7 @@ export default {
           rules: "required",
           value: [],
           type: "select",
-          choices: SCHOOL_GRADES_ITEMS,
+          choices: schoolGradesItems,
         },
       },
       placeholderPicUrl: HOUSE_ROUNDED_DRAWING,
