@@ -74,6 +74,7 @@ export default {
       dialogInstructor: {
         name: "",
         email: "",
+        profile: {},
       },
       dialogMode: "create",
       dialogSlug: null,
