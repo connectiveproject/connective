@@ -22,6 +22,7 @@
     </template>
     <v-time-picker
       v-if="modal"
+      class="time-picker"
       :value="value"
       @input="e => $emit('input', e)"
       color="primary"
@@ -72,3 +73,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.time-picker::v-deep div {
+  direction: ltr
+}
+</style>

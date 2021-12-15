@@ -63,10 +63,10 @@
 import store from "@/vuex/store"
 import { mapState, mapActions } from "vuex"
 import moment from "moment"
-import ActionsCalendar from "../../components/ActionsCalendar"
-import DetailModal from "../../components/DetailModal"
-import Utils from "../../helpers/utils"
-import introjsSubscribeMixin from "../../mixins/introJs/introjsSubscribeMixin"
+import ActionsCalendar from "@/components/ActionsCalendar"
+import DetailModal from "@/components/DetailModal"
+import Utils from "@/helpers/utils"
+import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "MyEvents",

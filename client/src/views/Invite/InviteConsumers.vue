@@ -64,9 +64,9 @@
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import { translateStatus } from "./helpers"
-import Modal from "../../components/Modal"
+import Modal from "@/components/Modal"
 import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
-import PaginationComplexTable from "../../components/Tables/PaginationComplexTable"
+import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
 
 export default {
   name: "InviteStudents",

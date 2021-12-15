@@ -1,5 +1,3 @@
-import i18n from "@/plugins/i18n"
-
 export const RECAPTCHA_SITE_KEY =
   process.env.VUE_APP_RECAPTCHA_SITE_KEY ||
   "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
@@ -113,37 +111,37 @@ export const ARABIC_REGEX_PATTERN = /[\u0621-\u064A]/
 export const ZIP_CODE_VALIDATION_RULE = "numeric|digits:7"
 
 export const SCHOOL_GRADES_ITEMS = [
-  { value: 1, text: i18n.t("grades.1") },
-  { value: 2, text: i18n.t("grades.2") },
-  { value: 3, text: i18n.t("grades.3") },
-  { value: 4, text: i18n.t("grades.4") },
-  { value: 5, text: i18n.t("grades.5") },
-  { value: 6, text: i18n.t("grades.6") },
-  { value: 7, text: i18n.t("grades.7") },
-  { value: 8, text: i18n.t("grades.8") },
-  { value: 9, text: i18n.t("grades.9") },
-  { value: 10, text: i18n.t("grades.10") },
-  { value: 11, text: i18n.t("grades.11") },
-  { value: 12, text: i18n.t("grades.12") },
-  { value: 13, text: i18n.t("grades.13") },
-  { value: 14, text: i18n.t("grades.14") },
+  { value: 1, textKey: "grades.1" },
+  { value: 2, textKey: "grades.2" },
+  { value: 3, textKey: "grades.3" },
+  { value: 4, textKey: "grades.4" },
+  { value: 5, textKey: "grades.5" },
+  { value: 6, textKey: "grades.6" },
+  { value: 7, textKey: "grades.7" },
+  { value: 8, textKey: "grades.8" },
+  { value: 9, textKey: "grades.9" },
+  { value: 10, textKey: "grades.10" },
+  { value: 11, textKey: "grades.11" },
+  { value: 12, textKey: "grades.12" },
+  { value: 13, textKey: "grades.13" },
+  { value: 14, textKey: "grades.14" },
 ]
 
 const DOMAIN_SELECT_ITEMS = [
   {
-    text: i18n.t("programFilters.scienceAndTech"),
+    textKey: "programFilters.scienceAndTech",
     value: "SCIENCE_AND_TECH",
   },
   {
-    text: i18n.t("programFilters.extremeSports"),
+    textKey: "programFilters.extremeSports",
     value: "EXTREME_SPORTS",
   },
   {
-    text: i18n.t("programFilters.field"),
+    textKey: "programFilters.field",
     value: "FIELD",
   },
   {
-    text: i18n.t("programFilters.other"),
+    textKey: "programFilters.other",
     value: "OTHER",
   },
 ]
@@ -151,18 +149,18 @@ const DOMAIN_SELECT_ITEMS = [
 export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "name",
-    label: i18n.t("program.programName"),
+    labelKey: "program.programName",
     rules: "required|max:35",
   },
   {
     name: "description",
-    label: i18n.t("program.programDescription"),
+    labelKey: "program.programDescription",
     rules: "required|max:550",
     type: "textarea",
   },
   {
     name: "targetAudience",
-    label: i18n.t("program.targetAudience"),
+    labelKey: "program.targetAudience",
     rules: "required",
     type: "select",
     choices: SCHOOL_GRADES_ITEMS,
@@ -170,7 +168,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "domain",
-    label: i18n.t("program.domain"),
+    labelKey: "program.domain",
     rules: "required",
     type: "select",
     choices: DOMAIN_SELECT_ITEMS,
@@ -178,27 +176,27 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "activityWebsiteUrl",
-    label: i18n.t("general.website"),
+    labelKey: "general.website",
     rules: "required|website|max:750",
   },
   {
     name: "activityEmail",
-    label: i18n.t("program.emailToGetInTouch"),
+    labelKey: "program.emailToGetInTouch",
     rules: "required|email",
   },
   {
     name: "contactName",
-    label: i18n.t("program.contactName"),
+    labelKey: "program.contactName",
     rules: "required|max:60",
   },
   {
     name: "phoneNumber",
-    label: i18n.t("general.phoneNumber"),
+    labelKey: "general.phoneNumber",
     rules: "required|numeric|phoneNumberIsrael",
   },
   {
     name: "logo",
-    label: i18n.t("program.logo"),
+    labelKey: "program.logo",
     rules: "required|size:5000",
     type: "file",
     attrs: {

@@ -80,14 +80,14 @@
         </validation-provider>
         <v-btn
           type="submit"
-          class="mt-4 ml-4"
+          class="mt-4"
           color="primary"
           large
           v-text="$t('userActions.save')"
           :disabled="invalid"
         />
         <v-btn
-          class="mt-4 mr-4"
+          class="mt-4 mx-4"
           color="primary"
           outlined
           large
@@ -107,13 +107,13 @@ import moment from "moment"
 import { mapActions, mapState } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import store from "@/vuex/store"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { SERVER } from "../helpers/constants/constants"
-import { CREATE_EVENT } from "../helpers/constants/images"
-import DateInput from "../components/DateInput"
-import TimeInput from "../components/TimeInput"
-import RadioGroup from "../components/RadioGroup"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { SERVER } from "@/helpers/constants/constants"
+import { CREATE_EVENT } from "@/helpers/constants/images"
+import DateInput from "@/components/DateInput"
+import TimeInput from "@/components/TimeInput"
+import RadioGroup from "@/components/RadioGroup"
 export default {
   components: {
     DateInput,
