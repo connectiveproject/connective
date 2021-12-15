@@ -1,7 +1,8 @@
 import i18n from "@/plugins/i18n"
 
 export const RECAPTCHA_SITE_KEY =
-  process.env.VUE_APP_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+  process.env.VUE_APP_RECAPTCHA_SITE_KEY ||
+  "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 export const SERVER_URL = process.env.VUE_APP_BACKEND_URL
 export const TERMS_OF_USE_URL = SERVER_URL.replace(
   "/api",
@@ -210,6 +211,15 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
 ]
 
+export const eventOrderCancellationReasonI18nKeys = [
+  "cancellationReasons.illness",
+  "cancellationReasons.weather",
+  "cancellationReasons.examSeason",
+  "cancellationReasons.covid19",
+  "cancellationReasons.holiday",
+  "cancellationReasons.other",
+]
+
 export const SERVER = {
   userTypes: {
     coordinator: "COORDINATOR", // i.e., principals
@@ -262,5 +272,5 @@ export const SEGMENT_EVENTS = {
   programJoined: "program_joined",
 }
 export const LANGUAGE_TO_RTL = {
-  "he": true,
+  he: true,
 }

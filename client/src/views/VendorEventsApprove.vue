@@ -43,13 +43,13 @@
 import { mapState, mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "@/vuex/store"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { SERVER } from "../helpers/constants/constants"
-import PaginationActionsTable from "../components/Tables/PaginationActionsTable"
-import ModalApprove from "../components/ModalApprove"
-import FormDialog from "../components/FormDialog"
-import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { SERVER, eventOrderCancellationReasonI18nKeys } from "@/helpers/constants/constants"
+import PaginationActionsTable from "@/components/Tables/PaginationActionsTable"
+import ModalApprove from "@/components/ModalApprove"
+import FormDialog from "@/components/FormDialog"
+import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "VendorEventsApprove",
@@ -100,7 +100,9 @@ export default {
           name: "statusReason",
           rule: "required",
           label: this.$t("events.reasonForEventsDenyOrCancellation"),
-          value: "",
+          choices: this.createRejectDialogChoices(),
+          value: undefined,
+          type: "select"
         },
       ],
       headers: [
@@ -134,6 +136,9 @@ export default {
   methods: {
     ...mapActions("vendorEvent", ["updateEventOrder", "getEventOrders"]),
     ...mapActions("snackbar", ["showMessage"]),
+    createRejectDialogChoices() {
+      return eventOrderCancellationReasonI18nKeys.map(i18nKey => this.$t(i18nKey))
+    },
     async getOrders() {
       this.loading = true
       await this.getEventOrders({ override: true, usePagination: true })

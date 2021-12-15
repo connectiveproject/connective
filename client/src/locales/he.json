@@ -52,7 +52,6 @@
     "iAcceptThe": "אני מאשר/ת את",
     "forgotYourPassword?": "שכחת את הסיסמה?"
   },
-
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
     "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
@@ -654,5 +653,13 @@
     "maxDaysDelta": "על התאריכים להיות קרובים יותר זה לזה",
     "noHebrew": "אין להקליד אותיות בעברית",
     "noArabic": "אין להקליד אותיות בערבית"
+  },
+  "cancellationReasons": {
+    "illness": "מחלה",
+    "weather": "מזג אוויר",
+    "examSeason": "תקופת מבחנים",
+    "covid19": "קורונה",
+    "holiday": "חג",
+    "other": "אחר"
   }
 }
