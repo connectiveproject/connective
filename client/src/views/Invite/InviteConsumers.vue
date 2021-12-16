@@ -44,14 +44,27 @@
         :slug="dialogSlug"
         @save="getStudents"
       />
-      <modal v-show="showInfoModal" @close="popupMsg = ''; showInfoModal=false">
+      <modal
+        v-show="showInfoModal"
+        @close="
+          popupMsg = ''
+          showInfoModal = false
+        "
+      >
         {{ popupMsg }}
       </modal>
 
-      <modal v-show="showErrorModal" @close="popupMsg = ''; showErrorModal=false" title="invite.uploadFileErrorTitle">
+      <modal
+        v-show="showErrorModal"
+        @close="
+          popupMsg = ''
+          showErrorModal = false
+        "
+        title="invite.uploadFileErrorTitle"
+      >
         <div>{{ $t("invite.uploadFileErrorSummary") }}</div>
         <div style="padding-top: 2em">
-          <span style="white-space: pre-line; ">
+          <span style="white-space: pre-line">
             {{ popupMsg }}
           </span>
         </div>
@@ -65,6 +78,7 @@ import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import { translateStatus } from "./helpers"
 import Modal from "@/components/Modal"
+import Api from "@/api"
 import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
 import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
 
@@ -144,7 +158,7 @@ export default {
         )}`
         this.showInfoModal = true
       } catch (err) {
-        this.popupMsg = this.parseUploadConsumerFileError(err)
+        this.popupMsg = Api.utils.parseUploadConsumerFileError(err)
         this.showErrorModal = true
       }
     },
@@ -184,19 +198,6 @@ export default {
       500,
       { leading: true, trailing: false }
     ),
-    parseUploadConsumerFileError(err) {
-      try {
-        const response = err.response
-        if (response.status === 400 && Object.keys(response).length) {
-          let allErrorsArray = response.data
-          const formattedErrorStr = allErrorsArray.map(errorObj => `${"row" in errorObj ? this.$t("invite.uploadFileRowNumber") + " " + errorObj.row + ": ": ""}  ${this.$t(errorObj.error)}`).join("\n")
-          return formattedErrorStr
-        }
-        return this.$t("errors.genericError")
-      } catch (err) {
-        return this.$t("errors.genericError")
-      }
-    },
   },
 }
 </script>
