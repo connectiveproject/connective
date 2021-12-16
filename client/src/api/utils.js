@@ -28,7 +28,7 @@ const utils = {
       return i18n.t("errors.genericError")
     }
   },
-  parseUploadConsumerFileError(err) {
+  parseUploadUsersFileError(err) {
     try {
       const response = err.response
       if (response.status === 400 && Object.keys(response).length) {

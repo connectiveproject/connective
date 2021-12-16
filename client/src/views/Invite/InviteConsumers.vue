@@ -158,7 +158,7 @@ export default {
         )}`
         this.showInfoModal = true
       } catch (err) {
-        this.popupMsg = Api.utils.parseUploadConsumerFileError(err)
+        this.popupMsg = Api.utils.parseUploadUsersFileError(err)
         this.showErrorModal = true
       }
     },
