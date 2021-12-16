@@ -57,21 +57,20 @@
 
           <v-col cols="12">
             <validation-provider v-slot="{ errors }" rules="required">
-              <v-tribute :options="tributeOptions">
-                <v-textarea
+                <v-select
                   autofocus
                   outlined
-                  v-model="summaryGeneralNotes"
-                  :error-messages="errors"
+                  dense
+                  v-model="cancellationReason"
                   class="my-6"
+                  :items="cancellationReasonChoices"
+                  :error-messages="errors"
                   :label="
                     $t(
                       'events.reasonForCancellation'
                     )
                   "
-                >
-                </v-textarea>
-              </v-tribute>
+                />
             </validation-provider>
           </v-col>
 
@@ -241,14 +240,15 @@ import { ValidationObserver, ValidationProvider } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "@/vuex/store"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
-import VTribute from "../components/VTribute"
-import TitleToText from "../components/TitleToText"
-import Modal from "../components/Modal"
-import ModalApprove from "../components/ModalApprove"
-import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { CONFIDENTIAL_WATERMARK } from "@/helpers/constants/images"
+import { SERVER } from "@/helpers/constants/constants"
+import VTribute from "@/components/VTribute"
+import TitleToText from "@/components/TitleToText"
+import Modal from "@/components/Modal"
+import ModalApprove from "@/components/ModalApprove"
+import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "InstructorEventSummary",
@@ -310,6 +310,7 @@ export default {
       summaryGeneralNotes: "",
       summaryGeneralRating: 10,
       summaryChildrenBehavior: 10,
+      cancellationReason: undefined,
       modalMsg: this.$t("general.detailsSuccessfullyUpdated"),
       isModalOpen: false,
       isModalApproveOpen: false,
@@ -323,6 +324,12 @@ export default {
       this.images.map(image => (urls = [...urls, URL.createObjectURL(image)]))
       return urls
     },
+    cancellationReasonChoices() {
+      return Object.keys(SERVER.eventCancellationReasons).map(reason => ({
+        text: this.$t(`eventCancellationReasons.${reason}`),
+        value: reason,
+      }))
+    }
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
@@ -372,8 +379,9 @@ export default {
     async updateEventCanceled() {
       this.submitting = true
       const data = {
+        hasSummary: true,
         isCanceled: true,
-        summaryGeneralNotes: this.summaryGeneralNotes,
+        cancellationReason: SERVER.eventCancellationReasons[this.cancellationReason],
       }
       try {
         await this.updateEvent({ slug: this.slug, data })
