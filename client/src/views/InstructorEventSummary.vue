@@ -40,9 +40,17 @@
       <v-switch
         v-model="event.isCanceled"
         color="error"
-        :label="event.isCanceled ? $t('events.eventIsCanceled') : $t('events.eventHappened')"
+        :label="
+          event.isCanceled
+            ? $t('events.eventIsCanceled')
+            : $t('events.eventHappened')
+        "
       />
-      <v-card introjs="confidential" style="background: #feece5" v-if="event.isCanceled">
+      <v-card
+        introjs="confidential"
+        style="background: #feece5"
+        v-if="event.isCanceled"
+      >
         <v-row
           no-gutters
           justify="space-between"
@@ -57,27 +65,26 @@
 
           <v-col cols="12">
             <validation-provider v-slot="{ errors }" rules="required">
-                <v-select
-                  autofocus
-                  outlined
-                  dense
-                  v-model="cancellationReason"
-                  class="my-6"
-                  :items="cancellationReasonChoices"
-                  :error-messages="errors"
-                  :label="
-                    $t(
-                      'events.reasonForCancellation'
-                    )
-                  "
-                />
+              <v-select
+                autofocus
+                outlined
+                dense
+                v-model="cancellationReason"
+                class="my-6"
+                :items="cancellationReasonChoices"
+                :error-messages="errors"
+                :label="$t('events.reasonForCancellation')"
+              />
             </validation-provider>
           </v-col>
-
         </v-row>
       </v-card>
 
-      <v-card introjs="confidential" style="background: #feece5" v-if="!event.isCanceled">
+      <v-card
+        introjs="confidential"
+        style="background: #feece5"
+        v-if="!event.isCanceled"
+      >
         <v-row
           no-gutters
           justify="space-between"
@@ -148,7 +155,11 @@
         v-model="addPost"
         :label="$t('userActions.addPublicPost')"
       />
-      <v-card introjs="public" elevation="0" v-if="addPost && !event.isCanceled">
+      <v-card
+        introjs="public"
+        elevation="0"
+        v-if="addPost && !event.isCanceled"
+      >
         <v-card-title class="px-0" v-text="$t('userActions.addPost')" />
         <v-card-subtitle
           class="px-0"
@@ -226,11 +237,7 @@
       {{ modalMsg }}
     </modal>
     <modal-approve v-model="isModalApproveOpen" @approve="updateEventCanceled">
-      {{
-        this.$t(
-          "confirm.AreYouSureYouWantToMarkTheEventAsCanceled"
-        )
-      }}
+      {{ this.$t("confirm.AreYouSureYouWantToMarkTheEventAsCanceled") }}
     </modal-approve>
   </v-card>
 </template>
@@ -329,7 +336,7 @@ export default {
         text: this.$t(`eventCancellationReasons.${reason}`),
         value: reason,
       }))
-    }
+    },
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
@@ -381,12 +388,13 @@ export default {
       const data = {
         hasSummary: true,
         isCanceled: true,
-        cancellationReason: SERVER.eventCancellationReasons[this.cancellationReason],
+        cancellationReason:
+          SERVER.eventCancellationReasons[this.cancellationReason],
       }
       try {
         await this.updateEvent({ slug: this.slug, data })
         this.$router.push({ name: "InstructorUnsummarizedEvents" })
-      } catch(err) {
+      } catch (err) {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)
       } finally {
@@ -400,13 +408,15 @@ export default {
       }
       const post = await this.createFeedPost(feedPostData)
       // TODO: send them as one payload (BE supports it)
-      return Promise.all(
-        this.compressedImages.map(image =>
-          this.createPostImages(
-            Utils.objectToFormData({ image_url: image, post: post.slug })
+      if (this.compressedImages) {
+        return Promise.all(
+          this.compressedImages.map(image =>
+            this.createPostImages(
+              Utils.objectToFormData({ image_url: image, post: post.slug })
+            )
           )
         )
-      )
+      }
     },
   },
 }
