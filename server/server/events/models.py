@@ -60,12 +60,12 @@ class EventOrder(get_base_model()):
 
 class Event(get_base_model()):
     class CancellationReasons(models.TextChoices):
-        ILLNESS = "ILLNESS", "Illness"
-        WEATHER = "WEATHER", "Weather"
-        EXAM_SEASON = "EXAM_SEASON", "Exam Season"
-        COVID_19 = "COVID_19", "COVID-19"
-        HOLIDAY = "HOLIDAY", "Holiday"
-        OTHER = "OTHER", "Other"
+        ILLNESS = "ILLNESS", _("Illness")
+        WEATHER = "WEATHER", _("Weather")
+        EXAM_SEASON = "EXAM_SEASON", _("Exam Season")
+        COVID_19 = "COVID_19", _("COVID-19")
+        HOLIDAY = "HOLIDAY", _("Holiday")
+        OTHER = "OTHER", _("Other")
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     event_order = models.ForeignKey(
