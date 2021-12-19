@@ -211,3 +211,13 @@ CLIENT_BASE_URL = env("CLIENT_BASE_URL")
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 
 GOOGLE_RECAPTCHA_SECRET_KEY = env("GOOGLE_RECAPTCHA_SECRET_KEY")
+
+ADMIN_PROD_WARN = env.bool("ADMIN_PROD_WARN", False)
+
+if ADMIN_PROD_WARN:
+    JAZZMIN_SETTINGS.update(
+        {
+            "site_logo": "images/red_circle.png",
+            "site_icon": "images/red_circle.png",
+        }
+    )
