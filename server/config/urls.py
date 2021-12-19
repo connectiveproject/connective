@@ -89,4 +89,4 @@ if settings.DEBUG:
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
 
-admin.site.site_header = "Connective Admin"
+admin.site.site_header = settings.ADMIN_SITE_HEADER
