@@ -59,6 +59,14 @@ class EventOrder(get_base_model()):
 
 
 class Event(get_base_model()):
+    class CancellationReasons(models.TextChoices):
+        ILLNESS = "ILLNESS", _("Illness")
+        WEATHER = "WEATHER", _("Weather")
+        EXAM_SEASON = "EXAM_SEASON", _("Exam Season")
+        COVID_19 = "COVID_19", _("COVID-19")
+        HOLIDAY = "HOLIDAY", _("Holiday")
+        OTHER = "OTHER", _("Other")
+
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
     event_order = models.ForeignKey(
         EventOrder, on_delete=models.CASCADE, null=True, related_name="events"
@@ -102,6 +110,9 @@ class Event(get_base_model()):
         blank=True,
     )
     is_canceled = models.BooleanField(default=False)
+    cancellation_reason = models.CharField(
+        max_length=200, choices=CancellationReasons.choices, blank=True
+    )
 
     def clean(self):
         if self.start_time > self.end_time:

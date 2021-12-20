@@ -249,6 +249,14 @@ export const SERVER = {
     field: "FIELD",
     other: "OTHER",
   },
+  eventCancellationReasons: {
+    illness: "ILLNESS",
+    weather: "WEATHER",
+    examSeason: "EXAM_SEASON",
+    covid19: "COVID_19",
+    holiday: "HOLIDAY",
+    other: "OTHER",
+  }
 }
 
 export const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"

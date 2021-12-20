@@ -50,7 +50,9 @@
     "pageExplanation": "הסבר עמוד",
     "thisIsAnExperimentalFeature-feedbacksAreMostWelcome": "חלק זה נמצא בהרצה. נשמח לשמוע פידבקים",
     "iAcceptThe": "אני מאשר/ת את",
-    "forgotYourPassword?": "שכחת את הסיסמה?"
+    "forgotYourPassword?": "שכחת את הסיסמה?",
+    "isCancelled": "האם בוטל",
+    "cancellationReason": "סיבת ביטול"
   },
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
@@ -637,5 +639,13 @@
     "maxDaysDelta": "על התאריכים להיות קרובים יותר זה לזה",
     "noHebrew": "אין להקליד אותיות בעברית",
     "noArabic": "אין להקליד אותיות בערבית"
+  },
+  "eventCancellationReasons": {
+    "illness": "מחלה",
+    "weather": "מזג אוויר",
+    "examSeason": "תקופת מבחנים",
+    "covid19": "קורונה",
+    "holiday": "חג",
+    "other": "אחר"
   }
 }

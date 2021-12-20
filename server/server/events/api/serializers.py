@@ -140,6 +140,7 @@ class EventSerializer(
         "summary_general_rating",
         "summary_children_behavior",
         "is_canceled",
+        "cancellation_reason",
     ]
 
     tracker_fields_rename = {
@@ -168,6 +169,7 @@ class EventSerializer(
             "summary_general_rating",
             "summary_children_behavior",
             "is_canceled",
+            "cancellation_reason",
         ]
         read_only_fields = ["slug", "event_order"]
 
