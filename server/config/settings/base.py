@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+import os
 from pathlib import Path
 
 import analytics
@@ -362,3 +363,5 @@ analytics.write_key = env(
 ADMIN_ADD_USER_FIELDS = ("email", "password1", "password2")
 ADMIN_USER_PERSONAL_INFO = ("name",)
 FILE_UPLOAD_MAX_ROWS = 100
+
+ADMIN_SITE_HEADER = os.environ.get("DJANGO_ADMIN_SITE_HEADER", "Connective Admin")

@@ -1,3 +1,7 @@
+# The following import is needed to allow to annotate the return value of UserFileParser from withih the class.
+# see here: https://stackoverflow.com/questions/15853469/putting-current-class-as-return-type-annotation
+from __future__ import annotations
+
 import csv
 import io
 import logging
@@ -223,13 +227,9 @@ class ManageConsumersViewSet(ModelViewSet):
             return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
 
         request_file = request.FILES["file"]
-        _, file_extension = os.path.splitext(request_file.name)
-        if file_extension == ".csv":
-            parser = CSVFileParser(request_file)
-        elif file_extension == ".xls" or file_extension == ".xlsx":
-            parser = ExcelFileParser(request_file)
-        else:
-            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+        parser: UserFileParser = UserFileParser.create_user_file_parser(
+            request_file, True
+        )
         errors = parser.get_errors()
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
@@ -275,13 +275,9 @@ class ManageCoordinatorsViewSet(ModelViewSet):
             return Response("File must be included", status=status.HTTP_400_BAD_REQUEST)
 
         request_file = request.FILES["file"]
-        _, file_extension = os.path.splitext(request_file.name)
-        if file_extension == ".csv":
-            parser = CSVFileParser(request_file)
-        elif file_extension == ".xls" or file_extension == ".xlsx":
-            parser = ExcelFileParser(request_file)
-        else:
-            return Response("Unsupported file type", status=status.HTTP_400_BAD_REQUEST)
+        parser: UserFileParser = UserFileParser.create_user_file_parser(
+            request_file, True
+        )
         errors = parser.get_errors()
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
@@ -363,10 +359,14 @@ class ManageInstructorsViewSet(ModelViewSet):
 
 
 class UserFileParser:
-    def __init__(self, file):
+
+    name_mandatory: bool = True
+
+    def __init__(self, file, name_mandatory: bool):
         self.file = file
         self.errors = []
         self.email_set = set()
+        self.name_mandatory = name_mandatory
         self.parse()
 
     def get_reader(self):
@@ -386,6 +386,7 @@ class UserFileParser:
     def parse(self):
         self.user_dict_list = []
         row_index: int = 1
+        found_email_column: bool = False
         for row in self.get_reader():
             row_index += 1
             if row_index > settings.FILE_UPLOAD_MAX_ROWS:
@@ -393,12 +394,17 @@ class UserFileParser:
                 break
             name = row.get("name").strip() if row.get("name") else ""
             email = row.get("email").strip() if row.get("email") else ""
+            if email:
+                found_email_column = True
+            elif not found_email_column:
+                self.errors.append({"error": "invite.missingEmailColumn"})
+                break
             gender = (
                 row.get("gender").strip()
                 if row.get("gender")
                 else ConsumerProfile.Gender.UNKNOWN
             )
-            if not name:
+            if self.name_mandatory and not name:
                 self.errors.append(
                     {"row": row_index, "error": "invite.nameFieldIsRequired"}
                 )
@@ -423,10 +429,18 @@ class UserFileParser:
     def get_errors(self):
         return self.errors
 
+    def create_user_file_parser(file, name_mandatory: bool) -> UserFileParser:
+        _, file_extension = os.path.splitext(file.name)
+        if file_extension == ".csv":
+            return CSVFileParser(file, name_mandatory)
+        if file_extension == ".xls" or file_extension == ".xlsx":
+            return ExcelFileParser(file, name_mandatory)
+        raise Exception(f"Unsupported file type: {file_extension}")
+
 
 class CSVFileParser(UserFileParser):
-    def __init__(self, file):
-        super().__init__(file)
+    def __init__(self, file, name_mandatory: bool):
+        super().__init__(file, name_mandatory)
 
     def get_reader(self):
         try:
@@ -440,8 +454,8 @@ class CSVFileParser(UserFileParser):
 
 
 class ExcelFileParser(UserFileParser):
-    def __init__(self, file):
-        super().__init__(file)
+    def __init__(self, file, name_mandatory: bool):
+        super().__init__(file, name_mandatory)
 
     def get_reader(self):
         xls = ExcelFile(self.file)
