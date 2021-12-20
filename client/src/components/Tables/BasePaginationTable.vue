@@ -12,6 +12,16 @@
       @click:append="onSearch"
       @keyup.enter="onSearch"
     />
+
+    <v-select
+      v-if="filter1Field"
+      v-model="filter1Value"
+      class="search-bar px-10 mt-5 mb-8 mx-auto"
+      @change="onSearch"
+      :label="filter1Label"
+      :items="filter1Items"
+    />
+
     <v-data-table
       multi-sort
       v-bind="$attrs"
@@ -75,11 +85,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    filter1Label: {
+      type: String,
+      default: "Filter 1",
+    },
+    filter1Field: {
+      type: String,
+    },
+    filter1Items: {
+      type: Array,
+      default: () => ["Filter Option 1", "Filter Option 2"],
+    },
   },
   data() {
     return {
       searchFilter: "",
       options: {},
+      filter1Value: "",
     }
   },
   methods: {
@@ -95,7 +117,14 @@ export default {
     },
     async onSearch() {
       this.options.page = 1
-      await this.updatePagination({ searchFilter: this.searchFilter })
+      let fieldFilters = {}
+      if (this.filter1Field && this.filter1Value) {
+        fieldFilters[this.filter1Field] = this.filter1Value
+      }
+      await this.updatePagination({
+        searchFilter: this.searchFilter,
+        fieldFilters: fieldFilters,
+      })
       this.$emit("paginate")
     },
   },
@@ -104,7 +133,6 @@ export default {
     ...mapState("pagination2", {
       totalServerItemsSecondary: "totalServerItems",
     }),
-
   },
 }
 </script>
