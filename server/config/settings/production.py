@@ -217,7 +217,7 @@ ADMIN_PROD_WARN = env.bool("ADMIN_PROD_WARN", False)
 if ADMIN_PROD_WARN:
     JAZZMIN_SETTINGS.update(
         {
-            "site_logo": "images/red_circle.png",
-            "site_icon": "images/red_circle.png",
+            "site_logo": "images/orange_circle.png",
+            "site_icon": "images/orange_circle.png",
         }
     )
