@@ -7,6 +7,9 @@
     :no-data-text="noDataText"
     :loading="loading"
     :value="value"
+    :filter1Field="filter1Field"
+    :filter1Label="filter1Label"
+    :filter1Items="filter1Items"
     @input="$emit('input', $event)"
     @paginate="$emit('paginate')"
   >
@@ -120,6 +123,15 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    filter1Field: {
+      type: String,
+    },
+    filter1Label: {
+      type: String,
+    },
+    filter1Items: {
+      type: Array,
     },
   },
   computed: {
