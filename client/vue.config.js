@@ -13,7 +13,7 @@ function createBackendBaseUrl() {
 
 function getDevelopmentFrontHost() {
   if (process.env.NODE_ENV === "development") {
-    if (process.env.GITPOD_WORKSPACE_URL) {
+    if (process.env.GITPOD_WORKSPACE_URL && process.env.GITPOD_WORKSPACE_URL.includes("gitpod.io")) {
       return `8080-${process.env.GITPOD_WORKSPACE_URL.slice(8)}`
     }
     return "localhost"
