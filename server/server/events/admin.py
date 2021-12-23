@@ -25,6 +25,7 @@ class EventAdmin(admin.ModelAdmin):
         "school",
         "activity",
         "has_summary",
+        "is_canceled",
     ]
     search_fields = [
         "school_group__activity_order__school__name",

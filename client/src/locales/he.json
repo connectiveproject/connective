@@ -50,9 +50,10 @@
     "pageExplanation": "הסבר עמוד",
     "thisIsAnExperimentalFeature-feedbacksAreMostWelcome": "חלק זה נמצא בהרצה. נשמח לשמוע פידבקים",
     "iAcceptThe": "אני מאשר/ת את",
-    "forgotYourPassword?": "שכחת את הסיסמה?"
+    "forgotYourPassword?": "שכחת את הסיסמה?",
+    "isCancelled": "האם בוטל",
+    "cancellationReason": "סיבת ביטול"
   },
-
   "confirm": {
     "AreYouSureYouWantToDelete?": "האם אתם בטוחים שתרצו למחוק?",
     "AreYouSureYouWantToDeleteThisGroup?": "האם אתם בטוחים שתרצו למחוק קבוצה זו?",
@@ -62,7 +63,6 @@
     "AreYouSureYouWantToApproveThisRequest?ThisActionWillAddTheEventsToTheGroupSchedule": "האם אתם בטוחים שתרצו לאשר בקשה זו? פעולה זו תוסיף את המפגשים ליומן של הקבוצה",
     "AreYouSureYouWantToMarkTheEventAsCanceled": "המפגש סומן כמבוטל. האם תרצו להמשיך?"
   },
-
   "gender": {
     "gender": "מגדר",
     "male": "זכר",
@@ -70,7 +70,6 @@
     "unknown": "לא ידוע",
     "other": "אחר"
   },
-
   "program": {
     "emailToGetInTouch": "אימייל ליצירת קשר",
     "newProgram": "תוכנית חדשה",
@@ -111,7 +110,6 @@
     "programCreation": "יצירת תוכנית",
     "fillInTheDetailsAndCreateNewProgram": "מלאו את הפרטים וצרו תוכנית חדשה"
   },
-
   "programFilters": {
     "space": "מרחב",
     "blueCore": "כחול - ליבה",
@@ -128,7 +126,6 @@
     "hybrid": "משולב",
     "targetAudience": "קהל יעד"
   },
-
   "invite": {
     "invite": "הזמנת|הזמינו",
     "inviteStaff": "הזמנת סגל",
@@ -160,12 +157,12 @@
     "uploadFileErrorSummary": "קובץ לא תקין. אנא תקן את השגיאות הבאות ונסה שוב:",
     "uploadFileErrorUnicode": "הקובץ לא בפורמט UTF-8. יש לשמור את הקובץ בפורמט CSV UTF-8 או Excel",
     "nameFieldIsRequired": "חסר שם תחת עמודת name",
+    "missingEmailColumn": "חסרה עמודה עם כותרת email",
     "emailFieldIsInvalid": "כתובת מייל אינה תקינה",
     "maxRowsPerFileExceeded": "חריגה ממספר השורות המקסימלי. יש להעלות קובץ קטן יותר",
     "sameEmailAppearMoreThanOnce": "כתובת המייל מופיעה יותר מפעם אחת בקובץ",
     "uploadFileRowNumber": "שורה"
   },
-
   "userActions": {
     "leave": "עזיבה",
     "join": "הצטרפות",
@@ -198,7 +195,6 @@
     "addMedia": "הוספת מדיה",
     "clickToRead": "לחצו לקריאה"
   },
-
   "grades": {
     "1": "א",
     "2": "ב",
@@ -215,7 +211,6 @@
     "13": "יג",
     "14": "יד"
   },
-
   "auth": {
     "password": "סיסמה",
     "reEnterPassword": "סיסמה חוזרת",
@@ -243,7 +238,6 @@
     "passwordReset": "איפוס סיסמה",
     "reset": "איפוס"
   },
-
   "success": {
     "joinRequestSentSuccessfully": "בקשת הצטרפות נשלחה בהצלחה",
     "leftProgramSuccessfully": "עזבת את התוכנית בהצלחה",
@@ -265,7 +259,6 @@
     "instructorAssignedToGroupSuccessfully": "המדריך שובץ לקבוצה בהצלחה",
     "passwordResetEmailWasSentToYourInbox": "מייל לאיפוס סיסמה נשלח לתיבת המייל שלך"
   },
-
   "errors": {
     "invalidCreds": "הפרטים שהוזנו שגויים",
     "genericError": "התקבלה שגיאה. אנא נסו מאוחר יותר.",
@@ -290,7 +283,6 @@
     "noGroupsFound": "לא נמצאו קבוצות",
     "emailAddressNotFound": "כתובת המייל לא נמצאה"
   },
-
   "myActivity": {
     "myActivity": "הפעילות שלי",
     "myGroups": "הקבוצות שלי",
@@ -314,7 +306,6 @@
     "toThePersonalPage": "לעמוד האישי",
     "studentsPendingAssignment": "תלמידים ממתינים לשיבוץ"
   },
-
   "events": {
     "newEvent": "מפגש חדש",
     "requestsForEvents": "בקשות למפגשים",
@@ -350,8 +341,7 @@
     "eventIsCanceled": "המפגש לא התקיים / בוטל",
     "eventHappened": "המפגש התקיים",
     "reasonForCancellation": "סיבת הביטול"
-    },
-
+  },
   "groups": {
     "newGroup": "קבוצה חדשה",
     "groupsCreation": "יצירת קבוצה",
@@ -371,7 +361,6 @@
     "allStudents": "כלל התלמידים",
     "isInThisGroup": "האם נמצא בקבוצה זו"
   },
-
   "time": {
     "today": "היום",
     "startTime": "שעת התחלה",
@@ -409,7 +398,6 @@
     "eventStartTime": "שעת תחילת המפגש",
     "eventEndTime": "שעת סיום המפגש"
   },
-
   "posts": {
     "myFeed": "הפיד שלי",
     "viewUpdatesAndPostsInRealTime!": "צפו בעדכונים ופרסומים בזמן אמת!",
@@ -417,7 +405,6 @@
     "thisPostIsNotVisibleForStudents": "פרסום זה אינו חשוף לתלמידים",
     "postsFound": "פוסטים נמצאו"
   },
-
   "tags": {
     "outdoorActivities": "פעילויות חוץ",
     "foreignLanguages": "שפות זרות",
@@ -425,7 +412,6 @@
     "swimming": "שחיה",
     "suitedForReligious": "מותאם לקהל דתי"
   },
-
   "status": {
     "cancelled": "בוטל",
     "pendingVendorApproval": "ממתין לאישור מנהל עמותה",
@@ -433,7 +419,6 @@
     "denied": "נדחה",
     "pendingAdminApproval": "מחכה לאישור מנהל "
   },
-
   "avatar": {
     "topType": "שיער",
     "accessoriesType": "אקססורי",
@@ -654,5 +639,13 @@
     "maxDaysDelta": "על התאריכים להיות קרובים יותר זה לזה",
     "noHebrew": "אין להקליד אותיות בעברית",
     "noArabic": "אין להקליד אותיות בערבית"
+  },
+  "eventCancellationReasons": {
+    "illness": "מחלה",
+    "weather": "מזג אוויר",
+    "examSeason": "תקופת מבחנים",
+    "covid19": "קורונה",
+    "holiday": "חג",
+    "other": "אחר"
   }
 }

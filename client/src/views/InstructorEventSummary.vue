@@ -40,9 +40,17 @@
       <v-switch
         v-model="event.isCanceled"
         color="error"
-        :label="event.isCanceled ? $t('events.eventIsCanceled') : $t('events.eventHappened')"
+        :label="
+          event.isCanceled
+            ? $t('events.eventIsCanceled')
+            : $t('events.eventHappened')
+        "
       />
-      <v-card introjs="confidential" style="background: #feece5" v-if="event.isCanceled">
+      <v-card
+        introjs="confidential"
+        style="background: #feece5"
+        v-if="event.isCanceled"
+      >
         <v-row
           no-gutters
           justify="space-between"
@@ -57,28 +65,26 @@
 
           <v-col cols="12">
             <validation-provider v-slot="{ errors }" rules="required">
-              <v-tribute :options="tributeOptions">
-                <v-textarea
-                  autofocus
-                  outlined
-                  v-model="summaryGeneralNotes"
-                  :error-messages="errors"
-                  class="my-6"
-                  :label="
-                    $t(
-                      'events.reasonForCancellation'
-                    )
-                  "
-                >
-                </v-textarea>
-              </v-tribute>
+              <v-select
+                autofocus
+                outlined
+                dense
+                v-model="cancellationReason"
+                class="my-6"
+                :items="cancellationReasonChoices"
+                :error-messages="errors"
+                :label="$t('events.reasonForCancellation')"
+              />
             </validation-provider>
           </v-col>
-
         </v-row>
       </v-card>
 
-      <v-card introjs="confidential" style="background: #feece5" v-if="!event.isCanceled">
+      <v-card
+        introjs="confidential"
+        style="background: #feece5"
+        v-if="!event.isCanceled"
+      >
         <v-row
           no-gutters
           justify="space-between"
@@ -149,7 +155,11 @@
         v-model="addPost"
         :label="$t('userActions.addPublicPost')"
       />
-      <v-card introjs="public" elevation="0" v-if="addPost && !event.isCanceled">
+      <v-card
+        introjs="public"
+        elevation="0"
+        v-if="addPost && !event.isCanceled"
+      >
         <v-card-title class="px-0" v-text="$t('userActions.addPost')" />
         <v-card-subtitle
           class="px-0"
@@ -227,11 +237,7 @@
       {{ modalMsg }}
     </modal>
     <modal-approve v-model="isModalApproveOpen" @approve="updateEventCanceled">
-      {{
-        this.$t(
-          "confirm.AreYouSureYouWantToMarkTheEventAsCanceled"
-        )
-      }}
+      {{ this.$t("confirm.AreYouSureYouWantToMarkTheEventAsCanceled") }}
     </modal-approve>
   </v-card>
 </template>
@@ -241,14 +247,15 @@ import { ValidationObserver, ValidationProvider } from "vee-validate"
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
 import store from "@/vuex/store"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { CONFIDENTIAL_WATERMARK } from "../helpers/constants/images"
-import VTribute from "../components/VTribute"
-import TitleToText from "../components/TitleToText"
-import Modal from "../components/Modal"
-import ModalApprove from "../components/ModalApprove"
-import introjsSubscribeMixin from "../mixins/introJs/introjsSubscribeMixin"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { CONFIDENTIAL_WATERMARK } from "@/helpers/constants/images"
+import { SERVER } from "@/helpers/constants/constants"
+import VTribute from "@/components/VTribute"
+import TitleToText from "@/components/TitleToText"
+import Modal from "@/components/Modal"
+import ModalApprove from "@/components/ModalApprove"
+import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "InstructorEventSummary",
@@ -310,6 +317,7 @@ export default {
       summaryGeneralNotes: "",
       summaryGeneralRating: 10,
       summaryChildrenBehavior: 10,
+      cancellationReason: undefined,
       modalMsg: this.$t("general.detailsSuccessfullyUpdated"),
       isModalOpen: false,
       isModalApproveOpen: false,
@@ -322,6 +330,12 @@ export default {
       let urls = []
       this.images.map(image => (urls = [...urls, URL.createObjectURL(image)]))
       return urls
+    },
+    cancellationReasonChoices() {
+      return Object.keys(SERVER.eventCancellationReasons).map(reason => ({
+        text: this.$t(`eventCancellationReasons.${reason}`),
+        value: reason,
+      }))
     },
   },
   methods: {
@@ -372,13 +386,15 @@ export default {
     async updateEventCanceled() {
       this.submitting = true
       const data = {
+        hasSummary: true,
         isCanceled: true,
-        summaryGeneralNotes: this.summaryGeneralNotes,
+        cancellationReason:
+          SERVER.eventCancellationReasons[this.cancellationReason],
       }
       try {
         await this.updateEvent({ slug: this.slug, data })
         this.$router.push({ name: "InstructorUnsummarizedEvents" })
-      } catch(err) {
+      } catch (err) {
         const message = Api.utils.parseResponseError(err)
         this.showMessage(message)
       } finally {
@@ -392,13 +408,15 @@ export default {
       }
       const post = await this.createFeedPost(feedPostData)
       // TODO: send them as one payload (BE supports it)
-      return Promise.all(
-        this.compressedImages.map(image =>
-          this.createPostImages(
-            Utils.objectToFormData({ image_url: image, post: post.slug })
+      if (this.compressedImages) {
+        return Promise.all(
+          this.compressedImages.map(image =>
+            this.createPostImages(
+              Utils.objectToFormData({ image_url: image, post: post.slug })
+            )
           )
         )
-      )
+      }
     },
   },
 }
