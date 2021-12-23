@@ -11,12 +11,22 @@ function createBackendBaseUrl() {
   return "https://calm-hamlet-63949.herokuapp.com/"
 }
 
+function getDevelopmentFrontHost() {
+  if (process.env.NODE_ENV === "development") {
+    if (process.env.GITPOD_WORKSPACE_URL && process.env.GITPOD_WORKSPACE_URL.includes("gitpod.io")) {
+      return `8080-${process.env.GITPOD_WORKSPACE_URL.slice(8)}`
+    }
+    return "localhost"
+  }
+  return null
+}
+
 process.env.VUE_APP_BACKEND_URL = process.env.VUE_APP_BACKEND_URL || `${createBackendBaseUrl()}api`
 process.env.VUE_APP_ANALYTICS_WRITE_KEY = process.env.VUE_APP_ANALYTICS_WRITE_KEY || "G9jJ5vXWzYyqp777CBQA1783LxRJEyWI"
 
 module.exports = {
   devServer: {
-    disableHostCheck: true,
+    allowedHosts: getDevelopmentFrontHost()
   },
   transpileDependencies: ["vuetify"],
   pages: {
