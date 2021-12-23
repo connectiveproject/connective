@@ -66,6 +66,16 @@ export default {
         value: order.slug,
       }
     })
+    const groupTypes = [
+      {
+        value: SERVER.programGroupTypes.standard,
+        text: "programGroupTypes.standard",
+      },
+      {
+        value: SERVER.programGroupTypes.noRegistration,
+        text: "programGroupTypes.noRegistration",
+      },
+    ]
 
     const fields = [
       {
@@ -85,6 +95,13 @@ export default {
         rules: "required",
         label: i18n.t("general.description"),
         type: "textarea",
+      },
+      {
+        name: "groupType",
+        label: i18n.t("groups.groupType"),
+        type: "select",
+        value: SERVER.programGroupTypes.standard,
+        choices: groupTypes,
       },
     ]
     next(vm => (vm.fields = fields))
@@ -108,10 +125,19 @@ export default {
         try {
           const group = await this.createGroup(data)
           this.showMessage(this.$t("groups.groupCreatedSuccessfully"))
-          this.$router.push({
-            name: "AssignGroupConsumers",
-            params: { groupSlug: group.slug },
-          })
+          if (data.groupType == SERVER.programGroupTypes.noRegistration) {
+            // no registration - no students to add ==> go to the group details page
+            this.$router.push({
+              name: "GroupDetail",
+              params: { groupSlug: group.slug },
+            })
+          } else {
+            // standard - go to add students
+            this.$router.push({
+              name: "AssignGroupConsumers",
+              params: { groupSlug: group.slug },
+            })
+          }
         } catch (err) {
           const message = Api.utils.parseResponseError(err)
           this.showMessage(message)
