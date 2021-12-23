@@ -134,6 +134,7 @@ export default {
       await this.updatePagination({
         searchFilter: this.searchFilter,
         fieldFilters: fieldFilters,
+        page: 1,
       })
       this.$emit("paginate")
     },
