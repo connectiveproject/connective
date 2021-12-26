@@ -130,7 +130,7 @@
               />
 
               <v-text-field
-                label="events.externalAttendenceNumber"
+                :label="$t('events.externalAttendenceNumber')"
                 v-model="extConsumersAttended"
                 type="number"
                 v-if="!studentsRegistered"
@@ -312,7 +312,8 @@ export default {
         key: consumer.name,
         value: consumer.name.replace(" ", "_"),
       }))
-      vm.studentsRegistered = group.groupType == "DEFAULT"
+      vm.studentsRegistered =
+        group.groupType == SERVER.programGroupTypes.standard
     })
   },
   data() {

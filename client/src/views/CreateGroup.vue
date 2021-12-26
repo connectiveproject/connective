@@ -69,11 +69,11 @@ export default {
     const groupTypes = [
       {
         value: SERVER.programGroupTypes.standard,
-        text: "programGroupTypes.standard",
+        text: i18n.t("programGroupTypes.standard"),
       },
       {
         value: SERVER.programGroupTypes.noRegistration,
-        text: "programGroupTypes.noRegistration",
+        text: i18n.t("programGroupTypes.noRegistration"),
       },
     ]
 

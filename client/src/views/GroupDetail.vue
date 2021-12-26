@@ -84,7 +84,7 @@
           {{ this.consumersNumber }}
         </sticky-note>
         <sticky-note class="mt-14" v-if="!showStudents">
-          {{ this.$t("groups.thisIsNoRegistrationGroup") }}:
+          {{ this.$t("groups.thisIsNoRegistrationGroup") }}
         </sticky-note>
       </v-col>
     </v-row>
@@ -103,6 +103,7 @@ import store from "@/vuex/store"
 import inputDrawer from "../components/InputDrawer"
 import StickyNote from "../components/StickyNote"
 import ModalApprove from "../components/ModalApprove"
+import { SERVER } from "@/helpers/constants/constants"
 
 export default {
   components: { ValidationObserver, inputDrawer, StickyNote, ModalApprove },
@@ -116,7 +117,7 @@ export default {
       vm.description = group.description
       vm.programName = group.activityName
       vm.consumersNumber = group.consumers.length
-      vm.showStudents = group.groupType == "DEFAULT"
+      vm.showStudents = group.groupType == SERVER.programGroupTypes.standard
     })
   },
   props: {
