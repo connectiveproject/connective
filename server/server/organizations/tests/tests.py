@@ -141,6 +141,35 @@ class TestConsumerActivityView:
             is True
         )
 
+    @override_settings(DEBUG=True)
+    def test_create_no_registration_group(self, activity, coordinator, school):
+        SchoolMember.objects.create(school=school, user=coordinator)
+        activity_order = SchoolActivityOrder.objects.create(
+            activity=activity, school=school, status=SchoolActivityOrder.Status.APPROVED
+        )
+        group_default: SchoolActivityGroup = SchoolActivityGroup.objects.create(
+            activity_order=activity_order
+        )
+        group_no_registration: SchoolActivityGroup = SchoolActivityGroup.objects.create(
+            activity_order=activity_order,
+            group_type=SchoolActivityGroup.GroupTypes.NO_REGISTRATION,
+        )
+        SCHOOL_API_FORMAT = "/api/school_activity_group/{slug}/"
+        client = APIClient()
+        client.force_authenticate(user=coordinator)
+        def_group_response = client.get(
+            SCHOOL_API_FORMAT.format(**{"slug": group_default.slug}),
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
+        print(def_group_response.data)
+        no_registration_group_response = client.get(
+            SCHOOL_API_FORMAT.format(**{"slug": group_no_registration.slug}),
+            **settings.TEST_API_ADDITIONAL_PARAMS,
+        )
+        print(no_registration_group_response.data)
+        assert def_group_response.data["group_type"] == "DEFAULT"
+        assert no_registration_group_response.data["group_type"] == "NO_REGISTRATION"
+
 
 class TestJoinGroupAction:
     uri = "/api/consumer_activities/{0}/join_group/"
