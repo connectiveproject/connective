@@ -4,6 +4,7 @@ import {
   CREATE_EVENT_ORDER_API_URL,
   GET_EVENT_ORDERS_API_URL,
   DELETE_EVENT_ORDER_API_URL,
+  DELETE_EVENT_API_URL,
 } from "../helpers/constants/constants"
 
 const event = {
@@ -20,6 +21,10 @@ const event = {
     if (!slug) throw "deleteEventOrder: received empty slug"
     return axios.delete(`${DELETE_EVENT_ORDER_API_URL}${slug}/`)
   },
+  deleteEvent(slug) {
+    if (!slug) throw "deleteEvent: received empty slug"
+    return axios.delete(`${DELETE_EVENT_API_URL}${slug}/`)
+  }
 }
 
 export default event
