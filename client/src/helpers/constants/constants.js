@@ -227,6 +227,7 @@ export const SERVER = {
     standard: "DEFAULT",
     containerOnly: "CONTAINER_ONLY",
     disabledConsumers: "DISABLED_CONSUMERS",
+    noRegistration: "NO_REGISTRATION",
   },
   eventOrderStatus: {
     cancelled: "CANCELLED",

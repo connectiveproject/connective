@@ -125,7 +125,10 @@ export default {
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
     await store.dispatch("programGroup/getGroupList", {
-      groupType: SERVER.programGroupTypes.standard,
+      groupType: [
+        SERVER.programGroupTypes.standard,
+        SERVER.programGroupTypes.noRegistration,
+      ],
       override: true,
       usePagination: true,
     })

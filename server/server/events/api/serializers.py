@@ -170,6 +170,7 @@ class EventSerializer(
             "summary_children_behavior",
             "is_canceled",
             "cancellation_reason",
+            "ext_consumers_attended",
         ]
         read_only_fields = ["slug", "event_order"]
 

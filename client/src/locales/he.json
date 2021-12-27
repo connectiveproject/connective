@@ -340,7 +340,8 @@
     "byChoosingWeeklyReccurenceEventsWillBeCreatedInAFixedDayForAYearBasedOnDateAndTimeSpecifiedForFirstEvent": "בבחירת תדירות שבועית יווצרו מפגשים ביום קבוע בשבוע למשך שנה, על פי התאריכים והזמנים שייקבעו למפגש הראשון",
     "eventIsCanceled": "המפגש לא התקיים / בוטל",
     "eventHappened": "המפגש התקיים",
-    "reasonForCancellation": "סיבת הביטול"
+    "reasonForCancellation": "סיבת הביטול",
+    "externalAttendenceNumber": "מספר משתתפים"
   },
   "groups": {
     "newGroup": "קבוצה חדשה",
@@ -359,7 +360,13 @@
     "chooseInstructorForTheGroup": "בחרו מדריך לקבוצה",
     "browseYourGroupsAndAssignInstructors": "צפו בקבוצות שלכם ושבצו מדריכים",
     "allStudents": "כלל התלמידים",
-    "isInThisGroup": "האם נמצא בקבוצה זו"
+    "isInThisGroup": "האם נמצא בקבוצה זו",
+    "thisIsNoRegistrationGroup": "קבוצה זו אינה דורשת הרשמה",
+    "groupType": "סוג קבוצה"
+  },
+  "programGroupTypes": {
+    "standard": "רגילה",
+    "noRegistration": "ללא הרשמה"
   },
   "time": {
     "today": "היום",
