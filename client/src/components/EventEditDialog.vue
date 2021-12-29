@@ -31,10 +31,10 @@
                   :readonly="true"
                   :disabled="true"
                 />
-
                 <date-input
                   v-model="eventDate"
                   text-field-classes="mb-3"
+                  :min="todayStr()"
                   :label="$t('time.eventDate')"
                   :error-messages="errors"
                 />
@@ -74,7 +74,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn
-                v-if="!formEnabled"
+                v-if="!formEnabled && !isPastEvent"
                 class="mt-4"
                 color="primary"
                 v-text="$tc('userActions.edit', 2)"
@@ -97,7 +97,7 @@
                 @click="close"
               />
               <v-btn
-                class="mt-4 mx-4 absolute-left"
+                class="mt-4 mx-4 absolute-end"
                 color="error"
                 outlined
                 @click="showApproveDeleteDialog = true"
@@ -113,6 +113,15 @@
           >
             {{ this.$t("confirm.AreYouSureYouWantToDelete?") }}
           </modal-approve>
+          <detail-modal
+            v-model="showErrorMessage"
+            :title="this.$t('errors.oops')"
+            :buttonText="this.$t('userActions.close')"
+          >
+            <div class="modalBody">
+              {{ this.errorMessage }}
+            </div>
+          </detail-modal>
         </v-form>
       </v-card>
     </v-dialog>
@@ -127,6 +136,7 @@ import Utils from "@/helpers/utils"
 import DateInput from "@/components/DateInput"
 import TimeInput from "@/components/TimeInput"
 import ModalApprove from "@/components/ModalApprove"
+import DetailModal from "@/components/DetailModal"
 
 export default {
   created() {
@@ -134,6 +144,9 @@ export default {
     this.startTime = moment(this.event.startTime).format("HH:mm")
     this.endTime = moment(this.event.endTime).format("HH:mm")
     this.originalStartDate = this.eventDate
+    this.isPastEvent = moment(Date.now()).isAfter(
+      moment(this.originalStartDate)
+    )
   },
   components: {
     DateInput,
@@ -141,6 +154,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     ModalApprove,
+    DetailModal,
   },
   props: {
     event: {
@@ -160,7 +174,10 @@ export default {
       endTime: "11:00",
       isOpen: true,
       originalStartDate: "2000-01-01",
+      isPastEvent: false,
       showApproveDeleteDialog: false,
+      showErrorMessage: false,
+      errorMessage: null,
     }
   },
   methods: {
@@ -168,20 +185,20 @@ export default {
       this.$emit("close", false)
     },
     async saveEvent() {
-      const startTime = Utils.dateToApiString(
-        moment(`${this.eventDate}T${this.startTime}`)
-      )
-      const endTime = Utils.dateToApiString(
-        moment(`${this.eventDate}T${this.endTime}`)
-      )
-      // TODO - this is not working yet:
-      const now = Date.now()
-      if (this.originalStartDate < now || startTime < now) {
-        throw "Cannot update event in the past, or move it to the past"
+      const startTime = moment(`${this.eventDate}T${this.startTime}`)
+      const startTimeStr = Utils.dateToApiString(startTime)
+      const endTime = moment(`${this.eventDate}T${this.endTime}`)
+      const endTimeStr = Utils.dateToApiString(endTime)
+
+      const now = moment(Date.now())
+      if (this.isPastEvent || now.isAfter(startTime)) {
+        this.errorMessage = this.$t("events.errorCannotMoveEventToPast")
+        this.showErrorMessage = true
+        return
       }
       const data = {
-        startTime: startTime,
-        endTime: endTime,
+        startTime: startTimeStr,
+        endTime: endTimeStr,
         locationsName: this.event.locationsName,
       }
       await Api.instructorEvent.updateEvent(this.event.slug, data)
@@ -193,6 +210,9 @@ export default {
       await Api.event.deleteEvent(this.event.slug)
       this.$emit("eventUpdated", this.originalStartDate)
       this.close()
+    },
+    todayStr() {
+      return moment(new Date()).format("YYYY-MM-DD")
     },
   },
 }

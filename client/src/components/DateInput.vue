@@ -20,7 +20,13 @@
         v-on="on"
       />
     </template>
-    <v-date-picker @input="e => $emit('input', e)" :label="label" scrollable>
+    <v-date-picker
+      @input="e => $emit('input', e)"
+      :label="label"
+      scrollable
+      :min="min"
+      :max="max"
+    >
       <v-spacer />
       <v-btn
         text
@@ -53,8 +59,14 @@ export default {
     },
     textFieldClasses: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
+    min: {
+      type: String,
+    },
+    max: {
+      type: String,
+    },
   },
   data: () => ({
     modal: false,

@@ -341,7 +341,8 @@
     "eventIsCanceled": "המפגש לא התקיים / בוטל",
     "eventHappened": "המפגש התקיים",
     "reasonForCancellation": "סיבת הביטול",
-    "externalAttendenceNumber": "מספר משתתפים"
+    "externalAttendenceNumber": "מספר משתתפים",
+    "errorCannotMoveEventToPast": "לא ניתן לעדכן זמן מפגש לתאריך בעבר"
   },
   "groups": {
     "newGroup": "קבוצה חדשה",
