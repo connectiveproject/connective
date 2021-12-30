@@ -169,11 +169,11 @@ export default {
   data() {
     return {
       formEnabled: false,
-      eventDate: "2000-01-01",
-      startTime: "10:00",
-      endTime: "11:00",
+      eventDate: "",
+      startTime: "",
+      endTime: "",
       isOpen: true,
-      originalStartDate: "2000-01-01",
+      originalStartDate: "",
       isPastEvent: false,
       showApproveDeleteDialog: false,
       showErrorMessage: false,
