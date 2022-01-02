@@ -3,6 +3,7 @@ from rest_framework import viewsets
 
 from server.posts.api.serializers import PostImageSerializer, PostSerializer
 from server.posts.models import Post, PostImage
+from server.utils.db_utils import get_additional_permissions_write
 from server.utils.permission_classes import (
     AllowConsumerReadOnly,
     AllowCoordinatorReadOnly,
@@ -34,6 +35,7 @@ class PostImageViewSet(BulkCreateMixin, viewsets.ModelViewSet):
         | AllowCoordinatorReadOnly
         | AllowSupervisorReadOnly
         | AllowVendorReadOnly
+        | get_additional_permissions_write()
     ]
     # TODO: add filter by queryset
 
@@ -47,6 +49,7 @@ class PostViewSet(viewsets.ModelViewSet):
         | AllowCoordinatorReadOnly
         | AllowSupervisorReadOnly
         | AllowVendorReadOnly
+        | get_additional_permissions_write()
     ]
 
     def get_queryset(self):
