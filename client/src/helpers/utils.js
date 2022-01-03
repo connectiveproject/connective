@@ -160,6 +160,9 @@ const utils = {
 
   addWebsiteScheme(website) {
     // add https scheme to website
+    if (!website) {
+      return website
+    }
     if (website.toLowerCase().startsWith("http")) {
       return website
     }
