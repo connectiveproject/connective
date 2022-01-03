@@ -135,7 +135,6 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
 class VendorActivitySerializer(TrackSerializerCreateMixin, serializers.ModelSerializer):
     tracker_on_create_event_name = event.ACTIVITY_CREATED
     tracker_props_fields = ["slug", "name", "domain"]
-    activity_website_url = serializers.URLField(allow_blank=True)
 
     tags = TagListSerializerField()
 
