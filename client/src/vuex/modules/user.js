@@ -24,6 +24,9 @@ const user = {
     SET_USER_DETAILS(state, userDetails) {
       state.userDetails = userDetails
     },
+    SET_USER_TYPE(state, userType) {
+      state.userDetails.userType = userType
+    },
   },
   getters: {
     isConsumer(state) {
@@ -63,6 +66,10 @@ const user = {
       let res = await Api.user.updateUserDetails(slug, userDetails)
       commit("SET_USER_DETAILS", res.data)
       return state.userDetails
+    },
+    updateUserType({ commit, state }, { userType }) {
+      commit("SET_USER_TYPE", userType)
+      return state.userType
     },
   },
 }

@@ -1,5 +1,6 @@
 import axios from "axios"
 import {
+  GET_SCHOOL_LIST_API_URL,
   GET_SCHOOL_DETAILS_API_URL,
   UPDATE_SCHOOL_DETAILS_API_URL,
   GET_SCHOOL_STUDENTS_LIST_API_URL,
@@ -17,6 +18,11 @@ import {
 } from "../helpers/constants/constants"
 
 const school = {
+
+  getSchoolList() {
+    return axios.get(GET_SCHOOL_LIST_API_URL)
+
+  },
   getSchoolDetails() {
     return axios.get(GET_SCHOOL_DETAILS_API_URL)
   },

@@ -25,6 +25,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from server.termsofuse.models import TermsOfUseDocument
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
+    BaseProfile,
     Consumer,
     ConsumerProfile,
     Coordinator,
@@ -37,6 +38,7 @@ from server.users.models import (
 )
 from server.utils.analytics_utils import event, identify_track
 from server.utils.db_utils import get_additional_permissions_write
+from server.utils.factories import get_user_utils
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowCoordinator,
@@ -161,8 +163,10 @@ class CoordinatorProfileViewSet(ModelViewSet):
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
         serializer = CoordinatorProfileSerializer(
-            request.user.coordinatorprofile, context={"request": request}
+            profile,
+            context={"request": request},
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
@@ -189,9 +193,8 @@ class VendorProfileViewSet(ModelViewSet):
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
-        serializer = VendorProfileSerializer(
-            request.user.vendorprofile, context={"request": request}
-        )
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
+        serializer = VendorProfileSerializer(profile, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
