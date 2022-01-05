@@ -179,7 +179,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "activityWebsiteUrl",
     labelKey: "general.website",
-    rules: "required|website|max:750",
+    rules: "website|max:750",
   },
   {
     name: "activityEmail",
