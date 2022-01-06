@@ -98,7 +98,11 @@ export default {
           value: "activityName",
           sortable: false,
         },
-        { text: this.$t("general.schoolName"), value: "schoolName", sortable: false, },
+        {
+          text: this.$t("general.schoolName"),
+          value: "schoolName",
+          sortable: false,
+        },
         {
           text: this.$t("myActivity.studentsNumberInGroup"),
           value: "totalConsumers",
@@ -127,7 +131,10 @@ export default {
     async getGroups() {
       this.loading = true
       await this.getGroupList({
-        groupType: SERVER.programGroupTypes.standard,
+        groupType: [
+          SERVER.programGroupTypes.standard,
+          SERVER.programGroupTypes.noRegistration,
+        ],
         override: true,
         usePagination: true,
       })
