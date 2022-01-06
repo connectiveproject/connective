@@ -26,7 +26,7 @@
           color="primary"
           class="my-2 mx-5"
           :class="{ action: $vuetify.breakpoint.xs }"
-          @click="e => $emit('input', '')"
+          @click="setToday"
           v-text="$t('time.today')"
         />
       </div>
@@ -77,6 +77,12 @@ export default {
     onDisplayTypeChange(e) {
       this.$emit("update:displayType", e)
     },
+    async setToday() {
+      this.$emit("input", "")
+      await this.$nextTick()
+      // emit calendar's `moved` event
+      this.$refs.calendar.move(0)
+    }
   },
   data() {
     return {

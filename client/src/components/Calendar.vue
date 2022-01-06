@@ -40,6 +40,9 @@ export default {
     next(amount = 1) {
       return this.$refs.calendar.next(amount)
     },
+    move(amount = 1) {
+      return this.$refs.calendar.move(amount)
+    },
   },
 }
 </script>
