@@ -29,6 +29,7 @@ from server.users.api.views import (
     ManageCoordinatorsViewSet,
     ManageInstructorsViewSet,
     ManageVendorsViewSet,
+    MyNotificationsViewSet,
     SupervisorProfileViewSet,
     UserViewSet,
     VendorProfileViewSet,
@@ -121,6 +122,12 @@ router.register(
     "post_image",
     PostImageViewSet,
     basename="post_image",
+)
+
+router.register(
+    "my_notification",
+    MyNotificationsViewSet,
+    basename="my_notification",
 )
 
 app_name = "api"

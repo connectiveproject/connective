@@ -11,6 +11,7 @@ from server.users.models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Notification,
     SupervisorProfile,
     Vendor,
     VendorProfile,
@@ -283,3 +284,9 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
             send_user_invite(instance)
 
         return instance
+
+
+class NotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ["slug", "created_at", "parameters", "status"]

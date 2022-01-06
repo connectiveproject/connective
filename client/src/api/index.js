@@ -22,6 +22,7 @@ import instructorEvent from "@/api/instructorEvent"
 import eventFeedPost from "@/api/eventFeedPost"
 import vendorEvent from "@/api/vendorEvent"
 import termsOfUse from "@/api/termsOfUse"
+import notification from "@/api/notification"
 
 export default {
   utils,
@@ -48,4 +49,5 @@ export default {
   eventFeedPost,
   vendorEvent,
   termsOfUse,
+  notification,
 }

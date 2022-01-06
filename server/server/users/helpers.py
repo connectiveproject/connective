@@ -1,10 +1,13 @@
 import logging
+from typing import Dict
 
 import requests
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
+from server.users.models import Notification, User
+from server.users.notifications import NotificationRegistry
 from server.utils.factories import get_form_factory
 from server.utils.logging.constants import CAPTCHA, PROFILE
 
@@ -60,3 +63,14 @@ def is_recaptcha_token_valid(token, request=None):
     except Exception:
         logger.exception(CAPTCHA)
         return False
+
+
+def trigger_notification(
+    registry_tuple: tuple, user: User, parameters: Dict[str, str]
+) -> Notification:
+    registry: NotificationRegistry = NotificationRegistry.create(registry_tuple)
+    code = registry.get_code()
+    notification: Notification = Notification.objects.create(
+        notification_code=code, user=user, parameters=parameters
+    )
+    return notification
