@@ -270,6 +270,7 @@ export const SEGMENT_EVENTS = {
   profileEdited: "profile_edited",
   programOpened: "program_opened",
   programJoined: "program_joined",
+  warning: "warning",
 }
 export const LANGUAGE_TO_RTL = {
   "he": true,
