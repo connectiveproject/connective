@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
@@ -77,6 +78,11 @@ class Event(get_base_model()):
         "users.Consumer",
         blank=True,
     )
+    ext_consumers_attended = summary_general_rating = models.IntegerField(
+        validators=[MinValueValidator(1)],
+        null=True,
+        blank=True,
+    )
     school_group = models.ForeignKey(
         SchoolActivityGroup,
         on_delete=models.SET_NULL,
@@ -101,6 +107,10 @@ class Event(get_base_model()):
         null=True,
         blank=True,
     )
+
+    # date/time when the event summarized or marked as canceled by the instructor
+    summary_time = models.DateTimeField(null=True, blank=True)
+
     summary_children_behavior = models.IntegerField(
         validators=[
             MinValueValidator(0),
@@ -122,6 +132,11 @@ class Event(get_base_model()):
 
     def __str__(self):
         return f"{self.school_group} : {self.start_time} : {self.slug}"
+
+    def save(self, *args, **kwargs):
+        if (self.has_summary or self.is_canceled) and self.summary_time is None:
+            self.summary_time = timezone.now()
+        super().save(*args, **kwargs)
 
 
 class ConsumerEventFeedback(get_base_model()):

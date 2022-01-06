@@ -259,6 +259,7 @@ class SchoolActivityGroup(get_base_model()):
     class GroupTypes(models.TextChoices):
         CONTAINER_ONLY = "CONTAINER_ONLY", "Container Only"
         DISABLED_CONSUMERS = "DISABLED_CONSUMERS", "Disabled Consumers"
+        NO_REGISTRATION = "NO_REGISTRATION", "No Registration"
         DEFAULT = "DEFAULT", "Default"
 
     objects = SchoolActivityGroupManager()

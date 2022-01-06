@@ -44,18 +44,14 @@
       @click:event="showEvent"
       @moved="fetchEvents"
     />
-    <detail-modal
+    <event-edit-dialog
       v-if="clickedEvent"
+      :event="clickedEvent.eventObject"
+      :group="clickedEventGroup"
+      @eventUpdated="eventUpdated"
       v-model="isModalOpen"
-      :title="clickedEvent.title || ''"
-      :topSubtitle="$t('myActivity.eventDetails')"
-      :bottomSubtitle="clickedEvent.bottomSubtitle || ''"
-      :buttonText="$t('userActions.close')"
-    >
-      <div class="modalBody">
-        {{ clickedEvent.body }}
-      </div>
-    </detail-modal>
+      @close="clickedEvent = null"
+    />
   </div>
 </template>
 
@@ -63,16 +59,17 @@
 import store from "@/vuex/store"
 import { mapState, mapActions } from "vuex"
 import moment from "moment"
+import Api from "@/api"
 import ActionsCalendar from "@/components/ActionsCalendar"
-import DetailModal from "@/components/DetailModal"
+import EventEditDialog from "@/components/EventEditDialog"
 import Utils from "@/helpers/utils"
 import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
   name: "MyEvents",
   components: {
-    DetailModal,
     ActionsCalendar,
+    EventEditDialog,
   },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
@@ -86,8 +83,12 @@ export default {
   },
   methods: {
     ...mapActions("event", ["getEventList"]),
-    showEvent({ event }) {
+    async showEvent({ event }) {
+      const group = await Api.programGroup.getGroup(
+        event.eventObject.schoolGroup
+      )
       this.clickedEvent = event
+      this.clickedEventGroup = group["data"]
       this.isModalOpen = true
     },
     fetchEvents(benchmarkDay) {
@@ -95,12 +96,17 @@ export default {
       const benchmarkDate = moment(benchmarkDay.date)
       this.getEventList({ benchmarkDate, override: true, usePagination: true })
     },
+    async eventUpdated(benchmarkDay) {
+      // called by the EventEditDialog after save - we need to refresh
+      this.fetchEvents(benchmarkDay)
+    },
   },
   data() {
     return {
       value: "",
       chosenDisplayType: this.$vuetify.breakpoint.xs ? "4day" : "week",
       clickedEvent: null,
+      clickedEventGroup: null,
       isModalOpen: false,
     }
   },
@@ -129,6 +135,7 @@ export default {
            2. ${this.$t("time.startTime")}: ${startStr}
            3. ${this.$t("time.endTime")}: ${endStr}
            `,
+          eventObject: e, // the original event object
         }
       })
     },

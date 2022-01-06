@@ -68,6 +68,7 @@ export const UPDATE_VENDOR_PROGRAM_GROUP_API_URL = `${SERVER_URL}/school_activit
 export const GET_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
 export const GET_INSTRUCTOR_PROGRAM_GROUP_CONSUMERS_API_URL = `${SERVER_URL}/school_activity_group/group_consumers/`
 export const GET_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
+export const DELETE_EVENT_API_URL = `${SERVER_URL}/events/`
 export const CREATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const UPDATE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const GET_CONSUMER_EVENT_LIST_API_URL = `${SERVER_URL}/consumer_events/`
@@ -176,7 +177,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   {
     name: "activityWebsiteUrl",
     labelKey: "general.website",
-    rules: "required|website|max:750",
+    rules: "website|max:750",
   },
   {
     name: "activityEmail",
@@ -227,6 +228,7 @@ export const SERVER = {
     standard: "DEFAULT",
     containerOnly: "CONTAINER_ONLY",
     disabledConsumers: "DISABLED_CONSUMERS",
+    noRegistration: "NO_REGISTRATION",
   },
   eventOrderStatus: {
     cancelled: "CANCELLED",

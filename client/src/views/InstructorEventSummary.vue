@@ -115,17 +115,30 @@
               </v-textarea>
             </v-tribute>
           </v-col>
+
           <v-col cols="12" sm="12" lg="5">
-            <v-select
-              outlined
-              :items="consumerchoices"
-              :label="$t('events.attendance')"
-              v-model="attendedConsumers"
-              class="my-6"
-              multiple
-              dense
-            />
+            <validation-provider v-slot="{ errors }" rules="required">
+              <v-select
+                outlined
+                :items="consumerchoices"
+                :label="$t('events.attendance')"
+                v-model="attendedConsumers"
+                v-if="studentsRegistered"
+                class="my-6"
+                multiple
+                dense
+              />
+
+              <v-text-field
+                :label="$t('events.externalAttendenceNumber')"
+                v-model="extConsumersAttended"
+                type="number"
+                v-if="!studentsRegistered"
+                :error-messages="errors"
+              />
+            </validation-provider>
           </v-col>
+
           <v-col cols="12" sm="12" lg="5">
             <v-select
               outlined
@@ -287,6 +300,10 @@ export default {
         usePagination: true,
       }
     )
+    const group = await store.dispatch(
+      "programGroup/getGroup",
+      event.schoolGroup
+    )
     next(vm => {
       vm.event = event
       vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
@@ -295,6 +312,8 @@ export default {
         key: consumer.name,
         value: consumer.name.replace(" ", "_"),
       }))
+      vm.studentsRegistered =
+        group.groupType == SERVER.programGroupTypes.standard
     })
   },
   data() {
@@ -323,6 +342,8 @@ export default {
       isModalApproveOpen: false,
       images: [],
       compressedImages: [],
+      studentsRegistered: true,
+      extConsumersAttended: undefined,
     }
   },
   computed: {
@@ -380,6 +401,7 @@ export default {
         summaryChildrenBehavior: this.summaryChildrenBehavior,
         hasSummary: true,
         isCanceled: false,
+        extConsumersAttended: this.extConsumersAttended,
       }
       return this.updateEvent({ slug: this.slug, data })
     },
