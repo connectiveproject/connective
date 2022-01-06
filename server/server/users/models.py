@@ -1,3 +1,5 @@
+from typing import Dict
+
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
@@ -255,3 +257,21 @@ USER_TYPE_TO_MODEL = {
     "Supervisor": Supervisor,
     "Vendor": Vendor,
 }
+
+
+class UserUtil:
+    def __init__(self):
+        self.user_type_to_profile: Dict[str, BaseProfile] = {
+            "CONSUMER": ConsumerProfile,
+            "COORDINATOR": CoordinatorProfile,
+            "INSTRUCTOR": InstructorProfile,
+            "SUPERVISOR": SupervisorProfile,
+            "VENDOR": VendorProfile,
+        }
+
+    def get_profile_class(self, user_type: str):
+        return self.user_type_to_profile[user_type]
+
+    def get_user_profile(self, user: User) -> BaseProfile:
+        profile_class = self.get_profile_class(user.user_type)
+        return profile_class.objects.get(user=user)

@@ -19,6 +19,10 @@ from server.organizations.models import (
 from server.users.api.serializers import UserSerializer
 from server.users.models import Consumer
 from server.utils.analytics_utils import event
+from server.utils.db_utils import (
+    get_additional_permissions_readonly,
+    get_additional_permissions_write,
+)
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -47,7 +51,9 @@ class OrganizationViewSet(
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
-    permission_classes = [AllowCoordinatorReadOnly | AllowVendor]
+    permission_classes = [
+        AllowCoordinatorReadOnly | AllowVendor | get_additional_permissions_write()
+    ]
     serializer_class = OrganizationSerializer
     lookup_field = "slug"
 
@@ -62,7 +68,9 @@ class OrganizationViewSet(
 
 
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [AllowCoordinatorReadOnly]
+    permission_classes = [
+        AllowCoordinatorReadOnly | get_additional_permissions_readonly()
+    ]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
     filterset_class = ActivityFilter
@@ -73,7 +81,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class VendorActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowVendor]
+    permission_classes = [AllowVendor | get_additional_permissions_write()]
     serializer_class = VendorActivitySerializer
     lookup_field = "slug"
 
@@ -97,7 +105,7 @@ class VendorActivityViewSet(viewsets.ModelViewSet):
 class ConsumerActivityViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
-    permission_classes = [AllowConsumer]
+    permission_classes = [AllowConsumer | get_additional_permissions_write()]
     serializer_class = ConsumerActivitySerializer
     lookup_field = "slug"
     filterset_class = ActivityFilter
@@ -191,6 +199,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
         | AllowCoordinatorReadOnly
         | AllowInstructorReadOnly
         | AllowConsumerReadOnly
+        | get_additional_permissions_write()
     ]
     serializer_class = ActivityMediaSerializer
     lookup_field = "slug"
@@ -199,7 +208,7 @@ class ActivityMediaViewSet(viewsets.ModelViewSet):
 
 
 class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = ManageSchoolActivitySerializer
     lookup_field = "activity__slug"
     filterset_fields = ("status",)
@@ -219,7 +228,11 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
 class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        AllowCoordinator | AllowVendor | AllowConsumerReadOnly | AllowInstructorReadOnly
+        AllowCoordinator
+        | AllowVendor
+        | AllowConsumerReadOnly
+        | AllowInstructorReadOnly
+        | get_additional_permissions_write()
     ]
     serializer_class = SchoolActivityGroupSerializer
     filterset_fields = ["group_type", "activity_order__slug"]

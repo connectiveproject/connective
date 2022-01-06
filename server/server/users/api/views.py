@@ -25,6 +25,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from server.termsofuse.models import TermsOfUseDocument
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
+    BaseProfile,
     Consumer,
     ConsumerProfile,
     Coordinator,
@@ -36,6 +37,8 @@ from server.users.models import (
     VendorProfile,
 )
 from server.utils.analytics_utils import event, identify_track
+from server.utils.db_utils import get_additional_permissions_write
+from server.utils.factories import get_user_utils
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowCoordinator,
@@ -136,7 +139,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
 
 class ConsumerProfileViewSet(ModelViewSet):
-    permission_classes = [AllowConsumer]
+    permission_classes = [AllowConsumer | get_additional_permissions_write()]
     serializer_class = ConsumerProfileSerializer
 
     def get_queryset(self):
@@ -153,21 +156,23 @@ class ConsumerProfileViewSet(ModelViewSet):
 
 
 class CoordinatorProfileViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = CoordinatorProfileSerializer
     queryset = CoordinatorProfile.objects.all()
     lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
         serializer = CoordinatorProfileSerializer(
-            request.user.coordinatorprofile, context={"request": request}
+            profile,
+            context={"request": request},
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class InstructorProfileViewSet(ModelViewSet):
-    permission_classes = [AllowInstructor]
+    permission_classes = [AllowInstructor | get_additional_permissions_write()]
     serializer_class = InstructorProfileSerializer
     queryset = InstructorProfile.objects.all()
     lookup_field = "user__slug"
@@ -181,21 +186,20 @@ class InstructorProfileViewSet(ModelViewSet):
 
 
 class VendorProfileViewSet(ModelViewSet):
-    permission_classes = [AllowVendor]
+    permission_classes = [AllowVendor | get_additional_permissions_write()]
     serializer_class = VendorProfileSerializer
     queryset = VendorProfile.objects.all()
     lookup_field = "user__slug"
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
-        serializer = VendorProfileSerializer(
-            request.user.vendorprofile, context={"request": request}
-        )
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
+        serializer = VendorProfileSerializer(profile, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class SupervisorProfileViewSet(ModelViewSet):
-    permission_classes = [AllowSupervisor]
+    permission_classes = [AllowSupervisor | get_additional_permissions_write()]
     serializer_class = SupervisorProfileSerializer
     queryset = SupervisorProfile.objects.all()
     lookup_field = "user__slug"
@@ -209,7 +213,7 @@ class SupervisorProfileViewSet(ModelViewSet):
 
 
 class ManageConsumersViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
@@ -257,7 +261,7 @@ class ManageConsumersViewSet(ModelViewSet):
 
 
 class ManageCoordinatorsViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = ManageCoordinatorsSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
@@ -305,7 +309,7 @@ class ManageCoordinatorsViewSet(ModelViewSet):
 
 
 class ExportConsumerListViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
@@ -319,7 +323,7 @@ class ExportConsumerListViewSet(ModelViewSet):
 
 
 class ExportCoordinatorListViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator]
+    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = ManageCoordinatorsSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
@@ -333,7 +337,7 @@ class ExportCoordinatorListViewSet(ModelViewSet):
 
 
 class ManageVendorsViewSet(ModelViewSet):
-    permission_classes = [AllowVendor]
+    permission_classes = [AllowVendor | get_additional_permissions_write()]
     serializer_class = ManageVendorsSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
@@ -346,7 +350,7 @@ class ManageVendorsViewSet(ModelViewSet):
 
 
 class ManageInstructorsViewSet(ModelViewSet):
-    permission_classes = [AllowVendor]
+    permission_classes = [AllowVendor | get_additional_permissions_write()]
     serializer_class = ManageInstructorsSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]

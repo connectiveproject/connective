@@ -10,6 +10,7 @@ function getDefaultState() {
       isSignupComplete: null,
       // e.g., COORDINATOR
       userType: null,
+      superUser: false,
     },
   }
 }
@@ -24,6 +25,12 @@ const user = {
     SET_USER_DETAILS(state, userDetails) {
       state.userDetails = userDetails
     },
+    SET_USER_TYPE(state, userType) {
+      state.userDetails.userType = userType
+    },
+    SET_SUPER_USER(state, superUser) {
+      state.superUser = superUser
+    }
   },
   getters: {
     isConsumer(state) {
@@ -40,6 +47,9 @@ const user = {
     },
     isSupervisor(state) {
       return state.userDetails.userType === SERVER.userTypes.supervisor
+    },
+    isSuperUser(state) {
+      return state.superUser
     },
   },
   actions: {
@@ -63,6 +73,14 @@ const user = {
       let res = await Api.user.updateUserDetails(slug, userDetails)
       commit("SET_USER_DETAILS", res.data)
       return state.userDetails
+    },
+    updateUserType({ commit, state }, { userType }) {
+      commit("SET_USER_TYPE", userType)
+      return state.userType
+    },
+    async updateSuperUser({ commit, state }) {
+      commit("SET_SUPER_USER", true)
+      return state.superUser
     },
   },
 }

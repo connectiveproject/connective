@@ -8,6 +8,7 @@ import {
   ADD_ORGANIZATION_VENDORS_API_URL,
   DELETE_ORGANIZATION_VENDORS_API_URL,
   EDIT_ORGANIZATION_VENDORS_API_URL,
+  GET_MY_ORGANIZATION_LIST,
 } from "@/helpers/constants/constants"
 
 const organization = {
@@ -54,6 +55,11 @@ const organization = {
       )
     )
   },
+
+  getMyOrganizations(params = {}) {
+    return axios.get(GET_MY_ORGANIZATION_LIST, { params })
+  },
+
 }
 
 export default organization

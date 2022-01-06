@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from rest_framework.permissions import BasePermission
 
 
 def get_base_model():
@@ -22,8 +23,37 @@ def get_base_model():
         )
 
 
-class BaseMixin:
-    pass
+def get_additional_permissions_write():
+    try:
+        return getattr(
+            import_module(settings.ADDITIONAL_PERMISSIONS_WRITE.rsplit(".", 1)[0]),
+            settings.ADDITIONAL_PERMISSIONS_WRITE.rsplit(".", 1)[1],
+        )
+    except ValueError:
+        return NoPermission
+    except AttributeError:
+        return NoPermission
+    except LookupError:
+        return NoPermission
+
+
+def get_additional_permissions_readonly():
+    try:
+        return getattr(
+            import_module(settings.ADDITIONAL_PERMISSIONS_READONLY.rsplit(".", 1)[0]),
+            settings.ADDITIONAL_PERMISSIONS_READONLY.rsplit(".", 1)[1],
+        )
+    except ValueError:
+        return NoPermission
+    except AttributeError:
+        return NoPermission
+    except LookupError:
+        return NoPermission
+
+
+class NoPermission(BasePermission):
+    def has_permission(self, request, view):
+        return False
 
 
 def get_base_abstract_user_model():

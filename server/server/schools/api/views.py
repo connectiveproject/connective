@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from server.utils.db_utils import get_additional_permissions_write
 from server.utils.permission_classes import AllowConsumerReadOnly, AllowCoordinator
 
 from ..models import School
@@ -16,7 +17,9 @@ class SchoolViewSet(
     mixins.ListModelMixin,
     GenericViewSet,
 ):
-    permission_classes = [AllowCoordinator | AllowConsumerReadOnly]
+    permission_classes = [
+        AllowCoordinator | AllowConsumerReadOnly | get_additional_permissions_write()
+    ]
     serializer_class = SchoolSerializer
     lookup_field = "slug"
 

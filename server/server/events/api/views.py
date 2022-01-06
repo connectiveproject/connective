@@ -3,6 +3,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
+from server.utils.db_utils import (
+    get_additional_permissions_readonly,
+    get_additional_permissions_write,
+)
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -20,7 +24,9 @@ from .serializers import (
 
 
 class EventOrderViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator | AllowVendor]
+    permission_classes = [
+        AllowCoordinator | AllowVendor | get_additional_permissions_write()
+    ]
     serializer_class = EventOrderSerializer
     lookup_field = "slug"
     filter_backends = [
@@ -49,7 +55,9 @@ class EventOrderViewSet(viewsets.ModelViewSet):
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowCoordinator | AllowInstructor]
+    permission_classes = [
+        AllowCoordinator | AllowInstructor | get_additional_permissions_write()
+    ]
     serializer_class = EventSerializer
     lookup_field = "slug"
     filterset_fields = {
@@ -71,7 +79,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [AllowConsumerReadOnly]
+    permission_classes = [AllowConsumerReadOnly | get_additional_permissions_readonly()]
     serializer_class = ConsumerEventSerializer
     lookup_field = "slug"
     filterset_fields = {
@@ -83,7 +91,7 @@ class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ConsumerEventFeedbackViewset(viewsets.ModelViewSet):
-    permission_classes = [AllowConsumer]
+    permission_classes = [AllowConsumer | get_additional_permissions_write()]
     serializer_class = ConsumerEventFeedbackSerializer
     lookup_field = "slug"
 
