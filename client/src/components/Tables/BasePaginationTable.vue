@@ -38,6 +38,7 @@
       "
       :value="value"
       @input="$emit('input', $event)"
+      @click:row="$emit('click:row', $event)"
       @update:options="paginate"
     >
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">

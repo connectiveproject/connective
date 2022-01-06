@@ -11,6 +11,7 @@
     :filter1Label="filter1Label"
     :filter1Items="filter1Items"
     @input="$emit('input', $event)"
+    @click:row="$emit('click:row', $event)"
     @paginate="$emit('paginate')"
   >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
