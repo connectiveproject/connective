@@ -68,7 +68,7 @@ def is_recaptcha_token_valid(token, request=None):
 def trigger_notification(
     registry_tuple: tuple, user: User, parameters: Dict[str, str]
 ) -> Notification:
-    registry: NotificationRegistry = NotificationRegistry.create(registry_tuple)
+    registry: NotificationRegistry = NotificationRegistry(registry_tuple)
     code = registry.get_code()
     notification: Notification = Notification.objects.create(
         notification_code=code, user=user, parameters=parameters

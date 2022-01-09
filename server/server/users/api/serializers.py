@@ -16,6 +16,7 @@ from server.users.models import (
     Vendor,
     VendorProfile,
 )
+from server.users.notifications import NotificationRegistry
 
 from ..helpers import send_user_invite
 
@@ -289,4 +290,34 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
 class NotificationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ["slug", "created_at", "parameters", "status"]
+        fields = [
+            "slug",
+            "created_at",
+            "parameters",
+            "status",
+            "title_label",
+            "action_label",
+            "link",
+        ]
+
+    title_label = serializers.SerializerMethodField(read_only=True)
+    action_label = serializers.SerializerMethodField(read_only=True)
+    link = serializers.SerializerMethodField(read_only=True)
+
+    def get_title_label(self, notification: Notification):
+        registry: NotificationRegistry = NotificationRegistry.create(
+            notification.notification_code
+        )
+        return registry.get_title_label()
+
+    def get_action_label(self, notification):
+        registry: NotificationRegistry = NotificationRegistry.create(
+            notification.notification_code
+        )
+        return registry.get_action_label()
+
+    def get_link(self, notification):
+        registry: NotificationRegistry = NotificationRegistry.create(
+            notification.notification_code
+        )
+        return registry.get_link()

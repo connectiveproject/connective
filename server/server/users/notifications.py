@@ -3,10 +3,6 @@ from __future__ import annotations
 from typing import Dict, Tuple
 
 
-def registry_entry(title_label: str, action_label: str, link: str) -> Dict[str]:
-    return locals()
-
-
 class NotificationRegistry:
 
     RETENTION_DAYS: int = 30
@@ -32,6 +28,13 @@ class NotificationRegistry:
         "/vendor/event-request/{abc}",
     )
 
+    NEW_EVENT_SUMMARY_SUBMITTED = (
+        "NEW_EVENT_SUMMARY_SUBMITTED",
+        "notifications.newEventSummarySubmitted",
+        "general.go",
+        "GatekeeperEvents",
+    )
+
     def __init__(self, registry: Tuple):
         self.code = registry[0]
         self.title_label = registry[1]
@@ -50,6 +53,26 @@ class NotificationRegistry:
     def get_link(self):
         return self.link
 
-    def create(registry: Tuple) -> NotificationRegistry:
-        res: NotificationRegistry = NotificationRegistry(registry)
-        return res
+    def create(registry_code: str) -> NotificationRegistry:
+        result: NotificationRegistry = registry_list[registry_code]
+        if not result:
+            raise Exception(f"No such registry {registry_code}")
+        return result
+
+
+def add_registry_entry(
+    registry_list: Dict[str, NotificationRegistry], registry_entry: Tuple
+):
+    registry_list[registry_entry[0]] = NotificationRegistry(registry_entry)
+
+
+def init_registry() -> Dict[str, NotificationRegistry]:
+    result: Dict[str, NotificationRegistry] = {}
+    add_registry_entry(result, NotificationRegistry.EVENT_SCHEDULE_APPROVED)
+    add_registry_entry(result, NotificationRegistry.EVENT_SCHEDULE_DECLINED)
+    add_registry_entry(result, NotificationRegistry.NEW_EVENT_REQUEST)
+    add_registry_entry(result, NotificationRegistry.NEW_EVENT_SUMMARY_SUBMITTED)
+    return result
+
+
+registry_list: Dict[str, NotificationRegistry] = init_registry()

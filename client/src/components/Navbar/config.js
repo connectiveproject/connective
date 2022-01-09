@@ -103,6 +103,13 @@ const coordinatorAccountButtons = [
     onClick: () => Vue.$router.push({ name: "CoordinatorProfile" }),
   },
   {
+    id: "notifications-navbar-btn",
+    text: i18n.t("notifications.notificationMenuTitle"),
+    icon: "mdi-bell",
+    alert: store.state.notification.hasNew, //TODO
+    onClick: () => store.dispatch("notification/setVisible", true),
+  },
+  {
     id: "school-detail-navbar-btn",
     text: i18n.tc("general.school", 0),
     icon: "mdi-home",

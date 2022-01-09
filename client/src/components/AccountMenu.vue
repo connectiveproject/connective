@@ -17,6 +17,7 @@
           class="avatar cursor-pointer"
           :avatar-options="avatarOptions"
         />
+        <v-badge bordered color="error" icon="mdi-bell" overlap v-if="hasNew" />
       </v-sheet>
     </template>
     <v-card>
@@ -42,6 +43,7 @@
           >
             <v-list-item-icon>
               <v-icon color="primary" v-text="btn.icon" />
+              <v-badge bordered color="error" v-if="btn.alert" dot overlap />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="btn.text" />
@@ -55,9 +57,13 @@
 
 <script>
 import Avatar from "@/components/Avatar/Avatar"
+import { mapState } from "vuex"
 
 export default {
   components: { Avatar },
+  computed: {
+    ...mapState("notification", ["hasNew"]),
+  },
   props: {
     avatarOptions: {
       type: Object,

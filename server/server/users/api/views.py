@@ -381,7 +381,7 @@ class MyNotificationsViewSet(ModelViewSet):
             Notification.objects.filter(user=self.request.user)
             .filter(created_at__gt=oldest_date)
             .filter(status__in=[Notification.Status.NEW, Notification.Status.READ])
-            .order_by("created_at")
+            .order_by("-created_at")
         )
 
     @action(detail=False, methods=["GET"])
@@ -390,6 +390,20 @@ class MyNotificationsViewSet(ModelViewSet):
             self.get_queryset().filter(status=Notification.Status.NEW).exists()
         )
         return Response(status=status.HTTP_200_OK, data=result)
+
+    @action(detail=False, methods=["POST"])
+    def mark_all_as_read(self, request):
+        max_slug = request.data.get("max_slug")
+        if not max_slug:
+            return Response(
+                "max slug to update is required", status=status.HTTP_400_BAD_REQUEST
+            )
+        max_notification: Notification = self.get_queryset().get(slug=max_slug)
+        self.get_queryset().filter(status="NEW").filter(
+            created_at__lte=max_notification.created_at
+        ).update(status="READ")
+        serializer = NotificationsSerializer(self.get_queryset(), many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class UserFileParser:
