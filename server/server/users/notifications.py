@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+from importlib import import_module
 from typing import Dict, Tuple
+
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 
 class NotificationRegistry:
@@ -28,13 +32,6 @@ class NotificationRegistry:
         "/vendor/event-request/{abc}",
     )
 
-    NEW_EVENT_SUMMARY_SUBMITTED = (
-        "NEW_EVENT_SUMMARY_SUBMITTED",
-        "notifications.newEventSummarySubmitted",
-        "general.go",
-        "GatekeeperEvents",
-    )
-
     def __init__(self, registry: Tuple):
         self.code = registry[0]
         self.title_label = registry[1]
@@ -54,7 +51,8 @@ class NotificationRegistry:
         return self.link
 
     def create(registry_code: str) -> NotificationRegistry:
-        result: NotificationRegistry = registry_list[registry_code]
+        reg_list = get_notification_registry_list()
+        result: NotificationRegistry = reg_list[registry_code]
         if not result:
             raise Exception(f"No such registry {registry_code}")
         return result
@@ -71,8 +69,23 @@ def init_registry() -> Dict[str, NotificationRegistry]:
     add_registry_entry(result, NotificationRegistry.EVENT_SCHEDULE_APPROVED)
     add_registry_entry(result, NotificationRegistry.EVENT_SCHEDULE_DECLINED)
     add_registry_entry(result, NotificationRegistry.NEW_EVENT_REQUEST)
-    add_registry_entry(result, NotificationRegistry.NEW_EVENT_SUMMARY_SUBMITTED)
     return result
 
 
 registry_list: Dict[str, NotificationRegistry] = init_registry()
+
+
+def get_notification_registry_list():
+    try:
+        return getattr(
+            import_module(settings.NOTIFICATION_LIST.rsplit(".", 1)[0]),
+            settings.NOTIFICATION_LIST.rsplit(".", 1)[1],
+        )
+    except ValueError:
+        return registry_list
+    except AttributeError:
+        return registry_list
+    except LookupError:
+        raise ImproperlyConfigured(
+            f"'{settings.NOTIFICATION_LIST}' has not been installed"
+        )
