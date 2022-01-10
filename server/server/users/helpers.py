@@ -70,7 +70,22 @@ def trigger_notification(
 ) -> Notification:
     registry: NotificationRegistry = NotificationRegistry(registry_tuple)
     code = registry.get_code()
-    notification: Notification = Notification.objects.create(
-        notification_code=code, user=user, parameters=parameters
+    # We don't want to show identical notifications again and again.
+    # check for existing identical new notification:
+    existing_notification: Notification = (
+        Notification.objects.filter(user=user)
+        .filter(status="NEW")
+        .filter(notification_code=code)
+        .filter(parameters=parameters)
+        .first()
     )
+    if existing_notification:
+        # we have identical notification - just update its date
+        existing_notification.created_at = timezone.now()
+        existing_notification.save()
+        return existing_notification
+    else:
+        notification: Notification = Notification.objects.create(
+            notification_code=code, user=user, parameters=parameters
+        )
     return notification

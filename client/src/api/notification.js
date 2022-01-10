@@ -9,7 +9,8 @@ import {
 
 const notification = {
   getNotificationList() {
-    return axios.get(GET_MY_NOTIFICATIONS)
+    const params = { page_size: 20 }
+    return axios.get(GET_MY_NOTIFICATIONS, { params })
   },
 
   hasNew() {

@@ -658,6 +658,7 @@
   },
   "notifications": {
     "notificationMenuTitle": "הודעות",
+    "emptyList": "אין הודעות להצגה",
     "scheduleEventApproved": "בקשתך להתטרפות לפעילות {activity_name} אושרה",
     "scheduleEventDeclined": "בקשתך להתטרפות לפעילות {activity_name} נדחתה",
     "newEventRequest": "התקבלה בקשה למפגש חדש",

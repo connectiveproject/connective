@@ -14,20 +14,22 @@
                   $t(item.titleLabel, convertParamsToObject(item.parameters))
                 "
                 :class="item.status"
+                @click="goToLink(item.link)"
               ></v-list-item-title>
               <v-list-item-subtitle
-                v-text="item.createdAt"
+                v-text="formatApiDate(item.createdAt)"
                 :class="item.status"
+                @click="goToLink(item.link)"
               ></v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action @click="deleteItem(item)">
               <v-icon color="error"> mdi-delete </v-icon>
             </v-list-item-action>
-            <v-list-item-action :to="{ name: item.link }">
-              <v-icon color="primary"> mdi-eye </v-icon>
-            </v-list-item-action>
           </v-list-item>
+          <template v-if="notificationList.length === 0">
+            {{ $t("notifications.emptyList") }}
+          </template>
         </v-list-item-group>
       </v-list>
     </v-card>
@@ -41,9 +43,11 @@ import Utils from "@/helpers/utils"
 export default {
   async created() {
     await this.loadNotifications()
-    const latestNotificationSlug = this.notificationList[0].slug
-    // after 3 seconds we consider all visible notifications as "read":
-    await setTimeout(() => this.markAsRead(latestNotificationSlug), 3000)
+    if (this.notificationList.length > 0) {
+      const latestNotificationSlug = this.notificationList[0].slug
+      // after 3 seconds we consider all visible notifications as "read":
+      await setTimeout(() => this.markAsRead(latestNotificationSlug), 3000)
+    }
   },
 
   data: () => ({
@@ -70,9 +74,17 @@ export default {
       return JSON.parse(parametersStr.replaceAll("'", '"'))
     },
 
+    formatApiDate(date) {
+      return Utils.ApiStringToReadableDate(date)
+    },
+
     async deleteItem(item) {
       await this.dismissNotification({ slug: item.slug })
       await this.loadNotifications()
+    },
+    goToLink(itemLink) {
+      this.$router.push({ name: itemLink })
+      this.close()
     },
     async markAsRead(maxSlug) {
       await this.markAllAsRead({ maxSlug: maxSlug })
