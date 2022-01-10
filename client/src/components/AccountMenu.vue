@@ -43,7 +43,13 @@
           >
             <v-list-item-icon>
               <v-icon color="primary" v-text="btn.icon" />
-              <v-badge bordered color="error" v-if="btn.alert" dot overlap />
+              <v-badge
+                bordered
+                color="error"
+                v-if="alertVisible(btn)"
+                dot
+                overlap
+              />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="btn.text" />
@@ -87,6 +93,17 @@ export default {
     return {
       menu: false,
     }
+  },
+  methods: {
+    alertVisible(btn) {
+      if (!btn.alert) {
+        return false
+      }
+      if (btn.alert == "notification.hasNew") {
+        return this.hasNew
+      }
+      return false
+    },
   },
 }
 </script>

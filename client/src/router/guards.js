@@ -69,6 +69,7 @@ export default {
     // redirect based on user type & registration status
     const params = to.params
     const isSignupComplete = store.state.user.userDetails.isSignupComplete
+    await store.dispatch("notification/checkNew")
     const userToRoute = {
       [SERVER.userTypes.supervisor]: () =>
         next({ name: "SupervisorDashboard", params }),

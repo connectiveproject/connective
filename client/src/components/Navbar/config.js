@@ -106,7 +106,7 @@ const coordinatorAccountButtons = [
     id: "notifications-navbar-btn",
     text: i18n.t("notifications.notificationMenuTitle"),
     icon: "mdi-bell",
-    alert: store.state.notification.hasNew, //TODO
+    alert: "notification.hasNew",
     onClick: () => store.dispatch("notification/setVisible", true),
   },
   {
