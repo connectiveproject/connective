@@ -278,9 +278,7 @@ class Notification(get_base_model()):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    notification_code = models.CharField(
-        max_length=100, null=False, blank=False
-    )  # TODO: choices=NotificationRegistry.choices
+    notification_code = models.CharField(max_length=100, null=False, blank=False)
 
     user = models.ForeignKey(
         get_user_model(),
