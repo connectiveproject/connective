@@ -1,6 +1,6 @@
 <template>
-  <div class="absolute-center">
-    <v-card class="py-12 px-7" width="320" elevation="16">
+  <div>
+    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
       <v-card-title class="text-h5 justify-center mb-6">
         {{
           mode === "init"
@@ -70,9 +70,7 @@
               </template>
             </v-checkbox>
           </validation-provider>
-          <a :href="TERMS_OF_USE_URL" target="_blank">{{
-            $t("termsOfUse.termsOfUse")
-          }}</a>
+          <a :href="TERMS_OF_USE_URL" target="_blank">{{ $t("termsOfUse.termsOfUse") }}</a>
           <v-btn
             class="white--text mt-6"
             type="submit"
@@ -94,7 +92,6 @@
         </form>
       </validation-observer>
     </v-card>
-    <div style="padding-top: 150px"></div>
     <modal
       :redirectUrl="modalRedirectUrl"
       v-show="popupMsg !== ''"
@@ -158,10 +155,7 @@ export default {
 
   methods: {
     ...mapActions("auth", ["resetPassword", "login"]),
-    ...mapActions("termsOfUse", [
-      "getTermsOfUseText",
-      "updateTermsOfUseAcceptance",
-    ]),
+    ...mapActions("termsOfUse", ["getTermsOfUseText", "updateTermsOfUseAcceptance"]),
     ...mapActions("user", ["getUserDetails"]),
     ...mapActions("snackbar", ["showMessage"]),
     onSubmit: debounce(
