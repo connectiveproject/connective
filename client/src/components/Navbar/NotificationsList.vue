@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="dialog" width="600px" @click:outside="close">
-    <v-card class="mx-auto" max-width="600">
+  <v-dialog v-model="dialog" width="700px" @click:outside="close">
+    <v-card class="mx-auto" max-width="700">
       <v-list two-line>
         <v-list-item-group>
           <v-list-item
