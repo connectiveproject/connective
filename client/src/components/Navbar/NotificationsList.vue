@@ -14,12 +14,12 @@
                   $t(item.titleLabel, convertParamsToObject(item.parameters))
                 "
                 :class="item.status"
-                @click="goToLink(item.link)"
+                @click="goToLink(item)"
               ></v-list-item-title>
               <v-list-item-subtitle
                 v-text="formatApiDate(item.createdAt)"
                 :class="item.status"
-                @click="goToLink(item.link)"
+                @click="goToLink(item)"
               ></v-list-item-subtitle>
             </v-list-item-content>
 
@@ -82,8 +82,11 @@ export default {
       await this.dismissNotification({ slug: item.slug })
       await this.loadNotifications()
     },
-    goToLink(itemLink) {
-      this.$router.push({ name: itemLink })
+    goToLink(item) {
+      this.$router.push({
+        name: item.link,
+        params: item.linkParameters,
+      })
       this.close()
     },
     async markAsRead(maxSlug) {

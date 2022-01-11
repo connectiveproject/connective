@@ -16,6 +16,7 @@ class NotificationRegistry:
         "notifications.scheduleEventDeclined",
         "general.go",
         "/coor/event/{abc}",
+        {},
     )
 
     EVENT_SCHEDULE_DECLINED = (
@@ -23,6 +24,7 @@ class NotificationRegistry:
         "notifications.scheduleEventApproved",
         "general.go",
         "/coor/event/{abc}",
+        {},
     )
 
     NEW_EVENT_REQUEST = (
@@ -30,6 +32,7 @@ class NotificationRegistry:
         "notifications.newEventRequest",
         "general.go",
         "/vendor/event-request/{abc}",
+        {},
     )
 
     def __init__(self, registry: Tuple):
@@ -37,18 +40,22 @@ class NotificationRegistry:
         self.title_label = registry[1]
         self.action_label = registry[2]
         self.link = registry[3]
+        self.link_parameters = registry[4]
 
-    def get_code(self):
+    def get_code(self) -> str:
         return self.code
 
-    def get_title_label(self):
+    def get_title_label(self) -> str:
         return self.title_label
 
-    def get_action_label(self):
+    def get_action_label(self) -> str:
         return self.action_label
 
-    def get_link(self):
+    def get_link(self) -> str:
         return self.link
+
+    def get_link_parameters(self) -> Dict[str, str]:
+        return self.link_parameters
 
     def create(registry_code: str) -> NotificationRegistry:
         reg_list = get_notification_registry_list()

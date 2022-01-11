@@ -298,11 +298,13 @@ class NotificationsSerializer(serializers.ModelSerializer):
             "title_label",
             "action_label",
             "link",
+            "link_parameters",
         ]
 
     title_label = serializers.SerializerMethodField(read_only=True)
     action_label = serializers.SerializerMethodField(read_only=True)
     link = serializers.SerializerMethodField(read_only=True)
+    link_parameters = serializers.SerializerMethodField(read_only=True)
 
     def get_title_label(self, notification: Notification):
         registry: NotificationRegistry = NotificationRegistry.create(
@@ -321,3 +323,9 @@ class NotificationsSerializer(serializers.ModelSerializer):
             notification.notification_code
         )
         return registry.get_link()
+
+    def get_link_parameters(self, notification):
+        registry: NotificationRegistry = NotificationRegistry.create(
+            notification.notification_code
+        )
+        return registry.get_link_parameters()
