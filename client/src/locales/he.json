@@ -161,7 +161,9 @@
     "emailFieldIsInvalid": "כתובת מייל אינה תקינה",
     "maxRowsPerFileExceeded": "חריגה ממספר השורות המקסימלי. יש להעלות קובץ קטן יותר",
     "sameEmailAppearMoreThanOnce": "כתובת המייל מופיעה יותר מפעם אחת בקובץ",
-    "uploadFileRowNumber": "שורה"
+    "uploadFileRowNumber": "שורה",
+    "unknownError": "שגיאה לא ידועה",
+    "genderError": "עמודת gender יכולה להכיל את הערכים הבאים בלבד: MALE, FEMALE, OTHER, UNKNOWN"
   },
   "userActions": {
     "leave": "עזיבה",
