@@ -54,6 +54,12 @@ import i18n from "@/plugins/i18n"
 
 export default {
   inheritAttrs: false,
+  created() {
+    if (this.filter1InitialValue) {
+      this.filter1Value = this.filter1InitialValue
+      this.updateParameters()
+    }
+  },
   props: {
     value: {
       // selected rows. relevant only when using show-select
@@ -95,6 +101,11 @@ export default {
       type: String,
       default: "Filter 1",
     },
+    filter1InitialValue: {
+      // initial value for filter 1
+      type: String,
+      default: "",
+    },
     filter1Field: {
       // name of the field to filter - will be used in the API (after conversion from camel to snake case)
       type: String,
@@ -126,17 +137,20 @@ export default {
       await this.updatePagination(options)
       this.$emit("paginate")
     },
-    async onSearch() {
+    updateParameters() {
       this.options.page = 1
       let fieldFilters = {}
       if (this.filter1Field && this.filter1Value) {
         fieldFilters[this.filter1Field] = this.filter1Value
       }
-      await this.updatePagination({
+      this.updatePagination({
         searchFilter: this.searchFilter,
         fieldFilters: fieldFilters,
         page: 1,
       })
+    },
+    async onSearch() {
+      this.updateParameters()
       this.$emit("paginate")
     },
   },

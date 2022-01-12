@@ -1,5 +1,6 @@
 from typing import Dict
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
@@ -257,6 +258,41 @@ USER_TYPE_TO_MODEL = {
     "Supervisor": Supervisor,
     "Vendor": Vendor,
 }
+
+
+class NotificationManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
+
+class Notification(get_base_model()):
+
+    objects = NotificationManager()
+
+    class Status(models.TextChoices):
+        NEW = "NEW", "New"
+        READ = "READ", "Read"
+        DISMISSED = "DISMISSED", "Dismissed"
+
+    slug = CharField(max_length=40, default=random_slug, unique=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    notification_code = models.CharField(max_length=100, null=False, blank=False)
+
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="notifications",
+    )
+
+    parameters = models.CharField(max_length=500, null=True, blank=True)
+
+    status = models.CharField(
+        max_length=50,
+        choices=Status.choices,
+        default=Status.NEW,
+    )
 
 
 class UserUtil:

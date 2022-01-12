@@ -86,6 +86,10 @@ export const DELETE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const CREATE_FEED_POST_API_URL = `${SERVER_URL}/posts/`
 export const CREATE_POST_IMAGES_API_URL = `${SERVER_URL}/post_image/`
 export const GET_TOP_CONSUMER_REQUESTS_STATS_API_URL = `${SERVER_URL}/school_activity_group/consumer_requests_data/`
+export const GET_MY_NOTIFICATIONS = `${SERVER_URL}/my_notification/`
+export const GET_HAS_NEW_NOTIFICATIONS = `${SERVER_URL}/my_notification/has_new/`
+export const UPDATE_NOTIFICATION = `${SERVER_URL}/my_notification/`
+export const UPDATE_NOTIFICATIONS_MARK_ALL_AS_READ = `${SERVER_URL}/my_notification/mark_all_as_read/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =
@@ -274,4 +278,8 @@ export const SEGMENT_EVENTS = {
 }
 export const LANGUAGE_TO_RTL = {
   "he": true,
+}
+
+export const VUEX_STATE = {
+  notificationHasNew: "notification.hasNew"
 }

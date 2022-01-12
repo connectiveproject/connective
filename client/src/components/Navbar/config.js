@@ -102,6 +102,14 @@ const coordinatorAccountButtons = [
     icon: "mdi-account",
     onClick: () => Vue.$router.push({ name: "CoordinatorProfile" }),
   },
+  // Add "Notification" menu entry - not fully implementes yet
+  // {
+  //   id: "notifications-navbar-btn",
+  //   text: i18n.t("notifications.notificationMenuTitle"),
+  //   icon: "mdi-bell",
+  //   alert: VUEX_STATE.notificationHasNew,
+  //   onClick: () => store.dispatch("notification/setVisible", true),
+  // },
   {
     id: "school-detail-navbar-btn",
     text: i18n.tc("general.school", 0),

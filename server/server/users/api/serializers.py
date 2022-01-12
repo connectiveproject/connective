@@ -11,10 +11,12 @@ from server.users.models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Notification,
     SupervisorProfile,
     Vendor,
     VendorProfile,
 )
+from server.users.notifications import NotificationRegistry, get_notification_registry
 
 from ..helpers import send_user_invite
 
@@ -283,3 +285,47 @@ class ManageInstructorsSerializer(serializers.ModelSerializer):
             send_user_invite(instance)
 
         return instance
+
+
+class NotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = [
+            "slug",
+            "created_at",
+            "parameters",
+            "status",
+            "title_label",
+            "action_label",
+            "link",
+            "link_parameters",
+        ]
+
+    title_label = serializers.SerializerMethodField(read_only=True)
+    action_label = serializers.SerializerMethodField(read_only=True)
+    link = serializers.SerializerMethodField(read_only=True)
+    link_parameters = serializers.SerializerMethodField(read_only=True)
+
+    def get_title_label(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
+            notification.notification_code
+        )
+        return registry.title_label
+
+    def get_action_label(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
+            notification.notification_code
+        )
+        return registry.action_label
+
+    def get_link(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
+            notification.notification_code
+        )
+        return registry.link
+
+    def get_link_parameters(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
+            notification.notification_code
+        )
+        return registry.link_parameters

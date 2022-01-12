@@ -6,6 +6,7 @@ import csv
 import io
 import logging
 import os
+from datetime import datetime
 
 from allauth.account.utils import url_str_to_user_pk as uid_decoder
 from dj_rest_auth.views import LoginView, PasswordResetConfirmView
@@ -13,6 +14,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils import timezone
 from django.utils.encoding import force_text
 from pandas import ExcelFile
 from rest_framework import filters, status
@@ -32,10 +34,12 @@ from server.users.models import (
     CoordinatorProfile,
     Instructor,
     InstructorProfile,
+    Notification,
     SupervisorProfile,
     Vendor,
     VendorProfile,
 )
+from server.users.notifications import NOTIFICATIONS_RETENTION_DAYS
 from server.utils.analytics_utils import event, identify_track
 from server.utils.db_utils import get_additional_permissions_write
 from server.utils.factories import get_user_utils
@@ -56,6 +60,7 @@ from .serializers import (
     ManageCoordinatorsSerializer,
     ManageInstructorsSerializer,
     ManageVendorsSerializer,
+    NotificationsSerializer,
     SupervisorProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
@@ -360,6 +365,45 @@ class ManageInstructorsViewSet(ModelViewSet):
         return Instructor.objects.filter(
             organization_member__organization=self.request.user.organization_member.organization
         )
+
+
+class MyNotificationsViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = NotificationsSerializer
+    lookup_field = "slug"
+    search_fields = ["created_at", "status"]
+
+    def get_queryset(self):
+        oldest_date: datetime = timezone.now() - timezone.timedelta(
+            days=NOTIFICATIONS_RETENTION_DAYS
+        )
+        return (
+            Notification.objects.filter(user=self.request.user)
+            .filter(created_at__gt=oldest_date)
+            .filter(status__in=[Notification.Status.NEW, Notification.Status.READ])
+            .order_by("-created_at")
+        )
+
+    @action(detail=False, methods=["GET"])
+    def has_new(self, request):
+        result: bool = (
+            self.get_queryset().filter(status=Notification.Status.NEW).exists()
+        )
+        return Response(status=status.HTTP_200_OK, data=result)
+
+    @action(detail=False, methods=["POST"])
+    def mark_all_as_read(self, request):
+        max_slug = request.data.get("max_slug")
+        if not max_slug:
+            return Response(
+                "max slug to update is required", status=status.HTTP_400_BAD_REQUEST
+            )
+        max_notification: Notification = self.get_queryset().get(slug=max_slug)
+        self.get_queryset().filter(status="NEW").filter(
+            created_at__lte=max_notification.created_at
+        ).update(status="READ")
+        serializer = NotificationsSerializer(self.get_queryset(), many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class UserFileParser:

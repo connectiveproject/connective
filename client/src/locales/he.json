@@ -655,5 +655,13 @@
     "covid19": "קורונה",
     "holiday": "חג",
     "other": "אחר"
+  },
+  "notifications": {
+    "notificationMenuTitle": "הודעות",
+    "emptyList": "אין הודעות להצגה",
+    "scheduleEventApproved": "בקשתך להתטרפות לפעילות {activity_name} אושרה",
+    "scheduleEventDeclined": "בקשתך להתטרפות לפעילות {activity_name} נדחתה",
+    "newEventRequest": "התקבלה בקשה למפגש חדש",
+    "newEventSummarySubmitted": "אירוע חדש סוכם"
   }
 }

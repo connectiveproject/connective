@@ -16,6 +16,7 @@ from server.organizations.models import (
     SchoolActivityGroup,
     SchoolActivityOrder,
 )
+from server.organizations.signals import activity_order_created_signal
 from server.users.api.serializers import UserSerializer
 from server.users.models import Consumer
 from server.utils.analytics_utils import event
@@ -218,8 +219,11 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
         return SchoolActivityOrder.objects.filter(school=coord_school)
 
     def perform_create(self, serializer):
-        serializer.save(
+        newOrder: SchoolActivityOrder = serializer.save(
             requested_by=self.request.user, last_updated_by=self.request.user
+        )
+        activity_order_created_signal.send(
+            sender=self.__class__, activity_order=newOrder
         )
 
     def perform_update(self, serializer):

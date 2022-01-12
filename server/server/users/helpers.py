@@ -1,10 +1,13 @@
 import logging
+from typing import Dict
 
 import requests
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
+from server.users.models import Notification, User
+from server.users.notifications import NotificationRegistry
 from server.utils.factories import get_form_factory
 from server.utils.logging.constants import CAPTCHA, PROFILE
 
@@ -60,3 +63,27 @@ def is_recaptcha_token_valid(token, request=None):
     except Exception:
         logger.exception(CAPTCHA)
         return False
+
+
+def trigger_notification(
+    registry: NotificationRegistry, user: User, parameters: Dict[str, str]
+) -> Notification:
+    # We don't want to show identical notifications again and again.
+    # check for existing identical new notification:
+    existing_notification: Notification = (
+        Notification.objects.filter(user=user)
+        .filter(status="NEW")
+        .filter(notification_code=registry.code)
+        .filter(parameters=parameters)
+        .first()
+    )
+    if existing_notification:
+        # we have identical notification - just update its date
+        existing_notification.created_at = timezone.now()
+        existing_notification.save()
+        return existing_notification
+    else:
+        notification: Notification = Notification.objects.create(
+            notification_code=registry.code, user=user, parameters=parameters
+        )
+    return notification

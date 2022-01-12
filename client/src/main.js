@@ -29,3 +29,8 @@ new Vue({
 if (Utils.checkRtl()) {
   import("intro.js/introjs-rtl.css")
 }
+
+// eslint-disable-next-line no-unused-vars
+router.afterEach((to, from) => {
+  store.dispatch("notification/checkNew")
+})

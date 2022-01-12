@@ -27,6 +27,7 @@ import instructorEvent from "./modules/instructorEvent"
 import eventFeedPost from "./modules/eventFeedPost"
 import vendorEvent from "./modules/vendorEvent"
 import termsOfUse from "./modules/termsOfUse"
+import notification from "./modules/notification"
 
 Vue.use(Vuex)
 
@@ -59,6 +60,7 @@ const store = new Vuex.Store({
     eventFeedPost,
     vendorEvent,
     termsOfUse,
+    notification,
   },
   actions: {
     flushState({ dispatch }) {
