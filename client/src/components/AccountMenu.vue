@@ -64,6 +64,7 @@
 <script>
 import Avatar from "@/components/Avatar/Avatar"
 import { mapState } from "vuex"
+import { VUEX_STATE } from "@/helpers/constants/constants"
 
 export default {
   components: { Avatar },
@@ -99,7 +100,7 @@ export default {
       if (!btn.alert) {
         return false
       }
-      if (btn.alert == "notification.hasNew") {
+      if (btn.alert === VUEX_STATE.notificationHasNew) {
         return this.hasNew
       }
       return false

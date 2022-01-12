@@ -66,16 +66,14 @@ def is_recaptcha_token_valid(token, request=None):
 
 
 def trigger_notification(
-    registry_tuple: tuple, user: User, parameters: Dict[str, str]
+    registry: NotificationRegistry, user: User, parameters: Dict[str, str]
 ) -> Notification:
-    registry: NotificationRegistry = NotificationRegistry(registry_tuple)
-    code = registry.get_code()
     # We don't want to show identical notifications again and again.
     # check for existing identical new notification:
     existing_notification: Notification = (
         Notification.objects.filter(user=user)
         .filter(status="NEW")
-        .filter(notification_code=code)
+        .filter(notification_code=registry.code)
         .filter(parameters=parameters)
         .first()
     )
@@ -86,6 +84,6 @@ def trigger_notification(
         return existing_notification
     else:
         notification: Notification = Notification.objects.create(
-            notification_code=code, user=user, parameters=parameters
+            notification_code=registry.code, user=user, parameters=parameters
         )
     return notification

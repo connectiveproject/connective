@@ -16,7 +16,7 @@ from server.users.models import (
     Vendor,
     VendorProfile,
 )
-from server.users.notifications import NotificationRegistry
+from server.users.notifications import NotificationRegistry, get_notification_registry
 
 from ..helpers import send_user_invite
 
@@ -307,25 +307,25 @@ class NotificationsSerializer(serializers.ModelSerializer):
     link_parameters = serializers.SerializerMethodField(read_only=True)
 
     def get_title_label(self, notification: Notification):
-        registry: NotificationRegistry = NotificationRegistry.create(
+        registry: NotificationRegistry = get_notification_registry(
             notification.notification_code
         )
-        return registry.get_title_label()
+        return registry.title_label
 
-    def get_action_label(self, notification):
-        registry: NotificationRegistry = NotificationRegistry.create(
+    def get_action_label(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
             notification.notification_code
         )
-        return registry.get_action_label()
+        return registry.action_label
 
-    def get_link(self, notification):
-        registry: NotificationRegistry = NotificationRegistry.create(
+    def get_link(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
             notification.notification_code
         )
-        return registry.get_link()
+        return registry.link
 
-    def get_link_parameters(self, notification):
-        registry: NotificationRegistry = NotificationRegistry.create(
+    def get_link_parameters(self, notification: Notification):
+        registry: NotificationRegistry = get_notification_registry(
             notification.notification_code
         )
-        return registry.get_link_parameters()
+        return registry.link_parameters

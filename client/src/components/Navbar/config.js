@@ -107,7 +107,7 @@ const coordinatorAccountButtons = [
   //   id: "notifications-navbar-btn",
   //   text: i18n.t("notifications.notificationMenuTitle"),
   //   icon: "mdi-bell",
-  //   alert: "notification.hasNew",
+  //   alert: VUEX_STATE.notificationHasNew,
   //   onClick: () => store.dispatch("notification/setVisible", true),
   // },
   {

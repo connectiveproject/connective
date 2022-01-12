@@ -39,7 +39,7 @@ from server.users.models import (
     Vendor,
     VendorProfile,
 )
-from server.users.notifications import NotificationRegistry
+from server.users.notifications import NOTIFICATIONS_RETENTION_DAYS
 from server.utils.analytics_utils import event, identify_track
 from server.utils.db_utils import get_additional_permissions_write
 from server.utils.factories import get_user_utils
@@ -375,7 +375,7 @@ class MyNotificationsViewSet(ModelViewSet):
 
     def get_queryset(self):
         oldest_date: datetime = timezone.now() - timezone.timedelta(
-            days=NotificationRegistry.RETENTION_DAYS
+            days=NOTIFICATIONS_RETENTION_DAYS
         )
         return (
             Notification.objects.filter(user=self.request.user)

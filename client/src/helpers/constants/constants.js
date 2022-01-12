@@ -279,3 +279,7 @@ export const SEGMENT_EVENTS = {
 export const LANGUAGE_TO_RTL = {
   "he": true,
 }
+
+export const VUEX_STATE = {
+  notificationHasNew: "notification.hasNew"
+}
