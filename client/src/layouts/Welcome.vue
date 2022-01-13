@@ -1,7 +1,7 @@
 <template>
   <v-row no-gutters>
     <v-col class="px-2 secondary relative" cols="12" lg="5">
-      <router-view />
+      <router-view class="page-wrap"/>
     </v-col>
     <v-col class="relative d-none d-lg-block overflow-hidden" lg="7">
       <video
@@ -26,3 +26,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.page-wrap {
+  min-height: 100vh;
+}
+</style>

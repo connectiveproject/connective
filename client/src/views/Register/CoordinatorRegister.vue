@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center align-center min-height-inherit my-8">
+  <div class="d-flex justify-center align-center py-8">
     <v-card
       class="py-12 px-7 mx-auto"
       max-width="360"
