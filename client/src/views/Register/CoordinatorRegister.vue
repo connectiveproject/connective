@@ -1,8 +1,8 @@
 <template>
-  <div class="wrapper">
+  <div class="d-flex justify-center align-center height-inherit my-8">
     <v-card
       class="py-12 px-7 mx-auto"
-      width="320"
+      max-width="360"
       elevation="16"
       v-show="page === 1"
     >
@@ -38,9 +38,10 @@
             />
           </validation-provider>
 
-          <div class="mx-auto d-flex justify-center mt-12">
+          <div class="mx-auto d-flex justify-center mt-6 flex-wrap">
             <v-btn
-              class="ml-3 white--text"
+              block
+              class="mx-3 white--text d-block my-2"
               type="submit"
               color="primary"
               elevation="3"
@@ -49,7 +50,8 @@
               {{ $t("userActions.next") }}
             </v-btn>
             <v-btn
-              class="mr-3"
+              block
+              class="mx-3 d-block my-2"
               type="button"
               color="primary"
               elevation="3"
@@ -66,7 +68,7 @@
       v-if="shouldEditSchool"
       v-show="page === 2"
       class="py-12 px-7 mx-auto"
-      width="320"
+      max-width="360"
       elevation="16"
     >
       <v-card-title class="text-h4 justify-center mb-6">{{
@@ -164,9 +166,10 @@
             </v-select>
           </validation-provider>
 
-          <div class="mx-auto d-flex justify-center mt-12">
+          <div class="mx-auto d-flex justify-center mt-6 flex-wrap">
             <v-btn
-              class="ml-3 white--text"
+              block
+              class="mx-3 white--text d-block my-2"
               type="submit"
               color="primary"
               elevation="3"
@@ -175,7 +178,8 @@
               {{ $t("userActions.next") }}
             </v-btn>
             <v-btn
-              class="mr-3"
+              block
+              class="mx-3 d-block my-2"
               type="button"
               color="primary"
               elevation="3"
@@ -190,7 +194,7 @@
     </v-card>
     <v-card
       class="py-12 px-7 mx-auto"
-      width="320"
+      max-width="360"
       elevation="16"
       v-show="
         (page === 3 && shouldEditSchool) || (page === 2 && !shouldEditSchool)
@@ -251,9 +255,10 @@
           >
         </template>
 
-        <div class="mx-auto d-flex justify-center mt-12">
+        <div class="mx-auto d-flex justify-center mt-6 flex-wrap">
           <v-btn
-            class="ml-3 white--text"
+            block
+            class="mx-3 white--text d-block my-2"
             type="submit"
             color="primary"
             elevation="3"
@@ -261,7 +266,8 @@
             {{ $t("auth.detailsConfirmation") }}
           </v-btn>
           <v-btn
-            class="mr-3"
+            block
+            class="mx-3 d-block my-2"
             type="button"
             color="primary"
             elevation="3"
@@ -287,8 +293,8 @@ import store from "@/vuex/store"
 import debounce from "lodash/debounce"
 import { mapActions } from "vuex"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
-import { SCHOOL_GRADES_ITEMS } from "../../helpers/constants/constants"
-import Modal from "../../components/Modal"
+import { SCHOOL_GRADES_ITEMS } from "@/helpers/constants/constants"
+import Modal from "@/components/Modal"
 
 export default {
   components: {
@@ -428,11 +434,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  margin-top: 100px;
-  margin-bottom: 30px;
-}
-
 .v-card__subtitle,
 .v-card__text,
 .v-card__title {

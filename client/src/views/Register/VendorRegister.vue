@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
+  <div class="d-flex justify-center align-center height-inherit my-8">
+    <v-card class="py-12 px-7" max-width="360" elevation="16">
       <v-card-title
         class="text-h4 justify-center mb-6"
         v-text="$t('auth.detailsCompletion')"
@@ -38,9 +38,10 @@
             required
           />
         </validation-provider>
-        <div class="mx-auto d-flex justify-center mt-12">
+        <div class="mx-auto d-flex flex-wrap justify-center mt-6">
           <v-btn
-            class="ml-3 white--text"
+            block
+            class="mx-3 white--text my-2"
             type="submit"
             color="primary"
             elevation="3"
@@ -48,7 +49,8 @@
             :disabled="invalid"
           />
           <v-btn
-            class="mr-3"
+            block
+            class="mx-3 my-2"
             type="button"
             color="primary"
             elevation="3"

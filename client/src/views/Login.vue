@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-card class="absolute-center py-12 px-7" width="320" elevation="16">
+  <div class="d-flex justify-center align-center height-inherit">
+    <v-card class="py-12 px-7" width="320" elevation="16">
       <v-card-title
         id="letter-spacing-2"
         class="text-h4 justify-center mb-3 font-weight-bold"

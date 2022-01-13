@@ -1,6 +1,6 @@
 <template>
-  <div class="absolute-center">
-    <v-card class="py-12 px-7" width="320" elevation="16">
+  <div class="height-inherit d-flex justify-center align-center">
+    <v-card class="py-12 px-7 my-5" max-width="360" elevation="16">
       <v-card-title class="text-h5 justify-center mb-6">
         {{
           mode === "init"
@@ -94,7 +94,6 @@
         </form>
       </validation-observer>
     </v-card>
-    <div style="padding-top: 150px"></div>
     <modal
       :redirectUrl="modalRedirectUrl"
       v-show="popupMsg !== ''"
