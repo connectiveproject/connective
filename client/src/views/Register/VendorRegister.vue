@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-center align-center py-8">
-    <v-card class="py-12 px-7" max-width="360" elevation="16">
+    <v-card class="py-12 px-7" width="320" elevation="16">
       <v-card-title
         class="text-h4 justify-center mb-6"
         v-text="$t('auth.detailsCompletion')"

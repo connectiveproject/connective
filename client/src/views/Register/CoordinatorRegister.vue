@@ -2,7 +2,7 @@
   <div class="d-flex justify-center align-center py-8">
     <v-card
       class="py-12 px-7 mx-auto"
-      max-width="360"
+      width="320"
       elevation="16"
       v-show="page === 1"
     >
@@ -68,7 +68,7 @@
       v-if="shouldEditSchool"
       v-show="page === 2"
       class="py-12 px-7 mx-auto"
-      max-width="360"
+      width="320"
       elevation="16"
     >
       <v-card-title class="text-h4 justify-center mb-6">{{
@@ -194,7 +194,7 @@
     </v-card>
     <v-card
       class="py-12 px-7 mx-auto"
-      max-width="360"
+      width="320"
       elevation="16"
       v-show="
         (page === 3 && shouldEditSchool) || (page === 2 && !shouldEditSchool)
