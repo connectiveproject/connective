@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center align-center height-inherit">
+  <div class="d-flex justify-center align-center min-height-inherit">
     <v-card class="py-12 px-7" width="320" elevation="16">
       <v-card-title
         id="letter-spacing-2"
