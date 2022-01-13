@@ -438,17 +438,19 @@ class UserFileParser:
         for row in self.get_reader():
             row_index += 1
             if row_index > settings.FILE_UPLOAD_MAX_ROWS:
-                self.errors.append({"error": "invite.maxRowsPerFileExceeded"})
+                self.errors.append(
+                    {"row": -1, "error": "invite.maxRowsPerFileExceeded"}
+                )
                 break
             name = row.get("name").strip() if row.get("name") else ""
             email = row.get("email").strip() if row.get("email") else ""
             if email:
                 found_email_column = True
             elif not found_email_column:
-                self.errors.append({"error": "invite.missingEmailColumn"})
+                self.errors.append({"row": -1, "error": "invite.missingEmailColumn"})
                 break
             gender = (
-                row.get("gender").strip()
+                row.get("gender").strip().upper()
                 if row.get("gender")
                 else ConsumerProfile.Gender.UNKNOWN
             )
@@ -496,7 +498,7 @@ class CSVFileParser(UserFileParser):
                 io.StringIO(self.file.read().decode(encoding="utf-8-sig"), newline=None)
             )
         except UnicodeDecodeError as err:
-            self.errors.append({"error": "invite.uploadFileErrorUnicode"})
+            self.errors.append({"row": -1, "error": "invite.uploadFileErrorUnicode"})
             logger.error("Upload file error", err)
             return []
 
