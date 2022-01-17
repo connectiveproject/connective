@@ -302,11 +302,6 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         container_only_group = (
             SchoolActivityGroup.objects.get_activity_container_only_group(current_group)
         )
-        if not container_only_group:
-            return Response(
-                {"non_field_errors": ["container group could not be found"]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
 
         to_remove = current_group.consumers.all().exclude(slug__in=request.data)
         to_add = Consumer.objects.filter(slug__in=request.data)
@@ -314,8 +309,9 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         current_group.consumers.remove(*to_remove)
         current_group.consumers.add(*to_add)
 
-        container_only_group.consumers.remove(*to_add)
-        container_only_group.consumers.add(*to_remove)
+        if container_only_group:
+            container_only_group.consumers.remove(*to_add)
+            container_only_group.consumers.add(*to_remove)
 
         analytics.track(
             request.user.slug,
