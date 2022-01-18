@@ -151,10 +151,10 @@ class EventSerializer(
     }
     tracker_fields_to_track = ["has_summary"]
 
-    total_consumers_count = serializers.SerializerMethodField()
-    attended_consumers_count = serializers.SerializerMethodField()
+    total_consumers_count = serializers.SerializerMethodField(read_only=True)
+    attended_consumers_count = serializers.SerializerMethodField(read_only=True)
     instructor_name = serializers.CharField(
-        source="school_group.instructor.name", default=""
+        source="school_group.instructor.name", default="", read_only=True
     )
 
     class Meta:
@@ -181,7 +181,13 @@ class EventSerializer(
             "attended_consumers_count",
             "instructor_name",
         ]
-        read_only_fields = ["slug", "event_order"]
+        read_only_fields = [
+            "slug",
+            "event_order",
+            "total_consumers_count",
+            "attended_consumers_count",
+            "instructor_name",
+        ]
 
     def get_total_consumers_count(self, obj):
         if (
