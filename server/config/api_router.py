@@ -6,6 +6,7 @@ from server.events.api.views import (
     ConsumerEventViewSet,
     EventOrderViewSet,
     EventViewSet,
+    ExportEventViewSet,
 )
 from server.organizations.api.views import (
     ActivityMediaViewSet,
@@ -106,6 +107,8 @@ router.register(
     basename="school_activity_group",
 )
 router.register("events", EventViewSet, basename="events")
+router.register("export_events", ExportEventViewSet, basename="export_events")
+
 router.register("event_order", EventOrderViewSet, basename="event_order")
 router.register("consumer_events", ConsumerEventViewSet, basename="consumer_events")
 router.register(

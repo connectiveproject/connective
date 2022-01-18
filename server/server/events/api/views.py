@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
+from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.utils.db_utils import (
     get_additional_permissions_readonly,
@@ -76,6 +77,10 @@ class EventViewSet(viewsets.ModelViewSet):
         return Event.objects.filter(
             school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
         ).order_by("-start_time")
+
+
+class ExportEventViewSet(EventViewSet):
+    renderer_classes = (EventCSVRenderer,)
 
 
 class ConsumerEventViewSet(viewsets.ReadOnlyModelViewSet):

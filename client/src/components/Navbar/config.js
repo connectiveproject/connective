@@ -25,6 +25,12 @@ const coordinatorTabs = [
     icon: "mdi-account-group",
   },
   {
+    id: "events-navbar-btn",
+    text: i18n.t("events.eventsSummary"),
+    componentName: "CoordinatorEvents",
+    icon: "mdi-calendar-heart",
+  },
+  {
     text: i18n.t("posts.myFeed"),
     componentName: "CoordinatorEventFeedView",
     icon: "mdi-comment-quote",

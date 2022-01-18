@@ -313,6 +313,7 @@
     "requestsForEvents": "בקשות למפגשים",
     "eventsSummary": "סיכום מפגשים",
     "eventSummary": "סיכום מפגש",
+    "eventSummarized": "שיעור סוכם",
     "postContent": "תוכן הפוסט",
     "eventsToSummarize": "מפגשים לסיכום",
     "eventsToSummarizeWereNotFound": "לא נמצאו מפגשים לסיכום",
@@ -344,7 +345,9 @@
     "eventHappened": "המפגש התקיים",
     "reasonForCancellation": "סיבת הביטול",
     "externalAttendenceNumber": "מספר משתתפים",
-    "errorCannotMoveEventToPast": "לא ניתן לעדכן זמן מפגש לתאריך בעבר"
+    "errorCannotMoveEventToPast": "לא ניתן לעדכן זמן מפגש לתאריך בעבר",
+    "registeredCount": "מספר רשומים",
+    "attendantsCountAccordingToSummary": "מספר נוכחים על פי סיכום"
   },
   "groups": {
     "newGroup": "קבוצה חדשה",
