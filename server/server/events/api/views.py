@@ -60,6 +60,11 @@ class EventViewSet(viewsets.ModelViewSet):
         AllowCoordinator | AllowInstructor | get_additional_permissions_write()
     ]
     serializer_class = EventSerializer
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
     lookup_field = "slug"
     filterset_fields = {
         "start_time": ["gte", "lte"],
