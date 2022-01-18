@@ -151,6 +151,12 @@ class EventSerializer(
     }
     tracker_fields_to_track = ["has_summary"]
 
+    total_consumers_count = serializers.SerializerMethodField()
+    attended_consumers_count = serializers.SerializerMethodField()
+    instructor_name = serializers.CharField(
+        source="school_group.instructor.name", default=""
+    )
+
     class Meta:
         model = Event
         fields = [
@@ -171,8 +177,27 @@ class EventSerializer(
             "is_canceled",
             "cancellation_reason",
             "ext_consumers_attended",
+            "total_consumers_count",
+            "attended_consumers_count",
+            "instructor_name",
         ]
         read_only_fields = ["slug", "event_order"]
+
+    def get_total_consumers_count(self, obj):
+        if (
+            obj.school_group.group_type
+            == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
+        ):
+            return "-"
+        return obj.school_group.consumers.count()
+
+    def get_attended_consumers_count(self, obj):
+        if (
+            obj.school_group.group_type
+            == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
+        ):
+            return obj.ext_consumers_attended
+        return obj.consumers.count()
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):

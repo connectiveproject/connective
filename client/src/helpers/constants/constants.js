@@ -90,6 +90,8 @@ export const GET_MY_NOTIFICATIONS = `${SERVER_URL}/my_notification/`
 export const GET_HAS_NEW_NOTIFICATIONS = `${SERVER_URL}/my_notification/has_new/`
 export const UPDATE_NOTIFICATION = `${SERVER_URL}/my_notification/`
 export const UPDATE_NOTIFICATIONS_MARK_ALL_AS_READ = `${SERVER_URL}/my_notification/mark_all_as_read/`
+export const GET_COORDINATOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
+export const GET_COORDINATOR_EVENT_EXPORT_FILE_API_URL = `${SERVER_URL}/export_events/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =

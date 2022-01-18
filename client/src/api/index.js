@@ -19,6 +19,7 @@ import instructorProgramGroup from "@/api/instructorProgramGroup"
 import event from "@/api/event"
 import consumerEvent from "@/api/consumerEvent"
 import instructorEvent from "@/api/instructorEvent"
+import coordinatorEvent from "@/api/coordinatorEvent"
 import eventFeedPost from "@/api/eventFeedPost"
 import vendorEvent from "@/api/vendorEvent"
 import termsOfUse from "@/api/termsOfUse"
@@ -46,6 +47,7 @@ export default {
   event,
   consumerEvent,
   instructorEvent,
+  coordinatorEvent,
   eventFeedPost,
   vendorEvent,
   termsOfUse,

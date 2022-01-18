@@ -24,6 +24,7 @@ import instructorProgramGroup from "./modules/instructorProgramGroup"
 import event from "./modules/event"
 import consumerEvent from "./modules/consumerEvent"
 import instructorEvent from "./modules/instructorEvent"
+import coordinatorEvent from "./modules/coordinatorEvent"
 import eventFeedPost from "./modules/eventFeedPost"
 import vendorEvent from "./modules/vendorEvent"
 import termsOfUse from "./modules/termsOfUse"
@@ -57,6 +58,7 @@ const store = new Vuex.Store({
     event,
     consumerEvent,
     instructorEvent,
+    coordinatorEvent,
     eventFeedPost,
     vendorEvent,
     termsOfUse,
