@@ -347,6 +347,7 @@
     "externalAttendenceNumber": "מספר משתתפים",
     "errorCannotMoveEventToPast": "לא ניתן לעדכן זמן מפגש לתאריך בעבר",
     "registeredCount": "מספר רשומים",
+    "hereYouCanViewAllThePastEventsAndTheirAttendance": "כאן ניתן לצפות בכלל אירועי העבר ובנוכחות בהם",
     "attendantsCountAccordingToSummary": "מספר נוכחים על פי סיכום"
   },
   "groups": {
