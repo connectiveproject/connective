@@ -6,6 +6,7 @@ from pathlib import Path
 
 import analytics
 import environ
+from rest_framework import authentication
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # server/
@@ -330,6 +331,10 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "config.pagination.DefaultPagination",
     "PAGE_SIZE": 100,
 }
+BASE_REST_AUTHENTICATION_CLASSES = [
+    authentication.SessionAuthentication,
+    authentication.TokenAuthentication,
+]
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
