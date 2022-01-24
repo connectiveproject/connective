@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 from pandas import ExcelFile
 from rest_framework import filters, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, authentication_classes
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -87,6 +87,7 @@ class PassResetConfirmView(PasswordResetConfirmView):
         return Response({"email": user.email})
 
 
+@authentication_classes(settings.BASE_REST_AUTHENTICATION_CLASSES)
 class LoginView(LoginView):
     """add analytics functionality"""
 
