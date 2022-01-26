@@ -132,7 +132,9 @@ class ActivitySerializer(TaggitSerializer, serializers.ModelSerializer):
         )
 
 
-class VendorActivitySerializer(TrackSerializerCreateMixin, serializers.ModelSerializer):
+class VendorActivitySerializer(
+    TaggitSerializer, TrackSerializerCreateMixin, serializers.ModelSerializer
+):
     tracker_on_create_event_name = event.ACTIVITY_CREATED
     tracker_props_fields = ["slug", "name", "domain"]
 

@@ -24,6 +24,7 @@ import eventFeedPost from "@/api/eventFeedPost"
 import vendorEvent from "@/api/vendorEvent"
 import termsOfUse from "@/api/termsOfUse"
 import notification from "@/api/notification"
+import apiTags from "@/api/apiTags"
 
 export default {
   utils,
@@ -52,4 +53,5 @@ export default {
   vendorEvent,
   termsOfUse,
   notification,
+  apiTags,
 }

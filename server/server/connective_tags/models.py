@@ -6,6 +6,12 @@ from server.utils.db_utils import get_base_model
 
 
 class ConnectiveTag(TagBase, get_base_model()):
+    category = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+    )
+
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
