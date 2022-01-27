@@ -44,7 +44,6 @@
             </v-col>
           </v-row>
         </v-container>
-        <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
       <div class="text-center pt-3 overline">
         {{ totalPrograms }} {{ $t("program.programsFound") }}
@@ -94,7 +93,6 @@ import InfoCard from "@/components/InfoCard"
 import SideDrawer from "@/components/SideDrawer"
 import PaginationCheckboxGroup from "@/components/PaginationCheckboxGroup"
 import PaginationSearchBar from "@/components/PaginationSearchBar"
-import PaginationChipGroup from "@/components/PaginationChipGroup"
 import EndOfPageDetector from "@/components/EndOfPageDetector"
 import TagsInput from "@/components/TagsInput"
 
@@ -109,7 +107,6 @@ export default {
     SideDrawer,
     PaginationCheckboxGroup,
     PaginationSearchBar,
-    PaginationChipGroup,
     EndOfPageDetector,
     TagsInput,
   },
