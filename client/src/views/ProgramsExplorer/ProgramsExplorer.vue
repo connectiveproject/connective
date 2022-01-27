@@ -19,13 +19,7 @@
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
           <h1 v-text="$t('program.programCatalog')" class="card-demo pb-6" />
-          <h3
-            v-text="
-              $t(
-                'program.chooseAProgramThatSuitsYourSchool!'
-              )
-            "
-          />
+          <h3 v-text="$t('program.chooseAProgramThatSuitsYourSchool!')" />
         </div>
         <v-btn
           introjs="advanced-search"
@@ -36,7 +30,20 @@
         />
       </div>
       <div introjs="search">
-        <pagination-search-bar class="search-bar mx-auto pt-6" />
+        <v-container fluid>
+          <v-row>
+            <pagination-search-bar class="search-bar mx-auto pt-6" />
+          </v-row>
+          <v-row>
+            <v-col>
+              <tags-input
+                :editable="true"
+                @tagsSelected="tagsSelected"
+                label="tags.searchByTag"
+              />
+            </v-col>
+          </v-row>
+        </v-container>
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
       <div class="text-center pt-3 overline">
@@ -89,6 +96,8 @@ import PaginationCheckboxGroup from "@/components/PaginationCheckboxGroup"
 import PaginationSearchBar from "@/components/PaginationSearchBar"
 import PaginationChipGroup from "@/components/PaginationChipGroup"
 import EndOfPageDetector from "@/components/EndOfPageDetector"
+import TagsInput from "@/components/TagsInput"
+
 import { SERVER } from "@/helpers/constants/constants"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
@@ -102,6 +111,7 @@ export default {
     PaginationSearchBar,
     PaginationChipGroup,
     EndOfPageDetector,
+    TagsInput,
   },
   mixins: [introjsSubscribeMixin],
   computed: {
@@ -110,7 +120,11 @@ export default {
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("pagination", ["incrementPage", "updatePagination"]),
+    ...mapActions("pagination", [
+      "incrementPage",
+      "updatePagination",
+      "addFieldFilter",
+    ]),
     ...mapActions("program", [
       "getProgramsList",
       "createProgramOrder",
@@ -134,12 +148,20 @@ export default {
         this.recentlyScrolled = false
         if (this.totalPrograms > this.programsList.length) {
           // add new programs if there are items left to fetch. do not override.
-          this.getProgramsList({ override: false, usePagination: true })
+          this.getProgramsList({
+            override: false,
+            usePagination: true,
+            tags: this.selectedTags,
+          })
         }
       } else {
         // fetch & override programs list
         this.updatePagination({ page: 1 })
-        this.getProgramsList({ override: true, usePagination: true })
+        this.getProgramsList({
+          override: true,
+          usePagination: true,
+          tags: this.selectedTags,
+        })
       }
     },
 
@@ -165,7 +187,12 @@ export default {
     ),
 
     requestProgram(program) {
-      if ([SERVER.programOrderStatus.cancelled, SERVER.programOrderStatus.denied].includes(program.orderStatus)) {
+      if (
+        [
+          SERVER.programOrderStatus.cancelled,
+          SERVER.programOrderStatus.denied,
+        ].includes(program.orderStatus)
+      ) {
         return this.reCreateProgramOrder({
           schoolSlug: this.schoolSlug,
           programSlug: program.slug,
@@ -182,6 +209,10 @@ export default {
         schoolSlug: this.schoolSlug,
         programSlug: program.slug,
       })
+    },
+    async tagsSelected(tags) {
+      this.selectedTags = tags
+      await this.getPrograms()
     },
   },
   data() {
@@ -210,6 +241,7 @@ export default {
         [SERVER.programOrderStatus.approved]: "success",
         [SERVER.programOrderStatus.pendingAdminApproval]: "orange",
       },
+      selectedTags: [],
     }
   },
   watch: {

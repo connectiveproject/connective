@@ -36,6 +36,7 @@
             :type="field.type || 'text'"
             :choices="field.choices"
             :multiselect="field.multiselect"
+            :valueData.sync="program[field.name]"
           />
         </v-col>
         <v-col cols="12" lg="5" class="px-10" align-self="center">

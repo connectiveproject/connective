@@ -6,8 +6,6 @@ from server.connective_tags.models import ConnectiveTag
 from server.connective_tags.serializers import TagsSerializer
 from server.utils.permission_classes import AllowAuthenticatedReadOnly
 
-# Create your views here.
-
 
 class TagsViewSet(ModelViewSet):
     permission_classes = [AllowAuthenticatedReadOnly]

@@ -67,10 +67,17 @@
               :aria-labelledby="`${uniqueName}-header ${uniqueName}-field`"
               @input="$emit('input', $event)"
             />
+            <!--
+              We are binding 'valueData' with vinitialTags.sync rather than binindg 'value'
+              to avoid two-way binding of props. See here:
+              https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier
+            -->
             <tags-input
               v-if="type === 'tags'"
-              :initialTags.sync="value"
+              class="mt-5"
+              :initialTags.sync="valueData"
               :data-testid="uniqueName"
+              @tagsSelected="$emit('update:valueData', $event)"
               :editable="isDrawerOpen()"
             />
             <strong
@@ -93,6 +100,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
 import TagsInput from "@/components/TagsInput"
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   components: {
@@ -100,7 +108,9 @@ export default {
     ValidationObserver,
     TagsInput,
   },
-
+  created() {
+    this.valueData = cloneDeep(this.value)
+  },
   props: {
     type: {
       type: String,
@@ -140,6 +150,7 @@ export default {
   data() {
     return {
       drawerOpened: false,
+      valueData: undefined,
     }
   },
 

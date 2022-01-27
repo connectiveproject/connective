@@ -58,10 +58,13 @@ const program = {
     },
     async getProgramsList(
       { commit, state, rootGetters },
-      { override = true, usePagination = true }
+      { override = true, usePagination = true, tags = [] }
     ) {
       // :boolean override: whether to override the programs list or not (i.e., extend)
       const params = usePagination ? rootGetters["pagination/apiParams"] : {}
+      if (tags) {
+        params["tags"] = tags.join()
+      }
       const mutation = override ? "SET_PROGRAM_LIST" : "ADD_PROGRAMS_TO_LIST"
       let res = await Api.program.getProgramsList(params)
       commit(mutation, res.data.results)

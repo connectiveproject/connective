@@ -1,29 +1,34 @@
 <template>
   <div>
-    <v-autocomplete
-      v-if="editable"
-      chips
-      deletable-chips
-      multiple
-      :items="tagOptions"
-      v-model="selectedTags"
-      @change="onChange()"
-    ></v-autocomplete>
-    <v-chip-group class="chips-group" v-if="!editable">
-      <v-tooltip bottom v-for="chip in selectedTags" :key="chip">
-        <template v-slot:activator="{ on, attrs }">
-          <v-chip class="filter-chip" v-bind="attrs" v-on="on">
-            {{ tagDisplay(chip, true) }}
-          </v-chip>
-        </template>
-        <span>{{ tagDisplay(chip, false) }}</span>
-      </v-tooltip>
-    </v-chip-group>
+    <v-row>
+      <v-autocomplete
+        v-if="editable"
+        chips
+        deletable-chips
+        multiple
+        :items="tagOptions"
+        v-model="selectedTags"
+        @change="onChange()"
+        menu-props="closeOnContentClick"
+        :label="$t(label)"
+        @focus="shortNames = false"
+        @blur="shortNames = true"
+      ></v-autocomplete>
+      <v-chip-group class="chips-group" column v-if="!editable">
+        <v-tooltip bottom v-for="chip in selectedTags" :key="chip">
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip class="filter-chip" v-bind="attrs" v-on="on">
+              {{ tagDisplay(chip, true) }}
+            </v-chip>
+          </template>
+          <span>{{ tagDisplay(chip, false) }}</span>
+        </v-tooltip>
+      </v-chip-group>
+    </v-row>
   </div>
 </template>
 
 <script>
-import i18n from "@/plugins/i18n"
 import { mapActions } from "vuex"
 import cloneDeep from "lodash/cloneDeep"
 
@@ -36,7 +41,7 @@ export default {
   data: () => ({
     selectedTags: [],
     availableTags: [],
-    shortNames: false,
+    shortNames: true,
   }),
   props: {
     initialTags: {
@@ -45,7 +50,7 @@ export default {
     },
     label: {
       type: String,
-      default: i18n.t("tags.tag"),
+      default: "",
     },
     editable: {
       type: Boolean,
