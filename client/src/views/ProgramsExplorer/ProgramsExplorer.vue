@@ -35,11 +35,11 @@
             <pagination-search-bar class="search-bar mx-auto pt-6" />
           </v-row>
           <v-row>
-            <v-col>
+            <v-col class="search-bar mx-auto pt-6">
               <tags-input
                 :editable="true"
                 @tagsSelected="tagsSelected"
-                label="tags.searchByTag"
+                label="userActions.searchByTag"
               />
             </v-col>
           </v-row>

@@ -31,6 +31,7 @@
 <script>
 import { mapActions } from "vuex"
 import cloneDeep from "lodash/cloneDeep"
+import i18n from "@/plugins/i18n"
 
 export default {
   inheritAttrs: false,
@@ -61,11 +62,16 @@ export default {
     tagOptions() {
       if (this.shortNames) {
         return this.availableTags.map(tag => {
-          return { value: tag.slug, text: tag.name }
+          return { value: tag.slug, text: this.nameDisplay(tag.name) }
         })
       } else {
         return this.availableTags.map(tag => {
-          return { value: tag.slug, text: `${tag.category}:${tag.name}` }
+          return {
+            value: tag.slug,
+            text: `${this.categoryDisplay(tag.category)}:${this.nameDisplay(
+              tag.name
+            )}`,
+          }
         })
       }
     },
@@ -73,13 +79,23 @@ export default {
   methods: {
     ...mapActions("vxTags", ["loadTags"]),
 
+    nameDisplay(tagName) {
+      const key = `tagName.${tagName}`
+      return i18n.te(key) ? i18n.t(key) : tagName
+    },
+    categoryDisplay(tagCategory) {
+      const key = `tagCategory.${tagCategory}`
+      return i18n.te(key) ? i18n.t(key) : tagCategory
+    },
     onChange() {
       this.$emit("tagsSelected", this.selectedTags)
       this.$emit("update:initialTags", this.selectedTags)
     },
     tagDisplay(tagSlug, shortName) {
       const tag = this.availableTags.find(t => t.slug === tagSlug)
-      return shortName ? tag.name : `${tag.category}:${tag.name}`
+      return shortName
+        ? this.nameDisplay(tag.name)
+        : `${this.categoryDisplay(tag.category)}:${this.nameDisplay(tag.name)}`
     },
   },
 }

@@ -218,7 +218,7 @@ export const VENDOR_PROGRAM_FIELDS = [
   },
   {
     name: "tags",
-    labelKey: "tags.tags",
+    labelKey: "program.tagsLabel",
     type: "tags",
     rules: "",
   },
