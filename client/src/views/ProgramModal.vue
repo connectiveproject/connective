@@ -42,6 +42,12 @@
             "
             :title="$t('program.domain')"
           />
+          <tags-input
+            :small="true"
+            :editable="false"
+            v-if="program.tags"
+            :initialTags="program.tags"
+          />
         </v-card-text>
         <carousel v-if="mediaList.length" :media-list="mediaList" />
         <v-card-actions class="py-6">
@@ -63,9 +69,10 @@
 import { SERVER } from "../helpers/constants/constants"
 import TitleToText from "../components/TitleToText"
 import Carousel from "../components/Carousel"
+import TagsInput from "@/components/TagsInput"
 
 export default {
-  components: { TitleToText, Carousel },
+  components: { TitleToText, Carousel, TagsInput },
   props: {
     value: {
       // indicates whether dialog is open or not

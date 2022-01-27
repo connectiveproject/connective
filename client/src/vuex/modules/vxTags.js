@@ -20,8 +20,12 @@ const vxTags = {
     flushState({ commit }) {
       commit("FLUSH_STATE")
     },
-    // TODO - tags are not changing very often, we need to cache it to avoid the API call again and again
-    async loadTags({ commit }) {
+    // TODO - tags are not changing very often, we need to cache it to avoid the API call again and again.
+    // Is this the correct way to do it?
+    async loadTags({ state, commit }) {
+      if (state.tags && state.tags.length > 0) {
+        return state.tags
+      }
       const res = await Api.apiTags.getAllTags()
       commit("SET_ALL_TAGS", res.data.results)
       return res.data.results

@@ -17,7 +17,7 @@
       <v-chip-group class="chips-group" column v-if="!editable">
         <v-tooltip bottom v-for="chip in selectedTags" :key="chip">
           <template v-slot:activator="{ on, attrs }">
-            <v-chip class="filter-chip" v-bind="attrs" v-on="on">
+            <v-chip class="filter-chip" v-bind="attrs" v-on="on" :small="small">
               {{ tagDisplay(chip, true) }}
             </v-chip>
           </template>
@@ -57,6 +57,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     tagOptions() {
@@ -95,7 +99,7 @@ export default {
       const tag = this.availableTags.find(t => t.slug === tagSlug)
       return shortName
         ? this.nameDisplay(tag.name)
-        : `${this.categoryDisplay(tag.category)}:${this.nameDisplay(tag.name)}`
+        : this.categoryDisplay(tag.category) + ":" + this.nameDisplay(tag.name)
     },
   },
 }
