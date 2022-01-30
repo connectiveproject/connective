@@ -12,7 +12,6 @@ class CharInFilter(django_filters.BaseInFilter, django_filters.CharFilter):
 class ActivityFilter(django_filters.FilterSet):
     domain__in = CharInFilter(field_name="domain", lookup_expr="in")
     target_audience = django_filters.CharFilter(method="target_audience_filter")
-    tags = django_filters.CharFilter(method="tags_filter")
 
     class Meta:
         model = Activity
@@ -27,6 +26,3 @@ class ActivityFilter(django_filters.FilterSet):
             query = query | Q(target_audience__contains=int(str_numeric_grade))
 
         return queryset.filter(query)
-
-    def tags_filter(self, queryset, name, value):
-        return queryset.filter(tags__name__in=value.split(",")).distinct()

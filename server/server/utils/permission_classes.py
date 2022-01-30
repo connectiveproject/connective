@@ -94,3 +94,8 @@ class AllowSupervisorReadOnly(BasePermission):
             request.method in SAFE_METHODS
             and request.user.user_type == request.user.Types.SUPERVISOR
         )
+
+
+class AllowAuthenticatedReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        return request.method in SAFE_METHODS and request.user.is_authenticated

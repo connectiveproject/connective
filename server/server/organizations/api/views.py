@@ -68,6 +68,19 @@ class OrganizationViewSet(
             return Organization.objects.none()
 
 
+class TagsAllFilter(filters.BaseFilterBackend):
+    """
+    Return all objects which match all of the provided tags
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        tags = request.query_params.get("tags", None)
+        if tags:
+            for tag in tags.split(","):
+                queryset = queryset.filter(tags__slug=tag).distinct()
+        return queryset
+
+
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [
         AllowCoordinatorReadOnly | get_additional_permissions_readonly()
@@ -76,7 +89,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
     filterset_class = ActivityFilter
     search_fields = ["name", "description"]
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, TagsAllFilter]
 
     queryset = Activity.objects.all()
 
