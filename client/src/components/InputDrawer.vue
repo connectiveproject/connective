@@ -74,7 +74,7 @@
             -->
             <tags-input
               v-if="type === 'tags'"
-              class="mt-5"
+              class="mt-5 mx-5"
               :initialTags.sync="valueData"
               :data-testid="uniqueName"
               @tagsSelected="$emit('update:valueData', $event)"

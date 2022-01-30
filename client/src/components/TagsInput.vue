@@ -11,6 +11,7 @@
         @change="onChange()"
         menu-props="closeOnContentClick"
         :label="$t(label)"
+        :no-data-text="$t('userActions.noTags')"
         @focus="shortNames = false"
         @blur="shortNames = true"
       ></v-autocomplete>
