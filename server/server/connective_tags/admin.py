@@ -57,26 +57,33 @@ class ConnectiveTagAdmin(admin.ModelAdmin):
     list_display = ["slug", "name", "category"]
     search_fields = ["slug", "name", "category"]
 
-    def import_tags_from_excel(self, request):
+    def import_tags_from_csv(self, request):
         if request.method == "POST":  # file uploaded
             form: TagsFileUploadForm = TagsFileUploadForm(request.POST)
             form.is_valid()  # run validation without check results
             file = request.FILES["file"]
-            loader: TagFileLoader = TagFileLoader(file)
-            loader.create_new_tags()
-            self.message_user(
-                request, f"Tags loaded: {len(loader.added)}", level=messages.INFO
-            )
-            if loader.already_exists:
+            try:
+                loader: TagFileLoader = TagFileLoader(file)
+                loader.create_new_tags()
                 self.message_user(
-                    request,
-                    f"Tags already exists: {len(loader.already_exists)}",
-                    level=messages.WARNING,
+                    request, f"Tags loaded: {len(loader.added)}", level=messages.INFO
                 )
-            if loader.errors:
+                if loader.already_exists:
+                    self.message_user(
+                        request,
+                        f"Tags already exists: {len(loader.already_exists)}",
+                        level=messages.WARNING,
+                    )
+                if loader.errors:
+                    self.message_user(
+                        request,
+                        f"Tags failed to load: {len(loader.errors)}",
+                        level=messages.ERROR,
+                    )
+            except Exception as e:
                 self.message_user(
                     request,
-                    f"Tags failed to load: {len(loader.errors)}",
+                    f"File load error. Make sure you upload CSV file include 2 columns: category, name. Error: {e}",
                     level=messages.ERROR,
                 )
         form = TagsFileUploadForm()
@@ -86,6 +93,6 @@ class ConnectiveTagAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path("import-from-excel/", self.import_tags_from_excel),
+            path("import-from-csv/", self.import_tags_from_csv),
         ]
         return my_urls + urls

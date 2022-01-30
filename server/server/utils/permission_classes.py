@@ -98,4 +98,4 @@ class AllowSupervisorReadOnly(BasePermission):
 
 class AllowAuthenticatedReadOnly(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.method in SAFE_METHODS
+        return request.method in SAFE_METHODS and request.user.is_authenticated
