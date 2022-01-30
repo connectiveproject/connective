@@ -6,6 +6,12 @@ from server.utils.db_utils import get_base_model
 
 
 class ConnectiveTag(TagBase, get_base_model()):
+
+    # slug should be equals to name. We need to allow non-Engilsh keys,
+    # therefore we override the slug field to allow all characters. TODO: We might
+    # need to limit it to avoid whitespace or other characters
+    slug = models.CharField(max_length=40, unique=True, blank=False, null=False)
+
     category = models.CharField(
         max_length=30, null=False, blank=False, default="general"
     )
