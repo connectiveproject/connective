@@ -148,16 +148,14 @@ export default {
           this.getProgramsList({
             override: false,
             usePagination: true,
-            tags: this.selectedTags,
           })
         }
       } else {
         // fetch & override programs list
-        this.updatePagination({ page: 1 })
+        this.updatePagination({ page: 1, tags: this.selectedTags })
         this.getProgramsList({
           override: true,
           usePagination: true,
-          tags: this.selectedTags,
         })
       }
     },
@@ -209,6 +207,7 @@ export default {
     },
     async tagsSelected(tags) {
       this.selectedTags = tags
+      this.updatePagination({ page: 1, tags: this.selectedTags })
       await this.getPrograms()
     },
   },
