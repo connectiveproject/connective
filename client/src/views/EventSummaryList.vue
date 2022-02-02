@@ -38,14 +38,14 @@ export default {
   components: { BasePaginationTable },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("coordinatorEvent/getPastEvents", {
+    await store.dispatch("vxEventList/getPastEvents", {
       override: true,
       usePagination: true,
     })
     next()
   },
   computed: {
-    ...mapState("coordinatorEvent", ["pastEvents"]),
+    ...mapState("vxEventList", ["pastEvents"]),
     readablePastEvents() {
       return this.pastEvents.map(e => ({
         ...e,
@@ -58,7 +58,8 @@ export default {
                 SERVER.eventCancellationReasons,
                 e.cancellationReason
               )}`
-          )
+              // eslint-disable-next-line indent
+            )
           : "",
         hasSummary: e.hasSummary
           ? this.$t("general.yes")
@@ -110,10 +111,7 @@ export default {
   },
   methods: {
     ...mapActions("snackbar", ["showMessage"]),
-    ...mapActions("coordinatorEvent", [
-      "getPastEvents",
-      "getPastEventsExportFile",
-    ]),
+    ...mapActions("vxEventList", ["getPastEvents", "getPastEventsExportFile"]),
     async getEvents() {
       this.loading = true
       await this.getPastEvents({ override: true, usePagination: true })
