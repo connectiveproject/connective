@@ -34,7 +34,7 @@ import BasePaginationTable from "@/components/Tables/BasePaginationTable"
 import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
 export default {
-  name: "CoordinatorEvents",
+  name: "EventSummaryList",
   components: { BasePaginationTable },
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
