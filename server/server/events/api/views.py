@@ -14,6 +14,7 @@ from server.utils.permission_classes import (
     AllowCoordinator,
     AllowInstructor,
     AllowVendor,
+    AllowVendorReadOnly,
 )
 
 from .serializers import (
@@ -57,7 +58,10 @@ class EventOrderViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        AllowCoordinator | AllowInstructor | get_additional_permissions_write()
+        AllowCoordinator
+        | AllowInstructor
+        | AllowVendorReadOnly
+        | get_additional_permissions_write()
     ]
     serializer_class = EventSerializer
     filter_backends = [
@@ -78,7 +82,10 @@ class EventViewSet(viewsets.ModelViewSet):
             return Event.objects.filter(school_group__instructor=user).order_by(
                 "-start_time"
             )
-
+        if user.user_type == get_user_model().Types.VENDOR:
+            return Event.objects.filter(
+                school_group__activity_order__activity__originization=user.organization_member.organization
+            ).order_by("-start_time")
         return Event.objects.filter(
             school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
         ).order_by("-start_time")

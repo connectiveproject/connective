@@ -414,6 +414,11 @@ export default [
               },
             ],
           },
+          {
+            path: "events",
+            name: "VendorEvents",
+            component: CoordinatorEvents,
+          },
         ],
       },
       {
