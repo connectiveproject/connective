@@ -16,3 +16,16 @@ class TagsViewSet(ModelViewSet):
 
     def get_queryset(self):
         return ConnectiveTag.objects.all()
+
+
+class TagsAllFilter(filters.BaseFilterBackend):
+    """
+    Return all objects which match all of the provided tags
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        tags = request.query_params.get("tags", None)
+        if tags:
+            for tag in tags.split(","):
+                queryset = queryset.filter(tags__slug=tag).distinct()
+        return queryset

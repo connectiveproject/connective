@@ -13,6 +13,7 @@
     @input="$emit('input', $event)"
     @click:row="$emit('click:row', $event)"
     @paginate="$emit('paginate')"
+    @tagsSelected="$emit('tagsSelected', $event)"
   >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
       <slot :name="slot" v-bind="scope" />

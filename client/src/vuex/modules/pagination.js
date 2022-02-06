@@ -38,6 +38,9 @@ function paginationToApiParams(pagination) {
     }
     apiParams.ordering = order.join()
   }
+  if (pagination.tags) {
+    apiParams.tags = pagination.tags.join()
+  }
   return apiParams
 }
 
@@ -55,6 +58,7 @@ function getDefaultState() {
     sortDesc: [],
     tagFilters: [],
     totalServerItems: 10,
+    tags: [],
   }
 }
 

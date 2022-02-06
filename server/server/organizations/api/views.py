@@ -9,6 +9,7 @@ from rest_framework import filters, mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from server.connective_tags.views import TagsAllFilter
 from server.organizations.models import (
     Activity,
     ActivityMedia,
@@ -66,19 +67,6 @@ class OrganizationViewSet(
 
         except ObjectDoesNotExist:
             return Organization.objects.none()
-
-
-class TagsAllFilter(filters.BaseFilterBackend):
-    """
-    Return all objects which match all of the provided tags
-    """
-
-    def filter_queryset(self, request, queryset, view):
-        tags = request.query_params.get("tags", None)
-        if tags:
-            for tag in tags.split(","):
-                queryset = queryset.filter(tags__slug=tag).distinct()
-        return queryset
 
 
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
