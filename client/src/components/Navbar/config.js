@@ -99,6 +99,12 @@ const vendorTabs = [
     componentName: "VendorEventsApprove",
     icon: "mdi-email-newsletter",
   },
+  {
+    id: "events-navbar-btn",
+    text: i18n.t("events.eventsSummary"),
+    componentName: "VendorEvents",
+    icon: "mdi-calendar-heart",
+  },
 ]
 
 const coordinatorAccountButtons = [
