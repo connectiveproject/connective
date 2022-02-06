@@ -10,7 +10,10 @@
   >
     <v-row dense justify="space-between">
       <v-col cols="2" sm="2">
-        <h3 class="text-subtitle-2 text-lg-subtitle-1" :id="`${uniqueName}-header`">
+        <h3
+          class="text-subtitle-2 text-lg-subtitle-1"
+          :id="`${uniqueName}-header`"
+        >
           {{ label }}
         </h3>
       </v-col>
@@ -64,8 +67,21 @@
               :aria-labelledby="`${uniqueName}-header ${uniqueName}-field`"
               @input="$emit('input', $event)"
             />
+            <!--
+              We are binding 'valueData' with vinitialTags.sync rather than binindg 'value'
+              to avoid two-way binding of props. See here:
+              https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier
+            -->
+            <tags-input
+              v-if="type === 'tags'"
+              class="mt-5 mx-5"
+              :initialTags.sync="valueData"
+              :data-testid="uniqueName"
+              @tagsSelected="$emit('update:valueData', $event)"
+              :editable="isDrawerOpen()"
+            />
             <strong
-              v-show="!isDrawerOpen()"
+              v-show="!isDrawerOpen() && type !== 'tags'"
               class="text-subtitle-2 text-lg-subtitle-1"
               :class="{ 'red--text': errors[0] }"
             >
@@ -83,20 +99,25 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import TagsInput from "@/components/TagsInput"
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    TagsInput,
   },
-
+  created() {
+    this.valueData = cloneDeep(this.value)
+  },
   props: {
     type: {
       type: String,
       required: false,
       default: "text",
       validator: value => {
-        return ["text", "textarea", "select"].includes(value)
+        return ["text", "textarea", "select", "tags"].includes(value)
       },
     },
     uniqueName: {
@@ -129,6 +150,7 @@ export default {
   data() {
     return {
       drawerOpened: false,
+      valueData: undefined,
     }
   },
 

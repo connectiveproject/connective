@@ -92,6 +92,7 @@ export const UPDATE_NOTIFICATION = `${SERVER_URL}/my_notification/`
 export const UPDATE_NOTIFICATIONS_MARK_ALL_AS_READ = `${SERVER_URL}/my_notification/mark_all_as_read/`
 export const GET_COORDINATOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const GET_COORDINATOR_EVENT_EXPORT_FILE_API_URL = `${SERVER_URL}/export_events/`
+export const GET_ALL_TAGS_API_URL = `${SERVER_URL}/tags/`
 
 export const TOKEN_COOKIE_NAME = "token"
 export const PASSWORD_REGEX_PATTERN =
@@ -214,6 +215,12 @@ export const VENDOR_PROGRAM_FIELDS = [
       clearable: true,
     },
     value: undefined,
+  },
+  {
+    name: "tags",
+    labelKey: "program.tagsLabel",
+    type: "tags",
+    rules: "",
   },
 ]
 

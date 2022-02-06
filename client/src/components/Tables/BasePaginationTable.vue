@@ -25,6 +25,15 @@
           />
         </v-col>
       </v-row>
+      <v-row v-if="includeTags">
+        <v-col class="search-bar mx-auto">
+          <tags-input
+            :editable="true"
+            @tagsSelected="tagsSelected($event)"
+            label="userActions.searchByTag"
+          />
+        </v-col>
+      </v-row>
     </v-container>
     <v-data-table
       multi-sort
@@ -51,9 +60,13 @@
 <script>
 import { mapState } from "vuex"
 import i18n from "@/plugins/i18n"
+import TagsInput from "@/components/TagsInput"
 
 export default {
   inheritAttrs: false,
+  components: {
+    TagsInput,
+  },
   created() {
     if (this.filter1InitialValue) {
       this.filter1Value = this.filter1InitialValue
@@ -118,12 +131,17 @@ export default {
         { text: "Example Filter Option 2", value: "EXAMPLE_OPTION_2" },
       ],
     },
+    includeTags: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       searchFilter: "",
       options: {},
       filter1Value: "",
+      selectedTags: [],
     }
   },
   methods: {
@@ -147,11 +165,17 @@ export default {
         searchFilter: this.searchFilter,
         fieldFilters: fieldFilters,
         page: 1,
+        tags: this.selectedTags,
       })
     },
     async onSearch() {
       this.updateParameters()
       this.$emit("paginate")
+    },
+    async tagsSelected(tags) {
+      this.selectedTags = tags
+      this.updateParameters()
+      this.$emit("tagsSelected", tags)
     },
   },
   computed: {

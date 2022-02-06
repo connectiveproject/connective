@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<div>
+    <form action="." method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="btn btn-outline-success float-left grp-state-focus addlink" type="submit">Upload
+            File</button>
+        <a href="../" class="btn btn-outline-success float-right grp-state-focus">Back</a>
+    </form>
+</div>
+<br />
+{% endblock %}

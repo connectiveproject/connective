@@ -27,7 +27,9 @@
                 :items="field.choices"
                 :multiple="field.multiselect"
                 @input="input => updateField(i, input)"
-                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
+                @click:append="
+                  $refs[field.name][0].$el.querySelector('input').click()
+                "
               />
               <v-textarea
                 v-else-if="field.type && field.type === 'textarea'"
@@ -42,7 +44,9 @@
                 :value="field.value"
                 :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
-                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
+                @click:append="
+                  $refs[field.name][0].$el.querySelector('input').click()
+                "
               />
               <v-file-input
                 v-else-if="field.type && field.type === 'file'"
@@ -54,7 +58,22 @@
                 :error-messages="errors"
                 :value="field.value"
                 @change="input => updateField(i, input)"
-                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
+                @click:append="
+                  $refs[field.name][0].$el.querySelector('input').click()
+                "
+              />
+              <tags-input
+                v-else-if="field.type && field.type === 'tags'"
+                class="mx-2"
+                :data-testid="field.name"
+                :error-messages="errors"
+                :value="field.value"
+                :label="field.label"
+                @tagsSelected="input => updateField(i, input)"
+                @click:append="
+                  $refs[field.name][0].$el.querySelector('input').click()
+                "
+                :editable="true"
               />
               <v-text-field
                 v-else
@@ -67,7 +86,9 @@
                 :value="field.value"
                 :autofocus="focus && i === 0"
                 @input="input => updateField(i, input)"
-                @click:append="$refs[field.name][0].$el.querySelector('input').click()"
+                @click:append="
+                  $refs[field.name][0].$el.querySelector('input').click()
+                "
               />
             </validation-provider>
           </v-col>
@@ -80,11 +101,13 @@
 <script>
 import Vue from "vue"
 import { ValidationObserver, ValidationProvider } from "vee-validate"
+import TagsInput from "@/components/TagsInput"
 
 export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    TagsInput,
   },
 
   props: {

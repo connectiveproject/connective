@@ -1,6 +1,7 @@
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from server.connective_tags.views import TagsViewSet
 from server.events.api.views import (
     ConsumerEventFeedbackViewset,
     ConsumerEventViewSet,
@@ -132,6 +133,8 @@ router.register(
     MyNotificationsViewSet,
     basename="my_notification",
 )
+
+router.register("tags", TagsViewSet, basename="tags")
 
 app_name = "api"
 urlpatterns = router.urls
