@@ -7,7 +7,7 @@ function getDefaultState() {
   }
 }
 
-const coordinatorEvent = {
+const vxEventList = {
   namespaced: true,
   state: getDefaultState(),
   mutations: {
@@ -36,7 +36,7 @@ const coordinatorEvent = {
       if (usePagination) {
         params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
-      let res = await Api.coordinatorEvent.getEventList(params)
+      let res = await Api.apiEventList.getEventList(params)
       commit(mutation, res.data.results)
       return state.pastEvents
     },
@@ -47,11 +47,11 @@ const coordinatorEvent = {
       if (usePagination) {
         params = { ...params, ...rootGetters["pagination/apiParams"] }
       }
-      Api.coordinatorEvent.getPastEventsExportFile(params).then(res => {
+      Api.apiEventList.getPastEventsExportFile(params).then(res => {
         Utils.downloadTextAsFile("events.csv", res.request.response)
         return res
       })
     },
   },
 }
-export default coordinatorEvent
+export default vxEventList

@@ -10,7 +10,7 @@ import Login from "@/views/Login"
 import CoordinatorRegister from "@/views/Register/CoordinatorRegister"
 import VendorRegister from "@/views/Register/VendorRegister"
 import CoordinatorProfile from "@/views/Profile/CoordinatorProfile"
-import CoordinatorEvents from "@/views/CoordinatorEvents"
+import EventSummaryList from "@/views/EventSummaryList"
 
 import ConsumerProfile from "@/views/Profile/ConsumerProfile"
 import InstructorProfile from "@/views/Profile/InstructorProfile"
@@ -265,7 +265,7 @@ export default [
           {
             path: "events",
             name: "CoordinatorEvents",
-            component: CoordinatorEvents,
+            component: EventSummaryList,
           },
           {
             path: "statistics",
@@ -413,6 +413,11 @@ export default [
                 component: InviteVendors,
               },
             ],
+          },
+          {
+            path: "events",
+            name: "VendorEvents",
+            component: EventSummaryList,
           },
         ],
       },
