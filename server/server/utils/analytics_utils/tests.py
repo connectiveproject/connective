@@ -56,6 +56,7 @@ class TestTrackerMixins:
             order_data = {
                 "school": school_slug,
                 "status": SchoolActivityOrder.Status.CANCELLED,
+                "ownership_type": SchoolActivityOrder.OwnershipType.SCHOOL,
             }
 
             client = APIClient()
@@ -133,6 +134,7 @@ class TestTrackerMixins:
                 **{
                     "slug": order.slug,
                     "school": order.school.pk,
+                    "ownership_type": SchoolActivityOrder.OwnershipType.SCHOOL,
                     "activity": order.activity.pk,
                     "status": SchoolActivityOrder.Status.CANCELLED,
                 },
@@ -160,5 +162,6 @@ class TestTrackerMixins:
                     "school_slug": updated_obj.school.slug,
                     "activity_slug": updated_obj.activity.slug,
                     "status": updated_obj.status,
+                    "ownership_type": SchoolActivityOrder.OwnershipType.SCHOOL,
                 },
             )
