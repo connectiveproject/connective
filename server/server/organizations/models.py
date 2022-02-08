@@ -220,8 +220,8 @@ class SchoolActivityOrder(get_base_model()):
         DENIED = "DENIED", "Denied"
 
     class OwnershipType(models.TextChoices):
-        SCHOOL = "SCHOOL", "School"  # owner by school
-        SITE = "SITE", "Site"  # owner by site=tenant=customer
+        SCHOOL = "SCHOOL", "School"  # owned by school
+        SITE = "SITE", "Site"  # owned by site/cross-school
 
     base_status = Status.PENDING_ADMIN_APPROVAL
 
