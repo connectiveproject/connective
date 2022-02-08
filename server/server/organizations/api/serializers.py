@@ -312,7 +312,10 @@ class SchoolActivityGroupSerializer(
         source="activity_order.school.name",
         read_only=True,
     )
-
+    school_slug = serializers.CharField(
+        source="activity_order.school.slug",
+        read_only=True,
+    )
     consumers = serializers.SlugRelatedField(
         queryset=Consumer.objects.all(),
         slug_field="slug",
@@ -334,6 +337,7 @@ class SchoolActivityGroupSerializer(
             "instructor",
             "instructor_name",
             "school_name",
+            "school_slug",
         ]
 
 
