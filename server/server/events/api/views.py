@@ -78,17 +78,28 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        base_filter = (
+            Event.objects.select_related("event_order")
+            .select_related("event_order__school_group")
+            .select_related("school_group")
+            .select_related("school_group__instructor")
+            .select_related("school_group__activity_order")
+            .select_related("school_group__activity_order__activity")
+            .prefetch_related("consumers")
+        )
         if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return Event.objects.filter(school_group__instructor=user).order_by(
+            return base_filter.filter(school_group__instructor=user).order_by(
                 "-start_time"
             )
         if user.user_type == get_user_model().Types.VENDOR:
-            return Event.objects.filter(
-                school_group__activity_order__activity__originization=user.organization_member.organization
+            organization = user.organization_member.organization
+            return base_filter.filter(
+                school_group__activity_order__activity__originization=organization
             ).order_by("-start_time")
-        return Event.objects.filter(
-            school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
-        ).order_by("-start_time")
+        orders = user.school_member.school.school_activity_orders.all().values("pk")
+        return base_filter.filter(school_group__activity_order__in=orders).order_by(
+            "-start_time"
+        )
 
 
 class ExportEventViewSet(EventViewSet):
