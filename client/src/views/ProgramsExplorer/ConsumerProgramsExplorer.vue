@@ -118,6 +118,7 @@ export default {
       // trigger programs load on end of page
       this.recentlyScrolled = true
       this.incrementPage()
+      this.paginationChangeCounter++
     },
 
     openProgram(program) {
@@ -206,11 +207,12 @@ export default {
         [SERVER.consumerProgramJoinStatus.joined]: "success",
         [SERVER.consumerProgramJoinStatus.notJoined]: "",
       },
+      paginationChangeCounter: 0,
     }
   },
 
   watch: {
-    "$store.state.pagination": {
+    paginationChangeCounter: {
       // re-fetch if pagination changed
       deep: true,
       handler() {

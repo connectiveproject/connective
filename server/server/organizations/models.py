@@ -135,10 +135,7 @@ class Activity(get_base_model()):
     )
 
     def __str__(self):
-        try:
-            return f"{self.name} | {self.slug} | {self.originization.name}"
-        except AttributeError:
-            return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.slug}"
 
 
 class ImportedActivity(get_base_model()):
@@ -318,6 +315,6 @@ class SchoolActivityGroup(get_base_model()):
 
     def __str__(self):
         return f"""
-        {self.name} : {self.group_type} : {self.slug} :
-        {self.activity_order.activity.name} : {self.activity_order.school.name}
+        {self.name} : {self.group_type} : {self.slug}
+
         """

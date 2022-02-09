@@ -79,7 +79,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["name", "description"]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, TagsAllFilter]
 
-    queryset = Activity.objects.all()
+    queryset = Activity.objects.prefetch_related("tags").all()
 
 
 class VendorActivityViewSet(viewsets.ModelViewSet):
