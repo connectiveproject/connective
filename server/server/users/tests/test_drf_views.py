@@ -38,6 +38,7 @@ class TestUserViewSet:
             "slug": user.username,
             "email": user.email,
             "name": user.name,
+            "school_name": None,
             "url": f"http://testserver/api/users/{user.username}/",
             "user_type": user.user_type,
             "is_signup_complete": False,
