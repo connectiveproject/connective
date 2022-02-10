@@ -267,10 +267,11 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
             return SchoolActivityGroup.objects.filter(
                 activity_order__activity__in=user.organization_member.organization.activities.all(),
             )
-
-        return SchoolActivityGroup.objects.filter(
-            activity_order__in=user.school_member.school.school_activity_orders.all(),
-        )
+        if user.user_type == get_user_model().Types.COORDINATOR:
+            return SchoolActivityGroup.objects.filter(
+                activity_order__in=user.school_member.school.school_activity_orders.all(),
+            )
+        return SchoolActivityGroup.objects.all()
 
     @action(detail=False, methods=["GET"])
     def group_consumers(self, request):
