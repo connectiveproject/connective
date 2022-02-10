@@ -16,6 +16,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils import timezone
 from django.utils.encoding import force_text
+from django_filters.rest_framework import DjangoFilterBackend
 from pandas import ExcelFile
 from rest_framework import filters, status
 from rest_framework.decorators import action, authentication_classes
@@ -360,12 +361,20 @@ class ManageInstructorsViewSet(ModelViewSet):
     serializer_class = ManageInstructorsSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_backends = (
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = ["organization_member__organization"]
 
     def get_queryset(self):
-        return Instructor.objects.filter(
-            organization_member__organization=self.request.user.organization_member.organization
-        )
+        user = self.request.user
+        if user.user_type == get_user_model().Types.VENDOR:
+            return Instructor.objects.filter(
+                organization_member__organization=self.request.user.organization_member.organization
+            )
+        return Instructor.objects.all()
 
 
 class MyNotificationsViewSet(ModelViewSet):
