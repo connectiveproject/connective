@@ -77,7 +77,7 @@
 </template>
 <script>
 import store from "@/vuex/store"
-import { mapActions, mapState } from "vuex"
+import { mapActions, mapState, mapGetters } from "vuex"
 import { trimText } from "../../filters"
 import EndOfPageDetector from "../../components/EndOfPageDetector"
 import InfoCard from "../../components/InfoCard"
@@ -95,6 +95,11 @@ export default {
   mixins: [introjsSubscribeMixin],
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("pagination/flushState")
+    const schoolSlug = store.getters["school/schoolSlug"]
+    await store.dispatch("pagination/addFieldFilter", {
+      fieldName: "activity_order__school__slug",
+      value: schoolSlug,
+    })
     await store.dispatch("programGroup/getGroupList", {
       groupType: [
         SERVER.programGroupTypes.standard,
@@ -108,15 +113,20 @@ export default {
   computed: {
     ...mapState("programGroup", ["totalGroups", "groupList"]),
     ...mapState("pagination", ["page"]),
+    ...mapGetters("school", ["schoolSlug"]),
   },
   methods: {
-    ...mapActions("pagination", ["incrementPage"]),
+    ...mapActions("pagination", ["incrementPage", "addFieldFilter"]),
     ...mapActions("programGroup", ["getGroupList"]),
     trimText,
     onEndOfPage() {
       this.incrementPage()
     },
-    fetchGroups() {
+    async fetchGroups() {
+      this.addFieldFilter({
+        fieldName: "activity_order__school__slug",
+        value: this.schoolSlug,
+      })
       if (this.groupList.length < this.totalGroups) {
         this.getGroupList({
           groupType: [

@@ -253,6 +253,9 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
         "activity_order__school__name",
         "activity_order__activity__name",
     ]
+    filterset_fields = [
+        "activity_order__school__slug",
+    ]
     lookup_field = "slug"
 
     def get_queryset(self):
