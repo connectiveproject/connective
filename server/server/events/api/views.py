@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
+from server.organizations.models import SchoolActivityOrder
 from server.utils.db_utils import (
     get_additional_permissions_readonly,
     get_additional_permissions_write,
@@ -78,16 +80,34 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        base_queryset = (
+            Event.objects.select_related("event_order")
+            .select_related("event_order__school_group")
+            .select_related("school_group")
+            .select_related("school_group__instructor")
+            .select_related("school_group__activity_order")
+            .select_related("school_group__activity_order__activity")
+            .prefetch_related("consumers")
+        )
         if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return Event.objects.filter(school_group__instructor=user).order_by(
+            return base_queryset.filter(school_group__instructor=user).order_by(
                 "-start_time"
             )
         if user.user_type == get_user_model().Types.VENDOR:
-            return Event.objects.filter(
-                school_group__activity_order__activity__originization=user.organization_member.organization
+            organization = user.organization_member.organization
+            return base_queryset.filter(
+                school_group__activity_order__activity__originization=organization
             ).order_by("-start_time")
-        return Event.objects.filter(
-            school_group__activity_order__in=user.school_member.school.school_activity_orders.all()
+        orders = user.school_member.school.school_activity_orders.all().values("pk")
+        if user.user_type == get_user_model().Types.COORDINATOR:
+            return base_queryset.filter(
+                school_group__activity_order__in=orders
+            ).order_by("-start_time")
+        return base_queryset.filter(
+            Q(school_group__activity_order__in=orders)
+            | Q(
+                school_group__activity_order__ownership_type=SchoolActivityOrder.OwnershipType.SITE
+            )
         ).order_by("-start_time")
 
 

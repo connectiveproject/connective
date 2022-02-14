@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
@@ -134,10 +135,7 @@ class Activity(get_base_model()):
     )
 
     def __str__(self):
-        try:
-            return f"{self.name} | {self.slug} | {self.originization.name}"
-        except AttributeError:
-            return f"{self.name} | {self.slug}"
+        return f"{self.name} | {self.slug}"
 
 
 class ImportedActivity(get_base_model()):
@@ -218,6 +216,10 @@ class SchoolActivityOrder(get_base_model()):
         APPROVED = "APPROVED", "Approved"
         DENIED = "DENIED", "Denied"
 
+    class OwnershipType(models.TextChoices):
+        SCHOOL = "SCHOOL", "School"  # owned by school
+        SITE = "SITE", "Site"  # owned by site/cross-school
+
     base_status = Status.PENDING_ADMIN_APPROVAL
 
     slug = models.CharField(max_length=40, default=random_slug, unique=True)
@@ -236,7 +238,11 @@ class SchoolActivityOrder(get_base_model()):
         related_name="last_updated_by_me_orders",
     )
     school = models.ForeignKey(
-        School, on_delete=models.CASCADE, related_name="school_activity_orders"
+        School,
+        on_delete=models.CASCADE,
+        related_name="school_activity_orders",
+        blank=True,
+        null=True,
     )
     activity = models.ForeignKey(
         Activity, on_delete=models.CASCADE, related_name="school_activity_orders"
@@ -250,6 +256,24 @@ class SchoolActivityOrder(get_base_model()):
         max_length=250,
         blank=True,
     )
+    ownership_type = models.CharField(
+        _("ownership type"),
+        max_length=50,
+        choices=OwnershipType.choices,
+        default=OwnershipType.SCHOOL,
+    )
+
+    def clean(self):
+        if (
+            self.ownership_type == SchoolActivityOrder.OwnershipType.SCHOOL
+            and not self.school
+        ):
+            raise ValidationError("school is required when ownership type is school")
+        if (
+            self.ownership_type == SchoolActivityOrder.OwnershipType.SITE
+            and self.school
+        ):
+            raise ValidationError("cannot assign school when ownership type is site")
 
     def __str__(self):
         return f"{self.activity} | {self.school} | {self.status} | {self.pk}"
@@ -291,6 +315,6 @@ class SchoolActivityGroup(get_base_model()):
 
     def __str__(self):
         return f"""
-        {self.name} : {self.group_type} : {self.slug} :
-        {self.activity_order.activity.name} : {self.activity_order.school.name}
+        {self.name} : {self.group_type} : {self.slug}
+
         """

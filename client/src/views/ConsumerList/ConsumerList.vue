@@ -119,6 +119,7 @@ export default {
       // trigger load on end of page
       this.recentlyScrolled = true
       this.incrementPage()
+      this.paginationChangeCounter++
     },
 
     async getConsumers() {
@@ -140,11 +141,12 @@ export default {
     return {
       CONSUMER_LIST_CHECKBOX_FILTERS,
       recentlyScrolled: false,
+      paginationChangeCounter: 0,
     }
   },
 
   watch: {
-    "$store.state.pagination": {
+    paginationChangeCounter: {
       // re-fetch if pagination changed
       deep: true,
       handler() {
