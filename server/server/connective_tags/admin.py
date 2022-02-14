@@ -50,7 +50,6 @@ class TagFileLoader:
                     self.added.append(name)
             except Exception:
                 self.errors.append(name)
-            print(f"created: {category}:{name}")
 
 
 @admin.register(ConnectiveTag)

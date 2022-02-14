@@ -9,7 +9,8 @@
         <validation-observer v-slot="{ invalid }" slim>
           <v-card-text>
             <v-select
-              v-model="mediaType"
+              :value="mediaType"
+              @input="$emit('update:mediaType', $event)"
               data-testid="media-type-select"
               :items="mediaTypeList"
               :label="$t('program.mediaType')"
@@ -73,12 +74,17 @@ export default {
       type: Boolean,
       required: true,
     },
+    mediaType: {
+      type: String,
+      validator(value) {
+        return ["image", "video"].includes(value)
+      }
+    }
   },
   data() {
     return {
       image: null,
       videoUrl: null,
-      mediaType: "image",
       mediaTypeList: [
         {
           value: "image",
