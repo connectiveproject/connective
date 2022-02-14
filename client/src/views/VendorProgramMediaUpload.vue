@@ -63,21 +63,21 @@
         )
       }}
     </modal-approve>
-    <upload-modal v-model="isUploadModalOpen" @upload="uploadMedia" />
+    <upload-modal :mediaType.sync="modalMediaType" v-model="isUploadModalOpen" @upload="uploadMedia" />
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex"
 import debounce from "lodash/debounce"
-import Api from "../api"
-import Utils from "../helpers/utils"
-import { CAROUSEL_PLACEHOLDER } from "../helpers/constants/images"
+import Api from "@/api"
+import Utils from "@/helpers/utils"
+import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
 import store from "@/vuex/store"
-import ModalApprove from "../components/ModalApprove"
-import Carousel from "../components/Carousel"
-import StickyNote from "../components/StickyNote"
-import UploadModal from "../components/VendorProgramMediaUploadModal"
+import ModalApprove from "@/components/ModalApprove"
+import Carousel from "@/components/Carousel"
+import StickyNote from "@/components/StickyNote"
+import UploadModal from "@/components/MediaUploadModal"
 
 export default {
   components: { ModalApprove, StickyNote, Carousel, UploadModal },
@@ -101,6 +101,7 @@ export default {
       mediaListPlaceholder: [{ imageUrl: CAROUSEL_PLACEHOLDER }],
       isApproveModalOpen: false,
       isUploadModalOpen: false,
+      modalMediaType: "image",
     }
   },
   methods: {
