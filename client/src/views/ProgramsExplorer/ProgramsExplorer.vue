@@ -133,6 +133,7 @@ export default {
       // trigger programs load on end of page
       this.recentlyScrolled = true
       this.incrementPage()
+      this.paginationChangeCounter++
     },
 
     openProgram(slug) {
@@ -238,10 +239,11 @@ export default {
         [SERVER.programOrderStatus.pendingAdminApproval]: "orange",
       },
       selectedTags: [],
+      paginationChangeCounter: 0,
     }
   },
   watch: {
-    "$store.state.pagination": {
+    paginationChangeCounter: {
       // re-fetch if pagination changed
       deep: true,
       handler() {

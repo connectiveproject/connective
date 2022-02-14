@@ -24,6 +24,10 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    school_name = serializers.CharField(
+        source="school_member.school.name", read_only=True
+    )
+
     class Meta:
         model = User
         fields = [
@@ -33,8 +37,9 @@ class UserSerializer(serializers.ModelSerializer):
             "url",
             "user_type",
             "is_signup_complete",
+            "school_name",
         ]
-        read_only_fields = ["slug", "url", "user_type"]
+        read_only_fields = ["slug", "url", "user_type", "school_name"]
 
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -95,10 +100,14 @@ class SupervisorProfileSerializer(serializers.ModelSerializer):
 
 class ManageConsumersSerializer(serializers.ModelSerializer):
     profile = ConsumerProfileSerializer()
+    school_name = serializers.CharField(
+        source="school_member.school.name", read_only=True
+    )
 
     class Meta:
         model = Consumer
-        fields = ["slug", "name", "email", "profile"]
+        fields = ["slug", "name", "email", "profile", "school_name"]
+        read_only_fields = ["school_name"]
         extra_kwargs = {
             "email": {
                 "validators": [
