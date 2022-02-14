@@ -73,7 +73,7 @@ const school = {
   deleteStudents(studentSlugs) {
     return Promise.all(
       studentSlugs.map(slug =>
-        axios.delete(`${DELETE_SCHOOL_STUDENTS_API_URL}${slug}`)
+        axios.delete(`${DELETE_SCHOOL_STUDENTS_API_URL}${slug}/`)
       )
     )
   },
@@ -95,7 +95,7 @@ const school = {
   deleteCoordinators(coordinatorSlugs) {
     return Promise.all(
       coordinatorSlugs.map(slug =>
-        axios.delete(`${DELETE_SCHOOL_COORDINATORS_API_URL}${slug}`)
+        axios.delete(`${DELETE_SCHOOL_COORDINATORS_API_URL}${slug}/`)
       )
     )
   },

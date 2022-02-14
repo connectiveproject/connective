@@ -133,6 +133,7 @@ export default {
       dialogStudents: [],
       dialogTableHeaders: [
         { text: this.$t("general.name"), value: "name" },
+        { text: this.$t("general.email"), value: "email" },
         {
           text: this.$t("groups.isInThisGroup"),
           value: "isInThisGroup",
