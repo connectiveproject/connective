@@ -127,6 +127,10 @@ letter-spacing-2 {
   cursor: initial !important;
 }
 
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
 .glow-animation {
   animation-name: glow-animation;
   animation-duration: 2.5s;
