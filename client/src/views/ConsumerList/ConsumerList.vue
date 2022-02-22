@@ -30,7 +30,10 @@
             <v-icon right> mdi-plus </v-icon>
           </v-btn>
         </div>
-        <pagination-search-bar class="search-bar mx-auto pt-16" />
+        <pagination-search-bar
+          class="search-bar mx-auto pt-16"
+          @search="getConsumers()"
+        />
         <div class="text-center pt-10 overline">
           {{ totalStudents }} {{ $t("myActivity.studentsFound") }}
         </div>

@@ -30,7 +30,10 @@
         />
       </div>
       <div introjs="search">
-        <pagination-search-bar class="search-bar mx-auto pt-6" />
+        <pagination-search-bar
+          class="search-bar mx-auto pt-6"
+          @search="getPrograms()"
+        />
         <pagination-chip-group class="tags-selection" :chips="TAGS" />
       </div>
       <div class="text-center pt-3 overline">

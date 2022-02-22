@@ -4,8 +4,8 @@
     class="input"
     :label="$t('userActions.search')"
     append-icon="mdi-magnify "
-    @click:append="updatePagination({ searchFilter: textInput })"
-    @keyup.enter="updatePagination({ searchFilter: textInput })"
+    @click:append="search()"
+    @keyup.enter="search()"
   ></v-text-field>
 </template>
 
@@ -16,6 +16,12 @@ export default {
   data() {
     return { textInput: "" }
   },
-  methods: mapActions("pagination", ["updatePagination"]),
+  methods: {
+    ...mapActions("pagination", ["updatePagination"]),
+    search() {
+      this.updatePagination({ searchFilter: this.textInput })
+      this.$emit("search", this.textInput)
+    },
+  },
 }
 </script>
