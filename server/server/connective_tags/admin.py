@@ -1,12 +1,14 @@
-import csv
-import io
-from typing import List
-
 from django import forms
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import path
+
+from server.utils.admin_utils import (
+    AdminCSVFileLoader,
+    AdminFileUploadForm,
+    import_entities_from_csv,
+)
 
 from .models import ConnectiveTag, ConnectiveTaggedItem
 
@@ -18,38 +20,30 @@ class TagsFileUploadForm(forms.Form):
     file = forms.FileField()
 
 
-class TagFileLoader:
-    def __init__(self, csv_file):
-        self.csv_file = csv_file
-        self.reader = csv.DictReader(
-            io.StringIO(self.csv_file.read().decode(encoding="utf-8-sig"), newline=None)
-        )
-        self.added: List = []
-        self.already_exists: List = []
-        self.errors: List = []
+class TagFileLoader(AdminCSVFileLoader):
+    def get_tag_name(self, row) -> str:
+        return self.get_cell_value(row, "name", True)
 
-    def get_cell_value(self, row: dict, column: str, mandatory: bool) -> str:
-        result = row.get(column).strip() if row.get(column) else ""
-        if not result and mandatory:
-            raise Exception(f"No value for mandatory column: {column}. Row: {row}")
-        return result
+    def get_tag_category(self, row) -> str:
+        return self.get_cell_value(row, "category", True)
 
-    def create_new_tags(self):
-        row_index = 0
-        for row in self.reader:
-            row_index += 1
-            category: str = self.get_cell_value(row, "category", True)
-            name: str = self.get_cell_value(row, "name", True)
-            try:
-                if ConnectiveTag.objects.filter(slug=name).exists():
-                    self.already_exists.append(name)
-                else:
-                    ConnectiveTag.objects.create(
-                        category=category, name=name, slug=name
-                    )
-                    self.added.append(name)
-            except Exception:
-                self.errors.append(name)
+    def check_if_exists(self, row):
+        name: str = self.get_tag_name(row)
+        return ConnectiveTag.objects.filter(slug=name).exists()
+
+    def create_new(self, row):
+        name: str = self.get_tag_name(row)
+        category: str = self.get_tag_category(row)
+        ConnectiveTag.objects.create(category=category, name=name, slug=name)
+
+    def row_to_str(self, row):
+        return self.get_tag_name(row)
+
+    def file_error_message(self) -> str:
+        return "Make sure you upload CSV file include 2 columns: category, name."
+
+    def entities_name(self) -> str:
+        return "Tags"
 
 
 @admin.register(ConnectiveTag)
@@ -69,34 +63,11 @@ class ConnectiveTagAdmin(admin.ModelAdmin):
 
     def import_tags_from_csv(self, request) -> HttpResponse:
         if request.method == "POST":  # file uploaded
-            form: TagsFileUploadForm = TagsFileUploadForm(request.POST)
+            form: AdminFileUploadForm = AdminFileUploadForm(request.POST)
             form.is_valid()  # run validation without check results
             file = request.FILES["file"]
-            try:
-                loader: TagFileLoader = TagFileLoader(file)
-                loader.create_new_tags()
-                self.message_user(
-                    request, f"Tags loaded: {len(loader.added)}", level=messages.INFO
-                )
-                if loader.already_exists:
-                    self.message_user(
-                        request,
-                        f"Tags already exists: {len(loader.already_exists)}",
-                        level=messages.WARNING,
-                    )
-                if loader.errors:
-                    self.message_user(
-                        request,
-                        f"Tags failed to load: {len(loader.errors)}",
-                        level=messages.ERROR,
-                    )
-            except Exception as e:
-                self.message_user(
-                    request,
-                    f"File load error. Make sure you upload CSV file include 2 columns: category, name. Error: {e}",
-                    level=messages.ERROR,
-                )
-        form = TagsFileUploadForm()
+            import_entities_from_csv(self, request, TagFileLoader(), file)
+        form = AdminFileUploadForm()
         payload = {"form": form}
         return render(request, "admin/file_upload_form.html", payload)
 
