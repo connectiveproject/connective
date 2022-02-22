@@ -26,7 +26,7 @@
         </v-col>
       </v-row>
       <v-row v-if="includeTags">
-        <v-col class="search-bar mx-auto">
+        <v-col class="search-bar px-10 mt-5 mb-8 mx-auto">
           <tags-input
             :editable="true"
             @tagsSelected="tagsSelected($event)"
