@@ -46,7 +46,7 @@ const event = {
       // :momentObject benchmarkDate: date to fetch the data near to (i.e., fetch the events in months around it)
       // :boolean override: whether to override the events list or not (i.e., extend)
       const mutation = override ? "SET_EVENTS_LIST" : "ADD_EVENTS_TO_LIST"
-      const [startDate, endDate] = Utils.dateBenchmarkToRange(benchmarkDate, 90)
+      const [startDate, endDate] = Utils.dateBenchmarkToRange(benchmarkDate, 30)
       const startDateString = Utils.dateToApiString(startDate)
       const endDateString = Utils.dateToApiString(endDate)
       let params = {
