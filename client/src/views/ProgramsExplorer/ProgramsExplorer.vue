@@ -32,7 +32,10 @@
       <div introjs="search">
         <v-container fluid>
           <v-row>
-            <pagination-search-bar class="search-bar mx-auto pt-6" />
+            <pagination-search-bar
+              class="search-bar mx-auto pt-6"
+              @search="getPrograms()"
+            />
           </v-row>
           <v-row>
             <v-col class="search-bar mx-auto pt-6">
