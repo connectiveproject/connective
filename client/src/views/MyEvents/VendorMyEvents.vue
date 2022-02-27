@@ -57,7 +57,6 @@ export default {
     next()
   },
   methods: {
-    // TODO: change to relevant action
     ...mapActions("vendorEvent", ["getEventList"]),
     async showEvent({ event }) {
       const group = await Api.programGroup.getGroup(
@@ -89,7 +88,6 @@ export default {
   computed: {
     ...mapState("vendorEvent", ["eventList"]),
     formattedEvents() {
-      // TODO: consider removal of most of the data (replaced by EDIT) - on original file as well
       return this.eventList.map(e => {
         const start = moment(e.startTime)
         const end = moment(e.endTime)
