@@ -61,7 +61,6 @@ export default {
   methods: {
     onClickOutsideField() {
       if (this.value !== this.activeValue) {
-        console.log(this.value, this.activeValue)
         this.isUnsavedChangesModalOpen = true
       } else {
         this.editMode = false
