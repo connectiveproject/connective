@@ -11,7 +11,6 @@ import CoordinatorRegister from "@/views/Register/CoordinatorRegister"
 import VendorRegister from "@/views/Register/VendorRegister"
 import CoordinatorProfile from "@/views/Profile/CoordinatorProfile"
 import EventSummaryList from "@/views/EventSummaryList"
-
 import ConsumerProfile from "@/views/Profile/ConsumerProfile"
 import InstructorProfile from "@/views/Profile/InstructorProfile"
 import VendorProfile from "@/views/Profile/VendorProfile"
@@ -51,6 +50,7 @@ import VendorDetailProgram from "@/views/VendorDetailProgram"
 import VendorProgramMediaUpload from "@/views/VendorProgramMediaUpload"
 import VendorProgramCreator from "@/views/VendorProgramCreator"
 import VendorEventsApprove from "@/views/VendorEventsApprove"
+import VendorMyEvents from "@/views/MyEvents/VendorMyEvents"
 import CoordinatorEventOrderStatus from "@/views/CoordinatorEventOrderStatus"
 
 
@@ -365,6 +365,11 @@ export default [
             path: "events-approve",
             name: "VendorEventsApprove",
             component: VendorEventsApprove,
+          },
+          {
+            path: "my-events",
+            name: "VendorMyEvents",
+            component: VendorMyEvents,
           },
           {
             path: "my-groups",

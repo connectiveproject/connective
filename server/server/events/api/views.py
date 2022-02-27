@@ -16,7 +16,6 @@ from server.utils.permission_classes import (
     AllowCoordinator,
     AllowInstructor,
     AllowVendor,
-    AllowVendorReadOnly,
 )
 
 from .serializers import (
@@ -62,7 +61,7 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [
         AllowCoordinator
         | AllowInstructor
-        | AllowVendorReadOnly
+        | AllowVendor
         | get_additional_permissions_write()
     ]
     serializer_class = EventSerializer
