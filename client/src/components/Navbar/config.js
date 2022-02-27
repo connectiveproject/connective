@@ -28,7 +28,7 @@ const coordinatorTabs = [
     id: "events-navbar-btn",
     text: i18n.t("events.eventsSummary"),
     componentName: "CoordinatorEvents",
-    icon: "mdi-calendar-heart",
+    icon: "mdi-file-table-box-multiple-outline",
   },
   {
     text: i18n.t("posts.myFeed"),
@@ -103,6 +103,11 @@ const vendorTabs = [
     id: "events-navbar-btn",
     text: i18n.t("events.eventsSummary"),
     componentName: "VendorEvents",
+    icon: "mdi-file-table-box-multiple-outline",
+  },
+  {
+    text: i18n.t("events.eventsCalendar"),
+    componentName: "VendorMyEvents",
     icon: "mdi-calendar-heart",
   },
 ]

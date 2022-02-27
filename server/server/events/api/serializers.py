@@ -94,6 +94,10 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         source="school_group.activity_order.activity.activity_website_url",
         read_only=True,
     )
+    school_name = serializers.CharField(
+        source="school_group.activity_order.school.name",
+        read_only=True,
+    )
     school_group_name = serializers.CharField(
         source="school_group.name",
         read_only=True,
@@ -168,6 +172,7 @@ class EventSerializer(
             "start_time",
             "end_time",
             "consumers",
+            "school_name",
             "school_group",
             "locations_name",
             "has_summary",

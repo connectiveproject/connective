@@ -20,6 +20,12 @@
                 name="eventDate"
               >
                 <v-text-field
+                  :value="event.schoolName"
+                  :label="$t('general.schoolName')"
+                  :readonly="true"
+                  :disabled="true"
+                />
+                <v-text-field
                   :value="event.schoolGroupName"
                   :label="$t('groups.parentGroup')"
                   :readonly="true"

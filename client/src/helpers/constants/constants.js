@@ -82,6 +82,7 @@ export const UPDATE_INSTRUCTOR_EVENT_API_URL = `${SERVER_URL}/events/`
 export const GET_VENDOR_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
 export const UPDATE_VENDOR_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const GET_EVENT_ORDERS_API_URL = `${SERVER_URL}/event_order/`
+export const GET_VENDOR_EVENT_LIST_API_URL = `${SERVER_URL}/events/`
 export const DELETE_EVENT_ORDER_API_URL = `${SERVER_URL}/event_order/`
 export const CREATE_FEED_POST_API_URL = `${SERVER_URL}/posts/`
 export const CREATE_POST_IMAGES_API_URL = `${SERVER_URL}/post_image/`

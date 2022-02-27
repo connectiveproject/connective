@@ -10,11 +10,11 @@
         v-model="selectedTags"
         @change="onChange()"
         menu-props="closeOnContentClick"
-        :label="$t(label)"
+        :label="$te(label) ? $t(label) : label"
         :no-data-text="$t('userActions.noTags')"
         @focus="shortNames = false"
         @blur="shortNames = true"
-      ></v-autocomplete>
+      />
       <v-chip-group class="chips-group" column v-if="!editable">
         <v-tooltip bottom v-for="chip in selectedTags" :key="chip">
           <template v-slot:activator="{ on, attrs }">
