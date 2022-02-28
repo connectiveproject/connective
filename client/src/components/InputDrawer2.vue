@@ -46,9 +46,11 @@ export default {
     value: {
       // note: this value updates only on save
       type: String,
+      required: true,
     },
     label: {
       type: String,
+      required: true,
     },
   },
   data() {
