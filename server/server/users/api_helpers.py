@@ -37,13 +37,6 @@ class PrivilegeAccessMixin:
                 result.add(scopes[privilege].get_schools())
         return result
 
-    def is_all_schools_allowed(self, user) -> bool:
-        scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
-        for privilege in self.privileges:
-            if privilege in scopes and scopes[privilege].is_all_schools_allowed():
-                return True
-        return False
-
     def get_allowed_organizations(self, user):
         result: Set = set()
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
@@ -52,10 +45,10 @@ class PrivilegeAccessMixin:
                 result.add(scopes[privilege].get_organizations())
         return result
 
-    def is_all_organizations_allowed(self, user):
+    def is_admin_scope(self, user):
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
         for privilege in self.privileges:
-            if privilege in scopes and scopes[privilege].is_all_organizations_allowed():
+            if privilege in scopes and scopes[privilege].is_admin_scope():
                 return True
         return False
 

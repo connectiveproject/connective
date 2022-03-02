@@ -35,28 +35,28 @@ class UserRegistrator(ModelBase):
 class RoleScope:
     def __init__(self):
         self.roles = []
+        self.admin_scope = False
 
     def update(self, role):
         self.roles.append(role)
+        if role.admin_scope:
+            self.admin_scope = True
+
+    def is_admin_scope(self) -> bool:
+        return self.admin_scope
 
     def get_schools(self) -> List:
         result = []
         for user_role in self.roles:
-            result.append(user_role.school_id)
+            result.append(user_role.school)
         return result
-
-    def is_all_schools_allowed(self) -> bool:
-        return -1 in self.get_schools()
 
     def get_organizations(self) -> List:
         result: List = []
         user_role: UserRole
         for user_role in self.roles:
-            result.append(user_role.organization_id)
+            result.append(user_role.organization)
         return result
-
-    def is_all_organizations_allowed(self) -> bool:
-        return -1 in self.get_organizations()
 
 
 class User(get_base_abstract_user_model(), metaclass=UserRegistrator):
@@ -133,11 +133,27 @@ class UserRole(get_base_model()):
 
     role_code = CharField(max_length=50, null=False, blank=False)
 
-    school_id = models.IntegerField(null=True, blank=True)  # -1 means all schools
+    admin_scope = BooleanField(
+        default=False
+    )  # when true, scope of this role is all schools/organizations
 
-    organization_id = models.IntegerField(
-        null=True, blank=True
-    )  # -1 means all organizations
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.CASCADE,
+        related_name="roles",
+        verbose_name="Organization",
+        null=True,
+        blank=True,
+    )
+
+    school = models.ForeignKey(
+        "schools.School",
+        on_delete=models.CASCADE,
+        related_name="roles",
+        verbose_name="School",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         unique_together = ("user", "role_code", "school_id", "organization_id")
