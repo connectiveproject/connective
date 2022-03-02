@@ -243,6 +243,7 @@ const supervisorAccountButtons = [
   },
 ]
 
+
 export const userToTabs = {
   consumer: consumerTabs,
   coordinator: coordinatorTabs,
@@ -258,3 +259,6 @@ export const userToAccountButtons = {
   vendor: vendorAccountButtons,
   supervisor: supervisorAccountButtons,
 }
+
+// tabs that are visible according to user privileges:
+export let allTabs = []

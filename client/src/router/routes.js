@@ -118,14 +118,11 @@ export default [
       },
       {
         path: "supervisor-dashboard",
+        name: "SupervisorDashboard",
+        redirect: { name: "SupervisorProfile" },
         component: SupervisorDashboard,
         beforeEnter: chainGuards([guards.supervisorOnly, guards.populateSupervisorData]),
         children: [
-          {
-            path: "",
-            name: "SupervisorDashboard",
-            redirect: { name: "SupervisorProfile" },
-          },
           {
             path: "profile",
             name: "SupervisorProfile",
@@ -135,14 +132,11 @@ export default [
       },
       {
         path: "student-dashboard",
+        name: "StudentDashboard",
+        redirect: { name: "ConsumerProfile" },
         component: StudentDashboard,
         beforeEnter: chainGuards([guards.consumerOnly, guards.populateConsumerData]),
         children: [
-          {
-            path: "",
-            name: "StudentDashboard",
-            redirect: { name: "ConsumerProfile" },
-          },
           {
             path: "profile",
             name: "ConsumerProfile",
@@ -189,13 +183,10 @@ export default [
       {
         path: "coordinator-dashboard",
         component: CoordinatorDashboard,
+        name: "CoordinatorDashboard",
+        redirect: { name: "CoordinatorProfile" },
         beforeEnter: chainGuards([guards.coordOnly, guards.populateCoordinatorData]),
         children: [
-          {
-            path: "",
-            name: "CoordinatorDashboard",
-            redirect: { name: "CoordinatorProfile" },
-          },
           {
             path: "profile",
             name: "CoordinatorProfile",
@@ -316,13 +307,10 @@ export default [
       {
         path: "instructor-dashboard",
         component: InstructorDashboard,
+        name: "InstructorDashboard",
+        redirect: { name: "InstructorProfile" },
         beforeEnter: chainGuards([guards.instructorOnly, guards.populateInstructorData]),
         children: [
-          {
-            path: "",
-            name: "InstructorDashboard",
-            redirect: { name: "InstructorProfile" },
-          },
           {
             path: "profile",
             name: "InstructorProfile",
@@ -349,13 +337,10 @@ export default [
       {
         path: "vendor-dashboard",
         component: VendorDashboard,
+        name: "VendorDashboard",
+        redirect: { name: "VendorProgramList" },
         beforeEnter: chainGuards([guards.vendorOnly, guards.populateVendorData]),
         children: [
-          {
-            path: "",
-            name: "VendorDashboard",
-            redirect: { name: "VendorProgramList" },
-          },
           {
             path: "profile",
             name: "VendorProfile",

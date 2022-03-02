@@ -46,6 +46,39 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
 
+class CurrentUserSerializer(UserSerializer):
+
+    privileges = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = [
+            "slug",
+            "name",
+            "email",
+            "url",
+            "user_type",
+            "is_signup_complete",
+            "school_name",
+            "privileges",
+        ]
+        read_only_fields = [
+            "slug",
+            "url",
+            "user_type",
+            "school_name",
+            "roles",
+            "privileges",
+        ]
+
+        extra_kwargs = {
+            "url": {"view_name": "api:user-detail", "lookup_field": "username"}
+        }
+
+    def get_privileges(self, obj):
+        return obj.get_privilege_scopes().keys()
+
+
 class ConsumerProfileSerializer(serializers.ModelSerializer):
     slug = serializers.ReadOnlyField(source="user.slug")
 

@@ -51,7 +51,11 @@
 import { mapState } from "vuex"
 
 import { BACKGROUNDS } from "@/helpers/constants/images"
-import { userToTabs, userToAccountButtons } from "@/components/Navbar/config"
+import {
+  userToTabs,
+  userToAccountButtons,
+  allTabs,
+} from "@/components/Navbar/config"
 import AccountMenu from "@/components/AccountMenu"
 import RouteTabs from "@/components/RouteTabs"
 import NavigationDrawer from "@/components/NavigationDrawer"
@@ -79,7 +83,7 @@ export default {
     return {
       mobileDrawer: false,
       bg: BACKGROUNDS.navbar,
-      tabs: userToTabs[this.userType],
+
       accountButtons: userToAccountButtons[this.userType],
     }
   },
@@ -95,6 +99,17 @@ export default {
       set(newValue) {
         return this.$store.dispatch("notification/setVisible", newValue)
       },
+    },
+    tabs() {
+      const hasPrivilege = privilege => {
+        return this.userDetails.privileges.includes(privilege)
+      }
+      let privilegedTabs = allTabs.filter(tab =>
+        tab.privileges.some(hasPrivilege)
+      )
+      // combine the user-type tabs with the tabs that are accessible by the user's privileges:
+      const result = userToTabs[this.userType].concat(privilegedTabs)
+      return result
     },
   },
 }

@@ -23,6 +23,7 @@ from .models import (
     InstructorProfile,
     Supervisor,
     SupervisorProfile,
+    UserRole,
     Vendor,
     VendorProfile,
 )
@@ -54,7 +55,16 @@ send_invite_sync_deprecated.short_description = "Invite user (deprecated)"
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
-        (_("Account info"), {"fields": ("slug", "email", "password")}),
+        (
+            _("Account info"),
+            {
+                "fields": (
+                    "slug",
+                    "email",
+                    "password",
+                )
+            },
+        ),
         (_("Personal info"), {"fields": settings.ADMIN_USER_PERSONAL_INFO}),
         (
             _("Permissions"),
@@ -100,3 +110,5 @@ admin.site.register(ConsumerProfile)
 admin.site.register(InstructorProfile)
 admin.site.register(VendorProfile)
 admin.site.register(SupervisorProfile)
+
+admin.site.register(UserRole)
