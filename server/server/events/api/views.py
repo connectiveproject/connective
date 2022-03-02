@@ -1,5 +1,3 @@
-from functools import partial
-
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
@@ -8,7 +6,6 @@ from rest_framework import filters, viewsets
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityOrder
-from server.users.api_helpers import HasPrivilege
 from server.utils.db_utils import (
     get_additional_permissions_readonly,
     get_additional_permissions_write,
@@ -20,7 +17,6 @@ from server.utils.permission_classes import (
     AllowInstructor,
     AllowVendor,
 )
-from server.utils.privileges import PRIV_CALENDAR_EDIT, PRIV_CALENDAR_VIEW
 
 from .serializers import (
     ConsumerEventFeedbackSerializer,
@@ -67,7 +63,6 @@ class EventViewSet(viewsets.ModelViewSet):
         | AllowInstructor
         | AllowVendor
         | get_additional_permissions_write()
-        | partial(HasPrivilege, (PRIV_CALENDAR_VIEW, PRIV_CALENDAR_EDIT))
     ]
     serializer_class = EventSerializer
     filter_backends = [
