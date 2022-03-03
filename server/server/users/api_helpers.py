@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_relevant_roles(required_privileges, user) -> List[UserRole]:
-    result: List = [UserRole]
+    result: List[UserRole] = []
     roles: UserRole = user.roles.all()
     user_role: UserRole
     for user_role in roles:
@@ -60,4 +60,4 @@ class HasPrivilege(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
-        return len(get_relevant_roles(self.privileges, request.user)) > 0
+        return bool(get_relevant_roles(self.privileges, request.user))
