@@ -1,4 +1,5 @@
 import i18n from "@/plugins/i18n"
+import router from "@/router"
 import guards, { chainGuards } from "@/router/guards"
 import Welcome from "@/layouts/Welcome"
 import CoordinatorDashboard from "@/layouts/CoordinatorDashboard"
@@ -424,3 +425,14 @@ export default [
     redirect: "/",
   },
 ]
+
+// adds dashboardChildrenRoutes to the given dashboard route. Should be called once we
+// know the user's dashboard:
+export function addChildrenRoutes(dashboardRouteName) {
+  for (const route of dashboardChildrenRoutes) {
+    router.addRoute(dashboardRouteName, route)
+  }
+}
+
+// routes that should be addded under the user's dashboard route:
+export let dashboardChildrenRoutes = []

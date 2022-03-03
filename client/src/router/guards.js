@@ -1,7 +1,7 @@
 import store from "@/vuex/store"
 import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
-import { addChildrenRoutes } from "@/router/routes"
+import { addChildrenRoutes } from "../router/routes"
 
 async function shouldCoordEditSchool() {
   // check if coord should edit school, by checking if other user already did
