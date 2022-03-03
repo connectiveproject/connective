@@ -1,5 +1,6 @@
 import logging
-from typing import Dict, List, Set
+from functools import partial
+from typing import Dict, Iterable, List, Set
 
 from rest_framework.permissions import BasePermission
 
@@ -61,3 +62,7 @@ class HasPrivilege(BasePermission):
         if not request.user.is_authenticated:
             return False
         return bool(get_relevant_roles(self.privileges, request.user))
+
+
+def has_privilege(privileges: Iterable) -> HasPrivilege:
+    return partial(HasPrivilege, privileges)
