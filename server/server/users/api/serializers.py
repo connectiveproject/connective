@@ -76,7 +76,7 @@ class CurrentUserSerializer(UserSerializer):
         }
 
     def get_privileges(self, obj):
-        return obj.get_privilege_scopes().keys()
+        return list(obj.get_privilege_scopes().keys())
 
 
 class ConsumerProfileSerializer(serializers.ModelSerializer):
