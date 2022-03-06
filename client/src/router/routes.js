@@ -373,11 +373,11 @@ export default [
             component: VendorDetailProgram,
             props: true,
           },
-          {
-            path: "program-creator",
-            name: "VendorProgramCreator",
-            component: VendorProgramCreator,
-          },
+          // {
+          //   path: "program-creator",
+          //   name: "VendorProgramCreator",
+          //   component: VendorProgramCreator,
+          // },
           {
             path: "program-media-upload/:programSlug",
             name: "VendorProgramMediaUpload",
@@ -435,4 +435,10 @@ export function addChildrenRoutes(dashboardRouteName) {
 }
 
 // routes that should be addded under the user's dashboard route:
-export let dashboardChildrenRoutes = []
+export let dashboardChildrenRoutes = [
+  {
+    path: "program-creator",
+    name: "VendorProgramCreator",
+    component: VendorProgramCreator,
+  },
+]

@@ -1,4 +1,5 @@
 from contextlib import suppress
+from typing import Set
 
 import analytics
 from django.contrib.auth import get_user_model
@@ -19,6 +20,10 @@ from server.organizations.models import (
 )
 from server.organizations.signals import activity_order_created_signal
 from server.users.api.serializers import UserSerializer
+from server.users.api_helpers import (
+    PrivilegeAccessMixin,
+    get_privilege_permission_classes,
+)
 from server.users.models import Consumer
 from server.utils.analytics_utils import event
 from server.utils.db_utils import (
@@ -33,6 +38,7 @@ from server.utils.permission_classes import (
     AllowInstructorReadOnly,
     AllowVendor,
 )
+from server.utils.privileges import PRIV_ACTIVITIES_EDIT, PRIV_ACTIVITIES_VIEW
 
 from .filters import ActivityFilter
 from .serializers import (
@@ -82,26 +88,49 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Activity.objects.prefetch_related("tags").all()
 
 
-class VendorActivityViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowVendor | get_additional_permissions_write()]
+class VendorActivityViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
+
+    privileges_read = [
+        PRIV_ACTIVITIES_VIEW,
+    ]
+
+    privileges_write = [
+        PRIV_ACTIVITIES_EDIT,
+    ]
+
+    permission_classes = [
+        AllowVendor
+        | get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
+    ]
+
     serializer_class = VendorActivitySerializer
     lookup_field = "slug"
 
-    def get_queryset(self):
+    def allowed_organizations(self) -> Set:
+        result: Set = self.get_allowed_organizations(self.request)
         user = self.request.user
-        return Activity.objects.filter(
-            originization=user.organization_member.organization,
-        )
+        if user.organization_member:
+            result.add(user.organization_member.organization)
+        return result
+
+    def get_queryset(self):
+        allowed_organizations = self.allowed_organizations()
+        return Activity.objects.filter(originization__in=allowed_organizations)
 
     def perform_create(self, serializer):
-        serializer.save(
-            originization=self.request.user.organization_member.organization
-        )
+        if "originization" in serializer.validated_data:
+            organization = serializer.validated_data["originization"]
+        else:
+            organization = self.request.user.organization_member.organization
+        serializer.save(originization=organization)
 
     def perform_update(self, serializer):
-        serializer.save(
-            originization=self.request.user.organization_member.organization
-        )
+        if "originization" in serializer.validated_data:
+            organization = serializer.validated_data["originization"]
+        else:
+            organization = self.request.user.organization_member.organization
+        serializer.save(originization=organization)
 
 
 class ConsumerActivityViewSet(

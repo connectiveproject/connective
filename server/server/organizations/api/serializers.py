@@ -156,7 +156,7 @@ class VendorActivitySerializer(
             "phone_number",
             "tags",
         ]
-        read_only_fields = ["slug", "originization"]
+        read_only_fields = ["slug"]
 
 
 class ConsumerActivitySerializer(TaggitSerializer, serializers.ModelSerializer):

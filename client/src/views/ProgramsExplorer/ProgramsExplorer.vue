@@ -18,9 +18,37 @@
     <div class="ma-3 pa-3 px-lg-16 mx-lg-16 py-lg-6 my-lg-6">
       <div class="mx-auto mx-sm-16 d-flex justify-space-between flex-wrap">
         <div class="pb-7">
-          <h1 v-text="$t('program.programCatalog')" class="card-demo pb-6" />
-          <h3 v-text="$t('program.chooseAProgramThatSuitsYourSchool!')" />
+          <v-row>
+            <v-col
+              cols="12"
+              md="8"
+              :class="{ 'text-center px-0': $vuetify.breakpoint.xs }"
+            >
+              <h1 v-text="$t('program.programCatalog')" class="mb-5" />
+              <h2
+                v-text="$t('program.chooseAProgramThatSuitsYourSchool!')"
+                class="pb-12"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-btn
+                introjs="program-create-btn"
+                data-testid="program-create-btn"
+                tile
+                v-if="hasPrivilege('PRIV_ACTIVITIES_EDIT')"
+                large
+                class="d-block mx-auto"
+                color="success"
+                :block="$vuetify.breakpoint.xs"
+                @click="$router.push({ name: 'VendorProgramCreator' })"
+              >
+                {{ $t("program.newProgram") }}
+                <v-icon right> mdi-plus </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
         </div>
+
         <v-btn
           introjs="advanced-search"
           class="mx-auto mx-md-0 primary mt-10 mt-md-0"
@@ -103,6 +131,8 @@ import { SERVER } from "@/helpers/constants/constants"
 import { PROGRAMS_CHECKBOX_FILTERS, TAGS } from "./constants"
 import introjsSubscribeMixin from "@/mixins/introJs/introjsSubscribeMixin"
 
+import Utils from "@/helpers/utils"
+
 export default {
   name: "ProgramsExplorer",
   components: {
@@ -131,7 +161,9 @@ export default {
       "cancelProgramOrder",
       "reCreateProgramOrder",
     ]),
-
+    hasPrivilege(privilege) {
+      return Utils.hasPrivilege(privilege)
+    },
     onEndOfPage() {
       // trigger programs load on end of page
       this.recentlyScrolled = true
