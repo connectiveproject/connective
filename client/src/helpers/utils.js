@@ -4,6 +4,7 @@ import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
 import cloneDeep from "lodash/cloneDeep"
+import store from "@/vuex/store"
 
 import {
   YOUTUBE_ID_REGEX_PATTERN,
@@ -205,6 +206,9 @@ const utils = {
   getKeyByValue(obj, value) {
     return Object.keys(obj).find(key => obj[key] === value)
   },
+  hasPrivilege(privilege) {
+    return store.state.user.userDetails.privileges.includes(privilege)
+  }
 }
 
 export default utils
