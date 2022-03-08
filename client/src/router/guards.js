@@ -2,6 +2,10 @@ import store from "@/vuex/store"
 import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
 
+export async function initUserSession() {
+  await store.dispatch("vxSettings/getParameters")
+}
+
 async function shouldCoordEditSchool() {
   // check if coord should edit school, by checking if other user already did
   const schoolDetails = await store.dispatch("school/getSchoolDetails")
@@ -35,6 +39,7 @@ export function chainGuards(guards) {
 }
 
 export default {
+
   coordOnly(to, from, next) {
     if (store.getters["user/isCoordinator"]) {
       return next()
@@ -102,6 +107,7 @@ export default {
       next({ name: "Login", params: to.params })
     }
     const userDetails = await store.dispatch("user/getUserDetails")
+    await initUserSession()
     userToRoute[userDetails.userType]()
   },
 

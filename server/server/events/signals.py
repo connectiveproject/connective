@@ -1,3 +1,4 @@
+import zoneinfo
 from datetime import timedelta
 
 import analytics
@@ -6,6 +7,7 @@ from django.dispatch import receiver
 
 from server.utils.analytics_utils import event as analytics_event
 from server.utils.analytics_utils import field as analytics_field
+from server.utils.factories import ConnectiveUtils, get_utils
 
 from .models import Event, EventOrder
 
@@ -47,15 +49,26 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
             return
 
         events_to_create = []
+        utils: ConnectiveUtils = get_utils()
+        # create reoccuring events. Since server time is in UTC, we need to take into account the timezone of the
+        # customer, otherwise we will create future events with wrong UTC offset when DST changes. So the idea is
+        # to iterate over events in customer timezone, and save them in UTC.
+        timezone_str: str = utils.get_customer_time_zone()
+        customer_timezone = zoneinfo.ZoneInfo(timezone_str)
+        utc_timezone = zoneinfo.ZoneInfo("UTC")
+        first_start_customer_tz = instance.start_time.astimezone(customer_timezone)
+        first_end_customer_tz = instance.end_time.astimezone(customer_timezone)
         for i in range(0, 52):
-            start_time = instance.start_time + timedelta(days=i * 7)
-            end_time = instance.end_time + timedelta(days=i * 7)
+            # start/end time in customer timezone:
+            start_time_customer_tz = first_start_customer_tz + timedelta(days=i * 7)
+            end_time_customer_tz = first_end_customer_tz + timedelta(days=i * 7)
             events_to_create.append(
                 Event(
                     school_group=instance.school_group,
                     locations_name=instance.locations_name,
-                    start_time=start_time,
-                    end_time=end_time,
+                    # start/end time in UTC:
+                    start_time=start_time_customer_tz.astimezone(utc_timezone),
+                    end_time=end_time_customer_tz.astimezone(utc_timezone),
                     event_order=instance,
                 )
             )
