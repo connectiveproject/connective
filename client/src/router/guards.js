@@ -3,7 +3,7 @@ import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
 
 export async function initUserSession() {
-  await store.dispatch("vxSettings/getParameters")
+  await store.dispatch("vxPreferences/getParameters")
 }
 
 async function shouldCoordEditSchool() {

@@ -40,7 +40,7 @@ def get_utils() -> ConnectiveUtils:
         return ConnectiveUtils
     except LookupError:
         raise ImproperlyConfigured(
-            f"BASE_MIXIN refers to model '{settings.FORM_FACTORY}' that has not been installed"
+            f"BASE_MIXIN refers to model '{settings.UTIL_CLASS}' that has not been installed"
         )
 
 

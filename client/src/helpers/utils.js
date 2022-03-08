@@ -125,17 +125,17 @@ const utils = {
   },
 
   ApiStringToReadableDate(dateString) {
-    const dateFormat = store.state.vxSettings.parameters.dateFormat
-    const timeFormat = store.state.vxSettings.parameters.timeFormat
+    const dateFormat = store.state.vxPreferences.parameters.dateFormat
+    const timeFormat = store.state.vxPreferences.parameters.timeFormat
     return moment(dateString).format(`${dateFormat} ${timeFormat}`)
   },
 
   apiStringToReadableDateNoTime(dateString) {
-    const dateFormat = store.state.vxSettings.parameters.dateFormat
+    const dateFormat = store.state.vxPreferences.parameters.dateFormat
     return moment(dateString).format(dateFormat)
   },
   apiStringToReadableTime(dateString) {
-    const timeFormat = store.state.vxSettings.parameters.timeFormat
+    const timeFormat = store.state.vxPreferences.parameters.timeFormat
     return moment(dateString).format(timeFormat)
   },
 
