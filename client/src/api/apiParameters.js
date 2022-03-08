@@ -1,7 +1,10 @@
 const apiParameters = {
 
   getParameters() {
-    return { "count": 1, "next": null, "previous": null, "results": [{ "timezone": "Asia/Jerusalem", "date_format": "DD.MM.YYYY", "time_format": "HH:mm" }] }
+    return {
+      "data":
+        { "count": 1, "next": null, "previous": null, "results": [{ "timezone": "Asia/Jerusalem", "dateFormat": "DD.MM.YYYY", "timeFormat": "HH:mm" }] }
+    }
   },
 
 }
