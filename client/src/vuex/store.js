@@ -29,6 +29,7 @@ import eventFeedPost from "./modules/eventFeedPost"
 import vendorEvent from "./modules/vendorEvent"
 import termsOfUse from "./modules/termsOfUse"
 import notification from "./modules/notification"
+import vxPreferences from "@/vuex/modules/vxPreferences"
 import vxTags from "./modules/vxTags"
 
 Vue.use(Vuex)
@@ -64,6 +65,7 @@ const store = new Vuex.Store({
     vendorEvent,
     termsOfUse,
     notification,
+    vxPreferences,
     vxTags,
   },
   actions: {

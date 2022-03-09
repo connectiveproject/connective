@@ -48,9 +48,6 @@ const user = {
     isSupervisor(state) {
       return state.userDetails.userType === SERVER.userTypes.supervisor
     },
-    isSuperUser(state) {
-      return state.superUser
-    },
   },
   actions: {
     flushState({ commit }) {
@@ -78,10 +75,11 @@ const user = {
       commit("SET_USER_TYPE", userType)
       return state.userType
     },
-    async updateSuperUser({ commit, state }) {
-      commit("SET_SUPER_USER", true)
+    async updateSuperUser({ commit, state }, { superUser }) {
+      commit("SET_SUPER_USER", superUser)
       return state.superUser
     },
+
   },
 }
 
