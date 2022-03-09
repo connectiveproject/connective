@@ -454,7 +454,7 @@ class UserFileParser:
                 )
                 break
             name = row.get("name").strip() if row.get("name") else ""
-            email = row.get("email").strip() if row.get("email") else ""
+            email = row.get("email").strip().lower() if row.get("email") else ""
             if email:
                 found_email_column = True
             elif not found_email_column:
