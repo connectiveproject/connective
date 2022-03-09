@@ -4,6 +4,8 @@ import Papa from "papaparse"
 import camelCase from "lodash/camelCase"
 import isArray from "lodash/isArray"
 import cloneDeep from "lodash/cloneDeep"
+import store from "@/vuex/store"
+
 
 import {
   YOUTUBE_ID_REGEX_PATTERN,
@@ -117,12 +119,24 @@ const utils = {
   },
 
   dateToApiString(date) {
-    // convert moment.js date object into a valid string to send to api
-    return date.format("YYYY-MM-DD HH:mm")
+    // convert moment.js date object into a valid string in UTC timezone, to send to api
+    const utcFormat = moment(date).utc().format("YYYY-MM-DD HH:mm")
+    return utcFormat
   },
 
   ApiStringToReadableDate(dateString) {
-    return moment(dateString).format("DD.MM.YYYY HH:mm")
+    const dateFormat = store.state.vxPreferences.parameters.dateFormat
+    const timeFormat = store.state.vxPreferences.parameters.timeFormat
+    return moment(dateString).format(`${dateFormat} ${timeFormat}`)
+  },
+
+  apiStringToReadableDateNoTime(dateString) {
+    const dateFormat = store.state.vxPreferences.parameters.dateFormat
+    return moment(dateString).format(dateFormat)
+  },
+  apiStringToReadableTime(dateString) {
+    const timeFormat = store.state.vxPreferences.parameters.timeFormat
+    return moment(dateString).format(timeFormat)
   },
 
   stringToPsuedoRandomColor(str) {
@@ -205,6 +219,9 @@ const utils = {
   getKeyByValue(obj, value) {
     return Object.keys(obj).find(key => obj[key] === value)
   },
+  hasPrivilege(privilege) {
+    return store.state.user.userDetails.privileges.includes(privilege)
+  }
 }
 
 export default utils

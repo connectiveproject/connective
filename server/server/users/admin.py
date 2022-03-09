@@ -23,6 +23,7 @@ from .models import (
     InstructorProfile,
     Supervisor,
     SupervisorProfile,
+    UserRole,
     Vendor,
     VendorProfile,
 )
@@ -50,11 +51,24 @@ def send_invite_sync_deprecated(self, request, queryset):
 send_invite_sync_deprecated.short_description = "Invite user (deprecated)"
 
 
+class UserRoleInline(admin.TabularInline):
+    model = UserRole
+
+
 @admin.register(User, Supervisor)
 class BaseUserTypesAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     fieldsets = (
-        (_("Account info"), {"fields": ("slug", "email", "password")}),
+        (
+            _("Account info"),
+            {
+                "fields": (
+                    "slug",
+                    "email",
+                    "password",
+                )
+            },
+        ),
         (_("Personal info"), {"fields": settings.ADMIN_USER_PERSONAL_INFO}),
         (
             _("Permissions"),
@@ -82,17 +96,31 @@ class BaseUserTypesAdmin(auth_admin.UserAdmin):
     ]
     search_fields = ["email"]
     actions = [send_invite, send_invite_sync_deprecated]
+    inlines = [
+        UserRoleInline,
+    ]
 
 
 @admin.register(Coordinator, Consumer)
 class SchoolUserTypesAdmin(BaseUserTypesAdmin):
-    inlines = [SchoolMemberTabularInline]
+    inlines = [SchoolMemberTabularInline, UserRoleInline]
     search_fields = ["email", "school_member__school__name"]
 
 
 @admin.register(Instructor, Vendor)
 class OrgUserTypesAdmin(BaseUserTypesAdmin):
-    inlines = [OrganizationMemberTabularInline]
+    inlines = [OrganizationMemberTabularInline, UserRoleInline]
+
+
+@admin.register(UserRole)
+class UserRoleAdmin(admin.ModelAdmin):
+    list_display = ["user", "role_code", "school", "organization", "admin_scope"]
+    list_display_links = [
+        "role_code",
+    ]
+    search_fields = ["role_code", "user"]
+    ordering = ["user", "role_code"]
+    list_filter = ["role_code", "user"]
 
 
 admin.site.register(CoordinatorProfile)

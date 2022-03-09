@@ -56,6 +56,7 @@ from .renderers import UsersCSVRenderer
 from .serializers import (
     ConsumerProfileSerializer,
     CoordinatorProfileSerializer,
+    CurrentUserSerializer,
     InstructorProfileSerializer,
     ManageConsumersSerializer,
     ManageCoordinatorsSerializer,
@@ -108,7 +109,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
-        serializer = UserSerializer(request.user, context={"request": request})
+        serializer = CurrentUserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=False, methods=["POST"], permission_classes=[AllowAny])

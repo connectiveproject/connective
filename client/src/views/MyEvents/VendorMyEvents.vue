@@ -91,8 +91,8 @@ export default {
       return this.eventList.map(e => {
         const start = moment(e.startTime)
         const end = moment(e.endTime)
-        const startStr = start.format("DD/MM/YYYY HH:mm")
-        const endStr = end.format("DD/MM/YYYY HH:mm")
+        const startStr = Utils.ApiStringToReadableDate(e.startTime)
+        const endStr = Utils.ApiStringToReadableDate(e.endTime)
 
         return {
           start: start.toDate(),

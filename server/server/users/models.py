@@ -1,4 +1,5 @@
-from typing import Dict
+import logging
+from typing import Dict, List
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import BaseUserManager
@@ -11,6 +12,9 @@ from django.utils.translation import gettext_lazy as _
 
 from server.utils.db_utils import get_base_abstract_user_model, get_base_model
 from server.utils.model_fields import random_slug
+from server.utils.privileges import ROLES
+
+logger = logging.getLogger(__name__)
 
 
 class UserRegistrator(ModelBase):
@@ -26,6 +30,33 @@ class UserRegistrator(ModelBase):
         newcls = super().__new__(cls, name, bases, attrs)
         newcls.base_user_type = name.upper()
         return newcls
+
+
+class RoleScope:
+    def __init__(self):
+        self.roles = []
+        self.admin_scope = False
+
+    def update(self, role):
+        self.roles.append(role)
+        if role.admin_scope:
+            self.admin_scope = True
+
+    def is_admin_scope(self) -> bool:
+        return self.admin_scope
+
+    def get_schools(self) -> List:
+        result = []
+        for user_role in self.roles:
+            result.append(user_role.school)
+        return result
+
+    def get_organizations(self) -> List:
+        result: List = []
+        user_role: UserRole
+        for user_role in self.roles:
+            result.append(user_role.organization)
+        return result
 
 
 class User(get_base_abstract_user_model(), metaclass=UserRegistrator):
@@ -65,8 +96,72 @@ class User(get_base_abstract_user_model(), metaclass=UserRegistrator):
         self.email = self.email.lower()
         return super().save(*args, **kwargs)
 
+    def calculate_privilege_scopes(self) -> Dict[str, RoleScope]:
+        result: Dict[str, RoleScope] = {}
+        roles = self.roles.all()
+        for user_role in roles:
+            if user_role.role_code not in ROLES:
+                logger.warning(f"Unknown role: {user_role.role_code}")
+                continue
+            user_privileges = ROLES[user_role.role_code]
+            for privilege in user_privileges:
+                scope: RoleScope = result.get(privilege, RoleScope())
+                scope.update(user_role)
+                result[privilege] = scope
+        return result
+
+    def get_privilege_scopes(self) -> Dict[str, RoleScope]:
+        if not hasattr(self, "get_privilege_scopes_dict"):
+            self.get_privilege_scopes_dict = self.calculate_privilege_scopes()
+        return self.get_privilege_scopes_dict
+
     def __str__(self):
         return self.email
+
+
+class UserRole(get_base_model()):
+
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="roles",
+        verbose_name=_("User"),
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    role_code = CharField(max_length=50, null=False, blank=False)
+
+    admin_scope = BooleanField(
+        default=False
+    )  # when true, scope of this role is all schools/organizations
+
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.CASCADE,
+        related_name="roles",
+        verbose_name="Organization",
+        null=True,
+        blank=True,
+    )
+
+    school = models.ForeignKey(
+        "schools.School",
+        on_delete=models.CASCADE,
+        related_name="roles",
+        verbose_name="School",
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        unique_together = ("user", "role_code", "school_id", "organization_id")
+        verbose_name = _("User Role")
+        verbose_name_plural = _("User Roles")
+
+    def __str__(self):
+        return f"{self.role_code}"
 
 
 class ConsumerManager(BaseUserManager):

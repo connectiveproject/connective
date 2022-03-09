@@ -1,6 +1,12 @@
 import store from "@/vuex/store"
 import { SERVER } from "@/helpers/constants/constants"
 import { CAROUSEL_PLACEHOLDER } from "@/helpers/constants/images"
+import { addChildrenRoutes } from "../router/routes"
+
+export async function initUserSession() {
+  await store.dispatch("user/updateSuperUser", { superUser: false })
+  await store.dispatch("vxPreferences/getParameters")
+}
 
 async function shouldCoordEditSchool() {
   // check if coord should edit school, by checking if other user already did
@@ -35,6 +41,7 @@ export function chainGuards(guards) {
 }
 
 export default {
+
   coordOnly(to, from, next) {
     if (store.getters["user/isCoordinator"]) {
       return next()
@@ -70,17 +77,21 @@ export default {
     const params = to.params
     const isSignupComplete = store.state.user.userDetails.isSignupComplete
     const userToRoute = {
-      [SERVER.userTypes.supervisor]: () =>
-        next({ name: "SupervisorDashboard", params }),
-
-      [SERVER.userTypes.consumer]: () =>
-        next({ name: "StudentDashboard", params }),
-
-      [SERVER.userTypes.instructor]: () =>
-        next({ name: "InstructorDashboard", params }),
-
+      [SERVER.userTypes.supervisor]: () => {
+        addChildrenRoutes("SupervisorDashboard")
+        next({ name: "SupervisorDashboard", params })
+      },
+      [SERVER.userTypes.consumer]: () => {
+        addChildrenRoutes("StudentDashboard")
+        next({ name: "StudentDashboard", params })
+      },
+      [SERVER.userTypes.instructor]: () => {
+        addChildrenRoutes("InstructorDashboard")
+        next({ name: "InstructorDashboard", params })
+      },
       [SERVER.userTypes.vendor]: async () => {
         if (isSignupComplete) {
+          addChildrenRoutes("VendorDashboard")
           return next({ name: "VendorDashboard", params })
         }
         next({ name: "VendorRegister", params })
@@ -88,6 +99,7 @@ export default {
 
       [SERVER.userTypes.coordinator]: async () => {
         if (isSignupComplete) {
+          addChildrenRoutes("CoordinatorDashboard")
           return next({ name: "MyGroups", params })
         }
         const shouldEditSchool = await shouldCoordEditSchool()
@@ -102,6 +114,7 @@ export default {
       next({ name: "Login", params: to.params })
     }
     const userDetails = await store.dispatch("user/getUserDetails")
+    await initUserSession()
     userToRoute[userDetails.userType]()
   },
 
