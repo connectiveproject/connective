@@ -27,7 +27,7 @@ class SchoolViewSet(
         try:
             return School.objects.filter(
                 school_member__in=[self.request.user.school_member]
-            )
+            ).order_by("name")
         except ObjectDoesNotExist:
             return School.objects.none()
 
