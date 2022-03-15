@@ -2,7 +2,8 @@
   <div>
     <v-row v-if="!editMode">
       <v-col>
-        <h3 v-text="value || label" class="font-weight-regular" />
+        <h3 v-if="value" v-text="value" class="font-weight-regular" />
+        <h3 v-else v-text="placeholder || label" class="font-weight-light" />
       </v-col>
       <v-col>
         <v-btn class="float-end" icon @click="editMode = true">
@@ -15,6 +16,7 @@
       v-click-outside="onClickOutsideField"
       v-model="activeValue"
       class="mt-5"
+      :placeholder="placeholder"
       :label="label"
     >
       <v-btn icon @click="onSave" slot="append">
@@ -51,6 +53,10 @@ export default {
     label: {
       type: String,
       required: true,
+    },
+    placeholder: {
+      type: String,
+      default: "",
     },
   },
   data() {
