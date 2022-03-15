@@ -12,12 +12,11 @@ from server.utils.factories import ConnectiveUtils, get_form_factory, get_utils
 from server.utils.logging.constants import CAPTCHA, PROFILE
 
 logger = logging.getLogger(__name__)
-utils: ConnectiveUtils = get_utils()
-CUSTOMER_EMAIL_ENABLED = utils.customer_email_enabled
 
 
 def send_user_invite(user):
-    if not CUSTOMER_EMAIL_ENABLED:
+    utils: ConnectiveUtils = get_utils()
+    if not utils.customer_email_enabled:
         logger.info(f"Customer email is disabled. User: {user}")
         return
     form_factory = get_form_factory()
