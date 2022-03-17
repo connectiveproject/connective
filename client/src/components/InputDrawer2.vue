@@ -89,6 +89,7 @@ export default {
       // note: this value updates only on save
       type: String,
       required: true,
+      default: "",
     },
     label: {
       type: String,
