@@ -27,6 +27,9 @@ class ConnectiveUtils:
     def get_customer_time_zone() -> str:
         return "Asia/Jerusalem"
 
+    def customer_email_enabled() -> bool:
+        return True
+
 
 def get_utils() -> ConnectiveUtils:
     try:

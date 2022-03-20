@@ -8,13 +8,17 @@ from django.utils import timezone
 
 from server.users.models import Notification, User
 from server.users.notifications import NotificationRegistry
-from server.utils.factories import get_form_factory
+from server.utils.factories import ConnectiveUtils, get_form_factory, get_utils
 from server.utils.logging.constants import CAPTCHA, PROFILE
 
 logger = logging.getLogger(__name__)
 
 
 def send_user_invite(user):
+    utils: ConnectiveUtils = get_utils()
+    if not utils.customer_email_enabled():
+        logger.info(f"Customer email is disabled. User: {user}")
+        return
     form_factory = get_form_factory()
     form = form_factory.create_send_invite_form(user)
     if form.is_valid():
