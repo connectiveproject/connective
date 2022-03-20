@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 def send_user_invite(user):
     utils: ConnectiveUtils = get_utils()
-    if not utils.customer_email_enabled:
+    if not utils.customer_email_enabled():
         logger.info(f"Customer email is disabled. User: {user}")
         return
     form_factory = get_form_factory()

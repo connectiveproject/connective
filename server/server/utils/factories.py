@@ -27,8 +27,7 @@ class ConnectiveUtils:
     def get_customer_time_zone() -> str:
         return "Asia/Jerusalem"
 
-    @property
-    def customer_email_enabled(self) -> bool:
+    def customer_email_enabled() -> bool:
         return True
 
 
