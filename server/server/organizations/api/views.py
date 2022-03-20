@@ -121,7 +121,7 @@ class ConsumerActivityViewSet(
             school=user.school_member.school,
             status=SchoolActivityOrder.Status.APPROVED,
         ).values("activity")
-        return Activity.objects.filter(id__in=approved_orders)
+        return Activity.objects.filter(id__in=approved_orders).order_by("-id")
 
     @action(detail=True, methods=["POST"])
     def join_group(self, request, slug=None):
@@ -217,7 +217,7 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         coord_school = self.request.user.school_member.school
-        return SchoolActivityOrder.objects.filter(school=coord_school)
+        return SchoolActivityOrder.objects.filter(school=coord_school).order_by("-id")
 
     def perform_create(self, serializer):
         newOrder: SchoolActivityOrder = serializer.save(

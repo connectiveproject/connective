@@ -59,7 +59,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 PRECEDING_THIRD_PARTY_APPS = [
-    "jazzmin",
+    "jazzmin.apps.JazzminConfig",
 ]
 DJANGO_APPS = [
     "django.contrib.auth",
@@ -75,9 +75,9 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "crispy_forms",
     "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "django_celery_beat",
+    "allauth.account.apps.AccountConfig",
+    "allauth.socialaccount.apps.SocialAccountConfig",
+    "django_celery_beat.apps.BeatConfig",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",

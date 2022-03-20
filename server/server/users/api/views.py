@@ -230,7 +230,7 @@ class ManageConsumersViewSet(ModelViewSet):
     def get_queryset(self):
         return Consumer.objects.filter(
             school_member__school=self.request.user.school_member.school
-        )
+        ).order_by("email")
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
@@ -278,7 +278,7 @@ class ManageCoordinatorsViewSet(ModelViewSet):
     def get_queryset(self):
         return Coordinator.objects.filter(
             school_member__school=self.request.user.school_member.school
-        )
+        ).order_by("email")
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
