@@ -1,26 +1,67 @@
 <template>
   <div>
-    <v-row v-if="!editMode">
+    <v-row v-if="!editMode || disabled" @click="edit()">
       <v-col>
-        <h3 v-text="value || label" class="font-weight-regular" />
+        <div v-if="contentFormat === 'richText'">
+          <p v-if="value" v-html="value"></p>
+          <p
+            v-else
+            v-html="placeholder || label"
+            class="font-weight-light light"
+          ></p>
+        </div>
+        <div v-else>
+          <h3 v-if="value" v-text="value" class="font-weight-regular" />
+          <h3
+            v-else
+            v-text="placeholder || label"
+            class="font-weight-light light"
+          />
+        </div>
       </v-col>
       <v-col>
-        <v-btn class="float-end" icon @click="editMode = true">
+        <v-btn class="float-end" icon v-if="!disabled" @click="edit()">
           <v-icon>mdi-pen</v-icon>
         </v-btn>
       </v-col>
     </v-row>
     <v-text-field
-      v-else
+      v-else-if="contentFormat === 'text'"
       v-click-outside="onClickOutsideField"
       v-model="activeValue"
       class="mt-5"
+      :placeholder="placeholder"
       :label="label"
     >
       <v-btn icon @click="onSave" slot="append">
         <v-icon>mdi-content-save</v-icon>
       </v-btn>
     </v-text-field>
+    <div v-else-if="contentFormat === 'richText'">
+      <editor
+        v-click-outside="onClickOutsideField"
+        v-model="activeValue"
+        :apiKey="tinyMceApiKey"
+        :init="{
+          height: 200,
+          menubar: false,
+          content_style: 'body {font-size: 12pt;}',
+          plugins: [
+            'advlist autolink lists link image charmap',
+            'searchreplace visualblocks code fullscreen',
+            'print preview anchor insertdatetime media',
+            'paste code wordcount table directionality',
+          ],
+          toolbar:
+            'undo redo | formatselect | fontsizeselect | bold italic underline strikethrough | \
+        alignleft aligncenter alignright | \
+        bullist numlist outdent indent | ltr rtl',
+        }"
+      />
+      <v-btn icon @click="onSave" slot="append">
+        <v-icon>mdi-content-save</v-icon>
+      </v-btn>
+    </div>
     <modal-approve
       v-model="isUnsavedChangesModalOpen"
       @approve="onSave"
@@ -37,24 +78,39 @@
 
 <script>
 import ModalApprove from "@/components/ModalApprove"
-
+import Editor from "@tinymce/tinymce-vue"
 export default {
   components: {
     ModalApprove,
+    Editor,
   },
   props: {
     value: {
       // note: this value updates only on save
       type: String,
       required: true,
+      default: "",
     },
     label: {
       type: String,
-      required: true,
+      required: false,
+    },
+    placeholder: {
+      type: String,
+      default: "",
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    contentFormat: {
+      type: String,
+      default: "text",
     },
   },
   data() {
     return {
+      tinyMceApiKey: process.env.VUE_APP_TINYMCE_API_KEY,
       editMode: false,
       isUnsavedChangesModalOpen: false,
       activeValue: this.value,
@@ -74,9 +130,19 @@ export default {
     },
     onDiscard() {
       this.editMode = false
-
       this.activeValue = this.value
+    },
+    edit() {
+      if (!this.disabled) {
+        this.activeValue = this.value
+        this.editMode = true
+      }
     },
   },
 }
 </script>
+<style scoped>
+.light {
+  color: #d8d8d8;
+}
+</style>>
