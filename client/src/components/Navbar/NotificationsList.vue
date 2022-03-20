@@ -40,6 +40,12 @@
 import { mapActions } from "vuex"
 import Utils from "@/helpers/utils"
 
+// the notification's parameters value is JSON string in python format, and we need
+// to convert it to an JavaScript JSON object. We need to handle quotes and double quotes,
+// and this is the regex for that. See more details here: https://stackoverflow.com/a/69597114
+const STRING_TO_JSON_REGEX =
+  /('(?=(,\s*')))|('(?=:))|((?<=([:,]\s*))')|((?<={)')|('(?=}))/g
+
 export default {
   async created() {
     await this.loadNotifications()
@@ -71,7 +77,7 @@ export default {
 
     convertParamsToObject(parametersStr) {
       if (!parametersStr) return ""
-      return JSON.parse(parametersStr.replaceAll("'", '"'))
+      return JSON.parse(parametersStr.replace(STRING_TO_JSON_REGEX, '"'))
     },
 
     formatApiDate(date) {
