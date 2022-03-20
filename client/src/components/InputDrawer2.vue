@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row v-if="!editMode || disabled" @click="edit()">
-      <v-col>
+    <v-row v-if="!editMode || disabled" @click="edit()" cols="12">
+      <v-col cols="11">
         <div v-if="contentFormat === 'richText'">
           <p v-if="value" v-html="value"></p>
           <p
@@ -19,7 +19,7 @@
           />
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="1">
         <v-btn class="float-end" icon v-if="!disabled" @click="edit()">
           <v-icon>mdi-pen</v-icon>
         </v-btn>
