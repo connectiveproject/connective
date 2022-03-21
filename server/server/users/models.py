@@ -3,6 +3,8 @@ from typing import Dict, List
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.contenttypes import fields
+from django.contrib.contenttypes.models import ContentType
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import BooleanField, CharField, EmailField, TextChoices
@@ -388,6 +390,23 @@ class Notification(get_base_model()):
         choices=Status.choices,
         default=Status.NEW,
     )
+
+
+class UserBookmark(get_base_model()):
+
+    slug = CharField(max_length=40, default=random_slug, unique=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="bookmarks",
+    )
+    # dynamic foreign key to any table (many to one):
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = fields.GenericForeignKey("content_type", "object_id")
 
 
 class UserUtil:
