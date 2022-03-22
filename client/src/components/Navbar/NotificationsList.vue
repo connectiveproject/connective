@@ -10,9 +10,7 @@
           >
             <v-list-item-content>
               <v-list-item-title
-                v-text="
-                  $t(item.titleLabel, convertParamsToObject(item.parameters))
-                "
+                v-text="$t(item.titleLabel, item.parameters)"
                 :class="item.status"
                 @click="goToLink(item)"
               ></v-list-item-title>
@@ -39,12 +37,6 @@
 <script>
 import { mapActions } from "vuex"
 import Utils from "@/helpers/utils"
-
-// the notification's parameters value is JSON string in python format, and we need
-// to convert it to an JavaScript JSON object. We need to handle quotes and double quotes,
-// and this is the regex for that. See more details here: https://stackoverflow.com/a/69597114
-const STRING_TO_JSON_REGEX =
-  /('(?=(,\s*')))|('(?=:))|((?<=([:,]\s*))')|((?<={)')|('(?=}))/g
 
 export default {
   async created() {
@@ -73,11 +65,6 @@ export default {
     async loadNotifications() {
       const notifications = await this.getNotificationList()
       this.notificationList = notifications["results"]
-    },
-
-    convertParamsToObject(parametersStr) {
-      if (!parametersStr) return ""
-      return JSON.parse(parametersStr.replace(STRING_TO_JSON_REGEX, '"'))
     },
 
     formatApiDate(date) {
