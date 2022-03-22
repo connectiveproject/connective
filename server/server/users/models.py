@@ -383,7 +383,7 @@ class Notification(get_base_model()):
         related_name="notifications",
     )
 
-    parameters = models.CharField(max_length=500, null=True, blank=True)
+    parameters = models.JSONField(max_length=500, null=True, blank=True)
 
     status = models.CharField(
         max_length=50,
