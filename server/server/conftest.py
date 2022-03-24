@@ -26,6 +26,7 @@ from server.users.tests.factories import (
     UserFactory,
     VendorFactory,
 )
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 
 @pytest.fixture(autouse=True)
@@ -99,6 +100,9 @@ def all_entities(
     event.save()
 
     SchoolMember.objects.create(user=coordinator, school=activity_order.school)
+    coordinator.roles.create(
+        role_code=ROLE_COORDINATOR_ADMIN, school=activity_order.school
+    )
     SchoolMember.objects.create(user=consumer, school=activity_order.school)
     OrganizationMember.objects.create(user=vendor, organization=organization)
     OrganizationMember.objects.create(user=instructor, organization=organization)

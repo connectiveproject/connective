@@ -29,7 +29,6 @@ from server.termsofuse.models import TermsOfUseDocument
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
     get_privilege_permission_classes,
-    has_privilege,
 )
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
@@ -231,8 +230,7 @@ class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
     privileges_write = [PRIV_USER_CONSUMER_EDIT]
 
     permission_classes = [
-        AllowCoordinator
-        | get_additional_permissions_write()
+        get_additional_permissions_write()
         | get_privilege_permission_classes(privileges_read, privileges_write)
     ]
     serializer_class = ManageConsumersSerializer
@@ -247,8 +245,9 @@ class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
 
     def get_queryset(self):
         schools = self.get_allowed_schools(self.request)
-        if self.request.user.user_type == get_user_model().Types.COORDINATOR:
-            schools.add(self.request.user.school_member.school)
+        queryset = Consumer.objects.all().order_by("email")
+        if self.is_admin_scope(self.request):
+            return queryset
         return Consumer.objects.filter(school_member__school__in=schools).order_by(
             "email"
         )
@@ -337,12 +336,14 @@ class ManageCoordinatorsViewSet(ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ExportConsumerListViewSet(ModelViewSet):
+class ExportConsumerListViewSet(ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_USER_CONSUMER_VIEW]
+    privileges_write = [PRIV_USER_CONSUMER_EDIT]
     permission_classes = [
-        AllowCoordinator
-        | get_additional_permissions_write()
-        | has_privilege([PRIV_USER_CONSUMER_EDIT])
+        get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
     ]
+
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
@@ -355,8 +356,12 @@ class ExportConsumerListViewSet(ModelViewSet):
     filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        return Consumer.objects.filter(
-            school_member__school=self.request.user.school_member.school
+        schools = self.get_allowed_schools(self.request)
+        queryset = Consumer.objects.all()
+        if self.is_admin_scope(self.request):
+            return queryset
+        return Consumer.objects.filter(school_member__school__in=schools).order_by(
+            "email"
         )
 
 
