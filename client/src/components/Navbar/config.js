@@ -20,11 +20,6 @@ const coordinatorTabs = [
     icon: "mdi-calendar-heart",
   },
   {
-    text: i18n.t("myActivity.students"),
-    componentName: "ConsumerList",
-    icon: "mdi-account-group",
-  },
-  {
     id: "events-navbar-btn",
     text: i18n.t("events.eventsSummary"),
     componentName: "CoordinatorEvents",
@@ -133,12 +128,7 @@ const coordinatorAccountButtons = [
     icon: "mdi-home",
     onClick: () => Vue.$router.push({ name: "SchoolDetails" }),
   },
-  {
-    id: "user-invite-navbar-btn",
-    text: i18n.t("invite.usersInvitation"),
-    icon: "mdi-account-multiple-plus",
-    onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
-  },
+
   {
     id: "help-navbar-btn",
     text: i18n.t("general.pageExplanation"),
@@ -261,4 +251,21 @@ export const userToAccountButtons = {
 }
 
 // tabs that are visible according to user privileges:
-export let allTabs = []
+export let allTabs = [
+  {
+    text: i18n.t("myActivity.students"),
+    componentName: "ConsumerList",
+    icon: "mdi-account-group",
+    privileges: ["PRIV_USER_CONSUMER_VIEW", "PRIV_USER_CONSUMER_EDIT"],
+  },
+]
+
+export let accountMenuItems = [
+  {
+    id: "user-invite-navbar-btn",
+    text: i18n.t("invite.usersInvitation"),
+    icon: "mdi-account-multiple-plus",
+    privileges: ["PRIV_USER_CONSUMER_VIEW", "PRIV_USER_CONSUMER_EDIT"],
+    onClick: () => Vue.$router.push({ name: "SchoolInviteWrapper" }),
+  },
+]

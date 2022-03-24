@@ -17,6 +17,7 @@ from server.users.models import (
     VendorProfile,
 )
 from server.users.notifications import NotificationRegistry, get_notification_registry
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 from ..helpers import send_user_invite
 
@@ -216,10 +217,9 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         create user, attach to school, invite user via email
         """
         coordinator = Coordinator.objects.create(**validated_data)
-
-        SchoolMember.objects.create(
-            user=coordinator, school=self.context["request"].user.school_member.school
-        )
+        school = self.context["request"].user.school_member.school
+        coordinator.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
+        SchoolMember.objects.create(user=coordinator, school=school)
         send_user_invite(coordinator)
         return coordinator
 

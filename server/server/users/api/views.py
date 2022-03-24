@@ -26,7 +26,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from server.termsofuse.models import TermsOfUseDocument
-from server.users.api_helpers import get_privilege_permission_classes, has_privilege
+from server.users.api_helpers import (
+    PrivilegeAccessMixin,
+    get_privilege_permission_classes,
+    has_privilege,
+)
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     BaseProfile,
@@ -222,13 +226,14 @@ class SupervisorProfileViewSet(ModelViewSet):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-class ManageConsumersViewSet(ModelViewSet):
+class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_USER_CONSUMER_VIEW]
+    privileges_write = [PRIV_USER_CONSUMER_EDIT]
+
     permission_classes = [
         AllowCoordinator
         | get_additional_permissions_write()
-        | get_privilege_permission_classes(
-            [PRIV_USER_CONSUMER_VIEW], [PRIV_USER_CONSUMER_EDIT]
-        )
+        | get_privilege_permission_classes(privileges_read, privileges_write)
     ]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
@@ -241,9 +246,12 @@ class ManageConsumersViewSet(ModelViewSet):
     filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        return Consumer.objects.filter(
-            school_member__school=self.request.user.school_member.school
-        ).order_by("email")
+        schools = self.get_allowed_schools(self.request)
+        if self.request.user.user_type == get_user_model().Types.COORDINATOR:
+            schools.add(self.request.user.school_member.school)
+        return Consumer.objects.filter(school_member__school__in=schools).order_by(
+            "email"
+        )
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):

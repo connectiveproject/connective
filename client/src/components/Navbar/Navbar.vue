@@ -55,11 +55,14 @@ import {
   userToTabs,
   userToAccountButtons,
   allTabs,
+  accountMenuItems,
 } from "@/components/Navbar/config"
 import AccountMenu from "@/components/AccountMenu"
 import RouteTabs from "@/components/RouteTabs"
 import NavigationDrawer from "@/components/NavigationDrawer"
 import NotificationsList from "@/components/Navbar/NotificationsList.vue"
+import Utils from "@/helpers/utils"
+
 export default {
   components: {
     AccountMenu,
@@ -83,8 +86,6 @@ export default {
     return {
       mobileDrawer: false,
       bg: BACKGROUNDS.navbar,
-
-      accountButtons: userToAccountButtons[this.userType],
     }
   },
   computed: {
@@ -101,15 +102,17 @@ export default {
       },
     },
     tabs() {
-      const hasPrivilege = privilege => {
-        return this.userDetails.privileges.includes(privilege)
-      }
       let privilegedTabs = allTabs.filter(tab =>
-        tab.privileges.some(hasPrivilege)
+        tab.privileges.some(Utils.hasPrivilege)
       )
       // combine the user-type tabs with the tabs that are accessible by the user's privileges:
       const result = userToTabs[this.userType].concat(privilegedTabs)
       return result
+    },
+    accountButtons() {
+      return accountMenuItems
+        .filter(item => item.privileges.some(Utils.hasPrivilege))
+        .concat(userToAccountButtons[this.userType])
     },
   },
 }

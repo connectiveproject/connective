@@ -204,27 +204,6 @@ export default [
             component: SchoolDetails,
           },
           {
-            path: "invite",
-            component: SchoolInviteWrapper,
-            children: [
-              {
-                path: "",
-                name: "SchoolInviteWrapper",
-                redirect: { name: "InviteConsumers" },
-              },
-              {
-                path: "invite-students",
-                name: "InviteConsumers",
-                component: InviteConsumers,
-              },
-              {
-                path: "invite-staff",
-                name: "InviteCoordinators",
-                component: InviteCoordinators,
-              },
-            ],
-          },
-          {
             path: "programs-explorer",
             name: "ProgramsExplorer",
             component: ProgramsExplorer,
@@ -248,11 +227,6 @@ export default [
             path: "my-events",
             name: "MyEvents",
             component: MyEvents,
-          },
-          {
-            path: "student-list",
-            name: "ConsumerList",
-            component: ConsumerList,
           },
           {
             path: "events",
@@ -435,4 +409,32 @@ export function addChildrenRoutes(dashboardRouteName) {
 }
 
 // routes that should be addded under the user's dashboard route:
-export let dashboardChildrenRoutes = []
+export let dashboardChildrenRoutes = [
+  {
+    path: "student-list",
+    name: "ConsumerList",
+    component: ConsumerList,
+  },
+  {
+    path: "invite",
+    component: SchoolInviteWrapper,
+    children: [
+      {
+        path: "",
+        name: "SchoolInviteWrapper",
+        redirect: { name: "InviteConsumers" },
+      },
+      {
+        path: "invite-students",
+        name: "InviteConsumers",
+        component: InviteConsumers,
+      },
+      {
+        path: "invite-staff",
+        name: "InviteCoordinators",
+        component: InviteCoordinators,
+      },
+    ],
+  },
+
+]
