@@ -26,6 +26,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from server.termsofuse.models import TermsOfUseDocument
+from server.users.api_helpers import get_privilege_permission_classes, has_privilege
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     BaseProfile,
@@ -51,6 +52,7 @@ from server.utils.permission_classes import (
     AllowSupervisor,
     AllowVendor,
 )
+from server.utils.privileges import PRIV_USER_CONSUMER_EDIT, PRIV_USER_CONSUMER_VIEW
 
 from .renderers import UsersCSVRenderer
 from .serializers import (
@@ -221,11 +223,22 @@ class SupervisorProfileViewSet(ModelViewSet):
 
 
 class ManageConsumersViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
+    permission_classes = [
+        AllowCoordinator
+        | get_additional_permissions_write()
+        | get_privilege_permission_classes(
+            [PRIV_USER_CONSUMER_VIEW], [PRIV_USER_CONSUMER_EDIT]
+        )
+    ]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_backends = (
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
         return Consumer.objects.filter(
@@ -317,12 +330,21 @@ class ManageCoordinatorsViewSet(ModelViewSet):
 
 
 class ExportConsumerListViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
+    permission_classes = [
+        AllowCoordinator
+        | get_additional_permissions_write()
+        | has_privilege([PRIV_USER_CONSUMER_EDIT])
+    ]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
     search_fields = ["email", "name"]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_backends = (
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
         return Consumer.objects.filter(
@@ -465,6 +487,7 @@ class UserFileParser:
                 if row.get("gender")
                 else ConsumerProfile.Gender.UNKNOWN
             )
+            grade = row.get("grade").strip().upper() if row.get("grade") else ""
             if self.name_mandatory and not name:
                 self.errors.append(
                     {"row": row_index, "error": "invite.nameFieldIsRequired"}
@@ -482,7 +505,7 @@ class UserFileParser:
                     {
                         "name": name,
                         "email": email,
-                        "profile": {"gender": gender},
+                        "profile": {"gender": gender, "grade": grade},
                     }
                 )
                 self.email_set.add(email)

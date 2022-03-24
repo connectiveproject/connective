@@ -84,7 +84,7 @@ class ConsumerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumerProfile
-        fields = ["slug", "gender", "profile_picture", "phone_number"]
+        fields = ["slug", "gender", "grade", "profile_picture", "phone_number"]
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
@@ -139,7 +139,13 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Consumer
-        fields = ["slug", "name", "email", "profile", "school_name"]
+        fields = [
+            "slug",
+            "name",
+            "email",
+            "profile",
+            "school_name",
+        ]
         read_only_fields = ["school_name"]
         extra_kwargs = {
             "email": {
@@ -157,7 +163,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         consumer = Consumer.objects.create(**validated_data)
 
         if profile_data:
-            profile = ConsumerProfile.objects.get(user=consumer)
+            profile = consumer.profile
             for attr, value in profile_data.items():
                 setattr(profile, attr, value)
             profile.save()

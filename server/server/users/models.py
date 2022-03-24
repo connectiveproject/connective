@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.contenttypes import fields
 from django.contrib.contenttypes.models import ContentType
-from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.db.models import BooleanField, CharField, EmailField, TextChoices
 from django.db.models.base import ModelBase
@@ -337,7 +337,14 @@ class SupervisorProfile(BaseProfile):
 
 
 class ConsumerProfile(BaseProfile):
-    pass
+    grade = models.IntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(12),
+        ],
+        null=True,
+        blank=True,
+    )
 
 
 class VendorProfile(BaseProfile):
