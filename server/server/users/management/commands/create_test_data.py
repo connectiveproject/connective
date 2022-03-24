@@ -16,6 +16,7 @@ from server.organizations.models import (
 from server.schools.models import School, SchoolMember
 from server.users.models import Consumer, Coordinator, Instructor, Supervisor, Vendor
 from server.utils.model_fields import random_slug
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 from .constants import (
     ACTIVITY_PAYLOADS,
@@ -177,6 +178,7 @@ class Command(BaseCommand):
         )
 
         SchoolMember.objects.create(school=school, user=coord)
+        coord.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
         SchoolMember.objects.bulk_create(
             [SchoolMember(school=school, user=consumer) for consumer in consumers]
         )
