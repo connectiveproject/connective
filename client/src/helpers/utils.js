@@ -220,7 +220,7 @@ const utils = {
     return Object.keys(obj).find(key => obj[key] === value)
   },
   hasPrivilege(privilege) {
-    return store.state.user.userDetails.privileges.includes(privilege)
+    return store.state.user.userDetails.privileges && store.state.user.userDetails.privileges.includes(privilege)
   }
 }
 

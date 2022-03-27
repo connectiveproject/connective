@@ -104,6 +104,7 @@ export default [
             name: "Login",
             component: Login,
             beforeEnter: guards.loginIfAuthenticated,
+            props: true,
           },
         ],
       },

@@ -35,7 +35,7 @@ const auth = {
       Api.config.removeToken()
       await dispatch("flushState", null, { root: true })
       if (redirect) {
-        Vue.$router.push({ name: "Login" })
+        Vue.$router.push({ name: "Login", params: { forceRefresh: true } })
       }
     },
     async resetPassword(ctx, { uid, token, pass, passConfirm, idNumber }) {

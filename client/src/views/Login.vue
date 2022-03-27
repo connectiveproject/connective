@@ -79,7 +79,18 @@ export default {
     ValidationObserver,
     Modal,
   },
-
+  created() {
+    if (this.forceRefresh) {
+      // refresh Vue completely - this is needed after logout in order to clear router, store, etc.
+      window.location.reload()
+    }
+  },
+  props: {
+    forceRefresh: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data: () => ({
     showPass: false,
     popupMsg: "",
@@ -124,6 +135,6 @@ export default {
   letter-spacing: 2px !important;
 }
 .router-link:hover {
-    text-decoration: underline !important;
+  text-decoration: underline !important;
 }
 </style>
