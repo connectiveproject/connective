@@ -244,13 +244,11 @@ class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
     filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        schools = self.get_allowed_schools(self.request)
         queryset = Consumer.objects.all().order_by("email")
         if self.is_admin_scope(self.request):
             return queryset
-        return Consumer.objects.filter(school_member__school__in=schools).order_by(
-            "email"
-        )
+        schools = self.get_allowed_schools(self.request)
+        return queryset.filter(school_member__school__in=schools)
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
@@ -356,13 +354,11 @@ class ExportConsumerListViewSet(ModelViewSet, PrivilegeAccessMixin):
     filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        schools = self.get_allowed_schools(self.request)
         queryset = Consumer.objects.all()
         if self.is_admin_scope(self.request):
             return queryset
-        return Consumer.objects.filter(school_member__school__in=schools).order_by(
-            "email"
-        )
+        schools = self.get_allowed_schools(self.request)
+        return queryset.filter(school_member__school__in=schools)
 
 
 class ExportCoordinatorListViewSet(ModelViewSet):

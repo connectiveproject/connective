@@ -14,7 +14,7 @@
         action-one-icon="mdi-pencil"
         action-one-icon-color="grey darken-2"
         :headers="headers"
-        :items="items"
+        :items="formattedItems"
         :loading="loading"
         :totalActions="1"
         filter1Field="consumerprofile__grade"
@@ -142,6 +142,13 @@ export default {
       return [{ text: this.$t("filter.all"), value: "" }].concat(
         this.GRADE_CHOICES
       )
+    },
+    formattedItems() {
+      // same as items, but replace grade with translation:
+      return this.items.map(item => {
+        item.profile.grade = this.$t(`grades.${item.profile.grade}`)
+        return item
+      })
     },
   },
 
