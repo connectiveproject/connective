@@ -84,7 +84,7 @@ import Modal from "@/components/Modal"
 import Api from "@/api"
 import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
 import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
-import { GRADE_CHOICES } from "connective/views/ConsumerList/constants"
+import { GRADE_CHOICES } from "@/views/ConsumerList/constants"
 
 export default {
   name: "InviteStudents",
