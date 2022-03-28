@@ -22,6 +22,7 @@ export const GET_INSTRUCTOR_PROFILE_API_URL = `${SERVER_URL}/instructors_profile
 export const GET_VENDOR_PROFILE_API_URL = `${SERVER_URL}/vendors_profiles/me/`
 export const GET_SUPERVISOR_PROFILE_API_URL = `${SERVER_URL}/supervisors_profiles/me/`
 export const GET_USER_DETAILS_API_URL = `${SERVER_URL}/users/me/`
+export const GET_USER_PROFILE_API_URL = `${SERVER_URL}/users_profiles/me/`
 export const GET_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/me/`
 export const UPDATE_SCHOOL_DETAILS_API_URL = `${SERVER_URL}/schools/`
 export const GET_SCHOOL_LIST_API_URL = `${SERVER_URL}/schools/`

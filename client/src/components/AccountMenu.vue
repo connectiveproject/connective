@@ -24,7 +24,7 @@
       <v-list>
         <v-list-item>
           <v-list-item-avatar>
-            <avatar :avatar-options="avatarOptions" />
+            <avatar :avatar-options="avatarOptions || {}" />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title v-text="name" />

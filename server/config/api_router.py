@@ -33,6 +33,7 @@ from server.users.api.views import (
     ManageVendorsViewSet,
     MyNotificationsViewSet,
     SupervisorProfileViewSet,
+    UserProfileViewSet,
     UserViewSet,
     VendorProfileViewSet,
 )
@@ -43,6 +44,11 @@ else:
     router = SimpleRouter()
 
 router.register("users", UserViewSet)
+router.register(
+    "users_profiles",
+    UserProfileViewSet,
+    basename="users_profiles",
+)
 router.register(
     "consumers_profiles",
     ConsumerProfileViewSet,

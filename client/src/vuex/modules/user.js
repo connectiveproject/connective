@@ -12,6 +12,11 @@ function getDefaultState() {
       userType: null,
       superUser: false,
     },
+    profile: {
+      phoneNumber: null,
+      profilePicture: null,
+      jobDescription: null,
+    },
   }
 }
 
@@ -30,7 +35,10 @@ const user = {
     },
     SET_SUPER_USER(state, superUser) {
       state.superUser = superUser
-    }
+    },
+    SET_PROFILE(state, userProfile) {
+      state.profile = userProfile
+    },
   },
   getters: {
     isConsumer(state) {
@@ -79,7 +87,14 @@ const user = {
       commit("SET_SUPER_USER", superUser)
       return state.superUser
     },
-
+    async getProfile({ commit, state }) {
+      if (!state.profile.phoneNumber) {
+        // fetch if not in cache
+        let res = await Api.user.getProfile()
+        commit("SET_PROFILE", res.data)
+      }
+      return state.profile
+    },
   },
 }
 

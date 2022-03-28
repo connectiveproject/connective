@@ -49,6 +49,7 @@ from server.utils.analytics_utils import event, identify_track
 from server.utils.db_utils import get_additional_permissions_write
 from server.utils.factories import get_user_utils
 from server.utils.permission_classes import (
+    AllowAuthenticatedReadOnly,
     AllowConsumer,
     AllowCoordinator,
     AllowInstructor,
@@ -69,6 +70,7 @@ from .serializers import (
     ManageVendorsSerializer,
     NotificationsSerializer,
     SupervisorProfileSerializer,
+    UserProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -164,6 +166,27 @@ class ConsumerProfileViewSet(ModelViewSet):
     def me(self, request):
         serializer = ConsumerProfileSerializer(
             request.user.consumerprofile, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class UserProfileViewSet(ModelViewSet):
+    permission_classes = [
+        AllowAuthenticatedReadOnly | get_additional_permissions_write()
+    ]
+    serializer_class = UserProfileSerializer
+
+    lookup_field = "user__slug"
+
+    def get_queryset(self):
+        return get_user_utils().get_user_profile(self.request.user)
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
+        serializer = UserProfileSerializer(
+            profile,
+            context={"request": request},
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 

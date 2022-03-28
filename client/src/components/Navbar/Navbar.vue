@@ -21,10 +21,11 @@
         data-testid="navbar-account-menu"
       >
         <account-menu
-          :avatar-options="profile.profilePicture"
+          :avatar-options="profile.profilePicture || {}"
           :name="userDetails.name"
           :email="userDetails.email"
           :buttons="accountButtons"
+          v-if="profile"
         />
       </div>
       <template v-if="!$vuetify.breakpoint.xs" v-slot:extension>

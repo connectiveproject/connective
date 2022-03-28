@@ -88,6 +88,20 @@ class ConsumerProfileSerializer(serializers.ModelSerializer):
         fields = ["slug", "gender", "grade", "profile_picture", "phone_number"]
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = CoordinatorProfile
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
+
+
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
     slug = serializers.ReadOnlyField(source="user.slug")
 

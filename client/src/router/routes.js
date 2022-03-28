@@ -1,7 +1,7 @@
 import i18n from "@/plugins/i18n"
-import router from "@/router"
 import guards, { chainGuards } from "@/router/guards"
 import Welcome from "@/layouts/Welcome"
+import GeneralDashboard from "@/layouts/GeneralDashboard"
 import CoordinatorDashboard from "@/layouts/CoordinatorDashboard"
 import StudentDashboard from "@/layouts/StudentDashboard"
 import InstructorDashboard from "@/layouts/InstructorDashboard"
@@ -55,7 +55,7 @@ import VendorMyEvents from "@/views/MyEvents/VendorMyEvents"
 import CoordinatorEventOrderStatus from "@/views/CoordinatorEventOrderStatus"
 
 
-export default [
+let connectiveRoutes = [
   {
     path: "/",
     redirect: `/${i18n.locale}/welcome/login`,
@@ -393,6 +393,13 @@ export default [
         component: GenericError,
         props: true,
       },
+      {
+        path: "mp",
+        component: GeneralDashboard,
+        name: "GeneralDashboard",
+        beforeEnter: chainGuards([guards.populateUserData]),
+        children: [],
+      },
     ],
   },
   {
@@ -401,16 +408,8 @@ export default [
   },
 ]
 
-// adds dashboardChildrenRoutes to the given dashboard route. Should be called once we
-// know the user's dashboard:
-export function addChildrenRoutes(dashboardRouteName) {
-  for (const route of dashboardChildrenRoutes) {
-    router.addRoute(dashboardRouteName, route)
-  }
-}
-
-// routes that should be addded under the user's dashboard route:
-export let dashboardChildrenRoutes = [
+// Routes that are not user-type specific. New routes should be added here:
+let generalChildrenRoutes = [
   {
     path: "student-list",
     name: "ConsumerList",
@@ -439,3 +438,19 @@ export let dashboardChildrenRoutes = [
   },
 
 ]
+
+export function addChildToComponent(routes, componentName, childToAdd) {
+  const component = routes.children.find(r => r.name === componentName)
+  if (!component) {
+    // couldn't find the child component:
+    throw new Error(`Cannot find component: ${componentName}`)
+  }
+  component.children.push(childToAdd)
+}
+
+// embed the general routes into the main routes:
+for (const child of generalChildrenRoutes) {
+  addChildToComponent(connectiveRoutes[1], "GeneralDashboard", child)
+}
+
+export default connectiveRoutes
