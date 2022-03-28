@@ -268,6 +268,11 @@ class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
 
     def get_queryset(self):
         queryset = Consumer.objects.all().order_by("email")
+        my_school_only: bool = self.request.query_params.get("my_school_only", False)
+        if my_school_only:
+            return queryset.filter(
+                school_member__school=self.request.user.school_member.school
+            )
         if self.is_admin_scope(self.request):
             return queryset
         schools = self.get_allowed_schools(self.request)
@@ -378,6 +383,11 @@ class ExportConsumerListViewSet(ModelViewSet, PrivilegeAccessMixin):
 
     def get_queryset(self):
         queryset = Consumer.objects.all()
+        my_school_only: bool = self.request.query_params.get("my_school_only", False)
+        if my_school_only:
+            return queryset.filter(
+                school_member__school=self.request.user.school_member.school
+            )
         if self.is_admin_scope(self.request):
             return queryset
         schools = self.get_allowed_schools(self.request)

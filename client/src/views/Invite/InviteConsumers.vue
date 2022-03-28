@@ -146,7 +146,9 @@ export default {
     formattedItems() {
       // same as items, but replace grade with translation:
       return this.items.map(item => {
-        item.profile.grade = this.$t(`grades.${item.profile.grade}`)
+        item.profile.grade = item.profile.grade
+          ? this.$t(`grades.${item.profile.grade}`)
+          : ""
         return item
       })
     },
