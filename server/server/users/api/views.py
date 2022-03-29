@@ -26,6 +26,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from server.termsofuse.models import TermsOfUseDocument
+from server.users.api_helpers import (
+    PrivilegeAccessMixin,
+    get_privilege_permission_classes,
+)
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
     BaseProfile,
@@ -45,12 +49,14 @@ from server.utils.analytics_utils import event, identify_track
 from server.utils.db_utils import get_additional_permissions_write
 from server.utils.factories import get_user_utils
 from server.utils.permission_classes import (
+    AllowAuthenticatedReadOnly,
     AllowConsumer,
     AllowCoordinator,
     AllowInstructor,
     AllowSupervisor,
     AllowVendor,
 )
+from server.utils.privileges import PRIV_USER_CONSUMER_EDIT, PRIV_USER_CONSUMER_VIEW
 
 from .renderers import UsersCSVRenderer
 from .serializers import (
@@ -64,6 +70,7 @@ from .serializers import (
     ManageVendorsSerializer,
     NotificationsSerializer,
     SupervisorProfileSerializer,
+    UserProfileSerializer,
     UserSerializer,
     VendorProfileSerializer,
 )
@@ -163,6 +170,27 @@ class ConsumerProfileViewSet(ModelViewSet):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
+class UserProfileViewSet(ModelViewSet):
+    permission_classes = [
+        AllowAuthenticatedReadOnly | get_additional_permissions_write()
+    ]
+    serializer_class = UserProfileSerializer
+
+    lookup_field = "user__slug"
+
+    def get_queryset(self):
+        return get_user_utils().get_user_profile(self.request.user)
+
+    @action(detail=False, methods=["GET"])
+    def me(self, request):
+        profile: BaseProfile = get_user_utils().get_user_profile(request.user)
+        serializer = UserProfileSerializer(
+            profile,
+            context={"request": request},
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
 class CoordinatorProfileViewSet(ModelViewSet):
     permission_classes = [AllowCoordinator | get_additional_permissions_write()]
     serializer_class = CoordinatorProfileSerializer
@@ -220,17 +248,35 @@ class SupervisorProfileViewSet(ModelViewSet):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-class ManageConsumersViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
+class ManageConsumersViewSet(ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_USER_CONSUMER_VIEW]
+    privileges_write = [PRIV_USER_CONSUMER_EDIT]
+
+    permission_classes = [
+        get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
+    ]
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     search_fields = ["email", "name"]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_backends = (
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        return Consumer.objects.filter(
-            school_member__school=self.request.user.school_member.school
-        ).order_by("email")
+        queryset = Consumer.objects.all().order_by("email")
+        my_school_only: bool = self.request.query_params.get("my_school_only", False)
+        if my_school_only:
+            return queryset.filter(
+                school_member__school=self.request.user.school_member.school
+            )
+        if self.is_admin_scope(self.request):
+            return queryset
+        schools = self.get_allowed_schools(self.request)
+        return queryset.filter(school_member__school__in=schools)
 
     @action(detail=False, methods=["POST"])
     def bulk_create(self, request):
@@ -316,18 +362,36 @@ class ManageCoordinatorsViewSet(ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ExportConsumerListViewSet(ModelViewSet):
-    permission_classes = [AllowCoordinator | get_additional_permissions_write()]
+class ExportConsumerListViewSet(ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_USER_CONSUMER_VIEW]
+    privileges_write = [PRIV_USER_CONSUMER_EDIT]
+    permission_classes = [
+        get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
+    ]
+
     serializer_class = ManageConsumersSerializer
     lookup_field = "slug"
     renderer_classes = (UsersCSVRenderer,)
     search_fields = ["email", "name"]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_backends = (
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = ["consumerprofile__grade"]
 
     def get_queryset(self):
-        return Consumer.objects.filter(
-            school_member__school=self.request.user.school_member.school
-        )
+        queryset = Consumer.objects.all()
+        my_school_only: bool = self.request.query_params.get("my_school_only", False)
+        if my_school_only:
+            return queryset.filter(
+                school_member__school=self.request.user.school_member.school
+            )
+        if self.is_admin_scope(self.request):
+            return queryset
+        schools = self.get_allowed_schools(self.request)
+        return queryset.filter(school_member__school__in=schools)
 
 
 class ExportCoordinatorListViewSet(ModelViewSet):
@@ -465,6 +529,7 @@ class UserFileParser:
                 if row.get("gender")
                 else ConsumerProfile.Gender.UNKNOWN
             )
+            grade = row.get("grade").strip().upper() if row.get("grade") else ""
             if self.name_mandatory and not name:
                 self.errors.append(
                     {"row": row_index, "error": "invite.nameFieldIsRequired"}
@@ -482,7 +547,7 @@ class UserFileParser:
                     {
                         "name": name,
                         "email": email,
-                        "profile": {"gender": gender},
+                        "profile": {"gender": gender, "grade": grade},
                     }
                 )
                 self.email_set.add(email)

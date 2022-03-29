@@ -79,7 +79,6 @@ export default {
     ValidationObserver,
     Modal,
   },
-
   data: () => ({
     showPass: false,
     popupMsg: "",
@@ -124,6 +123,6 @@ export default {
   letter-spacing: 2px !important;
 }
 .router-link:hover {
-    text-decoration: underline !important;
+  text-decoration: underline !important;
 }
 </style>

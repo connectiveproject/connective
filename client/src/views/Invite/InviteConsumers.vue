@@ -14,9 +14,12 @@
         action-one-icon="mdi-pencil"
         action-one-icon-color="grey darken-2"
         :headers="headers"
-        :items="items"
+        :items="formattedItems"
         :loading="loading"
         :totalActions="1"
+        filter1Field="consumerprofile__grade"
+        :filter1Label="$t('general.grade')"
+        :filter1Items="gradeChoices"
         :no-data-text="$t('invite.clickTheButtonBelowToInviteUsers!')"
         :action-one-icon-tooltip="$tc('userActions.edit', 2)"
         :footerBtnOneText="`${$tc('invite.invite', 1)} ${$t(
@@ -81,6 +84,7 @@ import Modal from "@/components/Modal"
 import Api from "@/api"
 import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
 import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
+import { GRADE_CHOICES } from "@/views/ConsumerList/constants"
 
 export default {
   name: "InviteStudents",
@@ -102,7 +106,13 @@ export default {
           value: "profile.gender",
           sortable: false,
         },
+        {
+          text: this.$t("general.grade"),
+          value: "profile.grade",
+          sortable: false,
+        },
       ],
+      GRADE_CHOICES,
       isDialogActive: false,
       popupMsg: "",
       showInfoModal: false,
@@ -127,6 +137,20 @@ export default {
         )}`
       }
       return `${this.$tc("invite.invite", 1)} ${this.$t("general.student")}`
+    },
+    gradeChoices() {
+      return [{ text: this.$t("filter.all"), value: "" }].concat(
+        this.GRADE_CHOICES
+      )
+    },
+    formattedItems() {
+      // same as items, but replace grade with translation:
+      return this.items.map(item => {
+        item.profile.grade = item.profile.grade
+          ? this.$t(`grades.${item.profile.grade}`)
+          : ""
+        return item
+      })
     },
   },
 

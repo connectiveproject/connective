@@ -2,7 +2,7 @@ from server.utils.renderers import GenericCSVRenderer
 
 
 class UsersCSVRenderer(GenericCSVRenderer):
-    fields = ["name", "email", "gender"]
+    fields = ["name", "email", "gender", "grade"]
 
     def render(self, data, media_type=None, renderer_context=None, writer_opts=None):
         """
@@ -16,6 +16,7 @@ class UsersCSVRenderer(GenericCSVRenderer):
                     **(
                         {"gender": obj["profile"]["gender"]} if "profile" in obj else {}
                     ),
+                    **({"grade": obj["profile"]["grade"]} if "profile" in obj else {}),
                 }
                 for obj in results
             ]

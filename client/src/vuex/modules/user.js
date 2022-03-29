@@ -1,6 +1,8 @@
 import Api from "@/api"
 import { SERVER } from "@/helpers/constants/constants"
 
+const SUPER_USER_TYPE = "GATEKEEPER"
+
 function getDefaultState() {
   return {
     userDetails: {
@@ -12,6 +14,12 @@ function getDefaultState() {
       userType: null,
       superUser: false,
     },
+    profile: {
+      phoneNumber: null,
+      profilePicture: null,
+      jobDescription: null,
+    },
+    impersonateUserType: false,
   }
 }
 
@@ -30,6 +38,12 @@ const user = {
     },
     SET_SUPER_USER(state, superUser) {
       state.superUser = superUser
+    },
+    SET_PROFILE(state, userProfile) {
+      state.profile = userProfile
+    },
+    SET_IMPERSONATE_USER_TYPE(state, impersonateUserType) {
+      state.impersonateUserType = impersonateUserType
     }
   },
   getters: {
@@ -48,6 +62,9 @@ const user = {
     isSupervisor(state) {
       return state.userDetails.userType === SERVER.userTypes.supervisor
     },
+    isImpersonateUserType(state) {
+      return state.impersonateUserType
+    },
   },
   actions: {
     flushState({ commit }) {
@@ -58,6 +75,9 @@ const user = {
         // fetch if not in cache
         let res = await Api.user.getUserDetails()
         commit("SET_USER_DETAILS", res.data)
+        if (state.userDetails.userType === SUPER_USER_TYPE) {
+          commit("SET_SUPER_USER", true)
+        }
       }
       window.analytics.identify(state.userDetails.slug, {
         name: state.userDetails.name,
@@ -73,13 +93,21 @@ const user = {
     },
     updateUserType({ commit, state }, { userType }) {
       commit("SET_USER_TYPE", userType)
+      commit("SET_IMPERSONATE_USER_TYPE", state.superUser && userType !== SUPER_USER_TYPE)
       return state.userType
     },
     async updateSuperUser({ commit, state }, { superUser }) {
       commit("SET_SUPER_USER", superUser)
       return state.superUser
     },
-
+    async getProfile({ commit, state }) {
+      if (!state.profile.phoneNumber) {
+        // fetch if not in cache
+        let res = await Api.user.getProfile()
+        commit("SET_PROFILE", res.data)
+      }
+      return state.profile
+    },
   },
 }
 

@@ -10,6 +10,7 @@ from rest_framework.test import APIClient
 from server.schools.models import SchoolMember
 from server.users.api.views import UserViewSet
 from server.users.models import BaseProfile, User
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 pytestmark = pytest.mark.django_db
 RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL")[8:]
@@ -60,6 +61,7 @@ class TestManageConsumersView:
             "profile": {"gender": BaseProfile.Gender.MALE},
         }
         SchoolMember.objects.create(user=coordinator, school=school)
+        coordinator.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
 
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
@@ -111,7 +113,7 @@ class TestManageConsumersView:
         """
         create_payload = {"email": "new-consumer@example.com", "profile": {}}
         SchoolMember.objects.create(user=coordinator, school=school)
-
+        coordinator.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
         client = APIClient(coordinator)
         client.force_authenticate(coordinator)
         client.post(

@@ -85,6 +85,10 @@ const school = {
           ? rootGetters["pagination2/apiParams"]
           : rootGetters["pagination/apiParams"]
       }
+      const impersonateUserType = rootGetters["user/isImpersonateUserType"]
+      if (impersonateUserType) {
+        params["my_school_only"] = true
+      }
       const mutation = override ? "SET_STUDENT_LIST" : "ADD_STUDENTS_TO_LIST"
       let res = await Api.school.getStudentList(params)
       commit(mutation, res.data.results)

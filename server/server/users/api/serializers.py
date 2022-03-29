@@ -17,6 +17,7 @@ from server.users.models import (
     VendorProfile,
 )
 from server.users.notifications import NotificationRegistry, get_notification_registry
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 from ..helpers import send_user_invite
 
@@ -84,7 +85,21 @@ class ConsumerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumerProfile
-        fields = ["slug", "gender", "profile_picture", "phone_number"]
+        fields = ["slug", "gender", "grade", "profile_picture", "phone_number"]
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField(source="user.slug")
+
+    class Meta:
+        model = CoordinatorProfile
+        fields = [
+            "slug",
+            "gender",
+            "profile_picture",
+            "job_description",
+            "phone_number",
+        ]
 
 
 class CoordinatorProfileSerializer(serializers.ModelSerializer):
@@ -139,7 +154,13 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Consumer
-        fields = ["slug", "name", "email", "profile", "school_name"]
+        fields = [
+            "slug",
+            "name",
+            "email",
+            "profile",
+            "school_name",
+        ]
         read_only_fields = ["school_name"]
         extra_kwargs = {
             "email": {
@@ -157,7 +178,7 @@ class ManageConsumersSerializer(serializers.ModelSerializer):
         consumer = Consumer.objects.create(**validated_data)
 
         if profile_data:
-            profile = ConsumerProfile.objects.get(user=consumer)
+            profile = consumer.profile
             for attr, value in profile_data.items():
                 setattr(profile, attr, value)
             profile.save()
@@ -210,10 +231,9 @@ class ManageCoordinatorsSerializer(serializers.ModelSerializer):
         create user, attach to school, invite user via email
         """
         coordinator = Coordinator.objects.create(**validated_data)
-
-        SchoolMember.objects.create(
-            user=coordinator, school=self.context["request"].user.school_member.school
-        )
+        school = self.context["request"].user.school_member.school
+        coordinator.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
+        SchoolMember.objects.create(user=coordinator, school=school)
         send_user_invite(coordinator)
         return coordinator
 
