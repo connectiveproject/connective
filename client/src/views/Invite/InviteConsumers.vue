@@ -85,6 +85,7 @@ import Api from "@/api"
 import AddStudentDialog from "@/components/AddDialog/AddStudentDialog"
 import PaginationComplexTable from "@/components/Tables/PaginationComplexTable"
 import { GRADE_CHOICES } from "@/views/ConsumerList/constants"
+import cloneDeep from "lodash/cloneDeep"
 
 export default {
   name: "InviteStudents",
@@ -108,7 +109,7 @@ export default {
         },
         {
           text: this.$t("general.grade"),
-          value: "profile.grade",
+          value: "profile.gradeDisplay",
           sortable: false,
         },
       ],
@@ -144,13 +145,15 @@ export default {
       )
     },
     formattedItems() {
-      // same as items, but replace grade with translation:
-      return this.items.map(item => {
-        item.profile.grade = item.profile.grade
+      // duplicate the items so that we can mutate them
+      const itemsToDisplay = cloneDeep(this.items)
+      // add grade translation as a new field:
+      itemsToDisplay.forEach(item => {
+        item.profile.gradeDisplay = item.profile.grade
           ? this.$t(`grades.${item.profile.grade}`)
           : ""
-        return item
       })
+      return itemsToDisplay
     },
   },
 
@@ -202,7 +205,7 @@ export default {
     ),
 
     editStudent(student) {
-      this.dialogStudent = Object.assign({}, student)
+      this.dialogStudent = cloneDeep(student)
       delete this.dialogStudent.slug
       this.dialogSlug = student.slug
       this.dialogMode = "edit"

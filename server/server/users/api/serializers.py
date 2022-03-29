@@ -5,6 +5,7 @@ from rest_framework.validators import UniqueValidator
 from server.organizations.models import OrganizationMember
 from server.schools.models import SchoolMember
 from server.users.models import (
+    BaseProfile,
     Consumer,
     ConsumerProfile,
     Coordinator,
@@ -92,7 +93,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     slug = serializers.ReadOnlyField(source="user.slug")
 
     class Meta:
-        model = CoordinatorProfile
+        model = BaseProfile
         fields = [
             "slug",
             "gender",
