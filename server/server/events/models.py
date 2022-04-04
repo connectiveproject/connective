@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
+from server.schools.models import School
 from server.users.models import User
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
@@ -37,6 +38,13 @@ class EventOrder(get_base_model()):
     school_group = models.ForeignKey(
         SchoolActivityGroup,
         on_delete=models.CASCADE,
+        null=True,
+    )
+    school = models.ForeignKey(
+        School,
+        on_delete=models.CASCADE,
+        related_name="school_event_orders",
+        blank=True,
         null=True,
     )
     title = models.CharField(max_length=250, null=True, blank=True)

@@ -9,6 +9,7 @@ from rest_framework import filters, viewsets
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityOrder
+from server.schools.models import School
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
     get_privilege_permission_classes,
@@ -73,6 +74,7 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         return result.filter(
             Q(school_group__activity_order__activity__originization__in=organizations)
             | Q(school_group__activity_order__school__in=schools)
+            | Q(school__in=schools)
         )
 
     def perform_create(self, serializer):
@@ -80,15 +82,18 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         # or this is no-organization order, then set status to APPROVED.
         # Otherwise, set status to PENDING_APPROVAL.
         status: EventOrder.Status = EventOrder.Status.PENDING_APPROVAL
+        school: School = None
+        user = self.request.user
         if "school_group" not in serializer.validated_data:
             # no school group specified, so this is a no-organization order ==> set status to APPROVED
             logger.info("no school group specified, set status to APPROVED")
             status = EventOrder.Status.APPROVED
+            school = user.school_member.school
         else:
+            school = serializer.validated_data["school_group"].activity_order.school
             organization = serializer.validated_data[
                 "school_group"
             ].activity_order.activity.originization
-            user = self.request.user
             user_scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
             if PRIV_EVENT_ORDER_APPROVE in user_scopes and (
                 user_scopes[PRIV_EVENT_ORDER_APPROVE].is_admin_scope()
@@ -100,7 +105,7 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
                 )
                 status = EventOrder.Status.APPROVED
         logger.info(f"Saving new order with status={status}")
-        serializer.save(status=status)
+        serializer.save(status=status, school=school)
 
 
 class EventViewSet(viewsets.ModelViewSet):

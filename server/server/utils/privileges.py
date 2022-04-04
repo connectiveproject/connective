@@ -59,6 +59,9 @@ ROLES = {
             PRIV_USER_COORDINATOR_EDIT,
             PRIV_USER_INSTRUCTOR_EDIT,
             PRIV_USER_INSTRUCTOR_VIEW,
+            PRIV_EVENT_ORDER_VIEW,
+            PRIV_EVENT_ORDER_EDIT,
+            PRIV_EVENT_ORDER_APPROVE,
         ]
     ),
 }
