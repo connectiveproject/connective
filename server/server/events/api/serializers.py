@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityGroup
-from server.users.models import Consumer
+from server.users.models import Consumer, Instructor
 from server.utils.analytics_utils import event
 from server.utils.analytics_utils.mixins import (
     TrackSerializerCreateMixin,
@@ -37,6 +37,7 @@ class EventOrderSerializer(
     school_group = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=SchoolActivityGroup.objects.all(),
+        required=False,
     )
     school_group_name = serializers.CharField(
         source="school_group.name",
@@ -49,6 +50,20 @@ class EventOrderSerializer(
     school_name = serializers.CharField(
         source="school_group.activity_order.school.name",
         read_only=True,
+    )
+    additional_instructors = serializers.SlugRelatedField(
+        many=True,
+        read_only=False,
+        queryset=Instructor.objects.all(),
+        slug_field="slug",
+        required=False,
+    )
+    instructor = serializers.SlugRelatedField(
+        many=False,
+        read_only=False,
+        queryset=Instructor.objects.all(),
+        slug_field="slug",
+        required=False,
     )
 
     class Meta:
@@ -67,8 +82,16 @@ class EventOrderSerializer(
             "school_group_name",
             "activity_name",
             "school_name",
+            "additional_instructors",
+            "title",
+            "instructor",
+            "filter_grades",
+            "filter_genders",
         ]
         read_only_fields = ["slug", "created", "updated"]
+
+    def is_set(self, data, attribute):
+        return attribute in data and data[attribute]
 
     def validate(self, data):
         """
@@ -81,6 +104,24 @@ class EventOrderSerializer(
         ):
             raise serializers.ValidationError(
                 {"end_time": "end time must occur after start time"}
+            )
+        has_consumer_filters = self.is_set(data, "filter_grades") and self.is_set(
+            data, "filter_genders"
+        )
+
+        if not has_consumer_filters and (
+            self.is_set(data, "filter_genders") or self.is_set(data, "filter_grades")
+        ):
+            raise serializers.ValidationError(
+                {
+                    "filter_genders": "filter_genders and filter_grades must be set or empty together"
+                }
+            )
+        if (has_consumer_filters and self.is_set(data, "school_group")) or (
+            not has_consumer_filters and not self.is_set(data, "school_group")
+        ):
+            raise serializers.ValidationError(
+                "one of school_group or filter_* fields must be set"
             )
         return data
 

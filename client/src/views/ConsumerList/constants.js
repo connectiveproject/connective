@@ -76,3 +76,14 @@ export const GRADE_CHOICES = [
   },
 
 ]
+
+export const GENDER_CHOICES = [
+  {
+    text: i18n.t("genderFilters.boys"),
+    value: "MALE",
+  },
+  {
+    text: i18n.t("genderFilters.girls"),
+    value: "FEMALE",
+  },
+]

@@ -1,3 +1,6 @@
+import logging
+from typing import Dict
+
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
@@ -6,6 +9,11 @@ from rest_framework import filters, viewsets
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityOrder
+from server.users.api_helpers import (
+    PrivilegeAccessMixin,
+    get_privilege_permission_classes,
+)
+from server.users.models import RoleScope
 from server.utils.db_utils import (
     get_additional_permissions_readonly,
     get_additional_permissions_write,
@@ -17,6 +25,11 @@ from server.utils.permission_classes import (
     AllowInstructor,
     AllowVendor,
 )
+from server.utils.privileges import (
+    PRIV_EVENT_ORDER_APPROVE,
+    PRIV_EVENT_ORDER_EDIT,
+    PRIV_EVENT_ORDER_VIEW,
+)
 
 from .serializers import (
     ConsumerEventFeedbackSerializer,
@@ -25,10 +38,16 @@ from .serializers import (
     EventSerializer,
 )
 
+logger = logging.getLogger(__name__)
 
-class EventOrderViewSet(viewsets.ModelViewSet):
+
+class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_EVENT_ORDER_VIEW]
+    privileges_write = [PRIV_EVENT_ORDER_EDIT]
+
     permission_classes = [
-        AllowCoordinator | AllowVendor | get_additional_permissions_write()
+        get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
     ]
     serializer_class = EventOrderSerializer
     lookup_field = "slug"
@@ -46,15 +65,42 @@ class EventOrderViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
-        user = self.request.user
-        if user.user_type == get_user_model().Types.VENDOR:
-            return EventOrder.objects.filter(
-                school_group__activity_order__activity__originization=user.organization_member.organization
-            ).order_by("-start_time")
+        result = EventOrder.objects.all().order_by("-start_time")
+        if self.is_admin_scope(self.request):
+            return result
+        organizations = self.get_allowed_organizations(self.request)
+        schools = self.get_allowed_schools(self.request)
+        return result.filter(
+            Q(school_group__activity_order__activity__originization__in=organizations)
+            | Q(school_group__activity_order__school__in=schools)
+        )
 
-        return EventOrder.objects.filter(
-            school_group__activity_order__school=user.school_member.school
-        ).order_by("-start_time")
+    def perform_create(self, serializer):
+        # create new event order. If the user has permission to approve orders for this organization,
+        # or this is no-organization order, then set status to APPROVED.
+        # Otherwise, set status to PENDING_APPROVAL.
+        status: EventOrder.Status = EventOrder.Status.PENDING_APPROVAL
+        if "school_group" not in serializer.validated_data:
+            # no school group specified, so this is a no-organization order ==> set status to APPROVED
+            logger.info("no school group specified, set status to APPROVED")
+            status = EventOrder.Status.APPROVED
+        else:
+            organization = serializer.validated_data[
+                "school_group"
+            ].activity_order.activity.originization
+            user = self.request.user
+            user_scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
+            if PRIV_EVENT_ORDER_APPROVE in user_scopes and (
+                user_scopes[PRIV_EVENT_ORDER_APPROVE].is_admin_scope()
+                or organization
+                in user_scopes[PRIV_EVENT_ORDER_APPROVE].get_organizations()
+            ):
+                logger.info(
+                    "user has permissions to approve orders in this organization, set status to APPROVED"
+                )
+                status = EventOrder.Status.APPROVED
+        logger.info(f"Saving new order with status={status}")
+        serializer.save(status=status)
 
 
 class EventViewSet(viewsets.ModelViewSet):

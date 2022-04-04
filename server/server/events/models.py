@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
+from server.users.models import User
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
@@ -38,6 +39,22 @@ class EventOrder(get_base_model()):
         on_delete=models.CASCADE,
         null=True,
     )
+    title = models.CharField(max_length=250, null=True, blank=True)
+    filter_genders = models.JSONField(null=True, blank=True)
+    filter_grades = models.JSONField(null=True, blank=True)
+
+    instructor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="instructor_event_orders",
+    )
+    additional_instructors = models.ManyToManyField(
+        User,
+        related_name="additional_instructor_event_orders",
+        blank=True,
+    )
     locations_name = models.CharField(
         max_length=250,
         null=True,
@@ -57,6 +74,17 @@ class EventOrder(get_base_model()):
             raise ValidationError(
                 {"end_time": _("end time must occur after start time")}
             )
+        has_consumer_filters = self.filter_genders and self.filter_grades
+        if not has_consumer_filters and (self.filter_genders or self.filter_genders):
+            raise ValidationError(
+                {
+                    "filter_genders": "filter_genders and filter_grades must be set or empty together"
+                }
+            )
+        if (has_consumer_filters and self.school_group) or (
+            not has_consumer_filters and not self.school_group
+        ):
+            raise ValidationError("one of school_group or filter_* fields must be set")
 
 
 class Event(get_base_model()):
@@ -74,6 +102,21 @@ class Event(get_base_model()):
     )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    title = models.CharField(max_length=250, null=True, blank=True)
+    filter_genders = models.JSONField(null=True, blank=True)
+    filter_grades = models.JSONField(null=True, blank=True)
+    instructor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="instructor_events",
+    )
+    additional_instructors = models.ManyToManyField(
+        User,
+        related_name="additional_instructor_events",
+        blank=True,
+    )
     consumers = models.ManyToManyField(
         "users.Consumer",
         blank=True,
@@ -86,6 +129,7 @@ class Event(get_base_model()):
     school_group = models.ForeignKey(
         SchoolActivityGroup,
         on_delete=models.SET_NULL,
+        blank=True,
         null=True,
     )
     locations_name = models.CharField(
