@@ -9,7 +9,7 @@ from server.utils.analytics_utils import event as analytics_event
 from server.utils.analytics_utils import field as analytics_field
 from server.utils.factories import ConnectiveUtils, get_utils
 
-from .models import Event, EventOrder
+from .models import Event, EventOrder, EventSeries
 
 
 def _track_events_creation(events):
@@ -48,6 +48,8 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
             _track_events_creation([e])
             return
 
+        event_series = EventSeries.objects.create()
+
         events_to_create = []
         utils: ConnectiveUtils = get_utils()
         # create reoccuring events. Since server time is in UTC, we need to take into account the timezone of the
@@ -64,6 +66,7 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
             end_time_customer_tz = first_end_customer_tz + timedelta(days=i * 7)
             events_to_create.append(
                 Event(
+                    series=event_series,
                     school_group=instance.school_group,
                     locations_name=instance.locations_name,
                     # start/end time in UTC:
@@ -73,6 +76,7 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
                 )
             )
         Event.objects.bulk_create(events_to_create)
+
         _track_events_creation(events_to_create)
 
 

@@ -8,7 +8,31 @@ from server.organizations.models import SchoolActivityGroup
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
+# start series
 
+
+class EventSeries(get_base_model()):
+    slug = models.SlugField(max_length=40, default=random_slug, unique=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Event Series")
+        verbose_name_plural = _("Event Series")
+
+    def delete_future_events(self):
+        """
+        Cancel all future events of the same series from now.
+        """
+        return self.events.filter(
+            end_time__gte=timezone.now(),
+        ).delete()
+
+    def __str__(self):
+        return f"series slug: {self.slug} | first event group: {self.events.first().school_group}"
+
+
+# end series
 class EventOrder(get_base_model()):
     class Status(models.TextChoices):
         CANCELLED = "CANCELLED", "Cancelled"
@@ -19,6 +43,7 @@ class EventOrder(get_base_model()):
     class Recurrence(models.TextChoices):
         ONE_TIME = "ONE_TIME", "One Time"
         WEEKLY = "WEEKLY", "Weekly"
+        WEEKLY_NUMBERED = "WEEKLY_NUMBERED", "Weekly (numbered)"
 
     base_status = Status.PENDING_APPROVAL
     base_recurrence = Recurrence.ONE_TIME
@@ -106,6 +131,13 @@ class Event(get_base_model()):
         ],
         null=True,
         blank=True,
+    )
+    series = models.ForeignKey(
+        EventSeries,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="events",
     )
 
     # date/time when the event summarized or marked as canceled by the instructor
