@@ -136,7 +136,7 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         read_only=True,
     )
     school_name = serializers.CharField(
-        source="school_group.activity_order.school.name",
+        source="event_order.school.name",
         read_only=True,
     )
     school_group_name = serializers.CharField(
@@ -199,7 +199,7 @@ class EventSerializer(
     total_consumers_count = serializers.SerializerMethodField(read_only=True)
     attended_consumers_count = serializers.SerializerMethodField(read_only=True)
     instructor_name = serializers.CharField(
-        source="school_group.instructor.name", default="", read_only=True
+        source="instructor.name", default="", read_only=True
     )
 
     class Meta:
@@ -226,6 +226,7 @@ class EventSerializer(
             "total_consumers_count",
             "attended_consumers_count",
             "instructor_name",
+            "title",
         ]
         read_only_fields = [
             "slug",
@@ -237,7 +238,8 @@ class EventSerializer(
 
     def get_total_consumers_count(self, obj):
         if (
-            obj.school_group.group_type
+            not obj.school_group
+            or obj.school_group.group_type
             == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
         ):
             return "-"
@@ -245,7 +247,8 @@ class EventSerializer(
 
     def get_attended_consumers_count(self, obj):
         if (
-            obj.school_group.group_type
+            not obj.school_group
+            or obj.school_group.group_type
             == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
         ):
             return obj.ext_consumers_attended

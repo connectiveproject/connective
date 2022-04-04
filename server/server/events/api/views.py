@@ -8,7 +8,6 @@ from rest_framework import filters, viewsets
 
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
-from server.organizations.models import SchoolActivityOrder
 from server.schools.models import School
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
@@ -22,14 +21,14 @@ from server.utils.db_utils import (
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
-    AllowCoordinator,
     AllowInstructor,
-    AllowVendor,
 )
 from server.utils.privileges import (
+    PRIV_EVENT_EDIT,
     PRIV_EVENT_ORDER_APPROVE,
     PRIV_EVENT_ORDER_EDIT,
     PRIV_EVENT_ORDER_VIEW,
+    PRIV_EVENT_VIEW,
 )
 
 from .serializers import (
@@ -66,7 +65,9 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
     ]
 
     def get_queryset(self):
-        result = EventOrder.objects.all().order_by("-start_time")
+        result = EventOrder.objects.filter(school_group__isnull=False).order_by(
+            "-start_time"
+        )
         if self.is_admin_scope(self.request):
             return result
         organizations = self.get_allowed_organizations(self.request)
@@ -108,13 +109,16 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         serializer.save(status=status, school=school)
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class EventViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
+    privileges_read = [PRIV_EVENT_VIEW]
+    privileges_write = [PRIV_EVENT_EDIT]
+
     permission_classes = [
-        AllowCoordinator
-        | AllowInstructor
-        | AllowVendor
+        AllowInstructor
         | get_additional_permissions_write()
+        | get_privilege_permission_classes(privileges_read, privileges_write)
     ]
+
     serializer_class = EventSerializer
     filter_backends = [
         filters.SearchFilter,
@@ -138,27 +142,26 @@ class EventViewSet(viewsets.ModelViewSet):
             .select_related("school_group__activity_order")
             .select_related("school_group__activity_order__activity")
             .prefetch_related("consumers")
+            .all()
+            .order_by("-start_time")
         )
+        my_school_only: bool = self.request.query_params.get("my_school_only", False)
+        if my_school_only:
+            my_school: School = self.request.user.school_member.school
+            return base_queryset.filter(event_order__school__in=my_school)
+        # TODO - move instructor API to a separate endpoint
         if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return base_queryset.filter(school_group__instructor=user).order_by(
-                "-start_time"
-            )
-        if user.user_type == get_user_model().Types.VENDOR:
-            organization = user.organization_member.organization
-            return base_queryset.filter(
-                school_group__activity_order__activity__originization=organization
-            ).order_by("-start_time")
-        orders = user.school_member.school.school_activity_orders.all().values("pk")
-        if user.user_type == get_user_model().Types.COORDINATOR:
-            return base_queryset.filter(
-                school_group__activity_order__in=orders
-            ).order_by("-start_time")
+            return base_queryset.filter(school_group__instructor=user)
+        if self.is_admin_scope(self.request):
+            return base_queryset
+
+        organizations = self.get_allowed_organizations(self.request)
+        schools = self.get_allowed_schools(self.request)
+
         return base_queryset.filter(
-            Q(school_group__activity_order__in=orders)
-            | Q(
-                school_group__activity_order__ownership_type=SchoolActivityOrder.OwnershipType.SITE
-            )
-        ).order_by("-start_time")
+            Q(school_group__activity_order__activity__originization__in=organizations)
+            | Q(event_order__school__in=schools)
+        )
 
 
 class ExportEventViewSet(EventViewSet):

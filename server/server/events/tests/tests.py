@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from server.events.models import Event, EventOrder
+from server.utils.privileges import ROLE_CUSTOMER_ADMIN
 
 pytestmark = pytest.mark.django_db
 
@@ -66,6 +67,8 @@ class TestEventView:
 
     def test_create_event(self, all_entities):
         coord = all_entities["coord"]
+        # add CUSTOEMR_ADMIN role to coord user, otherwise we need to create the event with its school
+        coord.roles.create(role_code=ROLE_CUSTOMER_ADMIN, admin_scope=True)
         payload = {
             "start_time": today,
             "end_time": tomorrow,
@@ -99,6 +102,8 @@ class TestEventView:
 
     def test_canceled_event(self, all_entities):
         coord = all_entities["coord"]
+        # add CUSTOEMR_ADMIN role to coord user, otherwise we need to create the event with its school
+        coord.roles.create(role_code=ROLE_CUSTOMER_ADMIN, admin_scope=True)
         create_payload = {
             "start_time": today,
             "end_time": tomorrow,

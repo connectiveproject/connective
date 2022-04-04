@@ -22,7 +22,7 @@
     <event-edit-dialog
       v-if="clickedEvent"
       :event="clickedEvent.eventObject"
-      :group="clickedEventGroup"
+      :instructorName="clickedinstructorName"
       @eventUpdated="eventUpdated"
       v-model="isModalOpen"
       @close="clickedEvent = null"
@@ -59,11 +59,15 @@ export default {
   methods: {
     ...mapActions("vendorEvent", ["getEventList"]),
     async showEvent({ event }) {
-      const group = await Api.programGroup.getGroup(
-        event.eventObject.schoolGroup
-      )
+      let instructorName = event.eventObject.instructorName
+      if (!instructorName) {
+        const group = await Api.programGroup.getGroup(
+          event.eventObject.schoolGroup
+        )
+        this.clickedinstructorName = group["data"].instructorName
+      }
+      this.clickedinstructorName = instructorName
       this.clickedEvent = event
-      this.clickedEventGroup = group["data"]
       this.isModalOpen = true
     },
     fetchEvents(benchmarkDay) {

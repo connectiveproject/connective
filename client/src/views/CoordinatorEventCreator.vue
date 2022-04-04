@@ -30,6 +30,7 @@
           v-model="permanentGroup"
           class="text-capitalize"
           :label="$t('events.permanentGroup')"
+          :disabled="constantGroup"
         ></v-switch>
 
         <validation-provider
@@ -44,6 +45,7 @@
             :label="$t('groups.parentGroup')"
             :error-messages="errors"
             v-if="permanentGroup"
+            :disabled="constantGroup"
           />
         </validation-provider>
         <!-- Grade  -->
@@ -357,6 +359,13 @@ export default {
 
   computed: {
     ...mapState("programGroup", ["groupList"]),
+    constantGroup() {
+      // if groupSlug is set, it means we need to stick to this group
+      if (this.groupSlug) {
+        return true
+      }
+      return false
+    },
     schoolGroups() {
       return this.groupList.map(group => ({
         value: group.slug,
