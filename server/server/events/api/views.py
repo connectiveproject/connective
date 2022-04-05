@@ -12,6 +12,7 @@ from server.schools.models import School
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
     get_privilege_permission_classes,
+    has_privilege,
 )
 from server.users.models import RoleScope
 from server.utils.db_utils import (
@@ -26,6 +27,7 @@ from server.utils.permission_classes import (
 from server.utils.privileges import (
     PRIV_EVENT_EDIT,
     PRIV_EVENT_ORDER_APPROVE,
+    PRIV_EVENT_ORDER_CREATE,
     PRIV_EVENT_ORDER_EDIT,
     PRIV_EVENT_ORDER_VIEW,
     PRIV_EVENT_VIEW,
@@ -82,6 +84,12 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         # create new event order. If the user has permission to approve orders for this organization,
         # or this is no-organization order, then set status to APPROVED.
         # Otherwise, set status to PENDING_APPROVAL.
+
+        # verify the user has permissions to create event orders:
+        if not has_privilege(PRIV_EVENT_ORDER_CREATE):
+            raise PermissionError(
+                "User does not have privilege to create event orders."
+            )
         status: EventOrder.Status = EventOrder.Status.PENDING_APPROVAL
         school: School = None
         user = self.request.user

@@ -87,7 +87,7 @@
                 />
               </validation-provider>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions v-if="hasPrivilege('PRIV_EVENT_ORDER_EDIT')">
               <v-btn
                 v-if="!formEnabled && !isPastEvent"
                 class="mt-4"
@@ -229,6 +229,9 @@ export default {
     },
     todayStr() {
       return moment(new Date()).format("YYYY-MM-DD")
+    },
+    hasPrivilege(priv) {
+      return Utils.hasPrivilege(priv)
     },
   },
 }

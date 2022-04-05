@@ -17,6 +17,7 @@
           color="primary"
           :block="$vuetify.breakpoint.xs"
           :to="{ name: 'CoordinatorEventCreator' }"
+          v-if="hasPrivilege('PRIV_EVENT_ORDER_CREATE')"
         >
           {{ $t("events.newEvent") }}
           <v-icon right> mdi-plus </v-icon>
@@ -30,6 +31,7 @@
           color="primary"
           :block="$vuetify.breakpoint.xs"
           :to="{ name: 'CoordinatorEventOrderStatus' }"
+          v-if="hasPrivilege('PRIV_EVENT_ORDER_CREATE')"
           v-text="$t('events.eventsTable')"
         />
       </div>
@@ -103,6 +105,9 @@ export default {
     async eventUpdated(benchmarkDay) {
       // called by the EventEditDialog after save - we need to refresh
       this.fetchEvents(benchmarkDay)
+    },
+    hasPrivilege(priv) {
+      return Utils.hasPrivilege(priv)
     },
   },
   data() {
