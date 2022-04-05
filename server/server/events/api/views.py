@@ -151,7 +151,7 @@ class EventViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
             return base_queryset.filter(event_order__school__in=my_school)
         # TODO - move instructor API to a separate endpoint
         if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return base_queryset.filter(school_group__instructor=user)
+            return base_queryset.filter(instructor=user)
         if self.is_admin_scope(self.request):
             return base_queryset
 

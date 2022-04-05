@@ -64,7 +64,7 @@ export default {
         .filter(event => !event.hasSummary)
         .map(event => ({
           action: moment(event.startTime).format("DD.MM.YYYY"),
-          subtitle: event.activityName,
+          subtitle: event.activityName || event.title,
           title: event.schoolGroupName,
         }))
     },

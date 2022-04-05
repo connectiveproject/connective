@@ -139,10 +139,7 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         source="event_order.school.name",
         read_only=True,
     )
-    school_group_name = serializers.CharField(
-        source="school_group.name",
-        read_only=True,
-    )
+    school_group_name = serializers.SerializerMethodField(read_only=True)
     consumers = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Consumer.objects.all(),
@@ -153,6 +150,10 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         slug_field="slug",
         queryset=SchoolActivityGroup.objects.all(),
     )
+
+    def get_school_group_name(self, obj):
+        event: Event = obj
+        return event.group_display_name()
 
     def validate(self, data):
         """

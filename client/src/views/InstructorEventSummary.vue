@@ -293,17 +293,16 @@ export default {
       to.params.slug
     )
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
-    const consumers = await store.dispatch(
-      "instructorProgramGroup/getConsumers",
-      {
+    let consumers = []
+    let group = null
+    if (event.schoolGroup) {
+      consumers = await store.dispatch("instructorProgramGroup/getConsumers", {
         groupSlugs: [event.schoolGroup],
         usePagination: true,
-      }
-    )
-    const group = await store.dispatch(
-      "programGroup/getGroup",
-      event.schoolGroup
-    )
+      })
+
+      group = await store.dispatch("programGroup/getGroup", event.schoolGroup)
+    }
     next(vm => {
       vm.event = event
       vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
@@ -313,7 +312,7 @@ export default {
         value: consumer.name.replace(" ", "_"),
       }))
       vm.studentsRegistered =
-        group.groupType == SERVER.programGroupTypes.standard
+        group && group.groupType == SERVER.programGroupTypes.standard
     })
   },
   data() {

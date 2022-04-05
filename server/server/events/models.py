@@ -183,12 +183,38 @@ class Event(get_base_model()):
             )
 
     def __str__(self):
-        return f"{self.school_group} : {self.start_time} : {self.slug}"
+        group = self.school_group
+        if not group:
+            group = f"FILTER: {self.filter_genders} | {self.filter_grades}"
+        return f"{group} : {self.start_time} : {self.slug}"
 
     def save(self, *args, **kwargs):
         if (self.has_summary or self.is_canceled) and self.summary_time is None:
             self.summary_time = timezone.now()
         super().save(*args, **kwargs)
+
+    def group_display_name(self):
+        """
+        This returns the display name of the group. For real groups, it is the
+        name of the group. For "filter groups", it is description of the filters.
+        NOTE: for real group this method may do a database query - don't use in loops
+        without select_related() before
+        """
+        if self.school_group:
+            return self.school_group.name
+        all_genders: bool = len(self.filter_genders) >= 2
+        all_grades: bool = len(self.filter_grades) >= 12
+        if all_genders and all_grades:
+            return _("event.group_name.all.all")
+        if all_grades:
+            return _(f"event.group_name.all.{self.filter_genders[0].lower()}")
+        grades = ", ".join(
+            [_(f"grades.{grade}").__str__() for grade in self.filter_grades]
+        )
+        if all_genders:
+            return f"{_('event.group_name.grades')} {grades}"
+        gender = _(f"event.group_name.gender.{self.filter_genders[0].lower()}")
+        return f"{_('event.group_name.grades')} {grades} {gender}"
 
 
 class ConsumerEventFeedback(get_base_model()):
