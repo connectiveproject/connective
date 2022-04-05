@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
 from server.schools.models import School
-from server.users.models import User
+from server.users.models import Instructor, User
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
@@ -114,7 +114,7 @@ class Event(get_base_model()):
     filter_genders = models.JSONField(null=True, blank=True)
     filter_grades = models.JSONField(null=True, blank=True)
     instructor = models.ForeignKey(
-        User,
+        Instructor,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

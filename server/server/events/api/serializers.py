@@ -105,10 +105,14 @@ class EventOrderSerializer(
             raise serializers.ValidationError(
                 {"end_time": "end time must occur after start time"}
             )
+        if self.context["request"].method == "POST":
+            data = self.validate_create(self, data)
+        return data
+
+    def validate_create(self, data):
         has_consumer_filters = self.is_set(data, "filter_grades") and self.is_set(
             data, "filter_genders"
         )
-
         if not has_consumer_filters and (
             self.is_set(data, "filter_genders") or self.is_set(data, "filter_grades")
         ):

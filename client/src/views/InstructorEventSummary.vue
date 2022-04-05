@@ -117,7 +117,11 @@
           </v-col>
 
           <v-col cols="12" sm="12" lg="5">
-            <validation-provider v-slot="{ errors }" rules="required">
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              v-if="permanentGroup"
+            >
               <v-select
                 outlined
                 :items="consumerchoices"
@@ -295,7 +299,9 @@ export default {
     await store.dispatch("pagination/updatePagination", { itemsPerPage: 500 })
     let consumers = []
     let group = null
+    let permanentGroup = false
     if (event.schoolGroup) {
+      permanentGroup = true
       consumers = await store.dispatch("instructorProgramGroup/getConsumers", {
         groupSlugs: [event.schoolGroup],
         usePagination: true,
@@ -305,6 +311,7 @@ export default {
     }
     next(vm => {
       vm.event = event
+      vm.permanentGroup = permanentGroup
       vm.consumerchoices = consumers.map(c => ({ text: c.name, value: c.slug }))
       vm.attendedConsumers = consumers.map(c => c.slug)
       vm.tributeOptions.values = consumers.map(consumer => ({
@@ -320,6 +327,7 @@ export default {
       CONFIDENTIAL_WATERMARK,
       imgCompressionPromise: null,
       event: {},
+      permanentGroup: true,
       submitting: false,
       addPost: true,
       tributeOptions: {
