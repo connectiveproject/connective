@@ -106,7 +106,7 @@ class EventOrderSerializer(
                 {"end_time": "end time must occur after start time"}
             )
         if self.context["request"].method == "POST":
-            data = self.validate_create(self, data)
+            data = self.validate_create(data)
         return data
 
     def validate_create(self, data):
