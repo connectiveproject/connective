@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from server.organizations.models import SchoolActivityGroup
 from server.schools.models import School
-from server.users.models import Instructor, User
+from server.users.models import Consumer, Instructor, User
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
@@ -215,6 +215,13 @@ class Event(get_base_model()):
             return f"{_('event.group_name.grades')} {grades}"
         gender = _(f"event.group_name.gender.{self.filter_genders[0].lower()}")
         return f"{_('event.group_name.grades')} {grades} {gender}"
+
+    def get_consumers_filter_queryset(self):
+        return Consumer.objects.filter(
+            consumerprofile__gender__in=self.filter_genders,
+            consumerprofile__grade__in=self.filter_grades,
+            school_member__school=self.event_order.school,
+        )
 
 
 class ConsumerEventFeedback(get_base_model()):
