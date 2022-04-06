@@ -25,12 +25,104 @@
           :title="`${$t('time.recurrence')}:`"
           :choices="recurrenceChoices"
         />
-        <validation-provider v-slot="{ errors }" rules="required">
+
+        <v-switch
+          v-model="permanentGroup"
+          class="text-capitalize"
+          :label="$t('events.permanentGroup')"
+          :disabled="constantGroup"
+        ></v-switch>
+
+        <validation-provider
+          v-if="permanentGroup"
+          v-slot="{ errors }"
+          rules="required"
+        >
           <v-select
             v-model="selectedGroup"
             class="mb-3"
             :items="schoolGroups"
             :label="$t('groups.parentGroup')"
+            :error-messages="errors"
+            v-if="permanentGroup"
+            :disabled="constantGroup"
+          />
+        </validation-provider>
+        <!-- Grade  -->
+        <validation-provider
+          v-if="!permanentGroup"
+          v-slot="{ errors }"
+          rules="required"
+        >
+          <v-row cols="12">
+            <v-col cols="2"> {{ $t("general.grade") }}: </v-col>
+            <v-col cols="10">
+              <v-row class="mt-2">
+                <!-- button to select all grades -->
+                <v-checkbox
+                  v-if="!$vuetify.breakpoint.xs"
+                  color="primary"
+                  @change="selectAllGrades($event)"
+                  :label="$t('general.all')"
+                  class="me-6"
+                />
+                <v-checkbox
+                  v-model="filterGrades"
+                  v-for="(grade, index) in GRADE_CHOICES"
+                  :key="grade.value"
+                  :data-testid="grade.value"
+                  :label="grade.text"
+                  :value="grade.value"
+                  :error-messages="errors"
+                  :rules="gradeRequired"
+                  :hide-details="index !== GRADE_CHOICES.length - 1"
+                ></v-checkbox>
+              </v-row>
+            </v-col>
+          </v-row>
+        </validation-provider>
+        <!-- Gender -->
+        <validation-provider
+          v-if="!permanentGroup"
+          v-slot="{ errors }"
+          rules="required"
+        >
+          <v-row cols="12">
+            <v-col cols="2"> {{ $t("gender.gender") }}: </v-col>
+            <v-col cols="10">
+              <v-row class="mt-2">
+                <v-checkbox
+                  v-if="!$vuetify.breakpoint.xs"
+                  color="primary"
+                  @change="selectAllGenders($event)"
+                  :label="$t('general.all')"
+                  class="me-6"
+                />
+                <v-checkbox
+                  v-model="filterGenders"
+                  v-for="(grade, index) in GENDER_CHOICES"
+                  :key="grade.value"
+                  :data-testid="grade.value"
+                  :label="grade.text"
+                  :value="grade.value"
+                  :error-messages="errors"
+                  :rules="genderRequired"
+                  :hide-details="index !== GENDER_CHOICES.length - 1"
+                ></v-checkbox>
+              </v-row>
+            </v-col>
+          </v-row>
+        </validation-provider>
+        <!-- Title -->
+        <validation-provider
+          v-if="!permanentGroup"
+          v-slot="{ errors }"
+          rules="required"
+        >
+          <v-text-field
+            v-model="title"
+            class="mb-3"
+            :label="$t('events.title')"
             :error-messages="errors"
           />
         </validation-provider>
@@ -69,6 +161,31 @@
             :error-messages="errors"
           />
         </validation-provider>
+
+        <validation-provider
+          v-if="!permanentGroup"
+          v-slot="{ errors }"
+          rules="required"
+        >
+          <v-select
+            :disabled="permanentGroup"
+            v-model="selectedInstructor"
+            class="mb-3"
+            :items="availableInstructorsOptions"
+            :label="$t('general.instructor')"
+            :error-messages="errors"
+          />
+        </validation-provider>
+        <v-autocomplete
+          chips
+          deletable-chips
+          multiple
+          small-chips
+          :items="availableInstructorsOptions"
+          v-model="additionalStaff"
+          :label="$t('events.additionalStaff')"
+          :no-data-text="$t('events.noInstructorsFound')"
+        />
         <validation-provider v-slot="{ errors }" rules="required">
           <v-text-field
             v-model="location"
@@ -111,9 +228,11 @@ import Api from "@/api"
 import Utils from "@/helpers/utils"
 import { SERVER } from "@/helpers/constants/constants"
 import { CREATE_EVENT } from "@/helpers/constants/images"
+import { GRADE_CHOICES, GENDER_CHOICES } from "@/views/ConsumerList/constants"
 import DateInput from "@/components/DateInput"
 import TimeInput from "@/components/TimeInput"
 import RadioGroup from "@/components/RadioGroup"
+
 export default {
   components: {
     DateInput,
@@ -134,6 +253,12 @@ export default {
     })
     next()
   },
+  async created() {
+    const instructorsApiRes = await Api.organization.getInstructorList({
+      // TODO
+    })
+    this.availableInstrcutorsForGroup = instructorsApiRes.data["results"]
+  },
   props: {
     groupSlug: {
       type: String,
@@ -146,9 +271,16 @@ export default {
       eventDate: "",
       startTime: "12:00",
       endTime: "12:00",
+      availableInstrcutorsForGroup: [],
       selectedGroup: this.groupSlug,
+      title: "",
+      selectedInstructor: null,
+      instructorName: "",
+      additionalStaff: [],
       location: "",
       recurrence: SERVER.eventOrderReccurence.oneTime,
+      GRADE_CHOICES,
+      GENDER_CHOICES,
       recurrenceChoices: [
         {
           label: this.$t("time.oneTime"),
@@ -159,6 +291,9 @@ export default {
           value: SERVER.eventOrderReccurence.weekly,
         },
       ],
+      permanentGroup: true,
+      filterGrades: [],
+      filterGenders: [],
     }
   },
   methods: {
@@ -171,31 +306,83 @@ export default {
       const endTime = Utils.dateToApiString(
         moment(`${this.eventDate}T${this.endTime}`)
       )
-      const eventOrder = {
+      await this.submitEventOrder(startTime, endTime)
+    },
+    async submitEventOrder(startTime, endTime) {
+      let eventOrder = {
         startTime,
         endTime,
-        schoolGroup: this.selectedGroup,
         locationsName: this.location,
         recurrence: this.recurrence,
+        additionalInstructors: this.additionalStaff,
+      }
+      if (this.permanentGroup) {
+        eventOrder["schoolGroup"] = this.selectedGroup
+      } else {
+        eventOrder["filterGrades"] = this.filterGrades
+        eventOrder["filterGenders"] = this.filterGenders
+        eventOrder["title"] = this.title
+        eventOrder["instructor"] = this.selectedInstructor
       }
       try {
-        await this.createEventOrder(eventOrder)
-        this.showMessage(
-          this.$t("success.orderCreatedAndWaitingForOrganizationApproval")
-        )
-        return this.$router.push({ name: "CoordinatorEventOrderStatus" })
+        eventOrder = await this.createEventOrder(eventOrder)
+        if (eventOrder.status === SERVER.eventOrderStatus.approved) {
+          // event order was approved automatically --> event created
+          this.showMessage(this.$t("success.eventSuccessfullyCreated"))
+          return this.$router.go(-1)
+        } else {
+          // event order is pending approval
+          this.showMessage(
+            this.$t("success.orderCreatedAndWaitingForOrganizationApproval")
+          )
+          return this.$router.push({ name: "CoordinatorEventOrderStatus" })
+        }
       } catch (err) {
         this.showMessage(Api.utils.parseResponseError(err))
       }
     },
+    selectAllGrades(checked) {
+      if (checked) {
+        this.filterGrades = this.GRADE_CHOICES.map(grade => grade.value)
+      } else {
+        this.filterGrades = []
+      }
+    },
+    selectAllGenders(checked) {
+      if (checked) {
+        this.filterGenders = this.GENDER_CHOICES.map(gender => gender.value)
+      } else {
+        this.filterGenders = []
+      }
+    },
   },
+
   computed: {
     ...mapState("programGroup", ["groupList"]),
+    constantGroup() {
+      // if groupSlug is set, it means we need to stick to this group
+      if (this.groupSlug) {
+        return true
+      }
+      return false
+    },
     schoolGroups() {
       return this.groupList.map(group => ({
         value: group.slug,
         text: `${group.name} (${group.activityName})`,
       }))
+    },
+    availableInstructorsOptions() {
+      return this.availableInstrcutorsForGroup.map(instructor => ({
+        value: instructor.slug,
+        text: instructor.name,
+      }))
+    },
+    gradeRequired() {
+      return [this.filterGrades.length > 0 || this.$t("validation.required")]
+    },
+    genderRequired() {
+      return [this.filterGenders.length > 0 || this.$t("validation.required")]
     },
   },
 }

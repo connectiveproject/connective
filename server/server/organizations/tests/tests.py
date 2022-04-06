@@ -10,7 +10,7 @@ from server.organizations.models import SchoolActivityGroup, SchoolActivityOrder
 from server.schools.models import SchoolMember
 
 pytestmark = pytest.mark.django_db
-RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL")[8:]
+RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL", "12345678")[8:]
 
 
 class TestManageSchoolProgramsView:

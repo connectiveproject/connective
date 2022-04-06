@@ -13,7 +13,7 @@ from server.users.models import BaseProfile, User
 from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 pytestmark = pytest.mark.django_db
-RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL")[8:]
+RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL", "12345678")[8:]
 
 
 class TestUserViewSet:
