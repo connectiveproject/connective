@@ -20,17 +20,6 @@ class EventSeries(get_base_model()):
         verbose_name = _("Event Series")
         verbose_name_plural = _("Event Series")
 
-    def delete_future_events(self):
-        """
-        Cancel all future events of the same series from now.
-        """
-        return self.events.filter(
-            end_time__gte=timezone.now(),
-        ).delete()
-
-    def __str__(self):
-        return f"series slug: {self.slug} | first event group: {self.events.first().school_group}"
-
 
 # end series
 class EventOrder(get_base_model()):
@@ -156,19 +145,30 @@ class Event(get_base_model()):
         max_length=200, choices=CancellationReasons.choices, blank=True
     )
 
+    def delete_future_events(self):
+        """
+        Cancel all future events of the same series from now.
+        """
+        try:
+            return self.series.events.filter(
+                end_time__gte=self.end_time,
+            ).delete()
+        except AttributeError:
+            raise ValidationError({"series": _("Event series does not exist")})
+
     def clean(self):
         if self.start_time > self.end_time:
             raise ValidationError(
                 {"end_time": _("end time must occur after start time")}
             )
 
-    def __str__(self):
-        return f"{self.school_group} : {self.start_time} : {self.slug}"
-
     def save(self, *args, **kwargs):
         if (self.has_summary or self.is_canceled) and self.summary_time is None:
             self.summary_time = timezone.now()
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.school_group} : {self.start_time} : {self.slug}"
 
 
 class ConsumerEventFeedback(get_base_model()):

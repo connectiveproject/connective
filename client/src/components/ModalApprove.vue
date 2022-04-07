@@ -1,14 +1,11 @@
 <template>
-  <v-dialog
-    max-width="290"
-    :value="isOpen"
-    @input="handleDisapprove"
-  >
+  <v-dialog max-width="290" :value="isOpen" @input="handleDisapprove">
     <v-card>
       <v-card-title class="text-h5" v-text="$t('general.message')" />
       <v-card-text>
         <slot>{{ this.$t("confirm.AreYouSureYouWantToDelete?") }}</slot>
       </v-card-text>
+      <slot name="checkbox"></slot>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn

@@ -113,12 +113,6 @@
               </v-btn>
             </v-card-actions>
           </validation-observer>
-          <modal-approve
-            v-model="showApproveDeleteDialog"
-            @approve="deleteEvent"
-          >
-            {{ this.$t("confirm.AreYouSureYouWantToDelete?") }}
-          </modal-approve>
           <detail-modal
             v-model="showErrorMessage"
             :title="this.$t('errors.oops')"
@@ -129,6 +123,23 @@
             </div>
           </detail-modal>
         </v-form>
+        <modal-approve v-model="showApproveDeleteDialog" @approve="deleteEvent">
+          {{ this.$t("confirm.AreYouSureYouWantToDelete?") }}
+          <template v-slot:checkbox>
+            <v-card-text v-if="event.isSeriesEvent">
+              <v-checkbox v-model="deleteFutureEvents">
+                <template v-slot:label>
+                  <span
+                    id="label-future-events"
+                    :class="{ 'text-right': checkRtl() }"
+                  >
+                    {{ $t("events.deleteThisAndFutureEvents") }}
+                  </span>
+                </template>
+              </v-checkbox>
+            </v-card-text>
+          </template>
+        </modal-approve>
       </v-card>
     </v-dialog>
   </v-row>
@@ -174,6 +185,7 @@ export default {
   },
   data() {
     return {
+      deleteFutureEvents: false,
       formEnabled: false,
       eventDate: "",
       startTime: "",
@@ -213,13 +225,20 @@ export default {
     },
     async deleteEvent() {
       this.showApproveDeleteDialog = false
-      await Api.event.deleteEvent(this.event.slug)
+      await Api.event.deleteEvent(this.event.slug, this.deleteFutureEvents)
       this.$emit("eventUpdated", this.originalStartDate)
       this.close()
     },
     todayStr() {
       return moment(new Date()).format("YYYY-MM-DD")
     },
+    checkRtl: Utils.checkRtl,
   },
 }
 </script>
+<style scoped>
+#label-future-events {
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+</style>

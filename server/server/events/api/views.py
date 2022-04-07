@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from server.events.api.renderers import EventCSVRenderer
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
@@ -108,6 +110,15 @@ class EventViewSet(viewsets.ModelViewSet):
                 school_group__activity_order__ownership_type=SchoolActivityOrder.OwnershipType.SITE
             )
         ).order_by("-start_time")
+
+    @action(detail=True, methods=["post"])
+    def delete_future_events(self, request, permission_classes=permission_classes):
+        event = self.get_object()
+        deleted, _ = event.delete_future_events()
+        return Response(
+            {"success": True, "deleted": deleted},
+            status=status.HTTP_200_OK,
+        )
 
 
 class ExportEventViewSet(EventViewSet):
