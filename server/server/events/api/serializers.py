@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from server.events.models import ConsumerEventFeedback, Event, EventOrder
 from server.organizations.models import SchoolActivityGroup
-from server.users.models import Consumer
+from server.users.models import Consumer, Instructor
 from server.utils.analytics_utils import event
 from server.utils.analytics_utils.mixins import (
     TrackSerializerCreateMixin,
@@ -37,6 +37,7 @@ class EventOrderSerializer(
     school_group = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=SchoolActivityGroup.objects.all(),
+        required=False,
     )
     school_group_name = serializers.CharField(
         source="school_group.name",
@@ -49,6 +50,20 @@ class EventOrderSerializer(
     school_name = serializers.CharField(
         source="school_group.activity_order.school.name",
         read_only=True,
+    )
+    additional_instructors = serializers.SlugRelatedField(
+        many=True,
+        read_only=False,
+        queryset=Instructor.objects.all(),
+        slug_field="slug",
+        required=False,
+    )
+    instructor = serializers.SlugRelatedField(
+        many=False,
+        read_only=False,
+        queryset=Instructor.objects.all(),
+        slug_field="slug",
+        required=False,
     )
 
     class Meta:
@@ -67,8 +82,16 @@ class EventOrderSerializer(
             "school_group_name",
             "activity_name",
             "school_name",
+            "additional_instructors",
+            "title",
+            "instructor",
+            "filter_grades",
+            "filter_genders",
         ]
         read_only_fields = ["slug", "created", "updated"]
+
+    def is_set(self, data, attribute):
+        return attribute in data and data[attribute]
 
     def validate(self, data):
         """
@@ -81,6 +104,28 @@ class EventOrderSerializer(
         ):
             raise serializers.ValidationError(
                 {"end_time": "end time must occur after start time"}
+            )
+        if self.context["request"].method == "POST":
+            data = self.validate_create(data)
+        return data
+
+    def validate_create(self, data):
+        has_consumer_filters = self.is_set(data, "filter_grades") and self.is_set(
+            data, "filter_genders"
+        )
+        if not has_consumer_filters and (
+            self.is_set(data, "filter_genders") or self.is_set(data, "filter_grades")
+        ):
+            raise serializers.ValidationError(
+                {
+                    "filter_genders": "filter_genders and filter_grades must be set or empty together"
+                }
+            )
+        if (has_consumer_filters and self.is_set(data, "school_group")) or (
+            not has_consumer_filters and not self.is_set(data, "school_group")
+        ):
+            raise serializers.ValidationError(
+                "one of school_group or filter_* fields must be set"
             )
         return data
 
@@ -95,13 +140,10 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         read_only=True,
     )
     school_name = serializers.CharField(
-        source="school_group.activity_order.school.name",
+        source="event_order.school.name",
         read_only=True,
     )
-    school_group_name = serializers.CharField(
-        source="school_group.name",
-        read_only=True,
-    )
+    school_group_name = serializers.SerializerMethodField(read_only=True)
     consumers = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Consumer.objects.all(),
@@ -112,6 +154,10 @@ class EventSerializerMixin(metaclass=serializers.SerializerMetaclass):
         slug_field="slug",
         queryset=SchoolActivityGroup.objects.all(),
     )
+
+    def get_school_group_name(self, obj):
+        event: Event = obj
+        return event.group_display_name()
 
     def validate(self, data):
         """
@@ -159,7 +205,7 @@ class EventSerializer(
     is_series_event = serializers.SerializerMethodField(read_only=True)
     attended_consumers_count = serializers.SerializerMethodField(read_only=True)
     instructor_name = serializers.CharField(
-        source="school_group.instructor.name", default="", read_only=True
+        source="instructor.name", default="", read_only=True
     )
 
     class Meta:
@@ -187,6 +233,7 @@ class EventSerializer(
             "attended_consumers_count",
             "instructor_name",
             "is_series_event",
+            "title",
         ]
         read_only_fields = [
             "slug",
@@ -198,7 +245,8 @@ class EventSerializer(
 
     def get_total_consumers_count(self, obj):
         if (
-            obj.school_group.group_type
+            not obj.school_group
+            or obj.school_group.group_type
             == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
         ):
             return "-"
@@ -206,7 +254,8 @@ class EventSerializer(
 
     def get_attended_consumers_count(self, obj):
         if (
-            obj.school_group.group_type
+            not obj.school_group
+            or obj.school_group.group_type
             == SchoolActivityGroup.GroupTypes.NO_REGISTRATION
         ):
             return obj.ext_consumers_attended

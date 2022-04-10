@@ -26,13 +26,22 @@
                   :disabled="true"
                 />
                 <v-text-field
+                  v-if="event.title"
+                  v-model="event.title"
+                  :label="$t('events.title')"
+                  :readonly="false"
+                  :disabled="false"
+                />
+
+                <v-text-field
+                  v-if="event.schoolGroupName"
                   :value="event.schoolGroupName"
                   :label="$t('groups.parentGroup')"
                   :readonly="true"
                   :disabled="true"
                 />
                 <v-text-field
-                  :value="group.instructorName"
+                  :value="instructorName"
                   :label="$t('general.instructor')"
                   :readonly="true"
                   :disabled="true"
@@ -78,7 +87,7 @@
                 />
               </validation-provider>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions v-if="hasPrivilege('PRIV_EVENT_ORDER_EDIT')">
               <v-btn
                 v-if="!formEnabled && !isPastEvent"
                 class="mt-4"
@@ -178,8 +187,8 @@ export default {
       type: Object,
       required: true,
     },
-    group: {
-      type: Object,
+    instructorName: {
+      type: String,
       required: true,
     },
   },
@@ -218,6 +227,7 @@ export default {
         startTime: startTimeStr,
         endTime: endTimeStr,
         locationsName: this.event.locationsName,
+        title: this.event.title,
       }
       await Api.instructorEvent.updateEvent(this.event.slug, data)
       this.$emit("eventUpdated", this.originalStartDate)
@@ -233,6 +243,9 @@ export default {
       return moment(new Date()).format("YYYY-MM-DD")
     },
     checkRtl: Utils.checkRtl,
+    hasPrivilege(priv) {
+      return Utils.hasPrivilege(priv)
+    },
   },
 }
 </script>

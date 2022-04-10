@@ -51,7 +51,7 @@ class PrivilegeAccessMixin:
                 result.update(scopes[privilege].get_schools())
         return result
 
-    def get_allowed_organizations(self, request) -> List:
+    def get_allowed_organizations(self, request) -> Set:
         user = request.user
         result: Set = set()
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()

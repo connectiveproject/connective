@@ -6,6 +6,7 @@ class EventCSVRenderer(GenericCSVRenderer):
         "school_group_name",
         "school_name",
         "activity_name",
+        "title",
         "has_summary",
         "attended_consumers_count",
         "total_consumers_count",

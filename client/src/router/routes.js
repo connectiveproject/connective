@@ -225,16 +225,6 @@ let connectiveRoutes = [
             component: MyGroups,
           },
           {
-            path: "my-events",
-            name: "MyEvents",
-            component: MyEvents,
-          },
-          {
-            path: "events",
-            name: "CoordinatorEvents",
-            component: EventSummaryList,
-          },
-          {
             path: "statistics",
             name: "CoordinatorStatistics",
             component: CoordinatorStatistics,
@@ -249,12 +239,6 @@ let connectiveRoutes = [
             path: "event-order-status",
             name: "CoordinatorEventOrderStatus",
             component: CoordinatorEventOrderStatus,
-          },
-          {
-            path: "event-creator",
-            name: "CoordinatorEventCreator",
-            component: CoordinatorEventCreator,
-            props: true,
           },
           {
             path: "group-editor",
@@ -436,7 +420,22 @@ let generalChildrenRoutes = [
       },
     ],
   },
-
+  {
+    path: "my-events",
+    name: "MyEvents",
+    component: MyEvents,
+  },
+  {
+    path: "events",
+    name: "CoordinatorEvents",
+    component: EventSummaryList,
+  },
+  {
+    path: "event-creator",
+    name: "CoordinatorEventCreator",
+    component: CoordinatorEventCreator,
+    props: true,
+  },
 ]
 
 export function addChildToComponent(routes, componentName, childToAdd) {

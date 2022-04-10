@@ -15,11 +15,6 @@ const coordinatorTabs = [
     icon: "mdi-handshake",
   },
   {
-    text: i18n.t("events.eventsCalendar"),
-    componentName: "MyEvents",
-    icon: "mdi-calendar-heart",
-  },
-  {
     id: "events-navbar-btn",
     text: i18n.t("events.eventsSummary"),
     componentName: "CoordinatorEvents",
@@ -99,11 +94,6 @@ const vendorTabs = [
     text: i18n.t("events.eventsSummary"),
     componentName: "VendorEvents",
     icon: "mdi-file-table-box-multiple-outline",
-  },
-  {
-    text: i18n.t("events.eventsCalendar"),
-    componentName: "VendorMyEvents",
-    icon: "mdi-calendar-heart",
   },
 ]
 
@@ -257,6 +247,12 @@ export let allTabs = [
     componentName: "ConsumerList",
     icon: "mdi-account-group",
     privileges: ["PRIV_USER_CONSUMER_VIEW", "PRIV_USER_CONSUMER_EDIT"],
+  },
+  {
+    text: i18n.t("events.eventsCalendar"),
+    componentName: "MyEvents",
+    icon: "mdi-calendar-heart",
+    privileges: ["PRIV_EVENT_VIEW", "PRIV_EVENT_EDIT", "PRIV_EVENT_EDIT_MY_ONLY"],
   },
 ]
 

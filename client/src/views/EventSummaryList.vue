@@ -83,6 +83,11 @@ export default {
           value: "activityName",
           sortable: false,
         },
+        {
+          text: this.$t("events.title"),
+          value: "title",
+          sortable: false,
+        },
         { text: this.$t("events.eventSummarized"), value: "hasSummary" },
         { text: this.$t("general.isCancelled"), value: "isCanceled" },
         {

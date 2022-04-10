@@ -18,6 +18,9 @@ def _track_events_creation(events):
     :param events: list of Event objects to track
     """
     for e in events:
+        school_group_slug = "NO_GROUP"
+        if e.school_group:
+            school_group_slug = e.school_group.slug
         analytics.track(
             analytics_field.UNKNOWN_SLUG,
             analytics_event.EVENT_CREATED,
@@ -27,7 +30,7 @@ def _track_events_creation(events):
                 "event_order_slug": e.event_order.slug,
                 "start_time": e.start_time,
                 "end_time": e.end_time,
-                "school_group_slug": e.school_group.slug,
+                "school_group_slug": school_group_slug,
                 "locations_name": e.locations_name,
                 "is_canceled": e.is_canceled,
             },
@@ -37,14 +40,22 @@ def _track_events_creation(events):
 @receiver(post_save, sender=EventOrder)
 def create_events_on_order_approval(sender, instance, created, **kwargs):
     if instance.status == EventOrder.Status.APPROVED and instance.events.count() == 0:
+        instructor = instance.instructor
+        if not instructor:
+            instructor = instance.school_group.instructor
         if instance.recurrence == EventOrder.Recurrence.ONE_TIME:
             e = Event.objects.create(
                 school_group=instance.school_group,
                 locations_name=instance.locations_name,
                 start_time=instance.start_time,
                 end_time=instance.end_time,
+                instructor=instructor,
+                title=instance.title,
+                filter_genders=instance.filter_genders,
+                filter_grades=instance.filter_grades,
                 event_order=instance,
             )
+            e.additional_instructors.set(instance.additional_instructors.all())
             _track_events_creation([e])
             return
 
@@ -72,11 +83,17 @@ def create_events_on_order_approval(sender, instance, created, **kwargs):
                     # start/end time in UTC:
                     start_time=start_time_customer_tz.astimezone(utc_timezone),
                     end_time=end_time_customer_tz.astimezone(utc_timezone),
+                    instructor=instructor,
+                    title=instance.title,
+                    filter_genders=instance.filter_genders,
+                    filter_grades=instance.filter_grades,
                     event_order=instance,
                 )
             )
         Event.objects.bulk_create(events_to_create)
 
+        for event in events_to_create:
+            event.additional_instructors.set(instance.additional_instructors.all())
         _track_events_creation(events_to_create)
 
 
