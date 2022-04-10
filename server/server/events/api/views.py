@@ -111,8 +111,12 @@ class EventViewSet(viewsets.ModelViewSet):
             )
         ).order_by("-start_time")
 
-    @action(detail=True, methods=["post"])
-    def delete_future_events(self, request, permission_classes=permission_classes):
+    @action(detail=True, methods=["post"], permission_classes=permission_classes)
+    def delete_future_events(
+        self,
+        request,
+        slug,
+    ):
         event = self.get_object()
         deleted, _ = event.delete_future_events()
         return Response(
