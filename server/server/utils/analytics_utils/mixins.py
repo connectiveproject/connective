@@ -1,4 +1,5 @@
 import analytics
+from connective.server.server.utils.factories import ConnectiveUtils, get_utils
 
 from server.utils.helpers import get_nested_obj_attr_value
 
@@ -10,7 +11,8 @@ class _BaseTrackerMixin:
     tracker_fields_rename = {}
 
     def __init__(self, *args, **kwargs):
-        self._tracker_props = {}
+        utils: ConnectiveUtils = get_utils()
+        self._tracker_props = {**utils.get_tracking_extras()}
         self._tracker_user_slug = ""
 
         if self.tracker_props_fields is None:
