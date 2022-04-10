@@ -21,8 +21,11 @@ const event = {
     if (!slug) throw "deleteEventOrder: received empty slug"
     return axios.delete(`${DELETE_EVENT_ORDER_API_URL}${slug}/`)
   },
-  deleteEvent(slug) {
+  deleteEvent(slug,  includeFuture = false) {
     if (!slug) throw "deleteEvent: received empty slug"
+    if (includeFuture) {
+      return axios.post(`${DELETE_EVENT_API_URL}${slug}/delete_future_events/`)
+    }
     return axios.delete(`${DELETE_EVENT_API_URL}${slug}/`)
   }
 }

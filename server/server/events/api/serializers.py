@@ -202,6 +202,7 @@ class EventSerializer(
     tracker_fields_to_track = ["has_summary"]
 
     total_consumers_count = serializers.SerializerMethodField(read_only=True)
+    is_series_event = serializers.SerializerMethodField(read_only=True)
     attended_consumers_count = serializers.SerializerMethodField(read_only=True)
     instructor_name = serializers.CharField(
         source="instructor.name", default="", read_only=True
@@ -231,6 +232,7 @@ class EventSerializer(
             "total_consumers_count",
             "attended_consumers_count",
             "instructor_name",
+            "is_series_event",
             "title",
         ]
         read_only_fields = [
@@ -258,6 +260,9 @@ class EventSerializer(
         ):
             return obj.ext_consumers_attended
         return obj.consumers.count()
+
+    def get_is_series_event(self, obj):
+        return bool(obj.series)
 
 
 class ConsumerEventSerializer(EventSerializerMixin, serializers.ModelSerializer):

@@ -10,7 +10,20 @@ from server.users.models import Consumer, Instructor, User
 from server.utils.db_utils import get_base_model
 from server.utils.model_fields import random_slug
 
+# start series
 
+
+class EventSeries(get_base_model()):
+    slug = models.SlugField(max_length=40, default=random_slug, unique=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Event Series")
+        verbose_name_plural = _("Event Series")
+
+
+# end series
 class EventOrder(get_base_model()):
     class Status(models.TextChoices):
         CANCELLED = "CANCELLED", "Cancelled"
@@ -21,6 +34,7 @@ class EventOrder(get_base_model()):
     class Recurrence(models.TextChoices):
         ONE_TIME = "ONE_TIME", "One Time"
         WEEKLY = "WEEKLY", "Weekly"
+        WEEKLY_NUMBERED = "WEEKLY_NUMBERED", "Weekly (numbered)"
 
     base_status = Status.PENDING_APPROVAL
     base_recurrence = Recurrence.ONE_TIME
@@ -159,6 +173,13 @@ class Event(get_base_model()):
         null=True,
         blank=True,
     )
+    series = models.ForeignKey(
+        EventSeries,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="events",
+    )
 
     # date/time when the event summarized or marked as canceled by the instructor
     summary_time = models.DateTimeField(null=True, blank=True)
@@ -176,22 +197,16 @@ class Event(get_base_model()):
         max_length=200, choices=CancellationReasons.choices, blank=True
     )
 
-    def clean(self):
-        if self.start_time > self.end_time:
-            raise ValidationError(
-                {"end_time": _("end time must occur after start time")}
-            )
-
-    def __str__(self):
-        group = self.school_group
-        if not group:
-            group = f"FILTER: {self.filter_genders} | {self.filter_grades}"
-        return f"{group} : {self.start_time} : {self.slug}"
-
-    def save(self, *args, **kwargs):
-        if (self.has_summary or self.is_canceled) and self.summary_time is None:
-            self.summary_time = timezone.now()
-        super().save(*args, **kwargs)
+    def delete_future_events(self):
+        """
+        Cancel all future events of the same series from now.
+        """
+        try:
+            return self.series.events.filter(
+                end_time__gte=self.end_time,
+            ).delete()
+        except AttributeError:
+            raise ValidationError({"series": _("Event series does not exist")})
 
     def group_display_name(self):
         """
@@ -222,6 +237,23 @@ class Event(get_base_model()):
             consumerprofile__grade__in=self.filter_grades,
             school_member__school=self.event_order.school,
         )
+
+    def clean(self):
+        if self.start_time > self.end_time:
+            raise ValidationError(
+                {"end_time": _("end time must occur after start time")}
+            )
+
+    def save(self, *args, **kwargs):
+        if (self.has_summary or self.is_canceled) and self.summary_time is None:
+            self.summary_time = timezone.now()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        group = self.school_group
+        if not group:
+            group = f"FILTER: {self.filter_genders} | {self.filter_grades}"
+        return f"{group} : {self.start_time} : {self.slug}"
 
 
 class ConsumerEventFeedback(get_base_model()):
