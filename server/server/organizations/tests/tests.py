@@ -8,6 +8,7 @@ from rest_framework.test import APIClient
 
 from server.organizations.models import SchoolActivityGroup, SchoolActivityOrder
 from server.schools.models import SchoolMember
+from server.utils.privileges import ROLE_COORDINATOR_ADMIN
 
 pytestmark = pytest.mark.django_db
 RESET_BASE_URL = os.environ.get("GITPOD_WORKSPACE_URL", "12345678")[8:]
@@ -143,6 +144,7 @@ class TestConsumerActivityView:
 
     @override_settings(DEBUG=True)
     def test_create_no_registration_group(self, activity, coordinator, school):
+        coordinator.roles.create(role_code=ROLE_COORDINATOR_ADMIN, school=school)
         SchoolMember.objects.create(school=school, user=coordinator)
         activity_order = SchoolActivityOrder.objects.create(
             activity=activity, school=school, status=SchoolActivityOrder.Status.APPROVED
@@ -167,6 +169,7 @@ class TestConsumerActivityView:
             **settings.TEST_API_ADDITIONAL_PARAMS,
         )
         print(no_registration_group_response.data)
+        assert def_group_response.status_code == status.HTTP_200_OK
         assert def_group_response.data["group_type"] == "DEFAULT"
         assert no_registration_group_response.data["group_type"] == "NO_REGISTRATION"
 

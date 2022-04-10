@@ -3,7 +3,7 @@ from contextlib import suppress
 import analytics
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count
+from django.db.models import Count, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, mixins, status, viewsets
 from rest_framework.decorators import action
@@ -19,12 +19,14 @@ from server.organizations.models import (
 )
 from server.organizations.signals import activity_order_created_signal
 from server.users.api.serializers import UserSerializer
+from server.users.api_helpers import (
+    PrivilegeAccessMixin,
+    get_privilege_permission_classes,
+    has_any_privilege,
+)
 from server.users.models import Consumer
 from server.utils.analytics_utils import event
-from server.utils.db_utils import (
-    get_additional_permissions_readonly,
-    get_additional_permissions_write,
-)
+from server.utils.db_utils import get_additional_permissions_write
 from server.utils.permission_classes import (
     AllowConsumer,
     AllowConsumerReadOnly,
@@ -32,6 +34,15 @@ from server.utils.permission_classes import (
     AllowCoordinatorReadOnly,
     AllowInstructorReadOnly,
     AllowVendor,
+)
+from server.utils.privileges import (
+    PRIV_ACTIVITY_EDIT,
+    PRIV_ACTIVITY_VIEW,
+    PRIV_ACTIVITY_VIEW_ALL,
+    PRIV_GROUP_MANAGE_ORGANIZATION_EDIT,
+    PRIV_GROUP_MANAGE_ORGANIZATION_VIEW,
+    PRIV_GROUP_MANAGE_SCHOOL_EDIT,
+    PRIV_GROUP_MANAGE_SCHOOL_VIEW,
 )
 
 from .filters import ActivityFilter
@@ -69,9 +80,13 @@ class OrganizationViewSet(
             return Organization.objects.none()
 
 
-class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
+class ActivityViewSet(viewsets.ReadOnlyModelViewSet, PrivilegeAccessMixin):
+
+    privileges_read = [PRIV_ACTIVITY_VIEW, PRIV_ACTIVITY_VIEW_ALL]
+    privileges_write = [PRIV_ACTIVITY_EDIT]
+
     permission_classes = [
-        AllowCoordinatorReadOnly | get_additional_permissions_readonly()
+        get_privilege_permission_classes(privileges_read, privileges_write)
     ]
     serializer_class = ActivitySerializer
     lookup_field = "slug"
@@ -79,7 +94,14 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["name", "description"]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, TagsAllFilter]
 
-    queryset = Activity.objects.prefetch_related("tags").all()
+    def get_queryset(self):
+        queryset = Activity.objects.prefetch_related("tags").all()
+        if self.is_admin_scope(self.request) or has_any_privilege(
+            [PRIV_ACTIVITY_VIEW_ALL], self.request.user
+        ):
+            return queryset
+        organizations = self.get_allowed_organizations(self.request)
+        return queryset.filter(originization__in=organizations)
 
 
 class VendorActivityViewSet(viewsets.ModelViewSet):
@@ -231,14 +253,21 @@ class ManageSchoolActivityViewSet(viewsets.ModelViewSet):
         serializer.save(last_updated_by=self.request.user)
 
 
-class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
+class SchoolActivityGroupViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
+    privileges_read_school = [PRIV_GROUP_MANAGE_SCHOOL_VIEW]
+    privileges_write_school = [PRIV_GROUP_MANAGE_SCHOOL_EDIT]
+    privileges_read_organization = [PRIV_GROUP_MANAGE_ORGANIZATION_VIEW]
+    privileges_write_organization = [PRIV_GROUP_MANAGE_ORGANIZATION_EDIT]
+
     permission_classes = [
-        AllowCoordinator
-        | AllowVendor
-        | AllowConsumerReadOnly
-        | AllowInstructorReadOnly
-        | get_additional_permissions_write()
+        get_privilege_permission_classes(
+            privileges_read_school, privileges_write_school
+        )
+        | get_privilege_permission_classes(
+            privileges_read_organization, privileges_write_organization
+        )
     ]
+
     serializer_class = SchoolActivityGroupSerializer
     filterset_fields = ["group_type", "activity_order__slug"]
     filter_backends = [
@@ -260,21 +289,17 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        queryset = SchoolActivityGroup.objects.all()
+        if self.is_admin_scope(self.request):
+            return queryset
+        organizations = self.get_allowed_organizations(self.request)
+        schools = self.get_allowed_schools(self.request)
+        filter = Q(activity_order__activity__originization__in=organizations) | Q(
+            activity_order__school__in=schools
+        )
         if user.user_type == get_user_model().Types.CONSUMER:
-            return SchoolActivityGroup.objects.filter(consumers=user)
-
-        if user.user_type == get_user_model().Types.INSTRUCTOR:
-            return SchoolActivityGroup.objects.filter(instructor=user)
-
-        if user.user_type == get_user_model().Types.VENDOR:
-            return SchoolActivityGroup.objects.filter(
-                activity_order__activity__in=user.organization_member.organization.activities.all(),
-            )
-        if user.user_type == get_user_model().Types.COORDINATOR:
-            return SchoolActivityGroup.objects.filter(
-                activity_order__in=user.school_member.school.school_activity_orders.all(),
-            )
-        return SchoolActivityGroup.objects.all()
+            filter = filter | Q(consumers=user)
+        return queryset.filter(filter)
 
     @action(detail=False, methods=["GET"])
     def group_consumers(self, request):
