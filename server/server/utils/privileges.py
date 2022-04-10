@@ -46,6 +46,7 @@ ROLES = {
             PRIV_EVENT_ORDER_VIEW,
             PRIV_EVENT_ORDER_EDIT,
             PRIV_EVENT_ORDER_APPROVE,
+            PRIV_EVENT_ORDER_CREATE,
             PRIV_EVENT_VIEW,
             PRIV_EVENT_EDIT,
             PRIV_EVENT_EDIT_MY_ONLY,
