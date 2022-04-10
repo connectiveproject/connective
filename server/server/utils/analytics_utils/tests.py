@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+from connective.server.server.utils.factories import ConnectiveUtils, get_utils
 from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -9,6 +10,15 @@ from server.organizations.models import SchoolActivityGroup, SchoolActivityOrder
 from server.utils.analytics_utils import event
 
 pytestmark = pytest.mark.django_db
+
+
+@pytest.fixture()
+def tracking_extras():
+    utils: ConnectiveUtils = get_utils()
+    tracking_extras = utils.get_tracking_extras()
+    if tracking_extras:
+        tracking_extras["site_code"] = None
+    return tracking_extras
 
 
 class TestTrackerMixins:
@@ -32,11 +42,12 @@ class TestTrackerMixins:
                 format="json",
                 **settings.TEST_API_ADDITIONAL_PARAMS,
             )
-
+            utils: ConnectiveUtils = get_utils()
             track_mock.assert_called_with(
                 coord.slug,
                 event.ACTIVITY_GROUP_CREATED,
                 {
+                    **utils.get_tracking_extras(),
                     "slug": post_response.data["slug"],
                     "name": post_response.data["name"],
                     "group_type": post_response.data["group_type"],
@@ -73,11 +84,12 @@ class TestTrackerMixins:
                 order_data,
                 format="json",
             )
-
+            utils: ConnectiveUtils = get_utils()
             track_mock.assert_called_once_with(
                 coord.slug,
                 event.ACTIVITY_ORDER_STATUS_UPDATED,
                 {
+                    **utils.get_tracking_extras(),
                     "slug": patch_response.data["slug"],
                     "school_slug": school_slug,
                     "activity_slug": activity_slug,
@@ -85,12 +97,14 @@ class TestTrackerMixins:
                 },
             )
 
-    def test_track_admin_create(self, admin_client, all_entities):
+    def test_track_admin_create(self, admin_client, all_entities, tracking_extras):
         """
         check `track` is called on admin panel object create, with the correct props
         """
+
         with patch("analytics.track") as track_mock:
             uri = reverse("admin:organizations_schoolactivitygroup_add")
+
             group_data = {
                 **settings.TEST_ADDITIONAL_DATA,
                 **{
@@ -107,10 +121,12 @@ class TestTrackerMixins:
                 **settings.TEST_API_ADDITIONAL_PARAMS,
             )
             created_obj = SchoolActivityGroup.objects.get(name=group_data["name"])
+
             track_mock.assert_called_with(
                 "admin",
                 event.ACTIVITY_GROUP_CREATED,
                 {
+                    **tracking_extras,
                     "slug": created_obj.slug,
                     "name": created_obj.name,
                     "group_type": created_obj.group_type,
@@ -118,7 +134,9 @@ class TestTrackerMixins:
                 },
             )
 
-    def test_track_admin_field_update(self, admin_client, all_entities):
+    def test_track_admin_field_update(
+        self, admin_client, all_entities, tracking_extras
+    ):
         """
         check `track` is called on admin panel field update, with the correct props
         """
@@ -158,6 +176,7 @@ class TestTrackerMixins:
                 "admin",
                 event.ACTIVITY_ORDER_STATUS_UPDATED,
                 {
+                    **tracking_extras,
                     "slug": updated_obj.slug,
                     "school_slug": updated_obj.school.slug,
                     "activity_slug": updated_obj.activity.slug,
