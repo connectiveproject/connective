@@ -14,7 +14,7 @@ from server.schools.models import School
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
     get_privilege_permission_classes,
-    has_privilege,
+    has_any_privilege,
 )
 from server.users.models import RoleScope
 from server.utils.db_utils import (
@@ -88,7 +88,7 @@ class EventOrderViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         # Otherwise, set status to PENDING_APPROVAL.
 
         # verify the user has permissions to create event orders:
-        if not has_privilege(PRIV_EVENT_ORDER_CREATE):
+        if not has_any_privilege([PRIV_EVENT_ORDER_CREATE], self.request.user):
             raise PermissionError(
                 "User does not have privilege to create event orders."
             )

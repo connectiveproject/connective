@@ -70,7 +70,7 @@ const instructorTabs = [
   },
 ]
 
-const vendorTabs = [
+export const vendorTabs = [
   {
     id: "my-programs-navbar-tab",
     text: i18n.t("myActivity.myPrograms"),

@@ -30,22 +30,35 @@ def get_relevant_roles(required_privileges, user) -> List[UserRole]:
 class PrivilegeAccessMixin:
 
     privileges_read = []
+    privileges_read_school = []
+    privileges_read_organization = []
+
     privileges_write = []
+    privileges_write_school = []
+    privileges_write_organization = []
 
     def is_safe_method(self, request) -> bool:
         return request.method in SAFE_METHODS
 
-    def get_needed_privileges(self, request) -> Set:
+    def _get_needed_privileges(self, request, school: bool, organization: bool) -> Set:
         result: Set = set(self.privileges_write)
+        if school:
+            result.update(self.privileges_write_school)
+        if organization:
+            result.update(self.privileges_write_organization)
         if self.is_safe_method(request):
             result.update(self.privileges_read)
+            if school:
+                result.update(self.privileges_read_school)
+            if organization:
+                result.update(self.privileges_read_organization)
         return result
 
     def get_allowed_schools(self, request) -> Set:
         user = request.user
         result: Set = set()
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
-        needed_privileges = self.get_needed_privileges(request)
+        needed_privileges = self._get_needed_privileges(request, True, False)
         for privilege in needed_privileges:
             if privilege in scopes:
                 result.update(scopes[privilege].get_schools())
@@ -55,7 +68,7 @@ class PrivilegeAccessMixin:
         user = request.user
         result: Set = set()
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
-        needed_privileges = self.get_needed_privileges(request)
+        needed_privileges = self._get_needed_privileges(request, False, True)
         for privilege in needed_privileges:
             if privilege in scopes:
                 result.update(scopes[privilege].get_organizations())
@@ -64,7 +77,7 @@ class PrivilegeAccessMixin:
     def is_admin_scope(self, request) -> bool:
         user = request.user
         scopes: Dict[str, RoleScope] = user.get_privilege_scopes()
-        needed_privileges = self.get_needed_privileges(request)
+        needed_privileges = self._get_needed_privileges(request, True, True)
         for privilege in needed_privileges:
             if privilege in scopes and scopes[privilege].is_admin_scope():
                 return True
@@ -78,16 +91,20 @@ class HasPrivilege(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
-        return bool(get_relevant_roles(self.privileges, request.user))
+        return has_any_privilege(self.privileges, request.user)
 
 
-def has_privilege(privileges: Iterable) -> HasPrivilege:
+def privilege_class(privileges: Iterable) -> HasPrivilege:
     return partial(HasPrivilege, privileges)
+
+
+def has_any_privilege(privileges, user) -> bool:
+    return bool(get_relevant_roles(privileges, user))
 
 
 def get_privilege_permission_classes(
     privileges_read, privileges_write
 ) -> List[BasePermission]:
     return (
-        has_privilege(privileges_read) & AllowAuthenticatedReadOnly
-    ) | has_privilege(privileges_write)
+        privilege_class(privileges_read) & AllowAuthenticatedReadOnly
+    ) | privilege_class(privileges_write)
