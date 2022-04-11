@@ -29,7 +29,7 @@ from server.termsofuse.models import TermsOfUseDocument
 from server.users.api_helpers import (
     PrivilegeAccessMixin,
     get_privilege_permission_classes,
-    has_privilege,
+    has_any_privilege,
 )
 from server.users.helpers import is_recaptcha_token_valid, send_password_recovery
 from server.users.models import (
@@ -448,8 +448,8 @@ class ManageInstructorsViewSet(ModelViewSet, PrivilegeAccessMixin):
     filterset_fields = ["organization_member__organization"]
 
     def get_queryset(self):
-        if self.is_admin_scope(self.request) or has_privilege(
-            PRIV_USER_INSTRUCTOR_VIEW_ALL
+        if self.is_admin_scope(self.request) or has_any_privilege(
+            [PRIV_USER_INSTRUCTOR_VIEW_ALL], self.request.user
         ):
             return Instructor.objects.all()
         return Instructor.objects.filter(
