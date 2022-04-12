@@ -17,6 +17,8 @@ def _track_events_creation(events):
     track events creation using analytics
     :param events: list of Event objects to track
     """
+    utils: ConnectiveUtils = get_utils()
+    tracking_extras = utils.get_tracking_extras()
     for e in events:
         school_group_slug = "NO_GROUP"
         if e.school_group:
@@ -25,6 +27,7 @@ def _track_events_creation(events):
             analytics_field.UNKNOWN_SLUG,
             analytics_event.EVENT_CREATED,
             {
+                **tracking_extras,
                 "source": analytics_field.EVENT_CREATION_SOURCE_ACTIVITY_ORDER_APPROVAL,
                 "slug": e.slug,
                 "event_order_slug": e.event_order.slug,

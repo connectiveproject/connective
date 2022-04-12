@@ -1,6 +1,7 @@
 from contextlib import suppress
 
 import analytics
+from connective.server.server.utils.factories import ConnectiveUtils, get_utils
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Q
@@ -342,11 +343,13 @@ class SchoolActivityGroupViewSet(viewsets.ModelViewSet, PrivilegeAccessMixin):
         if container_only_group:
             container_only_group.consumers.remove(*to_add)
             container_only_group.consumers.add(*to_remove)
+        utils: ConnectiveUtils = get_utils()
 
         analytics.track(
             request.user.slug,
             event.ACTIVITY_GROUP_CONSUMER_LIST_CHANGED,
             {
+                **utils.get_tracking_extras(),
                 "slug": slug,
                 "name": current_group.name,
                 "group_type": current_group.group_type,

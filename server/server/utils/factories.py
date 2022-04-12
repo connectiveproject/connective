@@ -30,6 +30,9 @@ class ConnectiveUtils:
     def customer_email_enabled() -> bool:
         return True
 
+    def get_tracking_extras() -> dict:
+        return {}
+
 
 def get_utils() -> ConnectiveUtils:
     try:
